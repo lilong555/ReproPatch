@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/workspace/scratch/e6a8be3c34cc/.venv/bin/python",
+    "-m",
+    "repropatch",
+    "doctor"
+  ],
+  "returncode": 2,
+  "output": "{\n  \"python\": \"3.12.14\",\n  \"git\": \"/bin/git\",\n  \"docker\": null,\n  \"daemon\": false,\n  \"image\": false\n}\n",
+  "duration_seconds": 0.15564722399994935,
+  "timed_out": false,
+  "output_truncated": false
+}

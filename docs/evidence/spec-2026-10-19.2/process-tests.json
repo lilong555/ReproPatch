@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/workspace/scratch/e6a8be3c34cc/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_process_sandbox.py",
+    "--junitxml=/workspace/scratch/e6a8be3c34cc/repropatch/docs/evidence/spec-2026-10-19.2/process-tests.xml"
+  ],
+  "returncode": 0,
+  "output": "...........                                                              [100%]\n11 passed in 0.72s\n",
+  "duration_seconds": 1.8364594340000053,
+  "timed_out": false,
+  "output_truncated": false
+}

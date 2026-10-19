@@ -1,0 +1,69 @@
+# ReproPatch Task v2：完整格式示例，Spec 2026-10-19.2，目标 Phase 1。
+# 同一个Task可用于SDK自动修复和verify-patch；engine/model/patch由CLI选择。
+# 本文件不是已验收任务：image 的全零 SHA 为明确占位值。
+# 合入现有代码仓库后，使用计划中的 init_example.py --write-task
+# 重新记录实际 fixture commit 与本地 image ID，再运行。
+version: 2
+id: negative-maximum
+
+repository:
+  path: cpp-bugs
+  # 这是真实历史 fixture 的 commit；重新初始化可能得到另一 commit。
+  commit: bdbeddbe6e9bf18cdd161d9698f2cb5dc66e6ad6
+
+environment:
+  image: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  platform: linux/amd64
+  cpu_limit: 2.0
+  memory_mib: 2048
+  pids_limit: 128
+  build_tmpfs_mib: 1024
+
+bug:
+  description: >-
+    maximum_sample returns 0 for a nonempty all-negative sample series,
+    although 0 is not in the input. Fix the implementation while preserving
+    the optional empty-input behavior and the full int domain.
+
+commands:
+  configure: [cmake, -S, /src, -B, /build, -DCMAKE_BUILD_TYPE=Debug]
+  build: [cmake, --build, /build, --parallel, '2']
+  reproduce: [ctest, --test-dir, /build, --output-on-failure, --no-tests=error]
+  verify: [ctest, --test-dir, /build, --output-on-failure, --no-tests=error]
+
+tests:
+  fail_to_pass:
+    - name: negative_values
+      expected_exit_code: 8
+      output_contains: 'expected -3, got 0'
+  pass_to_pass:
+    - positive_values
+    - empty_values
+    - mixed_values
+  protected_paths:
+    - CMakeLists.txt
+    - tests/
+
+files:
+  readable:
+    - CMakeLists.txt
+    - src/
+    - tests/
+  editable:
+    - src/stats.cpp
+
+budget:
+  max_steps: 24  # SDK model turns；verify-patch不消耗此额度
+  max_tool_calls: 80  # 按模型响应整批准入；不是底层shell进程数
+  wall_seconds: 900
+  verification_reserve_seconds: 240
+  model_timeout_seconds: 60
+  command_timeout_seconds: 120
+  max_output_tokens: 2048
+
+workspace:
+  root: ../.repropatch/workspaces
+  retain: on_failure
+
+outputs:
+  root: ../.repropatch/runs

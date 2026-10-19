@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-10-19T12:50:59.555716+00:00",
+  "base_commit": "ab6e4c4bbc7fea4778a993257fef1245e26543ed",
+  "branch": "work/spec-p1-01",
+  "product_version": "0.1.0",
+  "preexisting_tracked_changes": [],
+  "spec_revision": "2026-10-19.2",
+  "spec_file_count": 16,
+  "spec_archive_sha256": "5f932377be98e3e485844fb2e88258768319471646fec09cc050a6b9ae364c5e",
+  "product_source_sha256": {
+    "src/repropatch/harness.py": "dfb525b352ec2ba06279c388061ff69ea6e2c788e4f6253fe483e81c05c76f0d",
+    "src/repropatch/workspace.py": "3b5b5967589304450e05c3c94b69cd88ce943ffc3c346e7517aa1c0596fff7c8",
+    "src/repropatch/tools.py": "5ead7d2be57c18d6eb0fd34ab0a759890f6631c705dc792ec7b2310eba425bab",
+    "src/repropatch/errors.py": "4083a0b0e76831243f4d81922a6d38607be6d74ec9e901a233f2ebfcd481a37a",
+    "src/repropatch/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/repropatch/task.py": "84187732171d919eb781eec4ed17e746e8c16442feb551f2ff2b087ee4da00f1",
+    "src/repropatch/cli.py": "d72557621677533933f5d261e9111c5171e6c828617bd8d3fdb50551d65092ed",
+    "src/repropatch/__init__.py": "aa0eec4b1ffd189bef4cb649bdce92fec17a1c5bc4b2b648dbece2ed8fb32fc8",
+    "src/repropatch/models.py": "b78ec56e661135bd8d6f22fadaf5785aafc51544b832bf420134b7c8a1f0ba25",
+    "src/repropatch/process.py": "7b27a8e7fb1bb6d852c0a1c68f21cffb48ab6212f86ee49f9a291de498985390",
+    "src/repropatch/sandbox.py": "927aaa2a5ff3c5c02ae4bf4791e8bd186645c231b2e702a67893d6b310bf5716",
+    "src/repropatch/events.py": "cd626a3ee67871990c5546e9718a76f92a086808bb3d9062a8c9967966c9477a"
+  },
+  "docker_gate": "blocked: no Docker CLI or daemon socket",
+  "namespace_probe": "unshare: write failed /proc/self/uid_map: Operation not permitted",
+  "remote_repositories": []
+}
