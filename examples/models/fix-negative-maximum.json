@@ -1,0 +1,7 @@
+[
+  {"tool": "read_file", "arguments": {"path": "src/stats.cpp"}},
+  {"tool": "search_code", "arguments": {"query": "maximum_sample"}},
+  {"tool": "edit_file", "arguments": {"path": "src/stats.cpp", "old": "int best = 0;", "new": "int best = samples.front();"}},
+  {"tool": "run_command", "arguments": {"name": "verify"}},
+  {"finish": "Initialize the maximum from the first element after the empty-input guard."}
+]

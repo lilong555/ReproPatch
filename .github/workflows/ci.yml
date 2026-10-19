@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  python-and-cpp:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[dev]'
+      - run: ruff check src tests scripts && ruff format --check src tests scripts
+      - run: pytest --cov=repropatch --cov-fail-under=80
+  docker-integration:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[dev]'
+      - run: docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
+      - run: REPROPATCH_DOCKER_TESTS=1 pytest -m docker -v

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.069" timestamp="2026-10-19T09:53:25.169828+05:00" hostname="f415b9852f5b"><testcase classname="tests.test_docker_integration" name="test_docker_cpp_end_to_end" time="0.046"><failure message="AssertionError: {'schema_version': 1, 'harness_version': '0.1.0', 'run_id': 'negative-maximum-c68215368880', 'task_id': 'negative-maximum', ...}&#10;assert 'error' == 'passed'&#10;  &#10;  - passed&#10;  + error">task = Task(id='negative-maximum', repository=PosixPath('/tmp/pytest-of-root/pytest-5/test_docker_cpp_end_to_end0/repo'), rev...e', '--no-tests=error')}, failure_exit_code=8, failure_contains='expected -3, got 0', timeout_seconds=60, max_steps=12)
+model = &lt;repropatch.models.MockModel object at 0x7f08d0304ad0&gt;
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-5/test_docker_cpp_end_to_end0')
+
+    def test_docker_cpp_end_to_end(task, model, tmp_path):
+        report = Harness(task, model, tmp_path / "runs").run()
+&gt;       assert report["status"] == "passed", report
+E       AssertionError: {'schema_version': 1, 'harness_version': '0.1.0', 'run_id': 'negative-maximum-c68215368880', 'task_id': 'negative-maximum', ...}
+E       assert 'error' == 'passed'
+E         
+E         - passed
+E         + error
+
+tests/test_docker_integration.py:22: AssertionError</failure></testcase></testsuite></testsuites>

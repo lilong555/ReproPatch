@@ -1,0 +1,8 @@
+include LICENSE SECURITY.md uv.lock
+recursive-include docs *
+recursive-include .github *.yml
+recursive-include examples *.yaml *.json *.cpp *.hpp CMakeLists.txt
+recursive-include docker Dockerfile
+recursive-include scripts *.py
+recursive-include tests *.py
+prune examples/cpp-bugs/.git

@@ -1,0 +1,21 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________________ test_docker_cpp_end_to_end __________________________
+
+task = Task(id='negative-maximum', repository=PosixPath('/tmp/pytest-of-root/pytest-5/test_docker_cpp_end_to_end0/repo'), rev...e', '--no-tests=error')}, failure_exit_code=8, failure_contains='expected -3, got 0', timeout_seconds=60, max_steps=12)
+model = <repropatch.models.MockModel object at 0x7f08d0304ad0>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-5/test_docker_cpp_end_to_end0')
+
+    def test_docker_cpp_end_to_end(task, model, tmp_path):
+        report = Harness(task, model, tmp_path / "runs").run()
+>       assert report["status"] == "passed", report
+E       AssertionError: {'schema_version': 1, 'harness_version': '0.1.0', 'run_id': 'negative-maximum-c68215368880', 'task_id': 'negative-maximum', ...}
+E       assert 'error' == 'passed'
+E         
+E         - passed
+E         + error
+
+tests/test_docker_integration.py:22: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_docker_integration.py::test_docker_cpp_end_to_end - Asserti...
+1 failed in 0.09s

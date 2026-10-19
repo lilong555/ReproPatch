@@ -1,0 +1,19 @@
+version: 1
+id: negative-maximum
+repository: ../cpp-bugs
+revision: HEAD
+prompt: >-
+  maximum_sample returns 0 for a nonempty all-negative sample series, although
+  0 does not occur in the input. Fix the implementation while preserving the
+  optional empty-input behavior and the full int domain.
+editable_paths:
+  - src/stats.cpp
+commands:
+  configure: [cmake, -S, /src, -B, /build, -DCMAKE_BUILD_TYPE=Debug]
+  build: [cmake, --build, /build, --parallel, '2']
+  reproduce: [ctest, --test-dir, /build, --output-on-failure, --no-tests=error, -R, '^negative_values$']
+  verify: [ctest, --test-dir, /build, --output-on-failure, --no-tests=error]
+failure_exit_code: 8
+failure_contains: 'expected -3, got 0'
+timeout_seconds: 60
+max_steps: 12
