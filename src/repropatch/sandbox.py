@@ -85,8 +85,11 @@ class DockerSandbox:
             self._docker(*self.create_argv())
             self._docker("start", self.name)
             self.active = True
-        except BaseException:
-            self.close()
+        except BaseException as error:
+            try:
+                self.close()
+            except InfrastructureError as cleanup_error:
+                error.add_note(f"Cleanup of {self.name} also failed: {cleanup_error}")
             raise
         return self
 
@@ -118,5 +121,10 @@ class DockerSandbox:
             self._docker("rm", "--force", self.name)
             self.created = False
 
-    def __exit__(self, *_):
-        self.close()
+    def __exit__(self, exc_type, exc, traceback):
+        try:
+            self.close()
+        except InfrastructureError as cleanup_error:
+            if exc is None:
+                raise
+            exc.add_note(f"Cleanup of {self.name} also failed: {cleanup_error}")

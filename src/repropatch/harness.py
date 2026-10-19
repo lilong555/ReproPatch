@@ -249,6 +249,7 @@ class Harness:
         except (ReproPatchError, OSError) as exc:
             self.report["status"] = "error"
             self.report["error"] = str(exc)[:4000]
+            self.report["error_notes"] = [note[:4000] for note in getattr(exc, "__notes__", [])]
         except Exception as exc:
             self.report["status"] = "internal_error"
             self.report["error"] = f"Unexpected {type(exc).__name__}; inspect the event trace"

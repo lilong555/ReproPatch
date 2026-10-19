@@ -20,6 +20,6 @@ docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
 REPROPATCH_DOCKER_TESTS=1 pytest -m docker -v
 ```
 
-成功时应有 3 个真实 Docker 测试通过：完整修复、容器权限/网络/只读/凭据边界、
+成功时应有 4 个真实 Docker 测试通过：完整修复、错误补丁拒绝、容器权限/网络/只读/凭据边界、
 超时后容器删除。显式启用时不应跳过 Docker 缺失。
 本次开发只能完成 Docker 以外验收并交付上述待运行测试，不能宣称 A4/A6 的 Docker 部分已通过。

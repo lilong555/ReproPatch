@@ -1,0 +1,17 @@
+{
+  "task_id": "P1-01",
+  "base_commit": "611e43edd1fc9c7ba07e28ebfd33415cfbb0b65a",
+  "remotes": [],
+  "spec_revision": "2026-10-19.1",
+  "uploaded_spec_sha256": "bc1a152e124eaad7240f5192ce3dfd1f5861733baaf192824f3460244a324bc9",
+  "branch": "work/spec-p1-01",
+  "code_changes_at_intake": [
+    " M src/repropatch/harness.py",
+    " M src/repropatch/sandbox.py",
+    " M tests/test_process_sandbox.py"
+  ],
+  "generated_during_intake": [
+    "specs/2026-10-19.1/",
+    "docs/evidence/p1-01/"
+  ]
+}

@@ -94,6 +94,33 @@ def test_no_docker_never_falls_back(tmp_path, monkeypatch):
             pytest.fail("must not start")
 
 
+def test_container_start_error_not_masked_by_cleanup_error(tmp_path, monkeypatch):
+    sandbox = DockerSandbox(tmp_path, "repropatch-cpp:0.1")
+
+    def fake_docker(*args, **kwargs):
+        if args[0] in {"start", "rm"}:
+            raise InfrastructureError(f"original-{args[0]}-failure")
+        return CommandResult(tuple(args), 0, "sha256:" + "a" * 64, 0.001)
+
+    monkeypatch.setattr(sandbox, "_docker", fake_docker)
+    with pytest.raises(InfrastructureError, match="original-start-failure") as caught:
+        with sandbox:
+            pytest.fail("must not start")
+    assert "original-rm-failure" in caught.value.__notes__[0]
+
+
+def test_container_cleanup_preserves_command_failure(tmp_path, monkeypatch):
+    sandbox = DockerSandbox(tmp_path, "repropatch-cpp:0.1")
+
+    def failed_cleanup():
+        raise InfrastructureError("cleanup-failure")
+
+    monkeypatch.setattr(sandbox, "close", failed_cleanup)
+    error = InfrastructureError("command-failure")
+    sandbox.__exit__(InfrastructureError, error, None)
+    assert str(error) == "command-failure" and "cleanup-failure" in error.__notes__[0]
+
+
 @pytest.mark.parametrize("image", ["--privileged", "foo bar", "x;sh"])
 def test_invalid_image(tmp_path, image):
     with pytest.raises(InfrastructureError):

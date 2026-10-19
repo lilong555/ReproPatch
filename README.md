@@ -11,6 +11,10 @@ ReproPatch 从本地 Git 仓库的指定 commit 创建独立 Worktree，先确�
 真实 Docker 测试已提供，必须在有 daemon 的 Linux 主机上运行后才能完成隔离验收。
 具体测试数字与证据见 [测试报告](docs/TEST_REPORT.md)。未调用付费模型。
 
+已接入用户提供的完整规格 **2026-10-19.1**：[规格入口](SPEC.md)。
+其中 0.2.0 / Task v2 是下一阶段目标；当前 [P1-01](docs/P1-01.md) 的 Docker 基线验收阻塞，
+P1-02 尚未开始。原始 Spec 审计快照与当前实现状态分别保留。
+
 ## 快速开始
 
 需要 Linux、Python 3.12+、Git、可访问的本地 Docker Engine。
@@ -80,8 +84,10 @@ max_steps: 12
 验证时重新执行 configure、build、reproduce、verify，四条命令全部成功才标记通过。
 请在 CTest 命令中保留 `--no-tests=error`，避免测试选择为空时误判。
 
-目前只支持已有普通源码文件的精确替换，不支持新增/删除文件、修改测试、调整构建脚本、
-Git submodule、symlink/LFS 或超过 32 MB 的源码快照。仓库工作目录的未提交改动不会进入任务。
+目前只支持已有普通源码文件的精确替换，不支持新增/删除文件、Git submodule、symlink/LFS
+或超过 32 MB 的源码快照。操作者必须将测试和构建文件排除在 `editable_paths` 之外；
+v1 不会额外识别被显式授权的 C++ 测试文件，目标 v2 的 protected 集合尚未实现。
+仓库工作目录的未提交改动不会进入任务。
 
 ## Agent 工具与模型
 

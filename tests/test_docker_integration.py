@@ -5,6 +5,7 @@ import os
 import pytest
 
 from repropatch.harness import Harness
+from repropatch.models import MockModel
 from repropatch.process import run_process
 from repropatch.sandbox import DockerSandbox
 
@@ -22,6 +23,19 @@ def test_docker_cpp_end_to_end(task, model, tmp_path):
     assert report["status"] == "passed", report
     assert report["isolated"] is True
     assert all(e["image_id"].startswith("sha256:") for e in report["evaluations"])
+
+
+def test_docker_wrong_patch_is_rejected(task, tmp_path):
+    actions = [
+        {
+            "tool": "edit_file",
+            "arguments": {"path": "src/stats.cpp", "old": "int best = 0;", "new": "int best = -1;"},
+        },
+        {"finish": "done"},
+    ]
+    report = Harness(task, MockModel(actions), tmp_path / "runs").run()
+    assert report["reproduced"] and report["isolated"] is True, report
+    assert report["status"] == "failed" and not report["verified"]
 
 
 def test_real_container_boundary(tmp_path, monkeypatch):

@@ -1,4 +1,5 @@
-include LICENSE SECURITY.md uv.lock
+include LICENSE SECURITY.md SPEC.md uv.lock
+recursive-include specs *.md *.yaml
 recursive-include docs *
 recursive-include .github *.yml
 recursive-include examples *.yaml *.json *.cpp *.hpp CMakeLists.txt

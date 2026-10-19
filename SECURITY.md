@@ -10,7 +10,8 @@ ReproPatch 当前用于单用户、操作者选定仓库的本地研究和开发
   no-new-privileges、pids-limit、memory、memory-swap、CPU 限制、nofile/core ulimit。
 - 构建仅写入容器 tmpfs。命令超时删除整个容器，清理子进程；宿主机工具进程也有进程组清理。
 - 模型不能发送任意 argv/shell，只能请求人审核清单中的固定验证动作。
-- 文本工具拒绝路径穿越、链接、未跟踪文件、超出预算文件、测试/构建文件写入。
+- 文本工具拒绝路径穿越、链接、未跟踪文件、超出预算文件和未获 editable_paths 授权的写入。
+  v1 不会额外识别被显式授权的 C++ 测试文件，操作者必须审核允许列表并排除验收文件。
 - 所有 Git 操作禁用 hooks/fsmonitor，diff 禁用外部 diff/textconv；清理任务 Worktree。
 - HTTPS 模型请求拒绝重定向，不回显 HTTP 错误响应体或凭据。
 - 基线构建失败、测试超时、预期退出码/标记不符、空补丁都不会产生 passed。

@@ -1,7 +1,8 @@
-sss..................................................................... [ 93%]
-.....                                                                    [100%]
+ssss.................................................................... [ 90%]
+........                                                                 [100%]
 =========================== short test summary info ============================
-SKIPPED [1] tests/test_docker_integration.py:20: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
-SKIPPED [1] tests/test_docker_integration.py:27: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
-SKIPPED [1] tests/test_docker_integration.py:56: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
-74 passed, 3 skipped in 8.31s
+SKIPPED [1] tests/test_docker_integration.py:21: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
+SKIPPED [1] tests/test_docker_integration.py:28: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
+SKIPPED [1] tests/test_docker_integration.py:41: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
+SKIPPED [1] tests/test_docker_integration.py:70: Set REPROPATCH_DOCKER_TESTS=1 after building the image; real Docker required
+76 passed, 4 skipped in 9.99s
