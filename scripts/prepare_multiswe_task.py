@@ -10,11 +10,15 @@ import tarfile
 from pathlib import Path
 
 import yaml
-from screen_multiswe import screen
+from screen_multiswe import patch_paths, screen
 
 from repropatch.task import IMAGE_ID, Task
 
 ROOT = Path(__file__).resolve().parents[1]
+REVIEWED_DOCUMENTATION = {
+    "catchorg__Catch2-2723": frozenset(),
+    "catchorg__Catch2-2187": frozenset({"docs/deprecations.md", "docs/other-macros.md"}),
+}
 
 
 def git(repository, *args):
@@ -53,8 +57,8 @@ def main():
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    if args.instance != "catchorg__Catch2-2723":
-        parser.error("仅支持已审查的 Catch2-2723 准备布局；其他实例须独立审查")
+    if args.instance not in REVIEWED_DOCUMENTATION:
+        parser.error("仅支持已审查的 Catch2-2723/2187 布局；其他实例须独立审查")
     dataset = args.dataset / "cpp" if (args.dataset / "cpp").is_dir() else args.dataset
     matches = [
         (json.loads(line), path.name, number)
@@ -66,7 +70,12 @@ def main():
         parser.error("实例缺失或重复")
     record, filename, line = matches[0]
     review = screen(record, filename, line)
-    if review["status"] != "candidate_pending_runtime":
+    omitted = REVIEWED_DOCUMENTATION[args.instance]
+    expected_reasons = ["REFERENCE_TOUCHES_NON_EDITABLE_FILES_REVIEW_REQUIRED"] if omitted else []
+    if (
+        review["reasons"] != expected_reasons
+        or set(review["non_editable_reference_paths"]) != omitted
+    ):
         parser.error("实例尚未满足静态准备条件")
     if not IMAGE_ID.fullmatch(args.image):
         parser.error("需要已经核验并移除解答材料的本地固定 image ID")
@@ -92,17 +101,37 @@ def main():
         archive.extractall(repository, filter="data")
     test_patch = output / "official-test.patch"
     test_patch.write_text(record["test_patch"])
+    official_reference = output / "official-reference.patch"
+    official_reference.write_text(record["fix_patch"])
     reference = output / "reference.patch"
-    reference.write_text(record["fix_patch"])
+    # 2187 的两份文档只描述宏语义；源码补丁单独交官方 Oracle 复核。
+    chunks = record["fix_patch"].split("diff --git ")
+    if chunks[0]:
+        parser.error("参考补丁存在未审查的前缀")
+    reference.write_text(
+        "".join(
+            "diff --git " + chunk
+            for chunk in chunks[1:]
+            if patch_paths("diff --git " + chunk)[0][0] not in omitted
+        )
+    )
     git(repository, "init", "-q")
     git(repository, "apply", "--", str(test_patch))
+    adapter = None
+    if args.instance == "catchorg__Catch2-2187":
+        adapter = ROOT / "benchmarks/fixtures/Catch2-2187.approval-path.patch"
+        git(repository, "apply", "--", str(adapter))
     git(repository, "add", ".")
     git(repository, "commit", "-qm", "固定原缺陷与官方测试输入")
     prepared = git(repository, "rev-parse", "HEAD").decode().strip()
+    test_changed, _ = patch_paths(record["test_patch"])
+    protected_source = sorted(p for p in test_changed if p.startswith("src/"))
     editable = sorted(
         p.relative_to(repository).as_posix()
         for p in (repository / "src/catch2").rglob("*")
-        if p.is_file() and p.suffix in {".cpp", ".hpp", ".h"}
+        if p.is_file()
+        and p.suffix in {".cpp", ".hpp", ".h"}
+        and p.relative_to(repository).as_posix() not in protected_source
     )
     issues = "\n\n".join(
         i["title"] + "\n" + (i.get("body") or "") for i in record["resolved_issues"]
@@ -144,12 +173,16 @@ def main():
                 {
                     "name": mapped[name],
                     "expected_exit_code": 8,
-                    "output_contains": "The following tests FAILED:",
+                    "output_contains": (
+                        "Results differed"
+                        if name == "approvaltests" and args.instance == "catchorg__Catch2-2187"
+                        else "The following tests FAILED:"
+                    ),
                 }
                 for name in f2p
             ],
             "pass_to_pass": [mapped[name] for name in p2p],
-            "protected_paths": ["tests/", "CMakeLists.txt", "tools/"],
+            "protected_paths": ["tests/", "CMakeLists.txt", "tools/", *protected_source],
         },
         "files": {"readable": ["src/", "tests/", "CMakeLists.txt", "tools/"], "editable": editable},
         "budget": {
@@ -175,6 +208,22 @@ def main():
         "prepared_commit": prepared,
         "test_patch_sha256": hashlib.sha256(test_patch.read_bytes()).hexdigest(),
         "reference_patch_sha256": hashlib.sha256(reference.read_bytes()).hexdigest(),
+        "official_reference_patch_sha256": hashlib.sha256(
+            official_reference.read_bytes()
+        ).hexdigest(),
+        "reference_omitted_documentation": sorted(omitted),
+        "official_test_changed_source_protected": protected_source,
+        "test_runtime_adapter": (
+            {
+                "path": str(adapter.relative_to(ROOT)),
+                "sha256": hashlib.sha256(adapter.read_bytes()).hexdigest(),
+                "generated_output_directory": "CTest working directory under /build",
+                "approved_expectations_changed": False,
+                "oracle_test_script_changed": False,
+            }
+            if adapter is not None
+            else None
+        ),
         "task_yaml_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "image": args.image,
         "adaptation": "prepared_test_commit",

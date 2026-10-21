@@ -6,6 +6,6 @@ recursive-include .github *.yml
 recursive-include examples *.yaml *.json *.cpp *.hpp *.patch CMakeLists.txt
 recursive-include docker Dockerfile
 recursive-include scripts *.py
-recursive-include benchmarks *.md *.json *.cpp *.Dockerfile
+recursive-include benchmarks *.md *.json *.cpp *.Dockerfile *.patch
 recursive-include tests *.py
 prune examples/cpp-bugs/.git

@@ -1,7 +1,8 @@
 # ReproPatch 评测
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
-当前已完成公开数据静态筛查与单实例适配检查，尚无正式模型对照成绩。
+当前已完成公开数据静态筛查、两个实例的 Task v2 参考验收，以及五个实例的官方参考复核，
+尚无正式模型对照成绩。逐项结果及适配边界见 [参考任务池](reference-pool.md)。
 真实任务首次输入及原生历史边界见 [上下文记录](context-check.json)；
 同镜像、非 root、无网络的原生 mini 环境见 [环境说明](mini-environment.md)。
 运行准备状态见 [环境记录](environment.json)。Catch2-2723 的 prepared Task 参考修复已通过

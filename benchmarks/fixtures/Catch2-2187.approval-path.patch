@@ -1,0 +1,14 @@
+diff --git a/tools/scripts/approvalTests.py b/tools/scripts/approvalTests.py
+--- a/tools/scripts/approvalTests.py
++++ b/tools/scripts/approvalTests.py
+@@ -160,8 +160,8 @@ def approve(baseName, args):
+     if not os.path.exists(cmdPath):
+         raise Exception("Executable doesn't exist at " + cmdPath)
+     baselinesPath = os.path.join(rootPath, '{0}.approved.txt'.format(baseName))
+-    rawResultsPath = os.path.join(rootPath, '_{0}.tmp'.format(baseName))
+-    filteredResultsPath = os.path.join(rootPath, '{0}.unapproved.txt'.format(baseName))
++    rawResultsPath = os.path.join(os.getcwd(), '_{0}.tmp'.format(baseName))
++    filteredResultsPath = os.path.join(os.getcwd(), '{0}.unapproved.txt'.format(baseName))
+ 
+     f = open(rawResultsPath, 'w')
+     subprocess.call(args, stdout=f, stderr=f)

@@ -1,0 +1,7 @@
+{
+  "MANIFEST.in": "285f6bb042088c00b252a9a7b8af14ec149cf0d6056a81ca65b9e03f8b3bde49",
+  "scripts/prepare_multiswe_task.py": "b986921a07611f39b729ce557c05719182e50706abd54fa24dbc94ecbfda1f72",
+  "scripts/check_multiswe_reference.py": "c8df1d9ab3ec10c5315bf7ecbfa5cac25836b6694b9cad95549785cf8b11d466",
+  "benchmarks/environments/Catch2-2187.Dockerfile": "d42dfc70030fb9985449bb88a26295e34e8bf45e3d91b38a70ee8f30b49a7462",
+  "benchmarks/fixtures/Catch2-2187.approval-path.patch": "4a78c732fb24c142e2e9828c4eb8bda8087067fc974be294c1e0f88d8efc223e"
+}

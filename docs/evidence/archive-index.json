@@ -18,6 +18,14 @@
       "files": 624,
       "size_bytes": 684941,
       "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc2/ReproPatch-benchmark-context-0.3.0rc2.tar.gz"
+    },
+    {
+      "scope": "catch2_reference_pool_and_readonly_task_adapter",
+      "name": "ReproPatch-catch2-reference-pool-2026-10-21.tar.gz",
+      "sha256": "a4cbe92cdbc9ba24d4d78ab74fd7618f63715d3dbf2ba1180d154dc88f60732a",
+      "files": 4646,
+      "size_bytes": 5165682,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
     }
   ]
 }

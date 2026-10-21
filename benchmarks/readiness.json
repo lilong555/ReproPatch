@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "scope": "benchmark_preparation_not_model_comparison",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "cpp_instances": 129,
   "paid_model_requests": 0,
   "model_cost_cny": 0,
   "resolved_at_1": null,
-  "official_oracle_verified_instances": 1,
+  "official_oracle_verified_instances": 5,
   "benchmark_coverage": null,
   "adapted_rp_reference": {
     "run_id": "5b8561f8bf82427396eec0d15429bc8c",
@@ -34,10 +34,9 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "冻结两组同模型协议、相同初始诊断与请求前费用预留",
-    "完成至少五题的适配、官方参考验收和收费模型配置冻结",
-    "完成真实 Agent 与 Harbor 产物桥接及独立官方 Oracle 链路",
-    "真实框架对照与同候选验收消融"
+    "1608/1448/1422 的参考补丁含批准快照；不能将完整参考通过等同于允许文件范围内可修复",
+    "继续审查 cpp-httplib-1765 的原生 GoogleTest 到固定 CTest 身份映射",
+    "补齐五个合格修复 Task、冻结同模型协议、费用预留及公共 Oracle 链路"
   ],
   "archive": {
     "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
@@ -68,5 +67,34 @@
   "preparation_implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
   "current_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
   "context_check": "context-check.json",
-  "mini_environment": "mini-environment.json"
+  "mini_environment": "mini-environment.json",
+  "verified_task_v2_instances": [
+    "catchorg__Catch2-2723",
+    "catchorg__Catch2-2187"
+  ],
+  "adapted_coverage_lower_bound": {
+    "verified": 2,
+    "denominator": 129,
+    "ratio": 0.015503875968992248,
+    "compatibility_screening_complete": false,
+    "counts_as_resolved_at_1": false
+  },
+  "reference_pool": "reference-pool.json",
+  "product_ci": {
+    "release_commit": "536941690ba8c6bbffeea1df366b3a69d3186f04",
+    "run_id": 39589156241,
+    "conclusion": "success",
+    "jobs": [
+      "python-and-cpp",
+      "sdk-contract",
+      "docker-integration"
+    ]
+  },
+  "reference_pool_archive": {
+    "name": "ReproPatch-catch2-reference-pool-2026-10-21.tar.gz",
+    "sha256": "a4cbe92cdbc9ba24d4d78ab74fd7618f63715d3dbf2ba1180d154dc88f60732a",
+    "files": 4646,
+    "size_bytes": 5165682,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
+  }
 }

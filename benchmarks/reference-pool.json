@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "scope": "reference_validation_not_agent_benchmark",
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "cpp_instances": 129,
+  "core_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "benchmark_preparation_source_parent_commit": "536941690ba8c6bbffeea1df366b3a69d3186f04",
+  "execution_source_has_uncommitted_changes": true,
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "official_reference_results": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "candidate": "upstream_reference",
+      "image_id": "sha256:3ced24b5f52e9909175db56f51576841e353f89468ef885f57bc4fd7b96b11e0",
+      "candidate_sha256": null,
+      "exit_code": 0,
+      "container_deleted": true,
+      "duration_seconds": 73.66817520200038,
+      "official_report_valid": true,
+      "accepted": true,
+      "required_f2p": 2,
+      "required_p2p": 100,
+      "passed_count": 102,
+      "failed_count": 14,
+      "missing_required_groups": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "verdict_sha256": "bbc7ab1bdd4bbe3e126d143803a74ce01302e0eee01a29c3384b9fb39120ad3f"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "candidate": "upstream_production_reference",
+      "image_id": "sha256:917e179081a8dc28fc21b50c4a9574ec4a1893b1599a5607916fa6a0eb308367",
+      "candidate_sha256": "e7a82fc4740b57b47973f00f954c2d58fb2e143019a00e26874e4f258259206e",
+      "exit_code": 0,
+      "container_deleted": true,
+      "duration_seconds": 36.881530767001095,
+      "official_report_valid": true,
+      "accepted": true,
+      "required_f2p": 2,
+      "required_p2p": 50,
+      "passed_count": 52,
+      "failed_count": 9,
+      "missing_required_groups": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "verdict_sha256": "93d8a6403d79a658894701c39c502373f229a5d1660214e41fec7ea32a056342"
+    },
+    {
+      "instance_id": "catchorg__Catch2-1608",
+      "candidate": "upstream_reference",
+      "image_id": "sha256:9c6e60ceb6d0e3c638f1d3d18072f12d48d65fd0f5f6b2c13050c6badc21f6ef",
+      "candidate_sha256": "38aef497ce3451da8eb75071d1aafd032c00e71f05f79f69c8fc88e4a47f330e",
+      "exit_code": 0,
+      "container_deleted": true,
+      "duration_seconds": 32.87630649200037,
+      "official_report_valid": true,
+      "accepted": true,
+      "required_f2p": 1,
+      "required_p2p": 7,
+      "passed_count": 10,
+      "failed_count": 0,
+      "missing_required_groups": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "verdict_sha256": "7874339bf795924de356ecae688d80eba88cfef7a20b326ec805711a705b6e5b"
+    },
+    {
+      "instance_id": "catchorg__Catch2-1448",
+      "candidate": "upstream_reference",
+      "image_id": "sha256:1767b483755bbcab66b36effbf3cd1517ff1d456933fa43dbb97e75323202218",
+      "candidate_sha256": "0f7b6a896d762e7def85a641b76574f3ece2f1b4e41cbcb5e506eabc11fb161c",
+      "exit_code": 0,
+      "container_deleted": true,
+      "duration_seconds": 30.923150777000046,
+      "official_report_valid": true,
+      "accepted": true,
+      "required_f2p": 1,
+      "required_p2p": 5,
+      "passed_count": 8,
+      "failed_count": 0,
+      "missing_required_groups": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "verdict_sha256": "0b0a6fcf76a92a5cec5a5277b8ba23039dee895973e91995df56b9c6228eb4e9"
+    },
+    {
+      "instance_id": "catchorg__Catch2-1422",
+      "candidate": "upstream_reference",
+      "image_id": "sha256:feb18f5d8fa743f7d75dc1515cebc655e8a0fa8336329045cbcadd98e7139065",
+      "candidate_sha256": "604ffc923fc9d3f591b0ffdbb8e13227e6fb6c05ae26897d1c24b81f672d5d52",
+      "exit_code": 0,
+      "container_deleted": true,
+      "duration_seconds": 30.52080481200028,
+      "official_report_valid": true,
+      "accepted": true,
+      "required_f2p": 2,
+      "required_p2p": 6,
+      "passed_count": 8,
+      "failed_count": 0,
+      "missing_required_groups": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "verdict_sha256": "c841170f488e3d315508c479c2186aa52d264ef50f21e1ca54ba63caad86629c"
+    }
+  ],
+  "production_only_compatibility_probe": {
+    "instance_id": "catchorg__Catch2-1608",
+    "candidate": "upstream_production_reference",
+    "image_id": "sha256:9c6e60ceb6d0e3c638f1d3d18072f12d48d65fd0f5f6b2c13050c6badc21f6ef",
+    "candidate_sha256": "fb0b53e8455030fab58cc4f9a609164a9a484a674f49dffefcdb71bc45be5724",
+    "exit_code": 8,
+    "container_deleted": true,
+    "duration_seconds": 33.58134611599962,
+    "official_report_valid": true,
+    "accepted": false,
+    "required_f2p": 1,
+    "required_p2p": 7,
+    "passed_count": 9,
+    "failed_count": 1,
+    "missing_required_groups": {
+      "f2p_tests": [
+        "approvaltests"
+      ],
+      "p2p_tests": [],
+      "s2p_tests": [],
+      "n2p_tests": []
+    },
+    "verdict_sha256": "023741b77e5314f9a9dc39a1abfa2caca20127d96fb896c020e7fb4e9f18cf4d"
+  },
+  "adapted_task_v2_reference": {
+    "instance_id": "catchorg__Catch2-2187",
+    "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+    "task_sha256": "85673a55e5557f263f48c8aaafedd8a8ac58e292b6a0617200971fc4d3af36d9",
+    "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+    "compiler_version": "GCC 7.5.0",
+    "cmake_version": "4.4.4",
+    "reference_outcome": "ACCEPTED",
+    "run_id": "05bd9ba7b0b74ca58d434ee2619658c5",
+    "report_sha256": "c19a266c40114656a7fff564af3518ac762c2a415e330fcf457bde2bd0b16040",
+    "duration_seconds": 73.32319520499914,
+    "f2p": 2,
+    "p2p": 32,
+    "all_required_ctest_passed": true,
+    "container_deleted": true,
+    "replay_evidence_errors": [],
+    "native_rp_compatible": false,
+    "adaptations": [
+      "CMake/CTest 4.4.4",
+      "/usr/bin/sleep 链接到原有 /bin/sleep",
+      "官方 test.patch 固定到 prepared commit",
+      "批准快照保持只读；临时和 unapproved 输出写入 /build",
+      "官方测试补丁修改的 catch_test_macros.hpp 受保护"
+    ],
+    "reference_omitted_documentation": [
+      "docs/deprecations.md",
+      "docs/other-macros.md"
+    ],
+    "approval_adapter_sha256": "4a78c732fb24c142e2e9828c4eb8bda8087067fc974be294c1e0f88d8efc223e",
+    "previous_preparation_runs": [
+      {
+        "run_id": "e3608ec295b74be6bfbde9a2edb0674b",
+        "outcome": "ERROR",
+        "reason_code": "BASELINE_BUILD_FAILED",
+        "cause": "复用 GCC 14 / 新 glibc，旧版 MINSIGSTKSZ 非 constexpr"
+      },
+      {
+        "run_id": "226fdda04d714fe1925e52279a1ffa89",
+        "outcome": "REJECTED",
+        "reason_code": "F2P_FAILED",
+        "cause": "旧版 ApprovalTests 向只读源码写临时输出，不能视为目标缺陷的合格复现"
+      }
+    ],
+    "model_attempts": 0
+  },
+  "verified_task_v2_instances": [
+    "catchorg__Catch2-2723",
+    "catchorg__Catch2-2187"
+  ],
+  "adapted_coverage_lower_bound": {
+    "verified": 2,
+    "denominator": 129,
+    "ratio": 0.015503875968992248,
+    "compatibility_screening_complete": false,
+    "counts_as_resolved_at_1": false
+  },
+  "native_rp_coverage_verified": 0,
+  "paid_model_requests": 0,
+  "model_cost_cny": 0,
+  "resolved_at_1": null,
+  "strict_same_model_comparison_ready": false,
+  "remaining": [
+    "1608/1448/1422 的参考补丁含批准快照；不能将完整参考通过等同于允许文件范围内可修复",
+    "继续审查 cpp-httplib-1765 的原生 GoogleTest 到固定 CTest 身份映射",
+    "补齐五个合格修复 Task、冻结同模型协议、费用预留及公共 Oracle 链路"
+  ],
+  "archive": {
+    "name": "ReproPatch-catch2-reference-pool-2026-10-21.tar.gz",
+    "sha256": "a4cbe92cdbc9ba24d4d78ab74fd7618f63715d3dbf2ba1180d154dc88f60732a",
+    "files": 4646,
+    "size_bytes": 5165682,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
+  }
+}
