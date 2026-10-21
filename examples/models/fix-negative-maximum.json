@@ -1,7 +1,66 @@
-[
-  {"tool": "read_file", "arguments": {"path": "src/stats.cpp"}},
-  {"tool": "search_code", "arguments": {"query": "maximum_sample"}},
-  {"tool": "edit_file", "arguments": {"path": "src/stats.cpp", "old": "int best = 0;", "new": "int best = samples.front();"}},
-  {"tool": "run_command", "arguments": {"name": "verify"}},
-  {"finish": "Initialize the maximum from the first element after the empty-input guard."}
-]
+{
+  "version": 1,
+  "steps": [
+    {
+      "output": [
+        {
+          "id": "function-0",
+          "type": "function_call",
+          "name": "read_file",
+          "arguments": "{\"path\": \"src/stats.cpp\"}",
+          "call_id": "call-0"
+        }
+      ]
+    },
+    {
+      "output": [
+        {
+          "id": "function-1",
+          "type": "function_call",
+          "name": "search_code",
+          "arguments": "{\"query\": \"maximum_sample\"}",
+          "call_id": "call-1"
+        }
+      ]
+    },
+    {
+      "output": [
+        {
+          "id": "function-2",
+          "type": "function_call",
+          "name": "edit_file",
+          "arguments": "{\"path\": \"src/stats.cpp\", \"old\": \"int best = 0;\", \"new\": \"int best = samples.front();\"}",
+          "call_id": "call-2"
+        }
+      ]
+    },
+    {
+      "output": [
+        {
+          "id": "function-3",
+          "type": "function_call",
+          "name": "run_command",
+          "arguments": "{\"name\": \"verify\"}",
+          "call_id": "call-3"
+        }
+      ]
+    },
+    {
+      "output": [
+        {
+          "id": "message-4",
+          "type": "message",
+          "role": "assistant",
+          "status": "completed",
+          "content": [
+            {
+              "type": "output_text",
+              "text": "Initialize the maximum from the first element after the empty-input guard.",
+              "annotations": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

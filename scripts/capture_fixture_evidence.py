@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 from repropatch.harness import Harness
-from repropatch.models import MockModel
+from repropatch.models import load_sdk_script
 from repropatch.task import Task
 
 root = Path(__file__).resolve().parents[1]
@@ -25,8 +25,8 @@ print(
     file=sys.stderr,
 )
 report = Harness(
-    Task.load(root / "examples/tasks/negative-maximum.yaml"),
-    MockModel.load(root / "examples/models/fix-negative-maximum.json"),
+    Task.load(root / "examples/tasks/negative-maximum.v2.yaml"),
+    load_sdk_script(root / "examples/models/fix-negative-maximum.json"),
     args.output,
     sandbox_factory=TrustedLocalSandbox,
 ).run()

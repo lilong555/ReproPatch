@@ -1,0 +1,1 @@
+{"output":[{"arguments":"{\"command\":\"test \\\"$PWD\\\" = /src && test ! -w /src/src/stats.cpp && echo shell-ok && echo raw-stderr >&2\",\"timeout_seconds\":10}","call_id":"shell","id":"shell","name":"run_shell","type":"function_call"}],"raw_usage":null}

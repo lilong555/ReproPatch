@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "test_scope": "not docker",
+  "tests_passed": 406,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "wheel_sha256": "9f56fe2a4a3feb04036bf19d31b18f8e4d2291d3c385839f19222319542202a2",
+  "command": {
+    "name": "installed-all",
+    "argv": [
+      "/home/li/repropatch/.repropatch/wheel-p202-release-agent/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "/home/li/repropatch/tests",
+      "-m",
+      "not docker",
+      "-v",
+      "--junitxml=/home/li/repropatch/docs/evidence/p2-02/installed-all/results.xml"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  "real_model_verified": false
+}

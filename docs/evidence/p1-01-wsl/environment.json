@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-20",
+  "source_commit": "7875dca261cc4097826a30297eff8933fcc76069",
+  "branch": "work/spec-p1-01",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "input_archives": {
+    "ReproPatch-MVP.zip": "2fb31b289378120dfe23671d6b60a4b0dbf3426ca034aa7d0619138425c1253c",
+    "repropatch-spec-2026-10-19.zip": "5f932377be98e3e485844fb2e88258768319471646fec09cc050a6b9ae364c5e"
+  },
+  "spec_archive_files_verified": 16,
+  "product_source_matches_commit": true
+}

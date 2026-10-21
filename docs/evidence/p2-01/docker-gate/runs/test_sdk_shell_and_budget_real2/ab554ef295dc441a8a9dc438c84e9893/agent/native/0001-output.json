@@ -1,0 +1,1 @@
+{"output":[{"arguments":"{\"command\":\"echo denied\"}","call_id":"shell","id":"shell","name":"run_shell","type":"function_call"},{"arguments":"{\"path\":\"src/stats.cpp\",\"old\":\"int best = 0;\",\"new\":\"int best = -1;\"}","call_id":"edit","id":"edit","name":"edit_file","type":"function_call"}],"raw_usage":null}

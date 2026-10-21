@@ -1,0 +1,161 @@
+{
+  "status": "passed",
+  "execution_source_manifest_verified": true,
+  "wheel_source_matches": true,
+  "original_spec_files_verified": 16,
+  "command_raw_logs_verified": 61,
+  "containers_removed_verified": 19,
+  "reports": [
+    {
+      "report": "docker-gate/runs/test_docker_cpp_end_to_end0/negative-maximum-172c58e91373/report.json",
+      "status": "passed",
+      "isolated": true,
+      "task_sha256": "106c2a7aa99d75312ab069dfa348b16d10675a151f74f4603c2ad8e582901eeb",
+      "task_hash_verified": true,
+      "source_manifests_verified": 3,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "cleanup_confirmed": true,
+      "containers_removed": [
+        "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+        "c124892ed87173e263648d614bfffe714e808d3dc0be8015d365a2a5913d5203",
+        "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_docker_roundtrip_preserve0/negative-maximum-5ad7f1877530/report.json",
+      "status": "passed",
+      "isolated": true,
+      "task_sha256": "887d124d352502262447d08039edebd67f8c6b919e7d80ff653473d8c0dc65f2",
+      "task_hash_verified": true,
+      "source_manifests_verified": 3,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "cleanup_confirmed": true,
+      "containers_removed": [
+        "62c15074ed8450030ebe0a4d6994f1ae1968797e253406fd7785855e28af63ee",
+        "b4093679cfab51bcb165d309d3496c6e82c146a6b684afac7469a54ed455804c",
+        "6e45ac4bd6fda3d2a364eff3d5d67a6c159edf3aaa5ca3df91d5d93e1462c98a"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_docker_wrong_patch_is_rej0/negative-maximum-6f5f7cedb781/report.json",
+      "status": "failed",
+      "isolated": true,
+      "task_sha256": "70ab5a814dafad0df782143ad327c4831667100787a9c89d78bed3538279d247",
+      "task_hash_verified": true,
+      "source_manifests_verified": 2,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "cleanup_confirmed": true,
+      "containers_removed": [
+        "a986ff643c321d6fc1a8b152cd9b65fcc4adb85f7d1b47c6585e8f109f5c88cc",
+        "bef4a00c1183df47a6f98665de3ac90aa386cba15faafc6de5ff29477880139e"
+      ]
+    },
+    {
+      "report": "installed-cli/negative-maximum-c30c7c9e97a7/report.json",
+      "status": "passed",
+      "isolated": true,
+      "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+      "task_hash_verified": true,
+      "source_manifests_verified": 3,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "cleanup_confirmed": true,
+      "containers_removed": [
+        "1c4b25fc90eccdeac4332f1c576ee7ddbf50907aaaddbe26b0fa019cfe61113e",
+        "0afb8854e3a3d612c3f6863a14a6d4d45293e709bd18a317113472e62b6df7d9",
+        "4b6535f5062901d3b84ddaeecace174fae19a9f7c63b00132f87842a5813f0c3"
+      ]
+    }
+  ],
+  "sandbox_evidence": [
+    {
+      "evidence": "sandboxes/test_real_container_boundary0/summary.json",
+      "command_statuses": [
+        "exited"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "8fe45fe59791cccdbea6d8fd459148d4f818cac65a0c4c6d22d788dbfd340eb6"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_derived_process_time0/summary.json",
+      "command_statuses": [
+        "exited",
+        "exited",
+        "timed_out",
+        "exited"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "b501b2661b81507eb0930d7093d8aea699a094fda99d9ec82a66263b727429d9",
+        "121af10441681f687987757ee9baff90e939d483439da441d30d83dead0cd751"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_interrupt_confirms_e0/summary.json",
+      "command_statuses": [
+        "cancelled"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "882a7bf834838c3ee00d57ee9af0c3197850daca954946c270e61ed44e763fee"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_output_limit_removes0/summary.json",
+      "command_statuses": [
+        "output_limit"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "f87af86b8a7f348c8b0fe8c34530fed0dc2c4703c46288d3206c7ee8f3f3fd01"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_output_limit_removes1/summary.json",
+      "command_statuses": [
+        "output_limit"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "2192440e8a8549a3d9115e241cb56174b27c84f39808f188439f99c0b4f536e1"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_output_limit_removes2/summary.json",
+      "command_statuses": [
+        "output_limit"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "4baf8859c7fce4e6b13f106d1c7c2ef2931f604693367e90e0087ff5bcfe0a19"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_timeout_removes_cont0/summary.json",
+      "command_statuses": [
+        "timed_out"
+      ],
+      "raw_logs_verified": true,
+      "containers_removed": [
+        "3c87bc60df7d1503831d2cda978a374c5e3d4f853f62563091ca1d95b3bf52f7"
+      ]
+    }
+  ]
+}

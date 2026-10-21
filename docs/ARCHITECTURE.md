@@ -1,14 +1,14 @@
 # 架构与关键取舍
 
-本文描述已存在的 **0.1.0** 实现。目标架构已更新为
+本文描述当前 **0.3.0.dev2、Task v2** 实现。目标架构见
 [Spec 2026-10-19.2](../specs/2026-10-19.2/docs/ARCHITECTURE.md)：
-先建设独立 `verify-patch` 验收路径，再由 OpenAI Agents SDK 承担通用模型循环。
-下文的 Model Protocol、自制 Loop 和 urllib 不是未来继续扩展的架构方向。
+独立 `verify-patch` 验收路径与 SDK 基础入口已提供；自动路径六工具、整批预算与原生上下文已提供。
+当前两条入口共用生命周期与独立验证器，模型循环由 SDK 拥有。
 
 ## 目标与边界
 
 这个项目将修复能力和执行/验证纪律分开：模型提出工具调用，Harness 决定哪些调用可以执行，
-验证器根据独立测试结果决定是否接受补丁。当前是单进程、单模型循环，不包含前端、服务队列或多 Agent。
+验证器根据独立测试结果决定是否接受补丁。当前是单进程、单个 SDK Agent，不包含前端、服务队列或多 Agent。
 Python 3.12 负责调度；C++20 独立执行器仅在测量证明必要时立项，不是 MVP 必做项。
 当前不把示例 C++ 当作执行器。
 
@@ -28,31 +28,52 @@ flowchart TD
 
 ## 组件关系
 
-`Task` 严格解析 manifest，拒绝重复 YAML 键、未知字段、非有限超时、路径穿越和 shell 字符串。
+`Task` 严格解析 v2 manifest，拒绝重复键、anchor/alias、未知字段、无效类型和非法文件路径。
+`ResolvedTask` 从一次读取的输入冻结完整 commit、实际 image ID、展开文件集合与规范执行 hash；
+原 YAML hash 单独保存，绝对位置与 retain 不进入执行 hash。
 manifest 是操作策略和验收标准，由人审核。它不是待修复仓库中由模型决定的规则。
 
-`Worktree` 解析 revision 到 commit，使用 detached Worktree，不切换调用者的分支。
-Git hooks、fsmonitor、外部 diff 与 textconv 不参与运行。只导出被跟踪的普通文件，
-拒绝 symlink/hardlink，并限制单文件 2 MB、整个快照 32 MB。
-导出过程中按文件名、权限位和内容的长度编码计算 SHA-256。
+`Worktree` 使用已经验证的完整 commit 创建 detached Worktree，不切换调用者的分支。
+创建前检查本地 Git 配置与提交属性；拒绝外部 filter、include、额外 worktree 配置、partial clone 等输入。
+Git hooks、fsmonitor、外部 diff 与 textconv 不参与运行。完整文件系统与冻结集合核对，
+拒绝 symlink/hardlink、特殊文件、额外空目录及未声明文件；单源文件 16 MiB、整树 256 MiB。
+`SourceManifest` 保存每个规范路径、原始字节 SHA-256、字节数和 Git mode，整份规范 JSON 生成逻辑 hash。
+工作树记录 Git 返回的 manager/common、根目录身份与双向指针；读取及原子编辑拒绝链接，目录 fd 固定替换目标。
 
 `Toolbox` 在宿主机顺序执行读/搜/精确替换，所有路径限定在修复 Worktree。
 模型没有直接的 Git、Docker、网络或宿主机 shell 工具。
 命令工具只引用预配置的 `reproduce/verify`，会在新环境中先配置和构建。
 
+`RunResources` 为 Run 创建独占 0700 控制目录和工作区，持有真实文件锁；资源记录固定根身份、Git 管理目录、容器 ID 与标签。
+`AuditBudget` 限制非源码审计文件为 256 MiB，给最终报告和清理诊断保留空间；控制文件为 0600。
+
 `DockerSandbox` 仅挂载源码快照，`/src` 只读；`/build` 是有限容量 tmpfs，允许执行编译产物。
 每轮评估创建新容器，配置、编译和测试在同一个容器内进行以共享该轮构建产物。
-超时删除整个容器，阶段结束也删除容器。默认禁止镜像自动下载，首次解析镜像 tag 到
-content-addressed image ID，后续阶段固定使用同一 ID。
+固定 sleep 入口、禁用健康检查和重启，拒绝额外镜像 VOLUME；创建后核对实际权限、挂载与资源限额。
+超时、取消、4 MiB 原始输出达限及阶段结束均删除整个容器，再 inspect 确认不存在。daemon 失联或 ID/标签不符终止运行。禁止运行时自动下载或构建镜像；Task 只接受固定
+image ID/digest，PREPARING 查询实际 ID，后续阶段均使用该 ID。CPU、内存、PID 和构建 tmpfs
+使用 Task 的执行资源。
 
-`Model` 只负责 `messages + tools -> Turn`。工具 schema 固定；调用和结果顺序记录。
-策略拒绝作为工具错误返回给模型，基础设施错误终止运行，不伪装成测试失败。
-Mock 脚本只验证框架；真实模型修复率尚无评测。
+`models` 只构造公开 Responses/ScriptedModel；不提供自定义 Model/Turn 协议或 HTTP 客户端。
+`agent_runtime.run_agent` 注册六个 async function tools，公开 hooks 执行计数、整批准入和原生附件审计，
+`run_sdk` 只调用一次 Runner。SDK 管理 Items 与 call_id 关联，本项目不维护另一份四角色消息表。
+领域结果 AgentResult 与 SDK 内部状态分离。工具容器与 Git 操作共享阶段时限；资源清理由外层 Run 拥有。
 
-`Harness` 对基线要求 configure/build 成功，reproduce 具有预期非零退出码与标记。
-Agent 结束后检查变更集合、文件类型和权限，将允许文件的内容复制到独立 Worktree，
-要求生成的完整 Git diff 与候选一致。独立验证重建并同时执行 reproduce 与 verify。
-即便 Agent 的命令工具已通过，仍需独立验证。预算耗尽、模型错误和中断也保留候选 diff。
+`verification.py` 是两条入口共用的执行与判定模块。`evaluate_checks` 创建一次评估的全新容器，
+按 configure → build → JSON v1 inventory → F2P → P2P 顺序执行，每项 CTest 保存原始 JUnit。
+完整 name/argv/properties 生成身份哈希，properties 保留类型和列表顺序；backtrace 不参与身份。
+`TestObservation` 对每个计划测试明确记录运行、失败、skip、not_run、timeout、crash 或 invalid。
+
+`verify_candidate` 只接收已满足严格 F2P/P2P 基线的输入，从固定 commit 创建新工作树，
+实际应用保存的 patch，核对完整字节清单和规范 diff 后执行 independent。
+身份变化、skip/disabled、缺失测试和普通回归拒绝；证据不完整或资源终止无法确定。
+只有全部必需测试实际通过且清理确认才能 ACCEPTED。预算停止不消除已有合法候选的独立验证机会。
+
+`Harness` 管理共享 Run 生命周期、输入冻结、资源、原始证据和最小报告。
+自动入口在合格 baseline 后进入 SDK Runner；外部入口先复制并静态审核 patch，再运行原始 baseline。
+producer trace 是独立的未验证附件，不能构造 CommandResult 或替代 baseline/independent。
+纯验证 CLI 及其导入链不加载 models 或 Agents SDK。验证执行遵守阶段 deadline、验证预留和清理余量；
+SDK 原生 Items、预算、错误与取消契约见 [P1-05](P1-05.md)。
 
 ## 信任边界
 
@@ -63,20 +84,38 @@ Agent 结束后检查变更集合、文件类型和权限，将允许文件的�
 | 评估容器 | CMake、编译器、CTest、待修复源码 | 非 root、断网、只读根文件系统、无 capabilities |
 | 独立验证 | 原始 commit + 允许的源码补丁 | 不共享 Agent 构建缓存，不接受其“成功”声明 |
 
+每条容器命令分别保存 stdout.bin/stderr.bin 与 EvidenceRef；64 KiB 双流预览首尾取样、控制字符转义。
+失败签名在完整原始流中匹配，不依赖预览、不跨流拼接。快照位于本 Run 工作区，普通成功诊断结束即释放；
+none/on_failure/always 控制 repair 工作树与最近诊断快照的保留，validation 工作树结束后移除。
+资源清理与证据检查结束后提交最终结局，再导出派生报告。
 详细限制及未解决的问题见 SECURITY.md。Docker 不是抵御内核漏洞的完整边界，
 当前面向操作者选定的仓库，尚不提供多租户敌对代码执行服务。
 
 ## 事件与产物
 
-事件使用单调序号和 UTC 时间戳，主要类型是 run_started、evaluation_started、
-command_finished、model_turn、tool_started、tool_finished、run_finished。
+事件使用事务内序号和 UTC 时间戳，统一信封关联 Run、模型步骤、本地工具与命令身份。
+主要类型包含 run_created、state_changed、inputs_frozen、resource_registered、
+model_started/model_finished、tool_batch_admitted、tool_started/tool_finished、
+command_started/command_finished、baseline_finished、verification_finished、cleanup_finished。
 命令耗时来自 monotonic clock。报告保留任务规范/哈希、模型标识、解析后 commit、镜像 ID、
 源码快照哈希、完整候选补丁及其哈希、返回码、超时和截断标记。
 事件不记录 HTTP Authorization header，也不会复制宿主机环境。
 
-SQLite 每条事件单独提交，再追加到 JSONL。**两者不是跨文件原子事务**，
-突然崩溃时最后一条可能不一致；当前没有恢复或自动重放语义。正常运行测试核对两份记录逐条相同。
-运行报告由结束处理生成，SIGKILL/掉电不保证有完整报告。此处明确保留为下一阶段工作。
+SQLite schema v2 使用 runs/events/checkpoints 三表；runs 是外层状态、预算、期限和执行片段的权威。
+创建、冻结输入并进入复现、模型开始扣 turn、工具整批准入、终态各自通过本地事务与事件一起提交。
+模型开始先写 segment_open=1，确认提交后才允许 SDK 请求；工具批次扣减提交后才分派。
+最终回复或工具返回不会关闭片段；只有完整输入 filter 的 Checkpoint 事务才能关闭修复片段。
+recovery.py 保存公开 ModelInputData、普通 patch、完整 SourceManifest 和指纹；全部文件 durable 后才提交引用。
+显式暂停与同一个 Checkpoint 事务一起进入 INTERRUPTED，Runner 通过 HarnessPause 离开，不请求下一 turn。
+暂停保留修复源码及必需证据，清理构建快照和容器；当前尚未提供 Resume。
+写者持有整个控制进程的 flock，使用 DELETE journal、FULL synchronous、外键约束；
+只读查询核对外层行和已提交事件前缀，发现分裂或损坏立即拒绝。旧 schema 不迁移、不自动续跑。
+JSONL 从已提交的一致性事件前缀导出。
+清理及证据检查后，终态事件引用最终事实附件；reports.py 核验引用并生成 JSON / Markdown。
+run.json 记录派生导出索引；各文件原子替换，跨文件不承诺原子性。
+已提交结局不因导出失败改变；inspect 只读查询，report 可重建丢失报告。
+当前不提供恢复或自动重放；SIGKILL 后没有终态就显示未完成，文件孤儿不成为恢复点。
+导出契约见 [P1-07](P1-07.md)，外层事务见 [P2-01](P2-01.md)，Checkpoint 与暂停见 [P2-02](P2-02.md)。
 
 ## 可复现性的含义
 

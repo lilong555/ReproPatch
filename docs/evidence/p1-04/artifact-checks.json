@@ -1,0 +1,287 @@
+{
+  "status": "passed",
+  "execution_source_manifest_verified": true,
+  "wheel_source_matches": true,
+  "original_spec_files_verified": 16,
+  "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+  "evaluation_evidence_verified": 25,
+  "junit_results_verified": 96,
+  "command_raw_logs_verified": 343,
+  "containers_removed_verified": 34,
+  "normalized_external_patch_representations": 2,
+  "report_outcomes": {
+    "ACCEPTED": 6,
+    "REJECTED": 5
+  },
+  "reports": [
+    {
+      "report": "docker-gate/runs/test_docker_cpp_end_to_end0/cc4626c93728463eb2a0d6ff0acc5df3/report.json",
+      "input_mode": "run",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "task_sha256": "b61b3bc3e80a28d54ed65d71dc88a8f3bdab1960a9890f3cd8e8623ce2833805",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [],
+      "containers_removed": [
+        "c7d3bc93c22d82deb0ee89b9f1d459b548dc62052f12d4c76bcc07a11e25fdff",
+        "44fb9cb3dfd53878422c8bc3a4df394f9a8b3193a195ffad24dbac0b930cff33",
+        "1d895855a771548951cffc5539ee84ea2ad885f355be26e21bc58eb6edf7a62c"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_docker_roundtrip_preserve0/a61902245d134caabf42af32cb706156/report.json",
+      "input_mode": "run",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "task_sha256": "3b5d03c330a296cfdcc7b22c4e729d20b4619ab6a63d7b20d69b04c4dcade2a0",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [
+        "docker-gate/runs/test_docker_roundtrip_preserve0/a61902245d134caabf42af32cb706156/retained-snapshots/003-independent"
+      ],
+      "containers_removed": [
+        "60d150ccea7e0f63e4c40e52e791c48f4f20ece879b9504525a343947793d68e",
+        "08b352283a317f0bd11f58403ac350358db1d269c8d4295135d8fcad704a6811",
+        "6b42b0a1ad616e43df8ba12025db0898acb3a17156573ce4ac51c4a0aa20301a"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_docker_wrong_patch_is_rej0/531718e75b4841aeb3f986718814255f/report.json",
+      "input_mode": "run",
+      "outcome": "REJECTED",
+      "reason_code": "F2P_FAILED",
+      "task_sha256": "15280c77fabf8f6ed415df92b9b09237be70dae573d83716e4ecbde665614964",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [
+        "docker-gate/runs/test_docker_wrong_patch_is_rej0/531718e75b4841aeb3f986718814255f/retained-snapshots/002-independent"
+      ],
+      "containers_removed": [
+        "22712f836646c4efb41a1e8cd7f192a5812615d6233362be8419a8135b203c91",
+        "e0f0bae330f1a20cfc9eadb130007ab7b2829af13115cb7ff510f84a9ef07bf7"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_bas0/e99668a796d54008904201c082aa805a/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "task_sha256": "a236e481076de63ff2bade3b94ccbc3be64de5be9fdc5f695cdd645695771631",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [],
+      "containers_removed": [
+        "3e88233099ec871c2774b44fb424c52effa27cf52e5c1b8cd1a2476e7034374f",
+        "e6c2c48c7eb20bc4bc7f6b9debb9fb7a23dbb59871b8800ae22614af4ec304cf"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_bas1/edd8f9ecb0d144ecba806fe0d356a676/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "REJECTED",
+      "reason_code": "F2P_FAILED",
+      "task_sha256": "c5690fb1999b6879f80f24e4fd44fba9a828d2b13b4ae58ad9b6661f292c5c9b",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [
+        "docker-gate/runs/test_external_patch_docker_bas1/edd8f9ecb0d144ecba806fe0d356a676/retained-snapshots/002-independent"
+      ],
+      "containers_removed": [
+        "391975a44cb4a60a5ee8ec17673ce836fd4aeda7bfd0fa620812d0223f1a1663",
+        "0004fdb7dc8f643a86235f900600875afd7ae802fb28508a512f960f5df762a6"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_lit0/768ce92d68464434bdd60e1f7a254080/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "task_sha256": "07f6fa020a82867cc89e416bc35267011ff475f31bd25ed3f01a850d03f13880",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [],
+      "containers_removed": [
+        "6956bc9f86e60f2d144e397723bdf93756c2811c1b5a81788ada5d80122b06fa",
+        "9eeebb0afee7bf745b5e12f0ab78d631a1a1c61031af2a7bfc40a40e252e6f48"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_ref0/4970f075361d435f86fc99fbe3058b18/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "REJECTED",
+      "reason_code": "REQUIRED_TEST_NOT_RUN",
+      "task_sha256": "251a465dbfb717e35c11f7485021062fb11299e8b90ccd5b211e98dac8b736d0",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [
+        "docker-gate/runs/test_external_patch_docker_ref0/4970f075361d435f86fc99fbe3058b18/retained-snapshots/002-independent"
+      ],
+      "containers_removed": [
+        "c47fc3431f712bb7c00928cb19d7ab78d22932423558ee8cab980522647fab51",
+        "8ddc794c97bb6c84276059cb22277cb907d451189573fa0002c818dfac3c6718"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_ref1/c3dc5d167d3248f6962b65fc24ac5f31/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "REJECTED",
+      "reason_code": "REQUIRED_TEST_NOT_RUN",
+      "task_sha256": "23c89d40317c81005a4b41dffc9dbe033342eb5f7b45ba30db5e744bc177878d",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [
+        "docker-gate/runs/test_external_patch_docker_ref1/c3dc5d167d3248f6962b65fc24ac5f31/retained-snapshots/002-independent"
+      ],
+      "containers_removed": [
+        "24127e0c05841608332cc90967d6444e3d0e266b6608340fd4266e09dd8ab665",
+        "bb6b6d4b24d1402192c780cefbc32f2f0056dfe0fce2318c4f1f50bee5f83cde"
+      ]
+    },
+    {
+      "report": "installed-verify/correct/449a21c40a384a98bd87d933fd93329d/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [],
+      "containers_removed": [
+        "a7764babf9a398687d3bca121f028303beed755c84fa981e46f0f8a1b403c40f",
+        "1637e878162a7ee6b642352c7df2ff904e2bd69db13f52d42a6166d938ba90f0"
+      ]
+    },
+    {
+      "report": "installed-verify/wrong/89d995e15343493483adbc7796d6695d/report.json",
+      "input_mode": "verify-patch",
+      "outcome": "REJECTED",
+      "reason_code": "F2P_FAILED",
+      "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [
+        "retained-snapshots/89d995e15343493483adbc7796d6695d/002-independent"
+      ],
+      "containers_removed": [
+        "637d76050417936e331950f5ab35c0fd1ba56bad3cb29771303a2f983435e40b",
+        "d3e91505a23bb7d7350e5f4665235d4388ecff8477c32aec9e355d632079f431"
+      ]
+    },
+    {
+      "report": "installed-auto/84b0765cbe6846fcb6fc350243a2dd20/report.json",
+      "input_mode": "run",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+      "implementation_sha256": "b5040d42eb4d8e1ec67fb8488f2d6c5ac02b71661b68b915610768bfb7ce8710",
+      "references_verified": true,
+      "ctest_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "retention_verified": true,
+      "retained_snapshots": [],
+      "containers_removed": [
+        "9858c31823a62a836b44d145649d98776d545b48b893baa59b8379c4c50e85c2",
+        "7b89b309e6e1a6153b49e9cbdede7f07012730bc36a5ec7febbd746668cad479",
+        "2d3e665ece3fe3fe7114ccece8d73f8c3517d12c2ef8fa1f8faa78eeec927812"
+      ]
+    }
+  ],
+  "sandbox_evidence": [
+    {
+      "evidence": "sandboxes/test_real_container_boundary0/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "exited"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_derived_process_time0/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "exited",
+        "exited",
+        "timed_out",
+        "exited"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_interrupt_confirms_e0/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "cancelled"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_output_limit_removes0/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "output_limit"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_output_limit_removes1/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "output_limit"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_output_limit_removes2/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "output_limit"
+      ]
+    },
+    {
+      "evidence": "sandboxes/test_real_timeout_removes_cont0/summary.json",
+      "raw_logs_verified": true,
+      "statuses": [
+        "timed_out"
+      ]
+    }
+  ],
+  "ctest_protocol_samples_verified": true,
+  "ctest_protocol_sample_source": "../p1-06/ctest-samples"
+}

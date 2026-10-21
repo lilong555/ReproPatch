@@ -1,0 +1,38 @@
+version: 2
+id: negative-maximum-live
+repository:
+  path: ../cpp-bugs
+  commit: 075a19d1b097d96df3550d2f08d20a0076705210
+environment:
+  image: sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a
+bug:
+  description: >-
+    修复 maximum_sample 对非空全负输入返回 0 的错误，保留空输入与完整 int 值域的行为。
+    先用 read_file 查看 src/stats.cpp，仅修改允许的源码，再用 run_command 的 verify 自查，最后正常结束。
+commands:
+  configure: [cmake, -S, /src, -B, /build, -DCMAKE_BUILD_TYPE=Debug]
+  build: [cmake, --build, /build, --parallel, '2']
+  reproduce: [ctest, --test-dir, /build, --output-on-failure, --no-tests=error]
+  verify: [ctest, --test-dir, /build, --output-on-failure, --no-tests=error]
+tests:
+  fail_to_pass:
+  - name: negative_values
+    expected_exit_code: 8
+    output_contains: expected -3, got 0
+  pass_to_pass: [positive_values, empty_values, mixed_values]
+  protected_paths: [CMakeLists.txt, tests/]
+files:
+  readable: [CMakeLists.txt, src/, tests/]
+  editable: [src/stats.cpp]
+budget:
+  max_steps: 6
+  max_tool_calls: 12
+  wall_seconds: 300
+  verification_reserve_seconds: 90
+  model_timeout_seconds: 45
+  command_timeout_seconds: 60
+  max_output_tokens: 2048
+workspace:
+  root: ../../.repropatch/live-workspaces
+outputs:
+  root: ../../.repropatch/live-runs

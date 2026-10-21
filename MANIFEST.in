@@ -1,8 +1,9 @@
 include LICENSE SECURITY.md SPEC.md uv.lock
+recursive-include requirements *.txt
 recursive-include specs *.md *.yaml
 recursive-include docs *
 recursive-include .github *.yml
-recursive-include examples *.yaml *.json *.cpp *.hpp CMakeLists.txt
+recursive-include examples *.yaml *.json *.cpp *.hpp *.patch CMakeLists.txt
 recursive-include docker Dockerfile
 recursive-include scripts *.py
 recursive-include tests *.py

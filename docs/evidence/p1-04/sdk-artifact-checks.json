@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-20T08:05:18.093999+00:00",
+  "checks": [
+    {
+      "evidence": "sdk-contract",
+      "tests_passed": 39,
+      "source_manifest_verified": true,
+      "packages": {
+        "openai-agents": "0.24.0",
+        "openai": "3.35.1",
+        "httpx2": "2.15.1",
+        "pydantic": "2.14.1",
+        "pytest": "9.1.1"
+      }
+    },
+    {
+      "evidence": "installed-sdk",
+      "tests_passed": 39,
+      "source_manifest_verified": true,
+      "packages": {
+        "openai-agents": "0.24.0",
+        "openai": "3.35.1",
+        "httpx2": "2.15.1",
+        "pydantic": "2.14.1",
+        "pytest": "9.1.1"
+      }
+    }
+  ],
+  "wheel_sha256": "722fdee6f2bcca37724f3b1c1940b0d1353bcb3b9b2af7a3c2514953ae4e9cd7",
+  "installed_wheel_identity_matches": true,
+  "synthetic_key_absent_from_logs": true
+}

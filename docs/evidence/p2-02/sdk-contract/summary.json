@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "started_at": "2026-10-21T03:51:29.568873+00:00",
+  "commands": [
+    {
+      "argv": [
+        "/home/li/repropatch/.repropatch/sdk-contract/bin/python",
+        "-I",
+        "-m",
+        "pytest",
+        "/home/li/repropatch/tests",
+        "-m",
+        "sdk and not docker",
+        "-v",
+        "--junitxml=/home/li/repropatch/docs/evidence/p2-02/sdk-contract/results.xml"
+      ],
+      "returncode": 0
+    }
+  ],
+  "product_version": "0.3.0.dev2",
+  "python": "3.12.15",
+  "packages": {
+    "openai-agents": "0.24.0",
+    "openai": "3.35.1",
+    "httpx2": "2.15.1",
+    "pydantic": "2.14.1",
+    "pytest": "9.1.1"
+  },
+  "real_model_verified": false,
+  "network": "socket 连接由测试夹具拒绝；HTTP 仅使用 MockTransport",
+  "tests_passed": 115,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "finished_at": "2026-10-21T03:54:27.839174+00:00"
+}

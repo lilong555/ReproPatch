@@ -1,0 +1,9 @@
+{
+  "location": "/home/li/repropatch/.repropatch/wheel-dev6-smoke/lib/python3.12/site-packages/repropatch",
+  "packages": {
+    "pyyaml": "6.0.3",
+    "repropatch": "0.2.0.dev6"
+  },
+  "source_bytes_match": true,
+  "lazy_import_verified": true
+}

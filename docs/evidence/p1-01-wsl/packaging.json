@@ -1,0 +1,76 @@
+{
+  "started_at": "2026-10-20T04:26:26.486225+00:00",
+  "wheel_sha256": "028f345682adac3c6b01ea4404d4e28374b5a968e514c34458640dc301e11b4e",
+  "commands": [
+    {
+      "name": "wheel-import",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-smoke-venv/bin/python",
+        "-I",
+        "-c",
+        "import pathlib,sys,repropatch; path=pathlib.Path(repropatch.__file__); assert path.is_relative_to(sys.prefix); print(path); print(repropatch.__version__)"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-version",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-smoke-venv/bin/repropatch",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-help",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-smoke-venv/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "--help"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-doctor",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-smoke-venv/bin/repropatch",
+        "doctor"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-validate-task",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-smoke-venv/bin/repropatch",
+        "validate-task",
+        "/home/li/repropatch/examples/tasks/negative-maximum.yaml"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-run",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-smoke-venv/bin/repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.yaml",
+        "--model",
+        "mock",
+        "--script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--output",
+        "/home/li/repropatch/docs/evidence/p1-01-wsl/installed-cli"
+      ],
+      "returncode": 0
+    }
+  ],
+  "status": "passed",
+  "finished_at": "2026-10-20T04:26:34.527922+00:00",
+  "report": "installed-cli/negative-maximum-cdcdd582c186/report.json",
+  "container_cleanup": {
+    "repropatch-22d8fd047ff441559649b1d87dc8e9b4": true,
+    "repropatch-531a61842f694df8a4e5f0feea79d847": true,
+    "repropatch-348465d5c19e444c8ae6bae6ef3fa286": true
+  },
+  "patch_hash_verified": true
+}

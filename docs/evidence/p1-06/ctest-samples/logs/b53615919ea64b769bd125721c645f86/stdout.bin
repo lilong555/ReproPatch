@@ -1,0 +1,10 @@
+Test project /build
+    Start 3: skipped
+1/1 Test #3: skipped ..........................***Skipped   0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+The following tests did not run:
+	  3 - skipped (Skipped)

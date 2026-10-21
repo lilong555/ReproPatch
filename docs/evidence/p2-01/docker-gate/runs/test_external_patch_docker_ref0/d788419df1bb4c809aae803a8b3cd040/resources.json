@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "run_id": "d788419df1bb4c809aae803a8b3cd040",
+  "owner_uid": 1000,
+  "control_identity": [
+    2096,
+    944528
+  ],
+  "workspace_identity": [
+    2096,
+    944530
+  ],
+  "lock_path": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/runs/d788419df1bb4c809aae803a8b3cd040/.run.lock",
+  "repository": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo",
+  "commit": "d2635e85de55fcd101f9a872e535368a6e2dc0d2",
+  "control_directory": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/runs/d788419df1bb4c809aae803a8b3cd040",
+  "workspace_directory": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040",
+  "worktrees": [
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/baseline",
+      "commit": "d2635e85de55fcd101f9a872e535368a6e2dc0d2",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo/.git/worktrees/baseline",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        944587
+      ],
+      "git_dir_identity": [
+        2096,
+        944585
+      ],
+      "common_dir_identity": [
+        2096,
+        943251,
+        1000
+      ],
+      "git_pointer_sha256": "1dcf72366f8734e16a0fcb9c49ac3e69b6a58cafd0773ce3ec11956ba6919255",
+      "manager_pointer_sha256": "fdd72275a28d3927166becf79f834da70638f82c2834095c768f9fa5fa604b4e",
+      "exists": false
+    },
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/repair",
+      "commit": "d2635e85de55fcd101f9a872e535368a6e2dc0d2",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo/.git/worktrees/repair",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        944611
+      ],
+      "git_dir_identity": [
+        2096,
+        944608
+      ],
+      "common_dir_identity": [
+        2096,
+        943251,
+        1000
+      ],
+      "git_pointer_sha256": "9aba9371132e009bef5b9f0907255775e1e838b3fd79bdfc6d5ab893ed47c599",
+      "manager_pointer_sha256": "ef3d0c3514576a5096aadbd558f999b77f233a605f8757d8eb4f41033488ea2b",
+      "exists": true
+    },
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/validation",
+      "commit": "d2635e85de55fcd101f9a872e535368a6e2dc0d2",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo/.git/worktrees/validation",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        945314
+      ],
+      "git_dir_identity": [
+        2096,
+        945312
+      ],
+      "common_dir_identity": [
+        2096,
+        943251,
+        1000
+      ],
+      "git_pointer_sha256": "bd4854a381b59f64cf28ca6977402c92f2b8c1183b000a8e20a33df6f8233927",
+      "manager_pointer_sha256": "9d123e7ea29d5ac9882535e418367eff536d630777839f0d1d55612550f0c63c",
+      "exists": false
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/snapshots/001-baseline",
+      "identity": [
+        2096,
+        944637
+      ],
+      "source_tree_sha256": "54eee14ab867a3b91e05a3853d4fec43931c48e25fe6280bfa810a1bb008efd1",
+      "exists": false
+    },
+    {
+      "path": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/snapshots/002-independent",
+      "identity": [
+        2096,
+        945331
+      ],
+      "source_tree_sha256": "29b88d5d42b54cc455cd8eb3ccf8225c343b3468d0ef2f91f28d968c6d720a53",
+      "exists": true
+    }
+  ],
+  "containers": [
+    {
+      "name": "repropatch-5cd9bc89599b494f864e2354b2fea08f",
+      "container_id": "de112a294a5dae74f43e21a9b4e6dfefd417470534d9271f03b7990dbcff1d73",
+      "run_id": "d788419df1bb4c809aae803a8b3cd040",
+      "purpose": "001-baseline",
+      "labels": {
+        "repropatch.run": "d788419df1bb4c809aae803a8b3cd040",
+        "repropatch.operation": "repropatch-5cd9bc89599b494f864e2354b2fea08f",
+        "repropatch.purpose": "001-baseline"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/snapshots/001-baseline",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 2147483648,
+          "MemorySwap": 2147483648,
+          "PidsLimit": 128,
+          "NanoCpus": 2000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=1024m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/snapshots/001-baseline",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": {
+        "docker_server": "28.3.2",
+        "docker_client": "28.3.2",
+        "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "versions": {
+          "cmake": "3.28.3",
+          "ctest": "3.28.3"
+        },
+        "paths": {
+          "cmake": "/usr/bin/cmake",
+          "ctest": "/usr/bin/ctest",
+          "c++": "/usr/bin/c++",
+          "cat": "/usr/bin/cat",
+          "timeout": "/usr/bin/timeout"
+        }
+      }
+    },
+    {
+      "name": "repropatch-d6514a2e82d74c0eaff2b9ea5d37368c",
+      "container_id": "31fcfd72e398a0e1c7f71350b542fab2eb527b6455dc9357868a638d8e1dbf07",
+      "run_id": "d788419df1bb4c809aae803a8b3cd040",
+      "purpose": "002-independent",
+      "labels": {
+        "repropatch.run": "d788419df1bb4c809aae803a8b3cd040",
+        "repropatch.operation": "repropatch-d6514a2e82d74c0eaff2b9ea5d37368c",
+        "repropatch.purpose": "002-independent"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/snapshots/002-independent",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 2147483648,
+          "MemorySwap": 2147483648,
+          "PidsLimit": 128,
+          "NanoCpus": 2000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=1024m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_external_patch_docker_ref0/workspaces/d788419df1bb4c809aae803a8b3cd040/snapshots/002-independent",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": {
+        "docker_server": "28.3.2",
+        "docker_client": "28.3.2",
+        "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "versions": {
+          "cmake": "3.28.3",
+          "ctest": "3.28.3"
+        },
+        "paths": {
+          "cmake": "/usr/bin/cmake",
+          "ctest": "/usr/bin/ctest",
+          "c++": "/usr/bin/c++",
+          "cat": "/usr/bin/cat",
+          "timeout": "/usr/bin/timeout"
+        }
+      }
+    }
+  ],
+  "cleanup_errors": []
+}

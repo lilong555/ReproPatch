@@ -1,0 +1,823 @@
+{
+  "schema_version": 1,
+  "harness_version": "0.2.0.dev3",
+  "run_id": "negative-maximum-172c58e91373",
+  "task_id": "negative-maximum",
+  "started_at": "2026-10-20T06:59:35.080913+00:00",
+  "status": "passed",
+  "isolated": true,
+  "base_commit": "19bdb900e8f5b3da216ce42f22d54f1c0b88d597",
+  "requested_image": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+  "evaluations": [
+    {
+      "phase": "baseline",
+      "source_sha256": "55f8c300b4407d2458d89cd43e1382ee37dcd0f569a505fe7f66fab953d95def",
+      "source_tree_sha256": "55f8c300b4407d2458d89cd43e1382ee37dcd0f569a505fe7f66fab953d95def",
+      "source_manifest": {
+        "path": "manifests/001-baseline.json",
+        "sha256": "eef209d193c3b7cb7b763a446886cd72238fd6d760bcc037983da1cf4c5706d5",
+        "size_bytes": 771
+      },
+      "snapshot_path": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces/negative-maximum-172c58e91373/snapshots/001-baseline",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.2s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.3536545449987898,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "660726170d1b4e8ea2cde668d3b96d6c",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:35.928684+00:00",
+          "finished_at": "2026-10-20T06:59:36.282360+00:00",
+          "stdout": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.2s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "stderr": "",
+          "stdout_bytes": 356,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/660726170d1b4e8ea2cde668d3b96d6c/stdout.bin",
+            "sha256": "b5e8b977c7956bc711007172ebce5004c104075e2037250a4f5153a901d3a3f0",
+            "size_bytes": 356
+          },
+          "stderr_log": {
+            "path": "logs/660726170d1b4e8ea2cde668d3b96d6c/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 354
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.7426887019992137,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "2d5b58bb70c34f0f8215d9165314770a",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:36.314557+00:00",
+          "finished_at": "2026-10-20T06:59:37.057258+00:00",
+          "stdout": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "stderr": "",
+          "stdout_bytes": 283,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/2d5b58bb70c34f0f8215d9165314770a/stdout.bin",
+            "sha256": "028e4b8c5adb0d1fbdef64a7a5ec1084158e10bd9d0d9426aa6f1efc286533fc",
+            "size_bytes": 283
+          },
+          "stderr_log": {
+            "path": "logs/2d5b58bb70c34f0f8215d9165314770a/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 743
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^negative_values$"
+          ],
+          "returncode": 8,
+          "output": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................***Failed    0.00 sec\nexpected -3, got 0\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  1 - negative_values (Failed)\nErrors while running CTest\n",
+          "duration_seconds": 0.10184133899929293,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "c0e685d1002b441c9c1a92c128ffb3cb",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:37.087530+00:00",
+          "finished_at": "2026-10-20T06:59:37.189382+00:00",
+          "stdout": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................***Failed    0.00 sec\nexpected -3, got 0\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  1 - negative_values (Failed)\n",
+          "stderr": "Errors while running CTest\n",
+          "stdout_bytes": 278,
+          "stderr_bytes": 27,
+          "stdout_log": {
+            "path": "logs/c0e685d1002b441c9c1a92c128ffb3cb/stdout.bin",
+            "sha256": "e84444f7c4fd8679b11d7cff127d42d6c7a658460fe4d3b93f579f109f82f8a1",
+            "size_bytes": 278
+          },
+          "stderr_log": {
+            "path": "logs/c0e685d1002b441c9c1a92c128ffb3cb/stderr.bin",
+            "sha256": "18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4",
+            "size_bytes": 27
+          },
+          "container_id": "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 8,
+          "duration_ms": 102
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(positive_values|empty_values|mixed_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 2: positive_values\n1/3 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n2/3 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n3/3 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 3\n\nTotal Test time (real) =   0.01 sec\n",
+          "duration_seconds": 0.09050127000045904,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "ea02b4b510314e608ace9d22caa8a849",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:37.219737+00:00",
+          "finished_at": "2026-10-20T06:59:37.310250+00:00",
+          "stdout": "Test project /build\n    Start 2: positive_values\n1/3 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n2/3 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n3/3 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 3\n\nTotal Test time (real) =   0.01 sec\n",
+          "stderr": "",
+          "stdout_bytes": 389,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/ea02b4b510314e608ace9d22caa8a849/stdout.bin",
+            "sha256": "bf84d4a5afb4dc83eafb5438e6f09f647b97ccd4c4b0a39e6d993910d73d9a93",
+            "size_bytes": 389
+          },
+          "stderr_log": {
+            "path": "logs/ea02b4b510314e608ace9d22caa8a849/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 91
+        }
+      ],
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-48858fef48484bc0ab30d9f1036c311f",
+      "container_id": "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+      "preflight": {
+        "argv": [
+          "/bin/sh",
+          "-ec",
+          "command -v cmake; command -v ctest; command -v c++; command -v cat; command -v timeout; /usr/bin/sleep --version; cmake --version; ctest --version"
+        ],
+        "returncode": 0,
+        "output": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "duration_seconds": 0.2090904689994204,
+        "timed_out": false,
+        "output_truncated": false,
+        "status": "exited",
+        "command_id": "e8bf5034966245a4bc56cf4ea7008fc2",
+        "cwd": "/build",
+        "started_at": "2026-10-20T06:59:35.678253+00:00",
+        "finished_at": "2026-10-20T06:59:35.887358+00:00",
+        "stdout": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "stderr": "",
+        "stdout_bytes": 574,
+        "stderr_bytes": 0,
+        "stdout_log": {
+          "path": "logs/e8bf5034966245a4bc56cf4ea7008fc2/stdout.bin",
+          "sha256": "35c88820c212b647f9946c5d54df0c3b74cd65e73cbd39dec611067aea3f528e",
+          "size_bytes": 574
+        },
+        "stderr_log": {
+          "path": "logs/e8bf5034966245a4bc56cf4ea7008fc2/stderr.bin",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "container_id": "f3f58e18e5d5faa8b213454f62800b813522ef6f7351aaf6135582e36dc53d5a",
+        "cleanup_confirmed": false,
+        "error_code": null,
+        "error": null,
+        "truncated": false,
+        "exit_code": 0,
+        "duration_ms": 209
+      },
+      "cleanup_confirmed": true,
+      "cleanup_error": null
+    },
+    {
+      "phase": "agent-check",
+      "source_sha256": "3ac4104a0e12d3da436da6616a635c337d1f3cc36defa149b90dd176cfd67c01",
+      "source_tree_sha256": "3ac4104a0e12d3da436da6616a635c337d1f3cc36defa149b90dd176cfd67c01",
+      "source_manifest": {
+        "path": "manifests/002-agent-check.json",
+        "sha256": "eea3ef72642e555088f8effab042e4ee69ef02a892531fccb4e63d6503a87a6a",
+        "size_bytes": 771
+      },
+      "snapshot_path": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces/negative-maximum-172c58e91373/snapshots/002-agent-check",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.22778800400010368,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "809744e2d33e4ba89bdfebdff6f132e0",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:38.142488+00:00",
+          "finished_at": "2026-10-20T06:59:38.370288+00:00",
+          "stdout": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "stderr": "",
+          "stdout_bytes": 356,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/809744e2d33e4ba89bdfebdff6f132e0/stdout.bin",
+            "sha256": "d344fac45b9c6fcd371df293c0f3852db4bab0fc3d61c8723eac0ebb8ebdc965",
+            "size_bytes": 356
+          },
+          "stderr_log": {
+            "path": "logs/809744e2d33e4ba89bdfebdff6f132e0/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "c124892ed87173e263648d614bfffe714e808d3dc0be8015d365a2a5913d5203",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 228
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5926445789991703,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "df43c3ed4d294882a15cdf689b555373",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:38.400610+00:00",
+          "finished_at": "2026-10-20T06:59:38.993268+00:00",
+          "stdout": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "stderr": "",
+          "stdout_bytes": 283,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/df43c3ed4d294882a15cdf689b555373/stdout.bin",
+            "sha256": "028e4b8c5adb0d1fbdef64a7a5ec1084158e10bd9d0d9426aa6f1efc286533fc",
+            "size_bytes": 283
+          },
+          "stderr_log": {
+            "path": "logs/df43c3ed4d294882a15cdf689b555373/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "c124892ed87173e263648d614bfffe714e808d3dc0be8015d365a2a5913d5203",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 593
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(negative_values|positive_values|empty_values|mixed_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 1: negative_values\n1/4 Test #1: negative_values ..................   Passed    0.00 sec\n    Start 2: positive_values\n2/4 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n3/4 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n4/4 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 4\n\nTotal Test time (real) =   0.01 sec\n",
+          "duration_seconds": 0.10160317400004715,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "334fb60f9a3045218a8055f6431f364e",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:39.021666+00:00",
+          "finished_at": "2026-10-20T06:59:39.123283+00:00",
+          "stdout": "Test project /build\n    Start 1: negative_values\n1/4 Test #1: negative_values ..................   Passed    0.00 sec\n    Start 2: positive_values\n2/4 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n3/4 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n4/4 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 4\n\nTotal Test time (real) =   0.01 sec\n",
+          "stderr": "",
+          "stdout_bytes": 487,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/334fb60f9a3045218a8055f6431f364e/stdout.bin",
+            "sha256": "844e52343aaad852d3af278bc9697d5a1965277c60ac9b97ff7cdb497c641481",
+            "size_bytes": 487
+          },
+          "stderr_log": {
+            "path": "logs/334fb60f9a3045218a8055f6431f364e/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "c124892ed87173e263648d614bfffe714e808d3dc0be8015d365a2a5913d5203",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 102
+        }
+      ],
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-98779f34900243daa4babafd14ab4b2f",
+      "container_id": "c124892ed87173e263648d614bfffe714e808d3dc0be8015d365a2a5913d5203",
+      "preflight": {
+        "argv": [
+          "/bin/sh",
+          "-ec",
+          "command -v cmake; command -v ctest; command -v c++; command -v cat; command -v timeout; /usr/bin/sleep --version; cmake --version; ctest --version"
+        ],
+        "returncode": 0,
+        "output": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "duration_seconds": 0.0879657479999878,
+        "timed_out": false,
+        "output_truncated": false,
+        "status": "exited",
+        "command_id": "e949931b769643cb830493a6c9015a65",
+        "cwd": "/build",
+        "started_at": "2026-10-20T06:59:38.020374+00:00",
+        "finished_at": "2026-10-20T06:59:38.108351+00:00",
+        "stdout": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "stderr": "",
+        "stdout_bytes": 574,
+        "stderr_bytes": 0,
+        "stdout_log": {
+          "path": "logs/e949931b769643cb830493a6c9015a65/stdout.bin",
+          "sha256": "35c88820c212b647f9946c5d54df0c3b74cd65e73cbd39dec611067aea3f528e",
+          "size_bytes": 574
+        },
+        "stderr_log": {
+          "path": "logs/e949931b769643cb830493a6c9015a65/stderr.bin",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "container_id": "c124892ed87173e263648d614bfffe714e808d3dc0be8015d365a2a5913d5203",
+        "cleanup_confirmed": false,
+        "error_code": null,
+        "error": null,
+        "truncated": false,
+        "exit_code": 0,
+        "duration_ms": 88
+      },
+      "cleanup_confirmed": true,
+      "cleanup_error": null
+    },
+    {
+      "phase": "independent",
+      "source_sha256": "3ac4104a0e12d3da436da6616a635c337d1f3cc36defa149b90dd176cfd67c01",
+      "source_tree_sha256": "3ac4104a0e12d3da436da6616a635c337d1f3cc36defa149b90dd176cfd67c01",
+      "source_manifest": {
+        "path": "manifests/003-independent.json",
+        "sha256": "eea3ef72642e555088f8effab042e4ee69ef02a892531fccb4e63d6503a87a6a",
+        "size_bytes": 771
+      },
+      "snapshot_path": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces/negative-maximum-172c58e91373/snapshots/003-independent",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.21278793399869755,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "cb3267eeb52f4b2490e9151a20bf7f7b",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:39.905641+00:00",
+          "finished_at": "2026-10-20T06:59:40.118439+00:00",
+          "stdout": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "stderr": "",
+          "stdout_bytes": 356,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/cb3267eeb52f4b2490e9151a20bf7f7b/stdout.bin",
+            "sha256": "d344fac45b9c6fcd371df293c0f3852db4bab0fc3d61c8723eac0ebb8ebdc965",
+            "size_bytes": 356
+          },
+          "stderr_log": {
+            "path": "logs/cb3267eeb52f4b2490e9151a20bf7f7b/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 213
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5918414930001745,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "d8379a16ec0d4eccbc1349e6458541ad",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:40.146720+00:00",
+          "finished_at": "2026-10-20T06:59:40.738574+00:00",
+          "stdout": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "stderr": "",
+          "stdout_bytes": 283,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/d8379a16ec0d4eccbc1349e6458541ad/stdout.bin",
+            "sha256": "028e4b8c5adb0d1fbdef64a7a5ec1084158e10bd9d0d9426aa6f1efc286533fc",
+            "size_bytes": 283
+          },
+          "stderr_log": {
+            "path": "logs/d8379a16ec0d4eccbc1349e6458541ad/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 592
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(negative_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+          "duration_seconds": 0.09181890999934694,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "3c73d888370446e9b0dc466ab4532f5b",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:40.766663+00:00",
+          "finished_at": "2026-10-20T06:59:40.858492+00:00",
+          "stdout": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+          "stderr": "",
+          "stdout_bytes": 199,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/3c73d888370446e9b0dc466ab4532f5b/stdout.bin",
+            "sha256": "9c31a1cf6d7ea8c7c808cecb5dca9f2e94c1bdef89548cdf3d59f73e2af2b22f",
+            "size_bytes": 199
+          },
+          "stderr_log": {
+            "path": "logs/3c73d888370446e9b0dc466ab4532f5b/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 92
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(negative_values|positive_values|empty_values|mixed_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 1: negative_values\n1/4 Test #1: negative_values ..................   Passed    0.00 sec\n    Start 2: positive_values\n2/4 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n3/4 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n4/4 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 4\n\nTotal Test time (real) =   0.01 sec\n",
+          "duration_seconds": 0.09076348400049028,
+          "timed_out": false,
+          "output_truncated": false,
+          "status": "exited",
+          "command_id": "7e52d930a5744a2fbb518d19bb97cafc",
+          "cwd": "/build",
+          "started_at": "2026-10-20T06:59:40.887716+00:00",
+          "finished_at": "2026-10-20T06:59:40.978492+00:00",
+          "stdout": "Test project /build\n    Start 1: negative_values\n1/4 Test #1: negative_values ..................   Passed    0.00 sec\n    Start 2: positive_values\n2/4 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n3/4 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n4/4 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 4\n\nTotal Test time (real) =   0.01 sec\n",
+          "stderr": "",
+          "stdout_bytes": 487,
+          "stderr_bytes": 0,
+          "stdout_log": {
+            "path": "logs/7e52d930a5744a2fbb518d19bb97cafc/stdout.bin",
+            "sha256": "844e52343aaad852d3af278bc9697d5a1965277c60ac9b97ff7cdb497c641481",
+            "size_bytes": 487
+          },
+          "stderr_log": {
+            "path": "logs/7e52d930a5744a2fbb518d19bb97cafc/stderr.bin",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size_bytes": 0
+          },
+          "container_id": "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce",
+          "cleanup_confirmed": false,
+          "error_code": null,
+          "error": null,
+          "truncated": false,
+          "exit_code": 0,
+          "duration_ms": 91
+        }
+      ],
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-8c214a3397004ac8ace15151b1438ec0",
+      "container_id": "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce",
+      "preflight": {
+        "argv": [
+          "/bin/sh",
+          "-ec",
+          "command -v cmake; command -v ctest; command -v c++; command -v cat; command -v timeout; /usr/bin/sleep --version; cmake --version; ctest --version"
+        ],
+        "returncode": 0,
+        "output": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "duration_seconds": 0.09297147699908237,
+        "timed_out": false,
+        "output_truncated": false,
+        "status": "exited",
+        "command_id": "4ddb3c60c85542fd8a77529469dfb030",
+        "cwd": "/build",
+        "started_at": "2026-10-20T06:59:39.778461+00:00",
+        "finished_at": "2026-10-20T06:59:39.871443+00:00",
+        "stdout": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+        "stderr": "",
+        "stdout_bytes": 574,
+        "stderr_bytes": 0,
+        "stdout_log": {
+          "path": "logs/4ddb3c60c85542fd8a77529469dfb030/stdout.bin",
+          "sha256": "35c88820c212b647f9946c5d54df0c3b74cd65e73cbd39dec611067aea3f528e",
+          "size_bytes": 574
+        },
+        "stderr_log": {
+          "path": "logs/4ddb3c60c85542fd8a77529469dfb030/stderr.bin",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "container_id": "ea95921985003585047f5a04c362b3040100b5355325fd9cb0431deee6b2b5ce",
+        "cleanup_confirmed": false,
+        "error_code": null,
+        "error": null,
+        "truncated": false,
+        "exit_code": 0,
+        "duration_ms": 93
+      },
+      "cleanup_confirmed": true,
+      "cleanup_error": null
+    }
+  ],
+  "model_steps": 5,
+  "tool_calls": 4,
+  "reproduced": true,
+  "verified": true,
+  "artifact_directory": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/runs/negative-maximum-172c58e91373",
+  "workspace_directory": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces/negative-maximum-172c58e91373",
+  "model": {
+    "adapter": "MockModel",
+    "name": null
+  },
+  "task": {
+    "version": 2,
+    "id": "negative-maximum",
+    "repository": {
+      "path": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo",
+      "commit": "19bdb900e8f5b3da216ce42f22d54f1c0b88d597"
+    },
+    "environment": {
+      "image": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "platform": "linux/amd64",
+      "cpu_limit": 2.0,
+      "memory_mib": 2048,
+      "pids_limit": 128,
+      "build_tmpfs_mib": 1024
+    },
+    "bug": {
+      "description": "修复 maximum_sample 对非空全负输入返回 0 的错误，保留空输入与完整 int 值域的行为。"
+    },
+    "commands": {
+      "configure": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/build",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "build": [
+        "cmake",
+        "--build",
+        "/build",
+        "--parallel",
+        "2"
+      ],
+      "reproduce": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ],
+      "verify": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ]
+    },
+    "tests": {
+      "fail_to_pass": [
+        {
+          "name": "negative_values",
+          "expected_exit_code": 8,
+          "output_contains": "expected -3, got 0"
+        }
+      ],
+      "pass_to_pass": [
+        "positive_values",
+        "empty_values",
+        "mixed_values"
+      ],
+      "protected_paths": [
+        "CMakeLists.txt",
+        "tests/"
+      ]
+    },
+    "files": {
+      "readable": [
+        "CMakeLists.txt",
+        "src/",
+        "tests/"
+      ],
+      "editable": [
+        "src/stats.cpp"
+      ]
+    },
+    "budget": {
+      "max_steps": 12,
+      "max_tool_calls": 80,
+      "wall_seconds": 900,
+      "verification_reserve_seconds": 240,
+      "model_timeout_seconds": 60,
+      "command_timeout_seconds": 120,
+      "max_output_tokens": 2048
+    },
+    "workspace": {
+      "root": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces",
+      "retain": "on_failure"
+    },
+    "outputs": {
+      "root": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/runs"
+    }
+  },
+  "task_sha256": "106c2a7aa99d75312ab069dfa348b16d10675a151f74f4603c2ad8e582901eeb",
+  "candidate": {
+    "base_commit": "19bdb900e8f5b3da216ce42f22d54f1c0b88d597",
+    "patch": {
+      "path": "patch.diff",
+      "sha256": "99bee26c8894e0b46d04928cfc018c19a804784dd83aa25927c3f72a25e911fe",
+      "size_bytes": 467
+    },
+    "manifest": {
+      "path": "candidate.manifest.json",
+      "sha256": "eea3ef72642e555088f8effab042e4ee69ef02a892531fccb4e63d6503a87a6a",
+      "size_bytes": 771
+    },
+    "source_tree_sha256": "3ac4104a0e12d3da436da6616a635c337d1f3cc36defa149b90dd176cfd67c01",
+    "changed_files": [
+      "src/stats.cpp"
+    ]
+  },
+  "candidate_roundtrip_verified": true,
+  "task_source_sha256": "9c54905a83110b28dd43a4b8b13a6a0115b2329104b69422ca5d2c9510d7040e",
+  "workspaces": [
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces/negative-maximum-172c58e91373/repair",
+      "commit": "19bdb900e8f5b3da216ce42f22d54f1c0b88d597",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo/.git/worktrees/repair",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        756780
+      ],
+      "git_dir_identity": [
+        2096,
+        756778
+      ],
+      "common_dir_identity": [
+        2096,
+        756716,
+        1000
+      ],
+      "git_pointer_sha256": "369bc2bdd37fbac40679cfd8a6f6e2965e8c3dc7b020881be8cb81b95b8ae415",
+      "manager_pointer_sha256": "1513b6071f37e620234d79f382810d2fa0bf3905b716f8b9a2c012ed2b90dcb9"
+    },
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/workspaces/negative-maximum-172c58e91373/validation",
+      "commit": "19bdb900e8f5b3da216ce42f22d54f1c0b88d597",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo/.git/worktrees/validation",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/c37310a05b244ffd835da6489ed32d07/test_docker_cpp_end_to_end0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        756829
+      ],
+      "git_dir_identity": [
+        2096,
+        756827
+      ],
+      "common_dir_identity": [
+        2096,
+        756716,
+        1000
+      ],
+      "git_pointer_sha256": "943d2ad205a6d7fabeacc509ebfd038352235bca57e6fa90b7df467d0fd5704a",
+      "manager_pointer_sha256": "516867aa12dc5e7990a1b7f0f991d42528c5e3a7739a7362a4cc8915cd6802bb"
+    }
+  ],
+  "baseline_manifest": {
+    "path": "baseline.manifest.json",
+    "sha256": "eef209d193c3b7cb7b763a446886cd72238fd6d760bcc037983da1cf4c5706d5",
+    "size_bytes": 771
+  },
+  "model_summary": "Initialize the maximum from the first element after the empty-input guard.",
+  "duration_seconds": 6.086279589000696,
+  "model_usage": [],
+  "patch_sha256": "99bee26c8894e0b46d04928cfc018c19a804784dd83aa25927c3f72a25e911fe",
+  "cleanup_errors": [],
+  "cleanup_confirmed": true
+}

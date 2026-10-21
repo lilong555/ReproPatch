@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "test_scope": "not docker",
+  "tests_passed": 358,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "wheel_sha256": "cf319cf37682b19022f62b134cfa97163013aada8ecc7cce41f692664cff7197",
+  "command": {
+    "name": "installed-all",
+    "argv": [
+      "/home/li/repropatch/.repropatch/wheel-rc1-final-agent/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "/home/li/repropatch/tests",
+      "-m",
+      "not docker",
+      "-v",
+      "--junitxml=/home/li/repropatch/docs/evidence/p1-08/installed-all/results.xml"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  "real_model_verified": false
+}

@@ -1,0 +1,43 @@
+{
+  "reports": [
+    {
+      "report": "runs/test_docker_cpp_end_to_end0/negative-maximum-a2a34cfeaa5a/report.json",
+      "status": "passed",
+      "isolated": true,
+      "base_commit": "110b4da26dea449ebc380ec68b390f167856d1a9",
+      "phases": [
+        "baseline",
+        "agent-check",
+        "independent"
+      ]
+    },
+    {
+      "report": "runs/test_docker_wrong_patch_is_rej0/negative-maximum-149ce0e00cb5/report.json",
+      "status": "failed",
+      "isolated": true,
+      "base_commit": "eef810b3329a64e543dc860c8c362e921cc276b0",
+      "phases": [
+        "baseline",
+        "independent"
+      ]
+    }
+  ],
+  "containers": {
+    "repropatch-c58c1200d48441ffb43b045a0557dab2": {
+      "removed": true
+    },
+    "repropatch-0e2cae7cd11f45ab932337ea2eb829bb": {
+      "removed": true
+    },
+    "repropatch-44c74045f30a45dda697a14e6cc00584": {
+      "removed": true
+    },
+    "repropatch-dab00e9cc41a479196c466f4ffe3e2e4": {
+      "removed": true
+    },
+    "repropatch-03de27c107db4ba8b4c542a4c84f046f": {
+      "removed": true
+    }
+  },
+  "all_report_containers_removed": true
+}

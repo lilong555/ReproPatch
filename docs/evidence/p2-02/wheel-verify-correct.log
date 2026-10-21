@@ -1,0 +1,1 @@
+{"run_id":"2faf9104f5004048af86a923483bd7d0","task_id":"negative-maximum","input_mode":"verify-patch","state":"FINISHED","outcome":"ACCEPTED","reason_code":"VERIFICATION_PASSED","paused":false,"artifact_dir":"/home/li/repropatch/docs/evidence/p2-02/installed-verify/correct/2faf9104f5004048af86a923483bd7d0","artifacts_complete":true,"command_error":null}

@@ -1,0 +1,130 @@
+{
+  "started_at": "2026-10-20T07:40:37.543816+00:00",
+  "wheel_sha256": "cd958dfa69a77a1ecb5640bd4ec96a09eb5a952dd760a004e68c13a652518743",
+  "commands": [
+    {
+      "name": "wheel-import",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/python",
+        "-I",
+        "-c",
+        "import pathlib,sys,repropatch; assert pathlib.Path(repropatch.__file__).is_relative_to(sys.prefix); assert repropatch.__version__=='0.2.0.dev4'; from repropatch.verification import verify_candidate,parse_junit; assert 'agents' not in sys.modules and 'openai' not in sys.modules and 'repropatch.models' not in sys.modules; print(repropatch.__file__)"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    },
+    {
+      "name": "wheel-version",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/repropatch",
+        "--version"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    },
+    {
+      "name": "wheel-help",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/repropatch",
+        "verify-patch",
+        "--help"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    },
+    {
+      "name": "wheel-doctor",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/repropatch",
+        "doctor",
+        "--image",
+        "repropatch-cpp:0.1",
+        "--json"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    },
+    {
+      "name": "wheel-validate-task",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/repropatch",
+        "validate-task",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    },
+    {
+      "name": "wheel-verify-correct",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['repropatch.models']=None; sys.modules['agents']=None; sys.modules['openai']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "verify-patch",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--patch",
+        "/home/li/repropatch/examples/patches/negative-maximum.correct.patch",
+        "--producer",
+        "fixture",
+        "--producer-trace",
+        "/home/li/repropatch/.repropatch/p106-installed.trace",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p1-06/installed-verify/correct",
+        "--json"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    },
+    {
+      "name": "wheel-verify-wrong",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['repropatch.models']=None; sys.modules['agents']=None; sys.modules['openai']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "verify-patch",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--patch",
+        "/home/li/repropatch/examples/patches/negative-maximum.wrong.patch",
+        "--producer",
+        "fixture",
+        "--producer-trace",
+        "/home/li/repropatch/.repropatch/p106-installed.trace",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p1-06/installed-verify/wrong",
+        "--json"
+      ],
+      "expected_returncode": 1,
+      "returncode": 1
+    },
+    {
+      "name": "wheel-run",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev4-smoke/bin/repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--model",
+        "mock",
+        "--script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p1-06/installed-auto"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0
+    }
+  ],
+  "status": "passed",
+  "finished_at": "2026-10-20T07:40:59.942941+00:00",
+  "python_version": "3.12.15",
+  "core_dependencies": [
+    "PyYAML==6.0.3"
+  ],
+  "sdk_and_models_import_blocked_for_verify": true,
+  "reports": [
+    "installed-verify/correct/16a05324fb8647a1ab9f0badbb2bce31/report.json",
+    "installed-verify/wrong/85f186e7f13d49b5bb8a9f584ec56dd8/report.json",
+    "installed-auto/0c5c2f2d3d9a4c92afbe82a8027063d8/report.json"
+  ]
+}

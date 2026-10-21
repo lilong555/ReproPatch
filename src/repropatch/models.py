@@ -1,174 +1,206 @@
-"""Interchangeable model protocol; scripted tests never use a paid service."""
+"""公开 SDK 模型构造与有界原生测试脚本。"""
 
 import json
+import logging
+import math
 import os
-import urllib.error
-import urllib.request
-from dataclasses import dataclass, field
+import re
+import stat
+from contextlib import asynccontextmanager
+from dataclasses import dataclass
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import Protocol
 from urllib.parse import urlsplit
 
 from .errors import ReproPatchError
 
-
-@dataclass
-class ToolCall:
-    id: str
-    name: str
-    arguments: dict
+SDK_VERSIONS = {"openai-agents": "0.24.0", "openai": "3.35.1"}
 
 
-@dataclass
-class Turn:
-    text: str = ""
-    calls: list[ToolCall] = field(default_factory=list)
-
-    def message(self) -> dict:
-        message = {"role": "assistant", "content": self.text or None}
-        if self.calls:
-            message["tool_calls"] = [
-                {
-                    "id": c.id,
-                    "type": "function",
-                    "function": {"name": c.name, "arguments": json.dumps(c.arguments)},
-                }
-                for c in self.calls
-            ]
-        return message
-
-
-class Model(Protocol):
-    def complete(self, messages: list[dict], tools: list[dict]) -> Turn: ...
-
-
-class MockModel:
-    """A deterministic script, deliberately not a simulated intelligent repairer."""
-
-    def __init__(self, actions: list[dict]):
-        self.actions = iter(actions)
-        self.index = 0
-
-    @classmethod
-    def load(cls, path: Path):
-        if path.stat().st_size > 256_000:
-            raise ReproPatchError("Mock script exceeds 256 KB")
+def prepare_sdk():
+    """仅在显式使用 SDK 时加载可选依赖，并关闭外发追踪与供应商日志。"""
+    for package, expected in SDK_VERSIONS.items():
         try:
-            actions = json.loads(path.read_text())
-        except (ValueError, OSError) as exc:
-            raise ReproPatchError("Invalid mock script") from exc
-        if not isinstance(actions, list) or len(actions) > 100:
-            raise ReproPatchError("Mock script must be a list of at most 100 actions")
-        return cls(actions)
+            installed = version(package)
+        except PackageNotFoundError:
+            raise ReproPatchError("ENGINE_DEPENDENCY_MISSING：请安装 repropatch[agent]") from None
+        if installed != expected:
+            raise ReproPatchError(f"SDK_VERSION_MISMATCH：{package} 必须为 {expected}")
+    # 只配置公开日志接口；即使宿主启用 DEBUG，也不输出请求、响应或异常体。
+    for name in ("openai.agents", "openai._base_client", "openai._client", "httpx2"):
+        logging.getLogger(name).disabled = True
+    os.environ["OPENAI_AGENTS_DONT_LOG_MODEL_DATA"] = "1"
+    os.environ["OPENAI_AGENTS_DONT_LOG_TOOL_DATA"] = "1"
+    from agents import set_tracing_disabled
 
-    def complete(self, messages, tools):
-        self.index += 1
-        action = next(self.actions, {"finish": "Script complete"})
-        if not isinstance(action, dict):
-            raise ReproPatchError("Mock action must be an object")
-        if "finish" in action:
-            return Turn(text=str(action["finish"]))
-        return Turn(
-            calls=[
-                ToolCall(f"mock-{self.index}", action.get("tool", ""), action.get("arguments", {}))
-            ]
-        )
+    set_tracing_disabled(True)
 
 
-class OpenAICompatibleModel:
-    """Host-side Chat Completions tool calling. Never mounted into the sandbox."""
+def positive_timeout(value):
+    """取消期限必须为有限正数。"""
+    if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
+        raise ReproPatchError("SDK timeout 必须为有限正数")
+    return value
 
-    def __init__(
-        self,
-        model: str,
-        *,
-        base_url: str = "https://api.openai.com/v1",
-        key_env: str = "OPENAI_API_KEY",
-        allow_paid: bool = False,
+
+def validate_model_options(model_name, base_url, key_env, allow_paid):
+    """在创建 Run 前审核不会含秘密的模型配置。"""
+    if allow_paid is not True:
+        raise ReproPatchError("PAID_MODEL_CONSENT_REQUIRED：真实模型必须显式授权")
+    if not isinstance(model_name, str) or not re.fullmatch(
+        r"[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}", model_name
     ):
-        if not allow_paid:
-            raise ReproPatchError("Paid model use requires explicit --allow-paid-model consent")
-        try:
-            endpoint = urlsplit(base_url)
-        except ValueError as exc:
-            raise ReproPatchError("Invalid model endpoint") from exc
+        raise ReproPatchError("必须显式提供有效模型名")
+    if not isinstance(key_env, str) or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", key_env):
+        raise ReproPatchError("无效的模型凭据环境变量名")
+    try:
+        endpoint = urlsplit(base_url)
+        valid_port = endpoint.port
+    except (ValueError, TypeError):
+        raise ReproPatchError("无效的模型端点") from None
+    if (
+        not isinstance(base_url, str)
+        or endpoint.scheme != "https"
+        or not endpoint.hostname
+        or endpoint.username is not None
+        or endpoint.password is not None
+        or endpoint.query
+        or endpoint.fragment
+        or any(ord(char) <= 32 or ord(char) == 127 for char in base_url)
+        or "\\" in base_url
+        or valid_port == 0
+    ):
+        raise ReproPatchError("模型端点必须为不含凭据、查询或片段的 HTTPS URL")
+
+
+@asynccontextmanager
+async def responses_model(
+    model_name: str,
+    *,
+    model_timeout: float,
+    allow_paid: bool = False,
+    base_url: str = "https://api.openai.com/v1",
+    key_env: str = "OPENAI_API_KEY",
+    use_env_proxy: bool = False,
+    http_client=None,
+):
+    """构造公开 Responses 模型；凭据仅属于客户端，退出时关闭所属传输。"""
+    validate_model_options(model_name, base_url, key_env, allow_paid)
+    if type(use_env_proxy) is not bool:
+        raise ReproPatchError("use_env_proxy 必须为布尔值")
+    positive_timeout(model_timeout)
+    prepare_sdk()
+    key = os.environ.get(key_env, "")
+    if not key or key.strip() != key or any(ord(c) <= 32 or ord(c) >= 127 for c in key):
+        raise ReproPatchError("MODEL_CREDENTIAL_MISSING：指定环境变量须含有效凭据")
+    from agents import OpenAIResponsesModel
+    from httpx2 import AsyncClient
+    from openai import AsyncOpenAI
+
+    transport = http_client or AsyncClient(trust_env=use_env_proxy, follow_redirects=False)
+    async with AsyncOpenAI(
+        api_key=key,
+        base_url=base_url,
+        timeout=model_timeout,
+        max_retries=0,
+        http_client=transport,
+    ) as client:
+        yield OpenAIResponsesModel(model=model_name, openai_client=client)
+
+
+def raw_token_usage(response) -> dict[str, int | None]:
+    """只读取公开 raw_usage；SDK 累计器的缺省零不代表已观测消耗。"""
+    raw = response.raw_usage
+    return {
+        key: raw[key]
+        if isinstance(raw, dict) and type(raw.get(key)) is int and raw[key] >= 0
+        else None
+        for key in ("input_tokens", "output_tokens", "total_tokens")
+    }
+
+
+def load_sdk_script(path: Path, *, with_source=False):
+    """将有限的原生 JSON 转为公开 ScriptedModel；不加载代码或故障表达式。"""
+
+    def pairs(values):
+        result = {}
+        for key, value in values:
+            if key in result:
+                raise ValueError("重复键")
+            result[key] = value
+        return result
+
+    def reject_constant(_):
+        raise ValueError("非有限数字")
+
+    try:
+        descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        with os.fdopen(descriptor, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise ValueError("不是普通文件")
+            content = stream.read(256_001)
+        if len(content) > 256_000:
+            raise ValueError("超限")
+        script = json.loads(content, object_pairs_hook=pairs, parse_constant=reject_constant)
         if (
-            endpoint.scheme != "https"
-            or not endpoint.hostname
-            or endpoint.username
-            or endpoint.query
-            or endpoint.fragment
+            not isinstance(script, dict)
+            or set(script) != {"version", "steps"}
+            or type(script["version"]) is not int
+            or script["version"] != 1
+            or not isinstance(script["steps"], list)
+            or not 1 <= len(script["steps"]) <= 100
         ):
-            raise ReproPatchError("Model base URL must be HTTPS without credentials/query")
-        self.key = os.environ.get(key_env, "")
-        if not self.key:
-            raise ReproPatchError(f"Model key environment variable {key_env} is unset")
-        self.model = model
-        self.url = base_url.rstrip("/") + "/chat/completions"
-        self.usage: list[dict] = []
+            raise ValueError("无效脚本结构")
+    except (OSError, ValueError, TypeError, RecursionError):
+        raise ReproPatchError("INVALID_SDK_SCRIPT：需要有界普通 JSON 脚本") from None
+    prepare_sdk()
+    from agents import Usage
+    from agents.testing import ModelStep, ScriptedModel
+    from openai.types.responses import ResponseFunctionToolCall, ResponseOutputMessage
 
-    def complete(self, messages, tools):
-        body = json.dumps(
-            {
-                "model": self.model,
-                "messages": messages,
-                "tools": tools,
-                "max_completion_tokens": 2048,
-            }
-        ).encode()
-        if len(body) > 1_000_000:
-            raise ReproPatchError("Model context budget exceeded")
-        request = urllib.request.Request(
-            self.url,
-            data=body,
-            headers={"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"},
-        )
-
-        # Reject redirects: never forward an API credential to another endpoint.
-        class NoRedirect(urllib.request.HTTPRedirectHandler):
-            def redirect_request(self, req, fp, code, msg, headers, newurl):
-                return None
-
-        try:
-            opener = urllib.request.build_opener(NoRedirect())
-            with opener.open(request, timeout=60) as response:
-                raw = response.read(1_000_001)
-            if len(raw) > 1_000_000:
-                raise ReproPatchError("Model response exceeds 1 MB")
-
-            def reject_constant(value):
-                raise ValueError("Non-finite JSON number")
-
-            payload = json.loads(raw, parse_constant=reject_constant)
-            choice = payload["choices"][0]
-            if choice.get("finish_reason") not in {"stop", "tool_calls"}:
-                raise ReproPatchError("Model response is incomplete")
-            message = choice["message"]
-            calls = message.get("tool_calls", [])
-            if not isinstance(calls, list) or len(calls) > 8:
-                raise ReproPatchError("Model returned too many tool calls")
-            self.usage.append(payload.get("usage", {}))
-            parsed = [
-                ToolCall(c["id"], c["function"]["name"], json.loads(c["function"]["arguments"]))
-                for c in calls
-            ]
-            if any(
-                not isinstance(c.id, str)
-                or not c.id
-                or len(c.id) > 128
-                or not isinstance(c.name, str)
-                or not c.name
-                or len(c.name) > 128
-                for c in parsed
+    types = {"message": ResponseOutputMessage, "function_call": ResponseFunctionToolCall}
+    steps = []
+    try:
+        for step in script["steps"]:
+            if (
+                not isinstance(step, dict)
+                or not {"output"} <= set(step) <= {"output", "usage"}
+                or not isinstance(step["output"], list)
+                or len(step["output"]) > 32
             ):
-                raise ReproPatchError("Invalid model tool call identity")
-            if len({c.id for c in parsed}) != len(parsed):
-                raise ReproPatchError("Duplicate model tool call IDs")
-            content = message.get("content") or ""
-            if not isinstance(content, str):
-                raise ReproPatchError("Model content must be text")
-            return Turn(content, parsed)
-        except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            raise ReproPatchError("Model request failed; check endpoint and credentials") from exc
-        except (ValueError, KeyError, IndexError, TypeError) as exc:
-            raise ReproPatchError("Malformed model response") from exc
+                raise ValueError("无效步骤")
+            output = []
+            for item in step["output"]:
+                if not isinstance(item, dict) or item.get("type") not in types:
+                    raise ValueError("不支持的原生项")
+                output.append(types[item["type"]].model_validate(item, strict=True, extra="forbid"))
+            usage = step.get("usage")
+            if "usage" in step and (
+                not isinstance(usage, dict)
+                or not set(usage) <= {"input_tokens", "output_tokens", "total_tokens"}
+                or any(type(v) is not int or v < 0 for v in usage.values())
+            ):
+                raise ValueError("无效合成用量")
+            steps.append(
+                ModelStep(output=output, usage=Usage(requests=1, **(usage or {})), raw_usage=usage)
+            )
+    except (ValueError, TypeError, KeyError, RecursionError):
+        raise ReproPatchError("INVALID_SDK_SCRIPT：无效原生输出或合成用量") from None
+    model = ScriptedModel(steps=steps, emit_traces=False)
+    return (model, content) if with_source else model
+
+
+@dataclass(frozen=True)
+class ResponsesConfig:
+    """宿主模型配置；不持有凭据或实现模型协议。"""
+
+    model: str
+    url: str
+    key_env: str
+    allow_paid: bool
+    use_env_proxy: bool = False
+
+    def __post_init__(self):
+        validate_model_options(self.model, self.url, self.key_env, self.allow_paid)
+        if type(self.use_env_proxy) is not bool:
+            raise ReproPatchError("use_env_proxy 必须为布尔值")

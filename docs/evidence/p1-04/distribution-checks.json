@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "wheel_and_sdist_sha256": {
+    "repropatch-0.2.0.dev5-py3-none-any.whl": "722fdee6f2bcca37724f3b1c1940b0d1353bcb3b9b2af7a3c2514953ae4e9cd7",
+    "repropatch-0.2.0.dev5.tar.gz": "a5f2e2fdc731b5aab40f5c33eb26038a4a4d1083a71eee6c934813d7933fc481"
+  },
+  "sdist_current_source_verified": true,
+  "sdist_dependency_lock_and_contract_tests_verified": true
+}

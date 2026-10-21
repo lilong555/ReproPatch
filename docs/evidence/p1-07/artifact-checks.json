@@ -1,0 +1,120 @@
+{
+  "status": "passed",
+  "implementation_sha256": "2cd2f5d2d6664e7a54b0524f0e0379025de597e6bfaf162cdf4849b1ab2c104f",
+  "tests": {
+    "core": 250,
+    "sdk": 97,
+    "docker": 18,
+    "installed-sdk": 97
+  },
+  "unique_test_cases": 365,
+  "source_manifests_verified": {
+    "sdk-contract": 38,
+    "installed-sdk": 38,
+    "docker-gate": 48
+  },
+  "original_spec_files_verified": 16,
+  "wheel_source_matches": true,
+  "reports": [
+    {
+      "report": "docker-gate/runs/test_docker_cpp_end_to_end0/302e7e68c3b4447bb156b8551025ffee/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 131,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_docker_roundtrip_preserve0/9c47bbed8ad2484c995a2df6b8738b31/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 131,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_docker_wrong_patch_is_rej0/f2577d7ddea64c2aa7c9834d0f9b4c70/report.json",
+      "outcome": "REJECTED",
+      "events_last_seq": 83,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_bas0/1988c5e301674e529ac24cbdb43f0137/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 73,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_bas1/0ef140ac7d2e4a3dafcbbf77e64c3fa7/report.json",
+      "outcome": "REJECTED",
+      "events_last_seq": 73,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_lit0/2f192825ccc647d1bd26ff8ac7105d48/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 73,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_ref0/15a77ef051394785804ba7c81099f2ff/report.json",
+      "outcome": "REJECTED",
+      "events_last_seq": 73,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_external_patch_docker_ref1/a61734706af545179f7ae74b1974ddaf/report.json",
+      "outcome": "REJECTED",
+      "events_last_seq": 55,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_sdk_shell_and_budget_real0/f8b6b43a5a0b422c91886e9236e97d31/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 94,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_sdk_shell_and_budget_real1/42a86d3afc064d3cbc3c0df3086106fc/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 94,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "docker-gate/runs/test_sdk_shell_and_budget_real2/6a8b77db81174034a18fa5970479ad68/report.json",
+      "outcome": "BUDGET_EXHAUSTED",
+      "events_last_seq": 43,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "installed-auto/3d806c0bbde645aaaa6d7c5cf954889d/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 131,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "installed-verify/correct/7a96522389b44fb7a967be9f08238f0e/report.json",
+      "outcome": "ACCEPTED",
+      "events_last_seq": 73,
+      "evidence_verified": true,
+      "exports_verified": true
+    },
+    {
+      "report": "installed-verify/wrong/2b651bda0e97411da632065435a51df4/report.json",
+      "outcome": "REJECTED",
+      "events_last_seq": 73,
+      "evidence_verified": true,
+      "exports_verified": true
+    }
+  ],
+  "containers_removed_verified": 40,
+  "sandbox_raw_logs_verified": 20
+}

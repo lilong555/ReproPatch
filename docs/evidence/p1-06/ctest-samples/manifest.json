@@ -1,0 +1,42 @@
+{
+  "CMakeLists.txt": {
+    "sha256": "1112227c12f6d7eada82c0c2492ddfd649cd62d7716e810f995f74b505622808",
+    "size_bytes": 765
+  },
+  "crashed.xml": {
+    "sha256": "295eb822cafc45c1c294acffaa02385102a19f97bc05c7608b851c94252dca90",
+    "size_bytes": 356
+  },
+  "disabled.xml": {
+    "sha256": "5ac48ba6a5af61d5e3e25263d0d1b03bd11f25c2267e43d3f77cb3fbd18cb51d",
+    "size_bytes": 330
+  },
+  "failed.xml": {
+    "sha256": "0bc0f1cf80ba970206f8e7c9c87ee34b8ae077969158034dd6633cff202a2f76",
+    "size_bytes": 369
+  },
+  "inventory.json": {
+    "sha256": "b9fd58674e51f9f546187f866257910be9b80f482a63bb2340ef30ae4924d030",
+    "size_bytes": 3933
+  },
+  "passed.xml": {
+    "sha256": "30b01a1f88b1f01360e4ef977fa52b2f2165b8a6c0d1a03bd67a735e2e05eea3",
+    "size_bytes": 322
+  },
+  "provenance.json": {
+    "sha256": "982ce94343cb3fb349b2141b6ba8492e3455553ab2e8cd1ef284d617b55ca3c0",
+    "size_bytes": 44264
+  },
+  "skipped.xml": {
+    "sha256": "4b56e5e85ad47ca9903ac13a645c0ac347489e3642b1b93f1c029dc251353165",
+    "size_bytes": 369
+  },
+  "timed_out.xml": {
+    "sha256": "fdb1f4c03ce32b9fc381712c50a20a8115226015a40fcff89c24467ef2ff3a6d",
+    "size_bytes": 359
+  },
+  "will_fail.xml": {
+    "sha256": "63f6222dee8ac36434def57c5245f9284d98b08fe7399299bea0023c0384d862",
+    "size_bytes": 328
+  }
+}

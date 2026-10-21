@@ -1,0 +1,7 @@
+All four tests pass after the fix.
+
+**Defect:** in `src/stats.cpp`, the running maximum was initialized to `0`. For a non-empty all-negative series (e.g. `{-8,-3,-17}`) no element ever exceeded `0`, so the function wrongly returned `0`.
+
+**Repair (single line):** initialize `best` from `samples.front()` after the emptiness check. This makes the result correct for any sign mix, still returns `std::nullopt` for empty input (existing early return unchanged), and avoids any sentinel, so it is correct across the whole `int` range (including `INT_MIN`).
+
+Verification (`verify`): `negative_values` (F2P) passed, and the P2P tests `positive_values`, `empty_values`, `mixed_values` all still pass. Only `src/stats.cpp` was edited.

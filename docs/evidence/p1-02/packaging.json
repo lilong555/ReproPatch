@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-10-20T04:57:47.400177+00:00",
+  "wheel_sha256": "d4603f8b32dbad140df293679535d17f2bcfe824883d0871fe1b9239ebd88a0a",
+  "commands": [
+    {
+      "name": "wheel-import",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-v2-final-smoke/bin/python",
+        "-I",
+        "-c",
+        "import pathlib,sys,repropatch; assert pathlib.Path(repropatch.__file__).is_relative_to(sys.prefix); assert repropatch.__version__=='0.2.0.dev1'; from repropatch.task import Task,resolve_task; from repropatch.workspace import git_blob; assert 'agents' not in sys.modules; print(repropatch.__file__)"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-version",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-v2-final-smoke/bin/repropatch",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-help",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-v2-final-smoke/bin/repropatch",
+        "run",
+        "--help"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-doctor",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-v2-final-smoke/bin/repropatch",
+        "doctor",
+        "--image",
+        "repropatch-cpp:0.1",
+        "--json"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-validate-task",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-v2-final-smoke/bin/repropatch",
+        "validate-task",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wheel-run",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-v2-final-smoke/bin/repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--model",
+        "mock",
+        "--script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p1-02/installed-cli"
+      ],
+      "returncode": 0
+    }
+  ],
+  "status": "passed",
+  "finished_at": "2026-10-20T04:57:52.179553+00:00",
+  "report": "installed-cli/negative-maximum-dde826180381/report.json",
+  "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180"
+}

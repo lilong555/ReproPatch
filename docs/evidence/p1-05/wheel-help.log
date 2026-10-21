@@ -1,0 +1,15 @@
+usage: repropatch verify-patch [-h] --patch PATCH [--producer PRODUCER]
+                               [--producer-trace PRODUCER_TRACE]
+                               [--output-root OUTPUT_ROOT] [--json]
+                               task
+
+positional arguments:
+  task
+
+options:
+  -h, --help            show this help message and exit
+  --patch PATCH
+  --producer PRODUCER
+  --producer-trace PRODUCER_TRACE
+  --output-root OUTPUT_ROOT
+  --json

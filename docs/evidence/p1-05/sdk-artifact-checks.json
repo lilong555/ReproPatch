@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "evidence": "sdk-contract",
+      "tests_passed": 97,
+      "source_manifest_verified": true,
+      "packages": {
+        "openai-agents": "0.24.0",
+        "openai": "3.35.1",
+        "httpx2": "2.15.1",
+        "pydantic": "2.14.1",
+        "pytest": "9.1.1"
+      }
+    },
+    {
+      "evidence": "installed-sdk",
+      "tests_passed": 97,
+      "source_manifest_verified": true,
+      "packages": {
+        "openai-agents": "0.24.0",
+        "openai": "3.35.1",
+        "httpx2": "2.15.1",
+        "pydantic": "2.14.1",
+        "pytest": "9.1.1"
+      }
+    }
+  ],
+  "wheel_sha256": "4c6259a9c47dcdd09407ca9d45493520a00f1d71b9f5a9f2c9d3318d8d46c736",
+  "installed_wheel_identity_matches": true,
+  "synthetic_keys_absent_from_logs": true,
+  "test_cases_by_module": {
+    "tests.test_models_cli": 6,
+    "tests.test_process_sandbox": 11,
+    "tests.test_runtime_lifecycle": 29,
+    "tests.test_sdk_optional": 32,
+    "tests.test_source_integrity": 36,
+    "tests.test_task": 66,
+    "tests.test_verification": 57,
+    "tests.test_workspace_tools": 9,
+    "tests.test_agent_runtime": 19,
+    "tests.test_harness": 18,
+    "tests.test_sdk_contract": 43,
+    "tests.test_docker_integration": 18
+  }
+}

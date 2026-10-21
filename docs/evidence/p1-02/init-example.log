@@ -1,0 +1,1 @@
+{"repository": "/home/li/repropatch/examples/cpp-bugs", "commit": "075a19d1b097d96df3550d2f08d20a0076705210", "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a", "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180", "task": "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml"}

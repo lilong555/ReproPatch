@@ -1,0 +1,1 @@
+{"run_id":"db2c73de8db54460ae7502651a9df848","task_id":"negative-maximum","input_mode":"verify-patch","state":"FINISHED","outcome":"REJECTED","reason_code":"F2P_FAILED","paused":false,"artifact_dir":"/home/li/repropatch/docs/evidence/p1-05/installed-verify/wrong/db2c73de8db54460ae7502651a9df848","artifacts_complete":true,"command_error":null}

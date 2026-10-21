@@ -4,12 +4,12 @@ from dataclasses import replace
 from pathlib import Path
 
 import pytest
-from conftest import SimulatedSandbox, TrustedLocalSandbox
+from conftest import SimulatedSandbox, TrustedLocalSandbox, scripted
 
 from repropatch.harness import Harness
-from repropatch.models import MockModel
-from repropatch.process import CommandResult
 from repropatch.workspace import git
+
+pytestmark = pytest.mark.sdk
 
 
 def test_complete_flow_unit(task, model, tmp_path):
@@ -20,19 +20,27 @@ def test_complete_flow_unit(task, model, tmp_path):
     assert "samples.front()" in (directory / "patch.diff").read_text()
     events = [json.loads(line) for line in (directory / "events.jsonl").read_text().splitlines()]
     with sqlite3.connect(directory / "events.sqlite3") as db:
-        rows = db.execute("SELECT seq,kind,payload FROM events ORDER BY seq").fetchall()
+        rows = db.execute("SELECT envelope_json FROM events ORDER BY seq").fetchall()
     assert len(events) == len(rows)
     assert [e["seq"] for e in events] == list(range(1, len(events) + 1))
-    assert all(
-        json.loads(row[2]) == event["payload"] for row, event in zip(rows, events, strict=True)
-    )
-    assert events[-1]["kind"] == "run_finished"
+    assert [json.loads(row[0]) for row in rows] == events
+    assert events[-1]["type"] == "state_changed"
+    assert events[-1]["payload"]["to"] == "FINISHED"
+    tools = {event["tool_call_id"]: event for event in events if event["type"] == "tool_started"}
+    assert tools and None not in tools
+    for event in events:
+        if (
+            event["type"] == "command_started"
+            and event["payload"].get("evaluation_role") == "agent_check"
+        ):
+            assert event["tool_call_id"] in tools
+            assert event["step_id"] == tools[event["tool_call_id"]]["step_id"]
     assert not (directory / "worktrees/repair").exists()
     assert not (directory / "worktrees/validation").exists()
     assert git(task.repository, "status", "--porcelain") == ""
     baseline, _, independent = report["evaluations"]
     assert baseline["source_sha256"] != independent["source_sha256"]
-    assert baseline["commands"][-1]["returncode"] == 8
+    assert baseline["tests"][0]["ctest_exit_code"] == 8
     assert all(c["returncode"] == 0 for c in independent["commands"])
 
 
@@ -60,14 +68,13 @@ def test_complete_flow_unit(task, model, tmp_path):
 def test_incomplete_repairs_cannot_pass(task, tmp_path, actions, status):
     # Use a stricter fake for the wrong-but-nonzero patch.
     class Strict(SimulatedSandbox):
-        def run(self, argv):
+        def execute_test(self, name):
             source = (self.source / "src/stats.cpp").read_text()
-            failure = argv[0] == "ctest" and "samples.front()" not in source
-            return CommandResult(
-                tuple(argv), 8 if failure else 0, "expected -3, got 0" if failure else "pass", 0.001
-            )
+            if name == "negative_values" and "samples.front()" not in source:
+                return 8, "failed", "expected -3, got 0"
+            return 0, "passed", "pass"
 
-    report = Harness(task, MockModel(actions), tmp_path / "runs", sandbox_factory=Strict).run()
+    report = Harness(task, scripted(actions), tmp_path / "runs", sandbox_factory=Strict).run()
     assert report["status"] == status and not report["verified"]
 
 
@@ -75,32 +82,37 @@ def test_incomplete_repairs_cannot_pass(task, tmp_path, actions, status):
     "mode,status",
     [
         ("pass", "not_reproduced"),
-        ("timeout", "not_reproduced"),
+        ("timeout", "inconclusive"),
         ("wrong-marker", "not_reproduced"),
-        ("build", "baseline_setup_failed"),
+        ("build", "error"),
     ],
 )
 def test_baseline_failure_is_checked(task, tmp_path, mode, status):
     class BadBaseline(SimulatedSandbox):
-        def run(self, argv):
-            if argv[0] == "ctest":
-                return CommandResult(
-                    tuple(argv),
-                    0 if mode == "pass" else 8,
-                    "unrelated" if mode == "wrong-marker" else "expected -3, got 0",
-                    0.01,
-                    mode == "timeout",
-                )
-            return CommandResult(tuple(argv), 1 if mode == "build" else 0, "build", 0.01)
+        def execute_test(self, name):
+            if name != "negative_values":
+                return 0, "passed", "pass"
+            if mode == "pass":
+                return 0, "passed", "pass"
+            return (
+                8,
+                "timed_out" if mode == "timeout" else "failed",
+                "unrelated" if mode == "wrong-marker" else "expected -3, got 0",
+            )
 
-    report = Harness(task, MockModel([]), tmp_path / "runs", sandbox_factory=BadBaseline).run()
+        def run(self, argv):
+            if mode == "build" and argv[0] == "cmake":
+                return self.result(argv, 1, "build failed")
+            return super().run(argv)
+
+    report = Harness(task, scripted([]), tmp_path / "runs", sandbox_factory=BadBaseline).run()
     assert report["status"] == status and report["model_steps"] == 0
 
 
 def test_denied_tool_is_visible_to_model(task, tmp_path, model):
     script = [{"tool": "read_file", "arguments": {"path": "/etc/passwd"}}, {"finish": "stop"}]
     report = Harness(
-        task, MockModel(script), tmp_path / "runs", sandbox_factory=SimulatedSandbox
+        task, scripted(script), tmp_path / "runs", sandbox_factory=SimulatedSandbox
     ).run()
     events = (Path(report["artifact_directory"]) / "events.jsonl").read_text()
     assert '"ok": false' in events and report["status"] == "no_patch"
@@ -108,23 +120,22 @@ def test_denied_tool_is_visible_to_model(task, tmp_path, model):
 
 def test_independent_verification_catches_regression(task, model, tmp_path):
     class Regression(SimulatedSandbox):
-        def run(self, argv):
-            if "independent" in self.source.name and "-R" not in argv and argv[0] == "ctest":
-                return CommandResult(tuple(argv), 8, "empty_values failed", 0.01)
-            return super().run(argv)
+        def execute_test(self, name):
+            if "independent" in self.source.name and name == "empty_values":
+                return 8, "failed", "empty_values failed"
+            return super().execute_test(name)
 
     report = Harness(task, model, tmp_path / "runs", sandbox_factory=Regression).run()
     assert report["status"] == "failed" and not report["verified"]
 
 
 def test_error_still_writes_report_and_cleans_worktree(task, tmp_path):
-    class BrokenModel:
-        def complete(self, messages, tools):
-            from repropatch.errors import ReproPatchError
+    from agents.testing import ModelStep, ScriptedModel
 
-            raise ReproPatchError("model offline")
+    from repropatch.errors import ReproPatchError
 
-    report = Harness(task, BrokenModel(), tmp_path / "runs", sandbox_factory=SimulatedSandbox).run()
+    selected = ScriptedModel([ModelStep(error=ReproPatchError("model offline"))])
+    report = Harness(task, selected, tmp_path / "runs", sandbox_factory=SimulatedSandbox).run()
     assert report["status"] == "error" and report["error"] == "model offline"
     assert not (Path(report["artifact_directory"]) / "worktrees/repair").exists()
 
@@ -135,12 +146,15 @@ def test_real_cpp_reproduce_repair_verify(task, model, tmp_path):
     assert report["status"] == "passed", report
     assert report["isolated"] is False
     baseline = report["evaluations"][0]
-    assert "expected -3, got 0" in baseline["commands"][-1]["output"]
+    assert baseline["tests"][0]["marker_seen"] is True
     final = report["evaluations"][-1]
-    output = final["commands"][-1]["output"]
-    assert "100% tests passed" in output and "out of 4" in output
-    for name in ("negative_values", "positive_values", "empty_values", "mixed_values"):
-        assert name in output
+    assert {item["name"] for item in final["tests"]} == {
+        "negative_values",
+        "positive_values",
+        "empty_values",
+        "mixed_values",
+    }
+    assert all(item["observed_status"] == "passed" for item in final["tests"])
 
 
 @pytest.mark.integration
@@ -153,8 +167,8 @@ def test_real_cpp_wrong_patch_rejected(task, tmp_path):
         {"finish": "done"},
     ]
     report = Harness(
-        replace(task, max_steps=3),
-        MockModel(actions),
+        replace(task, budget=replace(task.budget, max_steps=3)),
+        scripted(actions),
         tmp_path / "runs",
         sandbox_factory=TrustedLocalSandbox,
     ).run()
@@ -173,42 +187,34 @@ def test_budget_exhaustion_retains_tentative_patch(task, tmp_path):
         }
     ]
     report = Harness(
-        replace(task, max_steps=1),
-        MockModel(actions),
+        replace(task, budget=replace(task.budget, max_steps=1)),
+        scripted(actions),
         tmp_path / "runs",
         sandbox_factory=SimulatedSandbox,
     ).run()
-    assert report["status"] == "budget_exhausted"
+    assert report["outcome"] == "ACCEPTED" and report["agent"]["agent_stop_reason"] == "STEP_BUDGET"
     assert "samples.front()" in (Path(report["artifact_directory"]) / "patch.diff").read_text()
 
 
 def test_model_exception_does_not_lose_candidate_patch(task, tmp_path):
-    class FaultyModel:
-        def __init__(self):
-            self.calls = 0
+    from agents.testing import ModelStep, ScriptedModel, function_call
 
-        def complete(self, messages, tools):
-            self.calls += 1
-            if self.calls == 1:
-                from repropatch.models import ToolCall, Turn
-
-                return Turn(
-                    calls=[
-                        ToolCall(
-                            "1",
-                            "edit_file",
-                            {
-                                "path": "src/stats.cpp",
-                                "old": "int best = 0;",
-                                "new": "int best = -1;",
-                            },
-                        )
-                    ]
-                )
-            raise RuntimeError("sensitive plugin detail")
-
-    report = Harness(task, FaultyModel(), tmp_path / "runs", sandbox_factory=SimulatedSandbox).run()
-    assert report["status"] == "internal_error"
+    selected = ScriptedModel(
+        [
+            ModelStep(
+                output=[
+                    function_call(
+                        "edit_file",
+                        {"path": "src/stats.cpp", "old": "int best = 0;", "new": "int best = -1;"},
+                        call_id="candidate",
+                    )
+                ]
+            ),
+            ModelStep(error=RuntimeError("sensitive plugin detail")),
+        ]
+    )
+    report = Harness(task, selected, tmp_path / "runs", sandbox_factory=SimulatedSandbox).run()
+    assert report["status"] == "error"
     assert "sensitive" not in report["error"]
     assert "int best = -1;" in (Path(report["artifact_directory"]) / "patch.diff").read_text()
 
@@ -221,3 +227,28 @@ def test_changing_execution_image_is_rejected(task, model, tmp_path):
 
     report = Harness(task, model, tmp_path / "runs", sandbox_factory=DriftingImage).run()
     assert report["status"] == "error" and "image changed" in report["error"]
+
+
+def test_invalid_output_root_does_not_modify_source_repository(task, model):
+    from repropatch.errors import ReproPatchError
+
+    target = task.repository / "outputs"
+    with pytest.raises(ReproPatchError, match="ROOT_OVERLAP"):
+        Harness(task, model, target, sandbox_factory=SimulatedSandbox)
+    assert not target.exists()
+
+
+def test_frozen_task_matches_report_and_original_yaml(task, model, tmp_path):
+    import hashlib
+
+    from repropatch.task import canonical_json
+
+    report = Harness(task, model, tmp_path / "runs", sandbox_factory=SimulatedSandbox).run()
+    directory = Path(report["artifact_directory"])
+    frozen = json.loads((directory / "task.resolved.json").read_text())
+    assert frozen["task_sha256"] == report["task_sha256"]
+    assert (
+        hashlib.sha256(canonical_json(frozen["execution_contract"])).hexdigest()
+        == report["task_sha256"]
+    )
+    assert (directory / "task.original.yaml").read_bytes() == task.source_bytes

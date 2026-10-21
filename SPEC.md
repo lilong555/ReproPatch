@@ -1,21 +1,24 @@
 # ReproPatch 规格入口
 
-当前权威目标规格为 **2026-10-19.2**，原文完整保存在
-[specs/2026-10-19.2/SPEC.md](specs/2026-10-19.2/SPEC.md)。
-新版包内 16 个文件保持原字节及目录关系，替代 2026-10-19.1 的目标设计。
-[上一修订](specs/2026-10-19.1/SPEC.md) 仅作为历史保留。
+权威目标规格为 **2026-10-19.2**：[完整规格](specs/2026-10-19.2/SPEC.md)。
+归档 16 个文件保持输入包原文；其中 CURRENT_STATE 为规格创建时的审计快照。
+当前产品能力以 [README](README.md) 和 [测试报告](docs/TEST_REPORT.md) 为准。
 
-当前产品代码仍为 **0.1.0、Task v1**。规格定义的 Phase 1 目标是 **0.2.0、Task v2**，
-这些目标能力尚未全部实现。原始 CURRENT_STATE 是上传规格创建时的审计快照，
-最新开发状态与实际检查结果见 [P1-01 记录](docs/P1-01.md) 和 [测试报告](docs/TEST_REPORT.md)。
+当前开发版本为 **0.3.0.dev2，Task v2**。
+P1-01 至 P1-08 已完成，包含 P1-03A、P1-03B 两项独立验收。
+两条路径共用结构化 CTest、固定 inventory 身份、原始字节清单和实际补丁往返；
+外部 `verify-patch` 不导入模型或 SDK、不读取模型密钥。
+当前实测 **291 项核心测试、115 项 SDK 契约、19 项真实 Docker 测试通过**。
+P2-01 的三表、状态与预算事务、请求前执行片段及崩溃窗口已验收。
+P2-02 的公开完整输入 Checkpoint、不可变附件提交、受控暂停和核心重导出已验收。
+0.2.0rc1 的 DeepSeek `deepseek-flash` 完整 V-LIVE 通过，实际修复结局为 `ACCEPTED`。
 
-新版选择直接复用 OpenAI Agents SDK 的 Runner、Responses Items 和 ScriptedModel，
-新增不依赖模型的 `verify-patch`，并复用 Harbor 承担后续评测作业。
-这些是待实施目标，当前 CLI 尚未提供新版入口，也未安装 SDK extra。
+公开 SDK 基础契约见 [P1-04](docs/P1-04.md)。六工具与预算契约见 [P1-05](docs/P1-05.md)。
+SQLite 权威事件、原子导出与查询见 [P1-07](docs/P1-07.md)，当前外层事务见 [P2-01](docs/P2-01.md)。
+下一任务为 **P2-03：有限 Resume 与未知片段安全失败**。
+当前任务边界见 [实施计划](docs/IMPLEMENTATION_PLAN.md)，原始完成标准见
+[归档计划](specs/2026-10-19.2/docs/IMPLEMENTATION_PLAN.md)，每个工作回合推进一个 Task ID。
 
-当前任务仍为 **P1-01：继续现有分支并解除 Docker 验收阻塞**。
-后续顺序为 P1-02 → P1-03 → P1-06，先做独立补丁验收，再做 P1-04 → P1-05 的 SDK 自动路径，
-最后完成 P1-07 → P1-08。不能继续按旧路线先扩展自制循环或恢复层。
-当前 Docker gate 仍因环境能力缺失而阻塞，P1-02 未开始。
-
-本轮变更、实际检查与未实施清单见 [新版 Spec 接入记录](docs/SPEC_UPDATE_2026-10-19.2.md)。
+0.2.0 的 MVP 门槛已通过；0.3.0 仍在开发，当前只交付本地开发包。
+Resume、Replay 和 Harbor 接入属于后续任务。
+离线发布审计、真实 smoke 任务、实际补丁与验收结果见 [发布验收](docs/P1-08.md)。

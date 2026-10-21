@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /home/li/repropatch/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/li/repropatch
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0
+collecting ... collected 253 items / 238 deselected / 15 selected
+
+tests/test_docker_integration.py::test_docker_cpp_end_to_end PASSED      [  6%]
+tests/test_docker_integration.py::test_docker_wrong_patch_is_rejected PASSED [ 13%]
+tests/test_docker_integration.py::test_real_container_boundary PASSED    [ 20%]
+tests/test_docker_integration.py::test_real_timeout_removes_container PASSED [ 26%]
+tests/test_docker_integration.py::test_docker_roundtrip_preserves_bom_crlf_and_missing_final_newline PASSED [ 33%]
+tests/test_docker_integration.py::test_real_output_limit_removes_entire_container[stdout] PASSED [ 40%]
+tests/test_docker_integration.py::test_real_output_limit_removes_entire_container[stderr] PASSED [ 46%]
+tests/test_docker_integration.py::test_real_output_limit_removes_entire_container[both] PASSED [ 53%]
+tests/test_docker_integration.py::test_real_derived_process_timeout_and_evaluation_tmpfs_lifetime PASSED [ 60%]
+tests/test_docker_integration.py::test_real_interrupt_confirms_entire_container_removal PASSED [ 66%]
+tests/test_docker_integration.py::test_external_patch_docker_baseline_and_independent[correct] PASSED [ 73%]
+tests/test_docker_integration.py::test_external_patch_docker_baseline_and_independent[wrong] PASSED [ 80%]
+tests/test_docker_integration.py::test_external_patch_docker_refuses_required_test_evasion[skip] PASSED [ 86%]
+tests/test_docker_integration.py::test_external_patch_docker_refuses_required_test_evasion[missing] PASSED [ 93%]
+tests/test_docker_integration.py::test_external_patch_docker_literal_test_name PASSED [100%]
+
+- generated xml file: /home/li/repropatch/docs/evidence/p1-06/docker-gate/docker-tests.xml -
+================ 15 passed, 238 deselected in 78.15s (0:01:18) =================

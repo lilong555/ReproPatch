@@ -1,0 +1,174 @@
+{
+  "status": "passed",
+  "product_version": "0.2.0.dev6",
+  "implementation_sha256": "0a6c73cecd9b33387b2fa299e7fb1ec9cabd23c8c0695c3b4ee622751e9a627d",
+  "wheel_and_sdist_sha256": {
+    "repropatch-0.2.0.dev6-py3-none-any.whl": "8db94311d40152d1aff0e7842c330acadd506f8d80ec92212b6438317f955f24",
+    "repropatch-0.2.0.dev6.tar.gz": "c68e4b5c17437e34f849d88afd21fdfdb825446851ff72b3ee6953d33dd25e0d"
+  },
+  "tested_wheel_sha256": "4c6259a9c47dcdd09407ca9d45493520a00f1d71b9f5a9f2c9d3318d8d46c736",
+  "wheel_runtime_bytes_match_tested_wheel": true,
+  "wheel_dependency_metadata_matches_tested_wheel": true,
+  "wheel_readme_matches_current_source": true,
+  "wheel_record_verified": true,
+  "sdist_current_source_verified": true,
+  "sdist_files_matched": 3916,
+  "sdist_dependency_lock_and_contract_tests_verified": true,
+  "source_manifests_verified": {
+    "sdk-contract": 36,
+    "installed-sdk": 36,
+    "docker-gate": 46
+  },
+  "original_spec_files_verified": 16,
+  "test_results_verified": {
+    "core": 229,
+    "sdk": 97,
+    "docker": 18,
+    "installed_sdk": 97
+  },
+  "unique_test_cases": 344,
+  "installed_distributions": {
+    "core": {
+      "location": "/home/li/repropatch/.repropatch/wheel-dev6-smoke/lib/python3.12/site-packages/repropatch",
+      "packages": {
+        "pyyaml": "6.0.3",
+        "repropatch": "0.2.0.dev6"
+      },
+      "source_bytes_match": true,
+      "lazy_import_verified": true
+    },
+    "agent": {
+      "location": "/home/li/repropatch/.repropatch/wheel-dev6-agent/lib/python3.12/site-packages/repropatch",
+      "packages": {
+        "mcp": "2.3.0",
+        "jiter": "0.17.0",
+        "cmake": "4.4.4",
+        "uvicorn": "0.54.0",
+        "httpcore2": "2.15.1",
+        "urllib3": "2.8.0",
+        "typing-inspection": "0.4.4",
+        "pygments": "2.21.0",
+        "h11": "0.16.0",
+        "sse-starlette": "3.5.0",
+        "starlette": "1.9.0",
+        "openai-agents": "0.24.0",
+        "pluggy": "1.7.0",
+        "anyio": "4.15.1",
+        "typing_extensions": "4.16.0",
+        "annotated-types": "0.8.0",
+        "pydantic": "2.14.1",
+        "rpds-py": "2026.9.1",
+        "openai": "3.35.1",
+        "referencing": "0.37.0",
+        "pyjwt": "2.15.1",
+        "pydantic_core": "2.50.1",
+        "pytest": "9.1.1",
+        "python-multipart": "0.0.32",
+        "jsonschema-specifications": "2025.9.1",
+        "griffelib": "2.4.0",
+        "cffi": "2.1.1",
+        "charset-normalizer": "3.5.2",
+        "cryptography": "50.0.2",
+        "pyyaml": "6.0.3",
+        "repropatch": "0.2.0.dev6",
+        "iniconfig": "2.3.1",
+        "certifi": "2026.10.19",
+        "sniffio": "1.3.1",
+        "click": "8.5.0",
+        "pycparser": "3.11",
+        "attrs": "26.1.0",
+        "truststore": "0.10.5",
+        "mcp-types": "2.3.0",
+        "opentelemetry-api": "1.45.1",
+        "packaging": "26.3",
+        "httpx2": "2.15.1",
+        "requests": "2.34.2",
+        "idna": "3.20",
+        "websockets": "16.1.1",
+        "jsonschema": "4.26.0"
+      },
+      "source_bytes_match": true,
+      "lazy_import_verified": true
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/home/li/.local/bin/pip",
+        "--python",
+        "/home/li/repropatch/.repropatch/wheel-dev6-smoke/bin/python",
+        "install",
+        "--no-deps",
+        "--no-index",
+        "--force-reinstall",
+        "/home/li/repropatch/dist/repropatch-0.2.0.dev6-py3-none-any.whl"
+      ],
+      "returncode": 0,
+      "log": "distribution-core-install.log"
+    },
+    {
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev6-smoke/bin/python",
+        "-I",
+        "-c",
+        "\nimport hashlib, json, pathlib, sys\nfrom importlib.metadata import distributions\nimport repropatch\nfrom repropatch import agent_runtime, models\nfrom repropatch.cli import main\nassert repropatch.__version__ == sys.argv[2]\nlocation = pathlib.Path(repropatch.__file__).parent\nassert location.is_relative_to(sys.prefix)\nassert 'agents' not in sys.modules and 'openai' not in sys.modules\nsource = pathlib.Path(sys.argv[1]) / 'src/repropatch'\nfor path in source.glob('*.py'):\n    assert path.read_bytes() == (location / path.name).read_bytes(), path\npackages = {item.metadata['Name'].lower(): item.version for item in distributions()}\nif sys.argv[3] == 'core':\n    assert 'agents' not in packages and 'openai' not in packages and 'openai-agents' not in packages\nelse:\n    models.prepare_sdk()\n    for name, version in {'openai-agents':'0.24.0', 'openai':'3.35.1',\n                          'httpx2':'2.15.1', 'pydantic':'2.14.1'}.items():\n        assert packages[name] == version\nprint(json.dumps({'location':str(location),'packages':packages,\n                  'source_bytes_match':True,'lazy_import_verified':True}, indent=2))\n",
+        "/home/li/repropatch",
+        "0.2.0.dev6",
+        "core"
+      ],
+      "returncode": 0,
+      "log": "distribution-core-verify.log"
+    },
+    {
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev6-smoke/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "verify-patch",
+        "--help"
+      ],
+      "returncode": 0,
+      "log": "distribution-core-cli.log"
+    },
+    {
+      "argv": [
+        "/home/li/.local/bin/pip",
+        "--python",
+        "/home/li/repropatch/.repropatch/wheel-dev6-agent/bin/python",
+        "install",
+        "--no-deps",
+        "--no-index",
+        "--force-reinstall",
+        "/home/li/repropatch/dist/repropatch-0.2.0.dev6-py3-none-any.whl"
+      ],
+      "returncode": 0,
+      "log": "distribution-agent-install.log"
+    },
+    {
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev6-agent/bin/python",
+        "-I",
+        "-c",
+        "\nimport hashlib, json, pathlib, sys\nfrom importlib.metadata import distributions\nimport repropatch\nfrom repropatch import agent_runtime, models\nfrom repropatch.cli import main\nassert repropatch.__version__ == sys.argv[2]\nlocation = pathlib.Path(repropatch.__file__).parent\nassert location.is_relative_to(sys.prefix)\nassert 'agents' not in sys.modules and 'openai' not in sys.modules\nsource = pathlib.Path(sys.argv[1]) / 'src/repropatch'\nfor path in source.glob('*.py'):\n    assert path.read_bytes() == (location / path.name).read_bytes(), path\npackages = {item.metadata['Name'].lower(): item.version for item in distributions()}\nif sys.argv[3] == 'core':\n    assert 'agents' not in packages and 'openai' not in packages and 'openai-agents' not in packages\nelse:\n    models.prepare_sdk()\n    for name, version in {'openai-agents':'0.24.0', 'openai':'3.35.1',\n                          'httpx2':'2.15.1', 'pydantic':'2.14.1'}.items():\n        assert packages[name] == version\nprint(json.dumps({'location':str(location),'packages':packages,\n                  'source_bytes_match':True,'lazy_import_verified':True}, indent=2))\n",
+        "/home/li/repropatch",
+        "0.2.0.dev6",
+        "agent"
+      ],
+      "returncode": 0,
+      "log": "distribution-agent-verify.log"
+    },
+    {
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-dev6-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "verify-patch",
+        "--help"
+      ],
+      "returncode": 0,
+      "log": "distribution-agent-cli.log"
+    }
+  ]
+}

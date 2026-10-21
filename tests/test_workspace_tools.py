@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from repropatch.errors import PolicyError
+from repropatch.errors import PolicyError, SourceChanged
 from repropatch.tools import Toolbox
 from repropatch.workspace import Worktree, copy_patch, git
 
@@ -26,23 +26,19 @@ def test_worktree_isolation_export_and_cleanup(repository, tmp_path):
 def test_tools_and_edit_policy(repository, tmp_path):
     with Worktree(repository, tmp_path / "work", "HEAD") as work:
         tools = Toolbox(work, ("src/stats.cpp",), lambda name: [])
-        assert "int best = 0;" in tools.invoke("read_file", {"path": "src/stats.cpp"})["content"]
-        assert tools.invoke("search_code", {"query": "maximum_sample"})["matches"]
-        for name, args in [
-            ("read_file", {"path": "../repo/src/stats.cpp"}),
-            ("read_file", {"path": ".git"}),
-            ("read_file", {"path": "src/stats.cpp", "extra": "x"}),
-            ("run_command", {"name": "sh -c rm -rf /"}),
-            ("edit_file", {"path": "tests/stats_test.cpp", "old": "return 1;", "new": "return 0;"}),
-            ("edit_file", {"path": "src/stats.cpp", "old": "missing", "new": "x"}),
-            ("shell", {"command": "pwd"}),
-        ]:
+        assert "int best = 0;" in tools.read_file("src/stats.cpp")["text"]
+        assert tools.search_code("maximum_sample")["matches"]
+        for callback in (
+            lambda: tools.read_file("../repo/src/stats.cpp"),
+            lambda: tools.read_file(".git"),
+            lambda: tools.run_command("sh -c rm -rf /"),
+            lambda: tools.edit_file("tests/stats_test.cpp", "return 1;", "return 0;"),
+            lambda: tools.edit_file("src/stats.cpp", "missing", "x"),
+        ):
             with pytest.raises(PolicyError):
-                tools.invoke(name, args)
-        assert tools.invoke(
-            "edit_file",
-            {"path": "src/stats.cpp", "old": "int best = 0;", "new": "int best = samples.front();"},
-        )["changed"]
+                callback()
+        result = tools.edit_file("src/stats.cpp", "int best = 0;", "int best = samples.front();")
+        assert result["before_sha256"] != result["after_sha256"]
 
 
 def test_symlink_export_rejected(repository, tmp_path):
@@ -77,5 +73,56 @@ def test_untracked_and_binary_rejected(repository, tmp_path):
         with pytest.raises(PolicyError, match="tracked"):
             work.safe_path("new.cpp")
         (work.path / "src/stats.cpp").write_bytes(b"\xff\x00")
-        with pytest.raises(PolicyError, match="UTF-8"):
+        with pytest.raises(SourceChanged, match="SOURCE_CHANGED"):
             Toolbox(work, (), None).read_file("src/stats.cpp")
+
+
+def test_structured_tools_obey_resolved_readable_set(repository, tmp_path):
+    with Worktree(repository, tmp_path / "work", "HEAD") as work:
+        tools = Toolbox(work, ("src/stats.cpp",), lambda name: [], readable={"src/stats.cpp"})
+        with pytest.raises(PolicyError, match="readable"):
+            tools.read_file("tests/stats_test.cpp")
+        assert all(
+            match["path"] == "src/stats.cpp"
+            for match in tools.search_code("maximum_sample")["matches"]
+        )
+
+
+def test_line_ranges_and_directory_scope_are_bounded(repository, tmp_path):
+    with Worktree(repository, tmp_path / "work", "HEAD") as work:
+        tools = Toolbox(
+            work, ("src/stats.cpp",), lambda name: [], readable={"src/stats.cpp", "src/stats.hpp"}
+        )
+        preview = tools.read_file("src/stats.cpp", start_line=2, max_lines=2)
+        assert preview["start_line"] == 2 and preview["end_line"] == 3 and preview["truncated"]
+        assert len(preview["text"].splitlines()) == 2
+        assert tools.list_directory()["entries"] == [{"name": "src", "type": "directory"}]
+        with pytest.raises(PolicyError):
+            tools.read_file("src/stats.cpp", True, 2)
+        with pytest.raises(PolicyError):
+            tools.search_code("x" * 1025)
+        with pytest.raises(PolicyError):
+            tools.list_directory("../")
+
+
+def test_git_tools_use_phase_deadline_without_leaking_to_cleanup(repository, monkeypatch):
+    import time
+
+    from repropatch.errors import OperationDeadline
+    from repropatch.process import RawResult
+    from repropatch.workspace import git_deadline, git_result
+
+    timeouts = []
+
+    def execute(argv, **kwargs):
+        timeouts.append(kwargs["timeout"])
+        return RawResult(tuple(argv), 0, b"", b"", 0)
+
+    monkeypatch.setattr("repropatch.workspace.run_process_bytes", execute)
+    with git_deadline(time.monotonic() + 0.25):
+        git_result(repository, "status")
+    git_result(repository, "status")
+    assert 0 < timeouts[0] <= 0.25 and timeouts[1] == 60
+    with git_deadline(time.monotonic() - 1), pytest.raises(OperationDeadline):
+        git_result(repository, "status")
+    assert len(timeouts) == 2

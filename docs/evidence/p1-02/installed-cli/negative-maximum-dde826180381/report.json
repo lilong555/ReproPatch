@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "harness_version": "0.2.0.dev1",
+  "run_id": "negative-maximum-dde826180381",
+  "task_id": "negative-maximum",
+  "started_at": "2026-10-20T04:57:47.906042+00:00",
+  "status": "passed",
+  "isolated": true,
+  "base_commit": "075a19d1b097d96df3550d2f08d20a0076705210",
+  "requested_image": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+  "evaluations": [
+    {
+      "phase": "baseline",
+      "source_sha256": "897dc98af86c8af8be1e415e34ca4fa965612272f776738f8bcdd7d7419e163f",
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-161f0e6198f84506af0e8406e8444fe3",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.20766266300006464,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5842848929996762,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^negative_values$"
+          ],
+          "returncode": 8,
+          "output": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................***Failed    0.00 sec\nexpected -3, got 0\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  1 - negative_values (Failed)\nErrors while running CTest\n",
+          "duration_seconds": 0.07408236400033275,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(positive_values|empty_values|mixed_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 2: positive_values\n1/3 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n2/3 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n3/3 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 3\n\nTotal Test time (real) =   0.00 sec\n",
+          "duration_seconds": 0.08458981600006155,
+          "timed_out": false,
+          "output_truncated": false
+        }
+      ]
+    },
+    {
+      "phase": "agent-check",
+      "source_sha256": "37d4a183a36687c7901874133ef95c521385070f5a1fb8ce3c22fb1ece4460e0",
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-d25e4af6668141fbbdeebd25618bb1d7",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.1996153999998569,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5549899980001101,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(negative_values|positive_values|empty_values|mixed_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 1: negative_values\n1/4 Test #1: negative_values ..................   Passed    0.00 sec\n    Start 2: positive_values\n2/4 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n3/4 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n4/4 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 4\n\nTotal Test time (real) =   0.01 sec\n",
+          "duration_seconds": 0.10633788199993432,
+          "timed_out": false,
+          "output_truncated": false
+        }
+      ]
+    },
+    {
+      "phase": "independent",
+      "source_sha256": "37d4a183a36687c7901874133ef95c521385070f5a1fb8ce3c22fb1ece4460e0",
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-2666a9e7b46049d0b65882a3c058048d",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.1980405259996587,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5635050209998553,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(negative_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+          "duration_seconds": 0.08630599100024483,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^(negative_values|positive_values|empty_values|mixed_values)$"
+          ],
+          "returncode": 0,
+          "output": "Test project /build\n    Start 1: negative_values\n1/4 Test #1: negative_values ..................   Passed    0.00 sec\n    Start 2: positive_values\n2/4 Test #2: positive_values ..................   Passed    0.00 sec\n    Start 3: empty_values\n3/4 Test #3: empty_values .....................   Passed    0.00 sec\n    Start 4: mixed_values\n4/4 Test #4: mixed_values .....................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 4\n\nTotal Test time (real) =   0.01 sec\n",
+          "duration_seconds": 0.07270987099991544,
+          "timed_out": false,
+          "output_truncated": false
+        }
+      ]
+    }
+  ],
+  "model_steps": 5,
+  "tool_calls": 4,
+  "reproduced": true,
+  "verified": true,
+  "artifact_directory": "/home/li/repropatch/docs/evidence/p1-02/installed-cli/negative-maximum-dde826180381",
+  "model": {
+    "adapter": "MockModel",
+    "name": null
+  },
+  "task": {
+    "version": 2,
+    "id": "negative-maximum",
+    "repository": {
+      "path": "/home/li/repropatch/examples/cpp-bugs",
+      "commit": "075a19d1b097d96df3550d2f08d20a0076705210"
+    },
+    "environment": {
+      "image": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "platform": "linux/amd64",
+      "cpu_limit": 2.0,
+      "memory_mib": 2048,
+      "pids_limit": 128,
+      "build_tmpfs_mib": 1024
+    },
+    "bug": {
+      "description": "修复 maximum_sample 对非空全负输入返回 0 的错误，保留空输入与完整 int 值域的行为。"
+    },
+    "commands": {
+      "configure": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/build",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "build": [
+        "cmake",
+        "--build",
+        "/build",
+        "--parallel",
+        "2"
+      ],
+      "reproduce": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ],
+      "verify": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ]
+    },
+    "tests": {
+      "fail_to_pass": [
+        {
+          "name": "negative_values",
+          "expected_exit_code": 8,
+          "output_contains": "expected -3, got 0"
+        }
+      ],
+      "pass_to_pass": [
+        "positive_values",
+        "empty_values",
+        "mixed_values"
+      ],
+      "protected_paths": [
+        "CMakeLists.txt",
+        "tests/"
+      ]
+    },
+    "files": {
+      "readable": [
+        "CMakeLists.txt",
+        "src/",
+        "tests/"
+      ],
+      "editable": [
+        "src/stats.cpp"
+      ]
+    },
+    "budget": {
+      "max_steps": 12,
+      "max_tool_calls": 80,
+      "wall_seconds": 900,
+      "verification_reserve_seconds": 240,
+      "model_timeout_seconds": 60,
+      "command_timeout_seconds": 120,
+      "max_output_tokens": 2048
+    },
+    "workspace": {
+      "root": "/home/li/repropatch/.repropatch/workspaces",
+      "retain": "on_failure"
+    },
+    "outputs": {
+      "root": "/home/li/repropatch/.repropatch/runs"
+    }
+  },
+  "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+  "task_source_sha256": "f0a9af4813d2cd6749edebd09d3e7bb009009f6155dd312cde2151c85d8b5fcb",
+  "model_summary": "Initialize the maximum from the first element after the empty-input guard.",
+  "duration_seconds": 4.2665319259999706,
+  "model_usage": [],
+  "patch_sha256": "e01293d88a3cf23065b9df885a403b09f711c020c2d9421dfc46b20111020c9f"
+}

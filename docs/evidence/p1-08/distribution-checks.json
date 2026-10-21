@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "wheel_and_sdist_sha256": {
+    "repropatch-0.2.0rc1-py3-none-any.whl": "cf319cf37682b19022f62b134cfa97163013aada8ecc7cce41f692664cff7197",
+    "repropatch-0.2.0rc1.tar.gz": "19ee8899d72a6b46637cd6f1e2c5d9ce08369caac2d41f4cff4d7f665e9024bb"
+  },
+  "sdist_current_source_verified": true,
+  "sdist_files_verified": 7492,
+  "sdist_dependency_lock_and_contract_tests_verified": true,
+  "wheel_source_matches": true,
+  "clean_core_and_agent_install_verified": true
+}

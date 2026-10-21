@@ -1,0 +1,25 @@
+/usr/bin/cmake
+/usr/bin/ctest
+/usr/bin/c++
+/usr/bin/cat
+/usr/bin/timeout
+sleep (GNU coreutils) 9.4
+Copyright (C) 2023 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Jim Meyering and Paul Eggert.
+cmake version 3.28.3
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+ctest version 3.28.3
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+
+REPROPATCH_CXX_VERSION
+c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+

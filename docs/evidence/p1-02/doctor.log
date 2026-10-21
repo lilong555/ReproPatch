@@ -1,0 +1,11 @@
+{
+  "python": "3.12.15",
+  "git": "/usr/bin/git",
+  "docker": "/usr/bin/docker",
+  "daemon": true,
+  "image": {
+    "id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+    "repo_digests": [],
+    "platform": "linux/amd64"
+  }
+}

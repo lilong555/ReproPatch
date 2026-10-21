@@ -1,0 +1,1 @@
+{"output":[{"arguments":"{\"name\": \"verify\"}","call_id":"call_00_ET_JwHl447ta8U7JV88EXId4464","id":"d01a00d7-9337-428a-a08c-8b2d406bc7bf","name":"run_command","status":"completed","type":"function_call"}],"raw_usage":{"input_tokens":14964,"input_tokens_details":{"cached_tokens":14720},"output_tokens":38,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":15002}}

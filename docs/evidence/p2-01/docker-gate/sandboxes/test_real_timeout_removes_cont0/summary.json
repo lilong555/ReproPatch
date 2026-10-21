@@ -1,0 +1,121 @@
+{
+  "containers": [
+    {
+      "name": "repropatch-88a3a7763c734cb29a8eb71aeedbade9",
+      "container_id": "b6faa7e6f6cce99ade52e18b784fce3491c7ba561286746023eaaedc339c8604",
+      "run_id": "10151bcec8e84f48b817e4139efb0fe1",
+      "purpose": "source",
+      "labels": {
+        "repropatch.run": "10151bcec8e84f48b817e4139efb0fe1",
+        "repropatch.operation": "repropatch-88a3a7763c734cb29a8eb71aeedbade9",
+        "repropatch.purpose": "source"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_real_timeout_removes_cont0/source",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 805306368,
+          "MemorySwap": 805306368,
+          "PidsLimit": 64,
+          "NanoCpus": 1000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=256m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/907247cd18a54008b6c06ae99bfd3f9e/test_real_timeout_removes_cont0/source",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": null
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "-c",
+        "import time; time.sleep(60)"
+      ],
+      "returncode": 137,
+      "output": "",
+      "duration_seconds": 0.6418974889993478,
+      "timed_out": true,
+      "output_truncated": false,
+      "status": "timed_out",
+      "command_id": "8a91f6b3e352406381ca712a30400b0a",
+      "cwd": "/build",
+      "started_at": "2026-10-20T14:05:03.600738+00:00",
+      "finished_at": "2026-10-20T14:05:04.242648+00:00",
+      "stdout": "",
+      "stderr": "",
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/8a91f6b3e352406381ca712a30400b0a/stdout.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stderr_log": {
+        "path": "logs/8a91f6b3e352406381ca712a30400b0a/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "b6faa7e6f6cce99ade52e18b784fce3491c7ba561286746023eaaedc339c8604",
+      "cleanup_confirmed": true,
+      "error_code": "TIMED_OUT",
+      "error": null,
+      "truncated": false,
+      "exit_code": 137,
+      "duration_ms": 642
+    }
+  ]
+}

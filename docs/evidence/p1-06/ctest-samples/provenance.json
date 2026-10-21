@@ -1,0 +1,798 @@
+{
+  "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+  "tools": {
+    "versions": {
+      "cmake": "3.28.3",
+      "ctest": "3.28.3"
+    },
+    "paths": {
+      "cmake": "/usr/bin/cmake",
+      "ctest": "/usr/bin/ctest",
+      "c++": "/usr/bin/c++",
+      "cat": "/usr/bin/cat",
+      "timeout": "/usr/bin/timeout"
+    }
+  },
+  "container": {
+    "name": "repropatch-a675e098787c4271844caf18076cf0d8",
+    "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+    "run_id": "c247b9e34567481881f8dde0f6e3a9bb",
+    "purpose": "source",
+    "labels": {
+      "repropatch.run": "c247b9e34567481881f8dde0f6e3a9bb",
+      "repropatch.operation": "repropatch-a675e098787c4271844caf18076cf0d8",
+      "repropatch.purpose": "source"
+    },
+    "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+    "snapshot": "/home/li/repropatch/.repropatch/p1-06-probes/source",
+    "active": false,
+    "cleanup_confirmed": true,
+    "cleanup_error": null,
+    "profile_verified": true,
+    "profile": {
+      "host_config": {
+        "NetworkMode": "none",
+        "ReadonlyRootfs": true,
+        "Privileged": false,
+        "Memory": 805306368,
+        "MemorySwap": 805306368,
+        "PidsLimit": 64,
+        "NanoCpus": 1000000000,
+        "Init": true,
+        "IpcMode": "none",
+        "Tmpfs": {
+          "/build": "rw,exec,nosuid,nodev,size=256m,uid=65534,gid=65534,mode=0700",
+          "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+        },
+        "SecurityOpt": [
+          "no-new-privileges:true"
+        ],
+        "CapDrop": [
+          "ALL"
+        ],
+        "RestartPolicy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "LogConfig": {
+          "Type": "none",
+          "Config": {}
+        },
+        "Devices": [],
+        "DeviceRequests": null,
+        "PidMode": ""
+      },
+      "config": {
+        "User": "65534:65534",
+        "Tty": false,
+        "Entrypoint": [
+          "/usr/bin/sleep"
+        ],
+        "Cmd": [
+          "infinity"
+        ],
+        "Healthcheck": {
+          "Test": [
+            "NONE"
+          ]
+        }
+      },
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/home/li/repropatch/.repropatch/p1-06-probes/source",
+          "Destination": "/src",
+          "Mode": "",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    "tools": {
+      "versions": {
+        "cmake": "3.28.3",
+        "ctest": "3.28.3"
+      },
+      "paths": {
+        "cmake": "/usr/bin/cmake",
+        "ctest": "/usr/bin/ctest",
+        "c++": "/usr/bin/c++",
+        "cat": "/usr/bin/cat",
+        "timeout": "/usr/bin/timeout"
+      }
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/bin/sh",
+        "-ec",
+        "command -v cmake; command -v ctest; command -v c++; command -v cat; command -v timeout; /usr/bin/sleep --version; cmake --version; ctest --version"
+      ],
+      "returncode": 0,
+      "output": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+      "duration_seconds": 0.1868272749998141,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "40d460f898ee47279313734b9212d497",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:37.682703+00:00",
+      "finished_at": "2026-10-20T07:05:37.869563+00:00",
+      "stdout": "/usr/bin/cmake\n/usr/bin/ctest\n/usr/bin/c++\n/usr/bin/cat\n/usr/bin/timeout\nsleep (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Jim Meyering and Paul Eggert.\ncmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\nctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n",
+      "stderr": "",
+      "stdout_bytes": 574,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/40d460f898ee47279313734b9212d497/stdout.bin",
+        "sha256": "35c88820c212b647f9946c5d54df0c3b74cd65e73cbd39dec611067aea3f528e",
+        "size_bytes": 574
+      },
+      "stderr_log": {
+        "path": "logs/40d460f898ee47279313734b9212d497/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 187
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/build"
+      ],
+      "returncode": 0,
+      "output": "-- Configuring done (0.0s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+      "duration_seconds": 0.1175982370004931,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "51eeef024ecf43849f23be51c0d54e10",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:37.888086+00:00",
+      "finished_at": "2026-10-20T07:05:38.005701+00:00",
+      "stdout": "-- Configuring done (0.0s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+      "stderr": "",
+      "stdout_bytes": 97,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/51eeef024ecf43849f23be51c0d54e10/stdout.bin",
+        "sha256": "e9af494355201a7f4636c6e2789c9572f178cb5c0149f6852d32054ef1fc7774",
+        "size_bytes": 97
+      },
+      "stderr_log": {
+        "path": "logs/51eeef024ecf43849f23be51c0d54e10/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 118
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--show-only=json-v1"
+      ],
+      "returncode": 0,
+      "output": "{\n  \"backtraceGraph\" : \n  {\n    \"commands\" : \n    [\n      \"add_test\"\n    ],\n    \"files\" : \n    [\n      \"/src/CMakeLists.txt\"\n    ],\n    \"nodes\" : \n    [\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 4,\n        \"parent\" : 0\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 5,\n        \"parent\" : 2\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 6,\n        \"parent\" : 4\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 8,\n        \"parent\" : 6\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 10,\n        \"parent\" : 8\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 12,\n        \"parent\" : 10\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 13,\n        \"parent\" : 12\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 15,\n        \"parent\" : 14\n      }\n    ]\n  },\n  \"kind\" : \"ctestInfo\",\n  \"tests\" : \n  [\n    {\n      \"backtrace\" : 1,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 0\"\n      ],\n      \"name\" : \"passed\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 3,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"echo original-marker; exit 7\"\n      ],\n      \"name\" : \"failed\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 5,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 77\"\n      ],\n      \"name\" : \"skipped\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"SKIP_RETURN_CODE\",\n          \"value\" : 77\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 7,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 0\"\n      ],\n      \"name\" : \"disabled\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"DISABLED\",\n          \"value\" : true\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 9,\n      \"command\" : \n      [\n        \"/usr/bin/sleep\",\n        \"20\"\n      ],\n      \"name\" : \"timed_out\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"TIMEOUT\",\n          \"value\" : 0.050000000000000003\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 11,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"kill -SEGV $$\"\n      ],\n      \"name\" : \"crashed\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 13,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 3\"\n      ],\n      \"name\" : \"will_fail\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WILL_FAIL\",\n          \"value\" : true\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 15,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 0\"\n      ],\n      \"name\" : \"parse[value]+edge\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    }\n  ],\n  \"version\" : \n  {\n    \"major\" : 1,\n    \"minor\" : 0\n  }\n}",
+      "duration_seconds": 0.10370412799966289,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "3a8e7acd1ef0445eacea494dc0b04aac",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.024113+00:00",
+      "finished_at": "2026-10-20T07:05:38.127832+00:00",
+      "stdout": "{\n  \"backtraceGraph\" : \n  {\n    \"commands\" : \n    [\n      \"add_test\"\n    ],\n    \"files\" : \n    [\n      \"/src/CMakeLists.txt\"\n    ],\n    \"nodes\" : \n    [\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 4,\n        \"parent\" : 0\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 5,\n        \"parent\" : 2\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 6,\n        \"parent\" : 4\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 8,\n        \"parent\" : 6\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 10,\n        \"parent\" : 8\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 12,\n        \"parent\" : 10\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 13,\n        \"parent\" : 12\n      },\n      {\n        \"file\" : 0\n      },\n      {\n        \"command\" : 0,\n        \"file\" : 0,\n        \"line\" : 15,\n        \"parent\" : 14\n      }\n    ]\n  },\n  \"kind\" : \"ctestInfo\",\n  \"tests\" : \n  [\n    {\n      \"backtrace\" : 1,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 0\"\n      ],\n      \"name\" : \"passed\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 3,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"echo original-marker; exit 7\"\n      ],\n      \"name\" : \"failed\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 5,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 77\"\n      ],\n      \"name\" : \"skipped\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"SKIP_RETURN_CODE\",\n          \"value\" : 77\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 7,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 0\"\n      ],\n      \"name\" : \"disabled\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"DISABLED\",\n          \"value\" : true\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 9,\n      \"command\" : \n      [\n        \"/usr/bin/sleep\",\n        \"20\"\n      ],\n      \"name\" : \"timed_out\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"TIMEOUT\",\n          \"value\" : 0.050000000000000003\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 11,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"kill -SEGV $$\"\n      ],\n      \"name\" : \"crashed\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 13,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 3\"\n      ],\n      \"name\" : \"will_fail\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WILL_FAIL\",\n          \"value\" : true\n        },\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    },\n    {\n      \"backtrace\" : 15,\n      \"command\" : \n      [\n        \"/bin/sh\",\n        \"-c\",\n        \"exit 0\"\n      ],\n      \"name\" : \"parse[value]+edge\",\n      \"properties\" : \n      [\n        {\n          \"name\" : \"WORKING_DIRECTORY\",\n          \"value\" : \"/build\"\n        }\n      ]\n    }\n  ],\n  \"version\" : \n  {\n    \"major\" : 1,\n    \"minor\" : 0\n  }\n}",
+      "stderr": "",
+      "stdout_bytes": 3933,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/3a8e7acd1ef0445eacea494dc0b04aac/stdout.bin",
+        "sha256": "b9fd58674e51f9f546187f866257910be9b80f482a63bb2340ef30ae4924d030",
+        "size_bytes": 3933
+      },
+      "stderr_log": {
+        "path": "logs/3a8e7acd1ef0445eacea494dc0b04aac/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 104
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^passed$",
+        "--output-junit",
+        "/build/passed.xml"
+      ],
+      "returncode": 0,
+      "output": "Test project /build\n    Start 1: passed\n1/1 Test #1: passed ...........................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+      "duration_seconds": 0.1002368640001805,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "5b7af9c215b54db2a00a4a9338142734",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.169122+00:00",
+      "finished_at": "2026-10-20T07:05:38.269374+00:00",
+      "stdout": "Test project /build\n    Start 1: passed\n1/1 Test #1: passed ...........................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+      "stderr": "",
+      "stdout_bytes": 190,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/5b7af9c215b54db2a00a4a9338142734/stdout.bin",
+        "sha256": "a568f2ba33b899d6ced895096f37e5a35470f7be4fe87e0f67801963224cff12",
+        "size_bytes": 190
+      },
+      "stderr_log": {
+        "path": "logs/5b7af9c215b54db2a00a4a9338142734/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 100
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/passed.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"passed\" classname=\"passed\" time=\"0.00146974\" status=\"run\">\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.09363047199985886,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "127667e1a7cd4efd885b8c9c40633a0e",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.292922+00:00",
+      "finished_at": "2026-10-20T07:05:38.386571+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"passed\" classname=\"passed\" time=\"0.00146974\" status=\"run\">\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 322,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/127667e1a7cd4efd885b8c9c40633a0e/stdout.bin",
+        "sha256": "30b01a1f88b1f01360e4ef977fa52b2f2165b8a6c0d1a03bd67a735e2e05eea3",
+        "size_bytes": 322
+      },
+      "stderr_log": {
+        "path": "logs/127667e1a7cd4efd885b8c9c40633a0e/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 94
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^failed$",
+        "--output-junit",
+        "/build/failed.xml"
+      ],
+      "returncode": 8,
+      "output": "Test project /build\n    Start 2: failed\n1/1 Test #2: failed ...........................***Failed    0.00 sec\noriginal-marker\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  2 - failed (Failed)\nErrors while running CTest\n",
+      "duration_seconds": 0.10231108900006802,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "47783df35eed4c45b2d7c881188e51df",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.404461+00:00",
+      "finished_at": "2026-10-20T07:05:38.506788+00:00",
+      "stdout": "Test project /build\n    Start 2: failed\n1/1 Test #2: failed ...........................***Failed    0.00 sec\noriginal-marker\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  2 - failed (Failed)\n",
+      "stderr": "Errors while running CTest\n",
+      "stdout_bytes": 257,
+      "stderr_bytes": 27,
+      "stdout_log": {
+        "path": "logs/47783df35eed4c45b2d7c881188e51df/stdout.bin",
+        "sha256": "2542d0c8609ed748200a5d980cddeebb0f6cceec0ca627a17194ef2452fee00d",
+        "size_bytes": 257
+      },
+      "stderr_log": {
+        "path": "logs/47783df35eed4c45b2d7c881188e51df/stderr.bin",
+        "sha256": "18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4",
+        "size_bytes": 27
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 8,
+      "duration_ms": 102
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/failed.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"1\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"failed\" classname=\"failed\" time=\"0.00139949\" status=\"fail\">\n\t\t<failure message=\"Failed\"/>\n\t\t<properties/>\n\t\t<system-out>original-marker\n</system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.09427116299957561,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "197f75d9426a40c38158e6a568b8ca0c",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.524297+00:00",
+      "finished_at": "2026-10-20T07:05:38.618603+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"1\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"failed\" classname=\"failed\" time=\"0.00139949\" status=\"fail\">\n\t\t<failure message=\"Failed\"/>\n\t\t<properties/>\n\t\t<system-out>original-marker\n</system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 369,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/197f75d9426a40c38158e6a568b8ca0c/stdout.bin",
+        "sha256": "0bc0f1cf80ba970206f8e7c9c87ee34b8ae077969158034dd6633cff202a2f76",
+        "size_bytes": 369
+      },
+      "stderr_log": {
+        "path": "logs/197f75d9426a40c38158e6a568b8ca0c/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 94
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^skipped$",
+        "--output-junit",
+        "/build/skipped.xml"
+      ],
+      "returncode": 0,
+      "output": "Test project /build\n    Start 3: skipped\n1/1 Test #3: skipped ..........................***Skipped   0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests did not run:\n\t  3 - skipped (Skipped)\n",
+      "duration_seconds": 0.10833059699871228,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "b53615919ea64b769bd125721c645f86",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.637230+00:00",
+      "finished_at": "2026-10-20T07:05:38.745575+00:00",
+      "stdout": "Test project /build\n    Start 3: skipped\n1/1 Test #3: skipped ..........................***Skipped   0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests did not run:\n\t  3 - skipped (Skipped)\n",
+      "stderr": "",
+      "stdout_bytes": 250,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/b53615919ea64b769bd125721c645f86/stdout.bin",
+        "sha256": "5dce210aa867947d228468506d6d10952044df19278bb4f956ef81158c18177b",
+        "size_bytes": 250
+      },
+      "stderr_log": {
+        "path": "logs/b53615919ea64b769bd125721c645f86/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 108
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/skipped.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"0\"\n\tskipped=\"1\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"skipped\" classname=\"skipped\" time=\"0.0013695\" status=\"notrun\">\n\t\t<skipped message=\"SKIP_RETURN_CODE=77\"/>\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.09126499499870988,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "00a2ae421f164a939f52096a6fc07107",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.763299+00:00",
+      "finished_at": "2026-10-20T07:05:38.854580+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"0\"\n\tskipped=\"1\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"skipped\" classname=\"skipped\" time=\"0.0013695\" status=\"notrun\">\n\t\t<skipped message=\"SKIP_RETURN_CODE=77\"/>\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 369,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/00a2ae421f164a939f52096a6fc07107/stdout.bin",
+        "sha256": "4b56e5e85ad47ca9903ac13a645c0ac347489e3642b1b93f1c029dc251353165",
+        "size_bytes": 369
+      },
+      "stderr_log": {
+        "path": "logs/00a2ae421f164a939f52096a6fc07107/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 91
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^disabled$",
+        "--output-junit",
+        "/build/disabled.xml"
+      ],
+      "returncode": 8,
+      "output": "Test project /build\n    Start 4: disabled\n1/1 Test #4: disabled .........................***Not Run (Disabled)   0.00 sec\nNo tests were found!!!\nErrors while running CTest\n",
+      "duration_seconds": 0.10894979799923021,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "e49b87a7522b41b3a59a966270dafb4e",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:38.872857+00:00",
+      "finished_at": "2026-10-20T07:05:38.981821+00:00",
+      "stdout": "Test project /build\n    Start 4: disabled\n1/1 Test #4: disabled .........................***Not Run (Disabled)   0.00 sec\n",
+      "stderr": "No tests were found!!!\nErrors while running CTest\n",
+      "stdout_bytes": 122,
+      "stderr_bytes": 50,
+      "stdout_log": {
+        "path": "logs/e49b87a7522b41b3a59a966270dafb4e/stdout.bin",
+        "sha256": "61011175a546b586c4366b08fc6195a3b3312384ad5bea3e13ff5bb2d9449694",
+        "size_bytes": 122
+      },
+      "stderr_log": {
+        "path": "logs/e49b87a7522b41b3a59a966270dafb4e/stderr.bin",
+        "sha256": "81c2c10d2f67fe1b2b83db3933a53f4d43f5fdf54b195e9673c9331db57803e4",
+        "size_bytes": 50
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 8,
+      "duration_ms": 109
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/disabled.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"1\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"disabled\" classname=\"disabled\" time=\"0\" status=\"disabled\">\n\t\t<properties/>\n\t\t<system-out>Disabled</system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.09473983299903921,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "8f4770f6ae3a41aebf0fc416bed3f1d5",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.001845+00:00",
+      "finished_at": "2026-10-20T07:05:39.096648+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"1\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:38\"\n\t>\n\t<testcase name=\"disabled\" classname=\"disabled\" time=\"0\" status=\"disabled\">\n\t\t<properties/>\n\t\t<system-out>Disabled</system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 330,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/8f4770f6ae3a41aebf0fc416bed3f1d5/stdout.bin",
+        "sha256": "5ac48ba6a5af61d5e3e25263d0d1b03bd11f25c2267e43d3f77cb3fbd18cb51d",
+        "size_bytes": 330
+      },
+      "stderr_log": {
+        "path": "logs/8f4770f6ae3a41aebf0fc416bed3f1d5/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 95
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^timed_out$",
+        "--output-junit",
+        "/build/timed_out.xml"
+      ],
+      "returncode": 8,
+      "output": "Test project /build\n    Start 5: timed_out\n1/1 Test #5: timed_out ........................***Timeout   0.05 sec\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.05 sec\n\nThe following tests FAILED:\n\t  5 - timed_out (Timeout)\nErrors while running CTest\n",
+      "duration_seconds": 0.16259688299942354,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "144b355d03ee40ebb5f6cbf5b164be12",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.114228+00:00",
+      "finished_at": "2026-10-20T07:05:39.276841+00:00",
+      "stdout": "Test project /build\n    Start 5: timed_out\n1/1 Test #5: timed_out ........................***Timeout   0.05 sec\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.05 sec\n\nThe following tests FAILED:\n\t  5 - timed_out (Timeout)\n",
+      "stderr": "Errors while running CTest\n",
+      "stdout_bytes": 248,
+      "stderr_bytes": 27,
+      "stdout_log": {
+        "path": "logs/144b355d03ee40ebb5f6cbf5b164be12/stdout.bin",
+        "sha256": "87d554b2c873fa727c12c77cf4196e76141df1979d2985e6b6a2449d7c5227f8",
+        "size_bytes": 248
+      },
+      "stderr_log": {
+        "path": "logs/144b355d03ee40ebb5f6cbf5b164be12/stderr.bin",
+        "sha256": "18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4",
+        "size_bytes": 27
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 8,
+      "duration_ms": 163
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/timed_out.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"1\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:39\"\n\t>\n\t<testcase name=\"timed_out\" classname=\"timed_out\" time=\"0.0504577\" status=\"fail\">\n\t\t<failure message=\"Timeout\"/>\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.09797854099997494,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "fb8215366a104f638abbde8ee0c46e6f",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.294750+00:00",
+      "finished_at": "2026-10-20T07:05:39.392746+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"1\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:39\"\n\t>\n\t<testcase name=\"timed_out\" classname=\"timed_out\" time=\"0.0504577\" status=\"fail\">\n\t\t<failure message=\"Timeout\"/>\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 359,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/fb8215366a104f638abbde8ee0c46e6f/stdout.bin",
+        "sha256": "fdb1f4c03ce32b9fc381712c50a20a8115226015a40fcff89c24467ef2ff3a6d",
+        "size_bytes": 359
+      },
+      "stderr_log": {
+        "path": "logs/fb8215366a104f638abbde8ee0c46e6f/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 98
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^crashed$",
+        "--output-junit",
+        "/build/crashed.xml"
+      ],
+      "returncode": 8,
+      "output": "Test project /build\n    Start 6: crashed\n1/1 Test #6: crashed ..........................***Exception: SegFault  0.02 sec\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.02 sec\n\nThe following tests FAILED:\n\t  6 - crashed (SEGFAULT)\nErrors while running CTest\n",
+      "duration_seconds": 0.1320467119985551,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "f8ae33f535b544f8b4bcac1b4ef08623",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.410677+00:00",
+      "finished_at": "2026-10-20T07:05:39.542760+00:00",
+      "stdout": "Test project /build\n    Start 6: crashed\n1/1 Test #6: crashed ..........................***Exception: SegFault  0.02 sec\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.02 sec\n\nThe following tests FAILED:\n\t  6 - crashed (SEGFAULT)\n",
+      "stderr": "Errors while running CTest\n",
+      "stdout_bytes": 256,
+      "stderr_bytes": 27,
+      "stdout_log": {
+        "path": "logs/f8ae33f535b544f8b4bcac1b4ef08623/stdout.bin",
+        "sha256": "705520a0e8cfb0104cbb731faa1cd5e559ff0ab2a0576da1c1a5479a594a839b",
+        "size_bytes": 256
+      },
+      "stderr_log": {
+        "path": "logs/f8ae33f535b544f8b4bcac1b4ef08623/stderr.bin",
+        "sha256": "18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4",
+        "size_bytes": 27
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 8,
+      "duration_ms": 132
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/crashed.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"1\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:39\"\n\t>\n\t<testcase name=\"crashed\" classname=\"crashed\" time=\"0.0235679\" status=\"fail\">\n\t\t<failure message=\"SEGFAULT\"/>\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.08664697499989416,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "d45c4ecc1cb14b95bad46b7fcd9ad692",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.561912+00:00",
+      "finished_at": "2026-10-20T07:05:39.648575+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"1\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:39\"\n\t>\n\t<testcase name=\"crashed\" classname=\"crashed\" time=\"0.0235679\" status=\"fail\">\n\t\t<failure message=\"SEGFAULT\"/>\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 356,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/d45c4ecc1cb14b95bad46b7fcd9ad692/stdout.bin",
+        "sha256": "295eb822cafc45c1c294acffaa02385102a19f97bc05c7608b851c94252dca90",
+        "size_bytes": 356
+      },
+      "stderr_log": {
+        "path": "logs/d45c4ecc1cb14b95bad46b7fcd9ad692/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 87
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^will_fail$",
+        "--output-junit",
+        "/build/will_fail.xml"
+      ],
+      "returncode": 0,
+      "output": "Test project /build\n    Start 7: will_fail\n1/1 Test #7: will_fail ........................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+      "duration_seconds": 0.09864401599952544,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "4a0cba30b5584f46bf6327e1f8cf6441",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.668021+00:00",
+      "finished_at": "2026-10-20T07:05:39.766683+00:00",
+      "stdout": "Test project /build\n    Start 7: will_fail\n1/1 Test #7: will_fail ........................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+      "stderr": "",
+      "stdout_bytes": 193,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/4a0cba30b5584f46bf6327e1f8cf6441/stdout.bin",
+        "sha256": "cdcbbfb1d9e0b72be7d5da71ab8876287d8a13d67090dddb37693bf5ed52304e",
+        "size_bytes": 193
+      },
+      "stderr_log": {
+        "path": "logs/4a0cba30b5584f46bf6327e1f8cf6441/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 99
+    },
+    {
+      "argv": [
+        "cat",
+        "--",
+        "/build/will_fail.xml"
+      ],
+      "returncode": 0,
+      "output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:39\"\n\t>\n\t<testcase name=\"will_fail\" classname=\"will_fail\" time=\"0.00134391\" status=\"run\">\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "duration_seconds": 0.0968924450007762,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "3bdba05866e048a393e5fb37afacaf39",
+      "cwd": "/build",
+      "started_at": "2026-10-20T07:05:39.784881+00:00",
+      "finished_at": "2026-10-20T07:05:39.881788+00:00",
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<testsuite name=\"(empty)\"\n\ttests=\"1\"\n\tfailures=\"0\"\n\tdisabled=\"0\"\n\tskipped=\"0\"\n\thostname=\"\"\n\ttime=\"0\"\n\ttimestamp=\"2026-10-20T07:05:39\"\n\t>\n\t<testcase name=\"will_fail\" classname=\"will_fail\" time=\"0.00134391\" status=\"run\">\n\t\t<properties/>\n\t\t<system-out></system-out>\n\t</testcase>\n</testsuite>\n",
+      "stderr": "",
+      "stdout_bytes": 328,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/3bdba05866e048a393e5fb37afacaf39/stdout.bin",
+        "sha256": "63f6222dee8ac36434def57c5245f9284d98b08fe7399299bea0023c0384d862",
+        "size_bytes": 328
+      },
+      "stderr_log": {
+        "path": "logs/3bdba05866e048a393e5fb37afacaf39/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "7586578d5f9e360c490a333d419676eab7c2283fd0cc4c7e838f3855db8a3b0a",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 97
+    }
+  ]
+}

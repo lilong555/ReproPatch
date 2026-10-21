@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+      "size_bytes": 572,
+      "git_mode": "100644"
+    },
+    {
+      "path": "src/stats.cpp",
+      "sha256": "13efd12643f6a7957c2e9974148018faaafd167c0431178a0f9ab617243415cd",
+      "size_bytes": 290,
+      "git_mode": "100644"
+    },
+    {
+      "path": "src/stats.hpp",
+      "sha256": "1a0cbbde581b19821a7925ebb9fa9184ec6a2d82ba401c1acf020799e3a0ff80",
+      "size_bytes": 183,
+      "git_mode": "100644"
+    },
+    {
+      "path": "tests/stats_test.cpp",
+      "sha256": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+      "size_bytes": 999,
+      "git_mode": "100644"
+    }
+  ]
+}

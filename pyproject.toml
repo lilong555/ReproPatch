@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "repropatch"
-version = "0.1.0"
+version = "0.3.0.dev2"
 description = "A reproducible repair agent harness for C++ projects"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -12,6 +12,7 @@ license = "Apache-2.0"
 dependencies = ["PyYAML>=6.0.2,<7"]
 
 [project.optional-dependencies]
+agent = ["openai-agents==0.24.0", "openai==3.35.1"]
 dev = ["pytest>=8,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1", "build>=1.2,<2"]
 
 [project.scripts]
@@ -20,7 +21,7 @@ repropatch = "repropatch.cli:main"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
-markers = ["docker: requires a real Docker daemon and the repropatch image", "integration: compiles the trusted C++ fixture"]
+markers = ["docker: requires a real Docker daemon and the repropatch image", "integration: compiles the trusted C++ fixture", "sdk: 需要安装 agent extra 的离线 SDK 契约测试"]
 
 [tool.ruff]
 target-version = "py312"

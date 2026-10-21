@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "run_id": "27d558d214794bf8a9e3ee4d164b3eb8",
+  "owner_uid": 1000,
+  "control_identity": [
+    2096,
+    32686
+  ],
+  "workspace_identity": [
+    2096,
+    32690
+  ],
+  "lock_path": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/runs/27d558d214794bf8a9e3ee4d164b3eb8/.run.lock",
+  "repository": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo",
+  "commit": "3c14c45041da834f7e4536212148430d3052e1df",
+  "control_directory": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/runs/27d558d214794bf8a9e3ee4d164b3eb8",
+  "workspace_directory": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8",
+  "worktrees": [
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/repair",
+      "commit": "3c14c45041da834f7e4536212148430d3052e1df",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo/.git/worktrees/repair",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        32705
+      ],
+      "git_dir_identity": [
+        2096,
+        32703
+      ],
+      "common_dir_identity": [
+        2096,
+        31283,
+        1000
+      ],
+      "git_pointer_sha256": "6e66044f39801934a06f1ffce2513f982d824f9b352adfd87f32c0d272c4c9cc",
+      "manager_pointer_sha256": "07ff2affabe1f4a5bb19f73b5b297b6d36cdf1acadb454ac7f2fae9c86b81135",
+      "exists": false
+    },
+    {
+      "repository": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo",
+      "path": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/validation",
+      "commit": "3c14c45041da834f7e4536212148430d3052e1df",
+      "git_dir": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo/.git/worktrees/validation",
+      "common_dir": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/repo/.git",
+      "owner_uid": 1000,
+      "root_identity": [
+        2096,
+        734054
+      ],
+      "git_dir_identity": [
+        2096,
+        734052
+      ],
+      "common_dir_identity": [
+        2096,
+        31283,
+        1000
+      ],
+      "git_pointer_sha256": "71a00a7a1904eb197e41c666d54bd0b3ed65fb80486f6fe6c55c81181f67f6cd",
+      "manager_pointer_sha256": "ea9ed5f549deaccf9a395b703ae53b5b928f8986fc7801c25addfa09bbdb8996",
+      "exists": false
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/001-baseline",
+      "identity": [
+        2096,
+        32795
+      ],
+      "source_tree_sha256": "55f8c300b4407d2458d89cd43e1382ee37dcd0f569a505fe7f66fab953d95def",
+      "exists": false
+    },
+    {
+      "path": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/shell-d4ed0af9628549688d1de2301b582abd",
+      "identity": [
+        2096,
+        433281
+      ],
+      "source_tree_sha256": "55f8c300b4407d2458d89cd43e1382ee37dcd0f569a505fe7f66fab953d95def",
+      "exists": false
+    },
+    {
+      "path": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/002-independent",
+      "identity": [
+        2096,
+        744134
+      ],
+      "source_tree_sha256": "3ac4104a0e12d3da436da6616a635c337d1f3cc36defa149b90dd176cfd67c01",
+      "exists": false
+    }
+  ],
+  "containers": [
+    {
+      "name": "repropatch-372e9df1255c42129ea0db67736b44c4",
+      "container_id": "a894b932362b567b03d1e6f818c0edd3ef5dad4a3f7964cae565a8f27e7f0180",
+      "run_id": "27d558d214794bf8a9e3ee4d164b3eb8",
+      "purpose": "001-baseline",
+      "labels": {
+        "repropatch.run": "27d558d214794bf8a9e3ee4d164b3eb8",
+        "repropatch.operation": "repropatch-372e9df1255c42129ea0db67736b44c4",
+        "repropatch.purpose": "001-baseline"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/001-baseline",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 2147483648,
+          "MemorySwap": 2147483648,
+          "PidsLimit": 128,
+          "NanoCpus": 2000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=1024m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/001-baseline",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": {
+        "docker_server": "28.3.2",
+        "docker_client": "28.3.2",
+        "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "versions": {
+          "cmake": "3.28.3",
+          "ctest": "3.28.3"
+        },
+        "paths": {
+          "cmake": "/usr/bin/cmake",
+          "ctest": "/usr/bin/ctest",
+          "c++": "/usr/bin/c++",
+          "cat": "/usr/bin/cat",
+          "timeout": "/usr/bin/timeout"
+        }
+      }
+    },
+    {
+      "name": "repropatch-a93804b445a040d382cceec1f4d6571b",
+      "container_id": "44c30639536d6d8a42bf3d1ecba662ff1c07ff82f8d1523a7e396b23e15894d5",
+      "run_id": "27d558d214794bf8a9e3ee4d164b3eb8",
+      "purpose": "shell-d4ed0af9628549688d1de2301b582abd",
+      "labels": {
+        "repropatch.run": "27d558d214794bf8a9e3ee4d164b3eb8",
+        "repropatch.operation": "repropatch-a93804b445a040d382cceec1f4d6571b",
+        "repropatch.purpose": "shell-d4ed0af9628549688d1de2301b582abd"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/shell-d4ed0af9628549688d1de2301b582abd",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 2147483648,
+          "MemorySwap": 2147483648,
+          "PidsLimit": 128,
+          "NanoCpus": 2000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=1024m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/shell-d4ed0af9628549688d1de2301b582abd",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": null
+    },
+    {
+      "name": "repropatch-8ee02a462985471e93fb738834b1fcb9",
+      "container_id": "b19d3e99a59551f1611fe71f16bcc2b9921e9027e8c70340e7ba6d3b87715a8c",
+      "run_id": "27d558d214794bf8a9e3ee4d164b3eb8",
+      "purpose": "002-independent",
+      "labels": {
+        "repropatch.run": "27d558d214794bf8a9e3ee4d164b3eb8",
+        "repropatch.operation": "repropatch-8ee02a462985471e93fb738834b1fcb9",
+        "repropatch.purpose": "002-independent"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/002-independent",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 2147483648,
+          "MemorySwap": 2147483648,
+          "PidsLimit": 128,
+          "NanoCpus": 2000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=1024m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/76a252b1c1ea459fb2db1723a53b3c6a/test_sdk_shell_and_budget_real0/workspaces/27d558d214794bf8a9e3ee4d164b3eb8/snapshots/002-independent",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": {
+        "docker_server": "28.3.2",
+        "docker_client": "28.3.2",
+        "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "versions": {
+          "cmake": "3.28.3",
+          "ctest": "3.28.3"
+        },
+        "paths": {
+          "cmake": "/usr/bin/cmake",
+          "ctest": "/usr/bin/ctest",
+          "c++": "/usr/bin/c++",
+          "cat": "/usr/bin/cat",
+          "timeout": "/usr/bin/timeout"
+        }
+      }
+    }
+  ],
+  "cleanup_errors": []
+}

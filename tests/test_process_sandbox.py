@@ -63,25 +63,73 @@ def test_docker_policy_only_mounts_readonly_snapshot(tmp_path, monkeypatch):
     assert str(os.path.expanduser("~")) not in [a for a in args if a.startswith("type=bind")]
 
 
-def test_docker_lifecycle_timeout_cleanup(tmp_path, monkeypatch):
-    sandbox = DockerSandbox(tmp_path, "repropatch-cpp:0.1")
+def prepare_lifecycle(sandbox, monkeypatch, *, start_error=False, cleanup_error=False):
+    import json
+
+    identifier = "a" * 64
     history = []
+    removed = False
 
     def fake_docker(*args, **kwargs):
+        nonlocal removed
         history.append(args)
-        output = "sha256:" + "a" * 64 if args[0] == "image" else "ok"
+        if args[0] == "info":
+            output = json.dumps(
+                dict.fromkeys(("MemoryLimit", "SwapLimit", "CpuCfsQuota", "PidsLimit"), True)
+            )
+        elif args[0] == "version":
+            output = "28.3.2"
+        elif args[0] == "image":
+            output = json.dumps([{"Id": "sha256:" + "a" * 64, "Config": {}}])
+        elif args[0] == "create":
+            output = identifier
+        elif args[:2] == ("container", "inspect"):
+            if removed:
+                return None
+            output = json.dumps(
+                [
+                    {
+                        "Id": identifier,
+                        "Name": "/" + sandbox.name,
+                        "Config": {"Labels": sandbox.labels},
+                        "State": {"Running": True},
+                    }
+                ]
+            )
+        elif args[0] == "start":
+            if start_error:
+                raise InfrastructureError("original-start-failure")
+            output = identifier
+        elif args[0] == "rm":
+            if cleanup_error:
+                raise InfrastructureError("original-rm-failure")
+            removed = True
+            output = identifier
+        else:
+            raise AssertionError(args)
         return CommandResult(tuple(args), 0, output, 0.001)
 
     monkeypatch.setattr(sandbox, "_docker", fake_docker)
-    monkeypatch.setattr(
-        "repropatch.sandbox.run_process",
-        lambda *a, **k: CommandResult(("docker",), -9, "", 0.1, timed_out=True),
-    )
+    monkeypatch.setattr(sandbox, "_verify_profile", sandbox._verify_owner)
+    return history
+
+
+def test_docker_lifecycle_timeout_cleanup(tmp_path, monkeypatch):
+    from repropatch.process import RawResult
+
+    sandbox = DockerSandbox(tmp_path, "repropatch-cpp:0.1")
+    history = prepare_lifecycle(sandbox, monkeypatch)
+
+    def timeout(argv, **kwargs):
+        kwargs["on_stop"]("timed_out")
+        return RawResult(tuple(argv), -9, b"", b"", 0.1, timed_out=True, status="timed_out")
+
+    monkeypatch.setattr("repropatch.process.run_process_bytes", timeout)
     with sandbox:
-        assert sandbox.image_id == "sha256:" + "a" * 64
         result = sandbox.run(("ctest",))
-        assert result.timed_out
+        assert result.timed_out and result.cleanup_confirmed
     assert sum(a[0] == "rm" for a in history) == 1
+    assert history[-1] == ("container", "inspect", "a" * 64)
 
 
 def test_no_docker_never_falls_back(tmp_path, monkeypatch):
@@ -97,12 +145,7 @@ def test_no_docker_never_falls_back(tmp_path, monkeypatch):
 def test_container_start_error_not_masked_by_cleanup_error(tmp_path, monkeypatch):
     sandbox = DockerSandbox(tmp_path, "repropatch-cpp:0.1")
 
-    def fake_docker(*args, **kwargs):
-        if args[0] in {"start", "rm"}:
-            raise InfrastructureError(f"original-{args[0]}-failure")
-        return CommandResult(tuple(args), 0, "sha256:" + "a" * 64, 0.001)
-
-    monkeypatch.setattr(sandbox, "_docker", fake_docker)
+    prepare_lifecycle(sandbox, monkeypatch, start_error=True, cleanup_error=True)
     with pytest.raises(InfrastructureError, match="original-start-failure") as caught:
         with sandbox:
             pytest.fail("must not start")

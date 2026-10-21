@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "harness_version": "0.1.0",
+  "run_id": "negative-maximum-149ce0e00cb5",
+  "task_id": "negative-maximum",
+  "started_at": "2026-10-20T04:28:06.879405+00:00",
+  "status": "failed",
+  "isolated": true,
+  "base_commit": "eef810b3329a64e543dc860c8c362e921cc276b0",
+  "requested_image": "repropatch-cpp:0.1",
+  "evaluations": [
+    {
+      "phase": "baseline",
+      "source_sha256": "897dc98af86c8af8be1e415e34ca4fa965612272f776738f8bcdd7d7419e163f",
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-dab00e9cc41a479196c466f4ffe3e2e4",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.23557319999986248,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5790536980000525,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^negative_values$"
+          ],
+          "returncode": 8,
+          "output": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................***Failed    0.00 sec\nexpected -3, got 0\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  1 - negative_values (Failed)\nErrors while running CTest\n",
+          "duration_seconds": 0.07793264099996122,
+          "timed_out": false,
+          "output_truncated": false
+        }
+      ]
+    },
+    {
+      "phase": "independent",
+      "source_sha256": "d8e89aeda48f6b0b3df8b291746e2cb9bd4424946324f1539c9d57ed5a092c29",
+      "isolated": true,
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "backend": "DockerSandbox",
+      "container_name": "repropatch-03de27c107db4ba8b4c542a4c84f046f",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "returncode": 0,
+          "output": "-- The CXX compiler identification is GNU 13.3.0\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /build\n",
+          "duration_seconds": 0.2097359009999309,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "returncode": 0,
+          "output": "[ 25%] Building CXX object CMakeFiles/stats.dir/src/stats.cpp.o\n[ 50%] Linking CXX static library libstats.a\n[ 50%] Built target stats\n[ 75%] Building CXX object CMakeFiles/stats_test.dir/tests/stats_test.cpp.o\n[100%] Linking CXX executable stats_test\n[100%] Built target stats_test\n",
+          "duration_seconds": 0.5763588810000329,
+          "timed_out": false,
+          "output_truncated": false
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^negative_values$"
+          ],
+          "returncode": 8,
+          "output": "Test project /build\n    Start 1: negative_values\n1/1 Test #1: negative_values ..................***Failed    0.00 sec\nexpected -3, got -1\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n\nThe following tests FAILED:\n\t  1 - negative_values (Failed)\nErrors while running CTest\n",
+          "duration_seconds": 0.08258340399993358,
+          "timed_out": false,
+          "output_truncated": false
+        }
+      ]
+    }
+  ],
+  "model_steps": 2,
+  "tool_calls": 1,
+  "reproduced": true,
+  "verified": false,
+  "artifact_directory": "/home/li/repropatch/.repropatch/gate-tests/b93f2fd13afe4cd1afefc8c44ad4e20d/test_docker_wrong_patch_is_rej0/runs/negative-maximum-149ce0e00cb5",
+  "model": {
+    "adapter": "MockModel",
+    "name": null
+  },
+  "task": {
+    "id": "negative-maximum",
+    "repository": "/home/li/repropatch/.repropatch/gate-tests/b93f2fd13afe4cd1afefc8c44ad4e20d/test_docker_wrong_patch_is_rej0/repo",
+    "revision": "HEAD",
+    "prompt": "maximum_sample returns 0 for a nonempty all-negative sample series, although 0 does not occur in the input. Fix the implementation while preserving the optional empty-input behavior and the full int domain.",
+    "editable_paths": [
+      "src/stats.cpp"
+    ],
+    "commands": {
+      "configure": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/build",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "build": [
+        "cmake",
+        "--build",
+        "/build",
+        "--parallel",
+        "2"
+      ],
+      "reproduce": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error",
+        "-R",
+        "^negative_values$"
+      ],
+      "verify": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ]
+    },
+    "failure_exit_code": 8,
+    "failure_contains": "expected -3, got 0",
+    "timeout_seconds": 60,
+    "max_steps": 12
+  },
+  "task_sha256": "11c1fe37da5653bbdd9ed81533ab486abc9e999b5a95514a54c73316687d45c7",
+  "model_summary": "done",
+  "duration_seconds": 2.7169906670001183,
+  "model_usage": [],
+  "patch_sha256": "d5018314022876e88b5b3aa686be5533b798af089f5261756f5342cb043eda39"
+}

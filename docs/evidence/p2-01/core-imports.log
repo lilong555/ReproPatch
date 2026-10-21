@@ -1,0 +1,9 @@
+{
+  "location": "/home/li/repropatch/.repropatch/wheel-p201-release-core/lib/python3.12/site-packages/repropatch",
+  "packages": {
+    "pyyaml": "6.0.3",
+    "repropatch": "0.3.0.dev1"
+  },
+  "source_bytes_match": true,
+  "core_import_without_sdk": true
+}

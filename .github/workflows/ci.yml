@@ -12,12 +12,28 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -e '.[dev]'
       - run: ruff check src tests scripts && ruff format --check src tests scripts
-      - run: pytest --junitxml=.repropatch/ci-evidence/python/results.xml
+      - run: pytest -m 'not docker and not sdk' --junitxml=.repropatch/ci-evidence/python/results.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: python-cpp-evidence
           path: .repropatch/ci-evidence/python/
+          include-hidden-files: true
+          retention-days: 7
+  sdk-contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev]' cmake==4.4.4
+      - run: pytest -m sdk --junitxml=.repropatch/ci-evidence/sdk/results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sdk-contract-evidence
+          path: .repropatch/ci-evidence/sdk/
           include-hidden-files: true
           retention-days: 7
   docker-integration:
@@ -27,20 +43,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -e '.[dev]'
-      - name: Record execution identity
-        run: |
-          mkdir -p .repropatch/ci-evidence/docker
-          git rev-parse HEAD > .repropatch/ci-evidence/docker/environment.txt
-          docker version >> .repropatch/ci-evidence/docker/environment.txt
-      - run: docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
-      - name: Record image identity
-        run: docker image inspect --format '{{.Id}}' repropatch-cpp:0.1 >> .repropatch/ci-evidence/docker/environment.txt
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev]'
       - name: Run real Docker gate
         run: >-
-          REPROPATCH_DOCKER_TESTS=1 pytest -m docker -v
-          --basetemp=.repropatch/ci-evidence/docker/tests
-          --junitxml=.repropatch/ci-evidence/docker/results.xml
+          python scripts/check_docker_gate.py --build
+          --output .repropatch/ci-evidence/docker
       - uses: actions/upload-artifact@v4
         if: always()
         with:

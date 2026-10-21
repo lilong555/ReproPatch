@@ -1,0 +1,40 @@
+[
+  {
+    "report": "docker-gate/runs/test_docker_cpp_end_to_end0/negative-maximum-a4d14d3559ba/report.json",
+    "status": "passed",
+    "isolated": true,
+    "task_sha256": "6c34e0b183772fe4d5b5475e0910cbb1aedff976b0ae2c7d7bab770e2be24682",
+    "patch_hash_verified": true,
+    "task_hash_verified": true,
+    "containers_removed": [
+      "repropatch-215f5135dc464ae797b39d0ac8e82b28",
+      "repropatch-af53e80095214eee9a61941f105a707e",
+      "repropatch-75df755c465f418badd6ff5c0d4965f8"
+    ]
+  },
+  {
+    "report": "docker-gate/runs/test_docker_wrong_patch_is_rej0/negative-maximum-aebb66a8964e/report.json",
+    "status": "failed",
+    "isolated": true,
+    "task_sha256": "cfde915034e4eddf59695c6bb26f0667d438f6549113b9f8736446fd7da65502",
+    "patch_hash_verified": true,
+    "task_hash_verified": true,
+    "containers_removed": [
+      "repropatch-2a2886467e294fb3846760ad7e85f6fe",
+      "repropatch-3425118d878241dbab4cb7fa6442092a"
+    ]
+  },
+  {
+    "report": "installed-cli/negative-maximum-dde826180381/report.json",
+    "status": "passed",
+    "isolated": true,
+    "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+    "patch_hash_verified": true,
+    "task_hash_verified": true,
+    "containers_removed": [
+      "repropatch-161f0e6198f84506af0e8406e8444fe3",
+      "repropatch-d25e4af6668141fbbdeebd25618bb1d7",
+      "repropatch-2666a9e7b46049d0b65882a3c058048d"
+    ]
+  }
+]

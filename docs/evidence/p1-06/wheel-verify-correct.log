@@ -1,0 +1,1 @@
+{"run_id":"16a05324fb8647a1ab9f0badbb2bce31","task_id":"negative-maximum","input_mode":"verify-patch","state":"FINISHED","outcome":"ACCEPTED","reason_code":"VERIFICATION_PASSED","paused":false,"artifact_dir":"/home/li/repropatch/docs/evidence/p1-06/installed-verify/correct/16a05324fb8647a1ab9f0badbb2bce31","artifacts_complete":true,"command_error":null}

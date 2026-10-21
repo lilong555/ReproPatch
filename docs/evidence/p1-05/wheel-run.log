@@ -1,0 +1,1 @@
+{"run_id": "0912e3e911c84094b67b2abc83d1e5ef", "task_id": "negative-maximum", "input_mode": "run", "state": "FINISHED", "outcome": "ACCEPTED", "reason_code": "VERIFICATION_PASSED", "paused": false, "artifact_dir": "/home/li/repropatch/docs/evidence/p1-05/installed-auto/0912e3e911c84094b67b2abc83d1e5ef", "artifacts_complete": true, "command_error": null}

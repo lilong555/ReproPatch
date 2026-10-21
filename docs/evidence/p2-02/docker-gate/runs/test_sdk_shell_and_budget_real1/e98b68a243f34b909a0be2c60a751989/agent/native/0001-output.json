@@ -1,0 +1,1 @@
+{"output":[{"arguments":"{\"command\":\"sleep 20\",\"timeout_seconds\":1}","call_id":"shell","id":"shell","name":"run_shell","type":"function_call"}],"raw_usage":null}

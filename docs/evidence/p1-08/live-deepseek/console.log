@@ -1,0 +1,76 @@
+{
+  "gate": "V-LIVE",
+  "status": "passed",
+  "failures": [],
+  "run_id": "6e806b0a87174f6eaea94db6f3bd8255",
+  "engine": {
+    "api_base": "https://api.deepseek.com",
+    "kind": "agents-sdk",
+    "model_name": "deepseek-flash",
+    "use_env_proxy": true,
+    "versions": {
+      "openai": "3.35.1",
+      "openai-agents": "0.24.0"
+    }
+  },
+  "agent": {
+    "agent_stop_reason": "MODEL_FINISHED",
+    "http_attempts": null,
+    "steps_used": 5,
+    "tool_calls_used": 5
+  },
+  "usage": {
+    "input_tokens": 81507,
+    "known_tokens": {
+      "input_tokens": 81507,
+      "output_tokens": 632,
+      "total_tokens": 82139
+    },
+    "output_tokens": 632,
+    "synthetic": false,
+    "total_tokens": 82139,
+    "unknown_turns": 0
+  },
+  "cost": null,
+  "outcome": "ACCEPTED",
+  "reason_code": "VERIFICATION_PASSED",
+  "implementation_sha256": "651fdd4ed94885a28618932e4f81b5e3e81a9f68163d415953aa30fce756a60a",
+  "tool_round_trips": [
+    {
+      "tool_call_id": "s000001.t01",
+      "tool_name": "read_file",
+      "provider_call_id": "call_00_ET_TEgPIAQJjNScOkcPTEV52137",
+      "tool_finished_seq": 43,
+      "next_model_started_seq": 46
+    },
+    {
+      "tool_call_id": "s000001.t02",
+      "tool_name": "read_file",
+      "provider_call_id": "call_01_ET_hsYnD9Vqd0RfOthoG0xt2037",
+      "tool_finished_seq": 45,
+      "next_model_started_seq": 46
+    },
+    {
+      "tool_call_id": "s000002.t01",
+      "tool_name": "read_file",
+      "provider_call_id": "call_00_pOutqwQQFsXKwUQVRI4T1512",
+      "tool_finished_seq": 50,
+      "next_model_started_seq": 51
+    },
+    {
+      "tool_call_id": "s000003.t01",
+      "tool_name": "edit_file",
+      "provider_call_id": "call_00_pywGvLaHtdXX1JxQAsVp2807",
+      "tool_finished_seq": 55,
+      "next_model_started_seq": 56
+    },
+    {
+      "tool_call_id": "s000004.t01",
+      "tool_name": "run_command",
+      "provider_call_id": "call_00_ET_JwHl447ta8U7JV88EXId4464",
+      "tool_finished_seq": 93,
+      "next_model_started_seq": 94
+    }
+  ],
+  "plan": "plan.json"
+}

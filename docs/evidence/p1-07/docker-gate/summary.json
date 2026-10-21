@@ -1,0 +1,107 @@
+{
+  "gate": "V-DOCKER",
+  "task_format_version": 2,
+  "started_at": "2026-10-20T12:34:34.828767+00:00",
+  "python": "3.12.15",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "status": "passed",
+  "image": "repropatch-cpp:0.1",
+  "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+  "commands": [
+    {
+      "name": "source-commit",
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.004098528999975315
+    },
+    {
+      "name": "source-status",
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.0059672989999626225
+    },
+    {
+      "name": "docker-version",
+      "argv": [
+        "docker",
+        "version"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.035836152000001675
+    },
+    {
+      "name": "image-id",
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}",
+        "repropatch-cpp:0.1"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.01823292599999604
+    },
+    {
+      "name": "doctor",
+      "argv": [
+        "/home/li/repropatch/.repropatch/sdk-contract/bin/python",
+        "-m",
+        "repropatch",
+        "doctor",
+        "--image",
+        "repropatch-cpp:0.1"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.26521655199996985
+    },
+    {
+      "name": "docker-tests",
+      "argv": [
+        "/home/li/repropatch/.repropatch/sdk-contract/bin/python",
+        "-m",
+        "pytest",
+        "-m",
+        "docker",
+        "-v",
+        "--basetemp=/home/li/repropatch/.repropatch/gate-tests/4b796f3e5dc1460f9e8a9628150eaac6",
+        "--junitxml=/home/li/repropatch/docs/evidence/p1-07/docker-gate/docker-tests.xml"
+      ],
+      "returncode": 0,
+      "duration_seconds": 113.73039221700003
+    }
+  ],
+  "source_commit": "7875dca261cc4097826a30297eff8933fcc76069",
+  "tests_passed": 18,
+  "reports": [
+    "runs/test_docker_cpp_end_to_end0/302e7e68c3b4447bb156b8551025ffee/report.json",
+    "runs/test_docker_roundtrip_preserve0/9c47bbed8ad2484c995a2df6b8738b31/report.json",
+    "runs/test_docker_wrong_patch_is_rej0/f2577d7ddea64c2aa7c9834d0f9b4c70/report.json",
+    "runs/test_external_patch_docker_bas0/1988c5e301674e529ac24cbdb43f0137/report.json",
+    "runs/test_external_patch_docker_bas1/0ef140ac7d2e4a3dafcbbf77e64c3fa7/report.json",
+    "runs/test_external_patch_docker_lit0/2f192825ccc647d1bd26ff8ac7105d48/report.json",
+    "runs/test_external_patch_docker_ref0/15a77ef051394785804ba7c81099f2ff/report.json",
+    "runs/test_external_patch_docker_ref1/a61734706af545179f7ae74b1974ddaf/report.json",
+    "runs/test_sdk_shell_and_budget_real0/f8b6b43a5a0b422c91886e9236e97d31/report.json",
+    "runs/test_sdk_shell_and_budget_real1/42a86d3afc064d3cbc3c0df3086106fc/report.json",
+    "runs/test_sdk_shell_and_budget_real2/6a8b77db81174034a18fa5970479ad68/report.json"
+  ],
+  "sandbox_evidence": [
+    "sandboxes/test_real_container_boundary0/summary.json",
+    "sandboxes/test_real_derived_process_time0/summary.json",
+    "sandboxes/test_real_interrupt_confirms_e0/summary.json",
+    "sandboxes/test_real_output_limit_removes0/summary.json",
+    "sandboxes/test_real_output_limit_removes1/summary.json",
+    "sandboxes/test_real_output_limit_removes2/summary.json",
+    "sandboxes/test_real_timeout_removes_cont0/summary.json"
+  ],
+  "finished_at": "2026-10-20T12:36:29.113827+00:00"
+}

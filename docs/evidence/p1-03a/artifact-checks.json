@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "execution_source_manifest_verified": true,
+  "wheel_source_matches": true,
+  "original_spec_files_verified": 16,
+  "reports": [
+    {
+      "report": "docker-gate/runs/test_docker_cpp_end_to_end0/negative-maximum-bbfe65c9295c/report.json",
+      "status": "passed",
+      "isolated": true,
+      "task_sha256": "15ec0bd8b0a79332fa0754413c85424198d8e6e0d89a32ba646d718280f7237e",
+      "task_hash_verified": true,
+      "source_manifests_verified": 3,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "containers_removed": [
+        "repropatch-f80af05c578c4485ab385a691a278934",
+        "repropatch-2ec0303e1f5c440d99f0d26d16839e88",
+        "repropatch-8ad508d612144c13975a20fea1292b58"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_docker_roundtrip_preserve0/negative-maximum-27c058995be6/report.json",
+      "status": "passed",
+      "isolated": true,
+      "task_sha256": "c29eb5fdece60994fcf511e5b3f172e32846ca9a1100f68f10c9d9def01fe7ac",
+      "task_hash_verified": true,
+      "source_manifests_verified": 3,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "containers_removed": [
+        "repropatch-e19772f0859e4b3ab6913e1315f19f78",
+        "repropatch-baa83788d4654049a49d11bf6a54b089",
+        "repropatch-94d95cd2514c4e9496e2340307bb3735"
+      ]
+    },
+    {
+      "report": "docker-gate/runs/test_docker_wrong_patch_is_rej0/negative-maximum-39b2044f3e1c/report.json",
+      "status": "failed",
+      "isolated": true,
+      "task_sha256": "26b3818494265611f506de40ee65909ce656ee4af20c2d9583b11b29db816960",
+      "task_hash_verified": true,
+      "source_manifests_verified": 2,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "containers_removed": [
+        "repropatch-7606fa321b2646d9ac03c2545b223ad5",
+        "repropatch-de7f4bf1a8dd471d9af21c724b70ad72"
+      ]
+    },
+    {
+      "report": "installed-cli/negative-maximum-af3f9f32690e/report.json",
+      "status": "passed",
+      "isolated": true,
+      "task_sha256": "a10a287c94ae0767598b71249ed470abaae7eccddb698343bbeda00aa2270180",
+      "task_hash_verified": true,
+      "source_manifests_verified": 3,
+      "candidate_roundtrip_verified": true,
+      "patch_hash_verified": true,
+      "sqlite_integrity": "ok",
+      "sqlite_jsonl_match": true,
+      "containers_removed": [
+        "repropatch-b40bb608ebc6475ba9baee056993f5db",
+        "repropatch-9786565019f746c8aa7dd16ac2b32d98",
+        "repropatch-4060b5aade5f4caeae36b50061939029"
+      ]
+    }
+  ]
+}

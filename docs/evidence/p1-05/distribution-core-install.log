@@ -1,0 +1,7 @@
+Processing ./dist/repropatch-0.2.0.dev6-py3-none-any.whl
+Installing collected packages: repropatch
+  Attempting uninstall: repropatch
+    Found existing installation: repropatch 0.2.0.dev6
+    Uninstalling repropatch-0.2.0.dev6:
+      Successfully uninstalled repropatch-0.2.0.dev6
+Successfully installed repropatch-0.2.0.dev6

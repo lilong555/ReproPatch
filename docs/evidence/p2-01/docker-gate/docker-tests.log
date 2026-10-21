@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /home/li/repropatch/.repropatch/sdk-contract/bin/python
+cachedir: .pytest_cache
+rootdir: /home/li/repropatch
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 395 items / 377 deselected / 18 selected
+
+tests/test_docker_integration.py::test_docker_cpp_end_to_end PASSED      [  5%]
+tests/test_docker_integration.py::test_docker_wrong_patch_is_rejected PASSED [ 11%]
+tests/test_docker_integration.py::test_real_container_boundary PASSED    [ 16%]
+tests/test_docker_integration.py::test_real_timeout_removes_container PASSED [ 22%]
+tests/test_docker_integration.py::test_docker_roundtrip_preserves_bom_crlf_and_missing_final_newline PASSED [ 27%]
+tests/test_docker_integration.py::test_real_output_limit_removes_entire_container[stdout] PASSED [ 33%]
+tests/test_docker_integration.py::test_real_output_limit_removes_entire_container[stderr] PASSED [ 38%]
+tests/test_docker_integration.py::test_real_output_limit_removes_entire_container[both] PASSED [ 44%]
+tests/test_docker_integration.py::test_real_derived_process_timeout_and_evaluation_tmpfs_lifetime PASSED [ 50%]
+tests/test_docker_integration.py::test_real_interrupt_confirms_entire_container_removal PASSED [ 55%]
+tests/test_docker_integration.py::test_external_patch_docker_baseline_and_independent[correct] PASSED [ 61%]
+tests/test_docker_integration.py::test_external_patch_docker_baseline_and_independent[wrong] PASSED [ 66%]
+tests/test_docker_integration.py::test_external_patch_docker_refuses_required_test_evasion[skip] PASSED [ 72%]
+tests/test_docker_integration.py::test_external_patch_docker_refuses_required_test_evasion[missing] PASSED [ 77%]
+tests/test_docker_integration.py::test_external_patch_docker_literal_test_name PASSED [ 83%]
+tests/test_docker_integration.py::test_sdk_shell_and_budget_real_docker[shell] PASSED [ 88%]
+tests/test_docker_integration.py::test_sdk_shell_and_budget_real_docker[timeout] PASSED [ 94%]
+tests/test_docker_integration.py::test_sdk_shell_and_budget_real_docker[budget] PASSED [100%]
+
+- generated xml file: /home/li/repropatch/docs/evidence/p2-01/docker-gate/docker-tests.xml -
+================ 18 passed, 377 deselected in 111.46s (0:01:51) ================

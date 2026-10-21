@@ -1,0 +1,6 @@
+Using Python 3.12.15 environment at: .repropatch/wheel-dev5-smoke
+Resolved 2 packages in 5ms
+Prepared 1 package in 5ms
+Installed 2 packages in 3ms
+ + pyyaml==6.0.3
+ + repropatch==0.2.0.dev5 (from file:///home/li/repropatch/dist/repropatch-0.2.0.dev5-py3-none-any.whl)

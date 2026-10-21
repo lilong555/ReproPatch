@@ -1,0 +1,18 @@
+usage: repropatch run [-h] [--output-root OUTPUT_ROOT]
+                      [--model {mock,openai-compatible}] [--script SCRIPT]
+                      [--model-name MODEL_NAME] [--api-base API_BASE]
+                      [--key-env KEY_ENV] [--allow-paid-model]
+                      task
+
+positional arguments:
+  task
+
+options:
+  -h, --help            show this help message and exit
+  --output-root OUTPUT_ROOT
+  --model {mock,openai-compatible}
+  --script SCRIPT       Required for mock model
+  --model-name MODEL_NAME
+  --api-base API_BASE
+  --key-env KEY_ENV
+  --allow-paid-model

@@ -1,0 +1,13 @@
+usage: repropatch [-h] [--version] {doctor,validate-task,run} ...
+
+Reproducible C++ repair harness
+
+positional arguments:
+  {doctor,validate-task,run}
+    doctor              Check host tools and local Docker image
+    validate-task       Validate task YAML without executing code
+    run                 Reproduce, repair, independently verify
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
