@@ -1,5 +1,11 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['docs/*.md', 'docs/evidence/**/*.json', 'specs/**', 'benchmarks/**', '*.md', 'RELEASE.json']
+  pull_request:
+    paths-ignore: ['docs/*.md', 'docs/evidence/**/*.json', 'specs/**', 'benchmarks/**', '*.md', 'RELEASE.json']
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "scope": "benchmark_preparation_not_model_comparison",
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "cpp_instances": 129,
+  "implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
+  "paid_model_requests": 0,
+  "model_cost_cny": 0,
+  "resolved_at_1": null,
+  "official_oracle_verified_instances": 0,
+  "benchmark_coverage": null,
+  "adapted_rp_reference": {
+    "run_id": "5b8561f8bf82427396eec0d15429bc8c",
+    "outcome": "ACCEPTED",
+    "report_sha256": "e8c76285e818fa183f5f15d96e821d3cfa1cbc1d55108772d8afb1a7104ae648",
+    "f2p_count": 2,
+    "p2p_count": 67,
+    "duration_seconds": 157.62709295599961,
+    "configure_probes_pending": 33,
+    "official_oracle_parity_verified": false
+  },
+  "harbor_fixture": {
+    "harbor_version": "0.24.0",
+    "source_commit": "6c9d3d6609854375005a7b5c8f1906371d64c6ff",
+    "installed_python_files_compared": 401,
+    "source_mismatches": 0,
+    "trial": "negative-maximum__VpQMqej",
+    "collection_status": "ok",
+    "verifier_disabled": true,
+    "rp_verification_run_id": "33593fac8604422c81f2f4cff8d1ee0c",
+    "rp_outcome": "ACCEPTED",
+    "report_sha256": "6aa37e9f3fa33eed0f8dc08ebddf5340c7138e901b3d65e2cec99488a6935df2",
+    "producer_user": "root",
+    "producer_network": "public",
+    "strict_comparison_ready": false
+  },
+  "remaining": [
+    "官方 Oracle 与全部配置探测项核验",
+    "两组生成权限与网络策略对齐",
+    "完成五题兼容性验收和收费模型配置冻结",
+    "真实框架对照与同候选验收消融"
+  ],
+  "archive": {
+    "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
+    "sha256": "56b1bb9aa7761842f3cb9200d697a3de8c7b2d3075e7362936e48bff13ad4ee0",
+    "files": 1745,
+    "size_bytes": 2525319,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-readiness-2026-10-21/ReproPatch-benchmark-readiness-2026-10-21.tar.gz"
+  }
+}

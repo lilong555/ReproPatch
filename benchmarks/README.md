@@ -1,7 +1,10 @@
 # ReproPatch 评测
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
-当前公开数据只完成静态兼容性筛查，尚无正式模型对照成绩。
+当前已完成公开数据静态筛查与单实例适配检查，尚无正式模型对照成绩。
+运行准备状态见 [环境记录](environment.json)。Catch2-2723 的 prepared Task 参考修复已通过
+2 个 F2P 与 67 个真实 CTest P2P，但原环境 CMake 不兼容，另有 33 个配置探测项待官方 Oracle 核验，
+暂不计入正式 Coverage。该 prepared Task 的回归测试在源码中可见，后续对照须向两组提供相同输入。
 
 ## ReproPatch-CppRepair
 
@@ -74,6 +77,8 @@ Checkpoint / Resume 先复用 [现有 13 个故障场景](../docs/evidence/p2-04
 当前检索用上游仓库为 `24f493f8a103e72312ded4f6b9c89f081d69cb09`，不能把它冒充实际 evaluator 版本。
 ReproPatch 只提供窄 Agent / 产物桥接，保留原生 Run 与 patch/trace，再让 Harbor 官方 Oracle 独立评分。
 配置生成、只读源码检查及参考补丁通过都不等于适配器端到端集成完成。
+现有 [无模型 fixture pilot](harbor-pilot.md) 已通过原生作业、显式产物收集和现有 `verify-patch`，
+仍未提供通用 `export-harbor` / `verify-harbor` 命令或真实框架对照成绩。
 Codex 非交互接口依据 [OpenAI Docs](https://learn.chatgpt.com/docs/non-interactive-mode)，
 使用 `codex exec --json` 收集轨迹；不同模型参考组不纳入同模型排名。
 
