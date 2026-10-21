@@ -1,21 +1,21 @@
 # 测试报告
 
-当前版本：**0.3.0.dev2，Task v2**。验收日期：2026-10-21。
-**425 项测试通过：291 项核心、115 项 SDK、19 项真实 Docker；0 失败、0 跳过。**
-三组分别执行，未选中项目不计为跳过或通过。P2-02 已完成，完整 0.3.0 仍在开发。
+当前版本：**0.3.0.dev3，Task v2**。验收日期：2026-10-21。
+**465 项测试通过：297 项核心、147 项 SDK、21 项真实 Docker；0 失败、0 跳过。**
+三组分别执行，未选中项目不计为跳过或通过。P2-03 已完成，完整 0.3.0 仍在开发。
 
 ## 执行结果
 
 | 检查 | 结果 | 原始证据 |
 | --- | --- | --- |
-| Ruff 检查与格式 | 通过 | [检查](evidence/p2-02/ruff-check.log)、[格式](evidence/p2-02/ruff-format.log) |
-| 核心测试 | 291 通过 | [日志](evidence/p2-02/core-tests.log)、[JUnit](evidence/p2-02/core-tests.xml) |
-| SDK 契约及自动路径 | 115 通过 | [摘要](evidence/p2-02/sdk-contract/summary.json)、[日志](evidence/p2-02/sdk-contract/tests.log) |
-| 真实 Docker | 19 通过 | [摘要](evidence/p2-02/docker-gate/summary.json)、[JUnit](evidence/p2-02/docker-gate/docker-tests.xml) |
-| 干净核心 wheel | 无模型模块和 SDK 的正确/错误补丁验收通过 | [安装](evidence/p2-02/installation.json)、[路径验收](evidence/p2-02/packaging.json) |
-| 干净 agent wheel | 固定依赖、原生 fake 自动修复、406 项非 Docker 测试通过 | [安装版测试](evidence/p2-02/installed-all/summary.json) |
-| 报告与数据库 | 当前报告核验及重建；历史 29 份 schema v1/v2 报告保持可读且数据库未改写 | [核验](evidence/p2-02/artifact-checks.json) |
-| 分发 | wheel/sdist 与当前执行源码一致 | [核验](evidence/p2-02/distribution-checks.json) |
+| Ruff 检查与格式 | 通过 | [检查](evidence/p2-03/ruff-check.log)、[格式](evidence/p2-03/ruff-format.log) |
+| 核心测试 | 297 通过 | [日志](evidence/p2-03/core-tests.log)、[JUnit](evidence/p2-03/core-tests.xml) |
+| SDK 契约及自动路径 | 147 通过 | [摘要](evidence/p2-03/sdk-contract/summary.json)、[日志](evidence/p2-03/sdk-contract/tests.log) |
+| 真实 Docker | 21 通过 | [摘要](evidence/p2-03/docker-gate/summary.json)、[JUnit](evidence/p2-03/docker-gate/docker-tests.xml) |
+| 干净核心 wheel | 无模型模块和 SDK 的正确/错误补丁验收通过 | [安装](evidence/p2-03/installation.json)、[路径验收](evidence/p2-03/packaging.json) |
+| 干净 agent wheel | 固定依赖、原生 fake 自动修复、444 项非 Docker 测试通过 | [安装版测试](evidence/p2-03/installed-all/summary.json) |
+| 报告与数据库 | 当前报告核验及重建；历史 45 份 schema v1/v2 报告保持可读且数据库未改写 | [核验](evidence/p2-03/artifact-checks.json) |
+| 分发 | wheel/sdist 与当前执行源码一致 | [核验](evidence/p2-03/distribution-checks.json) |
 
 源码与固定依赖的实际执行字节见 SDK/Docker gate 的 source-manifest.json。
 历史 Git HEAD 不代替执行身份；安装包与实现 SHA-256 见 RELEASE.json。
@@ -45,9 +45,20 @@ schema 0/1 按原版读取且写打开返回 RESUME_UNSUPPORTED，不做 schema 
 测试覆盖文件持久化失败、Checkpoint 事务拒绝、真实子进程在文件写完与数据库提交之间退出、
 孤儿目录不参与恢复点选择、版本/计数/期限/指纹及引用 hash 损坏、暂停导出失败、
 核心报告删除重建、用户取消，以及损坏的暂停 manifest 不显示证据完整。
-十九项 Docker 场景包含真实暂停：编辑及容器自查结束后，两个所属容器删除确认，源码与 Checkpoint 保留。
+二十一项 Docker 场景包含真实暂停：编辑及容器自查结束后，两个所属容器删除确认，源码与 Checkpoint 保留。
 安装版 CLI 暂停退出 0，summary 包含 paused=true、INTERRUPTED、outcome=null 和 Checkpoint 引用。
-暂停并不表示补丁接受；恢复能力将在 P2-03 验收。
+暂停并不表示补丁接受；有限恢复契约见 [P2-03](P2-03.md)。
+
+## 有限恢复
+
+38 项专项测试包括 6 项核心、32 项 SDK；从安全边界使用剩余脚本与 Runner turn，累计工具额度和未知用量不退款。
+真实子进程覆盖请求开始、回复保存、编辑完成、Checkpoint 文件/事务窗口、安全边界与恢复过程中退出。
+只有关闭的 Checkpoint 可继续；模型结果未知或未闭合片段明确失败，不重发、补交、回滚或重做工具。
+预算、SDK/工具身份、源码分歧、丢失工作区、孤儿附件、再次暂停与取消均有外部行为验收。
+
+真实 Docker 测试确认暂停后恢复并独立验收 ACCEPTED；另一控制器退出后，其登记容器仍在运行，
+恢复命令删除并核验后以 UNSUPPORTED_RECOVERY_PHASE 停止，没有模型请求。
+安装版 CLI 从冻结脚本暂停后成功 resume；五份派生报告删除重建，数据库与结局未改变。
 
 ## SDK 与独立验收
 
@@ -64,15 +75,15 @@ F2P 必须在基线普通失败且匹配原始签名，P2P 必须通过；skip�
 
 ## 容器与安装
 
-19 项真实 Docker 测试覆盖自动修复、错误候选、编码字节往返、只读/非 root/断网/凭据边界，
+21 项真实 Docker 测试覆盖自动修复、错误候选、编码字节往返、只读/非 root/断网/凭据边界，
 普通超时、双流输出上限、派生进程、tmpfs、中断清理、外部正确/错误补丁、skip/缺失与字面测试名，
 以及 run_shell 的只读源码、双流日志、超时删除和预算拒绝。
 固定镜像为 sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a，
 镜像内 CMake/CTest 3.28.3、GCC 13.3.0。
 
 核心 wheel 在干净 Python 3.12 环境只安装 PyYAML，从项目外调用且阻止模型模块导入。
-agent wheel 验证固定依赖与安装目录，执行全部 406 项非 Docker 测试，并用 ScriptedModel 完成真实容器修复。
-正确/错误补丁分别 ACCEPTED/REJECTED；四份报告删除重建前后数据库字节和结局一致。
+agent wheel 验证固定依赖与安装目录，执行全部 444 项非 Docker 测试，并用 ScriptedModel 完成真实容器修复。
+正确/错误补丁分别 ACCEPTED/REJECTED；五份报告删除重建前后数据库字节和结局一致。
 
 ## Phase 1 模型证据
 
@@ -84,7 +95,7 @@ agent wheel 验证固定依赖与安装目录，执行全部 406 项非 Docker �
 
 ## 当前边界
 
-当前支持完整输入 Checkpoint 与受控暂停，尚不提供 Resume、Replay、Harbor 或跨 Run 清扫。
+当前支持完整输入 Checkpoint、受控暂停与有限 Resume，尚不提供 Replay、Harbor 或跨 Run 清扫。
 开放片段、模型最终文本及完整工具日志都不构成可恢复输入边界。
 报告导出失败不改写权威终态；无法核验的数据库或证据明确报错，不创建空库或推断成功。
-下一任务为 P2-03。
+下一任务为 P2-04。

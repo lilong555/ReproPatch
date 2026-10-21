@@ -167,6 +167,28 @@ class Toolbox:
         return self.check(name)
 
 
+def sdk_tools_sha256(tools=None):
+    """公开静态工具 schema 的身份；只构造回调，不调用任何工具。"""
+    import hashlib
+
+    from .task import canonical_json
+
+    registered = sdk_tools(None, None, None) if tools is None else tools
+    return hashlib.sha256(
+        canonical_json(
+            [
+                {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "parameters": tool.params_json_schema,
+                    "strict": tool.strict_json_schema,
+                }
+                for tool in registered
+            ]
+        )
+    ).hexdigest()
+
+
 def sdk_tools(toolbox, boundary, shell):
     """schema 只由 SDK 从六个真正的 async 回调生成。"""
     from agents import function_tool

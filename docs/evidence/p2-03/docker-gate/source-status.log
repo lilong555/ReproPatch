@@ -1,0 +1,27 @@
+ M README.md
+ M SPEC.md
+ M docs/ARCHITECTURE.md
+ M docs/IMPLEMENTATION_PLAN.md
+ M docs/P2-02.md
+ M docs/ROADMAP.md
+ M docs/TEST_REPORT.md
+ M pyproject.toml
+ M scripts/check_docker_gate.py
+ M src/repropatch/__init__.py
+ M src/repropatch/agent_runtime.py
+ M src/repropatch/cli.py
+ M src/repropatch/events.py
+ M src/repropatch/harness.py
+ M src/repropatch/models.py
+ M src/repropatch/recovery.py
+ M src/repropatch/reports.py
+ M src/repropatch/resources.py
+ M src/repropatch/tools.py
+ M src/repropatch/verification.py
+ M src/repropatch/workspace.py
+ M tests/test_docker_integration.py
+ M uv.lock
+?? docs/P2-03.md
+?? docs/evidence/p2-03/
+?? tests/test_resume.py
+?? tests/test_resume_core.py

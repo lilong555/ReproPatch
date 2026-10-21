@@ -123,6 +123,8 @@ EVENT_TYPES = {
     "verification_finished",
     "cleanup_finished",
     "checkpoint_committed",
+    "recovery_started",
+    "recovery_finished",
 }
 ENVELOPE_KEYS = {
     "schema_version",
@@ -294,15 +296,20 @@ def _reduce_run(previous, event):
         raise ValueError("终态写入或重复创建")
     if kind == "state_changed":
         source, target = p["from"], p["to"]
-        if source != row["state"] or target not in TRANSITIONS[source]:
+        takeover = p.get("takeover") is True and target == "INTERRUPTED"
+        if source != row["state"] or (target not in TRANSITIONS[source] and not takeover):
             raise ValueError("非法阶段转移")
         if target == "REPAIRING" and row["input_mode"] != "run":
             raise ValueError("纯验证不能进入修复阶段")
-        if target == "INTERRUPTED" and (
-            row["segment_open"]
-            or row["last_checkpoint_id"] is None
-            or p.get("pause_after_step") != row["steps_used"]
-            or row["steps_used"] < 1
+        if (
+            target == "INTERRUPTED"
+            and not takeover
+            and (
+                row["segment_open"]
+                or row["last_checkpoint_id"] is None
+                or p.get("pause_after_step") != row["steps_used"]
+                or row["steps_used"] < 1
+            )
         ):
             raise ValueError("暂停必须引用刚提交的完整输入边界")
         if (
@@ -327,6 +334,25 @@ def _reduce_run(previous, event):
                 agent_stop_reason=p.get("agent_stop_reason", row["agent_stop_reason"]),
             )
         row["state"] = target
+    elif kind == "recovery_started":
+        if (
+            row["state"] != "RECOVERING"
+            or type(p["recovery_attempt"]) is not int
+            or p["recovery_attempt"] != row["recovery_attempt"] + 1
+            or p["source_state"] not in TRANSITIONS
+            or p["source_state"] == "FINISHED"
+            or p["checkpoint_id"] != row["last_checkpoint_id"]
+        ):
+            raise ValueError("恢复编号或接管来源不一致")
+        row["recovery_attempt"] = p["recovery_attempt"]
+    elif kind == "recovery_finished":
+        if (
+            row["state"] != "RECOVERING"
+            or p["recovery_attempt"] != row["recovery_attempt"]
+            or type(p["success"]) is not bool
+            or (p["success"] and (row["segment_open"] or row["last_checkpoint_id"] is None))
+        ):
+            raise ValueError("恢复结论没有匹配的安全边界")
     elif kind == "inputs_frozen":
         if row["state"] != "PREPARING" or row["inputs_json"] is not None:
             raise ValueError("只能在准备阶段冻结一次输入")

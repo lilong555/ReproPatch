@@ -423,6 +423,40 @@ class Worktree:
             "manager_pointer_sha256": hashlib.sha256(self._manager_pointer).hexdigest(),
         }
 
+    @classmethod
+    def open_existing(cls, record, initial_manifest):
+        """按原登记身份接管工作树；不 checkout、不覆盖或修改现有源码。"""
+        work = cls(Path(record["repository"]), Path(record["path"]), record["commit"], retain=True)
+        audit_git(work.repository)
+        work.manager = Path(record["git_dir"])
+        work.common = Path(record["common_dir"])
+        work._root_identity = tuple(record["root_identity"])
+        work._manager_identity = tuple(record["git_dir_identity"])
+        work._common_identity = tuple(record["common_dir_identity"])
+        work._git_pointer, _ = read_regular(work.path / ".git", limit=4096)
+        work._manager_pointer, _ = read_regular(work.manager / "gitdir", limit=4096)
+        if (
+            hashlib.sha256(work._git_pointer).hexdigest() != record["git_pointer_sha256"]
+            or hashlib.sha256(work._manager_pointer).hexdigest() != record["manager_pointer_sha256"]
+            or record["owner_uid"] != os.getuid()
+        ):
+            raise SourceChanged("WORKSPACE_DIVERGED: 工作树登记身份不符")
+        work._owned = work.created = True
+        work._ensure_owned()
+        if work.ownership() != {key: value for key, value in record.items() if key != "exists"}:
+            raise SourceChanged("WORKSPACE_DIVERGED: 工作树路径或登记身份不符")
+        if git(work.path, "rev-parse", "HEAD").strip() != work.revision:
+            raise SourceChanged("WORKSPACE_DIVERGED: 工作树基线发生变化")
+        work.tree = git_tree(work.repository, work.revision)
+        audit_attributes(work.repository, work.revision, work.tree)
+        work.initial_manifest = initial_manifest
+        work.expected_manifest = work.manifest()
+        work._permissions = {
+            item.path: work._file_metadata((work.path / item.path).stat())
+            for item in work.expected_manifest.files
+        }
+        return work
+
     def _ensure_owned(self):
         if (
             not self._owned

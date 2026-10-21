@@ -3,6 +3,8 @@
 import hashlib
 import json
 import os
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -141,6 +143,84 @@ print('boundary-ok')
         result = sandbox.run(("python3", "-I", "-c", script))
         assert result.ok and "boundary-ok" in result.output
     save_sandbox_evidence(sandbox, result)
+
+
+def test_real_docker_resume_uses_checkpoint_and_independent_verification(docker_task, tmp_path):
+    from conftest import ROOT
+
+    from repropatch.events import read_events
+    from repropatch.models import load_sdk_script
+    from repropatch.recovery import resume_run
+    from repropatch.reports import inspect_run
+
+    model, source = load_sdk_script(
+        ROOT / "examples/models/fix-negative-maximum.json", with_source=True
+    )
+    h = Harness(docker_task, model, tmp_path / "runs", pause_after_step=3, script_source=source)
+    paused = h.run()
+    assert paused["paused"] and len(model.calls) == 3
+    r = resume_run(h.directory)
+    assert r["outcome"] == "ACCEPTED" and r["isolated"] and r["artifacts_complete"]
+    assert r["agent"]["steps_used"] == 5 and r["agent"]["tool_calls_used"] == 4
+    snapshot = read_events(h.directory, h.directory.name)
+    assert len([e for e in snapshot.events if e["type"] == "baseline_finished"]) == 1
+    assert inspect_run(h.directory)["artifacts_complete"]
+
+
+def test_real_docker_controller_death_cleans_owned_live_container_before_refusal(
+    docker_task, tmp_path
+):
+    from conftest import ROOT
+
+    from repropatch.events import read_events
+    from repropatch.recovery import resume_run
+
+    task_path = tmp_path / "task.json"
+    task_path.write_text(json.dumps(docker_task.to_dict()))
+    code = """
+import os,sys
+from pathlib import Path
+from repropatch.harness import Harness
+from repropatch.models import load_sdk_script
+from repropatch.sandbox import DockerSandbox
+from repropatch.task import Task
+original=DockerSandbox._record
+def record(self):
+    original(self)
+    if self.active:os._exit(73)
+DockerSandbox._record=record
+model,source=load_sdk_script(Path(sys.argv[1])/"examples/models/fix-negative-maximum.json",with_source=True)
+Harness(Task.load(Path(sys.argv[2])),model,script_source=source).run()
+"""
+    child = subprocess.run(
+        [sys.executable, "-c", code, str(ROOT), str(task_path)], capture_output=True, timeout=60
+    )
+    assert child.returncode == 73, child.stderr.decode()
+    (directory,) = docker_task.output_root.iterdir()
+    before = read_events(directory, directory.name)
+    records = [e["payload"] for e in before.events if e["type"] == "resource_registered"]
+    container = records[-1]
+    assert container["active"] and not container["cleanup_confirmed"]
+    try:
+        observed = run_process(
+            ["docker", "inspect", "--format", "{{.State.Running}}", container["container_id"]],
+            timeout=10,
+        )
+        assert observed.ok and observed.stdout.strip() == "true"
+        report = resume_run(directory)
+        assert report["outcome"] == "RECOVERY_FAILED"
+        assert report["reason_code"] == "UNSUPPORTED_RECOVERY_PHASE"
+        assert report["cleanup"]["active_code_stopped"] and report["agent"]["steps_used"] == 0
+        removed = run_process(["docker", "inspect", container["container_id"]], timeout=10)
+        assert removed.returncode == 1 and "No such object" in removed.stderr
+        after = read_events(directory, directory.name)
+        assert not any(e["type"] == "model_started" for e in after.events)
+    finally:
+        remaining = run_process(["docker", "inspect", container["container_id"]], timeout=10)
+        if remaining.ok:
+            info = json.loads(remaining.stdout)[0]
+            assert info["Config"]["Labels"]["repropatch.run"] == directory.name
+            run_process(["docker", "rm", "--force", container["container_id"]], timeout=10)
 
 
 def test_real_timeout_removes_container(tmp_path):

@@ -293,7 +293,12 @@ class Harness:
                 await run_agent(self, workspace)
 
         try:
-            asyncio.run(invoke())
+            if self.report["model_steps"] >= self.task.budget.max_steps:
+                self.agent_stop_reason = "STEP_BUDGET"
+            elif self.context.clock.remaining("agent_check") <= 0:
+                self.agent_stop_reason = "AGENT_DEADLINE"
+            else:
+                asyncio.run(invoke())
         finally:
             self._sync_agent_state()
             if self.log.state["state"] != "INTERRUPTED":
@@ -328,7 +333,7 @@ class Harness:
             self.directory, name, content, budget=self.resources.budget
         )
 
-    def _run(self):
+    def _create_run(self):
         clock = RunClock(
             self.task.budget.wall_seconds, self.task.budget.verification_reserve_seconds
         )
@@ -343,6 +348,10 @@ class Harness:
         self.directory = self.resources.directory
         self.log = None
         self.baseline = self.independent = None
+        self._initial_report(clock, run_id)
+        return clock
+
+    def _initial_report(self, clock, run_id):
         self.report = {
             "schema_version": 1,
             "run_id": run_id,
@@ -421,7 +430,7 @@ class Harness:
             "limitations": [
                 "仅验收冻结 Task 的测试 oracle，不证明所有输入正确。",
                 "Docker 与宿主共享内核。",
-                "SQLite 记录已提交的运行事实；当前不支持中断恢复或重新执行历史工具。",
+                "恢复仅支持已提交且关闭的完整输入边界；未知模型请求和历史工具不重做。",
                 "外部生成过程、预算和 trace 未受本次运行管理或验证。"
                 if self.model is None
                 else "模型生成不保证正确；通过 SDK 受控工具产生候选，最终结局由独立验证决定。",
@@ -444,179 +453,197 @@ class Harness:
             "artifact_directory": str(self.directory),
             "workspace_directory": str(self.resources.workspace),
         }
+
+    def _prepare_execution(self, clock):
+        repair = candidate = None
+        run_id = self.report["run_id"]
+        self.log = EventLog(
+            self.directory, run_id, budget=self.resources.budget, lock=self.resources.lock
+        )
+        self.resources.event_log = self.log
+        self.log.emit(
+            "run_created",
+            {
+                "task_id": self.task.id,
+                "input_mode": self.input_mode,
+                "engine": self.report["engine"],
+                "harness_version": __version__,
+                "created_at": self.report["timing"]["created_at"],
+                "deadline_at": self.report["timing"]["deadline_at"],
+                "usage": self.report["usage"],
+                "control_identity": self.resources.data()["control_identity"],
+                "workspace_identity": self.resources.data()["workspace_identity"],
+            },
+        )
+        self._transition("PREPARING")
+        original_ref = EvidenceRef.save(
+            self.directory,
+            "task.original.yaml",
+            self.task.source_bytes,
+            budget=self.resources.budget,
+        )
+        self.report["task_original"] = asdict(original_ref)
+        external_patch = None
+        if self.patch_file is not None:
+            external_patch, reference = self._external(
+                self.patch_file, "producer/input.patch", 8 * 1024 * 1024
+            )
+            self.report["producer"]["patch"] = asdict(reference)
+            if self.producer_trace is not None:
+                _, reference = self._external(
+                    self.producer_trace, "producer/trace.bin", 16 * 1024 * 1024
+                )
+                self.report["producer"].update(
+                    trace=asdict(reference), trace_trust="external-untrusted"
+                )
+        clock.timeout("baseline", self.task.budget.command_timeout_seconds)
+        self.resolved = resolve_task(
+            self.task,
+            output_root=self.output_root,
+            image_identity=ImageIdentity(self.image) if self.test_backend else None,
+        )
+        frozen_ref = EvidenceRef.save(
+            self.directory,
+            "task.resolved.json",
+            canonical_json(self.resolved.to_dict()) + b"\n",
+            budget=self.resources.budget,
+        )
+        self.report["task_resolved"] = asdict(frozen_ref)
+        self.report.update(
+            task_sha256=self.resolved.task_sha256,
+            task_source_sha256=self.resolved.task_source_sha256,
+            base_commit=self.resolved.base_commit,
+        )
+        self.report["provenance"].update(
+            task_sha256=self.resolved.task_sha256,
+            base_commit=self.resolved.base_commit,
+            image_id=self.resolved.image_id,
+            image_repo_digests=list(self.resolved.image_repo_digests),
+            platform=self.resolved.task.environment.platform,
+        )
+        versions = self.report["provenance"]["tool_versions"]
+        versions.update(
+            {key: value for key, value in self.resolved.tool_versions if value is not None}
+        )
+        if "docker" in versions:
+            versions["docker_server"] = versions.pop("docker")
+        self.context = RunContext(
+            self.resolved, self.resources, self.log, clock, self.factory, self.test_backend
+        )
+        original = self.context.new_worktree("repair" if self.model is not None else "baseline")
+        if self.model is not None:
+            self._prepared_repair = original
+        base_ref = EvidenceRef.save(
+            self.directory,
+            "baseline.manifest.json",
+            canonical_json(original.initial_manifest.to_dict()) + b"\n",
+            budget=self.resources.budget,
+        )
+        self.report["baseline_manifest"] = asdict(base_ref)
+        sdk_versions = None
+        if self.model is not None:
+            sdk_versions = {}
+            for name in ("openai-agents", "openai"):
+                try:
+                    sdk_versions[name] = version(name)
+                except PackageNotFoundError:
+                    sdk_versions[name] = None
+        script_ref = (
+            EvidenceRef.save(
+                self.directory,
+                "model-script.json",
+                self.script_source,
+                budget=self.resources.budget,
+            )
+            if self.script_source is not None
+            else None
+        )
+        config_ref = EvidenceRef.save(
+            self.directory,
+            "execution-config.json",
+            encode_json(
+                {
+                    "engine": self.report["engine"],
+                    "instructions": self.instructions if self.model is not None else None,
+                    "budget": asdict(self.task.budget),
+                    "harness_version": __version__,
+                    "implementation_sha256": implementation_sha256(),
+                    "python": platform.python_version(),
+                    "sdk_versions": sdk_versions,
+                    "key_env": getattr(self.model, "key_env", None),
+                    "script": asdict(script_ref) if script_ref is not None else None,
+                }
+            )
+            + b"\n",
+            budget=self.resources.budget,
+        )
+        frozen_inputs = {
+            "task_original": asdict(original_ref),
+            "task_resolved": asdict(frozen_ref),
+            "source_manifest": asdict(base_ref),
+            "configuration": asdict(config_ref),
+            "task_sha256": self.resolved.task_sha256,
+            "base_commit": self.resolved.base_commit,
+            "image_id": self.resolved.image_id,
+            "producer": self.report["producer"],
+        }
+        if self.model is None:
+            if not external_patch:
+                raise PatchRejected("NO_PATCH: 外部补丁为空")
+            repair = self.context.new_worktree("repair")
+            self._prepared_repair = repair
+            if repair.initial_manifest != original.initial_manifest:
+                raise SourceChanged("SOURCE_CHANGED: 候选与基线初始树不一致")
+            repair.apply_patch(
+                external_patch, self.resolved.editable_files, self.resolved.protected_files
+            )
+            candidate = repair.freeze_candidate(
+                self.directory,
+                self.resolved.editable_files,
+                self.resolved.protected_files,
+                budget=self.resources.budget,
+            )
+            self.report["candidate"] = candidate.to_dict()
+            self._prepared_candidate = candidate
+        else:
+            repair = original
+        with self.log.transaction():
+            self.log.emit("inputs_frozen", frozen_inputs)
+            self.log.emit("state_changed", {"from": "PREPARING", "to": "REPRODUCING"})
+        self.report["state"] = "REPRODUCING"
+        self.baseline = evaluate_checks(self.resolved, original, "baseline", self.context)
+        self._refresh_evaluations()
+        outcome, reason = baseline_result(self.resolved, self.baseline)
+        self.log.emit(
+            "baseline_finished",
+            {
+                "evaluation_id": self.baseline.evaluation_id,
+                "evidence": asdict(self.baseline.evidence),
+                "outcome": outcome,
+                "reason_code": reason,
+            },
+        )
+        if outcome is not None:
+            self._set_result(outcome, reason)
+        else:
+            self.report["reproduced"] = True
+        return repair, candidate
+
+    def _run(self):
+        clock = self.context.clock if getattr(self, "resuming", False) else self._create_run()
         repair = None
         candidate = None
         patch = b""
         paused = False
         try:
-            self.log = EventLog(
-                self.directory, run_id, budget=self.resources.budget, lock=self.resources.lock
-            )
-            self.resources.event_log = self.log
-            self.log.emit(
-                "run_created",
-                {
-                    "task_id": self.task.id,
-                    "input_mode": self.input_mode,
-                    "engine": self.report["engine"],
-                    "harness_version": __version__,
-                    "created_at": self.report["timing"]["created_at"],
-                    "deadline_at": self.report["timing"]["deadline_at"],
-                    "usage": self.report["usage"],
-                    "control_identity": self.resources.data()["control_identity"],
-                    "workspace_identity": self.resources.data()["workspace_identity"],
-                },
-            )
-            self._transition("PREPARING")
-            original_ref = EvidenceRef.save(
-                self.directory,
-                "task.original.yaml",
-                self.task.source_bytes,
-                budget=self.resources.budget,
-            )
-            self.report["task_original"] = asdict(original_ref)
-            external_patch = None
-            if self.patch_file is not None:
-                external_patch, reference = self._external(
-                    self.patch_file, "producer/input.patch", 8 * 1024 * 1024
-                )
-                self.report["producer"]["patch"] = asdict(reference)
-                if self.producer_trace is not None:
-                    _, reference = self._external(
-                        self.producer_trace, "producer/trace.bin", 16 * 1024 * 1024
-                    )
-                    self.report["producer"].update(
-                        trace=asdict(reference), trace_trust="external-untrusted"
-                    )
-            clock.timeout("baseline", self.task.budget.command_timeout_seconds)
-            self.resolved = resolve_task(
-                self.task,
-                output_root=self.output_root,
-                image_identity=ImageIdentity(self.image) if self.test_backend else None,
-            )
-            frozen_ref = EvidenceRef.save(
-                self.directory,
-                "task.resolved.json",
-                canonical_json(self.resolved.to_dict()) + b"\n",
-                budget=self.resources.budget,
-            )
-            self.report["task_resolved"] = asdict(frozen_ref)
-            self.report.update(
-                task_sha256=self.resolved.task_sha256,
-                task_source_sha256=self.resolved.task_source_sha256,
-                base_commit=self.resolved.base_commit,
-            )
-            self.report["provenance"].update(
-                task_sha256=self.resolved.task_sha256,
-                base_commit=self.resolved.base_commit,
-                image_id=self.resolved.image_id,
-                image_repo_digests=list(self.resolved.image_repo_digests),
-                platform=self.resolved.task.environment.platform,
-            )
-            versions = self.report["provenance"]["tool_versions"]
-            versions.update(
-                {key: value for key, value in self.resolved.tool_versions if value is not None}
-            )
-            if "docker" in versions:
-                versions["docker_server"] = versions.pop("docker")
-            self.context = RunContext(
-                self.resolved, self.resources, self.log, clock, self.factory, self.test_backend
-            )
-            original = self.context.new_worktree("repair" if self.model is not None else "baseline")
-            base_ref = EvidenceRef.save(
-                self.directory,
-                "baseline.manifest.json",
-                canonical_json(original.initial_manifest.to_dict()) + b"\n",
-                budget=self.resources.budget,
-            )
-            self.report["baseline_manifest"] = asdict(base_ref)
-            sdk_versions = None
-            if self.model is not None:
-                sdk_versions = {}
-                for name in ("openai-agents", "openai"):
-                    try:
-                        sdk_versions[name] = version(name)
-                    except PackageNotFoundError:
-                        sdk_versions[name] = None
-            script_ref = (
-                EvidenceRef.save(
-                    self.directory,
-                    "model-script.json",
-                    self.script_source,
-                    budget=self.resources.budget,
-                )
-                if self.script_source is not None
-                else None
-            )
-            config_ref = EvidenceRef.save(
-                self.directory,
-                "execution-config.json",
-                encode_json(
-                    {
-                        "engine": self.report["engine"],
-                        "instructions": self.instructions if self.model is not None else None,
-                        "budget": asdict(self.task.budget),
-                        "harness_version": __version__,
-                        "implementation_sha256": implementation_sha256(),
-                        "python": platform.python_version(),
-                        "sdk_versions": sdk_versions,
-                        "key_env": getattr(self.model, "key_env", None),
-                        "script": asdict(script_ref) if script_ref is not None else None,
-                    }
-                )
-                + b"\n",
-                budget=self.resources.budget,
-            )
-            frozen_inputs = {
-                "task_original": asdict(original_ref),
-                "task_resolved": asdict(frozen_ref),
-                "source_manifest": asdict(base_ref),
-                "configuration": asdict(config_ref),
-                "task_sha256": self.resolved.task_sha256,
-                "base_commit": self.resolved.base_commit,
-                "image_id": self.resolved.image_id,
-                "producer": self.report["producer"],
-            }
-            if self.model is None:
-                if not external_patch:
-                    raise PatchRejected("NO_PATCH: 外部补丁为空")
-                repair = self.context.new_worktree("repair")
-                if repair.initial_manifest != original.initial_manifest:
-                    raise SourceChanged("SOURCE_CHANGED: 候选与基线初始树不一致")
-                repair.apply_patch(
-                    external_patch, self.resolved.editable_files, self.resolved.protected_files
-                )
-                candidate = repair.freeze_candidate(
-                    self.directory,
-                    self.resolved.editable_files,
-                    self.resolved.protected_files,
-                    budget=self.resources.budget,
-                )
-                self.report["candidate"] = candidate.to_dict()
+            if getattr(self, "resuming", False):
+                repair = self.resume_repair
             else:
-                repair = original
-            with self.log.transaction():
-                self.log.emit("inputs_frozen", frozen_inputs)
-                self.log.emit("state_changed", {"from": "PREPARING", "to": "REPRODUCING"})
-            self.report["state"] = "REPRODUCING"
-            self.baseline = evaluate_checks(self.resolved, original, "baseline", self.context)
-            self._refresh_evaluations()
-            outcome, reason = baseline_result(self.resolved, self.baseline)
-            self.log.emit(
-                "baseline_finished",
-                {
-                    "evaluation_id": self.baseline.evaluation_id,
-                    "evidence": asdict(self.baseline.evidence),
-                    "outcome": outcome,
-                    "reason_code": reason,
-                },
-            )
-            if outcome is not None:
-                self._set_result(outcome, reason)
-            else:
-                self.report["reproduced"] = True
+                repair, candidate = self._prepare_execution(clock)
+            if self.report["outcome"] is None:
                 if self.model is not None:
-                    self._transition("REPAIRING")
+                    if self.report["state"] != "REPAIRING":
+                        self._transition("REPAIRING")
                     self._agent(repair)
                     repair.assert_current()
                     try:
@@ -686,6 +713,8 @@ class Harness:
             self.report["error"] = f"内部异常 {type(exc).__name__}；详情见诊断附件"
             self._record_error(exc)
         finally:
+            repair = repair or getattr(self, "_prepared_repair", None)
+            candidate = candidate or getattr(self, "_prepared_candidate", None)
             self._refresh_evaluations()
             if paused:
                 try:

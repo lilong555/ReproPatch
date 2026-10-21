@@ -119,8 +119,25 @@ def raw_token_usage(response) -> dict[str, int | None]:
     }
 
 
-def load_sdk_script(path: Path, *, with_source=False):
+def load_sdk_script(path: Path, *, with_source=False, steps_used=0):
     """将有限的原生 JSON 转为公开 ScriptedModel；不加载代码或故障表达式。"""
+
+    try:
+        descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        with os.fdopen(descriptor, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise ValueError("不是普通文件")
+            content = stream.read(256_001)
+        if len(content) > 256_000:
+            raise ValueError("超限")
+    except (OSError, ValueError, TypeError):
+        raise ReproPatchError("INVALID_SDK_SCRIPT：需要有界普通 JSON 脚本") from None
+    model = sdk_script_bytes(content, steps_used=steps_used)
+    return (model, content) if with_source else model
+
+
+def sdk_script_bytes(content, *, steps_used=0):
+    """直接解析已核验的冻结 bytes，避免两次读取之间更换脚本。"""
 
     def pairs(values):
         result = {}
@@ -134,13 +151,8 @@ def load_sdk_script(path: Path, *, with_source=False):
         raise ValueError("非有限数字")
 
     try:
-        descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
-        with os.fdopen(descriptor, "rb") as stream:
-            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
-                raise ValueError("不是普通文件")
-            content = stream.read(256_001)
-        if len(content) > 256_000:
-            raise ValueError("超限")
+        if type(content) is not bytes or len(content) > 256000:
+            raise ValueError("无效脚本字节")
         script = json.loads(content, object_pairs_hook=pairs, parse_constant=reject_constant)
         if (
             not isinstance(script, dict)
@@ -156,9 +168,17 @@ def load_sdk_script(path: Path, *, with_source=False):
     prepare_sdk()
     from agents import Usage
     from agents.testing import ModelStep, ScriptedModel
-    from openai.types.responses import ResponseFunctionToolCall, ResponseOutputMessage
+    from openai.types.responses import (
+        ResponseFunctionToolCall,
+        ResponseOutputMessage,
+        ResponseReasoningItem,
+    )
 
-    types = {"message": ResponseOutputMessage, "function_call": ResponseFunctionToolCall}
+    types = {
+        "message": ResponseOutputMessage,
+        "function_call": ResponseFunctionToolCall,
+        "reasoning": ResponseReasoningItem,
+    }
     steps = []
     try:
         for step in script["steps"]:
@@ -186,8 +206,10 @@ def load_sdk_script(path: Path, *, with_source=False):
             )
     except (ValueError, TypeError, KeyError, RecursionError):
         raise ReproPatchError("INVALID_SDK_SCRIPT：无效原生输出或合成用量") from None
-    model = ScriptedModel(steps=steps, emit_traces=False)
-    return (model, content) if with_source else model
+    if type(steps_used) is not int or not 0 <= steps_used <= len(steps):
+        raise ReproPatchError("INVALID_SDK_SCRIPT: 累计 turn 超过冻结脚本")
+    model = ScriptedModel(steps=steps[steps_used:], emit_traces=False)
+    return model
 
 
 @dataclass(frozen=True)

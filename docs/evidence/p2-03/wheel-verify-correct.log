@@ -1,0 +1,1 @@
+{"run_id":"fadda040f5374c8386877846e9d3f862","task_id":"negative-maximum","input_mode":"verify-patch","state":"FINISHED","outcome":"ACCEPTED","reason_code":"VERIFICATION_PASSED","paused":false,"artifact_dir":"/home/li/repropatch/docs/evidence/p2-03/installed-verify/correct/fadda040f5374c8386877846e9d3f862","artifacts_complete":true,"command_error":null}

@@ -1,0 +1,332 @@
+{
+  "status": "passed",
+  "wheel_sha256": "a01b47cdda07cc7c9391586e501db49c646ba92848cfc7434d2effc86067b613",
+  "commands": [
+    {
+      "name": "wheel-verify-correct",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "verify-patch",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--patch",
+        "/home/li/repropatch/examples/patches/negative-maximum.correct.patch",
+        "--producer",
+        "fixture",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-verify/correct",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-verify-wrong",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "verify-patch",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--patch",
+        "/home/li/repropatch/examples/patches/negative-maximum.wrong.patch",
+        "--producer",
+        "fixture",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-verify/wrong",
+        "--json"
+      ],
+      "returncode": 1,
+      "expected_returncode": 1
+    },
+    {
+      "name": "wheel-run",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--engine",
+        "fake",
+        "--mock-script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-auto",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-pause",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--engine",
+        "fake",
+        "--mock-script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--pause-after-step",
+        "3",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-pause",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-resume-pause",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--engine",
+        "fake",
+        "--mock-script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--pause-after-step",
+        "3",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-resume",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-resume",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "resume",
+        "74ac60042b8b4a8faa0b420cbe71e1e7",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-resume",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "fadda040f5374c8386877846e9d3f862",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-verify/correct",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "fadda040f5374c8386877846e9d3f862",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-verify/correct",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "7d0bf8b6eb274bd6a6aa5d09d5c251b8",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-verify/wrong",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "7d0bf8b6eb274bd6a6aa5d09d5c251b8",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-verify/wrong",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "28f1ad86b5eb47808a52645456d0e6a2",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-auto",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "28f1ad86b5eb47808a52645456d0e6a2",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-auto",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "4e9c7eaf39e44e28897c12b974a8e23b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-pause",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "4e9c7eaf39e44e28897c12b974a8e23b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-pause",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "74ac60042b8b4a8faa0b420cbe71e1e7",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-resume",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "74ac60042b8b4a8faa0b420cbe71e1e7",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-03/installed-resume",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    }
+  ],
+  "report_rebuilds": [
+    {
+      "run_id": "fadda040f5374c8386877846e9d3f862",
+      "outcome": "ACCEPTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "7d0bf8b6eb274bd6a6aa5d09d5c251b8",
+      "outcome": "REJECTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "28f1ad86b5eb47808a52645456d0e6a2",
+      "outcome": "ACCEPTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "4e9c7eaf39e44e28897c12b974a8e23b",
+      "outcome": null,
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "74ac60042b8b4a8faa0b420cbe71e1e7",
+      "outcome": "ACCEPTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    }
+  ],
+  "reports": [
+    "installed-verify/correct/fadda040f5374c8386877846e9d3f862/report.json",
+    "installed-verify/wrong/7d0bf8b6eb274bd6a6aa5d09d5c251b8/report.json",
+    "installed-auto/28f1ad86b5eb47808a52645456d0e6a2/report.json",
+    "installed-pause/4e9c7eaf39e44e28897c12b974a8e23b/report.json",
+    "installed-resume/74ac60042b8b4a8faa0b420cbe71e1e7/report.json"
+  ],
+  "sdk_import_blocked_for_core_cli": true,
+  "real_model_verified": false
+}

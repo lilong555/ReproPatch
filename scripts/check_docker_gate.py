@@ -129,6 +129,8 @@ def main():
             "test_docker_cpp_end_to_end",
             "test_docker_wrong_patch_is_rejected",
             "test_sdk_pause_preserves_checkpoint_after_real_container_cleanup",
+            "test_real_docker_resume_uses_checkpoint_and_independent_verification",
+            "test_real_docker_controller_death_cleans_owned_live_container_before_refusal",
             "test_real_container_boundary",
             "test_real_timeout_removes_container",
             "test_docker_roundtrip_preserves_bom_crlf_and_missing_final_newline",
@@ -149,7 +151,7 @@ def main():
         if not required <= {case.get("name") for case in cases} or any(
             case.find(tag) is not None for case in cases for tag in ("failure", "error", "skipped")
         ):
-            raise RuntimeError("真实 Docker 验收要求十九项指定场景全部通过，且没有跳过或错误")
+            raise RuntimeError("真实 Docker 验收要求二十一项指定场景全部通过，且没有跳过或错误")
         summary.update(status="passed", tests_passed=len(cases))
         exit_code = 0
     except (OSError, RuntimeError, subprocess.TimeoutExpired, ET.ParseError) as exc:

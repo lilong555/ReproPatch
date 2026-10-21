@@ -1,7 +1,6 @@
 """公开 SDK 的单次运行入口；仅接收宿主静态注册的异步 function tools。"""
 
 import asyncio
-import hashlib
 import inspect
 from dataclasses import dataclass
 
@@ -154,7 +153,7 @@ async def run_agent(harness, workspace) -> AgentResult:
     from .models import raw_token_usage
     from .recovery import save_checkpoint
     from .task import canonical_json
-    from .tools import Toolbox, model_command, sdk_tools
+    from .tools import Toolbox, model_command, sdk_tools, sdk_tools_sha256
     from .verification import StageDeadline
     from .workspace import git_deadline
 
@@ -169,15 +168,17 @@ async def run_agent(harness, workspace) -> AgentResult:
     )
     report["agent"]["http_attempts"] = 0 if fake else None
     report["usage"]["synthetic"] = fake
-    report["usage"]["unknown_turns"] = 0
-    report["native_trace"] = []
-    totals = {key: 0 for key in ("input_tokens", "output_tokens", "total_tokens")}
-    unknown = {key: False for key in totals}
+    report["usage"].setdefault("unknown_turns", 0)
+    report.setdefault("native_trace", [])
+    totals = dict(report["usage"].get("known_tokens", {})) or {
+        key: 0 for key in ("input_tokens", "output_tokens", "total_tokens")
+    }
+    unknown = {key: report["model_steps"] > 0 and report["usage"][key] is None for key in totals}
     pending = []
     next_input = None
     closed = False
-    (harness.directory / "agent").mkdir(mode=0o700)
-    (harness.directory / "agent/native").mkdir(mode=0o700)
+    (harness.directory / "agent").mkdir(mode=0o700, exist_ok=True)
+    (harness.directory / "agent/native").mkdir(mode=0o700, exist_ok=True)
 
     def deadline():
         if context.clock.remaining("agent_check") <= 0:
@@ -373,19 +374,7 @@ async def run_agent(harness, workspace) -> AgentResult:
         lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
     )
     names = {tool.name for tool in tools}
-    tools_sha256 = hashlib.sha256(
-        canonical_json(
-            [
-                {
-                    "name": tool.name,
-                    "description": tool.description,
-                    "parameters": tool.params_json_schema,
-                    "strict": tool.strict_json_schema,
-                }
-                for tool in tools
-            ]
-        )
-    ).hexdigest()
+    tools_sha256 = sdk_tools_sha256(tools)
     baseline = harness.baseline.to_dict()
     baseline["commands"] = [model_command(item) for item in baseline["commands"]]
     initial = [
@@ -404,8 +393,12 @@ async def run_agent(harness, workspace) -> AgentResult:
             ).decode(),
         }
     ]
+    if getattr(harness, "resume_native", None) is not None:
+        initial = harness.resume_native["input"]
     try:
         deadline()
+        if report["model_steps"] >= budget.max_steps:
+            raise AgentStop("STEP_BUDGET")
         result = await run_sdk(
             model=harness.model,
             input_items=initial,
@@ -414,7 +407,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             input_filter=input_filter,
             instructions=harness.instructions,
             context=None,
-            max_turns=budget.max_steps,
+            max_turns=budget.max_steps - report["model_steps"],
             max_output_tokens=budget.max_output_tokens,
             model_timeout=budget.model_timeout_seconds,
             run_timeout=context.clock.remaining("agent_check"),

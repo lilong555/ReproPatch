@@ -2,18 +2,18 @@
 
 面向 C++ 工程的可复现代码修复与独立验收 Harness。
 
-当前开发版本为 **0.3.0.dev2，Task v2**。Phase 1、P2-01 与 P2-02 已完成。
+当前开发版本为 **0.3.0.dev3，Task v2**。Phase 1、P2-01 至 P2-03 已完成。
 `verify-patch` 无需模型、SDK 或 API key，使用固定基线和全新容器独立验收外部补丁。
 自动修复与外部补丁共用结构化 CTest、固定测试身份、完整字节清单和候选往返检查。
-**291 项核心测试、115 项 SDK 契约与 19 项真实 Docker 测试通过**。
+**297 项核心测试、147 项 SDK 契约与 21 项真实 Docker 测试通过**。
 Phase 1 的 0.2.0rc1 已完成 DeepSeek 真实自动修复和独立 Docker 验收，结局为 `ACCEPTED`。
 
 自动 `run` 使用公开 Agents SDK Runner、六个受控异步工具和原生 Responses Items。
 fake 引擎直接使用原生 ScriptedModel；SDK 引擎使用 AsyncOpenAI/OpenAIResponsesModel。
 SQLite 的 runs/events/checkpoints 三表记录外层状态、累计预算和事件；提交失败不会释放模型或工具执行。
 `inspect` 只读查询，`report` 核验证据并重建 JSONL / JSON / Markdown。
-SDK 完整输入边界保存 Checkpoint，支持受控暂停；Resume、Replay 和 Harbor 命令尚未提供。
-下一任务为 P2-03。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)。
+SDK 完整输入边界保存 Checkpoint，支持受控暂停与有限 Resume；Replay 和 Harbor 命令尚未提供。
+下一任务为 P2-04。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)，有限恢复见 [P2-03](docs/P2-03.md)。
 Phase 1 的真实模型证据见 [P1-08](docs/P1-08.md)。
 
 [规格入口](SPEC.md) · [测试报告](docs/TEST_REPORT.md) · [实施计划](docs/IMPLEMENTATION_PLAN.md)
@@ -103,7 +103,7 @@ Run 非源码审计文件总预算 **256 MiB**，包含日志、事件、清单�
 编译容器会看到完整无 `.git` 源码快照，readable 不是仓库内容保密保证。
 真实模型必须显式提供 `--allow-paid-model`；默认测试不调用付费模型。
 0.2.0rc1 已认证 `https://api.deepseek.com` 的 `deepseek-flash`，使用显式环境代理；
-0.3.0.dev2 通过离线 SDK 与真实容器回归，本任务没有重复调用付费模型。
+0.3.0.dev3 通过离线 SDK 与真实容器回归，本任务没有重复调用付费模型。
 
 ## 源码与补丁契约
 
@@ -162,7 +162,7 @@ repropatch report RUN_ID --root .repropatch/runs --format json
 历史 kind / P1 审计按原版本查询，不自动改建数据库，不提供恢复能力。
 报告契约见 [P1-07](docs/P1-07.md)，当前数据库与事务边界见 [P2-01](docs/P2-01.md)。
 
-## 受控暂停
+## 受控暂停与有限恢复
 
 ```bash
 repropatch run examples/tasks/negative-maximum.v2.yaml \
@@ -173,7 +173,22 @@ repropatch run examples/tasks/negative-maximum.v2.yaml \
 N 是全 Run 累计模型 turn，必须满足 `1 <= N < max_steps`；没有该参数时照常修复和验收。
 只在 SDK 准备下一次完整输入、前轮工具及容器已清理后暂停。模型已正常结束时直接验收，不补发请求。
 成功暂停退出 0，summary 给出 `paused=true`、`state=INTERRUPTED`、`outcome=null` 与 Checkpoint 引用。
-暂停不表示补丁通过；SIGINT 仍为取消。当前未提供 Resume 命令。
+暂停不表示补丁通过；SIGINT 仍为取消。
+
+```bash
+repropatch resume RUN_ID --root .repropatch/runs --json
+# 再次暂停时 N 是累计 turn，必须 steps_used < N < max_steps
+repropatch resume RUN_ID --root .repropatch/runs --pause-after-step 4 --json
+```
+
+恢复使用冻结 Task、模型、instructions、SDK 版本及原始期限，不接受新的模型或预算参数。
+真实模型 key 从原 key_env 重新读取；fake 使用冻结脚本的剩余 steps，不重放已消费回复。
+先持锁并核对、删除已登记的所属容器，再验证 Checkpoint；从 base＋patch 在新工作树重建完整字节。
+原修复树如被第三方修改，返回 WORKSPACE_DIVERGED 并保留原内容；缺失的可丢弃工作区可重建。
+未知请求返回 MODEL_RESULT_UNKNOWN，未闭合工具轮次返回 OPEN_AGENT_SEGMENT；均以 RECOVERY_FAILED 结束，
+不重复调用模型或工具。停机时间消耗原预算；安全候选只在剩余验证时间允许时独立验收。
+恢复失败保存的诊断补丁 verification_eligible=false，需要显式新建 verify-patch Run 才能判断。
+终态 Run 和旧 P1 审计不能继续；数据库不可核查或不能提交时停止，recovery-error.json 不是状态权威。
 
 Checkpoint 的输入、补丁、完整源码清单及 manifest 位于 Run 的 `checkpoints/<id>/`，
 文件先持久化，再由同一 SQLite 事务提交引用、累计预算和关闭的执行片段。

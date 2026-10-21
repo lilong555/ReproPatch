@@ -6,7 +6,7 @@ import os
 import shutil
 from pathlib import Path
 
-from .artifacts import AuditBudget
+from .artifacts import MAX_AUDIT_BYTES, AuditBudget, read_regular
 from .errors import InfrastructureError, SourceChanged
 
 
@@ -46,6 +46,50 @@ class RunLock:
 
 
 class RunResources:
+    @classmethod
+    def open_existing(cls, directory, lock, snapshot):
+        """仅接管原控制目录；资源删除只使用数据库已登记的容器身份。"""
+        directory = Path(directory).absolute()
+        data = json.loads(read_regular(directory / "resources.json", limit=MAX_AUDIT_BYTES)[0])
+        origin = snapshot.events[0]["payload"]
+        current = cls._identity(directory)
+        if (
+            data["schema_version"] != 1
+            or data["run_id"] != snapshot.run_id
+            or data["owner_uid"] != os.getuid()
+            or current != tuple(origin["control_identity"])
+            or current != tuple(data["control_identity"])
+            or data["control_directory"] != str(directory)
+        ):
+            raise InfrastructureError("RUN_OWNERSHIP: 控制目录与原登记不符")
+        obj = cls.__new__(cls)
+        obj.run_id, obj.directory, obj.lock = snapshot.run_id, directory, lock
+        obj.workspace = Path(data["workspace_directory"])
+        obj._directory_identity = current
+        obj._workspace_identity = None
+        if obj.workspace.exists() or obj.workspace.is_symlink():
+            observed = cls._identity(obj.workspace)
+            if observed != tuple(data["workspace_identity"]):
+                raise InfrastructureError("WORKSPACE_DIVERGED: 工作区根身份发生变化")
+            obj._workspace_identity = observed
+        obj.repository, obj.commit = data["repository"], data["commit"]
+        obj.image_id = snapshot.run["image_id"]
+        obj.budget = AuditBudget(directory)
+        obj.worktrees = []
+        obj.prior_worktrees = data["worktrees"]
+        obj.snapshots = {entry["path"]: entry for entry in data["snapshots"]}
+        obj.containers = {}
+        for event in snapshot.events:
+            p = event["payload"]
+            if event["type"] == "resource_registered" and p.get("resource_type") == "container":
+                obj.containers[p["name"]] = {
+                    key: value for key, value in p.items() if key != "resource_type"
+                }
+        obj.cleanup_errors = []
+        obj.event_log = None
+        obj.assert_owned()
+        return obj
+
     def __init__(self, output_root, workspace_root, run_id, repository, commit):
         self.run_id = run_id
         self.directory = Path(output_root) / run_id
@@ -84,6 +128,8 @@ class RunResources:
             (self.directory, self._directory_identity),
             (self.workspace, self._workspace_identity),
         ):
+            if identity is None and path == self.workspace and not path.exists():
+                continue
             if (
                 self._identity(path) != identity
                 or path.stat().st_mode & 0o777 != 0o700
@@ -101,13 +147,23 @@ class RunResources:
             "run_id": self.run_id,
             "owner_uid": os.getuid(),
             "control_identity": list(self._directory_identity),
-            "workspace_identity": list(self._workspace_identity),
+            "workspace_identity": list(self._workspace_identity)
+            if self._workspace_identity
+            else None,
             "lock_path": str(self.lock.path),
             "repository": self.repository,
             "commit": self.commit,
             "control_directory": str(self.directory),
             "workspace_directory": str(self.workspace),
-            "worktrees": [dict(work.ownership(), exists=work.created) for work in self.worktrees],
+            "worktrees": list(
+                {
+                    entry["path"]: entry
+                    for entry in [
+                        *getattr(self, "prior_worktrees", []),
+                        *(dict(work.ownership(), exists=work.created) for work in self.worktrees),
+                    ]
+                }.values()
+            ),
             "snapshots": list(self.snapshots.values()),
             "containers": list(self.containers.values()),
             "cleanup_errors": self.cleanup_errors,
@@ -162,7 +218,8 @@ class RunResources:
             return
         path = Path(record["path"])
         if (
-            self._identity(path) != tuple(record["identity"])
+            path.parent != self.workspace / "snapshots"
+            or self._identity(path) != tuple(record["identity"])
             or any(parent.is_symlink() for parent in path.parents)
             or not shutil.rmtree.avoids_symlink_attacks
         ):
@@ -194,7 +251,9 @@ class RunResources:
             keep = True
             self.cleanup_errors.append("CLEANUP_UNCONFIRMED: 保留容器相关工作区供诊断")
         for worktree in reversed(self.worktrees):
-            if keep and worktree.path.name == "repair":
+            if keep and (
+                worktree.path.name == "repair" or worktree.path.name.startswith("repair-r")
+            ):
                 continue
             try:
                 worktree.close()

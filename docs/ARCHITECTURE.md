@@ -1,6 +1,6 @@
 # 架构与关键取舍
 
-本文描述当前 **0.3.0.dev2、Task v2** 实现。目标架构见
+本文描述当前 **0.3.0.dev3、Task v2** 实现。目标架构见
 [Spec 2026-10-19.2](../specs/2026-10-19.2/docs/ARCHITECTURE.md)：
 独立 `verify-patch` 验收路径与 SDK 基础入口已提供；自动路径六工具、整批预算与原生上下文已提供。
 当前两条入口共用生命周期与独立验证器，模型循环由 SDK 拥有。
@@ -107,15 +107,20 @@ SQLite schema v2 使用 runs/events/checkpoints 三表；runs 是外层状态、
 最终回复或工具返回不会关闭片段；只有完整输入 filter 的 Checkpoint 事务才能关闭修复片段。
 recovery.py 保存公开 ModelInputData、普通 patch、完整 SourceManifest 和指纹；全部文件 durable 后才提交引用。
 显式暂停与同一个 Checkpoint 事务一起进入 INTERRUPTED，Runner 通过 HarnessPause 离开，不请求下一 turn。
-暂停保留修复源码及必需证据，清理构建快照和容器；当前尚未提供 Resume。
+暂停保留修复源码及必需证据，清理构建快照和容器。
+resume 先持锁、打开原库，原子记录接管阶段与 recovery_attempt；必要容器清理不受已耗尽 wall 限制。
+只有关闭的最新安全 Checkpoint 可继续；原配置和全部引用核对后，从 base＋patch 创建新工作树并比较完整字节。
+旧修复树存在且分歧时不覆盖；未知模型结果或未闭合工具轮次以 RECOVERY_FAILED 停止。
+恢复成功事务回到 REPAIRING 后，SDK 使用原生 input/instructions、剩余 turn 与累计工具额度；未知用量继续保持未知。
+预算耗尽的安全候选按原验证预留规则收尾，不重新执行基线。
 写者持有整个控制进程的 flock，使用 DELETE journal、FULL synchronous、外键约束；
 只读查询核对外层行和已提交事件前缀，发现分裂或损坏立即拒绝。旧 schema 不迁移、不自动续跑。
 JSONL 从已提交的一致性事件前缀导出。
 清理及证据检查后，终态事件引用最终事实附件；reports.py 核验引用并生成 JSON / Markdown。
 run.json 记录派生导出索引；各文件原子替换，跨文件不承诺原子性。
 已提交结局不因导出失败改变；inspect 只读查询，report 可重建丢失报告。
-当前不提供恢复或自动重放；SIGKILL 后没有终态就显示未完成，文件孤儿不成为恢复点。
-导出契约见 [P1-07](P1-07.md)，外层事务见 [P2-01](P2-01.md)，Checkpoint 与暂停见 [P2-02](P2-02.md)。
+当前不自动重放历史工具；SIGKILL 后须显式 resume 核对安全边界，文件孤儿不成为恢复点。
+导出契约见 [P1-07](P1-07.md)，外层事务见 [P2-01](P2-01.md)，Checkpoint 与暂停见 [P2-02](P2-02.md)，有限恢复见 [P2-03](P2-03.md)。
 
 ## 可复现性的含义
 

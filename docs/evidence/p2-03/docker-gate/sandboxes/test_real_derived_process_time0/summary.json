@@ -1,0 +1,312 @@
+{
+  "containers": [
+    {
+      "name": "repropatch-93e74edc90a54fcf967091a41618d6cb",
+      "container_id": "f37a0b8db61fb7c587fcaffc7588d8b56ac61d8198ce09fd06e1acf3fbdbfe89",
+      "run_id": "3916f67b33be46bfbf85147ca75d3787",
+      "purpose": "source",
+      "labels": {
+        "repropatch.run": "3916f67b33be46bfbf85147ca75d3787",
+        "repropatch.operation": "repropatch-93e74edc90a54fcf967091a41618d6cb",
+        "repropatch.purpose": "source"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/fea879a9e85e4db2b754552c05025bd7/test_real_derived_process_time0/source",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 805306368,
+          "MemorySwap": 805306368,
+          "PidsLimit": 64,
+          "NanoCpus": 1000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=256m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/fea879a9e85e4db2b754552c05025bd7/test_real_derived_process_time0/source",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": null
+    },
+    {
+      "name": "repropatch-7bc41ee0ae564011ac670c29bd30d6f6",
+      "container_id": "6ab14d765495bb2491212b2f980f903f1765b97f1a5c2c5a4cc3052f25edb0e1",
+      "run_id": "cfc8ce70d9f04632bfca4f8415370221",
+      "purpose": "source",
+      "labels": {
+        "repropatch.run": "cfc8ce70d9f04632bfca4f8415370221",
+        "repropatch.operation": "repropatch-7bc41ee0ae564011ac670c29bd30d6f6",
+        "repropatch.purpose": "source"
+      },
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "snapshot": "/home/li/repropatch/.repropatch/gate-tests/fea879a9e85e4db2b754552c05025bd7/test_real_derived_process_time0/source",
+      "active": false,
+      "cleanup_confirmed": true,
+      "cleanup_error": null,
+      "profile_verified": true,
+      "profile": {
+        "host_config": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "Privileged": false,
+          "Memory": 805306368,
+          "MemorySwap": 805306368,
+          "PidsLimit": 64,
+          "NanoCpus": 1000000000,
+          "Init": true,
+          "IpcMode": "none",
+          "Tmpfs": {
+            "/build": "rw,exec,nosuid,nodev,size=256m,uid=65534,gid=65534,mode=0700",
+            "/tmp": "rw,noexec,nosuid,nodev,size=64m,mode=1777"
+          },
+          "SecurityOpt": [
+            "no-new-privileges:true"
+          ],
+          "CapDrop": [
+            "ALL"
+          ],
+          "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "LogConfig": {
+            "Type": "none",
+            "Config": {}
+          },
+          "Devices": [],
+          "DeviceRequests": null,
+          "PidMode": ""
+        },
+        "config": {
+          "User": "65534:65534",
+          "Tty": false,
+          "Entrypoint": [
+            "/usr/bin/sleep"
+          ],
+          "Cmd": [
+            "infinity"
+          ],
+          "Healthcheck": {
+            "Test": [
+              "NONE"
+            ]
+          }
+        },
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "/home/li/repropatch/.repropatch/gate-tests/fea879a9e85e4db2b754552c05025bd7/test_real_derived_process_time0/source",
+            "Destination": "/src",
+            "Mode": "",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ]
+      },
+      "tools": null
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "printf persisted > /build/stamp"
+      ],
+      "returncode": 0,
+      "output": "",
+      "duration_seconds": 0.0794181210003444,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "8954d06a67ae4e94905ad972b41bf605",
+      "cwd": "/build",
+      "started_at": "2026-10-21T04:37:23.665034+00:00",
+      "finished_at": "2026-10-21T04:37:23.744470+00:00",
+      "stdout": "",
+      "stderr": "",
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/8954d06a67ae4e94905ad972b41bf605/stdout.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stderr_log": {
+        "path": "logs/8954d06a67ae4e94905ad972b41bf605/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "f37a0b8db61fb7c587fcaffc7588d8b56ac61d8198ce09fd06e1acf3fbdbfe89",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 79
+    },
+    {
+      "argv": [
+        "cat",
+        "/build/stamp"
+      ],
+      "returncode": 0,
+      "output": "persisted",
+      "duration_seconds": 0.08551604799959023,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "995cb0c11d9640a49f7b7674c8565d7b",
+      "cwd": "/build",
+      "started_at": "2026-10-21T04:37:23.760042+00:00",
+      "finished_at": "2026-10-21T04:37:23.845573+00:00",
+      "stdout": "persisted",
+      "stderr": "",
+      "stdout_bytes": 9,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/995cb0c11d9640a49f7b7674c8565d7b/stdout.bin",
+        "sha256": "255703f871486907cb7a6c85388489e0e2f3ba54d8714960e2e3e1c8f333d664",
+        "size_bytes": 9
+      },
+      "stderr_log": {
+        "path": "logs/995cb0c11d9640a49f7b7674c8565d7b/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "f37a0b8db61fb7c587fcaffc7588d8b56ac61d8198ce09fd06e1acf3fbdbfe89",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 86
+    },
+    {
+      "argv": [
+        "python3",
+        "-I",
+        "-c",
+        "import subprocess,time; subprocess.Popen(['sleep','60'],start_new_session=True); print('child-started',flush=True); time.sleep(60)"
+      ],
+      "returncode": 137,
+      "output": "child-started\n",
+      "duration_seconds": 2.137471774000005,
+      "timed_out": true,
+      "output_truncated": false,
+      "status": "timed_out",
+      "command_id": "39c164cf88924231a031685913bd11bd",
+      "cwd": "/build",
+      "started_at": "2026-10-21T04:37:23.863333+00:00",
+      "finished_at": "2026-10-21T04:37:26.000819+00:00",
+      "stdout": "child-started\n",
+      "stderr": "",
+      "stdout_bytes": 14,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/39c164cf88924231a031685913bd11bd/stdout.bin",
+        "sha256": "61e9309084e62ff5cb76d018da02b3cc4e5127981eef3e7d3f7de254333197df",
+        "size_bytes": 14
+      },
+      "stderr_log": {
+        "path": "logs/39c164cf88924231a031685913bd11bd/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "f37a0b8db61fb7c587fcaffc7588d8b56ac61d8198ce09fd06e1acf3fbdbfe89",
+      "cleanup_confirmed": true,
+      "error_code": "TIMED_OUT",
+      "error": null,
+      "truncated": false,
+      "exit_code": 137,
+      "duration_ms": 2137
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "test ! -e /build/stamp"
+      ],
+      "returncode": 0,
+      "output": "",
+      "duration_seconds": 0.086929297000097,
+      "timed_out": false,
+      "output_truncated": false,
+      "status": "exited",
+      "command_id": "c41bbd2a50894fa297bf9850ac5bdd72",
+      "cwd": "/build",
+      "started_at": "2026-10-21T04:37:26.346165+00:00",
+      "finished_at": "2026-10-21T04:37:26.433108+00:00",
+      "stdout": "",
+      "stderr": "",
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stdout_log": {
+        "path": "logs/c41bbd2a50894fa297bf9850ac5bdd72/stdout.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stderr_log": {
+        "path": "logs/c41bbd2a50894fa297bf9850ac5bdd72/stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "container_id": "6ab14d765495bb2491212b2f980f903f1765b97f1a5c2c5a4cc3052f25edb0e1",
+      "cleanup_confirmed": false,
+      "error_code": null,
+      "error": null,
+      "truncated": false,
+      "exit_code": 0,
+      "duration_ms": 87
+    }
+  ]
+}

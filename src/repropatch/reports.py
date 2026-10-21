@@ -53,7 +53,12 @@ def committed_state(snapshot):
                 )
             elif kind == "state_changed":
                 source, target = payload["from"], payload["to"]
-                if source != state["state"] or target not in TRANSITIONS[source]:
+                takeover = (
+                    snapshot.version == 2
+                    and payload.get("takeover") is True
+                    and target == "INTERRUPTED"
+                )
+                if source != state["state"] or (target not in TRANSITIONS[source] and not takeover):
                     raise ValueError("非法阶段转移")
                 if target == "REPAIRING" and state["input_mode"] != "run":
                     raise ValueError("纯验证进入模型阶段")

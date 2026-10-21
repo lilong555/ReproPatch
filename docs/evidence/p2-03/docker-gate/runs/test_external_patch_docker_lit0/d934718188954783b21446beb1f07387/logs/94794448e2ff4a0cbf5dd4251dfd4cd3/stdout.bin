@@ -1,0 +1,12 @@
+Test project /build
+    Start 1: parse[value]+edge
+1/1 Test #1: parse[value]+edge ................***Failed    0.00 sec
+expected -3, got 0
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+The following tests FAILED:
+	  1 - parse[value]+edge (Failed)

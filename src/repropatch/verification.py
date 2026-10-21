@@ -48,6 +48,19 @@ class RunClock:
     started: float = field(default_factory=time.monotonic)
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
+    @classmethod
+    def restore(cls, created_at, deadline_at, reserve_seconds):
+        """原始绝对期限转为本进程单调时钟；停机时间照常消耗 wall 预算。"""
+        created = datetime.fromisoformat(created_at)
+        deadline = datetime.fromisoformat(deadline_at)
+        elapsed = (datetime.now(UTC) - created).total_seconds()
+        return cls(
+            (deadline - created).total_seconds(),
+            reserve_seconds,
+            time.monotonic() - elapsed,
+            created,
+        )
+
     def deadline(self, role):
         return (
             self.started
@@ -171,6 +184,40 @@ class EvaluationEvidence:
             cleanup_error="; ".join(self.cleanup["errors"]) or None,
         )
         return result
+
+    @classmethod
+    def from_dict(cls, raw, reference):
+        """恢复已保存的结构化观察；不执行或推断任何历史命令。"""
+        from dataclasses import fields
+
+        values = {field.name: raw[field.name] for field in fields(cls) if field.name in raw}
+        for name in ("source_manifest", "inventory"):
+            values[name] = EvidenceRef(**raw[name]) if raw.get(name) else None
+
+        def command(item):
+            if item is None:
+                return None
+            data = {
+                field.name: item[field.name]
+                for field in fields(CommandResult)
+                if field.name in item
+            }
+            data["argv"] = tuple(data["argv"])
+            for name in ("stdout_log", "stderr_log"):
+                data[name] = EvidenceRef(**data[name]) if data.get(name) else None
+            return CommandResult(**data)
+
+        for name in ("configure", "build", "discovery"):
+            values[name] = command(raw.get(name))
+        values["commands"] = [command(item) for item in raw["commands"]]
+        values["tests"] = [
+            TestObservation(
+                **{**item, "result": EvidenceRef(**item["result"]) if item.get("result") else None}
+            )
+            for item in raw["tests"]
+        ]
+        values["evidence"] = reference
+        return cls(**values)
 
 
 @dataclass(frozen=True)

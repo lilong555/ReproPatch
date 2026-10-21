@@ -42,6 +42,11 @@ def parser():
     verify.add_argument("--producer-trace", type=Path)
     verify.add_argument("--output-root", type=Path)
     verify.add_argument("--json", action="store_true")
+    resume = commands.add_parser("resume", help="仅从已提交的安全输入边界继续同一 Run")
+    resume.add_argument("run_id")
+    resume.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+    resume.add_argument("--pause-after-step", type=int)
+    resume.add_argument("--json", action="store_true")
     for name, help_text in (
         ("inspect", "只读查询运行事实和证据完整性"),
         ("report", "从已提交事实重建报告"),
@@ -58,6 +63,32 @@ def parser():
 
 def main(argv=None):
     args = parser().parse_args(argv)
+    if args.command == "resume":
+        from .recovery import resume_run
+
+        try:
+            validate_run_id(args.run_id)
+        except ValueError as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
+        try:
+            directory = run_directory(args.root, args.run_id)
+            report = resume_run(directory, pause_after_step=args.pause_after_step)
+            return _print_summary(report, args)
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return (
+                2
+                if str(exc).startswith(
+                    (
+                        "RUN_FINISHED:",
+                        "PAUSE_STEP_INVALID:",
+                        "RESUME_UNSUPPORTED:",
+                        "ENGINE_DEPENDENCY_MISSING",
+                    )
+                )
+                else 3
+            )
     if args.command in {"inspect", "report"}:
         try:
             validate_run_id(args.run_id)
@@ -198,59 +229,63 @@ def main(argv=None):
         except (ReproPatchError, OSError) as exc:
             print(f"repropatch: 运行失败：{exc}", file=sys.stderr)
             return 3
-        if "outcome" in report:
-            summary = {
-                "run_id": report["run_id"],
-                "task_id": report["task_id"],
-                "input_mode": report["input_mode"],
-                "state": report["state"],
-                "outcome": report["outcome"],
-                "reason_code": report["reason_code"],
-                "paused": report.get("paused", False),
-                "artifact_dir": report["artifact_directory"],
-                "artifacts_complete": report.get("artifacts_complete", True),
-                "command_error": report.get("command_error"),
-            }
-            if summary["paused"]:
-                summary["checkpoint"] = report["checkpoint"]
-            print(
-                json.dumps(
-                    summary,
-                    ensure_ascii=False,
-                    separators=(",", ":") if getattr(args, "json", False) else None,
-                )
-            )
-            if summary["command_error"]:
-                print(f"repropatch: {summary['command_error']}", file=sys.stderr)
-                return 3
-            if summary["paused"]:
-                return 0
-            if report["outcome"] == "CANCELLED":
-                return 130
-            if report["outcome"] in {"ERROR", "INCONCLUSIVE"}:
-                return 3
-            return 0 if report["outcome"] == "ACCEPTED" else 1
-        print(
-            json.dumps(
-                {
-                    key: report[key]
-                    for key in (
-                        "run_id",
-                        "status",
-                        "isolated",
-                        "duration_seconds",
-                        "artifact_directory",
-                    )
-                }
-            )
-        )
-        return (
-            3
-            if report["status"] in {"error", "internal_error"}
-            else 0
-            if report["status"] == "passed"
-            else 1
-        )
+        return _print_summary(report, args)
     except (ReproPatchError, OSError) as exc:
         print(f"repropatch: {exc}", file=sys.stderr)
         return 2
+
+
+def _print_summary(report, args):
+    if "outcome" in report:
+        summary = {
+            "run_id": report["run_id"],
+            "task_id": report["task_id"],
+            "input_mode": report["input_mode"],
+            "state": report["state"],
+            "outcome": report["outcome"],
+            "reason_code": report["reason_code"],
+            "paused": report.get("paused", False),
+            "artifact_dir": report["artifact_directory"],
+            "artifacts_complete": report.get("artifacts_complete", True),
+            "command_error": report.get("command_error"),
+        }
+        if summary["paused"]:
+            summary["checkpoint"] = report["checkpoint"]
+        print(
+            json.dumps(
+                summary,
+                ensure_ascii=False,
+                separators=(",", ":") if getattr(args, "json", False) else None,
+            )
+        )
+        if summary["command_error"]:
+            print(f"repropatch: {summary['command_error']}", file=sys.stderr)
+            return 3
+        if summary["paused"]:
+            return 0
+        if report["outcome"] == "CANCELLED":
+            return 130
+        if report["outcome"] in {"ERROR", "INCONCLUSIVE", "RECOVERY_FAILED"}:
+            return 3
+        return 0 if report["outcome"] == "ACCEPTED" else 1
+    print(
+        json.dumps(
+            {
+                key: report[key]
+                for key in (
+                    "run_id",
+                    "status",
+                    "isolated",
+                    "duration_seconds",
+                    "artifact_directory",
+                )
+            }
+        )
+    )
+    return (
+        3
+        if report["status"] in {"error", "internal_error"}
+        else 0
+        if report["status"] == "passed"
+        else 1
+    )
