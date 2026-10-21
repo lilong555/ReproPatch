@@ -1,0 +1,84 @@
+{
+  "status": "passed",
+  "wheel_sha256": "daded7f8d584c140148e71c3c59e2e577ba118a42157318b2e23cdeff5ef3a3e",
+  "commands": [
+    {
+      "name": "core-venv",
+      "argv": [
+        "/home/li/repropatch/.venv/bin/python",
+        "-m",
+        "venv",
+        "--without-pip",
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "core-install",
+      "argv": [
+        "/home/li/.local/bin/pip",
+        "--python",
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "install",
+        "/home/li/repropatch/dist/repropatch-0.3.0rc1-py3-none-any.whl"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "core-imports",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "\nimport json, pathlib, sys\nfrom importlib.metadata import distributions\nimport repropatch\nassert repropatch.__version__ == '0.3.0rc1'\nlocation = pathlib.Path(repropatch.__file__).parent\nassert location.is_relative_to(sys.prefix)\nfor path in (pathlib.Path(sys.argv[1]) / 'src/repropatch').glob('*.py'):\n    assert path.read_bytes() == (location / path.name).read_bytes(), path\nimport repropatch.cli, repropatch.reports\nassert 'agents' not in sys.modules and 'openai' not in sys.modules and 'repropatch.models' not in sys.modules\npackages = {dist.metadata['Name'].lower():dist.version for dist in distributions()}\nif sys.argv[2] == 'core':\n    assert set(packages) == {'repropatch','pyyaml'}\nelse:\n    for name, version in {'openai-agents':'0.24.0','openai':'3.35.1', 'httpx2':'2.15.1','pydantic':'2.14.1'}.items():\n        assert packages[name] == version\nprint(json.dumps({'location':str(location),'packages':packages,'source_bytes_match':True, 'core_import_without_sdk':True}, indent=2))\n",
+        "/home/li/repropatch",
+        "core"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "agent-venv",
+      "argv": [
+        "/home/li/repropatch/.venv/bin/python",
+        "-m",
+        "venv",
+        "--without-pip",
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "agent-install",
+      "argv": [
+        "/home/li/.local/bin/pip",
+        "--python",
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+        "install",
+        "-c",
+        "/home/li/repropatch/requirements/agent.txt",
+        "/home/li/repropatch/dist/repropatch-0.3.0rc1-py3-none-any.whl[agent]",
+        "pytest==9.1.1",
+        "cmake==4.4.4"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "agent-imports",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+        "-I",
+        "-c",
+        "\nimport json, pathlib, sys\nfrom importlib.metadata import distributions\nimport repropatch\nassert repropatch.__version__ == '0.3.0rc1'\nlocation = pathlib.Path(repropatch.__file__).parent\nassert location.is_relative_to(sys.prefix)\nfor path in (pathlib.Path(sys.argv[1]) / 'src/repropatch').glob('*.py'):\n    assert path.read_bytes() == (location / path.name).read_bytes(), path\nimport repropatch.cli, repropatch.reports\nassert 'agents' not in sys.modules and 'openai' not in sys.modules and 'repropatch.models' not in sys.modules\npackages = {dist.metadata['Name'].lower():dist.version for dist in distributions()}\nif sys.argv[2] == 'core':\n    assert set(packages) == {'repropatch','pyyaml'}\nelse:\n    for name, version in {'openai-agents':'0.24.0','openai':'3.35.1', 'httpx2':'2.15.1','pydantic':'2.14.1'}.items():\n        assert packages[name] == version\nprint(json.dumps({'location':str(location),'packages':packages,'source_bytes_match':True, 'core_import_without_sdk':True}, indent=2))\n",
+        "/home/li/repropatch",
+        "agent"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "release_tag": "v0.3.0rc1",
+  "archive": "ReproPatch-evidence-through-0.3.0rc1.tar.gz",
+  "sha256": "1c4e7e4a643532722414d36c2ec24fc43e506b3a91cb22a2cfd41c4c8ba38a24",
+  "size_bytes": 15472373,
+  "files": 17247,
+  "uncompressed_bytes": 267907052,
+  "manifest": "evidence-manifest.json",
+  "retained_files": 204,
+  "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc1/ReproPatch-evidence-through-0.3.0rc1.tar.gz",
+  "verification": "逐文件原始字节 SHA-256 与大小一致"
+}

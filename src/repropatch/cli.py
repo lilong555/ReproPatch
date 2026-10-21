@@ -47,6 +47,15 @@ def parser():
     resume.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
     resume.add_argument("--pause-after-step", type=int)
     resume.add_argument("--json", action="store_true")
+    replay = commands.add_parser("replay", help="只读查看既有领域事件及证据引用")
+    replay.add_argument("run_id")
+    replay.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+    replay.add_argument("--mode", choices=["trace"], required=True)
+    replay.add_argument("--json", action="store_true")
+    export = commands.add_parser("export-trace", help="从 SQLite 一致性快照导出原事件 JSONL")
+    export.add_argument("run_id")
+    export.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+    export.add_argument("--output", type=Path, help="原 Run 目录之外的新文件；默认 stdout")
     for name, help_text in (
         ("inspect", "只读查询运行事实和证据完整性"),
         ("report", "从已提交事实重建报告"),
@@ -63,6 +72,36 @@ def parser():
 
 def main(argv=None):
     args = parser().parse_args(argv)
+    if args.command in {"replay", "export-trace"}:
+        from .trace import export_trace, replay_trace, trace_markdown
+
+        try:
+            validate_run_id(args.run_id)
+        except ValueError as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
+        try:
+            directory = run_directory(args.root, args.run_id)
+            if args.command == "replay":
+                result = replay_trace(directory)
+                print(
+                    json.dumps(result, ensure_ascii=True) if args.json else trace_markdown(result)
+                )
+                problems = result["evidence_errors"]
+            else:
+                content, problems = export_trace(directory, args.output)
+                if args.output is None:
+                    sys.stdout.write(content.decode("utf-8"))
+            if problems:
+                print(
+                    "repropatch: EVIDENCE_UNVERIFIABLE: " + json.dumps(problems, ensure_ascii=True),
+                    file=sys.stderr,
+                )
+                return 3
+            return 0
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {str(exc).split(':', 1)[0]}", file=sys.stderr)
+            return 3
     if args.command == "resume":
         from .recovery import resume_run
 

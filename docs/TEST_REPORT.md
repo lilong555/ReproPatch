@@ -1,21 +1,23 @@
 # 测试报告
 
-当前版本：**0.3.0.dev3，Task v2**。验收日期：2026-10-21。
-**465 项测试通过：297 项核心、147 项 SDK、21 项真实 Docker；0 失败、0 跳过。**
-三组分别执行，未选中项目不计为跳过或通过。P2-03 已完成，完整 0.3.0 仍在开发。
+当前版本：**0.3.0rc1，Task v2**。验收日期：2026-10-21。
+**483 项测试通过：315 项核心、147 项 SDK、21 项真实 Docker；0 失败、0 跳过。**
+三组分别执行，未选中项目不计为跳过或通过。P2-04 已完成，当前是 Phase 2 可靠性候选版本。
 
 ## 执行结果
 
 | 检查 | 结果 | 原始证据 |
 | --- | --- | --- |
-| Ruff 检查与格式 | 通过 | [检查](evidence/p2-03/ruff-check.log)、[格式](evidence/p2-03/ruff-format.log) |
-| 核心测试 | 297 通过 | [日志](evidence/p2-03/core-tests.log)、[JUnit](evidence/p2-03/core-tests.xml) |
-| SDK 契约及自动路径 | 147 通过 | [摘要](evidence/p2-03/sdk-contract/summary.json)、[日志](evidence/p2-03/sdk-contract/tests.log) |
-| 真实 Docker | 21 通过 | [摘要](evidence/p2-03/docker-gate/summary.json)、[JUnit](evidence/p2-03/docker-gate/docker-tests.xml) |
-| 干净核心 wheel | 无模型模块和 SDK 的正确/错误补丁验收通过 | [安装](evidence/p2-03/installation.json)、[路径验收](evidence/p2-03/packaging.json) |
-| 干净 agent wheel | 固定依赖、原生 fake 自动修复、444 项非 Docker 测试通过 | [安装版测试](evidence/p2-03/installed-all/summary.json) |
-| 报告与数据库 | 当前报告核验及重建；历史 45 份 schema v1/v2 报告保持可读且数据库未改写 | [核验](evidence/p2-03/artifact-checks.json) |
-| 分发 | wheel/sdist 与当前执行源码一致 | [核验](evidence/p2-03/distribution-checks.json) |
+| Ruff 检查与格式 | 通过 | [检查](evidence/p2-04/ruff-check.log)、[格式](evidence/p2-04/ruff-format.log) |
+| 核心测试 | 315 通过 | [日志](evidence/p2-04/core-tests.log)、[JUnit](evidence/p2-04/core-tests.xml) |
+| SDK 契约及自动路径 | 147 通过 | [摘要](evidence/p2-04/sdk-contract/summary.json)、[日志](evidence/p2-04/sdk-contract/tests.log) |
+| 真实 Docker | 21 通过 | [摘要](evidence/p2-04/docker-gate/summary.json)、[JUnit](evidence/p2-04/docker-gate/docker-tests.xml) |
+| 干净核心 wheel | 无模型模块和 SDK 的正确/错误补丁验收通过 | [安装](evidence/p2-04/installation.json)、[路径验收](evidence/p2-04/packaging.json) |
+| 干净 agent wheel | 固定依赖、原生 fake 自动修复、462 项非 Docker 测试通过 | [安装版测试](evidence/p2-04/installed-all/summary.json) |
+| 报告与数据库 | 当前报告核验及重建；历史 64 份 schema v1/v2 报告保持可读且数据库未改写 | [核验](evidence/p2-04/artifact-checks.json) |
+| 只读轨迹 | 18 项核心用例及无 SDK 安装版 CLI 通过 | [安装版](evidence/p2-04/installed-trace-checks.json) |
+| 恢复故障 gate | 13 场景：3 安全恢复、9 明确失败、1 控制器拒绝，失败场景零新增模型/工具调用 | [摘要](evidence/p2-04/recovery-gate/summary.json) |
+| 分发 | wheel/sdist 与当前执行源码一致 | [核验](evidence/p2-04/distribution-checks.json) |
 
 源码与固定依赖的实际执行字节见 SDK/Docker gate 的 source-manifest.json。
 历史 Git HEAD 不代替执行身份；安装包与实现 SHA-256 见 RELEASE.json。
@@ -60,6 +62,18 @@ schema 0/1 按原版读取且写打开返回 RESUME_UNSUPPORTED，不做 schema 
 恢复命令删除并核验后以 UNSUPPORTED_RECOVERY_PHASE 停止，没有模型请求。
 安装版 CLI 从冻结脚本暂停后成功 resume；五份派生报告删除重建，数据库与结局未改变。
 
+## 只读轨迹与故障 gate
+
+18 项 tests/test_trace.py 核心测试禁止进程、SDK、模型、执行工具或恢复，核对原 Run 文件不变。
+覆盖真实 v1/v2 事件及旧 kind 展示、缺失/伪造派生产物、缺失原生和嵌套证据、开放片段与暂停、
+逐字节 JSONL、原 Run/既有目标/链接/穿越拒绝、坏数据库与不可信终端文本。
+Trace 只展示领域观察和引用，不展开原生模型内容；未知附件不改写原 outcome，不把 JSONL 导入为权威状态。
+
+恢复 gate 指定重复执行 13 项既有用例，不增加唯一测试数。3 个场景安全恢复至 ACCEPTED，
+9 个以明确 RECOVERY_FAILED 结束，1 个持锁控制器拒绝接管；失败场景没有新增模型或工具调用。
+所有原始期限保留，已完成工具 ID 不重复。故障前缀不是独立试验，不用于估计模型修复率。
+32 份当前报告包含 1 个故意损坏 Checkpoint 的负例，按不可核查保留，不修补原始文件。
+
 ## SDK 与独立验收
 
 自动路径使用公开 Runner、六个 async function tools 和原生 Responses Items，不自建模型循环。
@@ -82,7 +96,7 @@ F2P 必须在基线普通失败且匹配原始签名，P2P 必须通过；skip�
 镜像内 CMake/CTest 3.28.3、GCC 13.3.0。
 
 核心 wheel 在干净 Python 3.12 环境只安装 PyYAML，从项目外调用且阻止模型模块导入。
-agent wheel 验证固定依赖与安装目录，执行全部 444 项非 Docker 测试，并用 ScriptedModel 完成真实容器修复。
+agent wheel 验证固定依赖与安装目录，执行全部 462 项非 Docker 测试，并用 ScriptedModel 完成真实容器修复。
 正确/错误补丁分别 ACCEPTED/REJECTED；五份报告删除重建前后数据库字节和结局一致。
 
 ## Phase 1 模型证据
@@ -95,7 +109,7 @@ agent wheel 验证固定依赖与安装目录，执行全部 444 项非 Docker �
 
 ## 当前边界
 
-当前支持完整输入 Checkpoint、受控暂停与有限 Resume，尚不提供 Replay、Harbor 或跨 Run 清扫。
+当前支持完整输入 Checkpoint、受控暂停、有限 Resume 和只读 Trace Replay，尚不提供 Execution Replay、Harbor 或跨 Run 清扫。
 开放片段、模型最终文本及完整工具日志都不构成可恢复输入边界。
 报告导出失败不改写权威终态；无法核验的数据库或证据明确报错，不创建空库或推断成功。
-下一任务为 P2-04。
+下一任务为 P3-01。

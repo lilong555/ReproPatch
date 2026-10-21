@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "test_scope": "not docker",
+  "tests_passed": 462,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "wheel_sha256": "daded7f8d584c140148e71c3c59e2e577ba118a42157318b2e23cdeff5ef3a3e",
+  "command": {
+    "name": "installed-all",
+    "argv": [
+      "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "/home/li/repropatch/tests",
+      "-m",
+      "not docker",
+      "-v",
+      "--junitxml=/home/li/repropatch/docs/evidence/p2-04/installed-all/results.xml"
+    ],
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  "real_model_verified": false
+}

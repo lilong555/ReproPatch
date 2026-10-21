@@ -1,6 +1,0 @@
-Using Python 3.12.15 environment at: .repropatch/wheel-dev6-smoke
-Resolved 2 packages in 565ms
-Prepared 1 package in 4ms
-Uninstalled 1 package in 0.68ms
-Installed 1 package in 1ms
- ~ repropatch==0.2.0.dev6 (from file:///home/li/repropatch/dist/repropatch-0.2.0.dev6-py3-none-any.whl)

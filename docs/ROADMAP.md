@@ -2,7 +2,7 @@
 
 当前目标以 [Spec 2026-10-19.2](../specs/2026-10-19.2/SPEC.md) 为准。
 本文件是实施顺序摘要；详细 DoD 见 [当前实施计划](IMPLEMENTATION_PLAN.md) 与原始规格。
-当前开发版本为 0.3.0.dev3、Task v2，Phase 1、P2-01 至 P2-03 已完成；公开仓库为 [lilong555/ReproPatch](https://github.com/lilong555/ReproPatch)。
+当前候选版本为 0.3.0rc1、Task v2，Phase 1 与 Phase 2 已完成；公开仓库为 [lilong555/ReproPatch](https://github.com/lilong555/ReproPatch)。
 
 | 顺序 | Task | 工作与验收门槛 |
 | --- | --- | --- |
@@ -18,7 +18,8 @@
 | 已完成 | P2-01 | runs/events/checkpoints 三表、状态与预算同事务、执行片段不确定性；旧审计可读不可恢复。 |
 | 已完成 | P2-02 | 公开完整输入边界的 Checkpoint、durable 文件及原子提交、受控暂停；不重做工具。 |
 | 已完成 | P2-03 | 核对指纹、资源与关闭片段，从安全 Checkpoint 有限 Resume；未知模型/工具结果停止，不重发。 |
-| 下一任务 | P2-04 | 只读 Trace Replay、export-trace 与恢复门槛；不执行模型或历史工具。 |
+| 已完成 | P2-04 | 只读 Trace Replay、export-trace 与恢复门槛；不执行模型或历史工具。 |
+| 下一任务 | P3-01 | 固定 negative-maximum、range-sum、parse 三项 fixture，保存正确/错误参考补丁及可核查 suite。 |
 
 只有 P1 的门槛实际通过，才进入后续阶段：
 

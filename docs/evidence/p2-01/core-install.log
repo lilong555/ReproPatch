@@ -1,7 +1,0 @@
-Processing ./dist/repropatch-0.3.0.dev1-py3-none-any.whl
-Collecting PyYAML<7,>=6.0.2 (from repropatch==0.3.0.dev1)
-  Using cached pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
-Using cached pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
-Installing collected packages: PyYAML, repropatch
-
-Successfully installed PyYAML-6.0.3 repropatch-0.3.0.dev1

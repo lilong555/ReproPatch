@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "run_id": "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+      "outcome": "ACCEPTED",
+      "trace_cli_without_sdk": true,
+      "original_run_files_unchanged": true,
+      "jsonl_matches_committed_snapshot": true
+    },
+    {
+      "run_id": "890d5d8d30d04385b7ac862dd1d2d608",
+      "outcome": "REJECTED",
+      "trace_cli_without_sdk": true,
+      "original_run_files_unchanged": true,
+      "jsonl_matches_committed_snapshot": true
+    },
+    {
+      "run_id": "9508a0698c4c4066997a63c07eaaa505",
+      "outcome": "ACCEPTED",
+      "trace_cli_without_sdk": true,
+      "original_run_files_unchanged": true,
+      "jsonl_matches_committed_snapshot": true
+    },
+    {
+      "run_id": "efcbbfbd2a93450194162120989c48db",
+      "outcome": null,
+      "trace_cli_without_sdk": true,
+      "original_run_files_unchanged": true,
+      "jsonl_matches_committed_snapshot": true
+    },
+    {
+      "run_id": "2ecb69f03c414e4a9b2f2e15baf2346b",
+      "outcome": "ACCEPTED",
+      "trace_cli_without_sdk": true,
+      "original_run_files_unchanged": true,
+      "jsonl_matches_committed_snapshot": true
+    }
+  ]
+}

@@ -1,0 +1,667 @@
+{
+  "status": "passed",
+  "wheel_sha256": "daded7f8d584c140148e71c3c59e2e577ba118a42157318b2e23cdeff5ef3a3e",
+  "commands": [
+    {
+      "name": "wheel-verify-correct",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "verify-patch",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--patch",
+        "/home/li/repropatch/examples/patches/negative-maximum.correct.patch",
+        "--producer",
+        "fixture",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-verify-wrong",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "verify-patch",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--patch",
+        "/home/li/repropatch/examples/patches/negative-maximum.wrong.patch",
+        "--producer",
+        "fixture",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong",
+        "--json"
+      ],
+      "returncode": 1,
+      "expected_returncode": 1
+    },
+    {
+      "name": "wheel-run",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--engine",
+        "fake",
+        "--mock-script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-pause",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--engine",
+        "fake",
+        "--mock-script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--pause-after-step",
+        "3",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-resume-pause",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "run",
+        "/home/li/repropatch/examples/tasks/negative-maximum.v2.yaml",
+        "--engine",
+        "fake",
+        "--mock-script",
+        "/home/li/repropatch/examples/models/fix-negative-maximum.json",
+        "--pause-after-step",
+        "3",
+        "--output-root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-resume",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-agent/bin/python",
+        "-I",
+        "-m",
+        "repropatch",
+        "resume",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "890d5d8d30d04385b7ac862dd1d2d608",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "890d5d8d30d04385b7ac862dd1d2d608",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "9508a0698c4c4066997a63c07eaaa505",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "9508a0698c4c4066997a63c07eaaa505",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "efcbbfbd2a93450194162120989c48db",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "efcbbfbd2a93450194162120989c48db",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-inspect-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "inspect",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-rebuild-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "report",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-json-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct",
+        "--mode",
+        "trace",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-md-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct",
+        "--mode",
+        "trace"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-stdout-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-file-0",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/correct",
+        "--output",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-trace/0.jsonl"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-json-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "890d5d8d30d04385b7ac862dd1d2d608",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong",
+        "--mode",
+        "trace",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-md-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "890d5d8d30d04385b7ac862dd1d2d608",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong",
+        "--mode",
+        "trace"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-stdout-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "890d5d8d30d04385b7ac862dd1d2d608",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-file-1",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "890d5d8d30d04385b7ac862dd1d2d608",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-verify/wrong",
+        "--output",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-trace/1.jsonl"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-json-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "9508a0698c4c4066997a63c07eaaa505",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto",
+        "--mode",
+        "trace",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-md-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "9508a0698c4c4066997a63c07eaaa505",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto",
+        "--mode",
+        "trace"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-stdout-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "9508a0698c4c4066997a63c07eaaa505",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-file-2",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "9508a0698c4c4066997a63c07eaaa505",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-auto",
+        "--output",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-trace/2.jsonl"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-json-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "efcbbfbd2a93450194162120989c48db",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause",
+        "--mode",
+        "trace",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-md-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "efcbbfbd2a93450194162120989c48db",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause",
+        "--mode",
+        "trace"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-stdout-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "efcbbfbd2a93450194162120989c48db",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-file-3",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "efcbbfbd2a93450194162120989c48db",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-pause",
+        "--output",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-trace/3.jsonl"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-json-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--mode",
+        "trace",
+        "--json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-md-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "replay",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--mode",
+        "trace"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-stdout-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    },
+    {
+      "name": "wheel-trace-file-4",
+      "argv": [
+        "/home/li/repropatch/.repropatch/wheel-p204-delivery-core/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.modules['agents']=None; sys.modules['openai']=None; sys.modules['repropatch.models']=None; from repropatch.cli import main; raise SystemExit(main(sys.argv[1:]))",
+        "export-trace",
+        "2ecb69f03c414e4a9b2f2e15baf2346b",
+        "--root",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-resume",
+        "--output",
+        "/home/li/repropatch/docs/evidence/p2-04/installed-trace/4.jsonl"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0
+    }
+  ],
+  "report_rebuilds": [
+    {
+      "run_id": "84aaf7acc5bf442e8e1f6e9ff2d4603d",
+      "outcome": "ACCEPTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "890d5d8d30d04385b7ac862dd1d2d608",
+      "outcome": "REJECTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "9508a0698c4c4066997a63c07eaaa505",
+      "outcome": "ACCEPTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "efcbbfbd2a93450194162120989c48db",
+      "outcome": null,
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    },
+    {
+      "run_id": "2ecb69f03c414e4a9b2f2e15baf2346b",
+      "outcome": "ACCEPTED",
+      "database_unchanged": true,
+      "deleted_reports_rebuilt": true
+    }
+  ],
+  "reports": [
+    "installed-verify/correct/84aaf7acc5bf442e8e1f6e9ff2d4603d/report.json",
+    "installed-verify/wrong/890d5d8d30d04385b7ac862dd1d2d608/report.json",
+    "installed-auto/9508a0698c4c4066997a63c07eaaa505/report.json",
+    "installed-pause/efcbbfbd2a93450194162120989c48db/report.json",
+    "installed-resume/2ecb69f03c414e4a9b2f2e15baf2346b/report.json"
+  ],
+  "sdk_import_blocked_for_core_cli": true,
+  "real_model_verified": false
+}

@@ -1,7 +1,0 @@
-执行 source-commit，日志：/home/li/repropatch/docs/evidence/p1-05/docker-gate/source-commit.log
-执行 source-status，日志：/home/li/repropatch/docs/evidence/p1-05/docker-gate/source-status.log
-执行 docker-version，日志：/home/li/repropatch/docs/evidence/p1-05/docker-gate/docker-version.log
-执行 image-id，日志：/home/li/repropatch/docs/evidence/p1-05/docker-gate/image-id.log
-执行 doctor，日志：/home/li/repropatch/docs/evidence/p1-05/docker-gate/doctor.log
-执行 docker-tests，日志：/home/li/repropatch/docs/evidence/p1-05/docker-gate/docker-tests.log
-{"status": "passed", "evidence": "/home/li/repropatch/docs/evidence/p1-05/docker-gate"}

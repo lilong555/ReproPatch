@@ -2,21 +2,25 @@
 
 面向 C++ 工程的可复现代码修复与独立验收 Harness。
 
-当前开发版本为 **0.3.0.dev3，Task v2**。Phase 1、P2-01 至 P2-03 已完成。
+当前候选版本为 **0.3.0rc1，Task v2**。Phase 1 与 Phase 2 已完成。
 `verify-patch` 无需模型、SDK 或 API key，使用固定基线和全新容器独立验收外部补丁。
 自动修复与外部补丁共用结构化 CTest、固定测试身份、完整字节清单和候选往返检查。
-**297 项核心测试、147 项 SDK 契约与 21 项真实 Docker 测试通过**。
+**315 项核心测试、147 项 SDK 契约与 21 项真实 Docker 测试通过**。
 Phase 1 的 0.2.0rc1 已完成 DeepSeek 真实自动修复和独立 Docker 验收，结局为 `ACCEPTED`。
 
 自动 `run` 使用公开 Agents SDK Runner、六个受控异步工具和原生 Responses Items。
 fake 引擎直接使用原生 ScriptedModel；SDK 引擎使用 AsyncOpenAI/OpenAIResponsesModel。
 SQLite 的 runs/events/checkpoints 三表记录外层状态、累计预算和事件；提交失败不会释放模型或工具执行。
 `inspect` 只读查询，`report` 核验证据并重建 JSONL / JSON / Markdown。
-SDK 完整输入边界保存 Checkpoint，支持受控暂停与有限 Resume；Replay 和 Harbor 命令尚未提供。
-下一任务为 P2-04。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)，有限恢复见 [P2-03](docs/P2-03.md)。
+SDK 完整输入边界保存 Checkpoint，支持受控暂停、有限 Resume 和只读 Trace Replay；Execution Replay 与 Harbor 尚未提供。
+下一任务为 P3-01。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)，有限恢复见 [P2-03](docs/P2-03.md)，只读轨迹与恢复门槛见 [P2-04](docs/P2-04.md)。
 Phase 1 的真实模型证据见 [P1-08](docs/P1-08.md)。
 
 [规格入口](SPEC.md) · [测试报告](docs/TEST_REPORT.md) · [实施计划](docs/IMPLEMENTATION_PLAN.md)
+
+完整原始验收数据通过带 SHA-256 的 Release Assets 提供，源码树只保留关键摘要与清单，
+下载及复核方式见 [证据索引](docs/evidence/README.md)。483 项契约测试不代表 483 道真实修复任务；
+真实工程对照评测的任务、环境和计分规则见 [Benchmark](benchmarks/README.md)。
 
 ## 快速开始
 
@@ -103,7 +107,7 @@ Run 非源码审计文件总预算 **256 MiB**，包含日志、事件、清单�
 编译容器会看到完整无 `.git` 源码快照，readable 不是仓库内容保密保证。
 真实模型必须显式提供 `--allow-paid-model`；默认测试不调用付费模型。
 0.2.0rc1 已认证 `https://api.deepseek.com` 的 `deepseek-flash`，使用显式环境代理；
-0.3.0.dev3 通过离线 SDK 与真实容器回归，本任务没有重复调用付费模型。
+0.3.0rc1 通过离线 SDK 与真实容器回归，本任务没有重复调用付费模型。
 
 ## 源码与补丁契约
 
@@ -161,6 +165,29 @@ repropatch report RUN_ID --root .repropatch/runs --format json
 `inspect` 分别展示 database_version 与 event_format，schema v2 仍使用原来的 v1 事件信封。
 历史 kind / P1 审计按原版本查询，不自动改建数据库，不提供恢复能力。
 报告契约见 [P1-07](docs/P1-07.md)，当前数据库与事务边界见 [P2-01](docs/P2-01.md)。
+
+## 只读轨迹与导出
+
+```bash
+repropatch replay RUN_ID --root .repropatch/runs --mode trace
+repropatch replay RUN_ID --root .repropatch/runs --mode trace --json
+repropatch export-trace RUN_ID --root .repropatch/runs
+repropatch export-trace RUN_ID --root .repropatch/runs --output exports/trace.jsonl
+```
+
+轨迹从 SQLite 一致性快照读取，按 seq 展示阶段、预算、工具与命令观察及 EvidenceRef。
+不调用模型、Git、Docker、工具或 resume，不创建新 Run，不写回原 Run，不展开原生模型内容或 opaque continuation。
+即使派生 JSONL/报告缺失或伪造，权威数据仍来自原数据库；不能从 JSONL 重建或修补 SQLite。
+必要附件缺失或 hash 不符时仍可查看已知事件，但标为不可核查并退出 3，原 outcome 不改变。
+查询退出 0 只表示读取成功，不表示补丁通过或可安全恢复。
+
+export-trace 输出原始事件 JSONL，不加伪事件头；默认 stdout。显式文件必须位于原 Run 外且尚不存在，
+拒绝覆盖既有文件、链接或路径穿越；数据库损坏时不生成空成功文件。
+历史 schema v1 可导出原 v1 事件；旧 kind 审计可只读展示，但不升级或导出为新事件信封。
+
+恢复 gate 使用 13 个 ScriptedModel 场景：3 个安全恢复、9 个明确 RECOVERY_FAILED、1 个控制器拒绝。
+已失败的恢复不重新请求模型或重做工具；安全失败单列，不计为修复成功。
+这是恢复机制实验，故障前缀来自同一 Run，不是独立 baseline 试验，也不估计模型修复率。
 
 ## 受控暂停与有限恢复
 

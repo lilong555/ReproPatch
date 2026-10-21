@@ -1,1 +1,0 @@
-{"run_id":"2b651bda0e97411da632065435a51df4","task_id":"negative-maximum","input_mode":"verify-patch","state":"FINISHED","outcome":"REJECTED","reason_code":"F2P_FAILED","paused":false,"artifact_dir":"/home/li/repropatch/docs/evidence/p1-07/installed-verify/wrong/2b651bda0e97411da632065435a51df4","artifacts_complete":true,"command_error":null}

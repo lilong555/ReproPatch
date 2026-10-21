@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "scope": "upstream_adapter_smoke_only",
+  "public_dataset_score": null,
+  "official_oracle_runs": 0,
+  "paid_model_requests": 0,
+  "reference_patches_accepted": 5,
+  "reference_checks": "benchmark-preparation/reference-checks.json",
+  "archive": "ReproPatch-benchmark-preparation-0.3.0rc1.tar.gz",
+  "sha256": "0085d5c24f00f7329eb4310480b830edd5bf19f9accd3ffb26b71a32a12e6498",
+  "files": 472,
+  "size_bytes": 557045,
+  "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc1/ReproPatch-benchmark-preparation-0.3.0rc1.tar.gz",
+  "manifest": "preparation-manifest.json",
+  "verification": "全部文件原始字节、大小及 SHA-256 一致"
+}

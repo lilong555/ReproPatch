@@ -11,3 +11,15 @@ build/
 dist/
 .repropatch/
 examples/cpp-bugs/.git/
+
+# 完整运行证据保存在带校验和的发布附件。
+docs/evidence/**
+!docs/evidence/**/
+!docs/evidence/README.md
+!docs/evidence/archive-index.json
+!docs/evidence/*/*.json
+!docs/evidence/**/summary.json
+!docs/evidence/**/source-manifest.json
+!docs/evidence/p1-06/ctest-samples/**
+docs/evidence/**/runs/**
+docs/evidence/**/sandboxes/**

@@ -25,6 +25,12 @@ from repropatch.workspace import SourceManifest
 def contract_checkpoint(root, mutate=None):
     """仅用于格式校验的合成文件；执行安全性由真实 Harness/SDK 测试证明。"""
     log, frozen = prepare(root)
+    resolved_reference = frozen["task_resolved"]
+    resolved = json.loads(EvidenceRef(**resolved_reference).read(root, limit=256 * 1024))
+    resolved["workspace_root"] = str(root / "workspaces")
+    frozen["task_resolved"] = vars(
+        EvidenceRef.save(root, resolved_reference["path"], encode_json(resolved))
+    )
     config = {
         "engine": {"kind": "fake"},
         "harness_version": "fixture",
@@ -38,7 +44,9 @@ def contract_checkpoint(root, mutate=None):
     with log.transaction():
         log.emit("inputs_frozen", frozen)
         log.emit("state_changed", {"from": "PREPARING", "to": "REPRODUCING"})
-    baseline_ref = vars(EvidenceRef.save(root, "baseline.json", b'{"cleanup":{"confirmed":true}}'))
+    baseline_ref = vars(
+        EvidenceRef.save(root, "baseline.json", b'{"cleanup":{"confirmed":true},"isolated":false}')
+    )
     log.emit(
         "baseline_finished",
         {"outcome": None, "reason_code": "BASELINE_PASSED", "evidence": baseline_ref},
@@ -49,6 +57,7 @@ def contract_checkpoint(root, mutate=None):
         {
             "native_input": vars(EvidenceRef.save(root, "native-input.json", b"{}")),
             "steps_used": 1,
+            "engine": {"kind": "fake", "model_name": None, "api_base": None, "versions": None},
             "usage": {
                 "input_tokens": None,
                 "output_tokens": None,

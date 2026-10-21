@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "name": "cpp-upstream-adapter-smoke-5",
+  "selection": "真实上游缺陷；无需在线依赖；三个项目；模型运行前固定，参考修复必须通过",
+  "model": "deepseek-flash",
+  "api_base": "https://api.deepseek.com",
+  "budget_cny_total": 20,
+  "attempts_per_task_per_framework": 1,
+  "mini_swe_agent_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "image": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+  "tasks": [
+    {
+      "id": "fmt-compiled-ranges",
+      "project": "fmt",
+      "repository": "https://github.com/fmtlib/fmt.git",
+      "base_commit": "4ded41f1869bb67b190357d2d9896701629be22b",
+      "fix_commit": "89a7f4a7ca354bf008d9810fc86bc06d97631dbc",
+      "category": "compile_error",
+      "description": "FMT_COMPILE 格式化 std::array 及输出到非 appender 迭代器时编译失败。修复范围、元组、映射所共用的输出上下文处理，保留普通格式化及宽度行为。"
+    },
+    {
+      "id": "pugixml-empty-encoding",
+      "project": "pugixml",
+      "repository": "https://github.com/zeux/pugixml.git",
+      "base_commit": "29b39bed6f663af482ea2d8bb3b91c7f3954196b",
+      "fix_commit": "71418cc5c971346e009e2d76084cb569ced3add9",
+      "category": "regression",
+      "description": "空文档以 parse_fragment 和 encoding_auto 加载时应成功并报告推断后的 UTF-8，而不是 encoding_auto。恢复空缓冲区的编码结果，保留显式编码及普通 XML 解析行为。"
+    },
+    {
+      "id": "tinyxml2-delete-null",
+      "project": "tinyxml2",
+      "repository": "https://github.com/leethomason/tinyxml2.git",
+      "base_commit": "e48a1310fe0d274e26aa220caf67c12761eaea4c",
+      "fix_commit": "aba13c50bf7ec2d0a8e47719ceda264b27297240",
+      "category": "crash",
+      "description": "XMLDocument::DeleteNode(nullptr) 导致崩溃。空指针删除应安全且无副作用；保留真实子节点、根节点和未挂接节点的正常删除。"
+    },
+    {
+      "id": "fmt-hexfloat-padding",
+      "project": "fmt",
+      "repository": "https://github.com/fmtlib/fmt.git",
+      "base_commit": "62295c1ce2bc4a5a73933f4d6e184135728eb0b8",
+      "fix_commit": "35c58f084e7cd79b51997439cff68346f4c724c0",
+      "category": "logic_error",
+      "description": "十六进制浮点零填充的位置错误。{:012a} 格式化 1.0 应得到 0x0000001p+0，零必须位于符号和 0x 前缀之后；保留自定义填充、普通浮点及负数行为。"
+    },
+    {
+      "id": "pugixml-copy-unset",
+      "project": "pugixml",
+      "repository": "https://github.com/zeux/pugixml.git",
+      "base_commit": "c1faf38e622e400b3b29f105725a60603adf8a0d",
+      "fix_commit": "532c028fb48dd039280df12391ceb8fc40d9a006",
+      "category": "logic_error",
+      "description": "复制含未赋值字符串变量的 xpath_variable_set 会触发断言。副本应包含变量且字符串值为空；保留赋值字符串、布尔值和数值变量的独立复制及赋值行为。"
+    }
+  ]
+}

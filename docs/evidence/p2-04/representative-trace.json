@@ -1,0 +1,1660 @@
+Warning: truncated output (original token count: 20160)
+Total output lines: 2604
+
+{
+  "source_path_in_archive": "docs/evidence/p2-04/recovery-gate/runs/controlled-pause/trace.json",
+  "source_sha256": "4b37f3e266467bb8d1a3ddc035100739922f7548a224f5247950ec341c73ad8e",
+  "evidence_ref_root_in_archive": "docs/evidence/p2-04/recovery-gate/runs/controlled-pause/9034772ba9ce4e9ea66101ff36f9a05a",
+  "trace": {
+    "schema_version": 1,
+    "mode": "trace",
+    "run_id": "9034772ba9ce4e9ea66101ff36f9a05a",
+    "task_id": "negative-maximum",
+    "state": "FINISHED",
+    "outcome": "ACCEPTED",
+    "reason_code": "VERIFICATION_PASSED",
+    "database_version": 2,
+    "event_format": 1,
+    "events_last_seq": 123,
+    "evidence_complete": true,
+    "evidence_errors": [],
+    "timeline": [
+      {
+        "seq": 1,
+        "timestamp": "2026-10-21T08:46:13.370344+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "run_created",
+        "details": {
+          "task_id": "negative-maximum",
+          "usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+            "output_tokens": null,
+            "synthetic": true,
+            "total_tokens": null,
+            "unknown_turns": 0
+          }
+        },
+        "references": []
+      },
+      {
+        "seq": 2,
+        "timestamp": "2026-10-21T08:46:13.386340+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "state_changed",
+        "details": {
+          "from": "CREATED",
+          "to": "PREPARING"
+        },
+        "references": []
+      },
+      {
+        "seq": 3,
+        "timestamp": "2026-10-21T08:46:13.538337+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "inputs_frozen",
+        "details": {},
+        "references": [
+          {
+            "path": "execution-config.json",
+            "sha256": "ec25105fe3c6b5bec3dd2c3cd72a58bbe85851b15b90da88b22f0371c2ccefa6",
+            "size_bytes": 1136
+          },
+          {
+            "path": "baseline.manifest.json",
+            "sha256": "40446196a41da5048e66db6d6be18ddd4a30f40d0bfe54f08eacfe0004c8bc22",
+            "size_bytes": 591
+          },
+          {
+            "path": "task.original.yaml",
+            "sha256": "d2769ce5c5ad10aa6af2d3c6f9586ffb9768d01613dc1dc051061f4fd1ddebc9",
+            "size_bytes": 1410
+          },
+          {
+            "path": "task.resolved.json",
+            "sha256": "22c890baeea318d982470f77c708799662ffe4bff3f1572a3c8d57495ff4aff3",
+            "size_bytes": 4003
+          }
+        ]
+      },
+      {
+        "seq": 4,
+        "timestamp": "2026-10-21T08:46:13.539111+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "state_changed",
+        "details": {
+          "from": "PREPARING",
+          "to": "REPRODUCING"
+        },
+        "references": []
+      },
+      {
+        "seq": 5,
+        "timestamp": "2026-10-21T08:46:13.581915+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "3023b5525699484b9fa0e0ffa4c27dfa",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 6,
+        "timestamp": "2026-10-21T08:46:13.631103+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "3023b5525699484b9fa0e0ffa4c27dfa",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/3023b5525699484b9fa0e0ffa4c27dfa.result.json",
+            "sha256": "0bccd52e50582a8c65e7f429e9f179f1bb4a4b10b10016bc5e5943b7e7af0f89",
+            "size_bytes": 858
+          }
+        ]
+      },
+      {
+        "seq": 7,
+        "timestamp": "2026-10-21T08:46:13.643718+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "c4c4a3ddfa6247099f6b1c1926f571c1",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 8,
+        "timestamp": "2026-10-21T08:46:13.688104+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "c4c4a3ddfa6247099f6b1c1926f571c1",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/c4c4a3ddfa6247099f6b1c1926f571c1.result.json",
+            "sha256": "88fb59bf697b0e0d0346eba54bf279788d2761e2dab02b1370adc97f03b9b543",
+            "size_bytes": 840
+          }
+        ]
+      },
+      {
+        "seq": 9,
+        "timestamp": "2026-10-21T08:46:13.706494+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "f4e7ad75b923405b8dfd2dcf34717eb7",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--show-only=json-v1"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 10,
+        "timestamp": "2026-10-21T08:46:13.763166+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "f4e7ad75b923405b8dfd2dcf34717eb7",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/f4e7ad75b923405b8dfd2dcf34717eb7.result.json",
+            "sha256": "12d20fc13a084047f86edde2cf73315b57d4d171443b0030deb14abe3f11226d",
+            "size_bytes": 2333
+          }
+        ]
+      },
+      {
+        "seq": 11,
+        "timestamp": "2026-10-21T08:46:13.781670+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "9e5e1dbeac1249338b28b3371f970236",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test ! -L /build/.repropatch-results && mkdir -p -- /build/.repropatch-results"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 12,
+        "timestamp": "2026-10-21T08:46:13.820103+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "9e5e1dbeac1249338b28b3371f970236",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/9e5e1dbeac1249338b28b3371f970236.result.json",
+            "sha256": "00bcef508725d2da26aa93e61c0d8e37256252eb3fe4aaeb2f82236e0c164910",
+            "size_bytes": 891
+          }
+        ]
+      },
+      {
+        "seq": 13,
+        "timestamp": "2026-10-21T08:46:13.833816+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "4ca4d6cc672f49209faeb6d7fbe492d6",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^negative_values$",
+            "--output-junit",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-366821ccdad7440990b344503b633466.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 14,
+        "timestamp": "2026-10-21T08:46:13.883170+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "4ca4d6cc672f49209faeb6d7fbe492d6",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/4ca4d6cc672f49209faeb6d7fbe492d6.result.json",
+            "sha256": "f037ccaaf43275edd648e3c496f1975dc8189117404a6986858614a45bae4f13",
+            "size_bytes": 1077
+          }
+        ]
+      },
+      {
+        "seq": 15,
+        "timestamp": "2026-10-21T08:46:13.909383+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "ce73cbe743dd47639a78378d40126bd2",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-366821ccdad7440990b344503b633466.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 16,
+        "timestamp": "2026-10-21T08:46:13.962216+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "ce73cbe743dd47639a78378d40126bd2",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/ce73cbe743dd47639a78378d40126bd2.result.json",
+            "sha256": "4cf6a04f61c65972c902911461e87d355cc7b8991536f4edbd1cbfab70fdafb0",
+            "size_bytes": 1575
+          }
+        ]
+      },
+      {
+        "seq": 17,
+        "timestamp": "2026-10-21T08:46:13.990294+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "9a1b0327ab1841d39b5d4233edb2116f",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^positive_values$",
+            "--output-junit",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-9da6d24f97a64593aab0bc17c09f39ca.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 18,
+        "timestamp": "2026-10-21T08:46:14.030093+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "9a1b0327ab1841d39b5d4233edb2116f",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/9a1b0327ab1841d39b5d4233edb2116f.result.json",
+            "sha256": "58620154ffbac0a4c078db34fab49bad9d3d4a3d0b6b383694ba45090ea880fc",
+            "size_bytes": 1047
+          }
+        ]
+      },
+      {
+        "seq": 19,
+        "timestamp": "2026-10-21T08:46:14.046532+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "636cc56f42e14c45aa3ec5a3909b4442",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-9da6d24f97a64593aab0bc17c09f39ca.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 20,
+        "timestamp": "2026-10-21T08:46:14.092134+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "636cc56f42e14c45aa3ec5a3909b4442",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/636cc56f42e14c45aa3ec5a3909b4442.result.json",
+            "sha256": "54b06056006893cf166ea9a15b0df35a654bd06681cf8c791b8cf1499b85d332",
+            "size_bytes": 1485
+          }
+        ]
+      },
+      {
+        "seq": 21,
+        "timestamp": "2026-10-21T08:46:14.117063+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "7a59d8dd6d304848bce2f50b7959a517",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^empty_values$",
+            "--output-junit",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-5f71bfb6780340b883773f80972f32f5.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 22,
+        "timestamp": "2026-10-21T08:46:14.171265+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "7a59d8dd6d304848bce2f50b7959a517",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/7a59d8dd6d304848bce2f50b7959a517.result.json",
+            "sha256": "862eb470c284910aa5f68a52dcbccf5f4eac85b6ed3226256fbb4eeb59821e55",
+            "size_bytes": 1044
+          }
+        ]
+      },
+      {
+        "seq": 23,
+        "timestamp": "2026-10-21T08:46:14.194877+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "0a85b32c4f1d401a9475e72fba132e53",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-5f71bfb6780340b883773f80972f32f5.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 24,
+        "timestamp": "2026-10-21T08:46:14.252280+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "0a85b32c4f1d401a9475e72fba132e53",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/0a85b32c4f1d401a9475e72fba132e53.result.json",
+            "sha256": "cbcb04e7b2ab0acfbe93bc68b36e355670d30dcb91d1aa0f426a48e149ef1453",
+            "size_bytes": 1473
+          }
+        ]
+      },
+      {
+        "seq": 25,
+        "timestamp": "2026-10-21T08:46:14.277646+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "bc95a21f699044e099fcd2ccf379c540",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^mixed_values$",
+            "--output-junit",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-ff2a5a5445ca4af6bb5672186836dc85.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 26,
+        "timestamp": "2026-10-21T08:46:14.326201+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "bc95a21f699044e099fcd2ccf379c540",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/bc95a21f699044e099fcd2ccf379c540.result.json",
+            "sha256": "ec509576e03e3ab9444822b037d5d51b162dd8029bc62da3f8084b81c96a0c2a",
+            "size_bytes": 1044
+          }
+        ]
+      },
+      {
+        "seq": 27,
+        "timestamp": "2026-10-21T08:46:14.342625+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "8d9e901b948b45a8ab0ac2edcae941b6",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/b962d3edceb74e33a7ee5e7e4d950c63-ff2a5a5445ca4af6bb5672186836dc85.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": []
+      },
+      {
+        "seq": 28,
+        "timestamp": "2026-10-21T08:46:14.387281+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "8d9e901b948b45a8ab0ac2edcae941b6",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/8d9e901b948b45a8ab0ac2edcae941b6.result.json",
+            "sha256": "871d23fba080d9dc0d5d08b2bbccb748e06ef1e2b1770b594fc79fdb0ce369b5",
+            "size_bytes": 1473
+          }
+        ]
+      },
+      {
+        "seq": 29,
+        "timestamp": "2026-10-21T08:46:14.432415+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "cleanup_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "evaluation_role": "baseline"
+        },
+        "references": [
+          {
+            "path": "evidence/b962d3edceb74e33a7ee5e7e4d950c63/evaluation.json",
+            "sha256": "f1cd6e6014b381d3bbb356253590ec98a2d76559f7f31a677852c50877eae634",
+            "size_bytes": 21664
+          }
+        ]
+      },
+      {
+        "seq": 30,
+        "timestamp": "2026-10-21T08:46:14.456365+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "baseline_finished",
+        "details": {
+          "evaluation_id": "b962d3edceb74e33a7ee5e7e4d950c63",
+          "outcome": null,
+          "reason_code": "BASELINE_PASSED"
+        },
+        "references": [
+          {
+            "path": "evidence/b962d3edceb74e33a7ee5e7e4d950c63/evaluation.json",
+            "sha256": "f1cd6e6014b381d3bbb356253590ec98a2d76559f7f31a677852c50877eae634",
+            "size_bytes": 21664
+          }
+        ]
+      },
+      {
+        "seq": 31,
+        "timestamp": "2026-10-21T08:46:14.473397+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "state_changed",
+        "details": {
+          "from": "REPRODUCING",
+          "to": "REPAIRING"
+        },
+        "references": []
+      },
+      {
+        "seq": 32,
+        "timestamp": "2026-10-21T08:46:14.592429+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "checkpoint_committed",
+        "details": {
+          "checkpoint_id": 1,
+          "counters": {
+            "steps_used": 0,
+            "tool_calls_admitted": 0
+          }
+        },
+        "references": [
+          {
+            "path": "checkpoints/1/manifest.json",
+            "sha256": "b8e3a5c2c05b34717d0b4fa3df27948f542b9bb2d40216db4684179189601785",
+            "size_bytes": 1653
+          }
+        ]
+      },
+      {
+        "seq": 33,
+        "timestamp": "2026-10-21T08:46:14.619442+00:00",
+        "step_id": 1,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "model_started",
+        "details": {
+          "steps_used": 1,
+          "usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+            "output_tokens": null,
+            "synthetic": true,
+            "total_tokens": null,
+            "unknown_turns": 1
+          }
+        },
+        "references": [
+          {
+            "path": "agent/native/0001-input.json",
+            "sha256": "57c52ebafdc76e9f66ac7e46ffce09fdd047dd71fb22f996c3826f8c3273c256",
+            "size_bytes": 23487
+          }
+        ]
+      },
+      {
+        "seq": 34,
+        "timestamp": "2026-10-21T08:46:14.646279+00:00",
+        "step_id": 1,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "model_finished",
+        "details": {
+          "cumulative_usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+            "output_tokens": null,
+            "synthetic": true,
+            "total_tokens": null,
+            "unknown_turns": 1
+          },
+          "usage": {
+            "input_tokens": null,
+            "output_tokens": null,
+            "total_tokens": null
+          }
+        },
+        "references": [
+          {
+            "path": "agent/native/0001-output.json",
+            "sha256": "83e54db61099390b3fc59ea3658e9c07e26e63159a0b1756540e8a61080e1480",
+            "size_bytes": 155
+          }
+        ]
+      },
+      {
+        "seq": 35,
+        "timestamp": "2026-10-21T08:46:14.660348+00:00",
+        "step_id": 1,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "tool_batch_admitted",
+        "details": {
+          "tool_calls_used": 1
+        },
+        "references": []
+      },
+      {
+        "seq": 36,
+        "timestamp": "2026-10-21T08:46:14.678589+00:00",
+        "step_id": 1,
+        "tool_call_id": "s000001.t01",
+        "operation_id": null,
+        "type": "tool_started",
+        "details": {
+          "name": "read_file",
+          "provider_call_id": "call-0"
+        },
+        "references": []
+      },
+      {
+        "seq": 37,
+        "timestamp": "2026-10-21T08:46:14.703259+00:00",
+        "step_id": 1,
+        "tool_call_id": "s000001.t01",
+        "operation_id": null,
+        "type": "tool_finished",
+        "details": {
+          "name": "read_file",
+          "provider_call_id": "call-0"
+        },
+        "references": [
+          {
+            "path": "agent/tool-results/s000001.t01.json",
+            "sha256": "471dfb3dc272d4ee7fd9fb8f50b41a5d537f321204d4a81c24c07e5273574f85",
+            "size_bytes": 423
+          }
+        ]
+      },
+      {
+        "seq": 38,
+        "timestamp": "2026-10-21T08:46:14.786465+00:00",
+        "step_id": 1,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "checkpoint_committed",
+        "details": {
+          "checkpoint_id": 2,
+          "counters": {
+            "steps_used": 1,
+            "tool_calls_admitted": 1
+          }
+        },
+        "references": [
+          {
+            "path": "checkpoints/2/manifest.json",
+            "sha256": "4648d4203ace06c90437b954b732b7119412ac4e200aa3daec1db0def7128e61",
+            "size_bytes": 1653
+          }
+        ]
+      },
+      {
+        "seq": 39,
+        "timestamp": "2026-10-21T08:46:14.811475+00:00",
+        "step_id": 2,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "model_started",
+        "details": {
+          "steps_used": 2,
+          "usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+   …7160 tokens truncated…: 86,
+        "timestamp": "2026-10-21T08:46:16.549276+00:00",
+        "step_id": 4,
+        "tool_call_id": "s000004.t01",
+        "operation_id": "a13ed7175c614ffc918d10177dd44481",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "026fc89bab2544909b3d6e8413c4e72e",
+          "evaluation_role": "agent_check"
+        },
+        "references": [
+          {
+            "path": "evidence/a13ed7175c614ffc918d10177dd44481.result.json",
+            "sha256": "adb83c04ef8e8a04f9db4c13da91c97344b6181103328e64d5c309269084494c",
+            "size_bytes": 1473
+          }
+        ]
+      },
+      {
+        "seq": 87,
+        "timestamp": "2026-10-21T08:46:16.609243+00:00",
+        "step_id": 4,
+        "tool_call_id": "s000004.t01",
+        "operation_id": null,
+        "type": "cleanup_finished",
+        "details": {
+          "evaluation_id": "026fc89bab2544909b3d6e8413c4e72e",
+          "evaluation_role": "agent_check"
+        },
+        "references": [
+          {
+            "path": "evidence/026fc89bab2544909b3d6e8413c4e72e/evaluation.json",
+            "sha256": "4b8f14aad2ab4e9d533020a48bb7714f149b5b85ca55af3159365be320f8d47e",
+            "size_bytes": 21559
+          }
+        ]
+      },
+      {
+        "seq": 88,
+        "timestamp": "2026-10-21T08:46:16.624521+00:00",
+        "step_id": 4,
+        "tool_call_id": "s000004.t01",
+        "operation_id": null,
+        "type": "verification_finished",
+        "details": {
+          "evaluation_id": "026fc89bab2544909b3d6e8413c4e72e",
+          "evaluation_role": "agent_check",
+          "self_check_passed": true,
+          "verdict": null
+        },
+        "references": [
+          {
+            "path": "evidence/026fc89bab2544909b3d6e8413c4e72e/evaluation.json",
+            "sha256": "4b8f14aad2ab4e9d533020a48bb7714f149b5b85ca55af3159365be320f8d47e",
+            "size_bytes": 21559
+          }
+        ]
+      },
+      {
+        "seq": 89,
+        "timestamp": "2026-10-21T08:46:16.651230+00:00",
+        "step_id": 4,
+        "tool_call_id": "s000004.t01",
+        "operation_id": null,
+        "type": "tool_finished",
+        "details": {
+          "name": "run_command",
+          "provider_call_id": "call-3"
+        },
+        "references": [
+          {
+            "path": "agent/tool-results/s000004.t01.json",
+            "sha256": "abbd7313f3d8eb1072fc1cc0261d8b04f70eb7a80b14f6722ed4f193fe970540",
+            "size_bytes": 14669
+          }
+        ]
+      },
+      {
+        "seq": 90,
+        "timestamp": "2026-10-21T08:46:16.771473+00:00",
+        "step_id": 4,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "checkpoint_committed",
+        "details": {
+          "checkpoint_id": 6,
+          "counters": {
+            "steps_used": 4,
+            "tool_calls_admitted": 4
+          }
+        },
+        "references": [
+          {
+            "path": "checkpoints/6/manifest.json",
+            "sha256": "27bc46d1fe9dec4706633a3c8fc3e0533c159ce1d28226ccd120ef1f2379594e",
+            "size_bytes": 1655
+          }
+        ]
+      },
+      {
+        "seq": 91,
+        "timestamp": "2026-10-21T08:46:16.795564+00:00",
+        "step_id": 5,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "model_started",
+        "details": {
+          "steps_used": 5,
+          "usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+            "output_tokens": null,
+            "synthetic": true,
+            "total_tokens": null,
+            "unknown_turns": 5
+          }
+        },
+        "references": [
+          {
+            "path": "agent/native/0005-input.json",
+            "sha256": "c511efd0cfd7a9f7d743d31e5b0e3e5d1491f33cd0fcd5a7b52363aa614b0adf",
+            "size_bytes": 42213
+          }
+        ]
+      },
+      {
+        "seq": 92,
+        "timestamp": "2026-10-21T08:46:16.822276+00:00",
+        "step_id": 5,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "model_finished",
+        "details": {
+          "cumulative_usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+            "output_tokens": null,
+            "synthetic": true,
+            "total_tokens": null,
+            "unknown_turns": 5
+          },
+          "usage": {
+            "input_tokens": null,
+            "output_tokens": null,
+            "total_tokens": null
+          }
+        },
+        "references": [
+          {
+            "path": "agent/native/0005-output.json",
+            "sha256": "ba5b9ff61bb7f2916cde258d9ebf0ec6d397c002b9ec02af2dbb08213b663962",
+            "size_bytes": 242
+          }
+        ]
+      },
+      {
+        "seq": 93,
+        "timestamp": "2026-10-21T08:46:16.835364+00:00",
+        "step_id": 5,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "tool_batch_admitted",
+        "details": {
+          "tool_calls_used": 4
+        },
+        "references": []
+      },
+      {
+        "seq": 94,
+        "timestamp": "2026-10-21T08:46:16.862963+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "agent_stopped",
+        "details": {
+          "reason": "MODEL_FINISHED",
+          "steps_used": 5,
+          "tool_calls_admitted": 4,
+          "usage": {
+            "input_tokens": null,
+            "known_tokens": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "total_tokens": 0
+            },
+            "output_tokens": null,
+            "synthetic": true,
+            "total_tokens": null,
+            "unknown_turns": 5
+          }
+        },
+        "references": [
+          {
+            "path": "agent/final-text.txt",
+            "sha256": "2173551efd02c98b3bf652c181e89a079ced38235e180feeaedd02e73ab6bce4",
+            "size_bytes": 74
+          }
+        ]
+      },
+      {
+        "seq": 95,
+        "timestamp": "2026-10-21T08:46:16.928276+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "state_changed",
+        "details": {
+          "from": "REPAIRING",
+          "to": "VERIFYING"
+        },
+        "references": []
+      },
+      {
+        "seq": 96,
+        "timestamp": "2026-10-21T08:46:17.042890+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "becc108fb776463589fee7241946ca50",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "cmake",
+            "-S",
+            "/src",
+            "-B",
+            "/build",
+            "-DCMAKE_BUILD_TYPE=Debug"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 97,
+        "timestamp": "2026-10-21T08:46:17.084386+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "becc108fb776463589fee7241946ca50",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/becc108fb776463589fee7241946ca50.result.json",
+            "sha256": "9c0481d882a2f43cded7190c975bc54098ee75764c448ef78744a0567f319ddb",
+            "size_bytes": 858
+          }
+        ]
+      },
+      {
+        "seq": 98,
+        "timestamp": "2026-10-21T08:46:17.099503+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "caafc2a9f869443686761b6c05687b47",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "cmake",
+            "--build",
+            "/build",
+            "--parallel",
+            "2"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 99,
+        "timestamp": "2026-10-21T08:46:17.141410+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "caafc2a9f869443686761b6c05687b47",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/caafc2a9f869443686761b6c05687b47.result.json",
+            "sha256": "58b69af2fe99ccc0711dec86a8005bb1ac6a9a050f03c55be60c4be38b8666e9",
+            "size_bytes": 840
+          }
+        ]
+      },
+      {
+        "seq": 100,
+        "timestamp": "2026-10-21T08:46:17.167733+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "821ea0b07688475e94a52ad6164bddd5",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--show-only=json-v1"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 101,
+        "timestamp": "2026-10-21T08:46:17.235310+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "821ea0b07688475e94a52ad6164bddd5",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/821ea0b07688475e94a52ad6164bddd5.result.json",
+            "sha256": "caf7b6bb44a367c80c41f8f384ff19cebd4dcd1793ff1e6de8748a4e727c3bbd",
+            "size_bytes": 2333
+          }
+        ]
+      },
+      {
+        "seq": 102,
+        "timestamp": "2026-10-21T08:46:17.255074+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "b0c3f13683294f989492b55e5a713fbe",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test ! -L /build/.repropatch-results && mkdir -p -- /build/.repropatch-results"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 103,
+        "timestamp": "2026-10-21T08:46:17.297381+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "b0c3f13683294f989492b55e5a713fbe",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/b0c3f13683294f989492b55e5a713fbe.result.json",
+            "sha256": "8fb3f055018fc00e3179b74a53a4e59ddd48d743ff9bb22a9e12fda523d78cae",
+            "size_bytes": 891
+          }
+        ]
+      },
+      {
+        "seq": 104,
+        "timestamp": "2026-10-21T08:46:17.310715+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "e52a392deab34b5b83e5d1a9e69f07b2",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^negative_values$",
+            "--output-junit",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-06a739159d7847c7a78a749b87bfbf4c.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 105,
+        "timestamp": "2026-10-21T08:46:17.359397+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "e52a392deab34b5b83e5d1a9e69f07b2",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/e52a392deab34b5b83e5d1a9e69f07b2.result.json",
+            "sha256": "3e1c166175abf4a0649c852580863c075603985d329b97ad0f9cfef4caef5636",
+            "size_bytes": 1047
+          }
+        ]
+      },
+      {
+        "seq": 106,
+        "timestamp": "2026-10-21T08:46:17.380700+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "6dc6e50dbb8b435a9b3494c2f79ad515",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-06a739159d7847c7a78a749b87bfbf4c.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 107,
+        "timestamp": "2026-10-21T08:46:17.444396+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "6dc6e50dbb8b435a9b3494c2f79ad515",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/6dc6e50dbb8b435a9b3494c2f79ad515.result.json",
+            "sha256": "2fbeeff4e773cd20d9eb37e348369c4dcb368b8f310bf7c1c64afb68ed67ee8f",
+            "size_bytes": 1485
+          }
+        ]
+      },
+      {
+        "seq": 108,
+        "timestamp": "2026-10-21T08:46:17.472732+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "accd9c757eb64473aed5acce88bd1785",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^positive_values$",
+            "--output-junit",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-ce160742581b4977ae6919679c4d8238.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 109,
+        "timestamp": "2026-10-21T08:46:17.517388+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "accd9c757eb64473aed5acce88bd1785",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/accd9c757eb64473aed5acce88bd1785.result.json",
+            "sha256": "871b2f5c4900c2502871f3d91dfdbb8738ef968ad0cc961b054f3ef5552adf72",
+            "size_bytes": 1047
+          }
+        ]
+      },
+      {
+        "seq": 110,
+        "timestamp": "2026-10-21T08:46:17.545678+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "3854c8e609594bf1ab0cfc7a1dcbafb5",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-ce160742581b4977ae6919679c4d8238.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 111,
+        "timestamp": "2026-10-21T08:46:17.609320+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "3854c8e609594bf1ab0cfc7a1dcbafb5",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/3854c8e609594bf1ab0cfc7a1dcbafb5.result.json",
+            "sha256": "95bd5b5c50cd3655d4803159b8d6bace2c02aeb7f69c9923a6cb324aa7fd3f5d",
+            "size_bytes": 1485
+          }
+        ]
+      },
+      {
+        "seq": 112,
+        "timestamp": "2026-10-21T08:46:17.637742+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "f856b4847c6a4d44b139ecba9a5ec271",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^empty_values$",
+            "--output-junit",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-c4e2b895dced40f2be1b8b604cb810cf.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 113,
+        "timestamp": "2026-10-21T08:46:17.680303+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "f856b4847c6a4d44b139ecba9a5ec271",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/f856b4847c6a4d44b139ecba9a5ec271.result.json",
+            "sha256": "3476252043d14c8f3927688d7047a3a5264449e8cea16c856cd877ccf6eb44ab",
+            "size_bytes": 1044
+          }
+        ]
+      },
+      {
+        "seq": 114,
+        "timestamp": "2026-10-21T08:46:17.708588+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "b9cfa03ec52d4f70bf60eaf8c8c43041",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-c4e2b895dced40f2be1b8b604cb810cf.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 115,
+        "timestamp": "2026-10-21T08:46:17.771416+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "b9cfa03ec52d4f70bf60eaf8c8c43041",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/b9cfa03ec52d4f70bf60eaf8c8c43041.result.json",
+            "sha256": "7b9adaa561ec9e0d2eaa46fe4bfca24aa67ef51d10e8581c781e52870bfb5b3a",
+            "size_bytes": 1473
+          }
+        ]
+      },
+      {
+        "seq": 116,
+        "timestamp": "2026-10-21T08:46:17.805762+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "00d4c717a01c46a99f37b0248fee7294",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/build",
+            "--output-on-failure",
+            "--no-tests=error",
+            "-R",
+            "^mixed_values$",
+            "--output-junit",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-e307a86582ea4d09963c55186ad9d401.xml",
+            "--timeout",
+            "120.000000"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 117,
+        "timestamp": "2026-10-21T08:46:17.849377+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "00d4c717a01c46a99f37b0248fee7294",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/00d4c717a01c46a99f37b0248fee7294.result.json",
+            "sha256": "42a81234d3e7332df51128526fddef3bd7d786a7844c7aa972e5b647b856fa5a",
+            "size_bytes": 1044
+          }
+        ]
+      },
+      {
+        "seq": 118,
+        "timestamp": "2026-10-21T08:46:17.864770+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "fadc7e0c62724579abce39bccd1dd022",
+        "type": "command_started",
+        "details": {
+          "argv": [
+            "/bin/sh",
+            "-ec",
+            "test -f \"$1\" && test ! -L \"$1\" && test \"$(wc -c < \"$1\")\" -lt 4194304 && cat -- \"$1\"",
+            "repropatch-read",
+            "/build/.repropatch-results/f9088553bfeb498b98a5280a5bb2555d-e307a86582ea4d09963c55186ad9d401.xml"
+          ],
+          "container_id": null,
+          "cwd": "/build",
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": []
+      },
+      {
+        "seq": 119,
+        "timestamp": "2026-10-21T08:46:17.930431+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": "fadc7e0c62724579abce39bccd1dd022",
+        "type": "command_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/fadc7e0c62724579abce39bccd1dd022.result.json",
+            "sha256": "bb626f61630c0b7bcd8987890c385b17f5a53b4f34ab931b199ee2e70cbb22dd",
+            "size_bytes": 1473
+          }
+        ]
+      },
+      {
+        "seq": 120,
+        "timestamp": "2026-10-21T08:46:17.997429+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "cleanup_finished",
+        "details": {
+          "evaluation_id": "f9088553bfeb498b98a5280a5bb2555d",
+          "evaluation_role": "independent"
+        },
+        "references": [
+          {
+            "path": "evidence/f9088553bfeb498b98a5280a5bb2555d/evaluation.json",
+            "sha256": "b62e71a9f969df22cd0fd98ef576521fd5e61a2b2562fa1794d65c2334adee23",
+            "size_bytes": 21559
+          }
+        ]
+      },
+      {
+        "seq": 121,
+        "timestamp": "2026-10-21T08:46:18.013540+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "verification_finished",
+        "details": {
+          "evaluation_role": "independent",
+          "reason_code": "VERIFICATION_PASSED",
+          "verdict": "ACCEPTED"
+        },
+        "references": [
+          {
+            "path": "candidate.manifest.json",
+            "sha256": "eea3ef72642e555088f8effab042e4ee69ef02a892531fccb4e63d6503a87a6a",
+            "size_bytes": 771
+          },
+          {
+            "path": "patch.diff",
+            "sha256": "99bee26c8894e0b46d04928cfc018c19a804784dd83aa25927c3f72a25e911fe",
+            "size_bytes": 467
+          },
+          {
+            "path": "evidence/f9088553bfeb498b98a5280a5bb2555d/evaluation.json",
+            "sha256": "b62e71a9f969df22cd0fd98ef576521fd5e61a2b2562fa1794d65c2334adee23",
+            "size_bytes": 21559
+          }
+        ]
+      },
+      {
+        "seq": 122,
+        "timestamp": "2026-10-21T08:46:18.056476+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "cleanup_finished",
+        "details": {
+          "active_code_stopped": true,
+          "errors": [],
+          "workspace_retained": false
+        },
+        "references": []
+      },
+      {
+        "seq": 123,
+        "timestamp": "2026-10-21T08:46:18.122382+00:00",
+        "step_id": null,
+        "tool_call_id": null,
+        "operation_id": null,
+        "type": "state_changed",
+        "details": {
+          "from": "VERIFYING",
+          "outcome": "ACCEPTED",
+          "reason_code": "VERIFICATION_PASSED",
+          "to": "FINISHED"
+        },
+        "references": [
+          {
+            "path": "evidence/final-result.json",
+            "sha256": "635a1f239a3a6c8ffa8b767dfc7e8d05aa7a05864d53bc68a76a9ec0289f1c0a",
+            "size_bytes": 120982
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "只读观察不构成恢复或重新验收；原生模型内容和外部 trace 不展开。"
+    ]
+  }
+}

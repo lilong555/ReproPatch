@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "instance_id": "catchorg__Catch2-2723",
+  "status": "environment_preparation_failed",
+  "image_tag": "mswebench/catchorg_m_catch2:pr-2723",
+  "image_manifest_digest": "sha256:d87cf83a76f960f86ab076ab3aa3189a11ddf7bf0bed704c2a481325619125d2",
+  "manifest_accessible": true,
+  "image_config_digest": "sha256:3ced24b5f52e9909175db56f51576841e353f89468ef885f57bc4fd7b96b11e0",
+  "compressed_layer_bytes_approx": 771000000,
+  "image_pulled": false,
+  "error_code": "DOCKER_DAEMON_PROXY_CONNECTION_REFUSED",
+  "error": "Docker daemon 访问 registry-1.docker.io 时，其本地代理 127.0.0.1:24716 拒绝连接",
+  "baseline_executed": false,
+  "reference_patch_executed": false,
+  "model_attempts": 0,
+  "model_cost_cny": 0,
+  "counts_as_repair_failure": false,
+  "counts_as_verified_coverage": false,
+  "agent_adapter_e2e_verified": false
+}

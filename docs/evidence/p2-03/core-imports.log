@@ -1,9 +1,0 @@
-{
-  "location": "/home/li/repropatch/.repropatch/wheel-p203-delivery-core/lib/python3.12/site-packages/repropatch",
-  "packages": {
-    "pyyaml": "6.0.3",
-    "repropatch": "0.3.0.dev3"
-  },
-  "source_bytes_match": true,
-  "core_import_without_sdk": true
-}

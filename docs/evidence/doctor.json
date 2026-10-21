@@ -1,7 +1,0 @@
-{
-  "python": "3.12.14",
-  "git": "/usr/local/bin/git",
-  "docker": null,
-  "daemon": false,
-  "image": false
-}

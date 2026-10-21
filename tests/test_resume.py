@@ -1,6 +1,7 @@
 """有限恢复的源码、输入、预算与未知副作用边界。"""
 
 import json
+import os
 import shutil
 import sqlite3
 import subprocess
@@ -21,6 +22,19 @@ from repropatch.resources import RunLock
 from repropatch.verification import RunClock
 
 pytestmark = pytest.mark.sdk
+
+
+@pytest.fixture(autouse=True)
+def recovery_gate_runs(request, tmp_path):
+    """显式恢复 gate 用 JUnit 属性关联本用例的真实 Run，不新增产品故障接口。"""
+    yield
+    if os.environ.get("REPROPATCH_RECOVERY_GATE") == "1":
+        paths = sorted(
+            str(path.parent)
+            for path in tmp_path.rglob("events.sqlite3")
+            if (path.parent / "report.json").is_file()
+        )
+        request.node.user_properties.append(("recovery_runs", json.dumps(paths)))
 
 
 def paused_run(task, tmp_path, *, step=3, script=None):
