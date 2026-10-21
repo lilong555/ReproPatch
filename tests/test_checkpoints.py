@@ -478,11 +478,13 @@ def test_checkpoint_corruption_after_commit_cannot_report_successful_pause(
     )
     assert not report["artifacts_complete"] and len(model.calls) == 1
     monkeypatch.setattr(Harness, "run", lambda self: report)
+    task_path = tmp_path / "task.json"
+    task_path.write_text(json.dumps(task.to_dict()))
     assert (
         main(
             [
                 "run",
-                str(ROOT / "examples/tasks/negative-maximum.v2.yaml"),
+                str(task_path),
                 "--mock-script",
                 str(ROOT / "examples/models/fix-negative-maximum.json"),
                 "--pause-after-step",
