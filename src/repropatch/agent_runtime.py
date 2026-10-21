@@ -153,7 +153,7 @@ async def run_agent(harness, workspace) -> AgentResult:
     from .models import raw_token_usage
     from .recovery import save_checkpoint
     from .task import canonical_json
-    from .tools import Toolbox, model_command, sdk_tools, sdk_tools_sha256
+    from .tools import Toolbox, model_baseline, sdk_tools, sdk_tools_sha256
     from .verification import StageDeadline
     from .workspace import git_deadline
 
@@ -375,8 +375,7 @@ async def run_agent(harness, workspace) -> AgentResult:
     )
     names = {tool.name for tool in tools}
     tools_sha256 = sdk_tools_sha256(tools)
-    baseline = harness.baseline.to_dict()
-    baseline["commands"] = [model_command(item) for item in baseline["commands"]]
+    baseline = model_baseline(harness.baseline.to_dict())
     initial = [
         {
             "role": "user",

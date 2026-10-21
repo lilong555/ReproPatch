@@ -3,7 +3,6 @@
   "scope": "benchmark_preparation_not_model_comparison",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "cpp_instances": 129,
-  "implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
   "paid_model_requests": 0,
   "model_cost_cny": 0,
   "resolved_at_1": null,
@@ -35,9 +34,9 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "精简首次模型输入中的重复基线证据，保持完整审计与原生历史",
-    "两组生成权限与网络策略对齐",
+    "冻结两组同模型协议、相同初始诊断与请求前费用预留",
     "完成至少五题的适配、官方参考验收和收费模型配置冻结",
+    "完成真实 Agent 与 Harbor 产物桥接及独立官方 Oracle 链路",
     "真实框架对照与同候选验收消融"
   ],
   "archive": {
@@ -65,5 +64,9 @@
       "size_bytes": 1393446,
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-readiness-2026-10-21/ReproPatch-oracle-reference-Catch2-2723.tar.gz"
     }
-  }
+  },
+  "preparation_implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
+  "current_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "context_check": "context-check.json",
+  "mini_environment": "mini-environment.json"
 }

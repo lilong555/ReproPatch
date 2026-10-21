@@ -20,6 +20,61 @@ def model_command(record):
     return record
 
 
+def model_baseline(record):
+    """初始提示保留全部测试观察和失败诊断；完整命令与 JUnit 留在原始证据中。"""
+    tests = [
+        {
+            key: item.get(key)
+            for key in (
+                "group",
+                "name",
+                "observed_status",
+                "ctest_exit_code",
+                "marker_seen",
+                "diagnostic",
+            )
+        }
+        for item in record["tests"]
+    ]
+    failed = {
+        item["command_id"]
+        for item in record["tests"]
+        if item["observed_status"] != "passed" and item.get("command_id") is not None
+    }
+
+    def build_status(name):
+        command = record.get(name)
+        if command is None:
+            return None
+        return {
+            key: command.get(key)
+            for key in (
+                "command_id",
+                "status",
+                "exit_code",
+                "error_code",
+                "stdout_log",
+                "stderr_log",
+            )
+        }
+
+    return {
+        "view_version": 1,
+        "evaluation_id": record["evaluation_id"],
+        "evidence": record.get("evidence"),
+        "source_manifest": record.get("source_manifest"),
+        "source_tree_sha256": record.get("source_tree_sha256"),
+        "image_id": record.get("image_id"),
+        "isolated": record.get("isolated"),
+        "configure": build_status("configure"),
+        "build": build_status("build"),
+        "tests": tests,
+        "failed_commands": [
+            model_command(item) for item in record["commands"] if item.get("command_id") in failed
+        ],
+    }
+
+
 class Toolbox:
     def __init__(self, workspace: Worktree, allowed: tuple[str, ...], check, *, readable=None):
         self.workspace = workspace

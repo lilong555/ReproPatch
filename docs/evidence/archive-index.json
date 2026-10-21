@@ -9,5 +9,15 @@
   "manifest": "evidence-manifest.json",
   "retained_files": 204,
   "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc1/ReproPatch-evidence-through-0.3.0rc1.tar.gz",
-  "verification": "逐文件原始字节 SHA-256 与大小一致"
+  "verification": "逐文件原始字节 SHA-256 与大小一致",
+  "additional_archives": [
+    {
+      "scope": "rc2_context_and_native_mini_environment",
+      "name": "ReproPatch-benchmark-context-0.3.0rc2.tar.gz",
+      "sha256": "c4d83dd4ee0a756dae75350849baa31d4a073bf92e99bd5d6de781be008c4b34",
+      "files": 624,
+      "size_bytes": 684941,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc2/ReproPatch-benchmark-context-0.3.0rc2.tar.gz"
+    }
+  ]
 }

@@ -1,14 +1,81 @@
 {
-  "schema_version": 1,
-  "scope": "reconstructed_initial_sdk_input_not_paid_request",
+  "schema_version": 2,
+  "scope": "full_baseline_reconstruction_and_real_scripted_run_not_paid_benchmark",
   "instance_id": "catchorg__Catch2-2723",
   "baseline_run_id": "5b8561f8bf82427396eec0d15429bc8c",
-  "implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
-  "initial_native_bytes": 261098,
-  "baseline_bytes": 202427,
+  "product_version": "0.3.0rc2",
+  "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
   "context_limit_bytes": 262144,
-  "remaining_bytes": 1046,
-  "provider_request_sent": false,
-  "finding": "首次输入已接近上限，重复的基线命令、通过测试及 JUnit 预览占用过多空间",
-  "required_change": "仅精简初始模型视图；完整 SQLite、原始输出、测试结果与原生历史继续保留"
+  "complete_evidence_reconstruction": {
+    "before_native_bytes": 580436,
+    "after_native_bytes": 71131,
+    "before_baseline_bytes": 492562,
+    "after_baseline_bytes": 29424,
+    "observations": 69,
+    "failed_previews": [
+      {
+        "stdout_bytes": 3213,
+        "stderr_bytes": 27
+      },
+      {
+        "stdout_bytes": 12497,
+        "stderr_bytes": 27
+      }
+    ],
+    "evidence_ref": {
+      "path": "evidence/7a87b23ebd1c42f983302091eae07a6f/evaluation.json",
+      "sha256": "b7e5e02547f74670357f8c54c43b21fb5335c7d16850a43c1d763fb3af0ecbe8",
+      "size_bytes": 666364
+    }
+  },
+  "superseded_report_only_estimate": {
+    "native_bytes": 261098,
+    "baseline_bytes": 202427,
+    "limitation": "report.json 省略命令预览，不能代表实际内存模型输入"
+  },
+  "scripted_run": {
+    "run_id": "7bede1c8c9f442059098beeeacea0174",
+    "outcome": "REJECTED",
+    "reason_code": "NO_PATCH",
+    "report_sha256": "4d5336c373fece5ccbcd49e45d5fd765cf61402bafbd5013b6063bca33de6b0e",
+    "model_steps": 2,
+    "tool_calls": 1,
+    "observations": 69,
+    "native_inputs": [
+      {
+        "path": "agent/native/0001-input.json",
+        "sha256": "0b0d3550fb98a0dbe6638a13b23d9adeab978be542fb527d73af62010b92954e",
+        "file_bytes": 71132,
+        "canonical_native_bytes": 71131
+      },
+      {
+        "path": "agent/native/0002-input.json",
+        "sha256": "8cfc8f0fb73b3fb84299d7ca63d0935d2829d8da37081e3b13f135a8ad7a4a73",
+        "file_bytes": 74396,
+        "canonical_native_bytes": 74395
+      }
+    ],
+    "duration_seconds": 87.85797151200131,
+    "container_deleted": true,
+    "replay_evidence_errors": []
+  },
+  "targeted_tests": {
+    "baseline_view_passed": 1,
+    "agent_runtime_passed": 19,
+    "resume_native_input_passed": 1,
+    "full_suite_rerun": false,
+    "execution_record": "benchmark-context/rc2-targeted-source.json",
+    "junit": "benchmark-context/rc2-targeted-tests.xml"
+  },
+  "paid_model_requests": 0,
+  "model_cost_cny": 0,
+  "source_manifest": "context-source-manifest.json",
+  "finding": "旧实际输入超过上限；初始领域摘要保留所有测试观察、失败双流预览及原始证据引用，后续原生历史不裁剪",
+  "archive": {
+    "name": "ReproPatch-benchmark-context-0.3.0rc2.tar.gz",
+    "sha256": "c4d83dd4ee0a756dae75350849baa31d4a073bf92e99bd5d6de781be008c4b34",
+    "files": 624,
+    "size_bytes": 684941,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc2/ReproPatch-benchmark-context-0.3.0rc2.tar.gz"
+  }
 }

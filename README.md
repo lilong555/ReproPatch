@@ -2,10 +2,11 @@
 
 面向 C++ 工程的可复现代码修复与独立验收 Harness。
 
-当前候选版本为 **0.3.0rc1，Task v2**。Phase 1 与 Phase 2 已完成。
+当前候选版本为 **0.3.0rc2，Task v2**。Phase 1 与 Phase 2 已完成。
 `verify-patch` 无需模型、SDK 或 API key，使用固定基线和全新容器独立验收外部补丁。
 自动修复与外部补丁共用结构化 CTest、固定测试身份、完整字节清单和候选往返检查。
-**315 项核心测试、147 项 SDK 契约与 21 项真实 Docker 测试通过**。
+rc2 的 21 项定向回归与真实 Catch2 上下文检查通过；rc1 的完整验收为
+315 项核心、147 项 SDK 契约与 21 项真实 Docker 测试，历史结果单列。
 Phase 1 的 0.2.0rc1 已完成 DeepSeek 真实自动修复和独立 Docker 验收，结局为 `ACCEPTED`。
 
 自动 `run` 使用公开 Agents SDK Runner、六个受控异步工具和原生 Responses Items。
@@ -21,6 +22,9 @@ Phase 1 的真实模型证据见 [P1-08](docs/P1-08.md)。
 完整原始验收数据通过带 SHA-256 的 Release Assets 提供，源码树只保留关键摘要与清单，
 下载及复核方式见 [证据索引](docs/evidence/README.md)。483 项契约测试不代表 483 道真实修复任务；
 真实工程对照评测的任务、环境和计分规则见 [Benchmark](benchmarks/README.md)。
+真实 Catch2 的初始模型视图保留全部测试观察与失败预览，完整日志继续保存在原始证据中；
+原生模型历史与 Checkpoint 不裁剪。[mini-SWE-agent 环境](benchmarks/mini-environment.md)
+使用相同固定镜像、非 root、无网络及相同资源和可编辑文件范围，尚无正式模型对照成绩。
 
 ## 快速开始
 

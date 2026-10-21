@@ -2,6 +2,8 @@
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
 当前已完成公开数据静态筛查与单实例适配检查，尚无正式模型对照成绩。
+真实任务首次输入及原生历史边界见 [上下文记录](context-check.json)；
+同镜像、非 root、无网络的原生 mini 环境见 [环境说明](mini-environment.md)。
 运行准备状态见 [环境记录](environment.json)。Catch2-2723 的 prepared Task 参考修复已通过
 2 个 F2P 与 67 个真实 CTest P2P。独立原始官方镜像的参考检查也已通过固定上游 Report，
 2 个 F2P、100 个 P2P 均齐全，包含那 33 个配置探测项；原环境 CMake 仍不兼容 ReproPatch。
