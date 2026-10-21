@@ -3,8 +3,10 @@
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
 当前已完成公开数据静态筛查与单实例适配检查，尚无正式模型对照成绩。
 运行准备状态见 [环境记录](environment.json)。Catch2-2723 的 prepared Task 参考修复已通过
-2 个 F2P 与 67 个真实 CTest P2P，但原环境 CMake 不兼容，另有 33 个配置探测项待官方 Oracle 核验，
-暂不计入正式 Coverage。该 prepared Task 的回归测试在源码中可见，后续对照须向两组提供相同输入。
+2 个 F2P 与 67 个真实 CTest P2P。独立原始官方镜像的参考检查也已通过固定上游 Report，
+2 个 F2P、100 个 P2P 均齐全，包含那 33 个配置探测项；原环境 CMake 仍不兼容 ReproPatch。
+目前仅完成一个 prepared 实例的参考验收，正式 Coverage 仍待整个实验范围确认。
+prepared Task 的回归测试在源码中可见，后续对照须向两组提供相同输入。
 
 ## ReproPatch-CppRepair
 

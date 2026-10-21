@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "scope": "reconstructed_initial_sdk_input_not_paid_request",
+  "instance_id": "catchorg__Catch2-2723",
+  "baseline_run_id": "5b8561f8bf82427396eec0d15429bc8c",
+  "implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
+  "initial_native_bytes": 261098,
+  "baseline_bytes": 202427,
+  "context_limit_bytes": 262144,
+  "remaining_bytes": 1046,
+  "provider_request_sent": false,
+  "finding": "首次输入已接近上限，重复的基线命令、通过测试及 JUnit 预览占用过多空间",
+  "required_change": "仅精简初始模型视图；完整 SQLite、原始输出、测试结果与原生历史继续保留"
+}

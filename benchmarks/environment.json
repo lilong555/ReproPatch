@@ -3,7 +3,7 @@
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
   "instance_id": "catchorg__Catch2-2723",
-  "status": "adapted_rp_reference_verified_official_oracle_pending",
+  "status": "adapted_reference_and_official_reference_verified",
   "image_tag": "mswebench/catchorg_m_catch2:pr-2723",
   "image_manifest_digest": "sha256:d87cf83a76f960f86ab076ab3aa3189a11ddf7bf0bed704c2a481325619125d2",
   "manifest_accessible": true,
@@ -34,7 +34,15 @@
     "RunTests"
   ],
   "p2p_ctest_count": 67,
-  "configure_probes_reserved_for_official_oracle": 33,
-  "official_oracle_parity_verified": false,
-  "strict_same_model_comparison_ready": false
+  "configure_probes_reserved_for_official_oracle": 0,
+  "official_oracle_parity_verified": true,
+  "strict_same_model_comparison_ready": false,
+  "official_reference_check": {
+    "source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+    "valid": true,
+    "f2p": 2,
+    "p2p": 100,
+    "required_groups_missing": 0,
+    "additional_unsupported_compiler_probes": 14
+  }
 }

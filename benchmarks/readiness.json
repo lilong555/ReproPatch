@@ -7,7 +7,7 @@
   "paid_model_requests": 0,
   "model_cost_cny": 0,
   "resolved_at_1": null,
-  "official_oracle_verified_instances": 0,
+  "official_oracle_verified_instances": 1,
   "benchmark_coverage": null,
   "adapted_rp_reference": {
     "run_id": "5b8561f8bf82427396eec0d15429bc8c",
@@ -16,8 +16,8 @@
     "f2p_count": 2,
     "p2p_count": 67,
     "duration_seconds": 157.62709295599961,
-    "configure_probes_pending": 33,
-    "official_oracle_parity_verified": false
+    "configure_probes_pending": 0,
+    "official_oracle_parity_verified": true
   },
   "harbor_fixture": {
     "harbor_version": "0.24.0",
@@ -35,9 +35,9 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "官方 Oracle 与全部配置探测项核验",
+    "精简首次模型输入中的重复基线证据，保持完整审计与原生历史",
     "两组生成权限与网络策略对齐",
-    "完成五题兼容性验收和收费模型配置冻结",
+    "完成至少五题的适配、官方参考验收和收费模型配置冻结",
     "真实框架对照与同候选验收消融"
   ],
   "archive": {
@@ -46,5 +46,24 @@
     "files": 1745,
     "size_bytes": 2525319,
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-readiness-2026-10-21/ReproPatch-benchmark-readiness-2026-10-21.tar.gz"
+  },
+  "official_reference_check": {
+    "candidate": "upstream_reference",
+    "source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+    "image": "sha256:3ced24b5f52e9909175db56f51576841e353f89468ef885f57bc4fd7b96b11e0",
+    "valid": true,
+    "required_f2p": 2,
+    "required_p2p": 100,
+    "required_groups_missing": 0,
+    "additional_unsupported_compiler_probes": 14,
+    "duration_seconds": 73.66817520200038,
+    "model_requests": 0,
+    "archive": {
+      "name": "ReproPatch-oracle-reference-Catch2-2723.tar.gz",
+      "sha256": "6c593d1f9e4fa2fc7500da363351e3629e1343acdafa4d798712c7f01ecf63aa",
+      "files": 2617,
+      "size_bytes": 1393446,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-readiness-2026-10-21/ReproPatch-oracle-reference-Catch2-2723.tar.gz"
+    }
   }
 }
