@@ -42,6 +42,16 @@ def test_complete_flow_unit(task, model, tmp_path):
     assert baseline["source_sha256"] != independent["source_sha256"]
     assert baseline["tests"][0]["ctest_exit_code"] == 8
     assert all(c["returncode"] == 0 for c in independent["commands"])
+    feedback = [
+        json.loads((directory / event["payload"]["result_ref"]["path"]).read_text())["data"]
+        for event in events
+        if event["type"] == "tool_finished" and event["payload"]["name"] == "run_command"
+    ]
+    assert feedback and feedback[0]["passed"]
+    assert feedback[0]["failed_commands"] == [] and "commands" not in feedback[0]
+    reference = feedback[0]["evidence"]
+    raw = json.loads((directory / reference["path"]).read_text())
+    assert raw["commands"] and len(raw["tests"]) == len(feedback[0]["tests"])
 
 
 @pytest.mark.parametrize(

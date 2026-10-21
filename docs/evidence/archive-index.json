@@ -36,6 +36,14 @@
       "uncompressed_bytes": 47528426,
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-pilot-first-two-2026-10-21/ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
       "manifest": "evidence-manifest.json"
+    },
+    {
+      "scope": "rc3 反馈视图定向检查与历史数据离线 SDK 输入边界",
+      "name": "ReproPatch-feedback-context-0.3.0rc3.tar.gz",
+      "sha256": "6ea3a492587ef94eeb7de439cead5c5e97a10f6a17f0cc1ad81d6f45e97a7f52",
+      "files": 32,
+      "size_bytes": 358352,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc3/ReproPatch-feedback-context-0.3.0rc3.tar.gz"
     }
   ]
 }

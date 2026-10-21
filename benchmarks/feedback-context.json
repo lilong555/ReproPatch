@@ -1,0 +1,58 @@
+{
+  "scope": "历史数据的离线 SDK 输入边界检查，不是修复重跑或产品 Execution Replay",
+  "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+  "historical_provenance": {
+    "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+    "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+    "image_repo_digests": [],
+    "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+    "platform": "linux/amd64",
+    "software_version": "0.3.0rc2",
+    "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+    "task_source_sha256": "7504b83ec5ebaa7357158594cba52013a82a69988320acfb9be2c01d7f40c640",
+    "tool_versions": {
+      "cmake": "4.4.4",
+      "ctest": "4.4.4",
+      "cxx": "c++ (GCC) 14.2.0",
+      "docker_client": "28.3.2",
+      "docker_server": "28.3.2",
+      "git": "git version 2.34.1",
+      "kernel": "6.18.54.1-microsoft-standard-WSL2"
+    }
+  },
+  "historical_tool_result": {
+    "path": "agent/tool-results/s000009.t01.json",
+    "sha256": "79d1aa9937f2e43ed336ae922ef11a587299cd6982cfa74dc4a0edef32e45c27",
+    "size_bytes": 385201
+  },
+  "historical_evaluation": {
+    "path": "evidence/b2115363252b45eb86a5931f76d2da9b/evaluation.json",
+    "sha256": "385842991e4596e92fc302220bc9db63da838c9ca8681a13904ffdd6866352f1",
+    "size_bytes": 708614
+  },
+  "test_observations_retained": 69,
+  "failure_command_previews_retained": 2,
+  "model_http_requests": 0,
+  "results": {
+    "original": {
+      "tool_result_bytes": 385200,
+      "input_bytes": [
+        175065,
+        596554
+      ],
+      "scripted_model_calls": 1,
+      "stop_reason": "CONTEXT_LIMIT",
+      "history_prefix_unchanged": true
+    },
+    "compact": {
+      "tool_result_bytes": 40317,
+      "input_bytes": [
+        175065,
+        218955
+      ],
+      "scripted_model_calls": 2,
+      "stop_reason": null,
+      "history_prefix_unchanged": true
+    }
+  }
+}

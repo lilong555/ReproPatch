@@ -38,7 +38,7 @@
   },
   "remaining": [
     "首轮剩余三个合格真实任务及同模型首次尝试",
-    "精简自检模型视图，完整证据与首次成绩保持可追溯",
+    "当前产品版本尚无真实模型成绩，后续运行保留版本和协议身份",
     "完成 Harbor 产物桥接、可靠性负例及正式多次实验"
   ],
   "archive": {
@@ -68,7 +68,7 @@
     }
   },
   "preparation_implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
-  "current_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "current_implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
   "context_check": "context-check.json",
   "mini_environment": "mini-environment.json",
   "verified_task_v2_instances": [
@@ -114,5 +114,8 @@
     "uncompressed_bytes": 47528426,
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-pilot-first-two-2026-10-21/ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
     "manifest": "evidence-manifest.json"
-  }
+  },
+  "real_model_benchmark_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "feedback_context": "feedback-context.json",
+  "current_product_has_paid_benchmark": false
 }

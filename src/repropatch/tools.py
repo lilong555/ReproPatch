@@ -20,8 +20,8 @@ def model_command(record):
     return record
 
 
-def model_baseline(record):
-    """初始提示保留全部测试观察和失败诊断；完整命令与 JUnit 留在原始证据中。"""
+def model_evaluation(record):
+    """基线与自检共用模型视图；保留测试观察及失败诊断，完整执行证据独立保存。"""
     tests = [
         {
             key: item.get(key)
@@ -41,6 +41,16 @@ def model_baseline(record):
         for item in record["tests"]
         if item["observed_status"] != "passed" and item.get("command_id") is not None
     }
+    failed.update(
+        item["command_id"]
+        for item in record["commands"]
+        if item.get("command_id") is not None
+        and (
+            item.get("status", "exited") != "exited"
+            or item.get("exit_code", 0) != 0
+            or item.get("error_code")
+        )
+    )
 
     def build_status(name):
         command = record.get(name)
@@ -59,8 +69,9 @@ def model_baseline(record):
         }
 
     return {
-        "view_version": 1,
+        "view_version": 2,
         "evaluation_id": record["evaluation_id"],
+        "evaluation_role": record.get("evaluation_role"),
         "evidence": record.get("evidence"),
         "source_manifest": record.get("source_manifest"),
         "source_tree_sha256": record.get("source_tree_sha256"),
@@ -68,6 +79,10 @@ def model_baseline(record):
         "isolated": record.get("isolated"),
         "configure": build_status("configure"),
         "build": build_status("build"),
+        "discovery": build_status("discovery"),
+        "issue_code": record.get("issue_code"),
+        "diagnostic": record.get("diagnostic", ""),
+        "cleanup": record.get("cleanup"),
         "tests": tests,
         "failed_commands": [
             model_command(item) for item in record["commands"] if item.get("command_id") in failed

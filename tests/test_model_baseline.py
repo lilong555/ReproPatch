@@ -1,14 +1,18 @@
-"""真实工程规模的初始模型视图不得重复携带通过测试的原始日志。"""
+"""基线与自检的模型反馈保留失败原因，避免重复传入成功日志。"""
 
 import copy
 
+import pytest
+
 from repropatch.task import canonical_json
-from repropatch.tools import model_baseline
+from repropatch.tools import model_evaluation
 
 
-def test_large_baseline_keeps_observations_failure_bytes_and_original_evidence():
+@pytest.mark.parametrize("role", ["baseline", "agent_check"])
+def test_large_evaluation_keeps_observations_failure_bytes_and_original_evidence(role):
     record = {
         "evaluation_id": "baseline",
+        "evaluation_role": role,
         "evidence": {"path": "baseline.json", "sha256": "a" * 64, "size_bytes": 900000},
         "configure": {"command_id": "configure", "status": "exited", "exit_code": 0},
         "build": {"command_id": "build", "status": "exited", "exit_code": 0},
@@ -39,11 +43,12 @@ def test_large_baseline_keeps_observations_failure_bytes_and_original_evidence()
             }
         )
     original = copy.deepcopy(record)
-    view = model_baseline(record)
+    view = model_evaluation(record)
     assert record == original
     assert len(view["tests"]) == 200
     assert [item["name"] for item in view["tests"]] == [item["name"] for item in record["tests"]]
     assert view["evidence"] == record["evidence"]
+    assert view["evaluation_role"] == role
     assert view["configure"]["exit_code"] == view["build"]["exit_code"] == 0
     assert len(view["failed_commands"]) == 1
     failed = view["failed_commands"][0]
@@ -51,3 +56,31 @@ def test_large_baseline_keeps_observations_failure_bytes_and_original_evidence()
     assert failed["stderr"] == original["commands"][0]["stderr"]
     assert "output" not in failed
     assert len(canonical_json(view)) < 40 * 1024
+
+
+@pytest.mark.parametrize("phase", ["configure", "build", "discovery"])
+def test_failed_phase_keeps_diagnostics_without_test_command(phase):
+    command = {
+        "command_id": phase,
+        "status": "exited",
+        "exit_code": 1,
+        "error_code": None,
+        "stdout": "编译器或 CTest 的原始诊断",
+        "stderr": "error: invalid operands",
+        "stdout_log": {"path": "stdout.bin"},
+        "stderr_log": {"path": "stderr.bin"},
+    }
+    record = {
+        "evaluation_id": "self-check",
+        "evaluation_role": "agent_check",
+        phase: command,
+        "tests": [{"name": "regression", "observed_status": "not_run", "command_id": None}],
+        "commands": [command],
+        "issue_code": "COMMAND_FAILED",
+        "cleanup": {"confirmed": True},
+    }
+    view = model_evaluation(record)
+    assert view[phase]["exit_code"] == 1
+    assert view["issue_code"] == "COMMAND_FAILED" and view["cleanup"]["confirmed"]
+    assert view["failed_commands"][0]["stdout"] == command["stdout"]
+    assert view["failed_commands"][0]["stderr"] == command["stderr"]

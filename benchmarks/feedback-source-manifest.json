@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "scope": "反馈视图与历史数据离线 SDK 输入检查",
+  "execution_source_parent_commit": "8779a2be1226830442c7383c2147b77df5f84f52",
+  "execution_source_has_uncommitted_changes": true,
+  "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+  "product_version": "0.3.0rc3",
+  "source_files": {
+    "MANIFEST.in": {
+      "sha256": "a57336a7fd775668ba5a8a7093a4132dbf84ed6812a31c195c2ddc912d51f5e8",
+      "size_bytes": 449
+    },
+    "pyproject.toml": {
+      "sha256": "6d64cf914d107a3f075b13e6b4338e8d17d349139a75002ea68fc155cf623059",
+      "size_bytes": 891
+    },
+    "scripts/check_feedback_context.py": {
+      "sha256": "ccea95f0eb912fc32b5c956fa0f573c72932ac541fa10234381c4f42be64116c",
+      "size_bytes": 6596
+    },
+    "src/repropatch/__init__.py": {
+      "sha256": "6f46ff6fb37014f6c869d97f896f03fca505b890028f44c115e779514a032ecd",
+      "size_bytes": 108
+    },
+    "src/repropatch/__main__.py": {
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "size_bytes": 48
+    },
+    "src/repropatch/agent_runtime.py": {
+      "sha256": "e180e55077b05e6baee46152be00759ce5a6026e2416860b34909c3b4c0f1280",
+      "size_bytes": 17784
+    },
+    "src/repropatch/artifacts.py": {
+      "sha256": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+      "size_bytes": 6464
+    },
+    "src/repropatch/cli.py": {
+      "sha256": "79147b99ca5d1b2095b44874869e612f49826eb5e0df18ed848f5a57064da0f1",
+      "size_bytes": 13763
+    },
+    "src/repropatch/errors.py": {
+      "sha256": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+      "size_bytes": 1521
+    },
+    "src/repropatch/events.py": {
+      "sha256": "005afef70b3536ca71dc6f79310206f9e0960608c9c6f6ea9bc4b4e147c23b00",
+      "size_bytes": 33650
+    },
+    "src/repropatch/harness.py": {
+      "sha256": "bd8c370b4a9b1bbc083dbb7350c711b662e91d78fbdc4e36b22902028686c14c",
+      "size_bytes": 37379
+    },
+    "src/repropatch/models.py": {
+      "sha256": "13b28276587c7ed9c9cc45bd7f2a54b77178ad1a92c8a2783a6e08ee5c789c78",
+      "size_bytes": 8951
+    },
+    "src/repropatch/process.py": {
+      "sha256": "0c2bb81edc9fc0338475d34fa60eea300209ffddcfc34d5555195783671af2b8",
+      "size_bytes": 11753
+    },
+    "src/repropatch/recovery.py": {
+      "sha256": "b87c0d943ab90e2621e0e033e5c066c6ad1a961f66635b4ee297cf64452d7cd0",
+      "size_bytes": 36261
+    },
+    "src/repropatch/reports.py": {
+      "sha256": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+      "size_bytes": 21699
+    },
+    "src/repropatch/resources.py": {
+      "sha256": "02f4cf847a064d2276dab8d1916423e9cab401c140f4ff75ed209b6725085f29",
+      "size_bytes": 11473
+    },
+    "src/repropatch/sandbox.py": {
+      "sha256": "a050600161c758d04165a83a82c4350888909215a76faeffe31ac1977d990556",
+      "size_bytes": 17813
+    },
+    "src/repropatch/task.py": {
+      "sha256": "b7eea501b412edbac73d18bc6658672e9187816e9989352368694973a5ad6e35",
+      "size_bytes": 25448
+    },
+    "src/repropatch/tools.py": {
+      "sha256": "42273a8b432d3fb5217192a836c64a785bd6f5e6632f276c0724c4801729f641",
+      "size_bytes": 11617
+    },
+    "src/repropatch/trace.py": {
+      "sha256": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+      "size_bytes": 7847
+    },
+    "src/repropatch/verification.py": {
+      "sha256": "dd85f6ba40ef026ccc2d50b4747a8220b24b14b19c0f3127f7bc3cc0c8225135",
+      "size_bytes": 34008
+    },
+    "src/repropatch/workspace.py": {
+      "sha256": "af50e11c40351a8a4451ae6bc2a214f88ff74631e6db424d3a731e0c945aadd0",
+      "size_bytes": 37524
+    },
+    "tests/test_harness.py": {
+      "sha256": "321ab7eee5e7c07edcf85120e47f3ece93bf2db00d1fbe0f49249f057a6a9d05",
+      "size_bytes": 10503
+    },
+    "tests/test_model_baseline.py": {
+      "sha256": "592d57d4c3ded8e6ca913e78ed26f76c73b0dd2d03121216d58c22d864e620ab",
+      "size_bytes": 3491
+    },
+    "uv.lock": {
+      "sha256": "e6ab088d75336e0afdde55bb9fa2754d0e1e2d8d674f329a1a7a04d141ca4cf3",
+      "size_bytes": 284599
+    }
+  },
+  "local_validation": {
+    "passed": 6,
+    "failed": 0,
+    "junit": "feedback-view/targeted.xml",
+    "historical_sdk_context_summary": "feedback-view/context-v2/summary.json",
+    "paid_model_requests": 0
+  }
+}

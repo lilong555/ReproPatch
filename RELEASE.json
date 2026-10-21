@@ -1,12 +1,12 @@
 {
-  "product_version": "0.3.0rc2",
+  "product_version": "0.3.0rc3",
   "release_status": "release_candidate",
   "task_format_version": 2,
   "spec_revision": "2026-10-19.2",
-  "execution_source_parent_commit": "1983acfbe68774f0be4fe99c486ef992bc788beb",
+  "execution_source_parent_commit": "8779a2be1226830442c7383c2147b77df5f84f52",
   "execution_source_has_uncommitted_changes": true,
   "release_identity": {
-    "tag": "v0.3.0rc2",
+    "tag": "v0.3.0rc3",
     "commit": null,
     "commit_source": "GitHub Release tag 与发布附件 release-manifest.json；源码树不内嵌自指 commit"
   },
@@ -29,15 +29,23 @@
     "P2-04"
   ],
   "verification_date": "2026-10-21",
-  "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
   "validation": {
-    "scope": "targeted_regression_and_native_environment_checks",
-    "passed": 21,
+    "scope": "targeted_feedback_contract_and_historical_offline_sdk_boundary",
+    "passed": 6,
     "failed": 0,
     "skipped": 0,
     "full_suite_rerun": false,
-    "context_check": "benchmarks/context-check.json",
-    "native_mini_check": "benchmarks/mini-environment.json"
+    "feedback_context": "benchmarks/feedback-context.json",
+    "source_manifest": "benchmarks/feedback-source-manifest.json",
+    "archive": {
+      "scope": "rc3 反馈视图定向检查与历史数据离线 SDK 输入边界",
+      "name": "ReproPatch-feedback-context-0.3.0rc3.tar.gz",
+      "sha256": "6ea3a492587ef94eeb7de439cead5c5e97a10f6a17f0cc1ad81d6f45e97a7f52",
+      "files": 32,
+      "size_bytes": 358352,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc3/ReproPatch-feedback-context-0.3.0rc3.tar.gz"
+    }
   },
   "previous_release_certification": {
     "product_version": "0.3.0rc1",
@@ -87,8 +95,8 @@
   "evidence_storage": "summaries_in_git_raw_release_assets",
   "evidence_archive_index": "docs/evidence/archive-index.json",
   "wheel_and_sdist_sha256": {
-    "repropatch-0.3.0rc2-py3-none-any.whl": "3961369e8f6c38d245bf004f8cc69ec2cfbb57ed3999ddb7bd4bbf650c204f07",
-    "repropatch-0.3.0rc2.tar.gz": "48b54e83524b8ee3023a0ea31489742d01535ee6c5eabc793b25cb84b5ddaade"
+    "repropatch-0.3.0rc3-py3-none-any.whl": "6fbec92dbc74d10539734f3806d0b2f18245c54567ab47c124d21a83095d80ec",
+    "repropatch-0.3.0rc3.tar.gz": "1148dbce70c502880a0deacf9cf19a58580d89b316700e1589e22767d7ddf80b"
   },
   "sqlite_single_authority": true,
   "database_schema_version": 2,
@@ -107,13 +115,46 @@
   "sdk_production_cli_integrated": true,
   "distribution_validation": {
     "status": "passed",
-    "scope": "archive_bytes_and_metadata_not_clean_install",
+    "scope": "wheel_and_sdist_bytes_and_metadata_not_clean_install",
+    "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+    "wheel_python_files_verified": 19,
+    "sdist_files_verified": 369,
+    "clean_install_rerun": false,
+    "wheel_and_sdist_sha256": {
+      "repropatch-0.3.0rc3-py3-none-any.whl": "6fbec92dbc74d10539734f3806d0b2f18245c54567ab47c124d21a83095d80ec",
+      "repropatch-0.3.0rc3.tar.gz": "1148dbce70c502880a0deacf9cf19a58580d89b316700e1589e22767d7ddf80b"
+    }
+  },
+  "previous_targeted_certification": {
+    "product_version": "0.3.0rc2",
+    "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+    "validation": {
+      "scope": "targeted_regression_and_native_environment_checks",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "full_suite_rerun": false,
+      "context_check": "benchmarks/context-check.json",
+      "native_mini_check": "benchmarks/mini-environment.json"
+    },
     "wheel_and_sdist_sha256": {
       "repropatch-0.3.0rc2-py3-none-any.whl": "3961369e8f6c38d245bf004f8cc69ec2cfbb57ed3999ddb7bd4bbf650c204f07",
       "repropatch-0.3.0rc2.tar.gz": "48b54e83524b8ee3023a0ea31489742d01535ee6c5eabc793b25cb84b5ddaade"
     },
-    "wheel_python_files_verified": 19,
-    "sdist_files_verified": 357,
-    "clean_install_rerun": false
+    "release_identity": {
+      "tag": "v0.3.0rc2",
+      "commit": "536941690ba8c6bbffeea1df366b3a69d3186f04",
+      "commit_source": "已发布 rc2 Release tag"
+    }
+  },
+  "real_model_benchmark": {
+    "evaluated_product_version": "0.3.0rc2",
+    "current_product_evaluated": false,
+    "results": "benchmarks/pilot-results.json",
+    "repropatch_resolved": 0,
+    "mini_resolved": 1,
+    "tasks_per_agent": 2,
+    "paid_model_requests": 45,
+    "cost_upper_bound_cny": 0.52158136
   }
 }

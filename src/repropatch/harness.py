@@ -33,7 +33,7 @@ from .reports import compact_result, evidence_errors, export_report
 from .resources import RunResources
 from .sandbox import DockerSandbox
 from .task import ImageIdentity, Task, canonical_json, resolve_task, task_roots, text
-from .tools import model_command
+from .tools import model_command, model_evaluation
 from .verification import (
     RunClock,
     RunContext,
@@ -194,12 +194,7 @@ class Harness:
         )
         return {
             "passed": evidence.successful,
-            "evaluation_id": evidence.evaluation_id,
-            "evaluation_role": evidence.evaluation_role,
-            "source_tree_sha256": evidence.source_tree_sha256,
-            "tests": [asdict(item) for item in evidence.tests],
-            "commands": [model_command(command.to_dict()) for command in evidence.commands],
-            "cleanup": evidence.cleanup,
+            **model_evaluation(evidence.to_dict()),
         }
 
     def _refresh_evaluations(self):
