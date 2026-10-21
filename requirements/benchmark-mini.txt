@@ -1,0 +1,9 @@
+# 独立的 Mini/LiteLLM 环境，不与 ReproPatch 的固定 Agents SDK 环境混装。
+-r harbor.txt
+mcp==2.3.0
+mcp-types==2.3.0
+httpx2==2.16.0
+httpcore2==2.16.0
+sse-starlette==3.5.0
+python-multipart==0.0.32
+truststore==0.10.5

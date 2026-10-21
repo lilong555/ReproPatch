@@ -219,6 +219,9 @@ def main():
             "LC_ALL": "C.UTF-8",
             "CMAKE_BUILD_PARALLEL_LEVEL": "2",
             "CTEST_PARALLEL_LEVEL": "1",
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "safe.directory",
+            "GIT_CONFIG_VALUE_0": "/src",
         },
     }
     save(output / "environment.json", config)

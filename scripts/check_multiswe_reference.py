@@ -1,4 +1,4 @@
-"""在固定官方 Catch2 镜像中复核参考补丁，直接调用上游解析器和 Report。"""
+"""在固定官方 Catch2 镜像复核补丁；模型候选另核对冻结 Task 的编辑范围。"""
 
 import argparse
 import hashlib
@@ -6,6 +6,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 import time
 import uuid
 from pathlib import Path
@@ -18,6 +19,42 @@ OFFICIAL_IMAGES = {
     1448: "sha256:1767b483755bbcab66b36effbf3cd1517ff1d456933fa43dbb97e75323202218",
     1422: "sha256:feb18f5d8fa743f7d75dc1515cebc655e8a0fa8336329045cbcadd98e7139065",
 }
+PREPARED_COMMITS = {
+    2723: "0d9a15ee3664ac03bb160d037fd871260b99089b",
+    2187: "023f57d40b4a89d6904240a547f558d9216085a1",
+}
+
+
+def check_model_scope(task_path, cfg, patch, output):
+    from screen_multiswe import patch_paths
+
+    from repropatch.task import Task, resolve_task
+    from repropatch.workspace import Worktree
+
+    resolved = resolve_task(Task.load(task_path))
+    if (
+        cfg["number"] not in PREPARED_COMMITS
+        or resolved.base_commit != PREPARED_COMMITS[cfg["number"]]
+        or resolved.task.id != f"catchorg-catch2-{cfg['number']}"
+    ):
+        raise ValueError("MODEL_TASK_BASE_MISMATCH")
+    test_paths, _ = patch_paths(cfg["test_patch"])
+    protected = resolved.protected_files | set(test_paths)
+    with Worktree(
+        resolved.repository_path, output / "scope-worktree", resolved.base_commit
+    ) as tree:
+        tree.apply_patch(patch, resolved.editable_files, protected)
+        _, changed = tree.validate_changes(resolved.editable_files, protected)
+        if not changed or any(not name.startswith("src/catch2/") for name in changed):
+            raise ValueError("MODEL_CANDIDATE_SCOPE_REJECTED")
+    return {
+        "task_sha256": resolved.task_sha256,
+        "base_commit": resolved.base_commit,
+        "changed_files": list(changed),
+        "worktree_removed": not tree.path.exists(),
+        "scope_only": True,
+        "uses_repropatch_test_verdict": False,
+    }
 
 
 def run(argv, **kwargs):
@@ -26,6 +63,7 @@ def run(argv, **kwargs):
 
 def save(path, value):
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n")
+    path.chmod(0o600)
 
 
 def main():
@@ -37,6 +75,7 @@ def main():
     parser.add_argument("--image", required=True, help="已下载的原始官方镜像 image ID")
     parser.add_argument("--evaluator-source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--task", type=Path, help="模型候选必须绑定已审查的固定 Task；参考检查省略")
     args = parser.parse_args()
     cfg = json.loads(args.record.read_text())
     if (cfg["org"], cfg["repo"]) != ("catchorg", "Catch2") or cfg["number"] not in OFFICIAL_IMAGES:
@@ -59,7 +98,7 @@ def main():
         for part in reference.split(b"diff --git ")[1:]
         if not part.startswith((b"a/docs/", b"a/projects/SelfTest/Baselines/"))
     )
-    if patch not in (reference, production):
+    if args.task is None and patch not in (reference, production):
         parser.error("输入不是原始参考补丁或已审查的源码参考部分")
     evaluator = args.evaluator_source.resolve(strict=True)
     if run(["git", "rev-parse", "HEAD"], cwd=evaluator).decode().strip() != EVALUATOR_COMMIT:
@@ -69,9 +108,30 @@ def main():
     if actual.decode().strip() != args.image:
         parser.error("本地镜像身份不匹配")
     output = args.output.resolve()
-    output.mkdir(parents=True, exist_ok=False)
+    output.mkdir(parents=True, exist_ok=False, mode=0o700)
+    if args.task is not None and not patch:
+        save(output / "record.json", cfg)
+        save(
+            output / "oracle-verdict.json",
+            {
+                "accepted": False,
+                "reason": "NO_PATCH",
+                "determinate": True,
+                "native_tests_executed": False,
+                "valid": None,
+                "expected_f2p": len(cfg["f2p_tests"]),
+                "expected_p2p": len(cfg["p2p_tests"]),
+                "candidate_sha256": hashlib.sha256(patch).hexdigest(),
+                "model_requests": 0,
+            },
+        )
+        print(json.dumps({"accepted": False, "reason": "NO_PATCH"}))
+        return 1
+    if args.task is not None:
+        save(output / "scope.json", check_model_scope(args.task, cfg, patch, output))
     save(output / "record.json", cfg)
     (output / "candidate.patch").write_bytes(patch)
+    (output / "candidate.patch").chmod(0o600)
     save(
         output / "evaluator-source-manifest.json",
         {
@@ -80,6 +140,11 @@ def main():
         },
     )
     name = "repropatch-official-reference-" + uuid.uuid4().hex[:12]
+    # 容器去掉 DAC_OVERRIDE 后不能读宿主 0600 文件；独立私有目录提供只读输入副本。
+    transfer = tempfile.TemporaryDirectory(prefix="oracle-input-", dir=output.parent)
+    transferred_patch = Path(transfer.name) / "candidate.patch"
+    transferred_patch.write_bytes(patch)
+    transferred_patch.chmod(0o644)
     argv = [
         "docker",
         "run",
@@ -97,36 +162,51 @@ def main():
         "--ulimit=core=0:0",
         "--user=0:0",
         "--mount",
-        f"type=bind,source={output / 'candidate.patch'},target=/candidate.patch,readonly",
+        f"type=bind,source={transferred_patch},target=/candidate.patch,readonly",
         args.image,
         "/bin/bash",
         "-ec",
         f'cd /home/Catch2\ntest "$(git rev-parse HEAD)" = {base}\n'
         "git diff --quiet\ngit apply --whitespace=nowarn /candidate.patch\n"
-        "sha256sum /home/test-run.sh /home/test.patch\nexec bash /home/test-run.sh",
+        "sha256sum /home/test-run.sh /home/test.patch\nexec bash "
+        + ("-e " if args.task is not None else "")
+        + "/home/test-run.sh",
     ]
     started = time.monotonic()
     execution = {
-        "scope": "official_image_reference_check",
+        "scope": "official_image_model_candidate_check"
+        if args.task is not None
+        else "official_image_reference_check",
         "image": args.image,
         "base_commit": base,
-        "candidate": "upstream_reference"
-        if patch == reference
-        else "upstream_production_reference",
+        "candidate": "model_candidate"
+        if args.task is not None
+        else ("upstream_reference" if patch == reference else "upstream_production_reference"),
+        "fail_fast": args.task is not None,
         "candidate_sha256": hashlib.sha256(patch).hexdigest(),
         "argv": argv,
         "model_requests": 0,
         "container_deleted": False,
     }
     try:
-        with (
-            (output / "stdout.log").open("wb") as stdout,
-            (output / "stderr.log").open("wb") as stderr,
-        ):
-            completed = subprocess.run(argv, stdout=stdout, stderr=stderr, timeout=600)
-            execution["exit_code"] = completed.returncode
-    except subprocess.TimeoutExpired:
-        execution.update(exit_code=None, error="ORACLE_TIMEOUT")
+        from repropatch.artifacts import AuditBudget
+        from repropatch.process import run_logged_process
+
+        completed = run_logged_process(
+            argv,
+            root=output,
+            budget=AuditBudget(output),
+            timeout=600,
+            on_stop=lambda _: subprocess.run(
+                ["docker", "rm", "-f", name], capture_output=True, timeout=30
+            ),
+        )
+        execution.update(exit_code=completed.returncode, command=completed.to_dict())
+        for stream in ("stdout", "stderr"):
+            ref = getattr(completed, stream + "_log")
+            path = output / (stream + ".log")
+            path.write_bytes(ref.read(output, limit=4 * 1024 * 1024) if ref is not None else b"")
+            path.chmod(0o600)
     finally:
         subprocess.run(["docker", "rm", "-f", name], capture_output=True, timeout=30)
         remaining = run(
@@ -135,6 +215,7 @@ def main():
         execution["container_deleted"] = not remaining.strip()
         execution["duration_seconds"] = time.monotonic() - started
         save(output / "execution.json", execution)
+        transfer.cleanup()
     sys.path.insert(0, str(evaluator))
     from multi_swe_bench.harness.report import Report
     from multi_swe_bench.harness.repos.cpp.catchorg.catch2 import Catch2
@@ -152,7 +233,7 @@ def main():
     )
     valid, error = report.check(force=True)
     missing = {
-        group: sorted(set(cfg.get(group, {})) - set(getattr(report, group)))
+        group: sorted(set(cfg.get(group, {})) - observed.passed_tests)
         for group in ("f2p_tests", "p2p_tests", "s2p_tests", "n2p_tests")
     }
     verdict = {

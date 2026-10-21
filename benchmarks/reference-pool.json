@@ -206,9 +206,9 @@
   "resolved_at_1": null,
   "strict_same_model_comparison_ready": false,
   "remaining": [
-    "1608/1448/1422 的参考补丁含批准快照；不能将完整参考通过等同于允许文件范围内可修复",
-    "继续审查 cpp-httplib-1765 的原生 GoogleTest 到固定 CTest 身份映射",
-    "补齐五个合格修复 Task、冻结同模型协议、费用预留及公共 Oracle 链路"
+    "1608/1448/1422 的参考补丁含批准快照，源码范围内兼容性尚未完成",
+    "继续适配 cpp-httplib-1765 等真实任务，补齐首轮五题",
+    "真实模型已完成两题，分数和费用另见 pilot-results.json"
   ],
   "archive": {
     "name": "ReproPatch-catch2-reference-pool-2026-10-21.tar.gz",
@@ -216,5 +216,6 @@
     "files": 4646,
     "size_bytes": 5165682,
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
-  }
+  },
+  "agent_pilot_results": "pilot-results.json"
 }

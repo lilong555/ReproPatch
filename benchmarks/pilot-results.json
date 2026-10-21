@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "scope": "preliminary_two_task_subset_of_authorized_five_task_pilot",
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "dataset_cpp_instances": 129,
+  "authorized_pilot_tasks": 5,
+  "completed_pilot_tasks": 2,
+  "pilot_complete": false,
+  "source_parent_commit": "fa705c777d386976cdb067840528d9b81622bbe6",
+  "execution_source_has_uncommitted_adapter_changes": true,
+  "repropatch_version": "0.3.0rc2",
+  "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "pricing_policy": {
+    "currency": "CNY",
+    "input_ceiling_tokens": 1048576,
+    "max_output_tokens": 8192,
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash-1017",
+    "peak_cached_input_nano_per_token": 40,
+    "peak_input_nano_per_token": 2000,
+    "peak_output_nano_per_token": 8000,
+    "request_limit_per_attempt": 12,
+    "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "verified_date": "2026-10-21"
+  },
+  "budget_cap_cny": 20,
+  "model_requests": 45,
+  "unknown_usage_requests": 0,
+  "cost_upper_bound_cny": 0.52158136,
+  "actual_billed_cost_cny": null,
+  "request_ledger": {
+    "path": "budget.sqlite3",
+    "sha256": "750d71ad745edc315e1d0145cb4f113dd13f5889b5641b0c3d0626fe92cee1b4",
+    "size_bytes": 36864
+  },
+  "coverage": {
+    "verified_adapted_instances": 2,
+    "denominator": 129,
+    "lower_bound": 0.015503875968992248,
+    "screening_complete": false,
+    "native_unadapted_verified": 0
+  },
+  "metrics": {
+    "repropatch": {
+      "attempted": 2,
+      "resolved": 0,
+      "resolved_at_1": 0.0,
+      "cost_upper_bound_cny": 0.24813216,
+      "cost_upper_bound_per_resolved_cny": null,
+      "model_requests": 21
+    },
+    "mini": {
+      "attempted": 2,
+      "resolved": 1,
+      "resolved_at_1": 0.5,
+      "cost_upper_bound_cny": 0.2734492,
+      "cost_upper_bound_per_resolved_cny": 0.2734492,
+      "model_requests": 24
+    }
+  },
+  "attempts": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt": "catch2723-repropatch-1",
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "agent_stop_reason": "CONTEXT_LIMIT",
+      "candidate": {
+        "path": "catch2723-repropatch/candidate.patch",
+        "sha256": "6cb7994de931acc083ca37ac2a0da0ffb2e3b5aed7d624c021b843290d218103",
+        "size_bytes": 690
+      },
+      "oracle": {
+        "path": "catch2723-repropatch-oracle-v3/oracle-verdict.json",
+        "sha256": "855bad7222c41192686cdaf6a5b1a63abf5e059b9f2638e5edaa762622ec04e8",
+        "size_bytes": 4845
+      },
+      "oracle_tests_executed": true,
+      "oracle_exit_code": 8,
+      "oracle_duration_seconds": 75.85882057299932,
+      "oracle_observed_required_tests_not_passed": {
+        "f2p_tests": [
+          "approvaltests",
+          "runtests"
+        ],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_observed_groups_reference": {
+        "path": "catch2723-repropatch-oracle-v3/observed-required-groups.json",
+        "sha256": "2d2f812abed140c992ca1494939c1949f16cfa7b1038337b2b319fb8d1ebbdb9",
+        "size_bytes": 526
+      },
+      "oracle_execution_reference": {
+        "path": "catch2723-repropatch-oracle-v3/execution.json",
+        "sha256": "063ffc8ab352c33324aa2f7c313cb9322932997397b039796b47a208c641a5b4",
+        "size_bytes": 68606
+      },
+      "model_requests": 9,
+      "tool_calls": 14,
+      "raw_usage": {
+        "input_tokens": 283229,
+        "output_tokens": 4325,
+        "total_tokens": 287554,
+        "cached_input_tokens": 242688,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.12538952,
+      "worker_duration_seconds": 322.454909434,
+      "worker_timing_scope": "包含基线、自检与独立验收的 Harness 总时间",
+      "container_deleted": true,
+      "result": {
+        "path": "catch2723-repropatch/result.json",
+        "sha256": "8235d013be2e144d4c46ec2ed3c1604e3d21593bdcf41099771828d367044263",
+        "size_bytes": 960
+      },
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "3a58fb4e9bcf0e9e13ec69395ae63c5ee84a0e16b00418efb4c4fafd28dcf3bc",
+        "benchmark_budget.py": "3ecf144d981bc1ef2b099ce213b682433e8182e5dec8e080dcb6894fe3b6ec39"
+      },
+      "ablation": {
+        "agent_explicit_final_success_claim": null,
+        "workspace_full_tests_passed": null,
+        "workspace_observation": null,
+        "rp_independent_accepted": false,
+        "rp_independent_reference": null
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc2",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "7504b83ec5ebaa7357158594cba52013a82a69988320acfb9be2c01d7f40c640",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "native_report": {
+        "path": "catch2723-repropatch/runs/0b8f441ebe4d4ea8b1999025287e6995/report.json",
+        "sha256": "5132c9f470bc16ff75a203aaf17ea7f66b414d6abb361a27d66aa301523d95f1",
+        "size_bytes": 1106897
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt": "catch2723-mini-1",
+      "oracle_resolved": false,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "candidate": {
+        "path": "catch2723-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "catch2723-mini-oracle-v2/oracle-verdict.json",
+        "sha256": "39770e36065e483de090f07367419632c6e7c7b7d5bce24dca7664f4688344b6",
+        "size_bytes": 279
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "oracle_observed_required_tests_not_passed": null,
+      "oracle_observed_groups_reference": null,
+      "oracle_execution_reference": null,
+      "model_requests": 12,
+      "tool_calls": 12,
+      "raw_usage": {
+        "input_tokens": 407816,
+        "output_tokens": 3787,
+        "total_tokens": 411603,
+        "cached_input_tokens": 361984,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.13643936,
+      "worker_duration_seconds": 34.16546826100057,
+      "worker_timing_scope": "原生 Agent 生成与工作区自检，不含公共 Oracle 或独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "catch2723-mini/result.json",
+        "sha256": "f64f16b007418a6dfeb41f5265c735354533f223b7d20ab35c9644f17e8cba05",
+        "size_bytes": 755
+      },
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "d1b540364302c8e99e9f5928cfa231d6efa9d6150062b076c34f60c22d227087",
+        "benchmark_budget.py": "3ecf144d981bc1ef2b099ce213b682433e8182e5dec8e080dcb6894fe3b6ec39"
+      },
+      "ablation": {
+        "agent_explicit_final_success_claim": null,
+        "workspace_full_tests_passed": null,
+        "workspace_observation": null,
+        "rp_independent_accepted": null,
+        "rp_independent_reference": null
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt": "catch2187-repropatch-1",
+      "oracle_resolved": false,
+      "native_outcome": "BUDGET_EXHAUSTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "candidate": {
+        "path": "catch2187-repropatch/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "catch2187-repropatch-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "oracle_observed_required_tests_not_passed": null,
+      "oracle_observed_groups_reference": null,
+      "oracle_execution_reference": null,
+      "model_requests": 12,
+      "tool_calls": 21,
+      "raw_usage": {
+        "input_tokens": 319075,
+        "output_tokens": 6040,
+        "total_tokens": 325115,
+        "cached_input_tokens": 287616,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.12274264,
+      "worker_duration_seconds": 87.06102549000025,
+      "worker_timing_scope": "包含基线、自检与独立验收的 Harness 总时间",
+      "container_deleted": true,
+      "result": {
+        "path": "catch2187-repropatch/result.json",
+        "sha256": "0ab7e036aff8d6c789bf04b429f0dfd0568ebbdbeab12560489d5fcfcb1ce03a",
+        "size_bytes": 975
+      },
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "d1b540364302c8e99e9f5928cfa231d6efa9d6150062b076c34f60c22d227087",
+        "benchmark_budget.py": "3ecf144d981bc1ef2b099ce213b682433e8182e5dec8e080dcb6894fe3b6ec39"
+      },
+      "ablation": {
+        "agent_explicit_final_success_claim": null,
+        "workspace_full_tests_passed": null,
+        "workspace_observation": null,
+        "rp_independent_accepted": null,
+        "rp_independent_reference": null
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc2",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "edd94004429529ff16fc7bef691463a9deb0eae02165ce52c60074f10ae77390",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "native_report": {
+        "path": "catch2187-repropatch/runs/71c11751661342b2b0ad0eecd398b592/report.json",
+        "sha256": "31f522a977fff84005971465f55ff24d8003ef18feaef9064295580bca28378e",
+        "size_bytes": 855514
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt": "catch2187-mini-1",
+      "oracle_resolved": true,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "candidate": {
+        "path": "catch2187-mini/candidate.patch",
+        "sha256": "4c68721a0a7c5be86bfe6f73837a3e06dcc48c8a4b9921c60caf5ba482a676c1",
+        "size_bytes": 570
+      },
+      "oracle": {
+        "path": "catch2187-mini-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "oracle_tests_executed": true,
+      "oracle_exit_code": 0,
+      "oracle_duration_seconds": 39.26760265499979,
+      "oracle_observed_required_tests_not_passed": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_observed_groups_reference": null,
+      "oracle_execution_reference": {
+        "path": "catch2187-mini-oracle/execution.json",
+        "sha256": "f1a580a9fe6c2919a4391118917438b01a984b37a598166b44db4148795f44c4",
+        "size_bytes": 41380
+      },
+      "model_requests": 12,
+      "tool_calls": 12,
+      "raw_usage": {
+        "input_tokens": 365999,
+        "output_tokens": 6598,
+        "total_tokens": 372597,
+        "cached_input_tokens": 330496,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.13700984,
+      "worker_duration_seconds": 74.89318112299952,
+      "worker_timing_scope": "原生 Agent 生成与工作区自检，不含公共 Oracle 或独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "catch2187-mini/result.json",
+        "sha256": "4625a8aae967ecb351c8e10efda7bad5a9b8fc96e2802d293c7192ead715f8b9",
+        "size_bytes": 755
+      },
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "d1b540364302c8e99e9f5928cfa231d6efa9d6150062b076c34f60c22d227087",
+        "benchmark_budget.py": "3ecf144d981bc1ef2b099ce213b682433e8182e5dec8e080dcb6894fe3b6ec39"
+      },
+      "ablation": {
+        "agent_explicit_final_success_claim": null,
+        "workspace_full_tests_passed": true,
+        "workspace_observation": {
+          "trajectory": {
+            "path": "catch2187-mini/trajectory.json",
+            "sha256": "58a27b53a8e39d580b5320b4ab914b8f7be481fdbe165865d5830341688cc06a",
+            "size_bytes": 333581
+          },
+          "call_id": "call_00_FIEWHiSvzpiBiVoeX0Ww3520",
+          "test_count": 34
+        },
+        "rp_independent_accepted": true,
+        "rp_independent_reference": {
+          "path": "catch2187-mini-independent-rp/27f919b476444e7495977d75705715a8/report.json",
+          "sha256": "91bfca7ced8cb10e86ac53213e41f39a573a5bd92ab75f8fd73544920889ff26",
+          "size_bytes": 459533
+        }
+      }
+    }
+  ],
+  "fairness": [
+    {
+      "path": "catch2723-fairness.json",
+      "sha256": "18ae1c4944518d4f97343e03a7351f0fd484594fedf485b996bbece2e184b73b",
+      "size_bytes": 571
+    },
+    {
+      "path": "catch2187-fairness.json",
+      "sha256": "14c1284885f7e70e2ff9accb1785f5a148321c6743875d3418e6f6a136d967a6",
+      "size_bytes": 571
+    }
+  ],
+  "task_files": [
+    {
+      "path": "catch2723-task.yaml",
+      "sha256": "7504b83ec5ebaa7357158594cba52013a82a69988320acfb9be2c01d7f40c640",
+      "size_bytes": 21603
+    },
+    {
+      "path": "catch2187-task.yaml",
+      "sha256": "edd94004429529ff16fc7bef691463a9deb0eae02165ce52c60074f10ae77390",
+      "size_bytes": 13813
+    }
+  ],
+  "ablation_metrics": {
+    "agent_self_claim_false_acceptance_rate": null,
+    "workspace_false_acceptance_rate": null,
+    "rp_independent": {
+      "evaluated_nonempty_candidates": 2,
+      "oracle_invalid_candidates": 1,
+      "falsely_accepted": 0,
+      "false_acceptance_rate": 0.0,
+      "precision_denominator_accepted": 1,
+      "invalid_among_accepted": 0
+    },
+    "recovery_success_rate": null,
+    "scope": "仅两个非空真实候选；不构成可靠性负例集或恢复对照"
+  },
+  "infrastructure_debug_excluded_from_attempt_count": [
+    "catch2723-repropatch-oracle",
+    "catch2723-repropatch-oracle-v2",
+    "catch2723-mini-oracle"
+  ],
+  "limitations": [
+    "仅两题、每题一次、同属 Catch2；首轮五题和正式二十题实验尚未完成",
+    "同模型别名和请求参数已核对；供应商未返回可冻结的权重构建哈希",
+    "全部四次均先运行 ReproPatch 再运行 mini，未实现计划中的交替顺序",
+    "系统提示和工具协议保留框架差异；RP Shell 启动新容器，mini 保持同一工作容器",
+    "2723 的 mini 首次 git 命令遇到 ownership 限制后自行修正；2187 已预设 safe.directory",
+    "RP worker 时间含基线和独立验收，mini 时间只含生成和工作区自检，不能直接按此排名速度",
+    "模型候选使用相同原始官方镜像与测试脚本，并启用 bash -e，防止编译失败后使用旧 binary",
+    "原始 2723 Report 提前 invalid 导致 missing.p2p 展示不准确；附加 observed-required-groups 从原始日志列出真实观察",
+    "本轮为原生单 Agent 入口串联公共 Oracle，尚非 Harbor 通用调度集成",
+    "无 Codex 商业参考成绩；没有收费重试或用修复后新版本覆盖首次成绩"
+  ]
+}

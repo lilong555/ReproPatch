@@ -26,6 +26,16 @@
       "files": 4646,
       "size_bytes": 5165682,
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
+    },
+    {
+      "scope": "首次两题真实同模型对照与公共 Oracle；原始记录、调试记录、费用账本和执行源码",
+      "name": "ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
+      "sha256": "02215379d84f6d260389d4ca51b1a9be47bb1a6e1452b43ef3fee62bc0350295",
+      "files": 4699,
+      "size_bytes": 10219181,
+      "uncompressed_bytes": 47528426,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-pilot-first-two-2026-10-21/ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
+      "manifest": "evidence-manifest.json"
     }
   ]
 }

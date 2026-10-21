@@ -1,14 +1,16 @@
 # ReproPatch 评测
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
-当前已完成公开数据静态筛查、两个实例的 Task v2 参考验收，以及五个实例的官方参考复核，
-尚无正式模型对照成绩。逐项结果及适配边界见 [参考任务池](reference-pool.md)。
+已完成两题、每框架每题一次的真实同模型对照：ReproPatch `0/2`，mini-SWE-agent `1/2`，
+费用上界合计 `¥0.52158136`。这是首轮五题中的初步结果，
+完整分数、费用、时间范围及协议差异见 [真实对照报告](pilot-results.md)。
+两个实例的 Task v2 参考验收及五个实例的官方参考复核见 [参考任务池](reference-pool.md)。
 真实任务首次输入及原生历史边界见 [上下文记录](context-check.json)；
 同镜像、非 root、无网络的原生 mini 环境见 [环境说明](mini-environment.md)。
 运行准备状态见 [环境记录](environment.json)。Catch2-2723 的 prepared Task 参考修复已通过
 2 个 F2P 与 67 个真实 CTest P2P。独立原始官方镜像的参考检查也已通过固定上游 Report，
 2 个 F2P、100 个 P2P 均齐全，包含那 33 个配置探测项；原环境 CMake 仍不兼容 ReproPatch。
-目前仅完成一个 prepared 实例的参考验收，正式 Coverage 仍待整个实验范围确认。
+目前完成两个 prepared 实例的参考验收，适配覆盖率下界为 2/129，正式 Coverage 仍待完整筛查确认。
 prepared Task 的回归测试在源码中可见，后续对照须向两组提供相同输入。
 
 ## ReproPatch-CppRepair
@@ -22,9 +24,9 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 
 | 组别 | 用途 | 首轮状态 |
 | --- | --- | --- |
-| ReproPatch Full | 原生修复、持久化、独立验收 | 必选，等待兼容实例运行确认 |
-| mini-SWE-agent | 同 DeepSeek 模型的开源能力对照 | 必选，等待适配 |
-| ReproPatch Ablation | 同一候选的反事实验收决策 | 必选，不新增收费模型尝试 |
+| ReproPatch Full | 原生修复、持久化、独立验收 | 已完成两题首次尝试，0/2 |
+| mini-SWE-agent | 同 DeepSeek 模型的开源能力对照 | 已完成两题首次尝试，1/2 |
+| ReproPatch Ablation | 同一候选的反事实验收决策 | 两个非空候选已复核，其余观察不足时保持未知 |
 | Codex CLI | 自带模型的产品参考，单独呈现 | 待环境、模型与独立预算明确 |
 | OpenHands / Claude Code | 后续扩展 | 首轮不接入 |
 
@@ -34,7 +36,8 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 兼容实例不足时报告不足及原因，不用另一个任务池补足后仍沿用原数据集名称。
 
 两组统一 DeepSeek `deepseek-flash`、供应商端点、Issue 描述、base commit、官方测试、
-固定镜像 digest、资源、时间和模型预算，交替运行顺序。
+固定镜像 digest、资源、时间和模型预算。正式实验计划交替运行顺序；
+本批次两题实际均先 ReproPatch、后 mini，差异已披露。
 供应商响应中的模型标识、默认思考模式、请求参数、缓存命中和未知用量均保留。
 预算、完整提示、框架源码身份、工具权限及必要适配差异在第一次收费请求之前固定。
 系统提示和工具协议保留框架原生实现；工具调用次数只作开销指标，不作为跨框架等价步数。
@@ -83,7 +86,8 @@ Checkpoint / Resume 先复用 [现有 13 个故障场景](../docs/evidence/p2-04
 ReproPatch 只提供窄 Agent / 产物桥接，保留原生 Run 与 patch/trace，再让 Harbor 官方 Oracle 独立评分。
 配置生成、只读源码检查及参考补丁通过都不等于适配器端到端集成完成。
 现有 [无模型 fixture pilot](harbor-pilot.md) 已通过原生作业、显式产物收集和现有 `verify-patch`，
-仍未提供通用 `export-harbor` / `verify-harbor` 命令或真实框架对照成绩。
+仍未提供通用 `export-harbor` / `verify-harbor` 命令。
+两题真实框架对照通过原生单 Agent 入口与公共 Oracle 串联，不代表 Harbor 调度已经集成。
 Codex 非交互接口依据 [OpenAI Docs](https://learn.chatgpt.com/docs/non-interactive-mode)，
 使用 `codex exec --json` 收集轨迹；不同模型参考组不纳入同模型排名。
 

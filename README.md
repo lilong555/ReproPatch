@@ -24,7 +24,10 @@ Phase 1 的真实模型证据见 [P1-08](docs/P1-08.md)。
 真实工程对照评测的任务、环境和计分规则见 [Benchmark](benchmarks/README.md)。
 真实 Catch2 的初始模型视图保留全部测试观察与失败预览，完整日志继续保存在原始证据中；
 原生模型历史与 Checkpoint 不裁剪。[mini-SWE-agent 环境](benchmarks/mini-environment.md)
-使用相同固定镜像、非 root、无网络及相同资源和可编辑文件范围，尚无正式模型对照成绩。
+使用相同固定镜像、非 root、无网络及相同资源和可编辑文件范围。
+[两题真实同模型对照](benchmarks/pilot-results.md) 的首次成绩为 ReproPatch **0/2**、
+mini-SWE-agent **1/2**，45 次模型请求费用上界合计 **¥0.52158136**。
+这属于五题试跑的初步结果，剩余三题及正式多次实验尚未完成。
 
 ## 快速开始
 
@@ -111,7 +114,7 @@ Run 非源码审计文件总预算 **256 MiB**，包含日志、事件、清单�
 编译容器会看到完整无 `.git` 源码快照，readable 不是仓库内容保密保证。
 真实模型必须显式提供 `--allow-paid-model`；默认测试不调用付费模型。
 0.2.0rc1 已认证 `https://api.deepseek.com` 的 `deepseek-flash`，使用显式环境代理；
-0.3.0rc1 通过离线 SDK 与真实容器回归，本任务没有重复调用付费模型。
+离线 SDK 与真实容器回归不调用付费模型；真实 Benchmark 的请求和费用另见对照报告。
 
 ## 源码与补丁契约
 

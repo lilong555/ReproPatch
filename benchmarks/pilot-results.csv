@@ -1,0 +1,5 @@
+instance_id,agent,repeat,oracle_resolved,native_outcome,agent_stop_reason,model_requests,tool_calls,cost_upper_bound_cny,worker_duration_seconds,worker_timing_scope,oracle_duration_seconds
+catchorg__Catch2-2723,repropatch,1,False,REJECTED,CONTEXT_LIMIT,9,14,0.12538952,322.454909434,包含基线、自检与独立验收的 Harness 总时间,75.85882057299932
+catchorg__Catch2-2723,mini,1,False,LimitsExceeded,LimitsExceeded,12,12,0.13643936,34.16546826100057,原生 Agent 生成与工作区自检，不含公共 Oracle 或独立验收,
+catchorg__Catch2-2187,repropatch,1,False,BUDGET_EXHAUSTED,STEP_BUDGET,12,21,0.12274264,87.06102549000025,包含基线、自检与独立验收的 Harness 总时间,
+catchorg__Catch2-2187,mini,1,True,LimitsExceeded,LimitsExceeded,12,12,0.13700984,74.89318112299952,原生 Agent 生成与工作区自检，不含公共 Oracle 或独立验收,39.26760265499979

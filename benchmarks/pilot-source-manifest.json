@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "scope": "当前批次发布源码及原始执行身份，执行时具体 helper SHA 以各 result.json 为准",
+  "execution_source_parent_commit": "fa705c777d386976cdb067840528d9b81622bbe6",
+  "execution_source_has_uncommitted_changes": true,
+  "core_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
+  "source_files": {
+    "src/repropatch/__init__.py": {
+      "sha256": "64ebda558d94a8614e6683c748c91b8eeaa3cf6729e1acf89a73f46bae5a5a77",
+      "size_bytes": 108
+    },
+    "src/repropatch/__main__.py": {
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "size_bytes": 48
+    },
+    "src/repropatch/agent_runtime.py": {
+      "sha256": "e0cbbf81ea0dd92dd29c4f6450b9fbb3724517af5e401bff03728c2fe16a538b",
+      "size_bytes": 17780
+    },
+    "src/repropatch/artifacts.py": {
+      "sha256": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+      "size_bytes": 6464
+    },
+    "src/repropatch/cli.py": {
+      "sha256": "79147b99ca5d1b2095b44874869e612f49826eb5e0df18ed848f5a57064da0f1",
+      "size_bytes": 13763
+    },
+    "src/repropatch/errors.py": {
+      "sha256": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+      "size_bytes": 1521
+    },
+    "src/repropatch/events.py": {
+      "sha256": "005afef70b3536ca71dc6f79310206f9e0960608c9c6f6ea9bc4b4e147c23b00",
+      "size_bytes": 33650
+    },
+    "src/repropatch/harness.py": {
+      "sha256": "3639360131df11ddf487d48c9fb48153becfbd8dc4464004dd91834963ffb9d9",
+      "size_bytes": 37680
+    },
+    "src/repropatch/models.py": {
+      "sha256": "13b28276587c7ed9c9cc45bd7f2a54b77178ad1a92c8a2783a6e08ee5c789c78",
+      "size_bytes": 8951
+    },
+    "src/repropatch/process.py": {
+      "sha256": "0c2bb81edc9fc0338475d34fa60eea300209ffddcfc34d5555195783671af2b8",
+      "size_bytes": 11753
+    },
+    "src/repropatch/recovery.py": {
+      "sha256": "b87c0d943ab90e2621e0e033e5c066c6ad1a961f66635b4ee297cf64452d7cd0",
+      "size_bytes": 36261
+    },
+    "src/repropatch/reports.py": {
+      "sha256": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+      "size_bytes": 21699
+    },
+    "src/repropatch/resources.py": {
+      "sha256": "02f4cf847a064d2276dab8d1916423e9cab401c140f4ff75ed209b6725085f29",
+      "size_bytes": 11473
+    },
+    "src/repropatch/sandbox.py": {
+      "sha256": "a050600161c758d04165a83a82c4350888909215a76faeffe31ac1977d990556",
+      "size_bytes": 17813
+    },
+    "src/repropatch/task.py": {
+      "sha256": "b7eea501b412edbac73d18bc6658672e9187816e9989352368694973a5ad6e35",
+      "size_bytes": 25448
+    },
+    "src/repropatch/tools.py": {
+      "sha256": "5fd1f12b9298dc462575885ec31b2b206820be941910ad2bc36502655aff38b6",
+      "size_bytes": 11065
+    },
+    "src/repropatch/trace.py": {
+      "sha256": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+      "size_bytes": 7847
+    },
+    "src/repropatch/verification.py": {
+      "sha256": "dd85f6ba40ef026ccc2d50b4747a8220b24b14b19c0f3127f7bc3cc0c8225135",
+      "size_bytes": 34008
+    },
+    "src/repropatch/workspace.py": {
+      "sha256": "af50e11c40351a8a4451ae6bc2a214f88ff74631e6db424d3a731e0c945aadd0",
+      "size_bytes": 37524
+    },
+    "scripts/benchmark_budget.py": {
+      "sha256": "3ecf144d981bc1ef2b099ce213b682433e8182e5dec8e080dcb6894fe3b6ec39",
+      "size_bytes": 9307
+    },
+    "scripts/run_benchmark_agent.py": {
+      "sha256": "d1b540364302c8e99e9f5928cfa231d6efa9d6150062b076c34f60c22d227087",
+      "size_bytes": 14077
+    },
+    "scripts/check_multiswe_reference.py": {
+      "sha256": "56ebe484d2655e6b748a625e66d1dd37fc61ea6c3e6e3f931c27ef8f69a0836e",
+      "size_bytes": 10887
+    },
+    "scripts/prepare_mini_environment.py": {
+      "sha256": "979accd6cb2e2b8dbbc313196c78d3a4c77041130503dafb1fe7075871ddb9f9",
+      "size_bytes": 10468
+    },
+    "tests/test_benchmark_budget.py": {
+      "sha256": "44024e99dc391f1b16924b3fba24cb31f6bcf645d2a3f5b96442d7a8cfe74b82",
+      "size_bytes": 2741
+    },
+    "requirements/benchmark-mini.txt": {
+      "sha256": "b8859b87c865a7526811ab610371c0ceb41ce83034f49b1660dfaae36c60d680",
+      "size_bytes": 229
+    },
+    "requirements/harbor.txt": {
+      "sha256": "9d77fc439e197a56966cfcfb90f1e3e479809c168cdbf7e0d1a4277433957ed9",
+      "size_bytes": 1876
+    }
+  },
+  "executed_adapter_snapshots": [
+    "paid-pilot/catch2723-repropatch/adapter-source/",
+    "paid-pilot/catch2187-repropatch/adapter-source/"
+  ],
+  "dependency_observations": [
+    "paid-pilot/repropatch-environment.json",
+    "paid-pilot/mini-environment.json"
+  ],
+  "context_diagnosis": "paid-pilot/context-diagnosis.json",
+  "financial_contract_tests": {
+    "passed": 3,
+    "failed": 0,
+    "source": "budget-contract/financial-tests.xml"
+  },
+  "key_scan": {
+    "files": 4695,
+    "matches": 0
+  }
+}

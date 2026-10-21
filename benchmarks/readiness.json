@@ -1,11 +1,14 @@
 {
   "schema_version": 2,
-  "scope": "benchmark_preparation_not_model_comparison",
+  "scope": "preliminary_two_task_same_model_comparison",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "cpp_instances": 129,
-  "paid_model_requests": 0,
-  "model_cost_cny": 0,
-  "resolved_at_1": null,
+  "paid_model_requests": 45,
+  "model_cost_cny": null,
+  "resolved_at_1": {
+    "repropatch": 0.0,
+    "mini": 0.5
+  },
   "official_oracle_verified_instances": 5,
   "benchmark_coverage": null,
   "adapted_rp_reference": {
@@ -34,9 +37,9 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "1608/1448/1422 的参考补丁含批准快照；不能将完整参考通过等同于允许文件范围内可修复",
-    "继续审查 cpp-httplib-1765 的原生 GoogleTest 到固定 CTest 身份映射",
-    "补齐五个合格修复 Task、冻结同模型协议、费用预留及公共 Oracle 链路"
+    "首轮剩余三个合格真实任务及同模型首次尝试",
+    "精简自检模型视图，完整证据与首次成绩保持可追溯",
+    "完成 Harbor 产物桥接、可靠性负例及正式多次实验"
   ],
   "archive": {
     "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
@@ -96,5 +99,20 @@
     "files": 4646,
     "size_bytes": 5165682,
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
+  },
+  "model_cost_upper_bound_cny": 0.52158136,
+  "pilot_results": "pilot-results.json",
+  "authorized_pilot_tasks": 5,
+  "completed_pilot_tasks": 2,
+  "pilot_complete": false,
+  "real_pilot_archive": {
+    "scope": "首次两题真实同模型对照与公共 Oracle；原始记录、调试记录、费用账本和执行源码",
+    "name": "ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
+    "sha256": "02215379d84f6d260389d4ca51b1a9be47bb1a6e1452b43ef3fee62bc0350295",
+    "files": 4699,
+    "size_bytes": 10219181,
+    "uncompressed_bytes": 47528426,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-pilot-first-two-2026-10-21/ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
+    "manifest": "evidence-manifest.json"
   }
 }
