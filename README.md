@@ -7,13 +7,16 @@
 使用固定 Git 基线、全新 Docker 环境和 CMake/CTest 独立验收外部补丁。
 两条入口共用测试身份、完整源码清单与补丁往返检查。
 
+当前开发实现提供实时剩余额度、源码状态和短修复循环策略，目标是在固定预算内进入编辑与验证。
+相关 20 项离线检查通过，真实修复效果待新批次评测；任务状态见 [实施计划](docs/IMPLEMENTATION_PLAN.md)。
+
 **最新真实对照：** 两个 Multi-SWE-bench Catch2 实例、同一 DeepSeek 模型、每组每题一次，
 ReproPatch **0/2**、mini-SWE-agent **0/2**。47 次请求，费用上界合计 **¥0.54663080**；
 四次均在定位阶段耗尽额度并留下空候选。详见 [rc3 报告与证据](benchmarks/rc3-rerun.md)。
 [历史 rc2 批次](benchmarks/pilot-results.md) 为 RP 0/2、mini 1/2，两批结果分别保留。
 
 SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
-当前代码 CI 为 **325 核心 + 147 SDK + 21 Docker 场景**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
+已发布基线 CI 为 **325 核心 + 147 SDK + 21 Docker 场景**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
 原始证据保存为带 SHA-256 的 Release Assets，Git 保留摘要与清单，见 [证据索引](docs/evidence/README.md)。
 
 [规格](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [Benchmark](benchmarks/README.md) · [实施状态](docs/IMPLEMENTATION_PLAN.md)

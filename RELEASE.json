@@ -10,9 +10,9 @@
     "commit": null,
     "commit_source": "GitHub Release tag 与发布附件 release-manifest.json；源码树不内嵌自指 commit"
   },
-  "current_task": "T4",
-  "task_status": "completed",
-  "next_task": null,
+  "current_task": "R1",
+  "task_status": "implemented_pending_benchmark",
+  "next_task": "R2",
   "completed_tasks": [
     "P1-01",
     "P1-02",
@@ -162,5 +162,20 @@
     "tasks_per_agent": 2,
     "paid_model_requests": 47,
     "cost_upper_bound_cny": 0.5466308
+  },
+  "implementation_scope": "已发布 v0.3.0rc3；当前开发实现身份见 development",
+  "development": {
+    "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+    "state": "awaiting_benchmark_authorization",
+    "local_checks_passed": 20,
+    "new_model_requests": 0,
+    "comparison_tasks": [
+      "catchorg__Catch2-2723",
+      "catchorg__Catch2-2187"
+    ],
+    "budget_ledger": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
+    "shared_cap_cny": 20,
+    "prior_committed_upper_bound_cny": 0.5466308,
+    "model_requests_proposed": 48
   }
 }

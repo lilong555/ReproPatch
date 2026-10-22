@@ -343,6 +343,14 @@ async def run_agent(harness, workspace) -> AgentResult:
                 code, code
             )
             value = {"ok": False, "error": {"code": code, "message": message[:1000]}}
+        # 整批工具已在事务中扣减；提示额度包含尚待执行的本批工具。
+        value["progress"] = {
+            "model_steps_remaining": budget.max_steps - report["model_steps"],
+            "tool_calls_remaining": budget.max_tool_calls - report["tool_calls"],
+            "pending_tool_calls": len(pending),
+            "agent_seconds_remaining": max(0, int(context.clock.remaining("agent_check"))),
+            "source_changed": workspace.expected_manifest != workspace.initial_manifest,
+        }
         reference = EvidenceRef.save(
             harness.directory,
             f"agent/tool-results/{tool_id}.json",

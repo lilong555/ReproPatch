@@ -86,6 +86,12 @@ def test_resume_preserves_native_input_counters_and_uses_remaining_script(
         after.run["recovery_attempt"] == 1 and after.run["deadline_at"] == before.run["deadline_at"]
     )
     assert r["usage"]["unknown_turns"] == 5
+    # 恢复后的工具提示使用累计扣减，最后一次自检保留真实候选状态。
+    tool_results = sorted((h.directory / "agent/tool-results").glob("*.json"))
+    last_progress = json.loads(tool_results[-1].read_text())["progress"]
+    assert last_progress["model_steps_remaining"] == task.max_steps - 4
+    assert last_progress["tool_calls_remaining"] == task.budget.max_tool_calls - 4
+    assert last_progress["source_changed"] is True
     assert len([e for e in after.events if e["type"] == "baseline_finished"]) == 1
     edits = [
         e

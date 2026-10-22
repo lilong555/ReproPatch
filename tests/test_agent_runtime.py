@@ -60,6 +60,11 @@ def test_last_turn_tools_execute_and_patch_is_independently_verified(task, tmp_p
     assert report["outcome"] == "ACCEPTED" and report["agent"]["agent_stop_reason"] == "STEP_BUDGET"
     assert report["agent"]["steps_used"] == report["agent"]["tool_calls_used"] == 1
     assert report["independent"]["evaluation_role"] == "independent"
+    output = json.loads(
+        (Path(report["artifact_directory"]) / "agent/tool-results/s000001.t01.json").read_text()
+    )
+    assert output["progress"]["model_steps_remaining"] == 0
+    assert output["progress"]["source_changed"] is True
     model.assert_complete()
 
 
@@ -147,6 +152,13 @@ def test_six_tools_and_policy_feedback_use_native_items(task, tmp_path):
         ]
         assert data[1]["error"]["code"] == "PATH_NOT_READABLE"
         assert data[2]["data"]["matches"]
+        for index, result in enumerate(data):
+            progress = result["progress"]
+            assert progress["model_steps_remaining"] == task.budget.max_steps - 1
+            assert progress["tool_calls_remaining"] == task.budget.max_tool_calls - 3
+            assert progress["pending_tool_calls"] == 2 - index
+            assert progress["source_changed"] is False
+            assert 0 <= progress["agent_seconds_remaining"] <= task.budget.wall_seconds
         return [assistant_message("结束")]
 
     steps = [
