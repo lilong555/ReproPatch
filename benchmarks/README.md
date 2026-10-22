@@ -1,9 +1,10 @@
 # ReproPatch 评测
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
-已完成两题、每框架每题一次的真实同模型对照：ReproPatch `0/2`，mini-SWE-agent `1/2`，
-费用上界合计 `¥0.52158136`。这些成绩属于 rc2；当前固定复测相同两题，尚未开始新批次付费执行。
-完整分数、费用、时间范围及协议差异见 [真实对照报告](pilot-results.md)。
+最新 rc3 两题真实对照已完成：ReproPatch `0/2`、mini-SWE-agent `0/2`，
+47 次请求，费用上界 `¥0.54663080`，四条空候选均记录为 `NO_PATCH`。
+分数、费用、分阶段耗时与原始证据见 [rc3 对照报告](rc3-rerun.md)。
+[历史 rc2 批次](pilot-results.md) 为 RP `0/2`、mini `1/2`，费用上界 `¥0.52158136`。
 两个实例的 Task v2 参考验收及五个实例的官方参考复核见 [参考任务池](reference-pool.md)。
 真实任务首次输入及原生历史边界见 [上下文记录](context-check.json)；
 同镜像、非 root、无网络的原生 mini 环境见 [环境说明](mini-environment.md)。
@@ -24,14 +25,14 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 
 | 组别 | 用途 | 首轮状态 |
 | --- | --- | --- |
-| ReproPatch Full | 原生修复、持久化、独立验收 | 已完成两题首次尝试，0/2 |
-| mini-SWE-agent | 同 DeepSeek 模型的开源能力对照 | 已完成两题首次尝试，1/2 |
+| ReproPatch Full | 原生修复、持久化、独立验收 | rc3 两题各一次，0/2 |
+| mini-SWE-agent | 同 DeepSeek 模型的开源能力对照 | 当前两题各一次，0/2 |
 | ReproPatch Ablation | 同一候选的反事实验收决策 | 历史观察保留，当前不扩大消融 |
 | Codex CLI | 自带模型的产品参考，单独呈现 | 暂停 |
 | OpenHands / Claude Code | 后续扩展 | 暂停 |
 
 当前矩阵为 **Catch2-2723、Catch2-2187 × ReproPatch rc3、mini-SWE-agent 2.4.6 × 各一次**，
-共四次尝试、最多 48 个模型 HTTP 请求。费用硬上限为本批次 **人民币 20 元合计**，付费执行须另行授权。
+已授权并完成四次尝试，实际 47 个模型 HTTP 请求。费用硬上限为本批次 **人民币 20 元合计**。
 本轮不补满五题；20×2×3 正式实验、扩充数据集、额外 Agent 与通用 Harbor 暂停。
 模型、工具与时间限制保持原冻结 Task：12 次请求、24 次工具、8192 输出 token、90 秒请求超时。
 
@@ -63,6 +64,7 @@ python scripts/run_benchmark_agent.py --check-only \
 它不代替实际 Docker、基线与 Oracle 检查。
 本机 T1 的两份固定 Task 已核对规范哈希与镜像；两套 mini 权限检查通过，
 RP 启动预检均返回 0，费用账本字节保持一致。当前状态和来源身份见 [readiness.json](readiness.json)。
+两次 mini 正式启动前的共同输入预检也均返回 0；本轮执行已结束，既有账本和尝试目录作为证据保留。
 
 mini 增加 `--mini-source`、`--mini-environment`、`--common-input` 和实际对齐的 `--agent-seconds`。
 共同输入必须来自本轮同题 RP 的 `agent/native/0001-input.json`，先按报告 `native_trace` 的大小和 SHA-256 核验。

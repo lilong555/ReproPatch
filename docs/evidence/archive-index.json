@@ -44,6 +44,18 @@
       "files": 32,
       "size_bytes": 358352,
       "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc3/ReproPatch-feedback-context-0.3.0rc3.tar.gz"
+    },
+    {
+      "scope": "rc3 两题四条真实尝试、费用账本、原生轨迹与免费演示",
+      "name": "ReproPatch-rc3-rerun-2026-10-22.tar.gz",
+      "sha256": "343542a360017baf7295a3fea0eca0ea745e026130ff7f19dcb7681d0d7a2734",
+      "files": 1374,
+      "size_bytes": 3999442,
+      "uncompressed_bytes": 23079223,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-rc3-rerun-2026-10-22/ReproPatch-rc3-rerun-2026-10-22.tar.gz",
+      "manifest": "rc3-rerun/evidence-manifest.json",
+      "per_file_verification": "passed",
+      "credential_pattern_scan": "passed"
     }
   ]
 }

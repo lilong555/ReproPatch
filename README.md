@@ -3,33 +3,20 @@
 面向 C++ 工程的可复现代码修复与独立验收 Harness。
 
 当前候选版本为 **0.3.0rc3，Task v2**。Phase 1 与 Phase 2 已完成。
-`verify-patch` 无需模型、SDK 或 API key，使用固定基线和全新容器独立验收外部补丁。
-自动修复与外部补丁共用结构化 CTest、固定测试身份、完整字节清单和候选往返检查。
-rc3 的 6 项反馈定向检查及历史 Catch2 数据的离线 SDK 输入检查通过；
-自检后的完整输入为 218,955 字节，历史前缀保持完整，无收费模型请求。
-结果及复核方式见 [反馈上下文](benchmarks/feedback-context.md)。rc1 的完整验收为
-315 项核心、147 项 SDK 契约与 21 项真实 Docker 测试，历史结果单列。
-Phase 1 的 0.2.0rc1 已完成 DeepSeek 真实自动修复和独立 Docker 验收，结局为 `ACCEPTED`。
+自动修复复用公开 Agents SDK Runner 和六个受控工具；`verify-patch` 只需核心安装，
+使用固定 Git 基线、全新 Docker 环境和 CMake/CTest 独立验收外部补丁。
+两条入口共用测试身份、完整源码清单与补丁往返检查。
 
-自动 `run` 使用公开 Agents SDK Runner、六个受控异步工具和原生 Responses Items。
-fake 引擎直接使用原生 ScriptedModel；SDK 引擎使用 AsyncOpenAI/OpenAIResponsesModel。
-SQLite 的 runs/events/checkpoints 三表记录外层状态、累计预算和事件；提交失败不会释放模型或工具执行。
-`inspect` 只读查询，`report` 核验证据并重建 JSONL / JSON / Markdown。
-SDK 完整输入边界保存 Checkpoint，支持受控暂停、有限 Resume 和只读 Trace Replay；Execution Replay 与 Harbor 尚未提供。
-当前交付为两题、两组、各一次的 rc3 真实对照与可复核展示，顺序见 [实施计划](docs/IMPLEMENTATION_PLAN.md)。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)，有限恢复见 [P2-03](docs/P2-03.md)，只读轨迹与恢复门槛见 [P2-04](docs/P2-04.md)。
-Phase 1 的真实模型证据见 [P1-08](docs/P1-08.md)。
+**最新真实对照：** 两个 Multi-SWE-bench Catch2 实例、同一 DeepSeek 模型、每组每题一次，
+ReproPatch **0/2**、mini-SWE-agent **0/2**。47 次请求，费用上界合计 **¥0.54663080**；
+四次均在定位阶段耗尽额度并留下空候选。详见 [rc3 报告与证据](benchmarks/rc3-rerun.md)。
+[历史 rc2 批次](benchmarks/pilot-results.md) 为 RP 0/2、mini 1/2，两批结果分别保留。
 
-[规格入口](SPEC.md) · [测试报告](docs/TEST_REPORT.md) · [实施计划](docs/IMPLEMENTATION_PLAN.md)
+SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
+当前代码 CI 为 **325 核心 + 147 SDK + 21 Docker 场景**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
+原始证据保存为带 SHA-256 的 Release Assets，Git 保留摘要与清单，见 [证据索引](docs/evidence/README.md)。
 
-完整原始验收数据通过带 SHA-256 的 Release Assets 提供，源码树只保留关键摘要与清单，
-下载及复核方式见 [证据索引](docs/evidence/README.md)。契约测试与真实修复成绩分开统计；
-真实工程对照评测的任务、环境和计分规则见 [Benchmark](benchmarks/README.md)。
-基线和自检模型视图保留全部测试观察、失败命令预览及证据引用；完整日志独立保存。
-原生模型历史与 Checkpoint 不裁剪。[mini-SWE-agent 环境](benchmarks/mini-environment.md)
-使用相同固定镜像、非 root、无网络及相同资源和可编辑文件范围。
-[rc2 两题真实同模型对照](benchmarks/pilot-results.md) 的首次成绩为 ReproPatch **0/2**、
-mini-SWE-agent **1/2**，45 次模型请求费用上界合计 **¥0.52158136**。
-当前范围固定复测这两题；新批次的执行与授权状态见 [准备状态](benchmarks/readiness.json)。
+[规格](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [Benchmark](benchmarks/README.md) · [实施状态](docs/IMPLEMENTATION_PLAN.md)
 
 ## 免费独立补丁验证演示
 

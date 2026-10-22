@@ -10,9 +10,9 @@
     "commit": null,
     "commit_source": "GitHub Release tag 与发布附件 release-manifest.json；源码树不内嵌自指 commit"
   },
-  "current_task": "P3-01",
-  "task_status": "in_progress",
-  "next_task": "P3-01",
+  "current_task": "T4",
+  "task_status": "completed",
+  "next_task": null,
   "completed_tasks": [
     "P1-01",
     "P1-02",
@@ -26,7 +26,11 @@
     "P2-01",
     "P2-02",
     "P2-03",
-    "P2-04"
+    "P2-04",
+    "T1",
+    "T2",
+    "T3",
+    "T4"
   ],
   "verification_date": "2026-10-21",
   "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
@@ -148,13 +152,15 @@
     }
   },
   "real_model_benchmark": {
-    "evaluated_product_version": "0.3.0rc2",
-    "current_product_evaluated": false,
-    "results": "benchmarks/pilot-results.json",
+    "evaluated_product_version": "0.3.0rc3",
+    "current_product_evaluated": true,
+    "execution_source_commit": "77da9ccb25c059a5af3d5148479881fe5a303120",
+    "results": "benchmarks/rc3-rerun.json",
+    "historical_results": "benchmarks/pilot-results.json",
     "repropatch_resolved": 0,
-    "mini_resolved": 1,
+    "mini_resolved": 0,
     "tasks_per_agent": 2,
-    "paid_model_requests": 45,
-    "cost_upper_bound_cny": 0.52158136
+    "paid_model_requests": 47,
+    "cost_upper_bound_cny": 0.5466308
   }
 }

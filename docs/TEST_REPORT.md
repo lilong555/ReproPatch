@@ -13,10 +13,21 @@ rc3 核心实现提交 `5beb579325f9eabd8cd449dc80abd37dfd716492` 的
 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39630705838)
 已通过：323 项核心、147 项 SDK 与 21 项真实 Docker，共 491 项；发布时本地 6 项结果单列保留。
 Benchmark 启动预检的定向范围为 `tests/test_benchmark_budget.py` 的 5 项，
-包括三个原账本场景、价格变更和无付费预检两个场景；当前真实修复成绩见下方 rc2 记录。
+包括三个原账本场景、价格变更和无付费预检两个场景。
 启动预检代码提交 `b78a3b0151afefb13cc1943a26a271f8070f19be` 的
 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39717468270)
 已通过 325 项核心、147 项 SDK 和 21 项真实 Docker，共 493 项。
+
+## 当前 rc3 真实对照与免费演示
+
+2026-10-22 两题、两组、各一次的真实尝试已完成：ReproPatch 0/2、mini-SWE-agent 0/2，
+47 次模型请求，费用上界 ¥0.54663080，未知用量 0 次。
+四条候选均为空，Oracle 入口记录 NO_PATCH；两组所属容器删除已确认。
+逐条预算、轨迹、耗时与原始证据见 [rc3 对照](../benchmarks/rc3-rerun.md)。
+
+免费核心演示已用现有固定镜像和核心环境执行：正确补丁 ACCEPTED、错误补丁 REJECTED，
+doctor、inspect、report 和 export-trace 均通过，模型步骤为零。
+演示报告与命令输出保存在本轮证据包中；此次使用既有环境。
 
 ## rc2 上下文与真实修复对照
 
@@ -25,7 +36,7 @@ rc2 的本地范围为 21 项定向回归：初始基线视图 1 项、Agent Run
 输入分别为 71,131 / 74,395 字节，结果为预期的 `REJECTED / NO_PATCH`，容器删除已确认。
 同一镜像下的原生 mini-SWE-agent 无模型权限检查通过。
 两题真实收费模型首次对照为 ReproPatch 0/2、mini 1/2，45 次 HTTP 请求，费用上界 ¥0.52158136，
-其成绩属于 rc2；详见 [原始对照报告](../benchmarks/pilot-results.md)。rc3 尚无真实模型修复成绩。
+其成绩属于 rc2；详见 [原始对照报告](../benchmarks/pilot-results.md)。当前批次见上方 rc3 记录。
 详情见 [上下文记录](../benchmarks/context-check.json) 与 [mini 环境](../benchmarks/mini-environment.md)。
 
 ## rc1 完整验收
