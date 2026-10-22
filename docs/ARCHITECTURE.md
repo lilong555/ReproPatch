@@ -44,6 +44,8 @@ Git hooks、fsmonitor、外部 diff 与 textconv 不参与运行。完整文件�
 模型没有宿主 Shell、Docker 或宿主网络工具。`run_shell` 可在一次性受限制容器内运行 Shell，
 源码只读，持久化源码编辑经 `edit_file`。`run_command` 引用预配置的 `reproduce/verify`，
 会在新环境中先配置和构建。
+`search_code` 提供命中行、可编辑状态及有界邻近代码；`read_file` 同样返回可编辑状态。
+每次 `run_shell` 的 `/build` 为独立临时空间；`run_command` 一次完成配置、编译及固定测试。
 
 `RunResources` 为 Run 创建独占 0700 控制目录和工作区，持有真实文件锁；资源记录固定根身份、Git 管理目录、容器 ID 与标签。
 `AuditBudget` 限制非源码审计文件为 256 MiB，给最终报告和清理诊断保留空间；控制文件为 0600。

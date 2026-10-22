@@ -1,9 +1,10 @@
 # ReproPatch 评测
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
-最新 rc3 两题真实对照已完成：ReproPatch `0/2`、mini-SWE-agent `0/2`，
-47 次请求，费用上界 `¥0.54663080`，四条空候选均记录为 `NO_PATCH`。
-分数、费用、分阶段耗时与原始证据见 [rc3 对照报告](rc3-rerun.md)。
+最新预算反馈候选两题对照：ReproPatch `1/2`、mini-SWE-agent `0/2`，48 次请求，
+费用上界 `¥0.50842656`，2187 通过官方 Oracle。
+原始证据见 [候选报告](repair-cycle-results.md)。搜索上下文候选使用独立新批次继续评测。
+[此前 rc3 批次](rc3-rerun.md) 为两组均 `0/2`，费用上界 `¥0.54663080`。
 [历史 rc2 批次](pilot-results.md) 为 RP `0/2`、mini `1/2`，费用上界 `¥0.52158136`。
 两个实例的 Task v2 参考验收及五个实例的官方参考复核见 [参考任务池](reference-pool.md)。
 真实任务首次输入及原生历史边界见 [上下文记录](context-check.json)；
@@ -25,7 +26,7 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 
 | 组别 | 用途 | 首轮状态 |
 | --- | --- | --- |
-| ReproPatch Full | 原生修复、持久化、独立验收 | rc3 两题各一次，0/2 |
+| ReproPatch Full | 原生修复、持久化、独立验收 | 预算反馈候选两题各一次，1/2 |
 | mini-SWE-agent | 同 DeepSeek 模型的开源能力对照 | 当前两题各一次，0/2 |
 | ReproPatch Ablation | 同一候选的反事实验收决策 | 历史观察保留，当前不扩大消融 |
 | Codex CLI | 自带模型的产品参考，单独呈现 | 暂停 |

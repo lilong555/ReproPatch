@@ -1,12 +1,12 @@
 {
   "schema_version": 2,
-  "scope": "published_rc3_results_and_repair_cycle_candidate",
+  "scope": "latest_completed_results_and_cpp_navigation_candidate",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "cpp_instances": 129,
-  "paid_model_requests": 47,
+  "paid_model_requests": 48,
   "model_cost_cny": null,
   "resolved_at_1": {
-    "repropatch": 0.0,
+    "repropatch": 0.5,
     "mini": 0.0
   },
   "official_oracle_verified_instances": 5,
@@ -37,7 +37,7 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "R2：预算反馈候选的同模型真实对照"
+    "搜索上下文与完整构建验证说明的同模型真实对照"
   ],
   "archive": {
     "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
@@ -66,7 +66,7 @@
     }
   },
   "preparation_implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
-  "current_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+  "current_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
   "context_check": "context-check.json",
   "mini_environment": "mini-environment.json",
   "verified_task_v2_instances": [
@@ -98,7 +98,7 @@
     "size_bytes": 5165682,
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
   },
-  "model_cost_upper_bound_cny": 0.5466308,
+  "model_cost_upper_bound_cny": 0.50842656,
   "pilot_results": "pilot-results.json",
   "authorized_pilot_tasks": 5,
   "completed_pilot_tasks": 2,
@@ -118,10 +118,12 @@
   "current_product_has_paid_benchmark": false,
   "current_batch": {
     "schema_version": 1,
-    "scope": "rc3 两题同模型对照，四次尝试，最多48个模型请求，费用硬上限20元",
-    "created_at": "2026-10-22T03:27:34.682034+00:00",
+    "scope": "C++搜索上下文与完整验证工具语义，两题两组各一次",
+    "created_at": "2026-10-22T04:43:10.418898+00:00",
     "product_version": "0.3.0rc3",
-    "core_implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+    "candidate": "cpp_navigation",
+    "core_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+    "execution_source_commit": null,
     "pricing_policy": {
       "model": "deepseek-flash",
       "model_version": "DeepSeek-V4.1-Flash-1017",
@@ -140,7 +142,7 @@
         "instance_id": "catchorg__Catch2-2723",
         "task_file": "catch2723-task.yaml",
         "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
-        "task_source_sha256": "004ab1e75db81430091d33a72fd95a7a71cc72ed0f4fe39c5123ffd6e2812d18",
+        "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
         "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
         "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
         "editable_files": 274,
@@ -154,7 +156,7 @@
         "instance_id": "catchorg__Catch2-2187",
         "task_file": "catch2187-task.yaml",
         "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
-        "task_source_sha256": "8e8545a1548325915e44e5afe1cf5e83c5626d269b49ab391c09f1cc7a7e925c",
+        "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
         "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
         "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
         "editable_files": 211,
@@ -165,135 +167,29 @@
         "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
       }
     ],
-    "new_batch_requests": 47,
+    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
     "paid_run_authorized": true,
-    "authorization": "用户在四次尝试、48请求与20元上限的确认后回复：请继续",
-    "execution_source_commit": "77da9ccb25c059a5af3d5148479881fe5a303120",
-    "historical_results": "pilot-results.json",
-    "checks": [
+    "authorization": "用户授权：在总20元预算内自主推进，无需逐轮确认",
+    "ci": {
+      "run_id": 39721519709,
+      "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+      "conclusion": "success",
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
+    },
+    "ledger_parents": [
       {
-        "instance": 2723,
-        "agent": "repropatch",
-        "exit_code": 0,
-        "result": {
-          "ok": true,
-          "check_only": true,
-          "agent": "repropatch",
-          "requests_reserved": 0
-        }
-      },
-      {
-        "instance": 2723,
-        "agent": "mini",
-        "scripted_check": "passed",
-        "container_deleted": true,
-        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
-        "paid_model_requests": 0
-      },
-      {
-        "instance": 2187,
-        "agent": "repropatch",
-        "exit_code": 0,
-        "result": {
-          "ok": true,
-          "check_only": true,
-          "agent": "repropatch",
-          "requests_reserved": 0
-        }
-      },
-      {
-        "instance": 2187,
-        "agent": "mini",
-        "scripted_check": "passed",
-        "container_deleted": true,
-        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
-        "paid_model_requests": 0
+        "path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
+        "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
+        "requests": 140,
+        "cost_upper_bound_cny": 1.57663872
       }
     ],
-    "ledger_unchanged_after_check_only": true,
-    "mini_common_input_status": "本轮两题 RP 首次输入已按大小和SHA-256核验；mini启动预检通过",
-    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
-    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
-    "script_source_sha256": {
-      "scripts/benchmark_budget.py": "693597b5a9468ad17c6b7397d9930e55bef06647cd8c613b1bca140d5d4cb640",
-      "scripts/run_benchmark_agent.py": "7ae4228f36b3ff7673d682cba04794364419a6bce35ca77118a785b7ffd19609",
-      "tests/test_benchmark_budget.py": "4b030ad3927ed5ebb7cc74e8229ed9bb932331a721ab82aa8ad364010dde55e3"
-    },
-    "state": "completed",
-    "preflight_code_commit": "b78a3b0151afefb13cc1943a26a271f8070f19be",
-    "local_directory": ".repropatch/rc3-rerun",
-    "ci": {
-      "run_id": 39717468270,
-      "conclusion": "success",
-      "core_passed": 325,
-      "sdk_passed": 147,
-      "docker_scenarios_passed": 21
-    },
-    "local_tests": {
-      "passed": 5,
-      "failed": 0,
-      "log": "preflight-tests.log",
-      "junit": "preflight-tests.xml"
-    },
-    "free_demo": {
-      "verification": {
-        "correct": {
-          "outcome": "ACCEPTED",
-          "run_id": "b72a21fd6c2c4befb06274cdfb6ac32a",
-          "report_sha256": "09f04a68740b4f4394bbe4baeecc3c934f95c7f938534abb3659768aafe8dd9c"
-        },
-        "wrong": {
-          "outcome": "REJECTED",
-          "run_id": "dfa977b8999f4c46b964d1c2c4bae696",
-          "report_sha256": "efa1c18111ace02e13993080552d2523392691b45147e3f239298ce134e6c0c4"
-        }
-      },
-      "inspect": "passed",
-      "report": "passed",
-      "export_trace": "passed",
-      "model_steps": 0,
-      "environment": "现有固定 repropatch-cpp 镜像与核心开发环境",
-      "fresh_install_and_image_build": false
-    },
-    "preflight_ledger_sha256": "1097bb2b04ae9180d05b04eee2e3d6959be0c103ca109e3125ffdbfafcfde42e",
-    "results": "rc3-rerun.json",
-    "archive": {
-      "scope": "rc3 两题四条真实尝试、费用账本、原生轨迹与免费演示",
-      "name": "ReproPatch-rc3-rerun-2026-10-22.tar.gz",
-      "sha256": "343542a360017baf7295a3fea0eca0ea745e026130ff7f19dcb7681d0d7a2734",
-      "files": 1374,
-      "size_bytes": 3999442,
-      "uncompressed_bytes": 23079223,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-rc3-rerun-2026-10-22/ReproPatch-rc3-rerun-2026-10-22.tar.gz",
-      "manifest": "rc3-rerun/evidence-manifest.json",
-      "per_file_verification": "passed",
-      "credential_pattern_scan": "passed"
-    },
-    "model_requests": 47,
-    "cost_upper_bound_cny": 0.5466308,
-    "request_ledger": {
-      "path": "budget.sqlite3",
-      "sha256": "8bf442af48726e579a53f98ced138f9bbe94f0d187b711f0fecac91ceb1e85a2",
-      "size_bytes": 40960
-    },
-    "metrics": {
-      "repropatch": {
-        "attempted": 2,
-        "resolved": 0,
-        "resolved_at_1": 0.0,
-        "cost_upper_bound_cny": 0.25627888,
-        "cost_per_resolved_upper_bound_cny": null,
-        "model_requests": 24
-      },
-      "mini": {
-        "attempted": 2,
-        "resolved": 0,
-        "resolved_at_1": 0.0,
-        "cost_upper_bound_cny": 0.29035192,
-        "cost_per_resolved_upper_bound_cny": null,
-        "model_requests": 23
-      }
-    }
+    "prior_requests": 140,
+    "prior_cost_upper_bound_cny": 1.57663872,
+    "state": "prepared",
+    "local_checks_passed": 11,
+    "budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
   },
   "planned_current_tasks": 2,
   "planned_current_attempts": 4,
@@ -308,7 +204,7 @@
     },
     "five_task_pilot_state": "paused"
   },
-  "current_results": "rc3-rerun.json",
+  "current_results": "repair-cycle-results.json",
   "current_stage_complete": false,
   "current_ci": {
     "run_id": 39721519709,
@@ -316,32 +212,83 @@
     "conclusion": "success",
     "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
   },
-  "latest_measured_implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+  "latest_measured_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
   "repair_candidate": {
-    "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
-    "state": "awaiting_benchmark_authorization",
-    "local_checks_passed": 20,
-    "new_model_requests": 0,
-    "comparison_tasks": [
-      "catchorg__Catch2-2723",
-      "catchorg__Catch2-2187"
-    ],
-    "budget_ledger": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
-    "shared_cap_cny": 20,
-    "prior_committed_upper_bound_cny": 0.5466308,
-    "model_requests_proposed": 48,
-    "budget_ledger_parent": {
-      "path": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
-      "sha256": "8bf442af48726e579a53f98ced138f9bbe94f0d187b711f0fecac91ceb1e85a2",
-      "requests": 47,
-      "committed_upper_bound_cny": 0.5466308
+    "schema_version": 1,
+    "scope": "C++搜索上下文与完整验证工具语义，两题两组各一次",
+    "created_at": "2026-10-22T04:43:10.418898+00:00",
+    "product_version": "0.3.0rc3",
+    "candidate": "cpp_navigation",
+    "core_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+    "execution_source_commit": null,
+    "pricing_policy": {
+      "model": "deepseek-flash",
+      "model_version": "DeepSeek-V4.1-Flash-1017",
+      "currency": "CNY",
+      "verified_date": "2026-10-22",
+      "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "input_ceiling_tokens": 1048576,
+      "max_output_tokens": 8192,
+      "peak_input_nano_per_token": 2000,
+      "peak_cached_input_nano_per_token": 40,
+      "peak_output_nano_per_token": 8000,
+      "request_limit_per_attempt": 12
     },
-    "execution_source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+    "tasks": [
+      {
+        "instance_id": "catchorg__Catch2-2723",
+        "task_file": "catch2723-task.yaml",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
+        "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "editable_files": 274,
+        "f2p": 2,
+        "p2p": 67,
+        "current_image_verified": true,
+        "record_file": "catch2723-record.json",
+        "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
+      },
+      {
+        "instance_id": "catchorg__Catch2-2187",
+        "task_file": "catch2187-task.yaml",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
+        "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "editable_files": 211,
+        "f2p": 2,
+        "p2p": 32,
+        "current_image_verified": true,
+        "record_file": "catch2187-record.json",
+        "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
+      }
+    ],
+    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+    "paid_run_authorized": true,
+    "authorization": "用户授权：在总20元预算内自主推进，无需逐轮确认",
     "ci": {
       "run_id": 39721519709,
       "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
       "conclusion": "success",
       "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
-    }
-  }
+    },
+    "ledger_parents": [
+      {
+        "path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
+        "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
+        "requests": 140,
+        "cost_upper_bound_cny": 1.57663872
+      }
+    ],
+    "prior_requests": 140,
+    "prior_cost_upper_bound_cny": 1.57663872,
+    "state": "prepared",
+    "local_checks_passed": 11,
+    "budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
+  },
+  "cumulative_model_requests": 140,
+  "cumulative_cost_upper_bound_cny": 1.57663872,
+  "budget_authorization": "累计20元内自主推进，保留所有历史消费"
 }

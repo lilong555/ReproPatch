@@ -56,6 +56,18 @@
       "manifest": "rc3-rerun/evidence-manifest.json",
       "per_file_verification": "passed",
       "credential_pattern_scan": "passed"
+    },
+    {
+      "scope": "两题同模型对照的原始轨迹、候选、Oracle决策及累计账本",
+      "name": "ReproPatch-repair-cycle-pilot-2026-10-22.tar.gz",
+      "sha256": "bf182110f39c6c700146a4a737d5ecdca6e49106a4769df365765a4643d8f099",
+      "files": 1960,
+      "size_bytes": 5076186,
+      "uncompressed_bytes": 27193079,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-repair-cycle-pilot-2026-10-22/ReproPatch-repair-cycle-pilot-2026-10-22.tar.gz",
+      "manifest": "repair-cycle-pilot/evidence-manifest.json",
+      "per_file_verification": "passed",
+      "credential_pattern_scan": "passed"
     }
   ]
 }

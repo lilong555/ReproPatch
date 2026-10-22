@@ -1,0 +1,485 @@
+{
+  "schema_version": 1,
+  "scope": "budgeted_repair_cycle_two_task_comparison",
+  "product_version": "0.3.0rc3",
+  "execution_source_commit": "3d4f039eb9708237a6e101cec98286f158fd9a9b",
+  "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "pricing_policy": {
+    "currency": "CNY",
+    "input_ceiling_tokens": 1048576,
+    "max_output_tokens": 8192,
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash-1017",
+    "peak_cached_input_nano_per_token": 40,
+    "peak_input_nano_per_token": 2000,
+    "peak_output_nano_per_token": 8000,
+    "request_limit_per_attempt": 12,
+    "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "verified_date": "2026-10-22"
+  },
+  "budget_cap_cny": 20.0,
+  "model_requests": 48,
+  "unknown_usage_requests": 0,
+  "cost_upper_bound_cny": 0.50842656,
+  "actual_billed_cost_cny": null,
+  "request_ledger": {
+    "path": "budget.sqlite3",
+    "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
+    "size_bytes": 90112
+  },
+  "coverage": {
+    "verified_adapted_instances": 2,
+    "denominator": 129,
+    "lower_bound": 0.015503875968992248,
+    "screening_complete": false
+  },
+  "tasks": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "task_file": "catch2723-task.yaml",
+      "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+      "task_source_sha256": "14be2f0fa084708523b6902d1eb71c533380ed334585819687895fce3af6f359",
+      "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+      "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+      "editable_files": 274,
+      "f2p": 2,
+      "p2p": 67,
+      "current_image_verified": true,
+      "record_file": "catch2723-record.json",
+      "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "task_file": "catch2187-task.yaml",
+      "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+      "task_source_sha256": "27d90b7885afb9b37615c094f915351ed7ed5dafc84e28db501daa8e397afb87",
+      "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+      "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+      "editable_files": 211,
+      "f2p": 2,
+      "p2p": 32,
+      "current_image_verified": true,
+      "record_file": "catch2187-record.json",
+      "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
+    }
+  ],
+  "metrics": {
+    "repropatch": {
+      "attempted": 2,
+      "resolved": 1,
+      "resolved_at_1": 0.5,
+      "cost_upper_bound_cny": 0.2586892,
+      "cost_per_resolved_upper_bound_cny": 0.2586892,
+      "model_requests": 24
+    },
+    "mini": {
+      "attempted": 2,
+      "resolved": 0,
+      "resolved_at_1": 0.0,
+      "cost_upper_bound_cny": 0.24973736,
+      "cost_per_resolved_upper_bound_cny": null,
+      "model_requests": 24
+    }
+  },
+  "attempts": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt": "cycle-catch2723-rp-1",
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "result": {
+        "path": "2723-rp/result.json",
+        "sha256": "78839e80067db1041e3adbeacd1843ac2fc1f5c8c6c06cb5850479fdd3a2acaa",
+        "size_bytes": 955
+      },
+      "candidate": {
+        "path": "2723-rp/candidate.patch",
+        "sha256": "6cb7994de931acc083ca37ac2a0da0ffb2e3b5aed7d624c021b843290d218103",
+        "size_bytes": 690
+      },
+      "oracle": {
+        "path": "2723-rp-oracle/oracle-verdict.json",
+        "sha256": "ecf66a119f78f1e46b9425d5d1cefb1b889ae5888d3e782a06faad152d26a159",
+        "size_bytes": 971
+      },
+      "oracle_tests_executed": true,
+      "oracle_exit_code": 8,
+      "oracle_duration_seconds": 77.22505883699978,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 19,
+      "raw_usage": {
+        "input_tokens": 383822,
+        "output_tokens": 5386,
+        "total_tokens": 389208,
+        "cached_input_tokens": 338432,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.14740528,
+      "worker_duration_seconds": 256.838088468,
+      "container_deleted": true,
+      "worker_timing_scope": "含基线、自检与独立验收的 Harness 总时间",
+      "native_report": {
+        "path": "2723-rp/runs/20faad9ee2944713a92673d9d8f9414a/report.json",
+        "sha256": "4a0fdd192b1d1d065ef0fb1aecf0ef00c55e25d4023022719ca23f03f2c86021",
+        "size_bytes": 891671
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "14be2f0fa084708523b6902d1eb71c533380ed334585819687895fce3af6f359",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "baseline_duration_seconds": 73.613983,
+      "evaluation_durations": [
+        {
+          "role": "baseline",
+          "seconds": 73.613983
+        },
+        {
+          "role": "independent",
+          "seconds": 75.564739
+        }
+      ],
+      "max_native_input_bytes": 186029,
+      "internal_independent_accepted": false,
+      "phase_seconds": {
+        "PREPARING": 1.420792,
+        "REPRODUCING": 74.48917,
+        "REPAIRING": 102.726672,
+        "VERIFYING": 77.730099
+      },
+      "tool_types": {
+        "run_shell": 6,
+        "search_code": 4,
+        "read_file": 8,
+        "edit_file": 1
+      },
+      "first_successful_edit_model_step": 8,
+      "first_check_model_step": null
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt": "cycle-catch2723-mini-1",
+      "oracle_resolved": false,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "result": {
+        "path": "2723-mini/result.json",
+        "sha256": "1c0cbba4aafbf4bf4b51880a1854b87acc9dc3103d1cb1ba7923ae34b2b53e98",
+        "size_bytes": 761
+      },
+      "candidate": {
+        "path": "2723-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2723-mini-oracle/oracle-verdict.json",
+        "sha256": "39770e36065e483de090f07367419632c6e7c7b7d5bce24dca7664f4688344b6",
+        "size_bytes": 279
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 19,
+      "raw_usage": {
+        "input_tokens": 419562,
+        "output_tokens": 3198,
+        "total_tokens": 422760,
+        "cached_input_tokens": 377216,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.12536464,
+      "worker_duration_seconds": 70.09867598499932,
+      "container_deleted": true,
+      "worker_timing_scope": "原生生成与工作区自检，不含公共 Oracle"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt": "cycle-catch2187-rp-1",
+      "oracle_resolved": true,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "result": {
+        "path": "2187-rp/result.json",
+        "sha256": "efb28937d515b27279a127dfa467f357ba7f9966ffbd64e1635757db11c724bf",
+        "size_bytes": 969
+      },
+      "candidate": {
+        "path": "2187-rp/candidate.patch",
+        "sha256": "d6e5624bbd315c967b310bd7c6a4ac2d7135455046f9cc063db340ef9b1b90d8",
+        "size_bytes": 784
+      },
+      "oracle": {
+        "path": "2187-rp-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "oracle_tests_executed": true,
+      "oracle_exit_code": 0,
+      "oracle_duration_seconds": 38.84561729100005,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 20,
+      "raw_usage": {
+        "input_tokens": 293901,
+        "output_tokens": 5225,
+        "total_tokens": 299126,
+        "cached_input_tokens": 264448,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.11128392,
+      "worker_duration_seconds": 175.14441258700026,
+      "container_deleted": true,
+      "worker_timing_scope": "含基线、自检与独立验收的 Harness 总时间",
+      "native_report": {
+        "path": "2187-rp/runs/fdaf062831f54e7abee2f74016f981b4/report.json",
+        "sha256": "42d7285a5dbeb512e77f71377b6749380e69147a1fe92d94c66ed2a312e7219a",
+        "size_bytes": 463082
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "27d90b7885afb9b37615c094f915351ed7ed5dafc84e28db501daa8e397afb87",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "baseline_duration_seconds": 37.630322,
+      "evaluation_durations": [
+        {
+          "role": "baseline",
+          "seconds": 37.630322
+        },
+        {
+          "role": "independent",
+          "seconds": 42.075512
+        }
+      ],
+      "max_native_input_bytes": 127161,
+      "internal_independent_accepted": true,
+      "phase_seconds": {
+        "PREPARING": 1.08973,
+        "REPRODUCING": 38.209619,
+        "REPAIRING": 92.038347,
+        "VERIFYING": 43.489607
+      },
+      "tool_types": {
+        "search_code": 6,
+        "read_file": 7,
+        "run_shell": 6,
+        "edit_file": 1
+      },
+      "first_successful_edit_model_step": 9,
+      "first_check_model_step": null
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt": "cycle-catch2187-mini-1",
+      "oracle_resolved": false,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "result": {
+        "path": "2187-mini/result.json",
+        "sha256": "420f140823382af9ed99b3009270c74289f30775d0acfb0a35bd605236b301e2",
+        "size_bytes": 761
+      },
+      "candidate": {
+        "path": "2187-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2187-mini-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 12,
+      "raw_usage": {
+        "input_tokens": 329851,
+        "output_tokens": 5400,
+        "total_tokens": 335251,
+        "cached_input_tokens": 295168,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.12437272,
+      "worker_duration_seconds": 38.54360852699938,
+      "container_deleted": true,
+      "worker_timing_scope": "原生生成与工作区自检，不含公共 Oracle"
+    }
+  ],
+  "fairness": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "identical_initial_domain_input": true,
+      "domain_input_sha256": "61283b33f2191437ea8354b1e83af271e97895d89fe79456519a0090800ea6f6",
+      "request_settings": {
+        "repropatch": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        },
+        "mini": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        }
+      },
+      "time_alignment": {
+        "common_input_path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/2723-rp/runs/20faad9ee2944713a92673d9d8f9414a/agent/native/0001-input.json",
+        "common_input_reference": {
+          "path": "agent/native/0001-input.json",
+          "sha256": "f7267229c53d1ee498c23c80fa1eab5aaeb4221fe6ad6ffdec92a6ec49cc39c1",
+          "size_bytes": 73577
+        },
+        "baseline_duration_seconds": 73.613983,
+        "baseline_charged_seconds": 74,
+        "mini_agent_seconds": 816,
+        "reserve_seconds": 10,
+        "rp_timing": {
+          "created_at": "2026-10-22T04:25:54.598656+00:00",
+          "deadline_at": "2026-10-22T04:55:54.598656+00:00",
+          "elapsed_ms": 256190,
+          "finished_at": "2026-10-22T04:30:10.788325+00:00"
+        }
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "identical_initial_domain_input": true,
+      "domain_input_sha256": "2015fdfc10dcc05dbb89ae0ddaa05857b2ec40cbaaf2061de298618b8a3cc618",
+      "request_settings": {
+        "repropatch": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        },
+        "mini": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        }
+      },
+      "time_alignment": {
+        "common_input_path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/2187-rp/runs/fdaf062831f54e7abee2f74016f981b4/agent/native/0001-input.json",
+        "common_input_reference": {
+          "path": "agent/native/0001-input.json",
+          "sha256": "e1f058cf0646f90433b1bcbccecdaef8838710fb8607519c6da1f71483abd9e1",
+          "size_bytes": 55352
+        },
+        "baseline_duration_seconds": 37.630322,
+        "baseline_charged_seconds": 38,
+        "mini_agent_seconds": 852,
+        "reserve_seconds": 10,
+        "rp_timing": {
+          "created_at": "2026-10-22T04:34:03.549613+00:00",
+          "deadline_at": "2026-10-22T05:04:03.549613+00:00",
+          "elapsed_ms": 174725,
+          "finished_at": "2026-10-22T04:36:58.274839+00:00"
+        }
+      }
+    }
+  ],
+  "source_manifest": {
+    "path": "source-manifest.json",
+    "sha256": "495a430fcc4e5294eb83e8c51f30fcfe18bb07f5dc8fec3b82da8737c99c1537",
+    "size_bytes": 4570
+  },
+  "historical_results": "pilot-results.json",
+  "provider_preflight": {
+    "path": "provider-preflight.json",
+    "sha256": "a3078b494b472eddb5c7f60623dc7f4d291b879088d666fd7d2a635eb06f0ca9",
+    "size_bytes": 826
+  },
+  "prior_model_requests": 92,
+  "prior_cost_upper_bound_cny": 1.06821216,
+  "cumulative_model_requests": 140,
+  "cumulative_cost_upper_bound_cny": 1.57663872,
+  "ledger_parents": [
+    {
+      "path": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
+      "sha256": "8bf442af48726e579a53f98ced138f9bbe94f0d187b711f0fecac91ceb1e85a2",
+      "requests": 47,
+      "committed_upper_bound_cny": 0.5466308
+    },
+    {
+      "path": "/home/li/repropatch/.repropatch/paid-pilot/budget.sqlite3",
+      "sha256": "750d71ad745edc315e1d0145cb4f113dd13f5889b5641b0c3d0626fe92cee1b4",
+      "requests": 45,
+      "cost_upper_bound_cny": 0.52158136
+    }
+  ],
+  "archive": {
+    "scope": "两题同模型对照的原始轨迹、候选、Oracle决策及累计账本",
+    "name": "ReproPatch-repair-cycle-pilot-2026-10-22.tar.gz",
+    "sha256": "bf182110f39c6c700146a4a737d5ecdca6e49106a4769df365765a4643d8f099",
+    "files": 1960,
+    "size_bytes": 5076186,
+    "uncompressed_bytes": 27193079,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-repair-cycle-pilot-2026-10-22/ReproPatch-repair-cycle-pilot-2026-10-22.tar.gz",
+    "manifest": "repair-cycle-pilot/evidence-manifest.json",
+    "per_file_verification": "passed",
+    "credential_pattern_scan": "passed"
+  }
+}
