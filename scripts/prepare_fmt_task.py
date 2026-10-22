@@ -31,6 +31,13 @@ CASES = {
         "compile_target": "xchar-test",
         "compile_signature": "error:",
     },
+    4057: {
+        "base_commit": "ccea338070c795fd966a4dc08b19268b6fbad5ef",
+        "test_patch_sha256": "4fe5920891ea0a3d3b49d171f62ef2f843638248ace826d511e261a999c0db49",
+        "reference_sha256": "8463a77c84862b6944eca1b677974668180f8e7c880d88508f5ab0316d9457d6",
+        "compile_target": "ranges-test",
+        "compile_signature": "error:",
+    },
 }
 NATIVE_TESTS = (
     "args-test",
@@ -55,6 +62,15 @@ NATIVE_TESTS = (
     "unicode-test",
     "xchar-test",
 )
+
+
+def native_tests(record):
+    """按固定上游版本保留完整原生测试集合。"""
+    return tuple(
+        name for name in NATIVE_TESTS if record["number"] != 4057 or name != "no-builtin-types-test"
+    )
+
+
 CONFIGURE = [
     "cmake",
     "-S",
@@ -100,8 +116,8 @@ def read_record(path):
         or record["base"]["sha"] != case["base_commit"]
         or hashlib.sha256(record["test_patch"].encode()).hexdigest() != case["test_patch_sha256"]
         or hashlib.sha256(record["fix_patch"].encode()).hexdigest() != case["reference_sha256"]
-        or sorted(record["run_result"]["passed_tests"]) != list(NATIVE_TESTS)
-        or sorted(record["fix_patch_result"]["passed_tests"]) != list(NATIVE_TESTS)
+        or sorted(record["run_result"]["passed_tests"]) != list(native_tests(record))
+        or sorted(record["fix_patch_result"]["passed_tests"]) != list(native_tests(record))
     ):
         raise ValueError("FMT_RECORD_IDENTITY_MISMATCH")
     return record
@@ -180,7 +196,7 @@ def main():
                     "output_contains": case["compile_signature"],
                 },
             ],
-            "pass_to_pass": [name for name in NATIVE_TESTS if name != target],
+            "pass_to_pass": [name for name in native_tests(record) if name != target],
             "protected_paths": ["test/", "CMakeLists.txt", "support/"],
         },
         "files": {
@@ -216,7 +232,7 @@ def main():
             "official_test_phase": "NONE: 编译失败发生在上游测试执行前",
             "adaptation": f"原生 {target} 目标在 CTest 节点内编译及执行",
             "protected_adapter": "test/repropatch-build-test.cmake",
-            "native_tests": list(NATIVE_TESTS),
+            "native_tests": list(native_tests(record)),
             "runtime_verified": False,
             "model_requests": 0,
         },

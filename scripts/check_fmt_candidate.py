@@ -14,7 +14,7 @@ import uuid
 from pathlib import Path
 
 from check_multiswe_reference import EVALUATOR_COMMIT
-from prepare_fmt_task import CASES, CONFIGURE, CTEST, IMAGE, NATIVE_TESTS, read_record
+from prepare_fmt_task import CASES, CONFIGURE, CTEST, IMAGE, native_tests, read_record
 from prepare_mini_environment import set_container_read_permissions
 from prepare_multiswe_task import git
 
@@ -26,6 +26,7 @@ from repropatch.workspace import Worktree
 PREPARED_COMMITS = {
     4310: "512849d9dfdef27c9bc46e410a8fdf9997c8dab6",
     4286: "af86d0892b0da6dcd80528ba391a20ad7cf7e3e0",
+    4057: "71fba7a1916d064832dfdd6a8d705aa0a1a07102",
 }
 
 
@@ -96,7 +97,7 @@ def main():
             "parser_sha256": hashlib.sha256(parser_file.read_bytes()).hexdigest(),
             "oracle": "原始源码、官方测试补丁、全量原生构建和 CTest；固定上游 Fmt parser",
             "prepared_ctest_adapter_used": False,
-            "official_f2p_p2p_groups": "原始记录为空；本扩展按完整21项原生测试判定",
+            "official_f2p_p2p_groups": "原始记录为空；本扩展按完整原生测试集合判定",
         },
     )
     name = "repropatch-fmt-oracle-" + uuid.uuid4().hex[:12]
@@ -188,19 +189,20 @@ def main():
     from multi_swe_bench.harness.repos.cpp.fmtlib.fmt import Fmt
 
     observed = Fmt.parse_log(None, (output / "stdout.log").read_text())
-    missing = sorted(set(NATIVE_TESTS) - observed.passed_tests)
+    required = set(native_tests(record))
+    missing = sorted(required - observed.passed_tests)
     accepted = (
         result.ok
         and execution["container_deleted"]
         and not missing
         and not observed.failed_tests
         and not observed.skipped_tests
-        and observed.passed_tests == set(NATIVE_TESTS)
+        and observed.passed_tests == required
     )
     verdict = {
         "accepted": accepted,
         "reason": "NATIVE_SUITE_PASSED" if accepted else "NATIVE_BUILD_OR_TEST_FAILED",
-        "required_tests": list(NATIVE_TESTS),
+        "required_tests": sorted(required),
         "passed_tests": sorted(observed.passed_tests),
         "failed_tests": sorted(observed.failed_tests),
         "missing_tests": missing,
