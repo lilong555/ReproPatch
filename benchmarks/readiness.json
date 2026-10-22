@@ -311,12 +311,10 @@
   "current_results": "rc3-rerun.json",
   "current_stage_complete": false,
   "current_ci": {
-    "source_commit": "b78a3b0151afefb13cc1943a26a271f8070f19be",
-    "run_id": 39717468270,
+    "run_id": 39721519709,
+    "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
     "conclusion": "success",
-    "core_passed": 325,
-    "sdk_passed": 147,
-    "docker_scenarios_passed": 21
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
   },
   "latest_measured_implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
   "repair_candidate": {
@@ -328,9 +326,22 @@
       "catchorg__Catch2-2723",
       "catchorg__Catch2-2187"
     ],
-    "budget_ledger": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
+    "budget_ledger": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
     "shared_cap_cny": 20,
     "prior_committed_upper_bound_cny": 0.5466308,
-    "model_requests_proposed": 48
+    "model_requests_proposed": 48,
+    "budget_ledger_parent": {
+      "path": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
+      "sha256": "8bf442af48726e579a53f98ced138f9bbe94f0d187b711f0fecac91ceb1e85a2",
+      "requests": 47,
+      "committed_upper_bound_cny": 0.5466308
+    },
+    "execution_source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+    "ci": {
+      "run_id": 39721519709,
+      "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+      "conclusion": "success",
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
+    }
   }
 }
