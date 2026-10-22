@@ -212,10 +212,10 @@
   "current_results": "repair-cycle-results.json",
   "current_stage_complete": false,
   "current_ci": {
-    "run_id": 39721519709,
-    "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+    "run_id": 39726799381,
+    "source_commit": "ad4fa91be6964945593c389d575d2899601d9800",
     "conclusion": "success",
-    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39726799381"
   },
   "latest_measured_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
   "repair_candidate": {
@@ -223,10 +223,10 @@
     "state": "selected_for_held_out_validation",
     "results": "repair-cycle-results.json",
     "ci": {
-      "run_id": 39721519709,
-      "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+      "run_id": 39726799381,
+      "source_commit": "ad4fa91be6964945593c389d575d2899601d9800",
       "conclusion": "success",
-      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39726799381"
     }
   },
   "cumulative_model_requests": 185,

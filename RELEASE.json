@@ -169,10 +169,10 @@
     "state": "selected_for_held_out_validation",
     "results": "benchmarks/repair-cycle-results.json",
     "ci": {
-      "run_id": 39721519709,
-      "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
+      "run_id": 39726799381,
+      "source_commit": "ad4fa91be6964945593c389d575d2899601d9800",
       "conclusion": "success",
-      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39726799381"
     },
     "budget_cap_cny": 20,
     "cumulative_cost_upper_bound_cny": 2.18923088,
