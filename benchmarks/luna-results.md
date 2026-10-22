@@ -4,6 +4,7 @@
 mini 在2187的首次启动因费用配置退出，修正接入后用干净环境重试一次。
 把首次启动失败计入后，两组的首启 Resolved@1 均为 **1/2**。
 本轮结果显示 ReproPatch 在2187的实现定位与修复上仍有差距。
+接入实现的[核心、SDK和真实Docker CI](https://github.com/lilong555/ReproPatch/actions/runs/39753439473)全部通过。
 
 | 实例 | 系统 | 请求 / 工具 | 补丁与官方 Oracle | Worker秒 |
 | --- | --- | --- | --- | ---: |

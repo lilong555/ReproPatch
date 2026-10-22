@@ -186,8 +186,10 @@
   "current_results": "luna-results.json",
   "current_stage_complete": false,
   "current_ci": {
-    "conclusion": "pending",
-    "scope": "本机模型接入代码提交"
+    "run_id": 39753439473,
+    "source_commit": "717132638acdf8533c379e24026fea0583ded03c",
+    "conclusion": "success",
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39753439473"
   },
   "latest_measured_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
   "repair_candidate": {

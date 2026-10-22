@@ -178,8 +178,10 @@
       "url": "https://github.com/lilong555/ReproPatch/actions/runs/39726799381"
     },
     "ci": {
-      "conclusion": "pending",
-      "scope": "本机模型接入代码提交"
+      "run_id": 39753439473,
+      "source_commit": "717132638acdf8533c379e24026fea0583ded03c",
+      "conclusion": "success",
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39753439473"
     },
     "validation": {
       "targeted_passed": 45,

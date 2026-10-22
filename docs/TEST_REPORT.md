@@ -5,6 +5,8 @@
 本机 `gpt-6-luna` 对照完成执行后RP 1/2、mini 2/2；mini一次接入失败重试，
 首启均为1/2，任务及接入41请求、探针1请求，费用未知。
 三个非空候选均通过官方Oracle，原始证据和计分口径见[Luna报告](../benchmarks/luna-results.md)。
+接入实现提交 `717132638acdf8533c379e24026fea0583ded03c` 的
+[核心、SDK和真实Docker CI](https://github.com/lilong555/ReproPatch/actions/runs/39753439473) 全部通过。
 
 预算反馈与短修复循环通过 20 项定向离线检查：Agent Runtime 19 项与原生恢复预算 1 项。
 覆盖整批准入后的剩余额度、失败工具反馈、最后一轮编辑及恢复后的累计计数。Ruff 检查与格式通过。
