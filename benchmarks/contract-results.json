@@ -1,0 +1,3987 @@
+{
+  "schema_version": 1,
+  "scope": "只读契约反馈三组重复对照与两个FMT编译任务扩展",
+  "product_version": "0.3.0rc3",
+  "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+  "ablation_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+  "protocol": {
+    "path": "contract-protocol.json",
+    "sha256": "16002486497af1b422508958560191912e7b083fafa2b5eaee34a08b2b87e351",
+    "size_bytes": 1874
+  },
+  "model": "gpt-6-luna",
+  "base_urls": [
+    "http://127.0.0.1:8317/v1",
+    "https://cpa.liyinlong.me/v1"
+  ],
+  "endpoint_transition": {
+    "recorded_at": "2026-10-22T13:23:22.392088+00:00",
+    "original_base_url": "http://127.0.0.1:8317/v1",
+    "new_base_url": "https://cpa.liyinlong.me/v1",
+    "reason": "用户提供的新 CPA 地址；通过环境代理连接，认证模型列表包含 gpt-6-luna。",
+    "affected_attempts": [
+      "contract-repeat-2723-mini-3",
+      "contract-repeat-2723-ablation-3"
+    ],
+    "core_implementation_changed": false,
+    "model_settings_changed": false,
+    "provider_backend_identity": "供应商模型别名相同；后端实例身份未提供",
+    "model_requests_replayed": 0,
+    "source_manifest": {
+      "path": "endpoint-source-manifest.json",
+      "sha256": "ed58bb9cd8f8f91040e8aa72d234adcb8895b067a50ae8efe169fb12700a8378",
+      "size_bytes": 476
+    },
+    "evidence": {
+      "path": "contract-repeat-pilot/endpoint-transition.json",
+      "sha256": "18d231e45075d559028d4ef88df30cb3f1e969f39411830dc4a0e5b5cfb36f9e",
+      "size_bytes": 748
+    }
+  },
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "mini_version": "2.4.6",
+  "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "historical_deepseek_cost_upper_bound_cny": 2.18923088,
+  "actual_billed_cost_cny": null,
+  "model_requests": 268,
+  "comparison_model_requests": 227,
+  "unknown_usage_requests": 1,
+  "attempts": [
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch",
+      "repeat": 1,
+      "attempt": "contract-trace-pilot-3-catch2187-rp-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 195757,
+        "output_tokens": 902,
+        "total_tokens": 196659,
+        "cached_input_tokens": 172160
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 11
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 10,
+      "model_steps": 11,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 657,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 38.91225284600023,
+      "worker_duration_seconds": 175.57929898800012,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-3/2187-rp/result.json",
+        "sha256": "cdcd711bb2698aa8a2f00ddd88a076cbabf926da56aa0f97457b43b01b458305",
+        "size_bytes": 1017
+      },
+      "task": {
+        "path": "contract-trace-pilot-3/catch2187-task.yaml",
+        "sha256": "880eafbcfc0db1221cc7a2d4cba926b7c784a10a96c6b81789245268233b252d",
+        "size_bytes": 13770
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-3/2187-rp/candidate.patch",
+        "sha256": "a1541bc9ec42a3d75b58cf94add5281651ad2b5306f00b8449e3206953713a50",
+        "size_bytes": 657
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-3/2187-rp-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-trace-pilot-3/2187-rp/runs/18cec274a7284924bdf88fd7aabf7e7f/report.json",
+        "sha256": "148d92903ec65ad56c80b314e6cd68e1a05bfc108e89870ef72273e63bbfc05b",
+        "size_bytes": 573318
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:05:37.057964+00:00",
+        "deadline_at": "2026-10-22T10:35:37.057964+00:00",
+        "elapsed_ms": 175072,
+        "finished_at": "2026-10-22T10:08:32.129721+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "880eafbcfc0db1221cc7a2d4cba926b7c784a10a96c6b81789245268233b252d",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 99726,
+      "domain_input_sha256": "ef2469d2a7d29074bb3cdfaba11e7d2bd180c29e41e6be5d3e618ea3d6700bc1",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 4,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 9
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "mini",
+      "repeat": 1,
+      "attempt": "contract-trace-pilot-3-catch2187-mini-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 9,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 156530,
+        "output_tokens": 1186,
+        "total_tokens": 157716,
+        "cached_input_tokens": 135680
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 9
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 9,
+      "model_steps": 9,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 0,
+      "candidate_outcome": "NO_PATCH",
+      "oracle_resolved": false,
+      "oracle_tests_executed": false,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": null,
+      "oracle_failed": null,
+      "oracle_missing": null,
+      "oracle_duration_seconds": null,
+      "worker_duration_seconds": 64.22894886799986,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-3/2187-mini/result.json",
+        "sha256": "d66921058cc591de767737944cf67512dd387b3f30d4ace86729462c77676ad2",
+        "size_bytes": 797
+      },
+      "task": {
+        "path": "contract-trace-pilot-3/catch2187-task.yaml",
+        "sha256": "880eafbcfc0db1221cc7a2d4cba926b7c784a10a96c6b81789245268233b252d",
+        "size_bytes": 13770
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-3/2187-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-3/2187-mini-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "contract-trace-pilot-3/2187-mini/source-readability.json",
+          "sha256": "718d122aa3936f2936f3c742e85958d8b1428892feef6aaad0cb1be03b97b53f",
+          "size_bytes": 103
+        },
+        "readable_files": 315,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch",
+      "repeat": 1,
+      "attempt": "contract-trace-pilot-3-catch2723-rp-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 254801,
+        "output_tokens": 534,
+        "total_tokens": 255335,
+        "cached_input_tokens": 204288
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "candidate_bytes": 795,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 79.19083245399997,
+      "worker_duration_seconds": 221.04925196800014,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-3/2723-rp/result.json",
+        "sha256": "11ce516579157a5eb02c3603140e917d1fa947351fc8c52087515de490425070",
+        "size_bytes": 1017
+      },
+      "task": {
+        "path": "contract-trace-pilot-3/catch2723-task.yaml",
+        "sha256": "6f1dfce2e39d49a606b5501ec629fd9843ef694f440d6e33c3f1789fa701d608",
+        "size_bytes": 21562
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-3/2723-rp/candidate.patch",
+        "sha256": "3fb2cfd94cedbe1ab1164eab95425daec85896d0902e9c8fff4762b77db41521",
+        "size_bytes": 795
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-3/2723-rp-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-trace-pilot-3/2723-rp/runs/c9ff0390813b4b08bd0e600db8adc59f/report.json",
+        "sha256": "49aef2c306c66700708911d0a9670b9696ef89622eb1d5043bedb41ed0c9283a",
+        "size_bytes": 891629
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:10:20.392102+00:00",
+        "deadline_at": "2026-10-22T10:40:20.392102+00:00",
+        "elapsed_ms": 220411,
+        "finished_at": "2026-10-22T10:14:00.802951+00:00"
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "6f1dfce2e39d49a606b5501ec629fd9843ef694f440d6e33c3f1789fa701d608",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 108648,
+      "domain_input_sha256": "abfb61f6ea7baf9c9136e9e486a3a20b97a188ff8d0dce3b72a985cc3ce7586c",
+      "tool_types": {
+        "search_code": 5,
+        "read_file": 6,
+        "edit_file": 1
+      },
+      "first_successful_edit_model_step": 12
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "mini",
+      "repeat": 1,
+      "attempt": "contract-trace-pilot-3-catch2723-mini-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 298073,
+        "output_tokens": 1491,
+        "total_tokens": 299564,
+        "cached_input_tokens": 267520
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "candidate_bytes": 834,
+      "candidate_outcome": "ORACLE_FAILED",
+      "oracle_resolved": false,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 100,
+      "oracle_failed": 16,
+      "oracle_missing": {
+        "f2p_tests": [
+          "approvaltests",
+          "runtests"
+        ],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 79.5531805999999,
+      "worker_duration_seconds": 107.35910481700012,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-3/2723-mini/result.json",
+        "sha256": "1d4ed59fcd72129cb769982c1afdb0148f1f19074ce3e68a46f10afcc51f73bd",
+        "size_bytes": 806
+      },
+      "task": {
+        "path": "contract-trace-pilot-3/catch2723-task.yaml",
+        "sha256": "6f1dfce2e39d49a606b5501ec629fd9843ef694f440d6e33c3f1789fa701d608",
+        "size_bytes": 21562
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-3/2723-mini/candidate.patch",
+        "sha256": "7386c652a92dbd7c43956f9b800bc1f1cfbf85947b4bf8743c4db6ea6ca2dba5",
+        "size_bytes": 834
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-3/2723-mini-oracle/oracle-verdict.json",
+        "sha256": "ecf66a119f78f1e46b9425d5d1cefb1b889ae5888d3e782a06faad152d26a159",
+        "size_bytes": 971
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "contract-trace-pilot-3/2723-mini/source-readability.json",
+          "sha256": "cc7c6e9f791d278cba29563f421c628d994990ada9f2c9312b2408eaa78cbff1",
+          "size_bytes": 103
+        },
+        "readable_files": 429,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch_ablation",
+      "repeat": 1,
+      "attempt": "contract-repeat-2187-ablation-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 10,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 182158,
+        "output_tokens": 832,
+        "total_tokens": 182990,
+        "cached_input_tokens": 139264
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 10
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 9,
+      "model_steps": 10,
+      "native_outcome": "REJECTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 0,
+      "candidate_outcome": "NO_PATCH",
+      "oracle_resolved": false,
+      "oracle_tests_executed": false,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": null,
+      "oracle_failed": null,
+      "oracle_missing": null,
+      "oracle_duration_seconds": null,
+      "worker_duration_seconds": 135.3760132690004,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-ablation-1/result.json",
+        "sha256": "0afaeb655cf895698945f2d06af9ab4057b36ce7974566ff088b17ce02354107",
+        "size_bytes": 1005
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-ablation-1/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-ablation-1-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "internal_independent_accepted": null,
+      "native_report": {
+        "path": "contract-repeat-pilot/2187-ablation-1/runs/6472a5741c6c444aacad1546ebd6540e/report.json",
+        "sha256": "b12e0bc4dc610509e24317ceae7c0c200dcc7ac1d857c7aecbfa96576858800c",
+        "size_bytes": 351861
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:38:21.261402+00:00",
+        "deadline_at": "2026-10-22T11:08:21.261402+00:00",
+        "elapsed_ms": 134896,
+        "finished_at": "2026-10-22T10:40:36.157736+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "max_native_input_bytes": 116983,
+      "domain_input_sha256": "81eaf711ba93ca56da47615135ccf7ef07792f8d2efd221b2d512af444e7b0bd",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 4,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": null
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch_ablation",
+      "repeat": 1,
+      "attempt": "contract-repeat-2723-ablation-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 271459,
+        "output_tokens": 624,
+        "total_tokens": 272083,
+        "cached_input_tokens": 234624
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 11,
+      "model_steps": 12,
+      "native_outcome": "REJECTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 690,
+      "candidate_outcome": "ORACLE_FAILED",
+      "oracle_resolved": false,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 100,
+      "oracle_failed": 16,
+      "oracle_missing": {
+        "f2p_tests": [
+          "approvaltests",
+          "runtests"
+        ],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 77.48318061899954,
+      "worker_duration_seconds": 290.162355511,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-ablation-1/result.json",
+        "sha256": "60fc540c78c41eebf84594d7f8053c00c8e3921903a5ca91bb708e2dd2ff8778",
+        "size_bytes": 1004
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-ablation-1/candidate.patch",
+        "sha256": "6cb7994de931acc083ca37ac2a0da0ffb2e3b5aed7d624c021b843290d218103",
+        "size_bytes": 690
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-ablation-1-oracle/oracle-verdict.json",
+        "sha256": "ecf66a119f78f1e46b9425d5d1cefb1b889ae5888d3e782a06faad152d26a159",
+        "size_bytes": 971
+      },
+      "internal_independent_accepted": false,
+      "native_report": {
+        "path": "contract-repeat-pilot/2723-ablation-1/runs/80698fb28e4b49ec817502160eb722f9/report.json",
+        "sha256": "8ac2df15ef487795185744b3d403fe5adbe14637de00026322a1a6e5e525161e",
+        "size_bytes": 1107680
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:40:37.691925+00:00",
+        "deadline_at": "2026-10-22T11:10:37.691925+00:00",
+        "elapsed_ms": 289169,
+        "finished_at": "2026-10-22T10:45:26.860772+00:00"
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "max_native_input_bytes": 150604,
+      "domain_input_sha256": "245569a1dfa76b19ec0d903ebb31c5b7db93ff8161ab6841911e43d1d5f98779",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 5,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 10
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch",
+      "repeat": 2,
+      "attempt": "contract-repeat-2187-rp-2",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 198276,
+        "output_tokens": 723,
+        "total_tokens": 198999,
+        "cached_input_tokens": 174720
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 11
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 10,
+      "model_steps": 11,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 657,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 37.70054260300003,
+      "worker_duration_seconds": 165.3677839410002,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-rp-2/result.json",
+        "sha256": "a9313aebc0f764f4603dfc3a0b3fd283db8a49f8159d6947b23bb8b3efb62a9b",
+        "size_bytes": 1005
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-rp-2/candidate.patch",
+        "sha256": "a1541bc9ec42a3d75b58cf94add5281651ad2b5306f00b8449e3206953713a50",
+        "size_bytes": 657
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-rp-2-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-repeat-pilot/2187-rp-2/runs/132f2d9add2a4b2cb41162f01ac052fb/report.json",
+        "sha256": "39299813dec3d9b958f00d68e93081bf02882a0076eea73d05d663c7b3d35d0a",
+        "size_bytes": 573356
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:46:49.334037+00:00",
+        "deadline_at": "2026-10-22T11:16:49.334037+00:00",
+        "elapsed_ms": 164837,
+        "finished_at": "2026-10-22T10:49:34.171311+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 97516,
+      "domain_input_sha256": "5806fc6b7818341840d1a4da1b36000ed884a7c739675c12b96695cbd3e0b941",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 4,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 9
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch_ablation",
+      "repeat": 2,
+      "attempt": "contract-repeat-2187-ablation-2",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 194343,
+        "output_tokens": 721,
+        "total_tokens": 195064,
+        "cached_input_tokens": 171008
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 11
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 10,
+      "model_steps": 11,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 636,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 37.2337078770006,
+      "worker_duration_seconds": 165.739414572,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-ablation-2/result.json",
+        "sha256": "11b3264184f7cf40b5c6eb3338760b8621b4cf6356a608ca63474a27480bc501",
+        "size_bytes": 1013
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-ablation-2/candidate.patch",
+        "sha256": "dca28374019a34ea897e8373134e9bc8905ba551893ba979a4c5256ca5077aa3",
+        "size_bytes": 636
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-ablation-2-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-repeat-pilot/2187-ablation-2/runs/74697a60e21b41b3b7c67dd696e4dece/report.json",
+        "sha256": "7c249464929fa80221bbdca7b4196ab0689c6376b8f1ff02551c61accecf65d6",
+        "size_bytes": 573334
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:50:15.197515+00:00",
+        "deadline_at": "2026-10-22T11:20:15.197515+00:00",
+        "elapsed_ms": 165229,
+        "finished_at": "2026-10-22T10:53:00.426281+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "max_native_input_bytes": 97054,
+      "domain_input_sha256": "555d7e5d3927bed0ead790694d0fbc2e7fad6a4434fa729db3a12de83cfe038b",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 4,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 9
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "mini",
+      "repeat": 2,
+      "attempt": "contract-repeat-2187-mini-2",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 207854,
+        "output_tokens": 1388,
+        "total_tokens": 209242,
+        "cached_input_tokens": 180608
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 11
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 11,
+      "model_steps": 11,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 1211,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 37.1417031459996,
+      "worker_duration_seconds": 83.96453298600045,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-mini-2/result.json",
+        "sha256": "452a56bce482dbbe9f3462b43f96e138e947caaef44beb303358e968b6d9ca3d",
+        "size_bytes": 788
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-mini-2/candidate.patch",
+        "sha256": "ad5ee3f9e30c053618c2ed945d754b7b3eb5382ed51e08595d2adfdf7cae47cb",
+        "size_bytes": 1211
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-mini-2-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "contract-repeat-pilot/2187-mini-2/source-readability.json",
+          "sha256": "718d122aa3936f2936f3c742e85958d8b1428892feef6aaad0cb1be03b97b53f",
+          "size_bytes": 103
+        },
+        "readable_files": 315,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch",
+      "repeat": 2,
+      "attempt": "contract-repeat-2723-rp-2",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 250452,
+        "output_tokens": 565,
+        "total_tokens": 251017,
+        "cached_input_tokens": 225024
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "candidate_bytes": 874,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 74.06450930100073,
+      "worker_duration_seconds": 292.3946447520002,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-rp-2/result.json",
+        "sha256": "126d5ab49cc244f3f4224664edeec4d9338013a31df767ea9d7cf9d058c4d7c8",
+        "size_bytes": 1005
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-rp-2/candidate.patch",
+        "sha256": "2644883d4489dbd42c51851942f75e45ffb9dfc56c957b5e5cc5919c81a5a3aa",
+        "size_bytes": 874
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-rp-2-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-repeat-pilot/2723-rp-2/runs/666346241b054715acd4a22a8d4f7986/report.json",
+        "sha256": "322a5d9b3ee4f06b7794a96697bca1b055432ebc755ec00463ee3a0af3777cd5",
+        "size_bytes": 1107400
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:55:45.655547+00:00",
+        "deadline_at": "2026-10-22T11:25:45.655547+00:00",
+        "elapsed_ms": 291512,
+        "finished_at": "2026-10-22T11:00:37.167699+00:00"
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 101484,
+      "domain_input_sha256": "9c91fd4ff61027ca7f45cacfd51f486f5feeeb61e4f45b9ad3d432e49fac540f",
+      "tool_types": {
+        "search_code": 5,
+        "read_file": 5,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 11
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch_ablation",
+      "repeat": 2,
+      "attempt": "contract-repeat-2723-ablation-2",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 247533,
+        "output_tokens": 606,
+        "total_tokens": 248139,
+        "cached_input_tokens": 198016
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 11,
+      "model_steps": 12,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 797,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 73.963806836,
+      "worker_duration_seconds": 297.6099629669998,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-ablation-2/result.json",
+        "sha256": "929155f376f018bc4ab6306fb97c8cf7d5e436c5ebbecd90dd9ca1c7770b7206",
+        "size_bytes": 1017
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-ablation-2/candidate.patch",
+        "sha256": "16034cb440d971623ae71d74e25978389d163e000cbdd0df8fbc31f09ab921d1",
+        "size_bytes": 797
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-ablation-2-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-repeat-pilot/2723-ablation-2/runs/cdd762ef0b74461785e1f89b962a73ad/report.json",
+        "sha256": "c78f8a153f56f628df5100f510661f5913ad8eaa9456a318077935b247c85530",
+        "size_bytes": 1107618
+      },
+      "timing": {
+        "created_at": "2026-10-22T11:01:54.943805+00:00",
+        "deadline_at": "2026-10-22T11:31:54.943805+00:00",
+        "elapsed_ms": 296658,
+        "finished_at": "2026-10-22T11:06:51.602049+00:00"
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "max_native_input_bytes": 114001,
+      "domain_input_sha256": "7950637edb7eb413f333a312c1530ab347a1ad318e7288e70e70c562eff9f56d",
+      "tool_types": {
+        "search_code": 6,
+        "read_file": 3,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 10
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "mini",
+      "repeat": 2,
+      "attempt": "contract-repeat-2723-mini-2",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 8,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 181355,
+        "output_tokens": 809,
+        "total_tokens": 182164,
+        "cached_input_tokens": 151040
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 8
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 8,
+      "model_steps": 8,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 997,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 73.9743907080001,
+      "worker_duration_seconds": 83.43498262400044,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-mini-2/result.json",
+        "sha256": "3602d91f3a6cc52d849c824172c31ea4cb30ce786bb45acaecd44b62f7175e3f",
+        "size_bytes": 785
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-mini-2/candidate.patch",
+        "sha256": "705574414d5d622a04b953cd5b74dd45bd883e311e96294a4ca89b1a5901f1bb",
+        "size_bytes": 997
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-mini-2-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "contract-repeat-pilot/2723-mini-2/source-readability.json",
+          "sha256": "cc7c6e9f791d278cba29563f421c628d994990ada9f2c9312b2408eaa78cbff1",
+          "size_bytes": 103
+        },
+        "readable_files": 429,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch",
+      "repeat": 3,
+      "attempt": "contract-repeat-2187-rp-3",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 200035,
+        "output_tokens": 743,
+        "total_tokens": 200778,
+        "cached_input_tokens": 176128
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 11
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 10,
+      "model_steps": 11,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 636,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 39.14929270599987,
+      "worker_duration_seconds": 166.01852362500085,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-rp-3/result.json",
+        "sha256": "02eef88551962924f0e3e7ed755e04a508b2d8f3b385b1ce663e5d7fa4b16bf3",
+        "size_bytes": 1006
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-rp-3/candidate.patch",
+        "sha256": "dca28374019a34ea897e8373134e9bc8905ba551893ba979a4c5256ca5077aa3",
+        "size_bytes": 636
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-rp-3-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-repeat-pilot/2187-rp-3/runs/6c665d017fd3459c9f2b1142ab36c96f/report.json",
+        "sha256": "31adb0a778c2d8fb863ad65b0229f72291d895a373e8ec9cbf5147a6f6a40a71",
+        "size_bytes": 573357
+      },
+      "timing": {
+        "created_at": "2026-10-22T11:10:52.166184+00:00",
+        "deadline_at": "2026-10-22T11:40:52.166184+00:00",
+        "elapsed_ms": 165332,
+        "finished_at": "2026-10-22T11:13:37.498447+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 97537,
+      "domain_input_sha256": "620219409b8e25a84247a590b0ac95a29171fc35fb79da52037283fbb4a48be6",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 4,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 9
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "mini",
+      "repeat": 3,
+      "attempt": "contract-repeat-2187-mini-3",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 246744,
+        "output_tokens": 1365,
+        "total_tokens": 248109,
+        "cached_input_tokens": 217088
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "candidate_bytes": 1261,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 37.5335263500001,
+      "worker_duration_seconds": 100.26806460700027,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-mini-3/result.json",
+        "sha256": "8dc979ea95957292b8e0f53c4ff13cc80a4a5895725c50b982b4467527a12524",
+        "size_bytes": 794
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-mini-3/candidate.patch",
+        "sha256": "342274f35ef0a3c4e0b67f0080aac4726a484f1df9973acef9818c9c22150403",
+        "size_bytes": 1261
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-mini-3-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "contract-repeat-pilot/2187-mini-3/source-readability.json",
+          "sha256": "718d122aa3936f2936f3c742e85958d8b1428892feef6aaad0cb1be03b97b53f",
+          "size_bytes": 103
+        },
+        "readable_files": 315,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch_ablation",
+      "repeat": 3,
+      "attempt": "contract-repeat-2187-ablation-3",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 200861,
+        "output_tokens": 773,
+        "total_tokens": 201634,
+        "cached_input_tokens": 156800
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 11
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 10,
+      "model_steps": 11,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 636,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 37.60343365600056,
+      "worker_duration_seconds": 175.12923454500014,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2187-ablation-3/result.json",
+        "sha256": "828fdf2dd6ff38582380deca45645a617f308299170b0a515061943fa61bd117",
+        "size_bytes": 1018
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2187-task.yaml",
+        "sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "size_bytes": 13769
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2187-ablation-3/candidate.patch",
+        "sha256": "dca28374019a34ea897e8373134e9bc8905ba551893ba979a4c5256ca5077aa3",
+        "size_bytes": 636
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2187-ablation-3-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-repeat-pilot/2187-ablation-3/runs/a8ab649293424289b7d82334df78d811/report.json",
+        "sha256": "f1d938825eaba706671c405383dfab382d5727ad7a94c1f647d67c7b685a7847",
+        "size_bytes": 573323
+      },
+      "timing": {
+        "created_at": "2026-10-22T11:16:42.123507+00:00",
+        "deadline_at": "2026-10-22T11:46:42.123507+00:00",
+        "elapsed_ms": 174576,
+        "finished_at": "2026-10-22T11:19:36.699799+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "00116b2a73e222ab2d223105fa3225a7588363dd04585b264d5826b89ffd06c3",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "max_native_input_bytes": 101237,
+      "domain_input_sha256": "388cfbf4edec86ff6f580369c467eb9d8b99f1dca4fe6d93609ba849e0253e03",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 4,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 9
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch",
+      "repeat": 3,
+      "attempt": "contract-repeat-2723-rp-3",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 256015,
+        "output_tokens": 506,
+        "total_tokens": 256521,
+        "cached_input_tokens": 230144
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "INTERRUPTED",
+      "agent_stop_reason": "CONTROLLER_SIGTERM",
+      "candidate_bytes": 795,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 79.5330161920001,
+      "worker_duration_seconds": null,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-rp-3/result.json",
+        "sha256": "088fb3edd9eeb05bfb0fc2b2a9d8ec5aba520c52fadcaa0c7b46c82418cd7174",
+        "size_bytes": 1093
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-rp-3/candidate.patch",
+        "sha256": "3fb2cfd94cedbe1ab1164eab95425daec85896d0902e9c8fff4762b77db41521",
+        "size_bytes": 795
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-rp-3-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "internal_independent_accepted": null,
+      "native_report": null,
+      "interruption": {
+        "path": "contract-repeat-pilot/2723-rp-3/interruption.json",
+        "sha256": "b7e69b8745d271d46f2a9b15104377c8a817a883781a7e2cd2bbd7e03a3ca563",
+        "size_bytes": 7079
+      },
+      "timing": {
+        "run_seconds_lower_bound": 191.118237,
+        "complete_worker_seconds": null
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "configuration": {
+          "path": "execution-config.json",
+          "sha256": "27792c91a94e40c3157bc19f98699cce9d473b1a6e7abdfda75e41584456a519",
+          "size_bytes": 2967
+        },
+        "harness_version": "0.3.0rc3",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "instructions_sha256": "f4a9a024cfa92e7b5d3fb5aad277d70ccf9ad4b73f887fa6a356fb2a082a96da",
+        "python": "3.12.15",
+        "sdk_versions": {
+          "openai": "3.35.1",
+          "openai-agents": "0.24.0"
+        },
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "tools_sha256": "3e7578f255d9ac8075034ccc892002e6bbd3522261d9c1b44f879177196e2ac5"
+      },
+      "unfinished_tool_calls": 1,
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 101689,
+      "domain_input_sha256": "b187ae2aeed7c44f651cc384346101231110ec7ffbd643d506b98ee9cd64e55a",
+      "tool_types": {
+        "search_code": 5,
+        "read_file": 5,
+        "edit_file": 1
+      },
+      "first_successful_edit_model_step": 11
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "mini",
+      "repeat": 3,
+      "attempt": "contract-repeat-2723-mini-3",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "https://cpa.liyinlong.me/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 10,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 230327,
+        "output_tokens": 1391,
+        "total_tokens": 231718,
+        "cached_input_tokens": 177280
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 10
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 10,
+      "model_steps": 10,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 1082,
+      "candidate_outcome": "ORACLE_FAILED",
+      "oracle_resolved": false,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 101,
+      "oracle_failed": 15,
+      "oracle_missing": {
+        "f2p_tests": [
+          "approvaltests"
+        ],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 81.49771168000007,
+      "worker_duration_seconds": 126.1500642989995,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-mini-3/result.json",
+        "sha256": "aaf4f3d4b3f20af105f32c609e926a0664428012103697c4c846b424b19e4744",
+        "size_bytes": 791
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-mini-3/candidate.patch",
+        "sha256": "45f7f5c070f4702834d452dad1dde23952c452c11edc1d5331be7f41bb110b8c",
+        "size_bytes": 1082
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-mini-3-oracle/oracle-verdict.json",
+        "sha256": "460cbefce70798b120e9d5165368b001b96e1de1666520372899b183e64f7135",
+        "size_bytes": 368
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "contract-repeat-pilot/2723-mini-3/source-readability.json",
+          "sha256": "cc7c6e9f791d278cba29563f421c628d994990ada9f2c9312b2408eaa78cbff1",
+          "size_bytes": 103
+        },
+        "readable_files": 429,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch_ablation",
+      "repeat": 3,
+      "attempt": "contract-repeat-2723-ablation-3",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "https://cpa.liyinlong.me/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 248026,
+        "output_tokens": 706,
+        "total_tokens": 248732,
+        "cached_input_tokens": 200192
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "BUDGET_EXHAUSTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "candidate_bytes": 0,
+      "candidate_outcome": "NO_PATCH",
+      "oracle_resolved": false,
+      "oracle_tests_executed": false,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": null,
+      "oracle_failed": null,
+      "oracle_missing": null,
+      "oracle_duration_seconds": null,
+      "worker_duration_seconds": 130.66716346799967,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-repeat-pilot/2723-ablation-3/result.json",
+        "sha256": "04448b6f1cbd15425251f1a48abb7dfd4273167f089a549ab637e4a519f0b4a2",
+        "size_bytes": 1021
+      },
+      "task": {
+        "path": "contract-repeat-pilot/catch2723-task.yaml",
+        "sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "size_bytes": 21561
+      },
+      "candidate": {
+        "path": "contract-repeat-pilot/2723-ablation-3/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "contract-repeat-pilot/2723-ablation-3-oracle/oracle-verdict.json",
+        "sha256": "39770e36065e483de090f07367419632c6e7c7b7d5bce24dca7664f4688344b6",
+        "size_bytes": 279
+      },
+      "internal_independent_accepted": null,
+      "native_report": {
+        "path": "contract-repeat-pilot/2723-ablation-3/runs/3fd7507197b7408eb92ad931b6545618/report.json",
+        "sha256": "2f977348a6c921fc18a70829961580ab48edd1181034df2118528065f6ef1228",
+        "size_bytes": 459673
+      },
+      "timing": {
+        "created_at": "2026-10-22T13:26:56.563249+00:00",
+        "deadline_at": "2026-10-22T13:56:56.563249+00:00",
+        "elapsed_ms": 130234,
+        "finished_at": "2026-10-22T13:29:06.797741+00:00"
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "b1b8c3a213a4763eccad46b12df1be7e989cad1808fff938f7c56899082d9a90",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "max_native_input_bytes": 106697,
+      "domain_input_sha256": "3a2213dc311ef27960eeb13bb0a6fd0ce293ddcc491051152ea911902a034f71",
+      "tool_types": {
+        "search_code": 4,
+        "read_file": 7,
+        "edit_file": 1
+      },
+      "first_successful_edit_model_step": 11
+    },
+    {
+      "instance_id": "fmtlib__fmt-4310",
+      "group": "repropatch",
+      "repeat": 1,
+      "attempt": "fmt4310-rp-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 5,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 33679,
+        "output_tokens": 248,
+        "total_tokens": 33927,
+        "cached_input_tokens": 12160
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 5
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 4,
+      "model_steps": 5,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 478,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "原始FMT源码全量构建和21项原生CTest",
+      "oracle_expected_f2p": null,
+      "oracle_expected_p2p": null,
+      "oracle_native_required_tests": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "oracle_passed": 21,
+      "oracle_failed": [],
+      "oracle_missing": [],
+      "oracle_duration_seconds": 84.26888897799972,
+      "worker_duration_seconds": 310.2052316700001,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "fmt4310-pilot/rp/result.json",
+        "sha256": "b0d8acddc50ba6ebf3521789670a794c2e6ad78bbc27bc47cb83d1ce987d44c4",
+        "size_bytes": 974
+      },
+      "task": {
+        "path": "fmt4310-pilot/task.yaml",
+        "sha256": "cbd0a8e92da0e5e6524fe71989447dd47fdbbecce2e31b4503dd57fa45da316a",
+        "size_bytes": 5261
+      },
+      "candidate": {
+        "path": "fmt4310-pilot/rp/candidate.patch",
+        "sha256": "25b0c72812ff245a89709cbd281450f0a05c5fa54365ae8eb9c392daff0f9400",
+        "size_bytes": 478
+      },
+      "oracle": {
+        "path": "fmt4310-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "4185bf548391ab91fe9f77bec7a0d7f4c70308ee2161e307d57e4f527509f90d",
+        "size_bytes": 1083
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "fmt4310-pilot/rp/runs/7d6e5fe444834db78841231765876b8d/report.json",
+        "sha256": "76db4add98472a72e3fc8d02b23a20e9b967521809268b40a6820f58846c2939",
+        "size_bytes": 368018
+      },
+      "timing": {
+        "created_at": "2026-10-22T09:54:57.579324+00:00",
+        "deadline_at": "2026-10-22T10:34:57.579324+00:00",
+        "elapsed_ms": 309838,
+        "finished_at": "2026-10-22T10:00:07.417264+00:00"
+      },
+      "provenance": {
+        "base_commit": "512849d9dfdef27c9bc46e410a8fdf9997c8dab6",
+        "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "2812362531f5dbb82edb32dee5fd929990110821214822525f9f0e3b61978f4a",
+        "task_source_sha256": "cbd0a8e92da0e5e6524fe71989447dd47fdbbecce2e31b4503dd57fa45da316a",
+        "tool_versions": {
+          "cmake": "3.28.3",
+          "ctest": "3.28.3",
+          "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 31288,
+      "domain_input_sha256": "4a987aa537c8d8e6ebcae75b79f44babf95dd677478aebc832c3c5f3c6aae92e",
+      "tool_types": {
+        "search_code": 1,
+        "read_file": 1,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 3
+    },
+    {
+      "instance_id": "fmtlib__fmt-4310",
+      "group": "mini",
+      "repeat": 1,
+      "attempt": "fmt4310-mini-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 5,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 36753,
+        "output_tokens": 637,
+        "total_tokens": 37390,
+        "cached_input_tokens": 27008
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 5
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 5,
+      "model_steps": 5,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 412,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "原始FMT源码全量构建和21项原生CTest",
+      "oracle_expected_f2p": null,
+      "oracle_expected_p2p": null,
+      "oracle_native_required_tests": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "oracle_passed": 21,
+      "oracle_failed": [],
+      "oracle_missing": [],
+      "oracle_duration_seconds": 84.10872384000004,
+      "worker_duration_seconds": 126.20771425000021,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "fmt4310-pilot/mini/result.json",
+        "sha256": "cc6ab4e79a2f27b6bc589950c3cf6bf93017644916e7ad817b26ae9c818a9483",
+        "size_bytes": 773
+      },
+      "task": {
+        "path": "fmt4310-pilot/task.yaml",
+        "sha256": "cbd0a8e92da0e5e6524fe71989447dd47fdbbecce2e31b4503dd57fa45da316a",
+        "size_bytes": 5261
+      },
+      "candidate": {
+        "path": "fmt4310-pilot/mini/candidate.patch",
+        "sha256": "b94210e7f58b80fc12cc3c4b2ebc8b78a8241c5a789f8adcd835ab8534ab4718",
+        "size_bytes": 412
+      },
+      "oracle": {
+        "path": "fmt4310-pilot/mini-oracle/oracle-verdict.json",
+        "sha256": "4185bf548391ab91fe9f77bec7a0d7f4c70308ee2161e307d57e4f527509f90d",
+        "size_bytes": 1083
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "fmt4310-pilot/mini/source-readability.json",
+          "sha256": "517185a175612c1c5853662156c0db3ca8e2d6c91f2f5f7ce0d97b6d3159df3c",
+          "size_bytes": 102
+        },
+        "readable_files": 85,
+        "ok": true
+      }
+    },
+    {
+      "instance_id": "fmtlib__fmt-4286",
+      "group": "repropatch",
+      "repeat": 1,
+      "attempt": "fmt4286-rp-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 99794,
+        "output_tokens": 500,
+        "total_tokens": 100294,
+        "cached_input_tokens": 75648
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 12,
+      "model_steps": 12,
+      "native_outcome": "REJECTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "candidate_bytes": 901,
+      "candidate_outcome": "ORACLE_FAILED",
+      "oracle_resolved": false,
+      "oracle_tests_executed": true,
+      "oracle_kind": "原始FMT源码全量构建和21项原生CTest",
+      "oracle_expected_f2p": null,
+      "oracle_expected_p2p": null,
+      "oracle_native_required_tests": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "oracle_passed": 20,
+      "oracle_failed": [],
+      "oracle_missing": [
+        "xchar-test"
+      ],
+      "oracle_duration_seconds": 84.32565856600013,
+      "worker_duration_seconds": 331.28219455800036,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "fmt4286-pilot/rp/result.json",
+        "sha256": "d55f40aa295c9ab94e3165a4358bc4e0730db732944e87488c28726b23d31ae1",
+        "size_bytes": 969
+      },
+      "task": {
+        "path": "fmt4286-pilot/task.yaml",
+        "sha256": "ebb52a5f78adaff5d7489660f198fdd8fc738fbc17a64186fdb90b20ecb8141e",
+        "size_bytes": 4606
+      },
+      "candidate": {
+        "path": "fmt4286-pilot/rp/candidate.patch",
+        "sha256": "8121618705b96161dc5a83cb904508d82c1c2d1e0183f4d7419a68567e2b2fb4",
+        "size_bytes": 901
+      },
+      "oracle": {
+        "path": "fmt4286-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "internal_independent_accepted": false,
+      "native_report": {
+        "path": "fmt4286-pilot/rp/runs/8bc78c622d7445bfa84424b2ceb5b2c5/report.json",
+        "sha256": "70382c23dc6560f74f0ff04d82e86317f77e19486e3215eb1e3039528ff15475",
+        "size_bytes": 369215
+      },
+      "timing": {
+        "created_at": "2026-10-22T10:28:21.752885+00:00",
+        "deadline_at": "2026-10-22T11:08:21.752885+00:00",
+        "elapsed_ms": 330838,
+        "finished_at": "2026-10-22T10:33:52.590519+00:00"
+      },
+      "provenance": {
+        "base_commit": "af86d0892b0da6dcd80528ba391a20ad7cf7e3e0",
+        "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "d2449f965a59e47087fe3d903989ca4645dc6367c021b10a919d449c44179ace",
+        "task_source_sha256": "ebb52a5f78adaff5d7489660f198fdd8fc738fbc17a64186fdb90b20ecb8141e",
+        "tool_versions": {
+          "cmake": "3.28.3",
+          "ctest": "3.28.3",
+          "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 47071,
+      "domain_input_sha256": "12c232d1d4f0955c016d4dac4fa9f531baa04c89f8d6596bec26a4c19d1c5969",
+      "tool_types": {
+        "search_code": 5,
+        "read_file": 4,
+        "edit_file": 2,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 9
+    },
+    {
+      "instance_id": "fmtlib__fmt-4286",
+      "group": "mini",
+      "repeat": 1,
+      "attempt": "fmt4286-mini-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": true,
+      "model_requests": 6,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 54410,
+        "output_tokens": 1364,
+        "total_tokens": 55774,
+        "cached_input_tokens": 43136
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 6
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 6,
+      "model_steps": 6,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 845,
+      "candidate_outcome": "ORACLE_FAILED",
+      "oracle_resolved": false,
+      "oracle_tests_executed": true,
+      "oracle_kind": "原始FMT源码全量构建和21项原生CTest",
+      "oracle_expected_f2p": null,
+      "oracle_expected_p2p": null,
+      "oracle_native_required_tests": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "oracle_passed": 0,
+      "oracle_failed": [],
+      "oracle_missing": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "oracle_duration_seconds": 35.4723585189995,
+      "worker_duration_seconds": 45.75756290100071,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "fmt4286-pilot/mini/result.json",
+        "sha256": "206130ea2a10e6fbb164fa037522653ec7f996a75fdab41058706e7f7f088067",
+        "size_bytes": 772
+      },
+      "task": {
+        "path": "fmt4286-pilot/task.yaml",
+        "sha256": "ebb52a5f78adaff5d7489660f198fdd8fc738fbc17a64186fdb90b20ecb8141e",
+        "size_bytes": 4606
+      },
+      "candidate": {
+        "path": "fmt4286-pilot/mini/candidate.patch",
+        "sha256": "0fd47b2fea189b5088295ffccb2058699ef01ab92cf5324ea88bbebd873e3568",
+        "size_bytes": 845
+      },
+      "oracle": {
+        "path": "fmt4286-pilot/mini-oracle/oracle-verdict.json",
+        "sha256": "68a51a9cb00baddba3ce00bc2184eae8326ee436adb0dbd8b85e668349df9790",
+        "size_bytes": 1093
+      },
+      "source_readability": {
+        "evidence": {
+          "path": "fmt4286-pilot/mini/source-readability.json",
+          "sha256": "517185a175612c1c5853662156c0db3ca8e2d6c91f2f5f7ce0d97b6d3159df3c",
+          "size_bytes": 102
+        },
+        "readable_files": 85,
+        "ok": true
+      }
+    }
+  ],
+  "attempts_outside_comparison": [
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "repropatch",
+      "repeat": 0,
+      "attempt": "contract-trace-pilot-2-catch2187-rp-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": false,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 222169,
+        "output_tokens": 926,
+        "total_tokens": 223095,
+        "cached_input_tokens": 160256
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 12
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 11,
+      "model_steps": 12,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 793,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 39.894528605000005,
+      "worker_duration_seconds": 185.0167052930001,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-2/2187-rp/result.json",
+        "sha256": "ada8878d587b9e10057f64c5886cc197f1f14cdfdd574814f45dbbdea23b900e",
+        "size_bytes": 1016
+      },
+      "task": {
+        "path": "contract-trace-pilot-2/catch2187-task.yaml",
+        "sha256": "71bbac08c7622326af61bf6d28060ceebca95c3831b2dab0d22c7247143155f1",
+        "size_bytes": 13770
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-2/2187-rp/candidate.patch",
+        "sha256": "9d74c640e8aafebdf8c7246cd4affa0c5af86e82d6c86dba6f99a93d51e289e4",
+        "size_bytes": 793
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-2/2187-rp-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-trace-pilot-2/2187-rp/runs/f83a384c814845ebb55f59fd2b53c7fd/report.json",
+        "sha256": "dfc856929d7b80946e60ed540748d21b787a1d155a25a03b1db7cbea6f0dc027",
+        "size_bytes": 573615
+      },
+      "timing": {
+        "created_at": "2026-10-22T09:37:54.599043+00:00",
+        "deadline_at": "2026-10-22T10:07:54.599043+00:00",
+        "elapsed_ms": 184480,
+        "finished_at": "2026-10-22T09:40:59.079180+00:00"
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "71bbac08c7622326af61bf6d28060ceebca95c3831b2dab0d22c7247143155f1",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 103283,
+      "domain_input_sha256": "658efac24060d187bc9e2d32d55248df841f320b23f19569e81169d6b9284851",
+      "tool_types": {
+        "search_code": 5,
+        "read_file": 4,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 10
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "group": "mini",
+      "repeat": 0,
+      "attempt": "contract-trace-pilot-2-catch2187-mini-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": false,
+      "model_requests": 6,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 90722,
+        "output_tokens": 459,
+        "total_tokens": 91181,
+        "cached_input_tokens": 74368
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 6
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 6,
+      "model_steps": 6,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 0,
+      "candidate_outcome": "NO_PATCH",
+      "oracle_resolved": false,
+      "oracle_tests_executed": false,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_native_required_tests": null,
+      "oracle_passed": null,
+      "oracle_failed": null,
+      "oracle_missing": null,
+      "oracle_duration_seconds": null,
+      "worker_duration_seconds": 26.642528691000052,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-2/2187-mini/result.json",
+        "sha256": "d6caf6759d88a4157129c75a777adf16c2b4db02b454eb267ff3e75ecb1493fc",
+        "size_bytes": 798
+      },
+      "task": {
+        "path": "contract-trace-pilot-2/catch2187-task.yaml",
+        "sha256": "71bbac08c7622326af61bf6d28060ceebca95c3831b2dab0d22c7247143155f1",
+        "size_bytes": 13770
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-2/2187-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-2/2187-mini-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "environment_failure": "MINI_SOURCE_NOT_READABLE"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "repropatch",
+      "repeat": 0,
+      "attempt": "contract-trace-pilot-2-catch2723-rp-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": false,
+      "model_requests": 10,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 209852,
+        "output_tokens": 460,
+        "total_tokens": 210312,
+        "cached_input_tokens": 161792
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 10
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 9,
+      "model_steps": 10,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "candidate_bytes": 795,
+      "candidate_outcome": "ORACLE_PASSED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_duration_seconds": 77.87635257600004,
+      "worker_duration_seconds": 294.74044038500006,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-2/2723-rp/result.json",
+        "sha256": "ae05556c88d11c5b92e0637daa58cfe1ab316a12d9022d2ff5b9de81942975a6",
+        "size_bytes": 1016
+      },
+      "task": {
+        "path": "contract-trace-pilot-2/catch2723-task.yaml",
+        "sha256": "d0e00121f83837d17bc85e5fa84eba39ae5174ced70ff830dbed1b6050fea9b1",
+        "size_bytes": 21562
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-2/2723-rp/candidate.patch",
+        "sha256": "3fb2cfd94cedbe1ab1164eab95425daec85896d0902e9c8fff4762b77db41521",
+        "size_bytes": 795
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-2/2723-rp-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "contract-trace-pilot-2/2723-rp/runs/b0dbfccb93704a99a07600736d005c2e/report.json",
+        "sha256": "15ee154725f5dc45e5b4c61c6d23107b8c5449f77824e88301e0056a4368674a",
+        "size_bytes": 1107048
+      },
+      "timing": {
+        "created_at": "2026-10-22T09:42:11.923514+00:00",
+        "deadline_at": "2026-10-22T10:12:11.923514+00:00",
+        "elapsed_ms": 293882,
+        "finished_at": "2026-10-22T09:47:05.805052+00:00"
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "d0e00121f83837d17bc85e5fa84eba39ae5174ced70ff830dbed1b6050fea9b1",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "max_native_input_bytes": 111334,
+      "domain_input_sha256": "1426ccc5f2ab01fb154288c25f6e69a8433736009d75ffcfc8b8ef0405acffa8",
+      "tool_types": {
+        "search_code": 3,
+        "list_directory": 1,
+        "read_file": 3,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 8
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "group": "mini",
+      "repeat": 0,
+      "attempt": "contract-trace-pilot-2-catch2723-mini-1",
+      "provider": {
+        "profile": "local-luna",
+        "model": "gpt-6-luna",
+        "base_url": "http://127.0.0.1:8317/v1"
+      },
+      "comparison_eligible": false,
+      "model_requests": 5,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 93759,
+        "output_tokens": 468,
+        "total_tokens": 94227,
+        "cached_input_tokens": 73728
+      },
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "observed_response_settings": [
+        {
+          "max_output_tokens": null,
+          "reasoning": {
+            "context": "all_turns",
+            "effort": "medium",
+            "mode": "standard",
+            "summary": null
+          },
+          "temperature": 1.0,
+          "top_p": 0.98
+        }
+      ],
+      "http_status_counts": {
+        "200": 5
+      },
+      "first_request_settings": {
+        "model": "gpt-6-luna",
+        "max_output_tokens": 8192,
+        "temperature": null,
+        "top_p": null,
+        "reasoning": null
+      },
+      "cost_cny": null,
+      "tool_calls": 5,
+      "model_steps": 5,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "candidate_bytes": 0,
+      "candidate_outcome": "NO_PATCH",
+      "oracle_resolved": false,
+      "oracle_tests_executed": false,
+      "oracle_kind": "固定Multi-SWE-bench官方Report",
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_native_required_tests": null,
+      "oracle_passed": null,
+      "oracle_failed": null,
+      "oracle_missing": null,
+      "oracle_duration_seconds": null,
+      "worker_duration_seconds": 27.847589584999923,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "contract-trace-pilot-2/2723-mini/result.json",
+        "sha256": "12df99374900c6c0621ce905b2809e815fdf234f99cc5e6b659e5a52ac9739c9",
+        "size_bytes": 798
+      },
+      "task": {
+        "path": "contract-trace-pilot-2/catch2723-task.yaml",
+        "sha256": "d0e00121f83837d17bc85e5fa84eba39ae5174ced70ff830dbed1b6050fea9b1",
+        "size_bytes": 21562
+      },
+      "candidate": {
+        "path": "contract-trace-pilot-2/2723-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "contract-trace-pilot-2/2723-mini-oracle/oracle-verdict.json",
+        "sha256": "39770e36065e483de090f07367419632c6e7c7b7d5bce24dca7664f4688344b6",
+        "size_bytes": 279
+      },
+      "environment_failure": "MINI_SOURCE_NOT_READABLE"
+    }
+  ],
+  "interrupted_attempt": {
+    "state": "interrupted",
+    "attempt": "contract-catch2187-rp-1",
+    "native_run_id": "14bcc844f0814ff4bc461b0e9bb91751",
+    "process_found_on_resume": false,
+    "requests_started": 8,
+    "responses_settled": 7,
+    "requests_with_unknown_usage": 1,
+    "tools_finished": 7,
+    "candidate_at_last_checkpoint_bytes": 0,
+    "last_event": "model_started",
+    "last_step": 8,
+    "cause": "会话暂停期间进程终止，开放的模型请求结果保持未知",
+    "continuation": "保留原始账本及轨迹；后续使用独立批次重新评测，原请求不重放",
+    "model_requests": 8,
+    "unknown_usage_requests": 1,
+    "raw_usage": {
+      "input_tokens": 117165,
+      "output_tokens": 466,
+      "total_tokens": 117631,
+      "cached_input_tokens": 97536
+    },
+    "response_models": [
+      "gpt-6-luna"
+    ],
+    "observed_response_settings": [
+      {
+        "max_output_tokens": null,
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "medium",
+          "mode": "standard",
+          "summary": null
+        },
+        "temperature": 1.0,
+        "top_p": 0.98
+      }
+    ],
+    "http_status_counts": {
+      "200": 7,
+      "None": 1
+    },
+    "first_request_settings": {
+      "model": "gpt-6-luna",
+      "max_output_tokens": 8192,
+      "temperature": null,
+      "top_p": null,
+      "reasoning": null
+    },
+    "comparison_eligible": false,
+    "evidence": {
+      "path": "contract-trace-pilot/interruption.json",
+      "sha256": "db8c3f78ff67b6300f2311403afde9ff907aa5d05dc8a2d9c190d11e2e80a01f",
+      "size_bytes": 560
+    }
+  },
+  "environment_incident": {
+    "path": "contract-trace-pilot-2/environment-incident.json",
+    "sha256": "5a3d56a96178cd33b8b77d14bc4f96f4f5de922911ea93d5f77ed77830d0a4ce",
+    "size_bytes": 861
+  },
+  "controller_interruption": {
+    "path": "contract-repeat-pilot/controller-interruption.json",
+    "sha256": "2d7c89e55608b30a3ab945cdafba782fd2b7451cc2743a01740685c54208363b",
+    "size_bytes": 235
+  },
+  "fmt_qualification": {
+    "path": "fmt4286-qualification/qualification.json",
+    "sha256": "79a3d881fb6dac36efda12cae8dc6771e84faabe837171d2d128d661c586629e",
+    "size_bytes": 387
+  },
+  "source_identities": [
+    {
+      "batch": "contract-trace-pilot",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "source_manifest": {
+        "path": "contract-trace-pilot/source-manifest.json",
+        "sha256": "94b7a7d31de35404917e5e0141ccf9d23e1adc657a3c6c37b5739a7d54e88d88",
+        "size_bytes": 3754
+      }
+    },
+    {
+      "batch": "contract-trace-pilot-2",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "source_manifest": {
+        "path": "contract-trace-pilot-2/source-manifest.json",
+        "sha256": "94b7a7d31de35404917e5e0141ccf9d23e1adc657a3c6c37b5739a7d54e88d88",
+        "size_bytes": 3754
+      }
+    },
+    {
+      "batch": "contract-trace-pilot-3",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "source_manifest": {
+        "path": "contract-trace-pilot-3/source-manifest.json",
+        "sha256": "58850a6c5852b7b76d1408e3ad9042bad86f5d19e806ca8ae84bf226e5fc323f",
+        "size_bytes": 3754
+      }
+    },
+    {
+      "batch": "contract-repeat-pilot",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "source_manifest": {
+        "path": "contract-repeat-pilot/source-manifest.json",
+        "sha256": "0eaec8041209e47f3bf8fa1680dcf2f08ca12aaa3104c5576a05d9da8fed3a62",
+        "size_bytes": 4056
+      },
+      "endpoint_source_manifest": {
+        "path": "contract-repeat-pilot/endpoint-source-manifest.json",
+        "sha256": "ed58bb9cd8f8f91040e8aa72d234adcb8895b067a50ae8efe169fb12700a8378",
+        "size_bytes": 476
+      }
+    },
+    {
+      "batch": "fmt4310-pilot",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "source_manifest": {
+        "path": "fmt4310-pilot/source-manifest.json",
+        "sha256": "e810ef539b3b22993e7ddd438e1e5bfeee2d989e8a9697cacdfbd08bb275869f",
+        "size_bytes": 3758
+      },
+      "permission_source_manifest": {
+        "path": "fmt4310-pilot/permission-source-manifest.json",
+        "sha256": "4a52ed0b3f41dc65318d54f8d6edbcb751cb892633160a9f0ee8d89458716da6",
+        "size_bytes": 762
+      }
+    },
+    {
+      "batch": "fmt4286-pilot",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "source_manifest": {
+        "path": "fmt4286-pilot/source-manifest.json",
+        "sha256": "6de0a4ddb574bbaaa11f9dd6e6bf0739c3fd984eff43ad9472f580a01ddfa7fb",
+        "size_bytes": 3758
+      }
+    },
+    {
+      "batch": "contract-repeat-pilot",
+      "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+      "source_manifest": {
+        "path": "contract-repeat-pilot/ablation-source-manifest.json",
+        "sha256": "2f27d1584f0bda2ae7659d34a186a29da48fc4e9c7a30d303657fd6fa1510241",
+        "size_bytes": 1890
+      }
+    }
+  ],
+  "framework_environments": {
+    "repropatch": {
+      "python": "3.12.15",
+      "packages": {
+        "openai-agents": "0.24.0",
+        "openai": "3.35.1",
+        "httpx2": "2.15.1",
+        "PyYAML": "6.0.3",
+        "pydantic": "2.14.1"
+      },
+      "installed_distributions": {
+        "PyJWT": "2.15.1",
+        "PyYAML": "6.0.3",
+        "Pygments": "2.21.0",
+        "annotated-types": "0.8.0",
+        "anyio": "4.15.1",
+        "attrs": "26.1.0",
+        "certifi": "2026.10.19",
+        "cffi": "2.1.1",
+        "charset-normalizer": "3.5.2",
+        "click": "8.5.0",
+        "cmake": "4.4.4",
+        "cryptography": "50.0.2",
+        "griffelib": "2.4.0",
+        "h11": "0.16.0",
+        "httpcore2": "2.15.1",
+        "httpx2": "2.15.1",
+        "idna": "3.20",
+        "iniconfig": "2.3.1",
+        "jiter": "0.17.0",
+        "jsonschema": "4.26.0",
+        "jsonschema-specifications": "2025.9.1",
+        "mcp": "2.3.0",
+        "mcp-types": "2.3.0",
+        "openai": "3.35.1",
+        "openai-agents": "0.24.0",
+        "opentelemetry-api": "1.45.1",
+        "packaging": "26.3",
+        "pluggy": "1.7.0",
+        "pycparser": "3.11",
+        "pydantic": "2.14.1",
+        "pydantic_core": "2.50.1",
+        "pytest": "9.1.1",
+        "python-multipart": "0.0.32",
+        "referencing": "0.37.0",
+        "repropatch": "0.3.0rc3",
+        "requests": "2.34.2",
+        "rpds-py": "2026.9.1",
+        "sniffio": "1.3.1",
+        "sse-starlette": "3.5.0",
+        "starlette": "1.9.0",
+        "truststore": "0.10.5",
+        "typing-inspection": "0.4.4",
+        "typing_extensions": "4.16.0",
+        "urllib3": "2.8.0",
+        "uvicorn": "0.54.0",
+        "websockets": "16.1.1"
+      }
+    },
+    "mini": {
+      "python": "3.12.15",
+      "packages": {
+        "openai": "2.54.0",
+        "httpx": "0.28.1",
+        "httpx2": "2.16.0",
+        "litellm": "1.106.1",
+        "PyYAML": "6.0.3",
+        "pydantic": "2.14.1"
+      },
+      "installed_distributions": {
+        "Jinja2": "3.1.6",
+        "MarkupSafe": "3.0.4",
+        "PyJWT": "2.15.1",
+        "PyYAML": "6.0.3",
+        "Pygments": "2.21.0",
+        "StrEnum": "0.4.15",
+        "aiohappyeyeballs": "2.7.1",
+        "aiohttp": "3.14.5",
+        "aiosignal": "1.4.0",
+        "annotated-doc": "0.0.5",
+        "annotated-types": "0.8.0",
+        "anyio": "4.15.1",
+        "attrs": "26.1.0",
+        "boto3": "1.43.116",
+        "botocore": "1.43.116",
+        "certifi": "2026.10.19",
+        "cffi": "2.1.1",
+        "charset-normalizer": "3.5.2",
+        "click": "8.5.0",
+        "cryptography": "50.0.2",
+        "deprecation": "2.1.0",
+        "dirhash": "0.5.0",
+        "distro": "1.9.0",
+        "fastapi": "0.156.8",
+        "fastuuid": "0.14.0",
+        "filelock": "3.32.7",
+        "frozenlist": "1.8.0",
+        "fsspec": "2026.9.0",
+        "h11": "0.16.0",
+        "h2": "4.4.1",
+        "harbor": "0.24.0",
+        "hf-xet": "1.7.0",
+        "hpack": "4.2.0",
+        "httpcore": "1.0.9",
+        "httpcore2": "2.16.0",
+        "httpx": "0.28.1",
+        "httpx2": "2.16.0",
+        "huggingface_hub": "1.33.0",
+        "hyperframe": "6.1.0",
+        "idna": "3.20",
+        "importlib_metadata": "8.9.0",
+        "jiter": "0.17.0",
+        "jmespath": "1.1.0",
+        "jsonschema": "4.26.0",
+        "jsonschema-specifications": "2025.9.1",
+        "litellm": "1.106.1",
+        "markdown-it-py": "4.2.0",
+        "mcp": "2.3.0",
+        "mcp-types": "2.3.0",
+        "mdurl": "0.1.2",
+        "multidict": "7.1.0",
+        "openai": "2.54.0",
+        "opentelemetry-api": "1.45.1",
+        "packaging": "26.3",
+        "pathspec": "1.1.1",
+        "pip": "26.2.2",
+        "platformdirs": "4.13.5",
+        "postgrest": "2.33.0",
+        "propcache": "0.5.4",
+        "pycparser": "3.11",
+        "pydantic": "2.14.1",
+        "pydantic-settings": "2.16.1",
+        "pydantic_core": "2.50.1",
+        "python-dateutil": "2.9.0.post0",
+        "python-dotenv": "1.2.4",
+        "python-multipart": "0.0.32",
+        "realtime": "2.33.0",
+        "referencing": "0.37.0",
+        "regex": "2026.9.29",
+        "repropatch": "0.3.0rc3",
+        "requests": "2.34.2",
+        "rich": "15.0.0",
+        "rpds-py": "2026.9.1",
+        "s3transfer": "0.19.3",
+        "scantree": "0.0.4",
+        "semver": "3.1.0",
+        "shellingham": "1.5.4",
+        "shortuuid": "1.0.13",
+        "six": "1.17.0",
+        "sniffio": "1.3.1",
+        "sse-starlette": "3.5.0",
+        "starlette": "1.9.0",
+        "storage3": "2.33.0",
+        "supabase": "2.33.0",
+        "supabase-auth": "2.33.0",
+        "supabase-functions": "2.33.0",
+        "tenacity": "9.2.1",
+        "tiktoken": "0.14.0",
+        "tokenizers": "0.23.3",
+        "toml": "0.10.2",
+        "tqdm": "4.70.1",
+        "truststore": "0.10.5",
+        "typer": "0.27.3",
+        "typing-inspection": "0.4.4",
+        "typing_extensions": "4.16.0",
+        "urllib3": "2.8.0",
+        "uvicorn": "0.54.0",
+        "websockets": "15.0.1",
+        "yarl": "1.25.1",
+        "zipp": "4.1.1"
+      }
+    },
+    "oracle": {
+      "python": "3.12.15",
+      "packages": {
+        "PyYAML": "6.0.3"
+      },
+      "installed_distributions": {
+        "PyYAML": "6.0.3",
+        "dataclasses-json": "0.6.7",
+        "marshmallow": "3.26.2",
+        "mypy_extensions": "1.1.0",
+        "packaging": "26.3",
+        "pip": "25.0.1",
+        "repropatch": "0.3.0rc3",
+        "toml": "0.10.2",
+        "typing-inspect": "0.9.0",
+        "typing_extensions": "4.16.0",
+        "unidiff": "1.0.1"
+      }
+    },
+    "ablation_environment": "与ReproPatch共用解释器及依赖；PYTHONPATH选择冻结的旧核心源码",
+    "requirements": {
+      "requirements/agent.txt": "8c40805f1638a16bef380509249647873915b93b89c1ddd7147af1a5e948a697",
+      "requirements/benchmark-mini.txt": "b8859b87c865a7526811ab610371c0ceb41ce83034f49b1660dfaae36c60d680"
+    }
+  },
+  "fmt_toolchain": {
+    "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+    "tag": "repropatch-cpp:0.1",
+    "platform": "linux/amd64",
+    "image_size_bytes": 452600288,
+    "image_user": "65534:65534",
+    "dockerfile_sha256": "33bdb81496452c45a4ba738b47ec3f36b103de0049390dd95fae866bdec41eff",
+    "tool_versions": {
+      "cmake": "3.28.3",
+      "ctest": "3.28.3",
+      "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+    },
+    "task_source_delivery": "运行时通过/src挂载输入，镜像配方见Dockerfile",
+    "credential_delivery": "模型客户端从宿主进程环境读取；容器forward_env为空",
+    "model_requests": 0,
+    "archive": {
+      "name": "ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
+      "sha256": "6f79c0b3f74771741baff791f1efca74386dac9149540a7e253e1a9fe2629080",
+      "size_bytes": 166501680,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
+      "config_sha256_verified": true
+    }
+  },
+  "fairness": [
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "repeat": 1,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "ef2469d2a7d29074bb3cdfaba11e7d2bd180c29e41e6be5d3e618ea3d6700bc1",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1",
+        "repropatch_ablation": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true,
+      "ablation_task_and_request_settings_identical": true,
+      "ablation_has_independently_observed_baseline": true,
+      "ablation_domain_input_sha256": "81eaf711ba93ca56da47615135ccf7ef07792f8d2efd221b2d512af444e7b0bd"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "repeat": 2,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "5806fc6b7818341840d1a4da1b36000ed884a7c739675c12b96695cbd3e0b941",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "repropatch_ablation": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true,
+      "ablation_task_and_request_settings_identical": true,
+      "ablation_has_independently_observed_baseline": true,
+      "ablation_domain_input_sha256": "555d7e5d3927bed0ead790694d0fbc2e7fad6a4434fa729db3a12de83cfe038b"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "repeat": 3,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "620219409b8e25a84247a590b0ac95a29171fc35fb79da52037283fbb4a48be6",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1",
+        "repropatch_ablation": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true,
+      "ablation_task_and_request_settings_identical": true,
+      "ablation_has_independently_observed_baseline": true,
+      "ablation_domain_input_sha256": "388cfbf4edec86ff6f580369c467eb9d8b99f1dca4fe6d93609ba849e0253e03"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "repeat": 1,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "abfb61f6ea7baf9c9136e9e486a3a20b97a188ff8d0dce3b72a985cc3ce7586c",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1",
+        "repropatch_ablation": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true,
+      "ablation_task_and_request_settings_identical": true,
+      "ablation_has_independently_observed_baseline": true,
+      "ablation_domain_input_sha256": "245569a1dfa76b19ec0d903ebb31c5b7db93ff8161ab6841911e43d1d5f98779"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "repeat": 2,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "9c91fd4ff61027ca7f45cacfd51f486f5feeeb61e4f45b9ad3d432e49fac540f",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "repropatch_ablation": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true,
+      "ablation_task_and_request_settings_identical": true,
+      "ablation_has_independently_observed_baseline": true,
+      "ablation_domain_input_sha256": "7950637edb7eb413f333a312c1530ab347a1ad318e7288e70e70c562eff9f56d"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "repeat": 3,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "b187ae2aeed7c44f651cc384346101231110ec7ffbd643d506b98ee9cd64e55a",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "mini": "https://cpa.liyinlong.me/v1",
+        "repropatch_ablation": "https://cpa.liyinlong.me/v1"
+      },
+      "same_base_url": false,
+      "ablation_task_and_request_settings_identical": true,
+      "ablation_has_independently_observed_baseline": true,
+      "ablation_domain_input_sha256": "3a2213dc311ef27960eeb13bb0a6fd0ce293ddcc491051152ea911902a034f71"
+    },
+    {
+      "instance_id": "fmtlib__fmt-4310",
+      "repeat": 1,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "4a987aa537c8d8e6ebcae75b79f44babf95dd677478aebc832c3c5f3c6aae92e",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true
+    },
+    {
+      "instance_id": "fmtlib__fmt-4286",
+      "repeat": 1,
+      "full_mini_identical_initial_domain": true,
+      "first_request_settings_identical": true,
+      "domain_input_sha256": "12c232d1d4f0955c016d4dac4fa9f531baa04c89f8d6596bec26a4c19d1c5969",
+      "base_urls": {
+        "repropatch": "http://127.0.0.1:8317/v1",
+        "mini": "http://127.0.0.1:8317/v1"
+      },
+      "same_base_url": true
+    }
+  ],
+  "catch_repeated_metrics": {
+    "repropatch": {
+      "attempts": 6,
+      "resolved": 6,
+      "model_requests": 69,
+      "tool_calls": 66,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 5,
+      "internal_accepted": 5,
+      "oracle_invalid_candidates": 0,
+      "false_acceptances": 0,
+      "known_worker_seconds": 1020.4095032740015,
+      "unknown_worker_durations": 1,
+      "oracle_seconds": 348.55044610200093,
+      "worker_seconds": null,
+      "resolved_at_1": 1.0,
+      "false_acceptance_rate": null,
+      "false_accepted_share_of_accepted": 0.0,
+      "raw_usage": {
+        "input_tokens": 1355336,
+        "output_tokens": 3973,
+        "total_tokens": 1359309,
+        "cached_input_tokens": 1182464
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    },
+    "mini": {
+      "attempts": 6,
+      "resolved": 3,
+      "model_requests": 62,
+      "tool_calls": 62,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 0,
+      "internal_accepted": 0,
+      "oracle_invalid_candidates": 2,
+      "false_acceptances": 0,
+      "known_worker_seconds": 565.4056982010006,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 309.7005124839998,
+      "worker_seconds": 565.4056982010006,
+      "resolved_at_1": 0.5,
+      "false_acceptance_rate": null,
+      "false_accepted_share_of_accepted": null,
+      "raw_usage": {
+        "input_tokens": 1320883,
+        "output_tokens": 7630,
+        "total_tokens": 1328513,
+        "cached_input_tokens": 1129216
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    },
+    "repropatch_ablation": {
+      "attempts": 6,
+      "resolved": 3,
+      "model_requests": 68,
+      "tool_calls": 63,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 4,
+      "internal_accepted": 3,
+      "oracle_invalid_candidates": 1,
+      "false_acceptances": 0,
+      "known_worker_seconds": 1194.684144332,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 226.2841289880007,
+      "worker_seconds": 1194.684144332,
+      "resolved_at_1": 0.5,
+      "false_acceptance_rate": 0.0,
+      "false_accepted_share_of_accepted": 0.0,
+      "raw_usage": {
+        "input_tokens": 1344380,
+        "output_tokens": 4262,
+        "total_tokens": 1348642,
+        "cached_input_tokens": 1099904
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    }
+  },
+  "catch_same_endpoint_metrics": {
+    "repropatch": {
+      "attempts": 5,
+      "resolved": 5,
+      "model_requests": 57,
+      "tool_calls": 54,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 5,
+      "internal_accepted": 5,
+      "oracle_invalid_candidates": 0,
+      "false_acceptances": 0,
+      "known_worker_seconds": 1020.4095032740015,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 269.0174299100008,
+      "worker_seconds": 1020.4095032740015,
+      "resolved_at_1": 1.0,
+      "false_acceptance_rate": null,
+      "false_accepted_share_of_accepted": 0.0,
+      "raw_usage": {
+        "input_tokens": 1099321,
+        "output_tokens": 3467,
+        "total_tokens": 1102788,
+        "cached_input_tokens": 952320
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    },
+    "mini": {
+      "attempts": 5,
+      "resolved": 3,
+      "model_requests": 52,
+      "tool_calls": 52,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 0,
+      "internal_accepted": 0,
+      "oracle_invalid_candidates": 1,
+      "false_acceptances": 0,
+      "known_worker_seconds": 439.25563390200114,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 228.2028008039997,
+      "worker_seconds": 439.25563390200114,
+      "resolved_at_1": 0.6,
+      "false_acceptance_rate": null,
+      "false_accepted_share_of_accepted": null,
+      "raw_usage": {
+        "input_tokens": 1090556,
+        "output_tokens": 6239,
+        "total_tokens": 1096795,
+        "cached_input_tokens": 951936
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    },
+    "repropatch_ablation": {
+      "attempts": 5,
+      "resolved": 3,
+      "model_requests": 56,
+      "tool_calls": 51,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 4,
+      "internal_accepted": 3,
+      "oracle_invalid_candidates": 1,
+      "false_acceptances": 0,
+      "known_worker_seconds": 1064.0169808640003,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 226.2841289880007,
+      "worker_seconds": 1064.0169808640003,
+      "resolved_at_1": 0.6,
+      "false_acceptance_rate": 0.0,
+      "false_accepted_share_of_accepted": 0.0,
+      "raw_usage": {
+        "input_tokens": 1096354,
+        "output_tokens": 3556,
+        "total_tokens": 1099910,
+        "cached_input_tokens": 899712
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    }
+  },
+  "fmt_extension_metrics": {
+    "repropatch": {
+      "attempts": 2,
+      "resolved": 1,
+      "model_requests": 17,
+      "tool_calls": 16,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 2,
+      "internal_accepted": 1,
+      "oracle_invalid_candidates": 1,
+      "false_acceptances": 0,
+      "known_worker_seconds": 641.4874262280005,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 168.59454754399985,
+      "worker_seconds": 641.4874262280005,
+      "resolved_at_1": 0.5,
+      "false_acceptance_rate": 0.0,
+      "false_accepted_share_of_accepted": 0.0,
+      "raw_usage": {
+        "input_tokens": 133473,
+        "output_tokens": 748,
+        "total_tokens": 134221,
+        "cached_input_tokens": 87808
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    },
+    "mini": {
+      "attempts": 2,
+      "resolved": 1,
+      "model_requests": 11,
+      "tool_calls": 11,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 0,
+      "internal_accepted": 0,
+      "oracle_invalid_candidates": 1,
+      "false_acceptances": 0,
+      "known_worker_seconds": 171.96527715100092,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 119.58108235899954,
+      "worker_seconds": 171.96527715100092,
+      "resolved_at_1": 0.5,
+      "false_acceptance_rate": null,
+      "false_accepted_share_of_accepted": null,
+      "raw_usage": {
+        "input_tokens": 91163,
+        "output_tokens": 2001,
+        "total_tokens": 93164,
+        "cached_input_tokens": 70144
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    }
+  },
+  "valid_first_round_metrics": {
+    "repropatch": {
+      "attempts": 4,
+      "resolved": 3,
+      "model_requests": 40,
+      "tool_calls": 38,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 4,
+      "internal_accepted": 3,
+      "oracle_invalid_candidates": 1,
+      "false_acceptances": 0,
+      "known_worker_seconds": 1038.1159771840007,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 286.69763284400005,
+      "worker_seconds": 1038.1159771840007,
+      "resolved_at_1": 0.75,
+      "false_acceptance_rate": 0.0,
+      "false_accepted_share_of_accepted": 0.0,
+      "raw_usage": {
+        "input_tokens": 584031,
+        "output_tokens": 2184,
+        "total_tokens": 586215,
+        "cached_input_tokens": 464256
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    },
+    "mini": {
+      "attempts": 4,
+      "resolved": 1,
+      "model_requests": 32,
+      "tool_calls": 32,
+      "unknown_usage_requests": 0,
+      "independent_decisions": 0,
+      "internal_accepted": 0,
+      "oracle_invalid_candidates": 2,
+      "false_acceptances": 0,
+      "known_worker_seconds": 343.5533308360009,
+      "unknown_worker_durations": 0,
+      "oracle_seconds": 199.13426295899944,
+      "worker_seconds": 343.5533308360009,
+      "resolved_at_1": 0.25,
+      "false_acceptance_rate": null,
+      "false_accepted_share_of_accepted": null,
+      "raw_usage": {
+        "input_tokens": 545766,
+        "output_tokens": 4678,
+        "total_tokens": 550444,
+        "cached_input_tokens": 473344
+      },
+      "actual_billed_cost_cny": null,
+      "cost_per_resolved_task_cny": null
+    }
+  },
+  "coverage": {
+    "cpp_pool": 129,
+    "prepared_catch_tasks": 2,
+    "prepared_fmt_compile_extensions": 2,
+    "adapted_task_count": 4,
+    "adapted_coverage": 0.031007751937984496,
+    "original_fmt_f2p_p2p_groups": "原始记录为空；采用原始CMake全量构建与21项原生CTest"
+  },
+  "evidence_release": "https://github.com/lilong555/ReproPatch/releases/tag/benchmark-contract-comparison-2026-10-22"
+}

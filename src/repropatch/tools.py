@@ -173,6 +173,7 @@ class Toolbox:
                 upper = middle - 1
         result = {
             "path": path,
+            "editable": path in self.allowed,
             "start_line": start_line,
             "text": content[:lower],
             "total_lines": total_lines,
@@ -217,7 +218,13 @@ class Toolbox:
         for value in (path, old, new):
             self.bounded(value)
         if path not in self.allowed:
-            raise PolicyError("PATH_NOT_EDITABLE: 文件不在 editable 集合")
+            detail = (
+                "该文件可读且受保护。保留现有接口及回归用例，沿声明、宏展开或调用关系"
+                "追踪 editable 集合中的实现，结合失败行为检查状态更新和返回值。"
+                if path in self.readable
+                else "文件不在 editable 集合；请先检查授权的文件路径。"
+            )
+            raise PolicyError(f"PATH_NOT_EDITABLE: {path}: {detail}")
         _, content = self._text(path)
         count = content.count(old) if old else 0
         if not old or count != 1:
@@ -286,7 +293,7 @@ def sdk_tools(toolbox, boundary, shell):
 
     @function_tool(failure_error_function=None)
     async def run_command(name: Literal["reproduce", "verify"]) -> str:
-        """在全新只读源码容器中执行固定自查。"""
+        """在全新容器中依次配置、编译和运行固定CTest；verify覆盖F2P与P2P。"""
         return await boundary("run_command", lambda: toolbox.run_command(name))
 
     @function_tool(failure_error_function=None)
@@ -295,7 +302,7 @@ def sdk_tools(toolbox, boundary, shell):
         cwd: Literal["/src", "/build"] = "/src",
         timeout_seconds: StrictInt | None = None,
     ) -> str:
-        """在一次性 Docker 容器内执行 Shell，源码只读。"""
+        """在一次性Docker容器内执行Shell；源码只读，/build每次为空且退出即删除。"""
         return await boundary("run_shell", lambda: shell(command, cwd, timeout_seconds))
 
     return [list_directory, read_file, search_code, edit_file, run_command, run_shell]

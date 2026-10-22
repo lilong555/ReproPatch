@@ -7,22 +7,25 @@
 使用固定 Git 基线、全新 Docker 环境和 CMake/CTest 独立验收外部补丁。
 两条入口共用测试身份、完整源码清单与补丁往返检查。
 
-当前默认实现提供实时剩余额度、源码状态和短修复循环策略，
-任务状态见 [实施计划](docs/IMPLEMENTATION_PLAN.md)。
+当前实现提供实时预算反馈、只读接口追踪和短修复循环：模型可查看文件的可编辑状态，
+沿声明、宏和调用关系定位实现，再通过固定构建及测试检查候选。
 
-同一 DeepSeek 模型、两个 Multi-SWE-bench Catch2 实例、每组每题一次的开发对照：
+最新同模型 `gpt-6-luna` 对照共有 **22 条尝试**，由公共 Oracle 评分：
 
-| 实现 | ReproPatch | mini-SWE-agent | 报告 |
-| --- | --- | --- | --- |
-| 当前默认：预算反馈策略 | **1/2** | **0/2** | [结果与证据](benchmarks/repair-cycle-results.md) |
-| 搜索上下文实验 | **0/2** | **0/2** | [结果与证据](benchmarks/cpp-navigation-results.md) |
+| 范围 | ReproPatch Full | mini-SWE-agent | ReproPatch Ablation |
+| --- | ---: | ---: | ---: |
+| 两个 Catch2 实例，每题每组 3 次 | **6/6** | **3/6** | **3/6** |
+| 三组端点相同的 Catch2 子集 | **5/5** | **3/5** | **3/5** |
+| 两个 FMT 编译回归实例，每题每组 1 次 | **1/2** | **1/2** | — |
 
-2187 的预算反馈候选通过官方 2 F2P + 50 P2P。DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**。
-本机 `gpt-6-luna` 的新对照完成执行后为 RP **1/2**、mini **2/2**；
-mini有一次接入故障重试，两组首启成绩均为 **1/2**，详见 [Luna报告](benchmarks/luna-results.md)。
-两题均用于开发诊断；当前正在准备 FMT 编译失败任务，补充独立任务验证。
-[此前 rc3 批次](benchmarks/rc3-rerun.md) 为两组均 0/2。
-[历史 rc2 批次](benchmarks/pilot-results.md) 为 RP 0/2、mini 1/2，各批结果分别保留。
+Catch2 两题参与开发诊断，重复运行展示该范围的稳定性；FMT 两题按固定数据文件顺序选取。
+FMT-4310 双方修复成功，FMT-4286 双方仍失败，后续重点是编译与运行错误的连续修复。
+控制器中断和端点迁移逐次披露，详见 [结果报告](benchmarks/contract-results.md)、
+[结构化结果](benchmarks/contract-results.json)和[源码清单](benchmarks/contract-source-manifest.json)。
+DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，账单费用未知。
+[首次 Luna](benchmarks/luna-results.md)、[预算反馈](benchmarks/repair-cycle-results.md)、
+[搜索上下文](benchmarks/cpp-navigation-results.md)、[rc3](benchmarks/rc3-rerun.md)及
+[rc2](benchmarks/pilot-results.md)分别保留各批原始成绩。
 
 SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
 已发布基线 CI 为 **325 核心 + 147 SDK + 21 Docker 场景**；执行范围见 [测试报告](docs/TEST_REPORT.md)。

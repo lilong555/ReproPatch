@@ -27,6 +27,10 @@ def test_tools_and_edit_policy(repository, tmp_path):
     with Worktree(repository, tmp_path / "work", "HEAD") as work:
         tools = Toolbox(work, ("src/stats.cpp",), lambda name: [])
         assert "int best = 0;" in tools.read_file("src/stats.cpp")["text"]
+        assert tools.read_file("src/stats.cpp")["editable"] is True
+        assert tools.read_file("tests/stats_test.cpp")["editable"] is False
+        with pytest.raises(PolicyError, match="追踪 editable 集合中的实现"):
+            tools.edit_file("tests/stats_test.cpp", "return 1;", "return 0;")
         assert tools.search_code("maximum_sample")["matches"]
         for callback in (
             lambda: tools.read_file("../repo/src/stats.cpp"),

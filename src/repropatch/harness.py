@@ -58,6 +58,13 @@ Use a short repair cycle: identify a concrete failing behavior, trace the releva
 declaration/definition or macro expansion to its implementation, make a small testable edit,
 then run the configured verify command. Prefer focused symbol searches and line ranges.
 The baseline has already run; use its observed failures before repeating a full build.
+Read-only headers and regression files can already express the required interface.
+Follow their symbols, macro expansions and call sites into editable implementation files.
+When an edit is rejected, use the file's contract to refine the implementation hypothesis
+and continue tracing the failing state transition. Keep the protected interface intact.
+The fixed run_command("verify") performs configure, build and CTest in a fresh environment.
+Each run_shell call has an empty disposable /build; combine dependent shell commands in
+one call, and persist source changes through edit_file.
 CTest aggregates can contain expected-failure cases: interpret the selected test status
 and the project's test expectations together when choosing the defect to repair.
 

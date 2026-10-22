@@ -27,6 +27,15 @@ def save(path, value):
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n")
 
 
+def set_container_read_permissions(source):
+    """容器固定使用65534；显式开放目录遍历和文件读取，保留Git可执行位。"""
+    for path in (source, *source.rglob("*")):
+        if path.is_symlink():
+            raise ValueError("SOURCE_SYMLINK_REJECTED")
+        mode = path.stat().st_mode
+        path.chmod(0o755 if path.is_dir() else 0o644 | (mode & 0o111))
+
+
 def scripted_check(config, source, editable, output, mini):
     # 只加载固定上游原生类，不复制 Agent 循环或模型解析器。
     os.environ["MSWEA_GLOBAL_CONFIG_DIR"] = str(output / "mini-settings")
@@ -174,6 +183,7 @@ def main():
         ],
         cwd=source,
     )
+    set_container_read_permissions(source)
     resources = task.environment
     run_args = [
         "--rm",

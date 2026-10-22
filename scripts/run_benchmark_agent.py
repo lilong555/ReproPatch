@@ -5,6 +5,7 @@ import hashlib
 import json
 import logging
 import os
+import shlex
 import sqlite3
 import subprocess
 import sys
@@ -24,9 +25,9 @@ from benchmark_budget import (
 
 
 def provider(args):
-    """保留冻结的 DeepSeek 配置，显式选择本机 Luna 对照配置。"""
+    """保留冻结的 DeepSeek 配置，显式选择用户提供的 CPA 对照配置。"""
     if args.provider == "local-luna":
-        return "gpt-6-luna", "http://127.0.0.1:8317/v1", "OPENAI_API_KEY", False
+        return "gpt-6-luna", "https://cpa.liyinlong.me/v1", "OPENAI_API_KEY", True
     return POLICY["model"], "https://api.deepseek.com", "DEEPSEEK_API_KEY", True
 
 
@@ -93,10 +94,13 @@ def mini_inputs(args, task):
         or common["budget"] != asdict(task.budget)
     ):
         raise BudgetLimit("COMMON_TASK_MISMATCH")
+    source = Path(preparation.get("source", args.mini_environment.parent / "source"))
+    if source.stat().st_mode & 0o005 != 0o005:
+        raise BudgetLimit("MINI_SOURCE_NOT_READABLE")
     return (
         config,
         task_input,
-        Path(preparation.get("source", args.mini_environment.parent / "source")),
+        source,
     )
 
 
@@ -314,6 +318,19 @@ def mini_agent(args, hooks):
                 "writable_bind_destinations": sorted(writable),
             },
         )
+        # 在首个模型请求前，用同一容器用户实际读取共同输入中的源码。
+        probe = (
+            "import json\n"
+            f"paths = {json.loads(task_input)['readable']!r}\n"
+            "for path in paths:\n"
+            "    with open('/src/' + path, 'rb') as stream:\n"
+            "        stream.read(1)\n"
+            "print(json.dumps({'readable_files': len(paths), 'ok': True}))\n"
+        )
+        preflight = env.execute({"command": "python3 -c " + shlex.quote(probe)}, timeout=30)
+        save(args.output / "source-readability.json", preflight)
+        if preflight.get("returncode") != 0 or preflight.get("exception_info"):
+            raise BudgetLimit("MINI_SOURCE_NOT_READABLE")
         templates = yaml.safe_load(
             (args.mini_source / "src/minisweagent/config/mini.yaml").read_text()
         )

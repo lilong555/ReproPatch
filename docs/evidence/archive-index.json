@@ -89,6 +89,26 @@
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-luna-pilot-2026-10-22/ReproPatch-luna-pilot-2026-10-22.tar.gz",
       "verification": "逐文件字节与哈希核验；在独立解压包中用标准库重算结果一致；凭据哨兵0匹配",
       "scope": "本机Luna两题对照、原始接入失败及修正后执行、用量账本与官方Oracle"
+    },
+    {
+      "scope": "Luna只读契约反馈三组重复对照、两个FMT编译回归任务、全部中断和权限事件",
+      "name": "ReproPatch-contract-comparison-2026-10-22.tar.gz",
+      "sha256": "b1cdc8be90b93d1df9274de7989885a25a5422ba363f834e0dfddb9cefe94995",
+      "files": 18356,
+      "size_bytes": 32915161,
+      "uncompressed_bytes": 180459840,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-contract-comparison-2026-10-22.tar.gz",
+      "manifest": "contract-comparison/evidence-manifest.json",
+      "verification": "逐文件哈希与大小、凭据扫描通过；独立解压重算结果一致"
+    },
+    {
+      "scope": "FMT实验实际使用的linux/amd64非root工具链镜像",
+      "name": "ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
+      "sha256": "6f79c0b3f74771741baff791f1efca74386dac9149540a7e253e1a9fe2629080",
+      "size_bytes": 166501680,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "verification": "Docker归档中的配置SHA-256与实际镜像ID一致"
     }
   ]
 }

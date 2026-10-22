@@ -174,7 +174,7 @@ class BudgetHooks:
             check_pricing_date()
         url = request.url
         endpoint_matches = (
-            url.scheme == "http" and url.host == "127.0.0.1" and url.port == 8317
+            url.scheme == "https" and url.host == "cpa.liyinlong.me" and url.port in (None, 443)
             if self.local_luna
             else url.scheme == "https"
             and url.host == "api.deepseek.com"
@@ -243,7 +243,7 @@ class BudgetHooks:
 
 
 class LocalUsageLedger:
-    """本机自备额度只记请求和供应商用量，费用保持未知，独立于人民币账本。"""
+    """CPA 自备额度记录请求和供应商用量，费用保持未知，独立于人民币账本。"""
 
     def __init__(self, path):
         self.path = Path(path).resolve()

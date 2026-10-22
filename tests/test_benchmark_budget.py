@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -96,6 +97,30 @@ def test_local_model_usage_has_separate_ledger_and_request_limit(tmp_path):
         ledger.settle(identity, b"{}", 200)
     with pytest.raises(sqlite3.OperationalError):
         budget.BudgetLedger(ledger.path)
+
+    hooks = budget.BudgetHooks(ledger, "cpa-endpoint", tmp_path / "http", local_luna=True)
+    request = SimpleNamespace(
+        method="POST",
+        url=SimpleNamespace(
+            scheme="https",
+            host="cpa.liyinlong.me",
+            port=443,
+            query="",
+            fragment="",
+            username="",
+            password="",
+            path="/v1/responses",
+        ),
+        content=b'{"model":"gpt-6-luna","max_output_tokens":8192}',
+        extensions={},
+    )
+    hooks.request(request)
+    assert ledger.summary("cpa-endpoint")["requests"] == 1
+    for host in ("127.0.0.1", "cpa.liyinlong.me.example.org"):
+        request.url.host = host
+        with pytest.raises(budget.BudgetLimit, match="ENDPOINT_REJECTED"):
+            hooks.request(request)
+    assert ledger.summary("cpa-endpoint")["requests"] == 1
 
 
 def test_policy_price_change_updates_reservation_and_settlement(tmp_path, monkeypatch):
@@ -230,6 +255,9 @@ def test_check_only_validates_inputs_without_model_or_budget_side_effects(
     native.write_text("# 预检源码样本，不导入执行。\n")
     environment = tmp_path / "environment.json"
     preparation = tmp_path / "preparation.json"
+    source = tmp_path / "source"
+    source.mkdir(mode=0o700)
+    prepare_mini_environment.set_container_read_permissions(source)
     environment.write_text(json.dumps({"image": frozen.environment.image, "forward_env": []}))
     preparation.write_text(
         json.dumps(
@@ -276,6 +304,10 @@ def test_check_only_validates_inputs_without_model_or_budget_side_effects(
         "--common-input",
         str(common_path),
     ]
+    assert check("mini", extra)[0] == 0
+    source.chmod(0o700)
+    assert check("mini", extra)[1]["error_code"] == "MINI_SOURCE_NOT_READABLE"
+    prepare_mini_environment.set_container_read_permissions(source)
     assert check("mini", extra)[0] == 0
     common["budget"]["max_steps"] = 11
     save_common()

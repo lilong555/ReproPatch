@@ -1,391 +1,444 @@
 {
-  "schema_version": 2,
-  "scope": "local_luna_framework_comparison_with_complete_attempt_history",
+  "schema_version": 3,
+  "scope": "固定Luna三组重复对照与FMT编译回归扩展",
+  "product_version": "0.3.0rc3",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
   "cpp_instances": 129,
-  "paid_model_requests": 185,
-  "model_cost_cny": null,
-  "resolved_at_1": {
-    "repropatch": 0.5,
-    "mini": 0.5
-  },
-  "official_oracle_verified_instances": 5,
-  "benchmark_coverage": null,
-  "adapted_rp_reference": {
-    "run_id": "5b8561f8bf82427396eec0d15429bc8c",
-    "outcome": "ACCEPTED",
-    "report_sha256": "e8c76285e818fa183f5f15d96e821d3cfa1cbc1d55108772d8afb1a7104ae648",
-    "f2p_count": 2,
-    "p2p_count": 67,
-    "duration_seconds": 157.62709295599961,
-    "configure_probes_pending": 0,
-    "official_oracle_parity_verified": true
-  },
-  "harbor_fixture": {
-    "harbor_version": "0.24.0",
-    "source_commit": "6c9d3d6609854375005a7b5c8f1906371d64c6ff",
-    "installed_python_files_compared": 401,
-    "source_mismatches": 0,
-    "trial": "negative-maximum__VpQMqej",
-    "collection_status": "ok",
-    "verifier_disabled": true,
-    "rp_verification_run_id": "33593fac8604422c81f2f4cff8d1ee0c",
-    "rp_outcome": "ACCEPTED",
-    "report_sha256": "6aa37e9f3fa33eed0f8dc08ebddf5340c7138e901b3d65e2cec99488a6935df2",
-    "producer_user": "root",
-    "producer_network": "public",
-    "strict_comparison_ready": false
-  },
-  "remaining": [
-    "FMT-4310 固定CTest编译探针、参考验收与公共Oracle适配"
+  "current_implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+  "latest_measured_implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+  "ablation_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+  "current_implementation_has_real_benchmark": true,
+  "current_results": "contract-results.json",
+  "report": "contract-results.md",
+  "source_manifest": "contract-source-manifest.json",
+  "model": "gpt-6-luna",
+  "base_urls": [
+    "http://127.0.0.1:8317/v1",
+    "https://cpa.liyinlong.me/v1"
   ],
-  "archive": {
-    "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
-    "sha256": "56b1bb9aa7761842f3cb9200d697a3de8c7b2d3075e7362936e48bff13ad4ee0",
-    "files": 1745,
-    "size_bytes": 2525319,
-    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-readiness-2026-10-21/ReproPatch-benchmark-readiness-2026-10-21.tar.gz"
+  "endpoint_transition": {
+    "recorded_at": "2026-10-22T13:23:22.392088+00:00",
+    "original_base_url": "http://127.0.0.1:8317/v1",
+    "new_base_url": "https://cpa.liyinlong.me/v1",
+    "reason": "用户提供的新 CPA 地址；通过环境代理连接，认证模型列表包含 gpt-6-luna。",
+    "affected_attempts": [
+      "contract-repeat-2723-mini-3",
+      "contract-repeat-2723-ablation-3"
+    ],
+    "core_implementation_changed": false,
+    "model_settings_changed": false,
+    "provider_backend_identity": "供应商模型别名相同；后端实例身份未提供",
+    "model_requests_replayed": 0,
+    "source_manifest": {
+      "path": "endpoint-source-manifest.json",
+      "sha256": "ed58bb9cd8f8f91040e8aa72d234adcb8895b067a50ae8efe169fb12700a8378",
+      "size_bytes": 476
+    },
+    "evidence": {
+      "path": "contract-repeat-pilot/endpoint-transition.json",
+      "sha256": "18d231e45075d559028d4ef88df30cb3f1e969f39411830dc4a0e5b5cfb36f9e",
+      "size_bytes": 748
+    }
   },
-  "official_reference_check": {
-    "candidate": "upstream_reference",
-    "source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
-    "image": "sha256:3ced24b5f52e9909175db56f51576841e353f89468ef885f57bc4fd7b96b11e0",
-    "valid": true,
-    "required_f2p": 2,
-    "required_p2p": 100,
-    "required_groups_missing": 0,
-    "additional_unsupported_compiler_probes": 14,
-    "duration_seconds": 73.66817520200038,
+  "current_product_has_paid_benchmark": null,
+  "model_cost_cny": null,
+  "cost_basis": "本轮使用用户提供的 CPA 额度，保存实际用量；供应商账单未知",
+  "historical_deepseek": {
+    "requests": 185,
+    "cost_upper_bound_cny": 2.18923088,
+    "budget_cap_cny": 20,
+    "active_budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
+  },
+  "local_luna_requests": {
+    "current_experiment": 268,
+    "current_comparison": 227,
+    "current_unknown_usage": 1,
+    "prior_including_probe": 42,
+    "cumulative": 310
+  },
+  "matrix": {
+    "catch": {
+      "tasks": [
+        "catchorg__Catch2-2187",
+        "catchorg__Catch2-2723"
+      ],
+      "groups": [
+        "repropatch",
+        "mini",
+        "repropatch_ablation"
+      ],
+      "repeats": 3,
+      "attempts": 18
+    },
+    "fmt": {
+      "tasks": [
+        "fmtlib__fmt-4310",
+        "fmtlib__fmt-4286"
+      ],
+      "groups": [
+        "repropatch",
+        "mini"
+      ],
+      "repeats": 1,
+      "attempts": 4
+    },
+    "scored_attempts": 22,
+    "normally_finalized_attempts": 21,
+    "outside_comparison_attempts": 4,
+    "interrupted_inside_comparison": 1,
+    "interrupted_outside_comparison": 1
+  },
+  "metrics": {
+    "catch_repeated": {
+      "repropatch": {
+        "attempts": 6,
+        "resolved": 6,
+        "model_requests": 69,
+        "tool_calls": 66,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 5,
+        "internal_accepted": 5,
+        "oracle_invalid_candidates": 0,
+        "false_acceptances": 0,
+        "known_worker_seconds": 1020.4095032740015,
+        "unknown_worker_durations": 1,
+        "oracle_seconds": 348.55044610200093,
+        "worker_seconds": null,
+        "resolved_at_1": 1.0,
+        "false_acceptance_rate": null,
+        "false_accepted_share_of_accepted": 0.0,
+        "raw_usage": {
+          "input_tokens": 1355336,
+          "output_tokens": 3973,
+          "total_tokens": 1359309,
+          "cached_input_tokens": 1182464
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      },
+      "mini": {
+        "attempts": 6,
+        "resolved": 3,
+        "model_requests": 62,
+        "tool_calls": 62,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 0,
+        "internal_accepted": 0,
+        "oracle_invalid_candidates": 2,
+        "false_acceptances": 0,
+        "known_worker_seconds": 565.4056982010006,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 309.7005124839998,
+        "worker_seconds": 565.4056982010006,
+        "resolved_at_1": 0.5,
+        "false_acceptance_rate": null,
+        "false_accepted_share_of_accepted": null,
+        "raw_usage": {
+          "input_tokens": 1320883,
+          "output_tokens": 7630,
+          "total_tokens": 1328513,
+          "cached_input_tokens": 1129216
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      },
+      "repropatch_ablation": {
+        "attempts": 6,
+        "resolved": 3,
+        "model_requests": 68,
+        "tool_calls": 63,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 4,
+        "internal_accepted": 3,
+        "oracle_invalid_candidates": 1,
+        "false_acceptances": 0,
+        "known_worker_seconds": 1194.684144332,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 226.2841289880007,
+        "worker_seconds": 1194.684144332,
+        "resolved_at_1": 0.5,
+        "false_acceptance_rate": 0.0,
+        "false_accepted_share_of_accepted": 0.0,
+        "raw_usage": {
+          "input_tokens": 1344380,
+          "output_tokens": 4262,
+          "total_tokens": 1348642,
+          "cached_input_tokens": 1099904
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      }
+    },
+    "catch_same_endpoint": {
+      "repropatch": {
+        "attempts": 5,
+        "resolved": 5,
+        "model_requests": 57,
+        "tool_calls": 54,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 5,
+        "internal_accepted": 5,
+        "oracle_invalid_candidates": 0,
+        "false_acceptances": 0,
+        "known_worker_seconds": 1020.4095032740015,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 269.0174299100008,
+        "worker_seconds": 1020.4095032740015,
+        "resolved_at_1": 1.0,
+        "false_acceptance_rate": null,
+        "false_accepted_share_of_accepted": 0.0,
+        "raw_usage": {
+          "input_tokens": 1099321,
+          "output_tokens": 3467,
+          "total_tokens": 1102788,
+          "cached_input_tokens": 952320
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      },
+      "mini": {
+        "attempts": 5,
+        "resolved": 3,
+        "model_requests": 52,
+        "tool_calls": 52,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 0,
+        "internal_accepted": 0,
+        "oracle_invalid_candidates": 1,
+        "false_acceptances": 0,
+        "known_worker_seconds": 439.25563390200114,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 228.2028008039997,
+        "worker_seconds": 439.25563390200114,
+        "resolved_at_1": 0.6,
+        "false_acceptance_rate": null,
+        "false_accepted_share_of_accepted": null,
+        "raw_usage": {
+          "input_tokens": 1090556,
+          "output_tokens": 6239,
+          "total_tokens": 1096795,
+          "cached_input_tokens": 951936
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      },
+      "repropatch_ablation": {
+        "attempts": 5,
+        "resolved": 3,
+        "model_requests": 56,
+        "tool_calls": 51,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 4,
+        "internal_accepted": 3,
+        "oracle_invalid_candidates": 1,
+        "false_acceptances": 0,
+        "known_worker_seconds": 1064.0169808640003,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 226.2841289880007,
+        "worker_seconds": 1064.0169808640003,
+        "resolved_at_1": 0.6,
+        "false_acceptance_rate": 0.0,
+        "false_accepted_share_of_accepted": 0.0,
+        "raw_usage": {
+          "input_tokens": 1096354,
+          "output_tokens": 3556,
+          "total_tokens": 1099910,
+          "cached_input_tokens": 899712
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      }
+    },
+    "fmt_extension": {
+      "repropatch": {
+        "attempts": 2,
+        "resolved": 1,
+        "model_requests": 17,
+        "tool_calls": 16,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 2,
+        "internal_accepted": 1,
+        "oracle_invalid_candidates": 1,
+        "false_acceptances": 0,
+        "known_worker_seconds": 641.4874262280005,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 168.59454754399985,
+        "worker_seconds": 641.4874262280005,
+        "resolved_at_1": 0.5,
+        "false_acceptance_rate": 0.0,
+        "false_accepted_share_of_accepted": 0.0,
+        "raw_usage": {
+          "input_tokens": 133473,
+          "output_tokens": 748,
+          "total_tokens": 134221,
+          "cached_input_tokens": 87808
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      },
+      "mini": {
+        "attempts": 2,
+        "resolved": 1,
+        "model_requests": 11,
+        "tool_calls": 11,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 0,
+        "internal_accepted": 0,
+        "oracle_invalid_candidates": 1,
+        "false_acceptances": 0,
+        "known_worker_seconds": 171.96527715100092,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 119.58108235899954,
+        "worker_seconds": 171.96527715100092,
+        "resolved_at_1": 0.5,
+        "false_acceptance_rate": null,
+        "false_accepted_share_of_accepted": null,
+        "raw_usage": {
+          "input_tokens": 91163,
+          "output_tokens": 2001,
+          "total_tokens": 93164,
+          "cached_input_tokens": 70144
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      }
+    },
+    "valid_first_round": {
+      "repropatch": {
+        "attempts": 4,
+        "resolved": 3,
+        "model_requests": 40,
+        "tool_calls": 38,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 4,
+        "internal_accepted": 3,
+        "oracle_invalid_candidates": 1,
+        "false_acceptances": 0,
+        "known_worker_seconds": 1038.1159771840007,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 286.69763284400005,
+        "worker_seconds": 1038.1159771840007,
+        "resolved_at_1": 0.75,
+        "false_acceptance_rate": 0.0,
+        "false_accepted_share_of_accepted": 0.0,
+        "raw_usage": {
+          "input_tokens": 584031,
+          "output_tokens": 2184,
+          "total_tokens": 586215,
+          "cached_input_tokens": 464256
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      },
+      "mini": {
+        "attempts": 4,
+        "resolved": 1,
+        "model_requests": 32,
+        "tool_calls": 32,
+        "unknown_usage_requests": 0,
+        "independent_decisions": 0,
+        "internal_accepted": 0,
+        "oracle_invalid_candidates": 2,
+        "false_acceptances": 0,
+        "known_worker_seconds": 343.5533308360009,
+        "unknown_worker_durations": 0,
+        "oracle_seconds": 199.13426295899944,
+        "worker_seconds": 343.5533308360009,
+        "resolved_at_1": 0.25,
+        "false_acceptance_rate": null,
+        "false_accepted_share_of_accepted": null,
+        "raw_usage": {
+          "input_tokens": 545766,
+          "output_tokens": 4678,
+          "total_tokens": 550444,
+          "cached_input_tokens": 473344
+        },
+        "actual_billed_cost_cny": null,
+        "cost_per_resolved_task_cny": null
+      }
+    }
+  },
+  "verified_task_v2_instances": [
+    "catchorg__Catch2-2187",
+    "catchorg__Catch2-2723",
+    "fmtlib__fmt-4310",
+    "fmtlib__fmt-4286"
+  ],
+  "benchmark_coverage": {
+    "cpp_pool": 129,
+    "prepared_catch_tasks": 2,
+    "prepared_fmt_compile_extensions": 2,
+    "adapted_task_count": 4,
+    "adapted_coverage": 0.031007751937984496,
+    "original_fmt_f2p_p2p_groups": "原始记录为空；采用原始CMake全量构建与21项原生CTest"
+  },
+  "compatibility_screening": "固定池129项保留；当前4项已完成适配验收，其余实例的动态兼容性继续单列",
+  "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "fmt_toolchain": {
+    "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+    "tag": "repropatch-cpp:0.1",
+    "platform": "linux/amd64",
+    "image_size_bytes": 452600288,
+    "image_user": "65534:65534",
+    "dockerfile_sha256": "33bdb81496452c45a4ba738b47ec3f36b103de0049390dd95fae866bdec41eff",
+    "tool_versions": {
+      "cmake": "3.28.3",
+      "ctest": "3.28.3",
+      "cxx": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+    },
+    "task_source_delivery": "运行时通过/src挂载输入，镜像配方见Dockerfile",
+    "credential_delivery": "模型客户端从宿主进程环境读取；容器forward_env为空",
     "model_requests": 0,
     "archive": {
-      "name": "ReproPatch-oracle-reference-Catch2-2723.tar.gz",
-      "sha256": "6c593d1f9e4fa2fc7500da363351e3629e1343acdafa4d798712c7f01ecf63aa",
-      "files": 2617,
-      "size_bytes": 1393446,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-readiness-2026-10-21/ReproPatch-oracle-reference-Catch2-2723.tar.gz"
+      "name": "ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
+      "sha256": "6f79c0b3f74771741baff791f1efca74386dac9149540a7e253e1a9fe2629080",
+      "size_bytes": 166501680,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
+      "config_sha256_verified": true
     }
   },
-  "preparation_implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
-  "current_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-  "context_check": "context-check.json",
-  "mini_environment": "mini-environment.json",
-  "verified_task_v2_instances": [
-    "catchorg__Catch2-2723",
-    "catchorg__Catch2-2187"
+  "archive": {
+    "name": "ReproPatch-contract-comparison-2026-10-22.tar.gz",
+    "sha256": "b1cdc8be90b93d1df9274de7989885a25a5422ba363f834e0dfddb9cefe94995",
+    "files": 18356,
+    "size_bytes": 32915161,
+    "uncompressed_bytes": 180459840,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-contract-comparison-2026-10-22.tar.gz",
+    "verification": "凭据哨兵与格式检查0匹配；逐文件字节和哈希通过；独立解压重算结果一致"
+  },
+  "release": "https://github.com/lilong555/ReproPatch/releases/tag/benchmark-contract-comparison-2026-10-22",
+  "historical_results": [
+    {
+      "report": "luna-results.md",
+      "results": "luna-results.json"
+    },
+    {
+      "report": "repair-cycle-results.md",
+      "results": "repair-cycle-results.json"
+    },
+    {
+      "report": "cpp-navigation-results.md",
+      "results": "cpp-navigation-results.json"
+    },
+    {
+      "report": "rc3-rerun.md",
+      "results": "rc3-rerun.json"
+    },
+    {
+      "report": "pilot-results.md",
+      "results": "pilot-results.json"
+    }
   ],
-  "adapted_coverage_lower_bound": {
-    "verified": 2,
-    "denominator": 129,
-    "ratio": 0.015503875968992248,
-    "compatibility_screening_complete": false,
-    "counts_as_resolved_at_1": false
+  "code_ci": {
+    "status": "pending"
   },
-  "reference_pool": "reference-pool.json",
-  "product_ci": {
-    "release_commit": "536941690ba8c6bbffeea1df366b3a69d3186f04",
-    "run_id": 39589156241,
-    "conclusion": "success",
-    "jobs": [
-      "python-and-cpp",
-      "sdk-contract",
-      "docker-integration"
-    ]
-  },
-  "reference_pool_archive": {
-    "name": "ReproPatch-catch2-reference-pool-2026-10-21.tar.gz",
-    "sha256": "a4cbe92cdbc9ba24d4d78ab74fd7618f63715d3dbf2ba1180d154dc88f60732a",
-    "files": 4646,
-    "size_bytes": 5165682,
-    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
-  },
-  "model_cost_upper_bound_cny": 2.18923088,
-  "pilot_results": "pilot-results.json",
-  "authorized_pilot_tasks": 5,
-  "completed_pilot_tasks": 2,
-  "pilot_complete": false,
-  "real_pilot_archive": {
-    "scope": "首次两题真实同模型对照与公共 Oracle；原始记录、调试记录、费用账本和执行源码",
-    "name": "ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
-    "sha256": "02215379d84f6d260389d4ca51b1a9be47bb1a6e1452b43ef3fee62bc0350295",
-    "files": 4699,
-    "size_bytes": 10219181,
-    "uncompressed_bytes": 47528426,
-    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-pilot-first-two-2026-10-21/ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
-    "manifest": "evidence-manifest.json"
-  },
-  "real_model_benchmark_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-  "feedback_context": "feedback-context.json",
-  "current_product_has_paid_benchmark": null,
-  "current_batch": {
-    "created_at": "2026-10-22T08:52:42.873245+00:00",
-    "source_head": "a5e6d8acf1f77a9151f3daa837adabde33d7a9a9",
-    "core_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-    "model": "gpt-6-luna",
-    "base_url": "http://127.0.0.1:8317/v1",
-    "cost_basis": "用户提供的本机模型额度；费用未知，独立记录用量；历史DeepSeek累计费用上界2.18923088元",
-    "request_limit_per_attempt": 12,
-    "attempts": 4,
-    "max_tool_calls": 24,
-    "max_output_tokens": 8192,
-    "model_timeout_seconds": 90,
-    "scope": "同两道开发诊断任务，两组各一次，RP先mini后，不作新任务泛化结论",
-    "tasks": [
-      {
-        "case": 2187,
-        "task": {
-          "path": "catch2187-task.yaml",
-          "sha256": "911dadecefaa78ffcfcb7f2af2e29dd2a7eaa5e408157ca1e8b74c3e4544f96b",
-          "size_bytes": 13746
-        },
-        "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
-        "image": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
-        "budget": {
-          "max_steps": 12,
-          "max_tool_calls": 24,
-          "wall_seconds": 1800,
-          "verification_reserve_seconds": 900,
-          "model_timeout_seconds": 90,
-          "command_timeout_seconds": 300,
-          "max_output_tokens": 8192
-        }
-      },
-      {
-        "case": 2723,
-        "task": {
-          "path": "catch2723-task.yaml",
-          "sha256": "839ba8c7666c5663a81bf48140d3c23eaf4f56ec765402b4b95684146661cd2d",
-          "size_bytes": 21538
-        },
-        "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
-        "image": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
-        "budget": {
-          "max_steps": 12,
-          "max_tool_calls": 24,
-          "wall_seconds": 1800,
-          "verification_reserve_seconds": 900,
-          "model_timeout_seconds": 90,
-          "command_timeout_seconds": 300,
-          "max_output_tokens": 8192
-        }
-      }
-    ]
-  },
-  "planned_current_tasks": 2,
-  "planned_current_attempts": 4,
-  "historical_pilot_status": "two_completed_five_task_extension_paused",
-  "historical_rc2": {
-    "results": "pilot-results.json",
-    "paid_model_requests": 45,
-    "cost_upper_bound_cny": 0.52158136,
-    "resolved_at_1": {
-      "repropatch": 0.0,
-      "mini": 0.5
-    },
-    "five_task_pilot_state": "paused"
-  },
-  "current_results": "luna-results.json",
-  "current_stage_complete": false,
-  "current_ci": {
-    "run_id": 39753439473,
-    "source_commit": "717132638acdf8533c379e24026fea0583ded03c",
-    "conclusion": "success",
-    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39753439473"
-  },
-  "latest_measured_implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-  "repair_candidate": {
-    "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-    "state": "local_luna_evaluated_with_task_localization_gap",
-    "results": "luna-results.json",
-    "previous_deepseek_results": "repair-cycle-results.json"
-  },
-  "cumulative_model_requests": 227,
-  "cumulative_cost_upper_bound_cny": null,
-  "budget_authorization": "累计20元内自主推进，保留所有历史消费",
-  "latest_experiment_results": "luna-results.json",
-  "latest_experiment": {
-    "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-    "model": "gpt-6-luna",
-    "results": "benchmarks/luna-results.json",
-    "metrics": {
-      "repropatch": {
-        "tasks": 2,
-        "first_launch_resolved": 1,
-        "resolved_at_1": 0.5,
-        "completed_execution_resolved": 1,
-        "completed_execution_resolved_rate": 0.5,
-        "model_requests_including_infrastructure": 20
-      },
-      "mini": {
-        "tasks": 2,
-        "first_launch_resolved": 1,
-        "resolved_at_1": 0.5,
-        "completed_execution_resolved": 2,
-        "completed_execution_resolved_rate": 1.0,
-        "model_requests_including_infrastructure": 21
-      }
-    },
-    "requests_including_probe": 42,
-    "cost_cny": null,
-    "infrastructure_retries": 1,
-    "archive": {
-      "name": "ReproPatch-luna-pilot-2026-10-22.tar.gz",
-      "sha256": "1f650bcd6a44ed2e7d67f63d9cfd00e5983edf0a8e1934a2167222600f5c88ba",
-      "files": 2140,
-      "size_bytes": 4371148,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-luna-pilot-2026-10-22/ReproPatch-luna-pilot-2026-10-22.tar.gz",
-      "verification": "逐文件字节与哈希核验；在独立解压包中用标准库重算结果一致；凭据哨兵0匹配"
-    }
-  },
-  "next_task": {
-    "instance_id": "fmtlib__fmt-4310",
-    "state": "compile_failure_reproduced",
-    "probe": {
-      "path": "fmt4310-probe/compile-probe.json",
-      "sha256": "7a26a1f36be63347cddb823030b8057b961474e9115f82d01251f4f889ca222d",
-      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
-      "upstream_base_commit": "01914f0389ef6ff151c289670f6910e059d5063f",
-      "observed_exits": [
-        0,
-        1,
-        0
-      ],
-      "task_v2_ready": false,
-      "model_requests": 0
-    },
-    "evidence_archive": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cpp-navigation-pilot-2026-10-22/ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz"
-  },
-  "active_budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3",
-  "completed_execution_resolved_rate": {
-    "repropatch": 0.5,
-    "mini": 1.0
-  },
-  "current_implementation_has_real_benchmark": true,
-  "paid_benchmark_status_basis": "当前模型使用用户本机额度，供应商账单未知；历史DeepSeek付费批次单独保留",
-  "previous_deepseek_batch": {
-    "schema_version": 1,
-    "scope": "预算反馈与短修复循环，两题两组各一次，累计预算20元",
-    "created_at": "2026-10-22T04:26:58.433749+00:00",
-    "product_version": "0.3.0rc3",
-    "candidate": "budgeted_repair_cycle",
-    "core_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
-    "execution_source_commit": "3d4f039eb9708237a6e101cec98286f158fd9a9b",
-    "pricing_policy": {
-      "model": "deepseek-flash",
-      "model_version": "DeepSeek-V4.1-Flash-1017",
-      "currency": "CNY",
-      "verified_date": "2026-10-22",
-      "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
-      "input_ceiling_tokens": 1048576,
-      "max_output_tokens": 8192,
-      "peak_input_nano_per_token": 2000,
-      "peak_cached_input_nano_per_token": 40,
-      "peak_output_nano_per_token": 8000,
-      "request_limit_per_attempt": 12
-    },
-    "tasks": [
-      {
-        "instance_id": "catchorg__Catch2-2723",
-        "task_file": "catch2723-task.yaml",
-        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
-        "task_source_sha256": "14be2f0fa084708523b6902d1eb71c533380ed334585819687895fce3af6f359",
-        "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
-        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
-        "editable_files": 274,
-        "f2p": 2,
-        "p2p": 67,
-        "current_image_verified": true,
-        "record_file": "catch2723-record.json",
-        "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
-      },
-      {
-        "instance_id": "catchorg__Catch2-2187",
-        "task_file": "catch2187-task.yaml",
-        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
-        "task_source_sha256": "27d90b7885afb9b37615c094f915351ed7ed5dafc84e28db501daa8e397afb87",
-        "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
-        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
-        "editable_files": 211,
-        "f2p": 2,
-        "p2p": 32,
-        "current_image_verified": true,
-        "record_file": "catch2187-record.json",
-        "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
-      }
-    ],
-    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
-    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
-    "paid_run_authorized": true,
-    "authorization": "用户授权：在总20元预算内自主推进，无需逐轮确认",
-    "ci": {
-      "run_id": 39721519709,
-      "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
-      "conclusion": "success",
-      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
-    },
-    "ledger_parents": [
-      {
-        "path": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
-        "sha256": "8bf442af48726e579a53f98ced138f9bbe94f0d187b711f0fecac91ceb1e85a2",
-        "requests": 47,
-        "committed_upper_bound_cny": 0.5466308
-      },
-      {
-        "path": "/home/li/repropatch/.repropatch/paid-pilot/budget.sqlite3",
-        "sha256": "750d71ad745edc315e1d0145cb4f113dd13f5889b5641b0c3d0626fe92cee1b4",
-        "requests": 45,
-        "cost_upper_bound_cny": 0.52158136
-      }
-    ],
-    "prior_requests": 92,
-    "prior_cost_upper_bound_cny": 1.06821216,
-    "state": "completed",
-    "new_batch_requests": 48
-  },
-  "previous_ci": {
-    "run_id": 39726799381,
-    "source_commit": "ad4fa91be6964945593c389d575d2899601d9800",
-    "conclusion": "success",
-    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39726799381"
-  },
-  "known_deepseek_cost_upper_bound_cny": 2.18923088,
-  "navigation_experiment": {
-    "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
-    "results": "cpp-navigation-results.json",
-    "metrics": {
-      "repropatch": {
-        "attempted": 2,
-        "resolved": 0,
-        "resolved_at_1": 0.0,
-        "cost_upper_bound_cny": 0.38906024,
-        "cost_per_resolved_upper_bound_cny": null,
-        "model_requests": 21
-      },
-      "mini": {
-        "attempted": 2,
-        "resolved": 0,
-        "resolved_at_1": 0.0,
-        "cost_upper_bound_cny": 0.22353192,
-        "cost_per_resolved_upper_bound_cny": null,
-        "model_requests": 24
-      }
-    },
-    "archive": {
-      "scope": "两题同模型对照的原始轨迹、候选、Oracle决策及累计账本",
-      "name": "ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
-      "sha256": "660af9b109106560df7f5be0d80ad8aebfc448e3f1d5156e0c2424f10addb180",
-      "files": 1137,
-      "size_bytes": 3920811,
-      "uncompressed_bytes": 22542843,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cpp-navigation-pilot-2026-10-22/ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
-      "manifest": "cpp-navigation-pilot/evidence-manifest.json",
-      "per_file_verification": "passed",
-      "credential_pattern_scan": "passed"
-    },
-    "ci": {
-      "run_id": 39724385836,
-      "source_commit": "940407d8494f2a90eb1abdbceee1bd524c1947c0",
-      "conclusion": "success"
-    }
-  },
-  "active_local_usage_ledger": "/home/li/repropatch/.repropatch/luna-pilot/usage.sqlite3"
+  "next_focus": "FMT-4286 暴露的模板编译与宽字符运行错误的连续修复",
+  "deferred": [
+    "通用Harbor",
+    "额外Agent产品组",
+    "Execution Replay",
+    "C++20执行器"
+  ]
 }
