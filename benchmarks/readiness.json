@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "scope": "latest_completed_results_and_cpp_navigation_candidate",
+  "scope": "selected_budget_feedback_and_complete_experiment_history",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "cpp_instances": 129,
-  "paid_model_requests": 48,
+  "paid_model_requests": 185,
   "model_cost_cny": null,
   "resolved_at_1": {
     "repropatch": 0.5,
@@ -37,7 +37,7 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "搜索上下文与完整构建验证说明的同模型真实对照"
+    "FMT-4310 固定CTest编译探针、参考验收与公共Oracle适配"
   ],
   "archive": {
     "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
@@ -66,7 +66,7 @@
     }
   },
   "preparation_implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
-  "current_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+  "current_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
   "context_check": "context-check.json",
   "mini_environment": "mini-environment.json",
   "verified_task_v2_instances": [
@@ -98,7 +98,7 @@
     "size_bytes": 5165682,
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-reference-pool-2026-10-21/ReproPatch-catch2-reference-pool-2026-10-21.tar.gz"
   },
-  "model_cost_upper_bound_cny": 0.50842656,
+  "model_cost_upper_bound_cny": 2.18923088,
   "pilot_results": "pilot-results.json",
   "authorized_pilot_tasks": 5,
   "completed_pilot_tasks": 2,
@@ -113,17 +113,17 @@
     "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-pilot-first-two-2026-10-21/ReproPatch-real-pilot-first-two-2026-10-21.tar.gz",
     "manifest": "evidence-manifest.json"
   },
-  "real_model_benchmark_implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+  "real_model_benchmark_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
   "feedback_context": "feedback-context.json",
-  "current_product_has_paid_benchmark": false,
+  "current_product_has_paid_benchmark": true,
   "current_batch": {
     "schema_version": 1,
-    "scope": "C++搜索上下文与完整验证工具语义，两题两组各一次",
-    "created_at": "2026-10-22T04:43:10.418898+00:00",
+    "scope": "预算反馈与短修复循环，两题两组各一次，累计预算20元",
+    "created_at": "2026-10-22T04:26:58.433749+00:00",
     "product_version": "0.3.0rc3",
-    "candidate": "cpp_navigation",
-    "core_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
-    "execution_source_commit": null,
+    "candidate": "budgeted_repair_cycle",
+    "core_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+    "execution_source_commit": "3d4f039eb9708237a6e101cec98286f158fd9a9b",
     "pricing_policy": {
       "model": "deepseek-flash",
       "model_version": "DeepSeek-V4.1-Flash-1017",
@@ -142,7 +142,7 @@
         "instance_id": "catchorg__Catch2-2723",
         "task_file": "catch2723-task.yaml",
         "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
-        "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
+        "task_source_sha256": "14be2f0fa084708523b6902d1eb71c533380ed334585819687895fce3af6f359",
         "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
         "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
         "editable_files": 274,
@@ -156,7 +156,7 @@
         "instance_id": "catchorg__Catch2-2187",
         "task_file": "catch2187-task.yaml",
         "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
-        "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
+        "task_source_sha256": "27d90b7885afb9b37615c094f915351ed7ed5dafc84e28db501daa8e397afb87",
         "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
         "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
         "editable_files": 211,
@@ -179,17 +179,22 @@
     },
     "ledger_parents": [
       {
-        "path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
-        "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
-        "requests": 140,
-        "cost_upper_bound_cny": 1.57663872
+        "path": "/home/li/repropatch/.repropatch/rc3-rerun/budget.sqlite3",
+        "sha256": "8bf442af48726e579a53f98ced138f9bbe94f0d187b711f0fecac91ceb1e85a2",
+        "requests": 47,
+        "committed_upper_bound_cny": 0.5466308
+      },
+      {
+        "path": "/home/li/repropatch/.repropatch/paid-pilot/budget.sqlite3",
+        "sha256": "750d71ad745edc315e1d0145cb4f113dd13f5889b5641b0c3d0626fe92cee1b4",
+        "requests": 45,
+        "cost_upper_bound_cny": 0.52158136
       }
     ],
-    "prior_requests": 140,
-    "prior_cost_upper_bound_cny": 1.57663872,
-    "state": "prepared",
-    "local_checks_passed": 11,
-    "budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
+    "prior_requests": 92,
+    "prior_cost_upper_bound_cny": 1.06821216,
+    "state": "completed",
+    "new_batch_requests": 48
   },
   "planned_current_tasks": 2,
   "planned_current_attempts": 4,
@@ -212,83 +217,78 @@
     "conclusion": "success",
     "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
   },
-  "latest_measured_implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+  "latest_measured_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
   "repair_candidate": {
-    "schema_version": 1,
-    "scope": "C++搜索上下文与完整验证工具语义，两题两组各一次",
-    "created_at": "2026-10-22T04:43:10.418898+00:00",
-    "product_version": "0.3.0rc3",
-    "candidate": "cpp_navigation",
-    "core_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
-    "execution_source_commit": null,
-    "pricing_policy": {
-      "model": "deepseek-flash",
-      "model_version": "DeepSeek-V4.1-Flash-1017",
-      "currency": "CNY",
-      "verified_date": "2026-10-22",
-      "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
-      "input_ceiling_tokens": 1048576,
-      "max_output_tokens": 8192,
-      "peak_input_nano_per_token": 2000,
-      "peak_cached_input_nano_per_token": 40,
-      "peak_output_nano_per_token": 8000,
-      "request_limit_per_attempt": 12
-    },
-    "tasks": [
-      {
-        "instance_id": "catchorg__Catch2-2723",
-        "task_file": "catch2723-task.yaml",
-        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
-        "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
-        "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
-        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
-        "editable_files": 274,
-        "f2p": 2,
-        "p2p": 67,
-        "current_image_verified": true,
-        "record_file": "catch2723-record.json",
-        "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
-      },
-      {
-        "instance_id": "catchorg__Catch2-2187",
-        "task_file": "catch2187-task.yaml",
-        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
-        "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
-        "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
-        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
-        "editable_files": 211,
-        "f2p": 2,
-        "p2p": 32,
-        "current_image_verified": true,
-        "record_file": "catch2187-record.json",
-        "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
-      }
-    ],
-    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
-    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
-    "paid_run_authorized": true,
-    "authorization": "用户授权：在总20元预算内自主推进，无需逐轮确认",
+    "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+    "state": "selected_for_held_out_validation",
+    "results": "repair-cycle-results.json",
     "ci": {
       "run_id": 39721519709,
       "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
       "conclusion": "success",
       "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
-    },
-    "ledger_parents": [
-      {
-        "path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
-        "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
-        "requests": 140,
-        "cost_upper_bound_cny": 1.57663872
-      }
-    ],
-    "prior_requests": 140,
-    "prior_cost_upper_bound_cny": 1.57663872,
-    "state": "prepared",
-    "local_checks_passed": 11,
-    "budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
+    }
   },
-  "cumulative_model_requests": 140,
-  "cumulative_cost_upper_bound_cny": 1.57663872,
-  "budget_authorization": "累计20元内自主推进，保留所有历史消费"
+  "cumulative_model_requests": 185,
+  "cumulative_cost_upper_bound_cny": 2.18923088,
+  "budget_authorization": "累计20元内自主推进，保留所有历史消费",
+  "latest_experiment_results": "cpp-navigation-results.json",
+  "latest_experiment": {
+    "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+    "results": "cpp-navigation-results.json",
+    "metrics": {
+      "repropatch": {
+        "attempted": 2,
+        "resolved": 0,
+        "resolved_at_1": 0.0,
+        "cost_upper_bound_cny": 0.38906024,
+        "cost_per_resolved_upper_bound_cny": null,
+        "model_requests": 21
+      },
+      "mini": {
+        "attempted": 2,
+        "resolved": 0,
+        "resolved_at_1": 0.0,
+        "cost_upper_bound_cny": 0.22353192,
+        "cost_per_resolved_upper_bound_cny": null,
+        "model_requests": 24
+      }
+    },
+    "archive": {
+      "scope": "两题同模型对照的原始轨迹、候选、Oracle决策及累计账本",
+      "name": "ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
+      "sha256": "660af9b109106560df7f5be0d80ad8aebfc448e3f1d5156e0c2424f10addb180",
+      "files": 1137,
+      "size_bytes": 3920811,
+      "uncompressed_bytes": 22542843,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cpp-navigation-pilot-2026-10-22/ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
+      "manifest": "cpp-navigation-pilot/evidence-manifest.json",
+      "per_file_verification": "passed",
+      "credential_pattern_scan": "passed"
+    },
+    "ci": {
+      "run_id": 39724385836,
+      "source_commit": "940407d8494f2a90eb1abdbceee1bd524c1947c0",
+      "conclusion": "success"
+    }
+  },
+  "next_task": {
+    "instance_id": "fmtlib__fmt-4310",
+    "state": "compile_failure_reproduced",
+    "probe": {
+      "path": "fmt4310-probe/compile-probe.json",
+      "sha256": "7a26a1f36be63347cddb823030b8057b961474e9115f82d01251f4f889ca222d",
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "upstream_base_commit": "01914f0389ef6ff151c289670f6910e059d5063f",
+      "observed_exits": [
+        0,
+        1,
+        0
+      ],
+      "task_v2_ready": false,
+      "model_requests": 0
+    },
+    "evidence_archive": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cpp-navigation-pilot-2026-10-22/ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz"
+  },
+  "active_budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
 }

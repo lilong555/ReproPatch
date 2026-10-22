@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "scope": "cpp_navigation_two_task_comparison",
+  "product_version": "0.3.0rc3",
+  "execution_source_commit": "940407d8494f2a90eb1abdbceee1bd524c1947c0",
+  "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "pricing_policy": {
+    "currency": "CNY",
+    "input_ceiling_tokens": 1048576,
+    "max_output_tokens": 8192,
+    "model": "deepseek-flash",
+    "model_version": "DeepSeek-V4.1-Flash-1017",
+    "peak_cached_input_nano_per_token": 40,
+    "peak_input_nano_per_token": 2000,
+    "peak_output_nano_per_token": 8000,
+    "request_limit_per_attempt": 12,
+    "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "verified_date": "2026-10-22"
+  },
+  "budget_cap_cny": 20.0,
+  "model_requests": 45,
+  "unknown_usage_requests": 0,
+  "cost_upper_bound_cny": 0.61259216,
+  "actual_billed_cost_cny": null,
+  "request_ledger": {
+    "path": "budget.sqlite3",
+    "sha256": "5d4b290d11d004f9380e0109f4ef9342b76e70da49936583a9b3709e8d70556d",
+    "size_bytes": 110592
+  },
+  "coverage": {
+    "verified_adapted_instances": 2,
+    "denominator": 129,
+    "lower_bound": 0.015503875968992248,
+    "screening_complete": false
+  },
+  "tasks": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "task_file": "catch2723-task.yaml",
+      "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+      "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
+      "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+      "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+      "editable_files": 274,
+      "f2p": 2,
+      "p2p": 67,
+      "current_image_verified": true,
+      "record_file": "catch2723-record.json",
+      "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "task_file": "catch2187-task.yaml",
+      "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+      "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
+      "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+      "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+      "editable_files": 211,
+      "f2p": 2,
+      "p2p": 32,
+      "current_image_verified": true,
+      "record_file": "catch2187-record.json",
+      "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
+    }
+  ],
+  "metrics": {
+    "repropatch": {
+      "attempted": 2,
+      "resolved": 0,
+      "resolved_at_1": 0.0,
+      "cost_upper_bound_cny": 0.38906024,
+      "cost_per_resolved_upper_bound_cny": null,
+      "model_requests": 21
+    },
+    "mini": {
+      "attempted": 2,
+      "resolved": 0,
+      "resolved_at_1": 0.0,
+      "cost_upper_bound_cny": 0.22353192,
+      "cost_per_resolved_upper_bound_cny": null,
+      "model_requests": 24
+    }
+  },
+  "attempts": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt": "nav-catch2723-rp-1",
+      "oracle_resolved": false,
+      "native_outcome": "BUDGET_EXHAUSTED",
+      "agent_stop_reason": "STEP_BUDGET",
+      "result": {
+        "path": "2723-rp/result.json",
+        "sha256": "91fb03e411811c8a7659ede097251cb48739a55e79855f6430564f142fc806ec",
+        "size_bytes": 969
+      },
+      "candidate": {
+        "path": "2723-rp/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2723-rp-oracle/oracle-verdict.json",
+        "sha256": "39770e36065e483de090f07367419632c6e7c7b7d5bce24dca7664f4688344b6",
+        "size_bytes": 279
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 20,
+      "raw_usage": {
+        "input_tokens": 458424,
+        "output_tokens": 8625,
+        "total_tokens": 467049,
+        "cached_input_tokens": 412544,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.17726176,
+      "worker_duration_seconds": 138.23136101100044,
+      "container_deleted": true,
+      "worker_timing_scope": "含基线、自检与独立验收的 Harness 总时间",
+      "native_report": {
+        "path": "2723-rp/runs/7ec2f1ee7d7341d3a68d7bfac30fca1e/report.json",
+        "sha256": "9d233a7774ffeacdc3218cf60e0cdbaa8dff775f8e48a09d334dbdfaf9ba1948",
+        "size_bytes": 459654
+      },
+      "provenance": {
+        "base_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "image_repo_digests": [],
+        "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 14.2.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "baseline_duration_seconds": 74.892389,
+      "evaluation_durations": [
+        {
+          "role": "baseline",
+          "seconds": 74.892389
+        }
+      ],
+      "max_native_input_bytes": 190762,
+      "internal_independent_accepted": null,
+      "phase_seconds": {
+        "PREPARING": 1.49771,
+        "REPRODUCING": 75.725806,
+        "REPAIRING": 60.631595
+      },
+      "tool_types": {
+        "search_code": 8,
+        "read_file": 10,
+        "run_shell": 2
+      },
+      "first_successful_edit_model_step": null,
+      "first_check_model_step": null
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt": "nav-catch2723-mini-1",
+      "oracle_resolved": false,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "result": {
+        "path": "2723-mini/result.json",
+        "sha256": "678fffa385359f2717eb673e560dec52e3e3bac374b29613527082d3bcd66500",
+        "size_bytes": 759
+      },
+      "candidate": {
+        "path": "2723-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2723-mini-oracle/oracle-verdict.json",
+        "sha256": "39770e36065e483de090f07367419632c6e7c7b7d5bce24dca7664f4688344b6",
+        "size_bytes": 279
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 18,
+      "raw_usage": {
+        "input_tokens": 438225,
+        "output_tokens": 3796,
+        "total_tokens": 442021,
+        "cached_input_tokens": 397312,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.12808648,
+      "worker_duration_seconds": 74.09235908099981,
+      "container_deleted": true,
+      "worker_timing_scope": "原生生成与工作区自检，不含公共 Oracle"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt": "nav-catch2187-rp-1",
+      "oracle_resolved": false,
+      "native_outcome": "BUDGET_EXHAUSTED",
+      "agent_stop_reason": "TOOL_BUDGET",
+      "result": {
+        "path": "2187-rp/result.json",
+        "sha256": "01ad2edfe0e86c4941cb5ea0c5845a9ea5f2de42798bbc2f277656a9414e1ce1",
+        "size_bytes": 967
+      },
+      "candidate": {
+        "path": "2187-rp/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2187-rp-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "model_requests": 9,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 23,
+      "raw_usage": {
+        "input_tokens": 302133,
+        "output_tokens": 14571,
+        "total_tokens": 316704,
+        "cached_input_tokens": 259712,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.21179848,
+      "worker_duration_seconds": 112.20103632399969,
+      "container_deleted": true,
+      "worker_timing_scope": "含基线、自检与独立验收的 Harness 总时间",
+      "native_report": {
+        "path": "2187-rp/runs/5802f612982e45a7a307eb983db00236/report.json",
+        "sha256": "e3f23f7b4d9ae16dbc203cf793b47e7105cd5ecb845ca3fc4408f99ffbbe5d9d",
+        "size_bytes": 854573
+      },
+      "provenance": {
+        "base_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "image_repo_digests": [],
+        "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+        "platform": "linux/amd64",
+        "software_version": "0.3.0rc3",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
+        "tool_versions": {
+          "cmake": "4.4.4",
+          "ctest": "4.4.4",
+          "cxx": "c++ (GCC) 7.5.0",
+          "docker_client": "28.3.2",
+          "docker_server": "28.3.2",
+          "git": "git version 2.34.1",
+          "kernel": "6.18.54.1-microsoft-standard-WSL2"
+        }
+      },
+      "baseline_duration_seconds": 38.543009,
+      "evaluation_durations": [
+        {
+          "role": "baseline",
+          "seconds": 38.543009
+        }
+      ],
+      "max_native_input_bytes": 217947,
+      "internal_independent_accepted": null,
+      "phase_seconds": {
+        "PREPARING": 1.281687,
+        "REPRODUCING": 39.160493,
+        "REPAIRING": 71.443241
+      },
+      "tool_types": {
+        "search_code": 15,
+        "read_file": 8
+      },
+      "first_successful_edit_model_step": null,
+      "first_check_model_step": null
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt": "nav-catch2187-mini-1",
+      "oracle_resolved": false,
+      "native_outcome": "LimitsExceeded",
+      "agent_stop_reason": "LimitsExceeded",
+      "result": {
+        "path": "2187-mini/result.json",
+        "sha256": "09ab18f53b3b65159ff7dd412c8385b89c5e4c1508fc0f622fdc049272fd1865",
+        "size_bytes": 759
+      },
+      "candidate": {
+        "path": "2187-mini/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2187-mini-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "oracle_tests_executed": false,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "model_requests": 12,
+      "response_models": [
+        "deepseek-flash"
+      ],
+      "tool_calls": 12,
+      "raw_usage": {
+        "input_tokens": 309184,
+        "output_tokens": 3219,
+        "total_tokens": 312403,
+        "cached_input_tokens": 279936,
+        "unknown_requests": 0
+      },
+      "cost_upper_bound_cny": 0.09544544,
+      "worker_duration_seconds": 36.13457654499962,
+      "container_deleted": true,
+      "worker_timing_scope": "原生生成与工作区自检，不含公共 Oracle"
+    }
+  ],
+  "fairness": [
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "identical_initial_domain_input": true,
+      "domain_input_sha256": "5df4d7e4059be1e8b214fd34a6d8049a4a919fc3feb4625ba59865b818eede55",
+      "request_settings": {
+        "repropatch": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        },
+        "mini": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        }
+      },
+      "time_alignment": {
+        "common_input_path": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/2723-rp/runs/7ec2f1ee7d7341d3a68d7bfac30fca1e/agent/native/0001-input.json",
+        "common_input_reference": {
+          "path": "agent/native/0001-input.json",
+          "sha256": "cdf4b0405b20246261aea8e6496d2f7a99e8ec50079e207cef5ac25a3075a53d",
+          "size_bytes": 74011
+        },
+        "baseline_duration_seconds": 74.892389,
+        "baseline_charged_seconds": 75,
+        "mini_agent_seconds": 815,
+        "reserve_seconds": 10,
+        "rp_timing": {
+          "created_at": "2026-10-22T04:51:45.420123+00:00",
+          "deadline_at": "2026-10-22T05:21:45.420123+00:00",
+          "elapsed_ms": 137762,
+          "finished_at": "2026-10-22T04:54:03.181938+00:00"
+        }
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "identical_initial_domain_input": true,
+      "domain_input_sha256": "545146ec1c054c5e7b5cef3b69049fbeee9bf3ffd2c38aa24dccfcd80d55fb1d",
+      "request_settings": {
+        "repropatch": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        },
+        "mini": {
+          "model": "deepseek-flash",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        }
+      },
+      "time_alignment": {
+        "common_input_path": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/2187-rp/runs/5802f612982e45a7a307eb983db00236/agent/native/0001-input.json",
+        "common_input_reference": {
+          "path": "agent/native/0001-input.json",
+          "sha256": "2a397d0e2cc7466c498090bc5e66417f44fd246d049396ed9fca79041aa41832",
+          "size_bytes": 55790
+        },
+        "baseline_duration_seconds": 38.543009,
+        "baseline_charged_seconds": 39,
+        "mini_agent_seconds": 851,
+        "reserve_seconds": 10,
+        "rp_timing": {
+          "created_at": "2026-10-22T04:58:13.453409+00:00",
+          "deadline_at": "2026-10-22T05:28:13.453409+00:00",
+          "elapsed_ms": 111888,
+          "finished_at": "2026-10-22T05:00:05.341691+00:00"
+        }
+      }
+    }
+  ],
+  "source_manifest": {
+    "path": "source-manifest.json",
+    "sha256": "93898f4fa183a5fb6789e573f67fe171e63b943851de611598c96b206bdac919",
+    "size_bytes": 4570
+  },
+  "historical_results": "pilot-results.json",
+  "provider_preflight": {
+    "path": "provider-preflight.json",
+    "sha256": "a3078b494b472eddb5c7f60623dc7f4d291b879088d666fd7d2a635eb06f0ca9",
+    "size_bytes": 826
+  },
+  "prior_model_requests": 140,
+  "prior_cost_upper_bound_cny": 1.57663872,
+  "cumulative_model_requests": 185,
+  "cumulative_cost_upper_bound_cny": 2.18923088,
+  "ledger_parents": [
+    {
+      "path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
+      "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
+      "requests": 140,
+      "cost_upper_bound_cny": 1.57663872
+    }
+  ],
+  "archive": {
+    "scope": "两题同模型对照的原始轨迹、候选、Oracle决策及累计账本",
+    "name": "ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
+    "sha256": "660af9b109106560df7f5be0d80ad8aebfc448e3f1d5156e0c2424f10addb180",
+    "files": 1137,
+    "size_bytes": 3920811,
+    "uncompressed_bytes": 22542843,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cpp-navigation-pilot-2026-10-22/ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
+    "manifest": "cpp-navigation-pilot/evidence-manifest.json",
+    "per_file_verification": "passed",
+    "credential_pattern_scan": "passed"
+  }
+}

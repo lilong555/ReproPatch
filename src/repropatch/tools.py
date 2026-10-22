@@ -173,7 +173,6 @@ class Toolbox:
                 upper = middle - 1
         result = {
             "path": path,
-            "editable": path in self.allowed,
             "start_line": start_line,
             "text": content[:lower],
             "total_lines": total_lines,
@@ -189,12 +188,10 @@ class Toolbox:
             result["end_line"] = start_line + len(result["text"].splitlines()) - 1
         return result
 
-    def search_code(self, query: str, path=".", context_lines=3) -> dict:
+    def search_code(self, query: str, path=".") -> dict:
         self.bounded(query, 1024)
         if not query:
             raise PolicyError("Search query must contain 1 to 1024 characters")
-        if type(context_lines) is not int or not 0 <= context_lines <= 20:
-            raise PolicyError("INVALID_ARGUMENT: 搜索上下文行数为 0–20")
         matches = []
         total = 0
         for name in self._scope(path):
@@ -202,23 +199,9 @@ class Toolbox:
                 _, content = self._text(name)
             except PolicyError:
                 continue
-            lines = content.splitlines()
-            for line, text in enumerate(lines, 1):
+            for line, text in enumerate(content.splitlines(), 1):
                 if query in text:
-                    match = {
-                        "path": name,
-                        "editable": name in self.allowed,
-                        "line": line,
-                        "text": text[:300],
-                    }
-                    if context_lines:
-                        start = max(0, line - 1 - context_lines)
-                        end = min(len(lines), line + context_lines)
-                        match["context"] = {
-                            "start_line": start + 1,
-                            "end_line": end,
-                            "text": "\n".join(value[:300] for value in lines[start:end]),
-                        }
+                    match = {"path": name, "line": line, "text": text[:300]}
                     if (
                         len(canonical_json({"matches": matches + [match], "truncated": True}))
                         > PREVIEW_LIMIT
@@ -292,11 +275,9 @@ def sdk_tools(toolbox, boundary, shell):
         return await boundary("read_file", lambda: toolbox.read_file(path, start_line, max_lines))
 
     @function_tool(failure_error_function=None)
-    async def search_code(query: str, path: str = ".", context_lines: StrictInt = 3) -> str:
-        """搜索区分大小写的字面文本，返回行号、可编辑状态及前后各 0–20 行上下文。"""
-        return await boundary(
-            "search_code", lambda: toolbox.search_code(query, path, context_lines)
-        )
+    async def search_code(query: str, path: str = ".") -> str:
+        """在授权范围内搜索区分大小写的字面文本。"""
+        return await boundary("search_code", lambda: toolbox.search_code(query, path))
 
     @function_tool(failure_error_function=None)
     async def edit_file(path: str, old: str, new: str) -> str:
@@ -305,7 +286,7 @@ def sdk_tools(toolbox, boundary, shell):
 
     @function_tool(failure_error_function=None)
     async def run_command(name: Literal["reproduce", "verify"]) -> str:
-        """从当前源码在全新容器中完成 CMake 配置、编译与固定 CTest，无需先单独构建。"""
+        """在全新只读源码容器中执行固定自查。"""
         return await boundary("run_command", lambda: toolbox.run_command(name))
 
     @function_tool(failure_error_function=None)
@@ -314,7 +295,7 @@ def sdk_tools(toolbox, boundary, shell):
         cwd: Literal["/src", "/build"] = "/src",
         timeout_seconds: StrictInt | None = None,
     ) -> str:
-        """在一次性容器执行只读源码 Shell；每次 /build 为空，临时构建只在本次调用内保留。"""
+        """在一次性 Docker 容器内执行 Shell，源码只读。"""
         return await boundary("run_shell", lambda: shell(command, cwd, timeout_seconds))
 
     return [list_directory, read_file, search_code, edit_file, run_command, run_shell]

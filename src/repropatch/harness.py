@@ -58,11 +58,6 @@ Use a short repair cycle: identify a concrete failing behavior, trace the releva
 declaration/definition or macro expansion to its implementation, make a small testable edit,
 then run the configured verify command. Prefer focused symbol searches and line ranges.
 The baseline has already run; use its observed failures before repeating a full build.
-run_command("verify") performs CMake configuration, compilation and the fixed CTest checks
-from the current source. Call it directly after an edit. Each run_shell call starts a fresh
-container with an empty /build; commands that share temporary build files must be combined.
-search_code returns surrounding lines and editable status; increase context_lines for a
-focused C++ definition before requesting a larger read_file range.
 CTest aggregates can contain expected-failure cases: interpret the selected test status
 and the project's test expectations together when choosing the defect to repair.
 

@@ -10,9 +10,9 @@
     "commit": null,
     "commit_source": "GitHub Release tag 与发布附件 release-manifest.json；源码树不内嵌自指 commit"
   },
-  "current_task": "R2",
-  "task_status": "benchmark_in_progress",
-  "next_task": "R3",
+  "current_task": "R3",
+  "task_status": "in_progress",
+  "next_task": null,
   "completed_tasks": [
     "P1-01",
     "P1-02",
@@ -165,79 +165,18 @@
   },
   "implementation_scope": "已发布 v0.3.0rc3；当前开发实现身份见 development",
   "development": {
-    "schema_version": 1,
-    "scope": "C++搜索上下文与完整验证工具语义，两题两组各一次",
-    "created_at": "2026-10-22T04:43:10.418898+00:00",
-    "product_version": "0.3.0rc3",
-    "candidate": "cpp_navigation",
-    "core_implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
-    "execution_source_commit": null,
-    "pricing_policy": {
-      "model": "deepseek-flash",
-      "model_version": "DeepSeek-V4.1-Flash-1017",
-      "currency": "CNY",
-      "verified_date": "2026-10-22",
-      "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
-      "input_ceiling_tokens": 1048576,
-      "max_output_tokens": 8192,
-      "peak_input_nano_per_token": 2000,
-      "peak_cached_input_nano_per_token": 40,
-      "peak_output_nano_per_token": 8000,
-      "request_limit_per_attempt": 12
-    },
-    "tasks": [
-      {
-        "instance_id": "catchorg__Catch2-2723",
-        "task_file": "catch2723-task.yaml",
-        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
-        "task_source_sha256": "d39996b2c63f82f6bd35daea4658bb71c1bdac10b5fbecf6fff45ae32e9656aa",
-        "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
-        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
-        "editable_files": 274,
-        "f2p": 2,
-        "p2p": 67,
-        "current_image_verified": true,
-        "record_file": "catch2723-record.json",
-        "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
-      },
-      {
-        "instance_id": "catchorg__Catch2-2187",
-        "task_file": "catch2187-task.yaml",
-        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
-        "task_source_sha256": "0588a9766a2117ebddce957803c42122cba50472762ec045ff79ed3c1958056a",
-        "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
-        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
-        "editable_files": 211,
-        "f2p": 2,
-        "p2p": 32,
-        "current_image_verified": true,
-        "record_file": "catch2187-record.json",
-        "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
-      }
-    ],
-    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
-    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
-    "paid_run_authorized": true,
-    "authorization": "用户授权：在总20元预算内自主推进，无需逐轮确认",
+    "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
+    "state": "selected_for_held_out_validation",
+    "results": "benchmarks/repair-cycle-results.json",
     "ci": {
       "run_id": 39721519709,
       "source_commit": "4e780edf41e6611c60da1044bfc0cfc951885b97",
       "conclusion": "success",
       "url": "https://github.com/lilong555/ReproPatch/actions/runs/39721519709"
     },
-    "ledger_parents": [
-      {
-        "path": "/home/li/repropatch/.repropatch/repair-cycle-pilot/budget.sqlite3",
-        "sha256": "59dd215ae978fc4f9b37343f6508ffe59f719c4cdf7dd26b2a8e25eb51ddbb42",
-        "requests": 140,
-        "cost_upper_bound_cny": 1.57663872
-      }
-    ],
-    "prior_requests": 140,
-    "prior_cost_upper_bound_cny": 1.57663872,
-    "state": "prepared",
-    "local_checks_passed": 11,
-    "budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
+    "budget_cap_cny": 20,
+    "cumulative_cost_upper_bound_cny": 2.18923088,
+    "authorization": "累计20元预算内自主推进"
   },
   "latest_development_benchmark": {
     "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
@@ -246,5 +185,12 @@
     "mini_resolved": 0,
     "tasks_per_agent": 2,
     "cost_upper_bound_cny": 0.50842656
+  },
+  "latest_experiment_benchmark": {
+    "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
+    "results": "benchmarks/cpp-navigation-results.json",
+    "repropatch_resolved": 0,
+    "mini_resolved": 0,
+    "tasks_per_agent": 2
   }
 }

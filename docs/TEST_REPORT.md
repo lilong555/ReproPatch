@@ -6,7 +6,11 @@
 [核心、SDK 与真实 Docker CI](https://github.com/lilong555/ReproPatch/actions/runs/39721519709) 全部通过。
 预算反馈候选的真实对照为 RP 1/2、mini 0/2，2187 通过内部独立验收及官方 2 F2P + 50 P2P。
 本轮 48 请求费用上界 ¥0.50842656，结果见 [候选报告](../benchmarks/repair-cycle-results.md)。
-搜索上下文与完整构建验证说明的后续候选通过 11 项定向检查，真实模型效果待其独立批次评测。
+搜索上下文实验通过 11 项定向检查及 [完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/39724385836)，
+真实对照为两组均 0/2，结果见 [导航报告](../benchmarks/cpp-navigation-results.md)。
+默认实现的源码字节与已评测预算反馈候选一致，实现 SHA-256 为
+`3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285`。
+累计 Benchmark 费用上界 ¥2.18923088。FMT-4310 的零模型编译复现为 0/1/0 退出码，Task 适配待完成。
 已发布 rc3 的成绩及 CI 记录如下。
 
 当前版本：**0.3.0rc3，Task v2**。验收日期：2026-10-21。

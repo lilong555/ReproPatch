@@ -7,15 +7,20 @@
 使用固定 Git 基线、全新 Docker 环境和 CMake/CTest 独立验收外部补丁。
 两条入口共用测试身份、完整源码清单与补丁往返检查。
 
-当前开发实现提供实时剩余额度、源码状态、搜索上下文和完整构建验证工具，
+当前默认实现提供实时剩余额度、源码状态和短修复循环策略，
 任务状态见 [实施计划](docs/IMPLEMENTATION_PLAN.md)。
 
-**最新真实对照：** 预算反馈候选在两个 Multi-SWE-bench Catch2 实例上取得
-ReproPatch **1/2**、mini-SWE-agent **0/2**，同一 DeepSeek 模型、每组每题一次。
-48 次请求费用上界 **¥0.50842656**，2187 通过官方 2 F2P + 50 P2P。
-详见 [预算反馈候选报告](benchmarks/repair-cycle-results.md)；搜索上下文候选正在准备独立新批次。
+同一 DeepSeek 模型、两个 Multi-SWE-bench Catch2 实例、每组每题一次的开发对照：
+
+| 实现 | ReproPatch | mini-SWE-agent | 报告 |
+| --- | --- | --- | --- |
+| 当前默认：预算反馈策略 | **1/2** | **0/2** | [结果与证据](benchmarks/repair-cycle-results.md) |
+| 搜索上下文实验 | **0/2** | **0/2** | [结果与证据](benchmarks/cpp-navigation-results.md) |
+
+2187 的预算反馈候选通过官方 2 F2P + 50 P2P。全部 Benchmark 历史累计费用上界 **¥2.18923088 / ¥20**。
+两题均用于开发诊断；当前正在准备 FMT 编译失败任务，补充独立任务验证。
 [此前 rc3 批次](benchmarks/rc3-rerun.md) 为两组均 0/2。
-[历史 rc2 批次](benchmarks/pilot-results.md) 为 RP 0/2、mini 1/2，两批结果分别保留。
+[历史 rc2 批次](benchmarks/pilot-results.md) 为 RP 0/2、mini 1/2，各批结果分别保留。
 
 SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
 已发布基线 CI 为 **325 核心 + 147 SDK + 21 Docker 场景**；执行范围见 [测试报告](docs/TEST_REPORT.md)。

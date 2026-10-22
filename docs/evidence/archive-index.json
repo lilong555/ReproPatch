@@ -68,6 +68,18 @@
       "manifest": "repair-cycle-pilot/evidence-manifest.json",
       "per_file_verification": "passed",
       "credential_pattern_scan": "passed"
+    },
+    {
+      "scope": "两题同模型对照的原始轨迹、候选、Oracle决策及累计账本",
+      "name": "ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
+      "sha256": "660af9b109106560df7f5be0d80ad8aebfc448e3f1d5156e0c2424f10addb180",
+      "files": 1137,
+      "size_bytes": 3920811,
+      "uncompressed_bytes": 22542843,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cpp-navigation-pilot-2026-10-22/ReproPatch-cpp-navigation-pilot-2026-10-22.tar.gz",
+      "manifest": "cpp-navigation-pilot/evidence-manifest.json",
+      "per_file_verification": "passed",
+      "credential_pattern_scan": "passed"
     }
   ]
 }

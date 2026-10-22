@@ -28,21 +28,12 @@ def test_tools_and_edit_policy(repository, tmp_path):
         tools = Toolbox(work, ("src/stats.cpp",), lambda name: [])
         assert "int best = 0;" in tools.read_file("src/stats.cpp")["text"]
         assert tools.search_code("maximum_sample")["matches"]
-        found = tools.search_code("maximum_sample", path="src/stats.cpp", context_lines=2)
-        hit = found["matches"][0]
-        assert hit["editable"] and hit["context"]["start_line"] <= hit["line"]
-        lines = tools.read_file("src/stats.cpp")["text"].splitlines()
-        window = hit["context"]
-        assert window["text"] == "\n".join(lines[window["start_line"] - 1 : window["end_line"]])
-        assert "context" not in tools.search_code("maximum_sample", context_lines=0)["matches"][0]
         for callback in (
             lambda: tools.read_file("../repo/src/stats.cpp"),
             lambda: tools.read_file(".git"),
             lambda: tools.run_command("sh -c rm -rf /"),
             lambda: tools.edit_file("tests/stats_test.cpp", "return 1;", "return 0;"),
             lambda: tools.edit_file("src/stats.cpp", "missing", "x"),
-            lambda: tools.search_code("maximum_sample", context_lines=True),
-            lambda: tools.search_code("maximum_sample", context_lines=21),
         ):
             with pytest.raises(PolicyError):
                 callback()

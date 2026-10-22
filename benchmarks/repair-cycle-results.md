@@ -40,7 +40,8 @@ JSON 中 `first_check_model_step` 专指固定验证工具，Shell 命令保存�
 
 与[上一轮 rc3](rc3-rerun.md)相比，本轮 RP 从 0/2 变为 1/2，mini 保持 0/2。
 这两题已用于开发诊断，当前分数描述本批首次尝试；重复实验与未参与调优的 C++ 任务
-用于后续检验稳定性及泛化。当前继续改进搜索上下文和构建工具说明，状态见 [readiness.json](readiness.json)。
+用于后续检验稳定性及泛化。后续的 [导航实验](cpp-navigation-results.md) 独立保留；
+默认实现保留预算反馈策略，当前任务状态见 [readiness.json](readiness.json)。
 
 ## 原始证据
 
