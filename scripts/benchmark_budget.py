@@ -162,20 +162,27 @@ class BudgetLedger:
 
 
 class BudgetHooks:
-    def __init__(self, ledger, attempt, trace_root):
+    def __init__(self, ledger, attempt, trace_root, *, local_luna=False):
         self.ledger = ledger
         self.attempt = attempt
         self.trace_root = Path(trace_root)
         self.trace_root.mkdir(parents=True, exist_ok=False, mode=0o700)
+        self.local_luna = local_luna
 
     def request(self, request):
-        check_pricing_date()
+        if not self.local_luna:
+            check_pricing_date()
         url = request.url
+        endpoint_matches = (
+            url.scheme == "http" and url.host == "127.0.0.1" and url.port == 8317
+            if self.local_luna
+            else url.scheme == "https"
+            and url.host == "api.deepseek.com"
+            and url.port in (None, 443)
+        )
         if (
             request.method != "POST"
-            or url.scheme != "https"
-            or url.host != "api.deepseek.com"
-            or url.port not in (None, 443)
+            or not endpoint_matches
             or url.query
             or url.fragment
             or url.username
@@ -188,7 +195,7 @@ class BudgetHooks:
             raise BudgetLimit("BENCHMARK_REQUEST_TOO_LARGE")
         body = json.loads(payload)
         if (
-            body.get("model") != POLICY["model"]
+            body.get("model") != ("gpt-6-luna" if self.local_luna else POLICY["model"])
             or body.get("max_output_tokens") != POLICY["max_output_tokens"]
             or body.get("stream", False) is not False
         ):
@@ -233,3 +240,85 @@ class BudgetHooks:
         identity = response.request.extensions["benchmark_request_id"]
         content = await response.aread()
         self.finish(identity, content, response.status_code)
+
+
+class LocalUsageLedger:
+    """本机自备额度只记请求和供应商用量，费用保持未知，独立于人民币账本。"""
+
+    def __init__(self, path):
+        self.path = Path(path).resolve()
+        with self.connect() as db:
+            if db.execute("SELECT value FROM metadata").fetchone() != ("local-luna-v1",):
+                raise BudgetLimit("LOCAL_USAGE_LEDGER_MISMATCH")
+
+    def connect(self):
+        return sqlite3.connect(self.path.as_uri() + "?mode=rw", uri=True, timeout=10)
+
+    @classmethod
+    def create(cls, path):
+        path = Path(path).resolve()
+        path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        os.close(os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600))
+        with sqlite3.connect(path) as db:
+            db.executescript(
+                "CREATE TABLE metadata(value TEXT NOT NULL);"
+                "INSERT INTO metadata VALUES ('local-luna-v1');"
+                "CREATE TABLE requests(id TEXT PRIMARY KEY,attempt TEXT NOT NULL,"
+                "sent_at TEXT NOT NULL,request_sha256 TEXT NOT NULL,"
+                "usage TEXT,status_code INTEGER,response_sha256 TEXT);"
+            )
+        return cls(path)
+
+    def reserve(self, attempt, payload):
+        identity = uuid.uuid4().hex
+        with self.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            count = db.execute(
+                "SELECT COUNT(*) FROM requests WHERE attempt=?", (attempt,)
+            ).fetchone()[0]
+            if count >= POLICY["request_limit_per_attempt"]:
+                raise BudgetLimit("BENCHMARK_REQUEST_LIMIT")
+            db.execute(
+                "INSERT INTO requests(id,attempt,sent_at,request_sha256) VALUES (?,?,?,?)",
+                (
+                    identity,
+                    attempt,
+                    datetime.now(UTC).isoformat(),
+                    hashlib.sha256(payload).hexdigest(),
+                ),
+            )
+        return identity
+
+    def settle(self, identity, content, status_code):
+        usage = None
+        try:
+            value = json.loads(content).get("usage")
+            if status_code == 200 and isinstance(value, dict):
+                if all(
+                    type(value.get(k)) is int and value[k] >= 0
+                    for k in ("input_tokens", "output_tokens")
+                ):
+                    usage = json.dumps(value, sort_keys=True)
+        except (ValueError, AttributeError):
+            pass
+        with self.connect() as db:
+            updated = db.execute(
+                "UPDATE requests SET usage=?,status_code=?,response_sha256=? "
+                "WHERE id=? AND status_code IS NULL",
+                (usage, status_code, hashlib.sha256(content).hexdigest(), identity),
+            )
+            if updated.rowcount != 1:
+                raise BudgetLimit("BENCHMARK_BUDGET_SETTLEMENT_CONFLICT")
+
+    def summary(self, attempt=None):
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT usage FROM requests" + (" WHERE attempt=?" if attempt else ""),
+                (attempt,) if attempt else (),
+            ).fetchall()
+        return {
+            "requests": len(rows),
+            "unknown_usage_requests": sum(row[0] is None for row in rows),
+            "cost_cny": None,
+            "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量",
+        }

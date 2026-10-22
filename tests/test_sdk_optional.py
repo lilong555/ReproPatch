@@ -53,6 +53,9 @@ def test_timeout_is_positive_and_finite(value):
     "url",
     [
         "http://localhost/v1",
+        "http://192.168.1.2/v1",
+        "http://127.0.0.1.example.invalid/v1",
+        "http://user:secret@127.0.0.1:8317/v1",
         "https://user:secret@example.invalid/v1",
         "https://example.invalid/v1?key=secret",
         "https://example.invalid/v1#secret",
@@ -73,6 +76,13 @@ def test_endpoint_policy_precedes_dependency_or_credentials(url):
 
     with pytest.raises(ReproPatchError):
         asyncio.run(scenario())
+
+
+@pytest.mark.parametrize("url", ["http://127.0.0.1:8317/v1", "http://[::1]:8317/v1"])
+def test_literal_loopback_model_endpoint(url):
+    from repropatch.models import validate_model_options
+
+    validate_model_options("gpt-6-luna", url, "OPENAI_API_KEY", True)
 
 
 @pytest.mark.parametrize("missing", [True, False])

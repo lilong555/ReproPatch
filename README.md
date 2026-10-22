@@ -17,7 +17,9 @@
 | 当前默认：预算反馈策略 | **1/2** | **0/2** | [结果与证据](benchmarks/repair-cycle-results.md) |
 | 搜索上下文实验 | **0/2** | **0/2** | [结果与证据](benchmarks/cpp-navigation-results.md) |
 
-2187 的预算反馈候选通过官方 2 F2P + 50 P2P。全部 Benchmark 历史累计费用上界 **¥2.18923088 / ¥20**。
+2187 的预算反馈候选通过官方 2 F2P + 50 P2P。DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**。
+本机 `gpt-6-luna` 的新对照完成执行后为 RP **1/2**、mini **2/2**；
+mini有一次接入故障重试，两组首启成绩均为 **1/2**，详见 [Luna报告](benchmarks/luna-results.md)。
 两题均用于开发诊断；当前正在准备 FMT 编译失败任务，补充独立任务验证。
 [此前 rc3 批次](benchmarks/rc3-rerun.md) 为两组均 0/2。
 [历史 rc2 批次](benchmarks/pilot-results.md) 为 RP 0/2、mini 1/2，各批结果分别保留。
@@ -262,6 +264,9 @@ python3.12 -m venv .venv-agent
 真实模型需 `--engine agents-sdk --model MODEL --allow-paid-model`，不得将 key 放入命令行；
 模型密钥通过 `--key-env` 指定的环境变量供应。客户端默认直连；
 `--use-env-proxy` 显式信任 HTTPX 的宿主代理及 TLS 环境配置，容器仍不继承这些配置。
+本机模型代理支持字面回环地址 `http://127.0.0.1:8317/v1` 和 IPv6 `::1`，
+可用 `--model gpt-6-luna --api-base http://127.0.0.1:8317/v1 --key-env OPENAI_API_KEY`
+选择本机模型，配合 `--engine agents-sdk --allow-paid-model` 执行。
 `run` 默认使用 fake，必须提供 `--mock-script`；`sdk` 和 `--model-name` 分别是 engine 与 model 参数的别名。
 
 经授权的真实自动修复示例：

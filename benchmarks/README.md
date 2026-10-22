@@ -1,10 +1,13 @@
 # ReproPatch 评测
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
+最新本机 `gpt-6-luna` 对照在完成执行后为RP **1/2**、mini **2/2**。
+mini有一次接入失败后重试；两组首启Resolved@1均为 **1/2**，见 [Luna报告](luna-results.md)。
+任务及接入41次请求、连通性探针1次，费用未知，独立用量账本保存所有请求。
 当前默认预算反馈策略的两题对照为 ReproPatch `1/2`、mini `0/2`，48 次请求，
 费用上界 `¥0.50842656`，2187 通过官方 Oracle，见 [预算反馈报告](repair-cycle-results.md)。
 后续搜索上下文实验为两组均 `0/2`，45 请求、费用上界 `¥0.61259216`，见 [导航报告](cpp-navigation-results.md)。
-两批首次结果完整保留，当前总计 185 请求、费用上界 `¥2.18923088`，累计硬上限 ¥20。
+两批首次结果完整保留，DeepSeek历史总计185请求、费用上界 `¥2.18923088`，累计硬上限 ¥20。
 [此前 rc3 批次](rc3-rerun.md) 为两组均 `0/2`，费用上界 `¥0.54663080`。
 [历史 rc2 批次](pilot-results.md) 为 RP `0/2`、mini `1/2`，费用上界 `¥0.52158136`。
 两个实例的 Task v2 参考验收及五个实例的官方参考复核见 [参考任务池](reference-pool.md)。
@@ -39,6 +42,20 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 模型、工具与时间限制保持原冻结 Task：12 次请求、24 次工具、8192 输出 token、90 秒请求超时。
 
 ## 本轮启动预检
+
+本机 `gpt-6-luna` 使用显式参数 `--provider local-luna`，固定端点
+`http://127.0.0.1:8317/v1`，从进程环境 `OPENAI_API_KEY` 读取密钥。
+两组均使用相同模型和端点；请求经独立用量账本记录，单次尝试仍限制12个请求。
+供应商账单费用保留为未知，DeepSeek 的累计人民币账本独立保留。
+首次使用可创建一个新的本机用量账本，再执行相同预检及运行入口：
+
+```bash
+PYTHONPATH=scripts python -c \
+  'from benchmark_budget import LocalUsageLedger; LocalUsageLedger.create(".repropatch/luna-usage.sqlite3")'
+python scripts/run_benchmark_agent.py --check-only --provider local-luna \
+  --agent repropatch --task "$TASK_2723" --ledger .repropatch/luna-usage.sqlite3 \
+  --attempt luna-catch2723-rp-1 --output .repropatch/luna-catch2723-rp
+```
 
 复用历史 `paid-pilot/catch2723-task.yaml` 与 `catch2187-task.yaml`，只重定位仓库、工作区及输出路径。
 准备脚本默认 2048 输出 token / 45 秒是准备参数，不能直接作为本轮 8192 / 90 冻结配置运行。

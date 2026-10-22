@@ -13,7 +13,21 @@ from contextlib import asynccontextmanager
 from dataclasses import asdict
 from pathlib import Path
 
-from benchmark_budget import POLICY, BudgetHooks, BudgetLedger, BudgetLimit, check_pricing_date
+from benchmark_budget import (
+    POLICY,
+    BudgetHooks,
+    BudgetLedger,
+    BudgetLimit,
+    LocalUsageLedger,
+    check_pricing_date,
+)
+
+
+def provider(args):
+    """保留冻结的 DeepSeek 配置，显式选择本机 Luna 对照配置。"""
+    if args.provider == "local-luna":
+        return "gpt-6-luna", "http://127.0.0.1:8317/v1", "OPENAI_API_KEY", False
+    return POLICY["model"], "https://api.deepseek.com", "DEEPSEEK_API_KEY", True
 
 
 def mini_inputs(args, task):
@@ -99,11 +113,12 @@ def repropatch_agent(args, hooks):
     from repropatch.task import Task
 
     factory = models.responses_model
+    model_name, base_url, key_env, use_proxy = provider(args)
 
     @asynccontextmanager
     async def metered(*values, **options):
         async with httpx2.AsyncClient(
-            trust_env=True,
+            trust_env=use_proxy,
             follow_redirects=False,
             event_hooks={"request": [hooks.async_request], "response": [hooks.async_response]},
         ) as client:
@@ -116,11 +131,11 @@ def repropatch_agent(args, hooks):
         report = Harness(
             Task.load(args.task),
             model=models.ResponsesConfig(
-                model=POLICY["model"],
-                url="https://api.deepseek.com",
-                key_env="DEEPSEEK_API_KEY",
+                model=model_name,
+                url=base_url,
+                key_env=key_env,
                 allow_paid=True,
-                use_env_proxy=True,
+                use_env_proxy=use_proxy,
             ),
             output_root=args.output / "runs",
         ).run()
@@ -154,13 +169,16 @@ def mini_agent(args, hooks):
     from repropatch.task import Task, canonical_json
 
     task = Task.load(args.task)
+    model_name, base_url, _, use_proxy = provider(args)
     config, task_input, source = mini_inputs(args, task)
     os.environ["MSWEA_GLOBAL_CONFIG_DIR"] = str(args.output / "mini-settings")
     os.environ["MSWEA_SILENT_STARTUP"] = "1"
     os.environ["MSWEA_MODEL_RETRY_STOP_AFTER_ATTEMPT"] = "1"
     os.environ["MSWEA_GLOBAL_COST_LIMIT"] = "0"
     os.environ["MSWEA_GLOBAL_CALL_LIMIT"] = "0"
-    os.environ["MSWEA_COST_TRACKING"] = "default"
+    os.environ["MSWEA_COST_TRACKING"] = (
+        "ignore_errors" if args.provider == "local-luna" else "default"
+    )
     os.environ["LITELLM_LOCAL_MODEL_COST_MAP"] = "True"
     sys.path.insert(0, str(args.mini_source / "src"))
     import httpx
@@ -179,10 +197,10 @@ def mini_agent(args, hooks):
     litellm.suppress_debug_info = True
     litellm.register_model(
         {
-            "openai/deepseek-flash": {
-                "input_cost_per_token": 0.3e-6,
-                "output_cost_per_token": 1.2e-6,
-                "cache_read_input_token_cost": 0.006e-6,
+            "openai/" + model_name: {
+                "input_cost_per_token": 0 if args.provider == "local-luna" else 0.3e-6,
+                "output_cost_per_token": 0 if args.provider == "local-luna" else 1.2e-6,
+                "cache_read_input_token_cost": 0 if args.provider == "local-luna" else 0.006e-6,
                 "max_input_tokens": 1048576,
                 "max_output_tokens": 393216,
                 "litellm_provider": "openai",
@@ -191,9 +209,10 @@ def mini_agent(args, hooks):
         }
     )
     native = LitellmResponseModel(
-        model_name="openai/deepseek-flash",
+        model_name="openai/" + model_name,
+        cost_tracking="ignore_errors" if args.provider == "local-luna" else "default",
         model_kwargs={
-            "api_base": "https://api.deepseek.com",
+            "api_base": base_url,
             "max_output_tokens": POLICY["max_output_tokens"],
             "stream": False,
             "store": False,
@@ -206,7 +225,7 @@ def mini_agent(args, hooks):
     started = time.monotonic()
     deadline = started + args.agent_seconds
     http = httpx.Client(
-        trust_env=True,
+        trust_env=use_proxy,
         follow_redirects=False,
         timeout=task.budget.model_timeout_seconds,
         event_hooks={"request": [hooks.request], "response": [hooks.response]},
@@ -371,6 +390,7 @@ def mini_agent(args, hooks):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--agent", choices=("repropatch", "mini"), required=True)
+    parser.add_argument("--provider", choices=("deepseek", "local-luna"), default="deepseek")
     parser.add_argument("--task", type=Path, required=True)
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--attempt", required=True)
@@ -393,8 +413,11 @@ def main():
             or task.budget.max_tool_calls != 24
         ):
             raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
-        check_pricing_date()
-        ledger = BudgetLedger(args.ledger)
+        if args.provider == "local-luna":
+            ledger = LocalUsageLedger(args.ledger)
+        else:
+            check_pricing_date()
+            ledger = BudgetLedger(args.ledger)
         if args.agent == "mini":
             mini_inputs(args, task)
     except BudgetLimit as error:
@@ -428,9 +451,15 @@ def main():
         return 0
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
-    hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native")
+    hook_options = {"local_luna": True} if args.provider == "local-luna" else {}
+    hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native", **hook_options)
     started = time.monotonic()
     result = {"agent": args.agent, "attempt": args.attempt, "oracle_resolved": None}
+    result["provider"] = {
+        "profile": args.provider,
+        "model": provider(args)[0],
+        "base_url": provider(args)[1],
+    }
     result["adapter_source_sha256"] = {
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()
         for path in (Path(__file__), Path(__file__).with_name("benchmark_budget.py"))

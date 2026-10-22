@@ -1,6 +1,12 @@
 # 测试报告
 
-当前开发实现的预算反馈与短修复循环通过 20 项定向离线检查：Agent Runtime 19 项与原生恢复预算 1 项。
+本机模型接入的定向检查为 45 项通过：费用与只读预检6项、SDK可选依赖及输入配置39项。
+覆盖字面回环HTTP、凭据与端点检查、本机独立用量账本、请求上限及费用未知语义。Ruff检查与格式通过。
+本机 `gpt-6-luna` 对照完成执行后RP 1/2、mini 2/2；mini一次接入失败重试，
+首启均为1/2，任务及接入41请求、探针1请求，费用未知。
+三个非空候选均通过官方Oracle，原始证据和计分口径见[Luna报告](../benchmarks/luna-results.md)。
+
+预算反馈与短修复循环通过 20 项定向离线检查：Agent Runtime 19 项与原生恢复预算 1 项。
 覆盖整批准入后的剩余额度、失败工具反馈、最后一轮编辑及恢复后的累计计数。Ruff 检查与格式通过。
 开发实现提交 `4e780edf41e6611c60da1044bfc0cfc951885b97` 的
 [核心、SDK 与真实 Docker CI](https://github.com/lilong555/ReproPatch/actions/runs/39721519709) 全部通过。
@@ -8,9 +14,9 @@
 本轮 48 请求费用上界 ¥0.50842656，结果见 [候选报告](../benchmarks/repair-cycle-results.md)。
 搜索上下文实验通过 11 项定向检查及 [完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/39724385836)，
 真实对照为两组均 0/2，结果见 [导航报告](../benchmarks/cpp-navigation-results.md)。
-默认实现的源码字节与已评测预算反馈候选一致，实现 SHA-256 为
+预算反馈候选的实现 SHA-256 为
 `3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285`。
-当前默认实现提交 `ad4fa91be6964945593c389d575d2899601d9800` 的
+该默认策略提交 `ad4fa91be6964945593c389d575d2899601d9800` 的
 [完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/39726799381) 全部通过。
 累计 Benchmark 费用上界 ¥2.18923088。FMT-4310 的零模型编译复现为 0/1/0 退出码，Task 适配待完成。
 已发布 rc3 的成绩及 CI 记录如下。

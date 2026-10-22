@@ -80,6 +80,15 @@
       "manifest": "cpp-navigation-pilot/evidence-manifest.json",
       "per_file_verification": "passed",
       "credential_pattern_scan": "passed"
+    },
+    {
+      "name": "ReproPatch-luna-pilot-2026-10-22.tar.gz",
+      "sha256": "1f650bcd6a44ed2e7d67f63d9cfd00e5983edf0a8e1934a2167222600f5c88ba",
+      "files": 2140,
+      "size_bytes": 4371148,
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-luna-pilot-2026-10-22/ReproPatch-luna-pilot-2026-10-22.tar.gz",
+      "verification": "逐文件字节与哈希核验；在独立解压包中用标准库重算结果一致；凭据哨兵0匹配",
+      "scope": "本机Luna两题对照、原始接入失败及修正后执行、用量账本与官方Oracle"
     }
   ]
 }

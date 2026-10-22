@@ -60,7 +60,10 @@ def validate_model_options(model_name, base_url, key_env, allow_paid):
         raise ReproPatchError("无效的模型端点") from None
     if (
         not isinstance(base_url, str)
-        or endpoint.scheme != "https"
+        or not (
+            endpoint.scheme == "https"
+            or (endpoint.scheme == "http" and endpoint.hostname in {"127.0.0.1", "::1"})
+        )
         or not endpoint.hostname
         or endpoint.username is not None
         or endpoint.password is not None
@@ -70,7 +73,7 @@ def validate_model_options(model_name, base_url, key_env, allow_paid):
         or "\\" in base_url
         or valid_port == 0
     ):
-        raise ReproPatchError("模型端点必须为不含凭据、查询或片段的 HTTPS URL")
+        raise ReproPatchError("模型端点须使用 HTTPS 或本机回环 HTTP，且无凭据、查询或片段")
 
 
 @asynccontextmanager

@@ -1,0 +1,438 @@
+{
+  "schema_version": 1,
+  "scope": "local_luna_two_task_framework_comparison",
+  "product_version": "0.3.0rc3",
+  "source_parent_commit": "a5e6d8acf1f77a9151f3daa837adabde33d7a9a9",
+  "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+  "source_manifest": {
+    "path": "source-manifest.json",
+    "sha256": "e4809f81b740187450345e5cdc9c88fac2dc3d175126a0d2d9279e9c8b7fee17",
+    "size_bytes": 3754
+  },
+  "model": "gpt-6-luna",
+  "base_url": "http://127.0.0.1:8317/v1",
+  "model_requests": 41,
+  "unknown_usage_requests": 0,
+  "actual_billed_cost_cny": null,
+  "cost_basis": "用户提供的本机模型额度；费用未知，独立记录用量；历史DeepSeek累计费用上界2.18923088元",
+  "connectivity_probe": {
+    "endpoint": "http://127.0.0.1:8317/v1",
+    "model": "gpt-6-luna",
+    "models_http_status": 200,
+    "responses_http_status": 200,
+    "response_model": "gpt-6-luna",
+    "response_status": "completed",
+    "model_generation_probe_requests": 1,
+    "probe_usage": {
+      "input_tokens": 305,
+      "output_tokens": 5,
+      "total_tokens": 310
+    },
+    "cost_cny": null,
+    "scope": "批次开始前连通性探针；摘要来自实际响应，原始HTTP未保存；不计入任务评分"
+  },
+  "total_model_requests_including_probe": 42,
+  "historical_deepseek_cost_upper_bound_cny": 2.18923088,
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+  "tasks": [
+    {
+      "case": 2187,
+      "task": {
+        "path": "catch2187-task.yaml",
+        "sha256": "911dadecefaa78ffcfcb7f2af2e29dd2a7eaa5e408157ca1e8b74c3e4544f96b",
+        "size_bytes": 13746
+      },
+      "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+      "image": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+      "budget": {
+        "max_steps": 12,
+        "max_tool_calls": 24,
+        "wall_seconds": 1800,
+        "verification_reserve_seconds": 900,
+        "model_timeout_seconds": 90,
+        "command_timeout_seconds": 300,
+        "max_output_tokens": 8192
+      }
+    },
+    {
+      "case": 2723,
+      "task": {
+        "path": "catch2723-task.yaml",
+        "sha256": "839ba8c7666c5663a81bf48140d3c23eaf4f56ec765402b4b95684146661cd2d",
+        "size_bytes": 21538
+      },
+      "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+      "image": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+      "budget": {
+        "max_steps": 12,
+        "max_tool_calls": 24,
+        "wall_seconds": 1800,
+        "verification_reserve_seconds": 900,
+        "model_timeout_seconds": 90,
+        "command_timeout_seconds": 300,
+        "max_output_tokens": 8192
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt_index": 1,
+      "attempt": "luna-catch2187-rp-1",
+      "model_requests": 11,
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "raw_usage": {
+        "input_tokens": 189322,
+        "output_tokens": 915,
+        "total_tokens": 190237,
+        "cached_input_tokens": 168064
+      },
+      "unknown_usage_requests": 0,
+      "cost_cny": null,
+      "tool_calls": 10,
+      "native_outcome": "REJECTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "oracle_resolved": false,
+      "oracle_tests_executed": false,
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_passed": null,
+      "oracle_failed": null,
+      "oracle_missing": null,
+      "oracle_exit_code": null,
+      "oracle_duration_seconds": null,
+      "worker_duration_seconds": 109.73464307999893,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "2187-rp/result.json",
+        "sha256": "8ff607f84dbe88342300d2369d0c93e43610f973daafa341809f9a4d306eea3d",
+        "size_bytes": 976
+      },
+      "candidate": {
+        "path": "2187-rp/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "2187-rp-oracle/oracle-verdict.json",
+        "sha256": "347bac1fd059f14cb238f5e14950f27af194006cddb904053a498ff98da938d7",
+        "size_bytes": 278
+      },
+      "internal_independent_accepted": null,
+      "native_report": {
+        "path": "2187-rp/runs/4599a74a47004617aff7696928e3f229/report.json",
+        "sha256": "531ec10521a3b6f1b2b11f08dcb4d02a9d3223bded14a3e551d65fca9f14a3fa",
+        "size_bytes": 855193
+      },
+      "max_native_input_bytes": 93597,
+      "tool_types": {
+        "search_code": 5,
+        "read_file": 4,
+        "edit_file": 1
+      },
+      "first_successful_edit_model_step": null
+    },
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt_index": 2,
+      "attempt": "luna-catch2187-mini-2",
+      "model_requests": 11,
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "raw_usage": {
+        "input_tokens": 211038,
+        "output_tokens": 1405,
+        "total_tokens": 212443,
+        "cached_input_tokens": 197504
+      },
+      "unknown_usage_requests": 0,
+      "cost_cny": null,
+      "tool_calls": 11,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 50,
+      "oracle_passed": 52,
+      "oracle_failed": 9,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_exit_code": 0,
+      "oracle_duration_seconds": 38.90670724899974,
+      "worker_duration_seconds": 121.75858766900274,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "2187-mini-retry/result.json",
+        "sha256": "6ba9a51a8e5aae20bf49fa5a940f64c4be2c994a3fe0a3a4bf03023abed32565",
+        "size_bytes": 783
+      },
+      "candidate": {
+        "path": "2187-mini-retry/candidate.patch",
+        "sha256": "0f055a8e035f6c0699f30d18c01b6ed46781794900cb99cc33ed824e54ca4e3c",
+        "size_bytes": 1236
+      },
+      "oracle": {
+        "path": "2187-mini-retry-oracle/oracle-verdict.json",
+        "sha256": "4009bf551dfce5b7fd5a97207b19f13a6abb165b976a681ec581d7f450abd16c",
+        "size_bytes": 337
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "repropatch",
+      "repeat": 1,
+      "attempt_index": 1,
+      "attempt": "luna-catch2723-rp-1",
+      "model_requests": 9,
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "raw_usage": {
+        "input_tokens": 194300,
+        "output_tokens": 451,
+        "total_tokens": 194751,
+        "cached_input_tokens": 165504
+      },
+      "unknown_usage_requests": 0,
+      "cost_cny": null,
+      "tool_calls": 8,
+      "native_outcome": "ACCEPTED",
+      "agent_stop_reason": "MODEL_FINISHED",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_exit_code": 0,
+      "oracle_duration_seconds": 74.82967523899788,
+      "worker_duration_seconds": 307.9821535480005,
+      "worker_timing_scope": "含基线、自检和独立验收",
+      "container_deleted": true,
+      "result": {
+        "path": "2723-rp/result.json",
+        "sha256": "772889dc5d6b8d940d1016af64db0c9ec84505c1668b8816c731b71b79e5d6cd",
+        "size_bytes": 983
+      },
+      "candidate": {
+        "path": "2723-rp/candidate.patch",
+        "sha256": "7d88064306bca5a8889f3648a79ff34328d43fd9c628c3207d27ac1d9fffca42",
+        "size_bytes": 940
+      },
+      "oracle": {
+        "path": "2723-rp-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      },
+      "internal_independent_accepted": true,
+      "native_report": {
+        "path": "2723-rp/runs/391a1e528e6746a2b94b689bde3768cf/report.json",
+        "sha256": "540617ba667fc464544e3d50688f3267b56cf7c03b9a7432fc1cbb03bed99aac",
+        "size_bytes": 1106678
+      },
+      "max_native_input_bytes": 117876,
+      "tool_types": {
+        "search_code": 3,
+        "list_directory": 1,
+        "read_file": 2,
+        "edit_file": 1,
+        "run_command": 1
+      },
+      "first_successful_edit_model_step": 7
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "agent": "mini",
+      "repeat": 1,
+      "attempt_index": 1,
+      "attempt": "luna-catch2723-mini-1",
+      "model_requests": 9,
+      "response_models": [
+        "gpt-6-luna"
+      ],
+      "raw_usage": {
+        "input_tokens": 208219,
+        "output_tokens": 1125,
+        "total_tokens": 209344,
+        "cached_input_tokens": 180352
+      },
+      "unknown_usage_requests": 0,
+      "cost_cny": null,
+      "tool_calls": 9,
+      "native_outcome": "Submitted",
+      "agent_stop_reason": "Submitted",
+      "oracle_resolved": true,
+      "oracle_tests_executed": true,
+      "oracle_expected_f2p": 2,
+      "oracle_expected_p2p": 100,
+      "oracle_passed": 102,
+      "oracle_failed": 14,
+      "oracle_missing": {
+        "f2p_tests": [],
+        "p2p_tests": [],
+        "s2p_tests": [],
+        "n2p_tests": []
+      },
+      "oracle_exit_code": 0,
+      "oracle_duration_seconds": 74.14741434199823,
+      "worker_duration_seconds": 83.58624727999995,
+      "worker_timing_scope": "原生Agent与工作区自检；公共Oracle另计",
+      "container_deleted": true,
+      "result": {
+        "path": "2723-mini/result.json",
+        "sha256": "b5cbefdbf6ab0bece963921fe24283cdf11df1e57b14022b713a3894e193d031",
+        "size_bytes": 779
+      },
+      "candidate": {
+        "path": "2723-mini/candidate.patch",
+        "sha256": "c9a2cb919a9d4a3a57a309a45575959a898b509cbec61d23dc099196ee9c450b",
+        "size_bytes": 1271
+      },
+      "oracle": {
+        "path": "2723-mini-oracle/oracle-verdict.json",
+        "sha256": "9a090d3c4a5e3f4fd5f4fb1fa571edc7922442b9bf2c4efb33119de71c09e60e",
+        "size_bytes": 340
+      }
+    }
+  ],
+  "fairness": [
+    {
+      "instance_id": "catchorg__Catch2-2187",
+      "identical_initial_domain_input": true,
+      "domain_input_sha256": "af64649b19cdb3d8ebd5886699257c0144acbe54cf7219ec45eb05c587b579ba",
+      "request_settings": {
+        "repropatch": {
+          "model": "gpt-6-luna",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        },
+        "mini": {
+          "model": "gpt-6-luna",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        }
+      },
+      "time_alignment": {
+        "common_input": {
+          "path": "2187-rp/runs/4599a74a47004617aff7696928e3f229/agent/native/0001-input.json",
+          "sha256": "17d661b06839e41df2e9cd2a381dcfa46d007f313771f1039d917be2f18effeb",
+          "size_bytes": 55353
+        },
+        "baseline_duration_seconds": 37.049171,
+        "mini_agent_seconds": 852,
+        "cleanup_reserve_seconds": 10
+      }
+    },
+    {
+      "instance_id": "catchorg__Catch2-2723",
+      "identical_initial_domain_input": true,
+      "domain_input_sha256": "b921e810153aac2643f61f6421e49e3f4421c8f6b5ea0eaa41b5e77410277e0b",
+      "request_settings": {
+        "repropatch": {
+          "model": "gpt-6-luna",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        },
+        "mini": {
+          "model": "gpt-6-luna",
+          "max_output_tokens": 8192,
+          "temperature": null,
+          "top_p": null,
+          "reasoning": null
+        }
+      },
+      "time_alignment": {
+        "common_input": {
+          "path": "2723-rp/runs/391a1e528e6746a2b94b689bde3768cf/agent/native/0001-input.json",
+          "sha256": "cc34392d1fa8440f2e03e5aa17089a831cb94211ab64c21b14f41958e7ac1392",
+          "size_bytes": 73576
+        },
+        "baseline_duration_seconds": 72.749291,
+        "mini_agent_seconds": 817,
+        "cleanup_reserve_seconds": 10
+      }
+    }
+  ],
+  "infrastructure_attempts": [
+    {
+      "attempt": "luna-catch2187-mini-1",
+      "agent": "mini",
+      "instance_id": "catchorg__Catch2-2187",
+      "result": {
+        "path": "2187-mini/result.json",
+        "sha256": "23cc0222269be06614033fa98ab3193b73caa9050d1d0cdf4b9d59c197438261",
+        "size_bytes": 698
+      },
+      "model_requests": 1,
+      "error_type": "RuntimeError",
+      "tools_executed": 0,
+      "reason": "上游零价格检查中止，修正公开cost_tracking配置后在干净环境重试一次；原请求与结果完整保留"
+    }
+  ],
+  "adapter_cost_configuration": {
+    "reason": "mini公开cost_tracking配置允许未知价格；保留首次接入失败，不改动RP工具与运行策略",
+    "source": "adapter-after-local-cost-config.py",
+    "sha256": "8b75378b055809fb87fe13d765b9a36f4b5b1b34cd327ac5b8a0fd3ef3069853",
+    "changed_setting": "cost_tracking=ignore_errors for local-luna"
+  },
+  "scoring_scope": "四条完成原生执行的任务组；另保留一条接入失败。mini2187包含一次基础设施重试，报告分别披露首启与完成执行指标",
+  "metrics": {
+    "repropatch": {
+      "tasks": 2,
+      "first_launch_resolved": 1,
+      "resolved_at_1": 0.5,
+      "completed_execution_resolved": 1,
+      "completed_execution_resolved_rate": 0.5,
+      "model_requests_including_infrastructure": 20
+    },
+    "mini": {
+      "tasks": 2,
+      "first_launch_resolved": 1,
+      "resolved_at_1": 0.5,
+      "completed_execution_resolved": 2,
+      "completed_execution_resolved_rate": 1.0,
+      "model_requests_including_infrastructure": 21
+    }
+  },
+  "usage_ledger": {
+    "path": "usage.sqlite3",
+    "sha256": "cfb83c99e755fd35bf8e1ffc37e82b93ab2817b1dc9231d64117e58a2b669b82",
+    "size_bytes": 192512
+  },
+  "archive": {
+    "name": "ReproPatch-luna-pilot-2026-10-22.tar.gz",
+    "sha256": "1f650bcd6a44ed2e7d67f63d9cfd00e5983edf0a8e1934a2167222600f5c88ba",
+    "files": 2140,
+    "size_bytes": 4371148,
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-luna-pilot-2026-10-22/ReproPatch-luna-pilot-2026-10-22.tar.gz",
+    "verification": "逐文件字节与哈希核验；在独立解压包中用标准库重算结果一致；凭据哨兵0匹配"
+  }
+}

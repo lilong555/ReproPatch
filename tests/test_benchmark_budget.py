@@ -79,6 +79,25 @@ def test_http_request_limit_applies_even_when_measured_usage_is_zero(tmp_path):
     assert ledger.summary()["requests"] == 12
 
 
+def test_local_model_usage_has_separate_ledger_and_request_limit(tmp_path):
+    ledger = budget.LocalUsageLedger.create(tmp_path / "local.sqlite3")
+    for _ in range(12):
+        identity = ledger.reserve("local", b"request")
+        ledger.settle(identity, b'{"usage":{"input_tokens":10,"output_tokens":2}}', 200)
+    with pytest.raises(budget.BudgetLimit, match="REQUEST_LIMIT"):
+        ledger.reserve("local", b"request")
+    assert ledger.summary() == {
+        "requests": 12,
+        "unknown_usage_requests": 0,
+        "cost_cny": None,
+        "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量",
+    }
+    with pytest.raises(budget.BudgetLimit, match="SETTLEMENT_CONFLICT"):
+        ledger.settle(identity, b"{}", 200)
+    with pytest.raises(sqlite3.OperationalError):
+        budget.BudgetLedger(ledger.path)
+
+
 def test_policy_price_change_updates_reservation_and_settlement(tmp_path, monkeypatch):
     monkeypatch.setitem(budget.POLICY, "peak_input_nano_per_token", 3000)
     monkeypatch.setitem(budget.POLICY, "peak_cached_input_nano_per_token", 60)
@@ -195,6 +214,12 @@ def test_check_only_validates_inputs_without_model_or_budget_side_effects(
     with monkeypatch.context() as local:
         local.setitem(budget.POLICY, "verified_date", "2000-01-01")
         assert check("repropatch")[1]["error_code"] == "BENCHMARK_PRICING_REVIEW_REQUIRED"
+        local_ledger = budget.LocalUsageLedger.create(tmp_path / "local-usage.sqlite3")
+        assert (
+            check("repropatch", ["--provider", "local-luna", "--ledger", str(local_ledger.path)])[0]
+            == 0
+        )
+        assert local_ledger.summary()["requests"] == 0
     assert check("mini")[1]["error_code"] == "BENCHMARK_MINI_ARGUMENT_MISSING"
 
     import prepare_mini_environment
