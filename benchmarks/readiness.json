@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "scope": "preliminary_two_task_same_model_comparison",
+  "scope": "historical_rc2_results_and_current_rc3_preparation",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "cpp_instances": 129,
   "paid_model_requests": 45,
@@ -37,9 +37,9 @@
     "strict_comparison_ready": false
   },
   "remaining": [
-    "首轮剩余三个合格真实任务及同模型首次尝试",
-    "当前产品版本尚无真实模型成绩，后续运行保留版本和协议身份",
-    "完成 Harbor 产物桥接、可靠性负例及正式多次实验"
+    "T2：授权后完成当前两个固定实例共四次真实尝试",
+    "T3：当前批次独立报告与原始证据",
+    "T4：免费演示及展示入口验收"
   ],
   "archive": {
     "name": "ReproPatch-benchmark-readiness-2026-10-21.tar.gz",
@@ -117,5 +117,108 @@
   },
   "real_model_benchmark_implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
   "feedback_context": "feedback-context.json",
-  "current_product_has_paid_benchmark": false
+  "current_product_has_paid_benchmark": false,
+  "current_batch": {
+    "schema_version": 1,
+    "scope": "T1 冻结输入；无新模型成绩，付费执行尚未授权",
+    "created_at": "2026-10-22T03:27:34.682034+00:00",
+    "product_version": "0.3.0rc3",
+    "core_implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+    "pricing_policy": {
+      "model": "deepseek-flash",
+      "model_version": "DeepSeek-V4.1-Flash-1017",
+      "currency": "CNY",
+      "verified_date": "2026-10-22",
+      "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "input_ceiling_tokens": 1048576,
+      "max_output_tokens": 8192,
+      "peak_input_nano_per_token": 2000,
+      "peak_cached_input_nano_per_token": 40,
+      "peak_output_nano_per_token": 8000,
+      "request_limit_per_attempt": 12
+    },
+    "tasks": [
+      {
+        "instance_id": "catchorg__Catch2-2723",
+        "task_file": "catch2723-task.yaml",
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "task_source_sha256": "004ab1e75db81430091d33a72fd95a7a71cc72ed0f4fe39c5123ffd6e2812d18",
+        "prepared_commit": "0d9a15ee3664ac03bb160d037fd871260b99089b",
+        "image_id": "sha256:afd33f3f76f6fea7fa2e556a9c610995c573ab92ec46efd2e2db0532562b458a",
+        "editable_files": 274,
+        "f2p": 2,
+        "p2p": 67,
+        "current_image_verified": true
+      },
+      {
+        "instance_id": "catchorg__Catch2-2187",
+        "task_file": "catch2187-task.yaml",
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "task_source_sha256": "8e8545a1548325915e44e5afe1cf5e83c5626d269b49ab391c09f1cc7a7e925c",
+        "prepared_commit": "023f57d40b4a89d6904240a547f558d9216085a1",
+        "image_id": "sha256:1b9e36f46f7d0275df6a4998c41af76795e0d76bdf3829d6a034882bd87736cf",
+        "editable_files": 211,
+        "f2p": 2,
+        "p2p": 32,
+        "current_image_verified": true
+      }
+    ],
+    "new_batch_requests": 0,
+    "paid_run_authorized": false,
+    "historical_results": "pilot-results.json",
+    "checks": [
+      {
+        "instance": 2723,
+        "agent": "repropatch",
+        "exit_code": 0,
+        "result": {
+          "ok": true,
+          "check_only": true,
+          "agent": "repropatch",
+          "requests_reserved": 0
+        }
+      },
+      {
+        "instance": 2723,
+        "agent": "mini",
+        "scripted_check": "passed",
+        "container_deleted": true,
+        "task_sha256": "6ff0a1629fadac8ba506a22cc125d642950914562079c324cd450e3cac68bd94",
+        "paid_model_requests": 0
+      },
+      {
+        "instance": 2187,
+        "agent": "repropatch",
+        "exit_code": 0,
+        "result": {
+          "ok": true,
+          "check_only": true,
+          "agent": "repropatch",
+          "requests_reserved": 0
+        }
+      },
+      {
+        "instance": 2187,
+        "agent": "mini",
+        "scripted_check": "passed",
+        "container_deleted": true,
+        "task_sha256": "4c14c3d642ea9b9eab65041ba5ba8c37cbb90003347706c6118398ebfd62e15e",
+        "paid_model_requests": 0
+      }
+    ],
+    "ledger_sha256": "1097bb2b04ae9180d05b04eee2e3d6959be0c103ca109e3125ffdbfafcfde42e",
+    "ledger_unchanged_after_check_only": true,
+    "mini_common_input_status": "等待本轮 RP 首次原生输入并按报告核验",
+    "oracle_source_commit": "4b96a678b136f87c8760fa475697f3c98d5f9e5e",
+    "mini_source_commit": "04d809ceab9df28f9adaed044884180159172930",
+    "script_source_sha256": {
+      "scripts/benchmark_budget.py": "693597b5a9468ad17c6b7397d9930e55bef06647cd8c613b1bca140d5d4cb640",
+      "scripts/run_benchmark_agent.py": "7ae4228f36b3ff7673d682cba04794364419a6bce35ca77118a785b7ffd19609",
+      "tests/test_benchmark_budget.py": "4b030ad3927ed5ebb7cc74e8229ed9bb932331a721ab82aa8ad364010dde55e3"
+    },
+    "state": "awaiting_paid_authorization"
+  },
+  "planned_current_tasks": 2,
+  "planned_current_attempts": 4,
+  "historical_pilot_status": "two_completed_five_task_extension_paused"
 }

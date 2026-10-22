@@ -13,7 +13,7 @@ POLICY = {
     "model": "deepseek-flash",
     "model_version": "DeepSeek-V4.1-Flash-1017",
     "currency": "CNY",
-    "verified_date": "2026-10-21",
+    "verified_date": "2026-10-22",
     "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
     "input_ceiling_tokens": 1_048_576,
     "max_output_tokens": 8192,
@@ -23,11 +23,24 @@ POLICY = {
     "request_limit_per_attempt": 12,
 }
 POLICY_JSON = json.dumps(POLICY, sort_keys=True, separators=(",", ":"))
-RESERVATION = POLICY["input_ceiling_tokens"] * 2000 + POLICY["max_output_tokens"] * 8000
+
+
+def request_reservation():
+    """预留和结算共用 POLICY 中的单价。"""
+    return (
+        POLICY["input_ceiling_tokens"] * POLICY["peak_input_nano_per_token"]
+        + POLICY["max_output_tokens"] * POLICY["peak_output_nano_per_token"]
+    )
 
 
 class BudgetLimit(RuntimeError):
     """发送前额度不足或请求不属于本次冻结实验。"""
+
+
+def check_pricing_date():
+    """跨 UTC 日必须复核价格，不以本地时区或运行目录恢复额度。"""
+    if datetime.now(UTC).date().isoformat() != POLICY["verified_date"]:
+        raise BudgetLimit("BENCHMARK_PRICING_REVIEW_REQUIRED")
 
 
 class BudgetLedger:
@@ -63,6 +76,7 @@ class BudgetLedger:
 
     def reserve(self, attempt, payload):
         identity = uuid.uuid4().hex
+        reservation = request_reservation()
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
             cap = db.execute("SELECT cap FROM budget").fetchone()[0]
@@ -72,7 +86,7 @@ class BudgetLedger:
             count = db.execute(
                 "SELECT COUNT(*) FROM requests WHERE attempt=?", (attempt,)
             ).fetchone()[0]
-            if count >= POLICY["request_limit_per_attempt"] or spent + RESERVATION > cap:
+            if count >= POLICY["request_limit_per_attempt"] or spent + reservation > cap:
                 raise BudgetLimit("BENCHMARK_BUDGET_EXHAUSTED")
             db.execute(
                 "INSERT INTO requests(id,attempt,sent_at,request_sha256,reserved) "
@@ -82,7 +96,7 @@ class BudgetLedger:
                     attempt,
                     datetime.now(UTC).isoformat(),
                     hashlib.sha256(payload).hexdigest(),
-                    RESERVATION,
+                    reservation,
                 ),
             )
         return identity
@@ -111,7 +125,11 @@ class BudgetLedger:
                     cached = details.get("cached_tokens") if isinstance(details, dict) else None
                     if type(cached) is not int or not 0 <= cached <= incoming:
                         cached = 0
-                    charged = (incoming - cached) * 2000 + cached * 40 + outgoing * 8000
+                    charged = (
+                        (incoming - cached) * POLICY["peak_input_nano_per_token"]
+                        + cached * POLICY["peak_cached_input_nano_per_token"]
+                        + outgoing * POLICY["peak_output_nano_per_token"]
+                    )
                     usage = json.dumps(value, sort_keys=True)
         except (ValueError, TypeError, AttributeError):
             pass
@@ -151,8 +169,7 @@ class BudgetHooks:
         self.trace_root.mkdir(parents=True, exist_ok=False, mode=0o700)
 
     def request(self, request):
-        if datetime.now(UTC).date().isoformat() != POLICY["verified_date"]:
-            raise BudgetLimit("BENCHMARK_PRICING_REVIEW_REQUIRED")
+        check_pricing_date()
         url = request.url
         if (
             request.method != "POST"

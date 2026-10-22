@@ -2,7 +2,9 @@
 
 当前目标以 [Spec 2026-10-19.2](../specs/2026-10-19.2/SPEC.md) 为准。
 本文件是实施顺序摘要；详细 DoD 见 [当前实施计划](IMPLEMENTATION_PLAN.md) 与原始规格。
-当前候选版本为 0.3.0rc1、Task v2，Phase 1 与 Phase 2 已完成；公开仓库为 [lilong555/ReproPatch](https://github.com/lilong555/ReproPatch)。
+当前候选版本为 0.3.0rc3、Task v2，Phase 1 与 Phase 2 已完成；公开仓库为 [lilong555/ReproPatch](https://github.com/lilong555/ReproPatch)。
+当前交付为两个现成 Catch2 实例的当前版本对照及可复核展示：两题 × 两个框架 × 一次，共四次尝试。
+历史 rc2 分数独立保留；当前版本还没有收费模型成绩。
 
 | 顺序 | Task | 工作与验收门槛 |
 | --- | --- | --- |
@@ -19,15 +21,19 @@
 | 已完成 | P2-02 | 公开完整输入边界的 Checkpoint、durable 文件及原子提交、受控暂停；不重做工具。 |
 | 已完成 | P2-03 | 核对指纹、资源与关闭片段，从安全 Checkpoint 有限 Resume；未知模型/工具结果停止，不重发。 |
 | 已完成 | P2-04 | 只读 Trace Replay、export-trace 与恢复门槛；不执行模型或历史工具。 |
-| 下一任务 | P3-01 | 固定 negative-maximum、range-sum、parse 三项 fixture，保存正确/错误参考补丁及可核查 suite。 |
+| 当前任务 | T1 | 单一来源计价、只读启动预检及两份既有冻结 Task；核价有效且环境匹配才允许进入执行。 |
+| 待授权 | T2 | 每题先 ReproPatch、后 mini；共四次真实尝试、最多 48 个 HTTP 请求、¥20 批次硬上限，不自动重跑。 |
+| 待执行 | T3 | 独立新批次 JSON/Markdown；候选由相同官方 Oracle 评分，环境失败和无补丁分别记录。 |
+| 待执行 | T4 | 免费演示与 README 入口、当前状态、历史成绩和证据链接明确；完成即进入展示与投递。 |
 
-只有 P1 的门槛实际通过，才进入后续阶段：
+本阶段保留现有实现。达到四条结果或明确启动失败记录、报告可核算、免费演示可运行及相关 CI 通过后停止扩建。
+以下原规划暂停，不作为当前交付门槛：
 
 | 阶段 | 范围 | 保持不做的工作 |
 | --- | --- | --- |
 | P2 / 0.3.0 | 外层三表状态、安全 Checkpoint、受限 Resume、只读 Trace Replay | 不重做未知副作用，不复制通用会话引擎，不承诺 Exactly Once。 |
-| P3 / 0.4.0 | 少量固定 C++ 任务；Harbor 作业与产物收集后本地验收；可重算指标 | 不建队列、worker 池、调度器或自定义轨迹方言。Execution Replay 只重新验收保存补丁。 |
-| P4 / 按需 | 额外模型、上游 compaction、必要的 C++ 执行器与性能优化 | 没有明确需求或测量收益就不立项，不为了代码量增加组件。 |
+| P3 扩展 / 暂停 | 补满五题、20×2×3、通用 Harbor、Execution Replay、更多恢复消融 | 不纳入当前四次尝试或发布要求。 |
+| P4 / 暂停 | 额外 Agent、上下文压缩、C++20 执行器与性能优化 | 保留现有研究资料，不继续投入。 |
 
 自动路径只使用公开 SDK Runner；不维护第二套模型协议、手写 HTTP 或模型 worker。
 自有 fixture 不是第三方历史 bug，也不能用于估计模型修复率。

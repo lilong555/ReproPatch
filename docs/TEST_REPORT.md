@@ -9,6 +9,12 @@ SDK 自动修复与独立验收 1 项。完整执行证据不因精简模型视�
 这些数据只验证输入反馈，不是修复重跑，不计入 Resolved@1。
 复核方法见 [反馈上下文](../benchmarks/feedback-context.md)。
 
+rc3 核心实现提交 `5beb579325f9eabd8cd449dc80abd37dfd716492` 的
+[CI](https://github.com/lilong555/ReproPatch/actions/runs/39630705838)
+已通过：323 项核心、147 项 SDK 与 21 项真实 Docker，共 491 项；发布时本地 6 项结果单列保留。
+Benchmark 启动预检的定向范围为 `tests/test_benchmark_budget.py` 的 5 项，
+包括三个原账本场景、价格变更和无付费预检两个场景；当前真实修复成绩见下方 rc2 记录。
+
 ## rc2 上下文与真实修复对照
 
 rc2 的本地范围为 21 项定向回归：初始基线视图 1 项、Agent Runtime 19 项、原生历史恢复 1 项。

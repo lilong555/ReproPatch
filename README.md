@@ -16,33 +16,35 @@ fake 引擎直接使用原生 ScriptedModel；SDK 引擎使用 AsyncOpenAI/OpenA
 SQLite 的 runs/events/checkpoints 三表记录外层状态、累计预算和事件；提交失败不会释放模型或工具执行。
 `inspect` 只读查询，`report` 核验证据并重建 JSONL / JSON / Markdown。
 SDK 完整输入边界保存 Checkpoint，支持受控暂停、有限 Resume 和只读 Trace Replay；Execution Replay 与 Harbor 尚未提供。
-下一任务为 P3-01。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)，有限恢复见 [P2-03](docs/P2-03.md)，只读轨迹与恢复门槛见 [P2-04](docs/P2-04.md)。
+当前交付为两题、两组、各一次的 rc3 真实对照与可复核展示，顺序见 [实施计划](docs/IMPLEMENTATION_PLAN.md)。事务契约见 [P2-01](docs/P2-01.md)，Checkpoint 与暂停见 [P2-02](docs/P2-02.md)，有限恢复见 [P2-03](docs/P2-03.md)，只读轨迹与恢复门槛见 [P2-04](docs/P2-04.md)。
 Phase 1 的真实模型证据见 [P1-08](docs/P1-08.md)。
 
 [规格入口](SPEC.md) · [测试报告](docs/TEST_REPORT.md) · [实施计划](docs/IMPLEMENTATION_PLAN.md)
 
 完整原始验收数据通过带 SHA-256 的 Release Assets 提供，源码树只保留关键摘要与清单，
-下载及复核方式见 [证据索引](docs/evidence/README.md)。483 项契约测试不代表 483 道真实修复任务；
+下载及复核方式见 [证据索引](docs/evidence/README.md)。契约测试与真实修复成绩分开统计；
 真实工程对照评测的任务、环境和计分规则见 [Benchmark](benchmarks/README.md)。
 基线和自检模型视图保留全部测试观察、失败命令预览及证据引用；完整日志独立保存。
 原生模型历史与 Checkpoint 不裁剪。[mini-SWE-agent 环境](benchmarks/mini-environment.md)
 使用相同固定镜像、非 root、无网络及相同资源和可编辑文件范围。
 [rc2 两题真实同模型对照](benchmarks/pilot-results.md) 的首次成绩为 ReproPatch **0/2**、
 mini-SWE-agent **1/2**，45 次模型请求费用上界合计 **¥0.52158136**。
-这属于五题试跑的初步结果，剩余三题及正式多次实验尚未完成；rc3 尚无收费模型成绩。
+当前范围固定复测这两题；新批次的执行与授权状态见 [准备状态](benchmarks/readiness.json)。
 
-## 快速开始
+## 免费独立补丁验证演示
 
 需要 Linux amd64、Python 3.12+、Git、可用本地 Docker daemon 和已经准备的编译镜像。
 WSL2 可使用启用 Ubuntu 集成的 Docker Desktop Linux 引擎。任务运行不自动构建或下载镜像。
 
 ```bash
+git clone https://github.com/lilong555/ReproPatch.git
+cd ReproPatch
+
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[dev]' cmake
+python -m pip install -e .
 
-# 没有本地镜像时，在可访问镜像源和软件源的环境中准备
-# docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
+docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
 
 python scripts/init_example.py \
   --write-task examples/tasks/negative-maximum.v2.yaml --image repropatch-cpp:0.1
@@ -51,11 +53,15 @@ repropatch doctor --image repropatch-cpp:0.1 --json
 repropatch verify-patch examples/tasks/negative-maximum.v2.yaml \
   --patch examples/patches/negative-maximum.correct.patch --producer local --json
 
+repropatch verify-patch examples/tasks/negative-maximum.v2.yaml \
+  --patch examples/patches/negative-maximum.wrong.patch --producer local --json
+
 ```
 
 `init_example.py` 不重置已有仓库，也不改写未提交源码；输出实际完整 commit、本地 image ID、任务路径和
 规范任务哈希。生成的 Task 保存实际 image ID，镜像 tag 仅用于准备和诊断。
 自有 C++ fixture 用于验证 Harness，不代表第三方历史漏洞或模型修复率。
+正确补丁应得到 `ACCEPTED`，错误补丁应得到 `REJECTED`；运行 JSON 提供证据目录及报告位置。
 
 ## Task v2
 

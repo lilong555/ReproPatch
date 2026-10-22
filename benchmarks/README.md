@@ -2,7 +2,7 @@
 
 评测分为公开缺陷修复与 Harness 可靠性两部分。契约测试数量不计入真实修复任务分母。
 已完成两题、每框架每题一次的真实同模型对照：ReproPatch `0/2`，mini-SWE-agent `1/2`，
-费用上界合计 `¥0.52158136`。这是首轮五题中的初步结果，
+费用上界合计 `¥0.52158136`。这些成绩属于 rc2；当前固定复测相同两题，尚未开始新批次付费执行。
 完整分数、费用、时间范围及协议差异见 [真实对照报告](pilot-results.md)。
 两个实例的 Task v2 参考验收及五个实例的官方参考复核见 [参考任务池](reference-pool.md)。
 真实任务首次输入及原生历史边界见 [上下文记录](context-check.json)；
@@ -26,14 +26,42 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 | --- | --- | --- |
 | ReproPatch Full | 原生修复、持久化、独立验收 | 已完成两题首次尝试，0/2 |
 | mini-SWE-agent | 同 DeepSeek 模型的开源能力对照 | 已完成两题首次尝试，1/2 |
-| ReproPatch Ablation | 同一候选的反事实验收决策 | 两个非空候选已复核，其余观察不足时保持未知 |
-| Codex CLI | 自带模型的产品参考，单独呈现 | 待环境、模型与独立预算明确 |
-| OpenHands / Claude Code | 后续扩展 | 首轮不接入 |
+| ReproPatch Ablation | 同一候选的反事实验收决策 | 历史观察保留，当前不扩大消融 |
+| Codex CLI | 自带模型的产品参考，单独呈现 | 暂停 |
+| OpenHands / Claude Code | 后续扩展 | 暂停 |
 
-先使用 **5 个经基线和参考补丁实测的公开实例**、每框架每题 1 次完成试跑，
-当前模型预算 **人民币 20 元合计**，仅用于 DeepSeek 两组。
-正式计划为 **20 个兼容实例 × 2 个框架 × 3 次 = 120 次**，待 Coverage 和试跑结果明确后固定任务并另定预算。
-兼容实例不足时报告不足及原因，不用另一个任务池补足后仍沿用原数据集名称。
+当前矩阵为 **Catch2-2723、Catch2-2187 × ReproPatch rc3、mini-SWE-agent 2.4.6 × 各一次**，
+共四次尝试、最多 48 个模型 HTTP 请求。费用硬上限为本批次 **人民币 20 元合计**，付费执行须另行授权。
+本轮不补满五题；20×2×3 正式实验、扩充数据集、额外 Agent 与通用 Harbor 暂停。
+模型、工具与时间限制保持原冻结 Task：12 次请求、24 次工具、8192 输出 token、90 秒请求超时。
+
+## 本轮启动预检
+
+复用历史 `paid-pilot/catch2723-task.yaml` 与 `catch2187-task.yaml`，只重定位仓库、工作区及输出路径。
+准备脚本默认 2048 输出 token / 45 秒是准备参数，不能直接作为本轮 8192 / 90 冻结配置运行。
+不改写历史 Task 或历史费用账本；新批次使用独立目录，已有账本禁止删除或重新创建额度。
+
+预留与结算的三类单价均来自 `scripts/benchmark_budget.py` 中的 POLICY。
+本次 UTC 2026-10-22 已复核[供应商价格](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/)：
+高峰非缓存输入 ¥2、缓存输入 ¥0.04、输出 ¥8 / 百万 token。跨 UTC 日必须重新核价，不能只改日期。
+
+```bash
+python scripts/run_benchmark_agent.py --check-only \
+  --agent repropatch --task "$TASK_2723" --ledger "$BATCH/budget.sqlite3" \
+  --attempt rc3-catch2723-rp-1 --output "$BATCH/2723-rp"
+```
+
+预检只读 Task 和账本，不读取 API key、不构造模型、不预留费用、不创建 Run 或输出目录。
+合法配置退出 0；Task 预算、核价日期、账本 POLICY 或 mini 输入不一致退出 2，并打印稳定本地错误码。
+它不代替实际 Docker、基线与 Oracle 检查。
+
+mini 增加 `--mini-source`、`--mini-environment`、`--common-input` 和实际对齐的 `--agent-seconds`。
+共同输入必须来自本轮同题 RP 的 `agent/native/0001-input.json`，先按报告 `native_trace` 的大小和 SHA-256 核验。
+RP 未保存首次输入时停止该 pair，不手工编造共同输入。mini 预检核对源码、镜像、Issue、
+commit、允许文件、可读集合和预算与 Task 一致。权限环境由现有 `prepare_mini_environment.py --check-scripted` 检查。
+本轮每题仍先 RP、后 mini，保留原生系统提示、工具接口、容器生命周期与时间口径差异。
+
+## 运行与计分
 
 两组统一 DeepSeek `deepseek-flash`、供应商端点、Issue 描述、base commit、官方测试、
 固定镜像 digest、资源、时间和模型预算。正式实验计划交替运行顺序；

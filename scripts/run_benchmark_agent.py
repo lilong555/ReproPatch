@@ -5,13 +5,85 @@ import hashlib
 import json
 import logging
 import os
+import sqlite3
 import subprocess
 import sys
 import time
 from contextlib import asynccontextmanager
+from dataclasses import asdict
 from pathlib import Path
 
-from benchmark_budget import POLICY, BudgetHooks, BudgetLedger
+from benchmark_budget import POLICY, BudgetHooks, BudgetLedger, BudgetLimit, check_pricing_date
+
+
+def mini_inputs(args, task):
+    """只读检查原生 mini 材料与共同输入，不加载模型或启动容器。"""
+    from prepare_mini_environment import MINI_COMMIT
+
+    from repropatch.workspace import git_tree
+
+    if any(value is None for value in (args.mini_source, args.mini_environment, args.common_input)):
+        raise BudgetLimit("BENCHMARK_MINI_ARGUMENT_MISSING")
+    if args.agent_seconds <= 0:
+        raise BudgetLimit("BENCHMARK_AGENT_TIME_INVALID")
+    config = json.loads(args.mini_environment.read_text())
+    preparation = json.loads((args.mini_environment.parent / "preparation.json").read_text())
+    head = (
+        subprocess.check_output(
+            ["git", "-C", str(args.mini_source), "rev-parse", "HEAD"],
+            stderr=subprocess.PIPE,
+            timeout=30,
+        )
+        .decode()
+        .strip()
+    )
+    if head != MINI_COMMIT or preparation["mini_commit"] != MINI_COMMIT:
+        raise BudgetLimit("MINI_NATIVE_SOURCE_CHANGED")
+    subprocess.check_output(
+        ["git", "-C", str(args.mini_source), "diff", "--quiet", "HEAD", "--", "src"],
+        stderr=subprocess.PIPE,
+        timeout=30,
+    )
+    for name, digest in preparation["native_source_sha256"].items():
+        if (
+            hashlib.sha256((args.mini_source / "src/minisweagent" / name).read_bytes()).hexdigest()
+            != digest
+        ):
+            raise BudgetLimit("MINI_NATIVE_SOURCE_CHANGED")
+    if (
+        config["image"] != task.environment.image
+        or config.get("forward_env")
+        or preparation["base_commit"] != task.revision
+        or preparation["image_id"] != task.environment.image
+        or sorted(preparation["editable_files"]) != sorted(task.editable_paths)
+    ):
+        raise BudgetLimit("MINI_ENVIRONMENT_MISMATCH")
+    initial = json.loads(args.common_input.read_text())["input"]
+    if len(initial) != 1 or initial[0]["role"] != "user":
+        raise BudgetLimit("COMMON_INITIAL_INPUT_INVALID")
+    task_input = initial[0]["content"]
+    common = json.loads(task_input)
+    tracked = {entry.path for entry in git_tree(task.repository, task.revision)}
+    readable = {
+        path
+        for name in task.readable_paths
+        for path in tracked
+        if path == name or (name.endswith("/") and path.startswith(name))
+    }
+    if (
+        common["task"] != task.prompt
+        or common["base_commit"] != task.revision
+        or common["image_id"] != task.environment.image
+        or common["editable"] != sorted(task.editable_paths)
+        or common["readable"] != sorted(readable)
+        or common["budget"] != asdict(task.budget)
+    ):
+        raise BudgetLimit("COMMON_TASK_MISMATCH")
+    return (
+        config,
+        task_input,
+        Path(preparation.get("source", args.mini_environment.parent / "source")),
+    )
 
 
 def save(path, value):
@@ -79,6 +151,10 @@ def repropatch_agent(args, hooks):
 
 
 def mini_agent(args, hooks):
+    from repropatch.task import Task, canonical_json
+
+    task = Task.load(args.task)
+    config, task_input, source = mini_inputs(args, task)
     os.environ["MSWEA_GLOBAL_CONFIG_DIR"] = str(args.output / "mini-settings")
     os.environ["MSWEA_SILENT_STARTUP"] = "1"
     os.environ["MSWEA_MODEL_RETRY_STOP_AFTER_ATTEMPT"] = "1"
@@ -95,8 +171,6 @@ def mini_agent(args, hooks):
     from minisweagent.environments import get_environment
     from minisweagent.exceptions import LimitsExceeded
     from minisweagent.models.litellm_response_model import LitellmResponseModel
-
-    from repropatch.task import Task, canonical_json
 
     for name in ("LiteLLM", "litellm", "httpx", "openai"):
         logging.getLogger(name).disabled = True
@@ -116,23 +190,6 @@ def mini_agent(args, hooks):
             }
         }
     )
-    task = Task.load(args.task)
-    config = json.loads(args.mini_environment.read_text())
-    preparation = json.loads((args.mini_environment.parent / "preparation.json").read_text())
-    for name, digest in preparation["native_source_sha256"].items():
-        if (
-            hashlib.sha256((args.mini_source / "src/minisweagent" / name).read_bytes()).hexdigest()
-            != digest
-        ):
-            raise ValueError("MINI_NATIVE_SOURCE_CHANGED")
-    if config["image"] != task.environment.image or config.get("forward_env"):
-        raise ValueError("MINI_ENVIRONMENT_MISMATCH")
-    initial = json.loads(args.common_input.read_text())["input"]
-    if len(initial) != 1 or initial[0]["role"] != "user":
-        raise ValueError("COMMON_INITIAL_INPUT_INVALID")
-    task_input = initial[0]["content"]
-    if json.loads(task_input)["task"] != task.prompt:
-        raise ValueError("COMMON_ISSUE_MISMATCH")
     native = LitellmResponseModel(
         model_name="openai/deepseek-flash",
         model_kwargs={
@@ -143,11 +200,6 @@ def mini_agent(args, hooks):
             "num_retries": 0,
             "timeout": task.budget.model_timeout_seconds,
         },
-    )
-    source = Path(
-        json.loads((args.mini_environment.parent / "preparation.json").read_text()).get(
-            "source", args.mini_environment.parent / "source"
-        )
     )
     env = None
     calls = 0
@@ -178,6 +230,8 @@ def mini_agent(args, hooks):
                 )
             try:
                 result = native.query(messages, client=handler)
+            except BudgetLimit:
+                raise
             except Exception as error:
                 raise RuntimeError("MODEL_REQUEST_FAILED:" + type(error).__name__) from None
             actions = result.get("extra", {}).get("actions", [])
@@ -325,18 +379,55 @@ def main():
     parser.add_argument("--mini-environment", type=Path)
     parser.add_argument("--common-input", type=Path)
     parser.add_argument("--agent-seconds", type=int, default=800)
+    parser.add_argument("--check-only", action="store_true", help="只读预检，不创建 Run 或调用模型")
     args = parser.parse_args()
+    from repropatch.errors import ReproPatchError
     from repropatch.task import Task
 
-    task = Task.load(args.task)
-    if (
-        task.budget.max_output_tokens != POLICY["max_output_tokens"]
-        or task.budget.max_steps != POLICY["request_limit_per_attempt"]
-    ):
-        parser.error("Task 与冻结模型预算不一致")
+    try:
+        task = Task.load(args.task)
+        if (
+            task.budget.max_output_tokens != POLICY["max_output_tokens"]
+            or task.budget.max_steps != POLICY["request_limit_per_attempt"]
+            or task.budget.model_timeout_seconds != 90
+            or task.budget.max_tool_calls != 24
+        ):
+            raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
+        check_pricing_date()
+        ledger = BudgetLedger(args.ledger)
+        if args.agent == "mini":
+            mini_inputs(args, task)
+    except BudgetLimit as error:
+        print(json.dumps({"ok": False, "error_code": str(error)}))
+        return 2
+    except (
+        OSError,
+        ValueError,
+        TypeError,
+        KeyError,
+        sqlite3.Error,
+        ReproPatchError,
+        subprocess.SubprocessError,
+    ) as error:
+        print(
+            json.dumps(
+                {
+                    "ok": False,
+                    "error_code": "BENCHMARK_INPUT_INVALID",
+                    "error_type": type(error).__name__,
+                }
+            )
+        )
+        return 2
+    if args.check_only:
+        print(
+            json.dumps(
+                {"ok": True, "check_only": True, "agent": args.agent, "requests_reserved": 0}
+            )
+        )
+        return 0
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
-    ledger = BudgetLedger(args.ledger)
     hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native")
     started = time.monotonic()
     result = {"agent": args.agent, "attempt": args.attempt, "oracle_resolved": None}
@@ -352,6 +443,8 @@ def main():
         code = 0
     except Exception as error:
         result["error_type"] = type(error).__name__
+        if isinstance(error, BudgetLimit):
+            result["error_code"] = str(error)
     finally:
         result.update(
             duration_seconds=time.monotonic() - started, money=ledger.summary(args.attempt)
