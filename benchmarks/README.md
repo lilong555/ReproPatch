@@ -46,6 +46,13 @@ prepared Task 的回归测试在源码中可见，后续对照须向两组提供
 高峰非缓存输入 ¥2、缓存输入 ¥0.04、输出 ¥8 / 百万 token。跨 UTC 日必须重新核价，不能只改日期。
 
 ```bash
+BATCH="$PWD/.repropatch/rc3-rerun"
+TASK_2723="$BATCH/catch2723-task.yaml"
+TASK_2187="$BATCH/catch2187-task.yaml"
+RECORD_2723="$BATCH/catch2723-record.json"
+RECORD_2187="$BATCH/catch2187-record.json"
+FIXED_EVALUATOR="$PWD/.repropatch/multiswe-evaluator"
+
 python scripts/run_benchmark_agent.py --check-only \
   --agent repropatch --task "$TASK_2723" --ledger "$BATCH/budget.sqlite3" \
   --attempt rc3-catch2723-rp-1 --output "$BATCH/2723-rp"
@@ -54,6 +61,8 @@ python scripts/run_benchmark_agent.py --check-only \
 预检只读 Task 和账本，不读取 API key、不构造模型、不预留费用、不创建 Run 或输出目录。
 合法配置退出 0；Task 预算、核价日期、账本 POLICY 或 mini 输入不一致退出 2，并打印稳定本地错误码。
 它不代替实际 Docker、基线与 Oracle 检查。
+本机 T1 的两份固定 Task 已核对规范哈希与镜像；两套 mini 权限检查通过，
+RP 启动预检均返回 0，费用账本字节保持一致。当前状态和来源身份见 [readiness.json](readiness.json)。
 
 mini 增加 `--mini-source`、`--mini-environment`、`--common-input` 和实际对齐的 `--agent-seconds`。
 共同输入必须来自本轮同题 RP 的 `agent/native/0001-input.json`，先按报告 `native_trace` 的大小和 SHA-256 核验。

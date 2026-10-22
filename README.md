@@ -60,7 +60,7 @@ repropatch verify-patch examples/tasks/negative-maximum.v2.yaml \
 
 `init_example.py` 不重置已有仓库，也不改写未提交源码；输出实际完整 commit、本地 image ID、任务路径和
 规范任务哈希。生成的 Task 保存实际 image ID，镜像 tag 仅用于准备和诊断。
-自有 C++ fixture 用于验证 Harness，不代表第三方历史漏洞或模型修复率。
+自有 C++ fixture 用于演示独立验收；真实开源缺陷的修复成绩见对照报告。
 正确补丁应得到 `ACCEPTED`，错误补丁应得到 `REJECTED`；运行 JSON 提供证据目录及报告位置。
 
 ## Task v2

@@ -148,7 +148,9 @@
         "editable_files": 274,
         "f2p": 2,
         "p2p": 67,
-        "current_image_verified": true
+        "current_image_verified": true,
+        "record_file": "catch2723-record.json",
+        "record_sha256": "6551a51274b72411e3707b3353f92769a46ac533f53d0f55ba73fdb1afa3bbcf"
       },
       {
         "instance_id": "catchorg__Catch2-2187",
@@ -160,7 +162,9 @@
         "editable_files": 211,
         "f2p": 2,
         "p2p": 32,
-        "current_image_verified": true
+        "current_image_verified": true,
+        "record_file": "catch2187-record.json",
+        "record_sha256": "027785ef7e69838afea85e42249f40ac93b4d5b6bb3e4c35b3f5f57a7c371ad5"
       }
     ],
     "new_batch_requests": 0,
@@ -216,7 +220,42 @@
       "scripts/run_benchmark_agent.py": "7ae4228f36b3ff7673d682cba04794364419a6bce35ca77118a785b7ffd19609",
       "tests/test_benchmark_budget.py": "4b030ad3927ed5ebb7cc74e8229ed9bb932331a721ab82aa8ad364010dde55e3"
     },
-    "state": "awaiting_paid_authorization"
+    "state": "awaiting_paid_authorization",
+    "preflight_code_commit": "b78a3b0151afefb13cc1943a26a271f8070f19be",
+    "local_directory": ".repropatch/rc3-rerun",
+    "ci": {
+      "run_id": 39717468270,
+      "conclusion": "success",
+      "core_passed": 325,
+      "sdk_passed": 147,
+      "docker_scenarios_passed": 21
+    },
+    "local_tests": {
+      "passed": 5,
+      "failed": 0,
+      "log": "preflight-tests.log",
+      "junit": "preflight-tests.xml"
+    },
+    "free_demo": {
+      "verification": {
+        "correct": {
+          "outcome": "ACCEPTED",
+          "run_id": "b72a21fd6c2c4befb06274cdfb6ac32a",
+          "report_sha256": "09f04a68740b4f4394bbe4baeecc3c934f95c7f938534abb3659768aafe8dd9c"
+        },
+        "wrong": {
+          "outcome": "REJECTED",
+          "run_id": "dfa977b8999f4c46b964d1c2c4bae696",
+          "report_sha256": "efa1c18111ace02e13993080552d2523392691b45147e3f239298ce134e6c0c4"
+        }
+      },
+      "inspect": "passed",
+      "report": "passed",
+      "export_trace": "passed",
+      "model_steps": 0,
+      "environment": "现有固定 repropatch-cpp 镜像与核心开发环境",
+      "fresh_install_and_image_build": false
+    }
   },
   "planned_current_tasks": 2,
   "planned_current_attempts": 4,

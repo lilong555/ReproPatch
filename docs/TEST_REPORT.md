@@ -14,6 +14,9 @@ rc3 核心实现提交 `5beb579325f9eabd8cd449dc80abd37dfd716492` 的
 已通过：323 项核心、147 项 SDK 与 21 项真实 Docker，共 491 项；发布时本地 6 项结果单列保留。
 Benchmark 启动预检的定向范围为 `tests/test_benchmark_budget.py` 的 5 项，
 包括三个原账本场景、价格变更和无付费预检两个场景；当前真实修复成绩见下方 rc2 记录。
+启动预检代码提交 `b78a3b0151afefb13cc1943a26a271f8070f19be` 的
+[CI](https://github.com/lilong555/ReproPatch/actions/runs/39717468270)
+已通过 325 项核心、147 项 SDK 和 21 项真实 Docker，共 493 项。
 
 ## rc2 上下文与真实修复对照
 
