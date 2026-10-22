@@ -1,6 +1,10 @@
 # 测试报告
 
 当前只读契约反馈、mini 源码权限及 CPA 端点检查通过 15 项定向测试，Ruff 检查与格式通过。
+实现提交 `d56e208b78b9c12ea5ba06c846cf539d7bdbfd4c` 的
+[GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/39788199908) 全部通过：
+331 项核心、147 项 SDK、21 项真实 Docker，共 499 项；0 失败、0 错误、0 跳过。
+三份 JUnit 与 Docker 门禁摘要已下载核对，执行源码身份与该提交相符。
 两个 FMT 实例的参考补丁均通过内部独立验收及原始 CMake 的 21 项原生 CTest。
 真实模型实验完成 22 条评分：Catch2 为 Full 6/6、mini 3/6、消融 3/6，FMT 为双方 1/2。
 同端点 Catch2 子集为 5/5、3/5、3/5。完整用量、失败和中断见[当前结果](../benchmarks/contract-results.md)。

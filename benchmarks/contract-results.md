@@ -139,4 +139,5 @@ SHA-256：`6f79c0b3f74771741baff791f1efca74386dac9149540a7e253e1a9fe2629080`。
 证据解压目录为 `contract-comparison/`，逐文件哈希位于 `evidence-manifest.json`。
 在解压目录执行 `python3 summarize-contract.py` 可从请求账本、源码快照、候选和 Oracle 重算结果。
 归档已完成凭据哨兵与格式扫描、独立解压逐文件核验及结果重算。
-定向检查为 15 项通过，Ruff 检查与格式通过；完整 CI 状态见[准备状态](readiness.json)。
+定向检查为 15 项通过，Ruff 检查与格式通过；[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/39788199908)
+通过 331 项核心、147 项 SDK 和 21 项真实 Docker，共 499 项；源码身份及执行范围见[准备状态](readiness.json)。

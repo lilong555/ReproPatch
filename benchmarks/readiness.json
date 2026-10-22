@@ -432,7 +432,18 @@
     }
   ],
   "code_ci": {
-    "status": "pending"
+    "status": "success",
+    "source_commit": "d56e208b78b9c12ea5ba06c846cf539d7bdbfd4c",
+    "run_id": 39788199908,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39788199908",
+    "core_passed": 331,
+    "sdk_passed": 147,
+    "docker_passed": 21,
+    "total_passed": 499,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "verification": "三个GitHub Actions JUnit与Docker门禁摘要已下载核对"
   },
   "next_focus": "FMT-4286 暴露的模板编译与宽字符运行错误的连续修复",
   "deferred": [

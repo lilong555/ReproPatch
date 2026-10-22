@@ -28,7 +28,8 @@ DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，�
 [rc2](benchmarks/pilot-results.md)分别保留各批原始成绩。
 
 SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
-已发布基线 CI 为 **325 核心 + 147 SDK + 21 Docker 场景**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
+当前实现的 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39788199908) 通过
+**331 核心 + 147 SDK + 21 Docker 场景，共 499 项**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
 原始证据保存为带 SHA-256 的 Release Assets，Git 保留摘要与清单，见 [证据索引](docs/evidence/README.md)。
 
 [规格](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [Benchmark](benchmarks/README.md) · [实施状态](docs/IMPLEMENTATION_PLAN.md)
