@@ -95,6 +95,8 @@ def main():
     trace.mkdir()
     transport = output / "transport"
     transport.mkdir(mode=0o755)
+    # 容器用户需要遍历挂载目录；显式权限保持独立于宿主 umask。
+    transport.chmod(0o755)
     socket_path = transport / "socket"
     key = None if args.check_only else os.environ["OPENAI_API_KEY"]
     state = {"tool_calls_admitted": 0, "errors": []}

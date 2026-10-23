@@ -181,5 +181,14 @@
     "files": 5942,
     "uncompressed_bytes": 50324616,
     "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致"
-  }
+  },
+  "latest_candidate_results": "batched-repair-results.json",
+  "latest_candidate_report": "batched-repair-results.md",
+  "candidate_implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+  "candidate_production_adopted": false,
+  "candidate_simdjson_repeat": {
+    "attempts": 2,
+    "resolved": 2
+  },
+  "cumulative_archived_cpa_requests": 583
 }

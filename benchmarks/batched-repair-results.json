@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "scope": "固定预算批量修复策略及 simdjson 第二轮四框架对照",
+  "model": "gpt-6-luna",
+  "base_url": "https://cpa.liyinlong.me/v1",
+  "attempts": [
+    {
+      "experiment": "batched-repair-pilot",
+      "group": "candidate",
+      "instance_id": "fmtlib__fmt-4286",
+      "attempt": "batched-repair-fmt4286-1",
+      "implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+      "result": {
+        "path": "batched-repair-pilot/rp/result.json",
+        "sha256": "29c162e399782d56646ef14531f5f88e03dc6318e3345fffbd47e825cb6e89f2",
+        "size_bytes": 1002
+      },
+      "candidate": {
+        "path": "batched-repair-pilot/rp/candidate.patch",
+        "sha256": "15d76d58a04e87284330625eaa66697ab9ba43bb0f22191419ae333ac45b846c",
+        "size_bytes": 2255
+      },
+      "oracle": {
+        "path": "batched-repair-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "68a51a9cb00baddba3ce00bc2184eae8326ee436adb0dbd8b85e668349df9790",
+        "size_bytes": 1093
+      },
+      "events": {
+        "path": "batched-repair-pilot/rp/runs/231265bb1972422dbe9d4f20ddfa6a70/events.sqlite3",
+        "sha256": "55773fc31f11799dcb862e9bfe2862b76c5a68927ea0f600c06aaa871a713454",
+        "size_bytes": 200704
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "required_tests": 21,
+      "passed_tests": 0,
+      "agent_outcome": "REJECTED",
+      "agent_reason": "CANDIDATE_BUILD_FAILED",
+      "cli_exit_code": null,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 128532,
+        "output_tokens": 1444
+      },
+      "tool_calls": 16,
+      "worker_seconds": 271.8445660919997,
+      "production_adopted": false
+    },
+    {
+      "experiment": "batched-repair-simd",
+      "group": "candidate",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "batched-repair-simd2178-1",
+      "implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+      "result": {
+        "path": "batched-repair-simd/rp/result.json",
+        "sha256": "b8d31fbe0c3b811e86a4a5842113bcb7dda27992d16e52cfce24b63b0efff794",
+        "size_bytes": 997
+      },
+      "candidate": {
+        "path": "batched-repair-simd/rp/candidate.patch",
+        "sha256": "3a4f92f7fcaccc108735f0db752a4015a9ba6908e9248e64de3c310cf149c69e",
+        "size_bytes": 2043
+      },
+      "oracle": {
+        "path": "batched-repair-simd/rp-oracle/oracle-verdict.json",
+        "sha256": "107916ddef55b250ae905c8193bc66774e7d123a417541349263f72d62f99322",
+        "size_bytes": 6864
+      },
+      "events": {
+        "path": "batched-repair-simd/rp/runs/d864e0c0170f478290f62bf7ede35ce7/events.sqlite3",
+        "sha256": "902d9424217a92b471bc7805b7c178d3face4c05a1a9d8dd64d853d8658b0b61",
+        "size_bytes": 974848
+      },
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "required_tests": 99,
+      "passed_tests": 99,
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "model_requests": 9,
+      "unknown_usage_requests": 1,
+      "raw_usage": {
+        "input_tokens": 179350,
+        "output_tokens": 1123
+      },
+      "tool_calls": 13,
+      "worker_seconds": 654.0915435029997,
+      "production_adopted": false
+    },
+    {
+      "experiment": "related-uses-pilot",
+      "group": "related-uses",
+      "instance_id": "fmtlib__fmt-4286",
+      "attempt": "related-uses-fmt4286-1",
+      "implementation_sha256": "8ec4cce7491451d73fabc772a5f1517e2c4bc0b59a7d645e85d5671b29fb1483",
+      "result": {
+        "path": "related-uses-pilot/rp/result.json",
+        "sha256": "b243fe3a1aebe77dfd9944ffda97a87859c5bfe3ededdad738d29aec6bea93ce",
+        "size_bytes": 993
+      },
+      "candidate": {
+        "path": "related-uses-pilot/rp/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "related-uses-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": {
+        "path": "related-uses-pilot/rp/runs/18de6439857041aba23ef2df473ffe3a/events.sqlite3",
+        "sha256": "93c284d18c32159f89dccb1514afab5522156d08e0b8f349a8b80e030e9d2851",
+        "size_bytes": 110592
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "required_tests": 0,
+      "passed_tests": 0,
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "model_requests": 1,
+      "unknown_usage_requests": 1,
+      "raw_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "tool_calls": 0,
+      "worker_seconds": 105.47515130400006,
+      "production_adopted": false
+    },
+    {
+      "experiment": "simd-paired-repeat-2",
+      "group": "candidate",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "simd-repeat2-candidate",
+      "implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+      "result": {
+        "path": "simd-paired-repeat-2/candidate/result.json",
+        "sha256": "e61a575cec66c30a0cc466ce53cf8e6f1cc7667d90c813c30012b44fe38de6f9",
+        "size_bytes": 1000
+      },
+      "candidate": {
+        "path": "simd-paired-repeat-2/candidate/candidate.patch",
+        "sha256": "329c709d2fd73b7c5ebe44dd988b734adee0563c037d3ba00245f54236333aeb",
+        "size_bytes": 2075
+      },
+      "oracle": {
+        "path": "simd-paired-repeat-2/candidate-oracle/oracle-verdict.json",
+        "sha256": "107916ddef55b250ae905c8193bc66774e7d123a417541349263f72d62f99322",
+        "size_bytes": 6864
+      },
+      "events": {
+        "path": "simd-paired-repeat-2/candidate/runs/b0cbedb1613a4a6899bff18c5db5854f/events.sqlite3",
+        "sha256": "d64c53f0f4694fb3d572a5c8d325bb90d313bd1ee77a126a8cd23ee4e92ad674",
+        "size_bytes": 733184
+      },
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "required_tests": 99,
+      "passed_tests": 99,
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "model_requests": 11,
+      "unknown_usage_requests": 1,
+      "raw_usage": {
+        "input_tokens": 220633,
+        "output_tokens": 1309
+      },
+      "tool_calls": 17,
+      "worker_seconds": 750.109106673,
+      "production_adopted": false
+    },
+    {
+      "experiment": "simd-paired-repeat-2",
+      "group": "control",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "simd-repeat2-control",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "result": {
+        "path": "simd-paired-repeat-2/control/result.json",
+        "sha256": "99924d7b43983e6de1664a2e761f9e16585d60ea80116bbc172fb18fc3957c9a",
+        "size_bytes": 717
+      },
+      "candidate": {
+        "path": "simd-paired-repeat-2/control/candidate.patch",
+        "sha256": "692bfb4ec43b57efaced23dc8d873b4f57c8dc9483ed8364c0518498f2bad52c",
+        "size_bytes": 2041
+      },
+      "oracle": {
+        "path": "simd-paired-repeat-2/control-oracle/oracle-verdict.json",
+        "sha256": "107916ddef55b250ae905c8193bc66774e7d123a417541349263f72d62f99322",
+        "size_bytes": 6864
+      },
+      "events": {
+        "path": "simd-paired-repeat-2/control/runs/804a5664d535484b907b6e514a312529/events.sqlite3",
+        "sha256": "4cae602e97f0295a5ac7bd3a1d4281709d3a48f7bf1b6e220f0da35b0630961b",
+        "size_bytes": 1191936
+      },
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "required_tests": 99,
+      "passed_tests": 99,
+      "agent_outcome": "INTERRUPTED",
+      "agent_reason": "HOST_PROCESS_INTERRUPTED",
+      "cli_exit_code": null,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 228546,
+        "output_tokens": 1130
+      },
+      "tool_calls": 12,
+      "worker_seconds": null,
+      "production_adopted": false
+    },
+    {
+      "experiment": "simd-paired-repeat-2",
+      "group": "mini",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "simd-repeat2-mini",
+      "implementation_sha256": null,
+      "result": {
+        "path": "simd-paired-repeat-2/mini/result.json",
+        "sha256": "f2cd5845d452601f80044fdc7e82d8afce34df7de89ba862ecea06f14dac7318",
+        "size_bytes": 778
+      },
+      "candidate": {
+        "path": "simd-paired-repeat-2/mini/candidate.patch",
+        "sha256": "9f86b2460875298d4435142b114a564855fda51284408ac88b7efbb6976bc528",
+        "size_bytes": 1859
+      },
+      "oracle": {
+        "path": "simd-paired-repeat-2/mini-oracle/oracle-verdict.json",
+        "sha256": "8c98aab8b09deaeb68ec0d0111fff917f06bfee05b772a76fcc701153fb69699",
+        "size_bytes": 6875
+      },
+      "events": null,
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "required_tests": 99,
+      "passed_tests": 97,
+      "agent_outcome": "Submitted",
+      "agent_reason": null,
+      "cli_exit_code": null,
+      "model_requests": 7,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 123938,
+        "output_tokens": 1094
+      },
+      "tool_calls": 7,
+      "worker_seconds": 53.40946242899997,
+      "production_adopted": false
+    },
+    {
+      "experiment": "simd-paired-repeat-2",
+      "group": "codex-environment-failure",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "simd-repeat2-codex",
+      "implementation_sha256": null,
+      "result": {
+        "path": "simd-paired-repeat-2/codex/result.json",
+        "sha256": "7b56e1a4694a9b61ee44595f31a112844d9fe954c906dbf8cb5b78d9e9d1409b",
+        "size_bytes": 1187
+      },
+      "candidate": {
+        "path": "simd-paired-repeat-2/codex/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "simd-paired-repeat-2/codex-oracle/oracle-verdict.json",
+        "sha256": "6620b99a99671a133b1955f6983981217a5b9582ec13be4f5de59cc54b379340",
+        "size_bytes": 82
+      },
+      "events": null,
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "required_tests": 0,
+      "passed_tests": 0,
+      "agent_outcome": null,
+      "agent_reason": null,
+      "cli_exit_code": 1,
+      "model_requests": 0,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "tool_calls": 0,
+      "worker_seconds": 5.32933919200002,
+      "production_adopted": false
+    },
+    {
+      "experiment": "simd-paired-repeat-2",
+      "group": "codex",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "simd-repeat2-codex-transport-rerun",
+      "implementation_sha256": null,
+      "result": {
+        "path": "simd-paired-repeat-2/codex-transport-rerun/result.json",
+        "sha256": "49e620a51369c128b1bf51eaccf1bb6ed593b333b0839ba4d975fbada0a99e3e",
+        "size_bytes": 1210
+      },
+      "candidate": {
+        "path": "simd-paired-repeat-2/codex-transport-rerun/candidate.patch",
+        "sha256": "c7ce2f2decf371d9ee9de347b121611e4e92ba25bd274f0178d27d1d681c06b9",
+        "size_bytes": 2214
+      },
+      "oracle": {
+        "path": "simd-paired-repeat-2/codex-transport-rerun-oracle/oracle-verdict.json",
+        "sha256": "8c98aab8b09deaeb68ec0d0111fff917f06bfee05b772a76fcc701153fb69699",
+        "size_bytes": 6875
+      },
+      "events": null,
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "required_tests": 99,
+      "passed_tests": 97,
+      "agent_outcome": null,
+      "agent_reason": null,
+      "cli_exit_code": 0,
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 363138,
+        "output_tokens": 1586
+      },
+      "tool_calls": 10,
+      "worker_seconds": 107.43577693000009,
+      "production_adopted": false
+    }
+  ],
+  "candidate_simd_resolved": 2,
+  "candidate_simd_attempts": 2,
+  "production_adopted": false,
+  "prior_archived_cpa_requests": 520,
+  "new_cpa_requests": 63,
+  "cumulative_archived_cpa_requests": 583,
+  "unknown_usage_requests": 3,
+  "actual_billed_cost_cny": null,
+  "historical_deepseek_cost_upper_bound_cny": 2.18923088,
+  "interruption": {
+    "path": "simd-paired-repeat-2/control/interruption.json",
+    "sha256": "e10db9cc1327393c883e97cc9312c05401a75c787c2cceffd7e892503de64d57",
+    "size_bytes": 778
+  },
+  "shared_input": {
+    "path": "simd-paired-repeat-2/common-input-check.json",
+    "sha256": "61b49673b323a6b4a492e9b44e0f8754f922ef95ce62c1b3c9160f24aca9c1ef",
+    "size_bytes": 323
+  },
+  "limits": {
+    "requests": 12,
+    "tool_calls": 24,
+    "output_tokens": 8192,
+    "input_bytes": 262144
+  },
+  "selection": "simdjson 与 FMT 已有历史结果；候选冻结后复测，新仓库另批检验泛化",
+  "timing": "前两组与基线两槽运行；Codex零请求环境失败后另编号单独复测；部分Oracle与零模型资格检查重叠"
+}

@@ -6,6 +6,8 @@
 六题首次结果为 Full 4/6、mini 3/6、Codex 4/6；相同HTTPS端点四题子集为2/4、3/4、2/4。
 simdjson中Full仍失败，mini通过；Codex首次传输中断、独立复测仍失败，两次完整保留。
 [诊断反馈候选](diagnostic-feedback-results.md)保存五次0/5的后续实验，生产核心继续固定。
+[批量修复与四组复测](batched-repair-results.md)保存 simdjson 候选2/2、第二轮原版成功、
+mini与Codex目标回归失败，以及FMT构建失败与全部中断记录。
 
 ## 实验矩阵
 
