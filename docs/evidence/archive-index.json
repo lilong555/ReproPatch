@@ -165,6 +165,16 @@
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4537-qualification-2026-10-23/ReproPatch-json4537-toolchain-2026-10-23.tar.gz",
       "scope": "nlohmann_json_4537_reference_qualification",
       "result_summary": "benchmarks/json4537-qualification.md"
+    },
+    {
+      "name": "ReproPatch-json4537-results-2026-10-23.tar.gz",
+      "sha256": "254f55e367cc7b0260dc4f3d4bebac1073bf4acd255829c37ca88ecd11d4a092",
+      "size_bytes": 7460692,
+      "files": 6188,
+      "uncompressed_bytes": 42730739,
+      "verification": "逐文件大小及哈希、凭据哨兵、独立解压重算通过",
+      "scope": "nlohmann/json第四仓库两轮四组全部原始模型结果与98项公共Oracle",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4537-results-2026-10-23/ReproPatch-json4537-results-2026-10-23.tar.gz"
     }
   ]
 }

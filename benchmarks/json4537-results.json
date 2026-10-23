@@ -1,0 +1,627 @@
+{
+  "schema_version": 1,
+  "scope": "nlohmann/json固定第四仓库，两轮四组原始尝试",
+  "model": "gpt-6-luna",
+  "base_url": "https://cpa.liyinlong.me/v1",
+  "attempts": [
+    {
+      "batch": "json4537-comparison",
+      "group": "candidate",
+      "attempt": "json4537-candidate-1",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+      "task_sha256": "e2209fd38384624aa0f6e4eab8729f0a361933510f51801fd59d0967748ae5bc",
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "45e2f501329aa32aa5845bef97ae68924e6d79161b3e2930cdeb8409475826f7",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      },
+      "result": {
+        "path": "json4537-comparison/candidate/result.json",
+        "sha256": "ef0e3687f59b02d6264c1aaf07f7f0357fdff59d8e59da86fa64556064f6bd0d",
+        "size_bytes": 998
+      },
+      "candidate": {
+        "path": "json4537-comparison/candidate/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "json4537-comparison/candidate-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": {
+        "path": "json4537-comparison/candidate/runs/3f905b5a2c39405188e54d89677f77ff/events.sqlite3",
+        "sha256": "b953cf9c68cc89bf6093c3ce5ab0f570e9fbcde5a6dcb9cf6502a1b77815e46d",
+        "size_bytes": 319488
+      },
+      "model_requests": 1,
+      "tool_calls": 0,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "responses": [],
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "native_tests_executed": false,
+      "required_tests": 0,
+      "passed_tests": 0,
+      "worker_seconds": 332.9971933070001,
+      "oracle_seconds": null,
+      "container_deleted_as_reported": true
+    },
+    {
+      "batch": "json4537-comparison",
+      "group": "control",
+      "attempt": "json4537-control-1",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "task_sha256": "e2209fd38384624aa0f6e4eab8729f0a361933510f51801fd59d0967748ae5bc",
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "45e2f501329aa32aa5845bef97ae68924e6d79161b3e2930cdeb8409475826f7",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      },
+      "result": {
+        "path": "json4537-comparison/control/result.json",
+        "sha256": "eeb0b77794f42b28c9132241c58a910773703bbe3afee6bfebbc9d79da8551c2",
+        "size_bytes": 991
+      },
+      "candidate": {
+        "path": "json4537-comparison/control/candidate.patch",
+        "sha256": "074990bd9a3c645d6d90500488c8b7bd431b08ea56185b266f75e118db7a04a0",
+        "size_bytes": 556
+      },
+      "oracle": {
+        "path": "json4537-comparison/control-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": {
+        "path": "json4537-comparison/control/runs/adca78af06474755900b51e5e28bef74/events.sqlite3",
+        "sha256": "24a56ecc202681c18b1e9f5e448d0c2da119612846bf0bf95f94cf5aaa2abceb",
+        "size_bytes": 946176
+      },
+      "model_requests": 7,
+      "tool_calls": 6,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 81373,
+        "output_tokens": 409
+      },
+      "responses": [
+        {
+          "id": "resp_0f2f8b7c9a790508016adb0214e1c887d0941ed15b64895050",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0f2f8b7c9a790508016adb0219044c87d09360761cba1e39b9",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0f2f8b7c9a790508016adb021db24487d0a2788fe93c62a9c3",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0f2f8b7c9a790508016adb0224ff5487d0867022fd0e93dcd3",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0f2f8b7c9a790508016adb02295c2887d09490766dee3c06fa",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0f2f8b7c9a790508016adb022f5d7487d09a4e9861ab0619e8",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0f2f8b7c9a790508016adb037f9fb087d08a71030f92e13efc",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        }
+      ],
+      "agent_outcome": "ACCEPTED",
+      "agent_reason": "VERIFICATION_PASSED",
+      "cli_exit_code": null,
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "worker_seconds": 1052.226562494,
+      "oracle_seconds": 292.95525075000023,
+      "container_deleted_as_reported": true
+    },
+    {
+      "batch": "json4537-comparison",
+      "group": "codex",
+      "attempt": "json4537-codex-1",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": null,
+      "task_sha256": null,
+      "adapter_source_sha256": "142a2a2fba72092f27741b0eeb7109495182624bab5a72274646e8cf24a2d4b4",
+      "result": {
+        "path": "json4537-comparison/codex/result.json",
+        "sha256": "9c18be2f029d37a35ceab4c5d5d7ec344450a653c86cba3b153d69f251862179",
+        "size_bytes": 1190
+      },
+      "candidate": {
+        "path": "json4537-comparison/codex/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "json4537-comparison/codex-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": null,
+      "model_requests": 0,
+      "tool_calls": 0,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "responses": [],
+      "agent_outcome": null,
+      "agent_reason": null,
+      "cli_exit_code": 137,
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "native_tests_executed": false,
+      "required_tests": 0,
+      "passed_tests": 0,
+      "worker_seconds": 163.62991548399987,
+      "oracle_seconds": null,
+      "container_deleted_as_reported": false
+    },
+    {
+      "batch": "json4537-comparison",
+      "group": "mini",
+      "attempt": "json4537-mini-1",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": null,
+      "task_sha256": null,
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "45e2f501329aa32aa5845bef97ae68924e6d79161b3e2930cdeb8409475826f7",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      },
+      "result": {
+        "path": "json4537-comparison/mini/result.json",
+        "sha256": "0b25bb3a9da45b99ebe2c080546e08b32c8b51a3d7dad6c4033c34190702adf9",
+        "size_bytes": 694
+      },
+      "candidate": {
+        "path": "json4537-comparison/mini/candidate.patch",
+        "sha256": "b84ade4aa1fd76d73b3fb7ad2253b105e1b023a48c1dcc23e99605962aa89177",
+        "size_bytes": 1566
+      },
+      "oracle": {
+        "path": "json4537-comparison/mini-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": null,
+      "model_requests": 8,
+      "tool_calls": 7,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 104814,
+        "output_tokens": 1073
+      },
+      "responses": [
+        {
+          "id": "resp_03a7d53d746b4b45016adb06c5c60487d093933c16badde899",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb06cbc5c487d09705e54417c3d7cf",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb06d152ac87d084f69bc432ad540d",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb06d7947087d0a92cf3231915a3ef",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb06e3c21c87d09e83b1308edc08c6",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb06e8c10c87d0bdc3ee3bef09e712",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb07aba9b487d0b7be0b648b25bc71",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03a7d53d746b4b45016adb07aeb7b487d08d2891769b1b8cce",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        }
+      ],
+      "agent_outcome": null,
+      "agent_reason": "MODEL_REQUEST_FAILED:FormatError",
+      "cli_exit_code": null,
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "worker_seconds": 241.7694579680001,
+      "oracle_seconds": 296.998933203,
+      "container_deleted_as_reported": null
+    },
+    {
+      "batch": "json4537-repeat-2",
+      "group": "candidate",
+      "attempt": "json4537-repeat2-candidate",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+      "task_sha256": "e2209fd38384624aa0f6e4eab8729f0a361933510f51801fd59d0967748ae5bc",
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "45e2f501329aa32aa5845bef97ae68924e6d79161b3e2930cdeb8409475826f7",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      },
+      "result": {
+        "path": "json4537-repeat-2/candidate/result.json",
+        "sha256": "2a4bcf81928f6a34098d5eab3dad1ce221ad0fbb889484163bb3c4f0be8dd372",
+        "size_bytes": 1004
+      },
+      "candidate": {
+        "path": "json4537-repeat-2/candidate/candidate.patch",
+        "sha256": "074990bd9a3c645d6d90500488c8b7bd431b08ea56185b266f75e118db7a04a0",
+        "size_bytes": 556
+      },
+      "oracle": {
+        "path": "json4537-repeat-2/candidate-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": {
+        "path": "json4537-repeat-2/candidate/runs/f1f0d2b967cd482dbe5a62fae73d3a5c/events.sqlite3",
+        "sha256": "683677810b17878fc3aaf03e1056096f99d8ef595c2641a9135a80448b2aaa19",
+        "size_bytes": 958464
+      },
+      "model_requests": 9,
+      "tool_calls": 11,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 124827,
+        "output_tokens": 561
+      },
+      "responses": [
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0aa0446487d0aaffef52131bbd22",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0aa584c887d0b276c5e1b138e284",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0aabde3887d0ba259c5dfa636eb8",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0ab38ed087d0a169f9fb4438a9a1",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0aba387487d0b12a5de548e6a517",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0abfda0887d0929abb4066da4e8a",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0ac54a2c87d09d9d3027dca0fe64",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0acc123c87d08edbd0bb4deb9da8",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_0a5f6dac509c32a5016adb0c250b5c87d0b9074e1f047e540b",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        }
+      ],
+      "agent_outcome": "ACCEPTED",
+      "agent_reason": "VERIFICATION_PASSED",
+      "cli_exit_code": null,
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "worker_seconds": 1055.7874088730005,
+      "oracle_seconds": 286.2450662930005,
+      "container_deleted_as_reported": true
+    },
+    {
+      "batch": "json4537-repeat-2",
+      "group": "control",
+      "attempt": "json4537-repeat2-control",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "task_sha256": "e2209fd38384624aa0f6e4eab8729f0a361933510f51801fd59d0967748ae5bc",
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "45e2f501329aa32aa5845bef97ae68924e6d79161b3e2930cdeb8409475826f7",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      },
+      "result": {
+        "path": "json4537-repeat-2/control/result.json",
+        "sha256": "aa4181238bb2bec1070c3aa958eb113e03d917401a1f35e54498093047ec7b45",
+        "size_bytes": 998
+      },
+      "candidate": {
+        "path": "json4537-repeat-2/control/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "json4537-repeat-2/control-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": {
+        "path": "json4537-repeat-2/control/runs/180bc10eaf624d7f93bd13905ed70dd0/events.sqlite3",
+        "sha256": "5eb0fec392b4512edb221c8a8347fd626281bb0ba210b8a0106e4cf427286a97",
+        "size_bytes": 319488
+      },
+      "model_requests": 1,
+      "tool_calls": 0,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "responses": [],
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "native_tests_executed": false,
+      "required_tests": 0,
+      "passed_tests": 0,
+      "worker_seconds": 339.3932758479996,
+      "oracle_seconds": null,
+      "container_deleted_as_reported": true
+    },
+    {
+      "batch": "json4537-repeat-2",
+      "group": "codex",
+      "attempt": "json4537-repeat2-codex",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": null,
+      "task_sha256": null,
+      "adapter_source_sha256": "58a09f84f8b94d36c4ea2798ac4feaf315304fdc04e668237b418fd4fffd7029",
+      "result": {
+        "path": "json4537-repeat-2/codex/result.json",
+        "sha256": "7c5ae4488ed18f9a4a0f2e6bddb97c97f089ed78d65d670d358b6ac45f60d78a",
+        "size_bytes": 1289
+      },
+      "candidate": {
+        "path": "json4537-repeat-2/codex/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "json4537-repeat-2/codex-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": null,
+      "model_requests": 6,
+      "tool_calls": 5,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 102687,
+        "output_tokens": 555
+      },
+      "responses": [
+        {
+          "id": "resp_03b46fddafae16d1016adb0ffe0f4087d08c67efe4481c3434",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03b46fddafae16d1016adb100444d887d0b883559c4c29f678",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03b46fddafae16d1016adb100b04f087d0bec247fac1091d6e",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03b46fddafae16d1016adb1012582487d087cf7b24516c7b3e",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_03b46fddafae16d1016adb101b544c87d0b4fc3684eb5e83db",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        }
+      ],
+      "agent_outcome": null,
+      "agent_reason": null,
+      "cli_exit_code": 1,
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "native_tests_executed": false,
+      "required_tests": 0,
+      "passed_tests": 0,
+      "worker_seconds": 44.990446984999835,
+      "oracle_seconds": null,
+      "container_deleted_as_reported": true
+    },
+    {
+      "batch": "json4537-repeat-2",
+      "group": "mini",
+      "attempt": "json4537-repeat2-mini",
+      "instance_id": "nlohmann__json-4537",
+      "implementation_sha256": null,
+      "task_sha256": null,
+      "adapter_source_sha256": {
+        "run_benchmark_agent.py": "45e2f501329aa32aa5845bef97ae68924e6d79161b3e2930cdeb8409475826f7",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      },
+      "result": {
+        "path": "json4537-repeat-2/mini/result.json",
+        "sha256": "4549ab371f3382c46a8f24a2141376cef3d1ebcb2ef0eb41fe285c34a6a1d96b",
+        "size_bytes": 783
+      },
+      "candidate": {
+        "path": "json4537-repeat-2/mini/candidate.patch",
+        "sha256": "b33783c712c33003f700a1847de890a4ac2699f65caafb795dadda3fef8ee936",
+        "size_bytes": 1386
+      },
+      "oracle": {
+        "path": "json4537-repeat-2/mini-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": null,
+      "model_requests": 8,
+      "tool_calls": 8,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 99278,
+        "output_tokens": 1007
+      },
+      "responses": [
+        {
+          "id": "resp_078d035654ddaaa0016adb102ecc6087d083a4a86641b01a32",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb10338dd087d0a76235766b2fc3c0",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb103777a487d0b22d812a312adf58",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb103c0b6887d0a2f536ca06f474bf",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb1040c59c87d09e1dfc31304b8e3e",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb1049f78c87d0a6f559d66be39ce3",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb10555ad487d0bc599c13dff5bcc3",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        },
+        {
+          "id": "resp_078d035654ddaaa0016adb105d8afc87d08656126da8825a45",
+          "model": "gpt-6-luna",
+          "status": "completed"
+        }
+      ],
+      "agent_outcome": "Submitted",
+      "agent_reason": "Submitted",
+      "cli_exit_code": null,
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "worker_seconds": 55.154857634999644,
+      "oracle_seconds": 294.8582567150006,
+      "container_deleted_as_reported": true
+    }
+  ],
+  "totals": {
+    "candidate": {
+      "attempts": 2,
+      "resolved": 1,
+      "requests": 10
+    },
+    "control": {
+      "attempts": 2,
+      "resolved": 1,
+      "requests": 8
+    },
+    "codex": {
+      "attempts": 2,
+      "resolved": 0,
+      "requests": 6
+    },
+    "mini": {
+      "attempts": 2,
+      "resolved": 2,
+      "requests": 16
+    }
+  },
+  "previous_archived_cpa_requests": 583,
+  "new_cpa_requests": 40,
+  "cumulative_archived_cpa_requests": 623,
+  "unknown_usage_requests": 3,
+  "actual_billed_cost_cny": null,
+  "deepseek_historical_cost_upper_bound_cny": 2.18923088,
+  "production_adopted": false,
+  "execution_slots": 1,
+  "native_oracle_tests": 98,
+  "coverage": {
+    "qualified_instances": 7,
+    "all_cpp_instances": 129,
+    "repositories": 4
+  },
+  "selection": "候选在第四仓库选题前冻结；数据文件首条；第二轮保留同题全部组别及首次失败",
+  "incidents": {
+    "first_codex": "0请求，中继脚本读取权限失败；原始cleanup=false另附后续清理复核",
+    "first_mini": "FormatError被适配器包装RuntimeError，候选仍通过公共Oracle",
+    "second_control": "首次请求连接中断，空补丁",
+    "second_codex": "第6次请求连接中断，空补丁"
+  }
+}

@@ -24,7 +24,9 @@ simdjson 在核心冻结后按固定数据文件首条选取；Full 的候选修
 [逐次数据](benchmarks/cross-framework-results.json)及[源码清单](benchmarks/cross-framework-source-manifest.json)。
 历史[只读契约反馈实验](benchmarks/contract-results.md)保留 Catch2 三次重复：Full 6/6、mini 3/6、内部消融 3/6。
 [批量修复候选](benchmarks/batched-repair-results.md)在 simdjson 两次通过 99/99；第二轮原版也通过，
-mini 与 Codex 各通过 97/99。FMT 候选仍构建失败，第四仓库正在完成资格验收。
+mini 与 Codex 各通过 97/99。第四仓库 [nlohmann/json](benchmarks/json4537-results.md) 已完成
+98 项资格与真实评分：两轮候选 1/2、原版 1/2、mini 2/2，连接与权限失败逐次保留。
+FMT 候选仍构建失败，修复策略继续进行冻结预算下的真实对照。
 [五个诊断反馈候选](benchmarks/diagnostic-feedback-results.md)保留0/5的独立结果，生产核心保持固定。
 DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，账单费用未知。
 [首次 Luna](benchmarks/luna-results.md)、[预算反馈](benchmarks/repair-cycle-results.md)、
@@ -32,7 +34,7 @@ DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，�
 [rc2](benchmarks/pilot-results.md)分别保留各批原始成绩。
 
 SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
-当前实现的 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39901573799) 通过
+当前实现的 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39919832386) 通过
 **331 核心 + 147 SDK + 21 Docker 场景，共 499 项**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
 原始证据保存为带 SHA-256 的 Release Assets，Git 保留摘要与清单，见 [证据索引](docs/evidence/README.md)。
 

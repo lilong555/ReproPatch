@@ -136,8 +136,7 @@
     "actual_billed_cost_cny": null
   },
   "in_progress_experiments": [
-    "batched-repair-pilot",
-    "batched-repair-simd"
+    "short-cycle-pilot"
   ],
   "diagnostic_candidates_promoted": false,
   "historical_contract_results": "contract-results.json",
@@ -156,8 +155,8 @@
     "inference": "样本用于工程诊断；独立仓库泛化由simdjson单题直接观察"
   },
   "ci": {
-    "source_commit": "379ede5ef62320129428b922926227cc7d001872",
-    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39901573799",
+    "source_commit": "38d5c9949fadc6cbc430186919ec47278acd3ad2",
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39919832386",
     "status": "passed",
     "core": 331,
     "sdk": 147,
@@ -183,20 +182,24 @@
     "uncompressed_bytes": 50324616,
     "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致"
   },
-  "latest_candidate_results": "batched-repair-results.json",
-  "latest_candidate_report": "batched-repair-results.md",
+  "latest_candidate_results": "json4537-results.json",
+  "latest_candidate_report": "json4537-results.md",
   "candidate_implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
   "candidate_production_adopted": false,
   "candidate_simdjson_repeat": {
     "attempts": 2,
     "resolved": 2
   },
-  "cumulative_archived_cpa_requests": 583,
+  "cumulative_archived_cpa_requests": 623,
   "json4537_qualification": {
     "report": "json4537-qualification.md",
     "native_tests": 98,
     "f2p": 1,
     "p2p": 97,
-    "model_comparison_status": "running"
+    "model_comparison_status": "两轮四组已公开；独立第三次对照复测已完成，待归档",
+    "results": "json4537-results.json",
+    "model_requests_archived": 40,
+    "candidate_resolved": 1,
+    "candidate_attempts": 2
   }
 }
