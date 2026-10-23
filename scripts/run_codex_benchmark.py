@@ -13,8 +13,6 @@ import subprocess
 import sys
 import threading
 import time
-import urllib.error
-import urllib.request
 import uuid
 from pathlib import Path
 
@@ -58,6 +56,7 @@ def relay():
 
 
 def main():
+    import httpx2
     from benchmark_budget import BudgetLimit, LocalUsageLedger
     from run_benchmark_agent import mini_inputs
 
@@ -101,6 +100,11 @@ def main():
     transport.chmod(0o755)
     socket_path = transport / "socket"
     key = None if args.check_only else os.environ["OPENAI_API_KEY"]
+    upstream = (
+        None
+        if args.check_only
+        else httpx2.Client(trust_env=True, follow_redirects=False, timeout=90)
+    )
     state = {"tool_calls_admitted": 0, "errors": []}
 
     class Model(http.server.BaseHTTPRequestHandler):
@@ -139,9 +143,10 @@ def main():
                 identity = ledger.reserve(args.attempt, payload)
                 (trace / (identity + "-cli-request.json")).write_bytes(raw)
                 (trace / (identity + "-request.json")).write_bytes(payload)
-                request = urllib.request.Request(
+                # 共用 ReproPatch 的 HTTP 客户端与宿主代理配置，保留原始 SSE 字节。
+                response = upstream.post(
                     "https://cpa.liyinlong.me/v1/responses",
-                    data=payload,
+                    content=payload,
                     headers={
                         "Authorization": "Bearer " + key,
                         "Content-Type": "application/json",
@@ -149,12 +154,8 @@ def main():
                         "Accept-Encoding": "identity",
                     },
                 )
-                try:
-                    with urllib.request.urlopen(request, timeout=90) as response:
-                        status, data = response.status, response.read()
-                        content_type = response.headers.get("Content-Type", "text/event-stream")
-                except urllib.error.HTTPError as error:
-                    status, data, content_type = error.code, error.read(), "application/json"
+                status, data = response.status_code, response.content
+                content_type = response.headers.get("Content-Type", "text/event-stream")
                 (trace / (identity + "-response.sse")).write_bytes(data)
                 completed = None
                 for line in data.splitlines():
@@ -185,7 +186,13 @@ def main():
                     if isinstance(error, (BudgetLimit, ValueError))
                     else type(error).__name__
                 )
-                state["errors"].append({"request_id": identity, "code": code})
+                state["errors"].append(
+                    {
+                        "request_id": identity,
+                        "code": code,
+                        "cause_type": type(error.__cause__).__name__ if error.__cause__ else None,
+                    }
+                )
                 self.reply(
                     429 if isinstance(error, BudgetLimit) else 502,
                     json.dumps({"error": {"message": code, "type": "benchmark_limit"}}).encode(),
@@ -208,6 +215,7 @@ def main():
         "code_host_sha256": hashlib.sha256(code_host.read_bytes()).hexdigest(),
         "adapter_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "provider": {"model": "gpt-6-luna", "base_url": "https://cpa.liyinlong.me/v1"},
+        "host_transport": "httpx2; trust_env=True; follow_redirects=False; timeout=90",
         "check_only": args.check_only,
         "container_deleted": False,
         "differences": [
@@ -345,6 +353,8 @@ def main():
         save(output / "result.json", result)
         server.shutdown()
         server.server_close()
+        if upstream is not None:
+            upstream.close()
         socket_path.unlink(missing_ok=True)
     print(json.dumps(result, ensure_ascii=False))
     if args.check_only:
