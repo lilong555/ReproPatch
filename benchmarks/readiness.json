@@ -190,7 +190,7 @@
     "attempts": 2,
     "resolved": 2
   },
-  "cumulative_archived_cpa_requests": 701,
+  "cumulative_archived_cpa_requests": 742,
   "short_related_candidate": {
     "implementation_sha256": "1f77a7d1421abe0a6fefe6e187fbfe464d72d0b850c3a0ac5ae5a40005ae76fd",
     "production_adopted": false,
@@ -207,7 +207,13 @@
     "f2p": 2,
     "p2p": 96,
     "model_requests": 0,
-    "model_comparison_status": "四组协议冻结，原版组正在执行"
+    "model_comparison_status": "四组固定预算对照已完成：Full、mini、Codex各通过98项；相关模板候选编译失败",
+    "results": "json4525-results.json",
+    "model_requests_archived": 41,
+    "repropatch_full_resolved": 1,
+    "candidate_resolved": 0,
+    "mini_resolved": 1,
+    "codex_resolved": 1
   },
   "codex_json4537_all_attempts": {
     "attempts": 4,

@@ -195,6 +195,19 @@
       "verification": "逐文件哈希、凭据哨兵、独立解压与Git bundle校验通过",
       "scope": "json-4525完整参考资格：2F2P与96P2P、独立98项、原生98项、零模型",
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4525-qualification-2026-10-23/ReproPatch-json4525-qualification-2026-10-23.tar.gz"
+    },
+    {
+      "name": "ReproPatch-json4525-results-2026-10-23.tar.gz",
+      "sha256": "e107fda4daa079e94b84f0c0a96b4d15968916930f7338e610170d920e8f7bd9",
+      "size_bytes": 6410098,
+      "files": 3991,
+      "uncompressed_bytes": 35371871,
+      "model_requests": 41,
+      "unknown_usage_requests": 0,
+      "verification": "逐文件哈希、凭据哨兵与独立解压核验通过",
+      "scope": "json-4525四组真实修复对照与98项公共Oracle，含策略失败和框架成功候选",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4525-results-2026-10-23/ReproPatch-json4525-results-2026-10-23.tar.gz",
+      "result_summary": "benchmarks/json4525-results.json"
     }
   ]
 }
