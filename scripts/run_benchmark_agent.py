@@ -191,7 +191,7 @@ def mini_agent(args, hooks):
     from litellm.llms.custom_httpx.http_handler import HTTPHandler
     from minisweagent.agents.default import DefaultAgent
     from minisweagent.environments import get_environment
-    from minisweagent.exceptions import LimitsExceeded
+    from minisweagent.exceptions import InterruptAgentFlow, LimitsExceeded
     from minisweagent.models.litellm_response_model import LitellmResponseModel
 
     for name in ("LiteLLM", "litellm", "httpx", "openai"):
@@ -253,7 +253,7 @@ def mini_agent(args, hooks):
                 )
             try:
                 result = native.query(messages, client=handler)
-            except BudgetLimit:
+            except (BudgetLimit, InterruptAgentFlow):
                 raise
             except Exception as error:
                 raise RuntimeError("MODEL_REQUEST_FAILED:" + type(error).__name__) from None
