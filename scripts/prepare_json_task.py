@@ -1,4 +1,4 @@
-"""固定 nlohmann/json-4537，映射完整原生测试到逐项独立验收。"""
+"""固定 nlohmann/json 缺陷，映射完整原生测试到逐项独立验收。"""
 
 import argparse
 import hashlib
@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 import yaml
-from check_json_candidate import BASE, CONFIGURE, CTEST, IMAGE, record_file
+from check_json_candidate import CASES, CONFIGURE, CTEST, IMAGE, record_file
 from prepare_multiswe_task import git
 from prepare_simdjson_task import archive
 
@@ -117,10 +117,11 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     record = record_file(args.record)
+    case = CASES[record["number"]]
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     source = output / "repository"
-    archive(args.repository, BASE, source)
+    archive(args.repository, case["base"], source)
     for name, field in (("official-test.patch", "test_patch"), ("reference.patch", "fix_patch")):
         (output / name).write_text(record[field])
     git(source, "init", "--template=", "-q", ".")
@@ -155,7 +156,7 @@ def main():
     )
     task = {
         "version": 2,
-        "id": "nlohmann-json-4537",
+        "id": f"nlohmann-json-{record['number']}",
         "repository": {"path": str(source), "commit": prepared},
         "environment": {
             "image": IMAGE,
@@ -173,13 +174,10 @@ def main():
         },
         "tests": {
             "fail_to_pass": [
-                {
-                    "name": "test-diagnostics_cpp11",
-                    "expected_exit_code": 8,
-                    "output_contains": "assert_invariant",
-                }
+                {"name": name, "expected_exit_code": 8, "output_contains": marker}
+                for name, marker in case["f2p"].items()
             ],
-            "pass_to_pass": [n for n in required if n != "test-diagnostics_cpp11"],
+            "pass_to_pass": [n for n in required if n not in case["f2p"]],
             "protected_paths": ["tests/", "cmake/", "CMakeLists.txt"],
         },
         "files": {
@@ -202,8 +200,8 @@ def main():
     path.write_text(yaml.safe_dump(task, sort_keys=False, allow_unicode=True))
     Task.load(path)
     provenance = {
-        "instance_id": "nlohmann__json-4537",
-        "upstream_commit": BASE,
+        "instance_id": f"nlohmann__json-{record['number']}",
+        "upstream_commit": case["base"],
         "prepared_commit": prepared,
         "image": IMAGE,
         "native_required_tests": required,
@@ -217,7 +215,7 @@ def main():
             "prepared FetchContent 从当前源码读取；外部 Oracle 保留原生 Git 克隆",
             "诊断节点执行同一原生二进制，断言终止传播为非零 CTest 退出",
         ],
-        "selection": "第四仓库固定数据文件首条，批量策略已冻结，模型结果未知",
+        "selection": "固定数据文件顺序筛查；4537父指针、4525整数类型访问；模型结果在准备时未知",
         "model_requests": 0,
         "runtime_verified": False,
     }

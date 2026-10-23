@@ -23,6 +23,33 @@ BASE = "e6cafa573aac6ed9227f752a5371c0b3f436307d"
 IMAGE = "sha256:85df2a93b8024356d4f10a729382a9a0663f73b3c0adc312a36dadb962e86477"
 TEST_SHA = "45c07d5e45497738b0f5305e0416b0ccb06042982d862c6a74f3868168c409e4"
 REFERENCE_SHA = "809d83d243aff95215f0f089dfb060c7e6f70bfe2158c5fb756556abcb67e9f1"
+CASES = {
+    4537: {
+        "base": BASE,
+        "test_sha256": TEST_SHA,
+        "reference_sha256": REFERENCE_SHA,
+        "f2p": {"test-diagnostics_cpp11": "assert_invariant"},
+        "test_markers": {
+            "tests/src/unit-diagnostics.cpp": (
+                "Regression test for issue #3915 - JSON_DIAGNOSTICS trigger assertion"
+            )
+        },
+    },
+    4525: {
+        "base": "1b9a9d1f2122e73b69f5d62d0ce3ebda8cd41ff0",
+        "test_sha256": "4b07295d171fcdb90235e957ab9e3e29c889386c0d1831cc851802e2d93e511a",
+        "reference_sha256": "13398e723048065e86a9e6f411c409709006a5c79146b3d0db6a481782faaf9d",
+        "f2p": {"test-pointer_access_cpp11": "get_ptr", "test-reference_access_cpp11": "get_ref"},
+        "test_markers": {
+            "tests/src/unit-pointer_access.cpp": (
+                "CHECK(value.get_ptr<json::number_integer_t*>() == nullptr)"
+            ),
+            "tests/src/unit-reference_access.cpp": (
+                "        CHECK_THROWS_WITH_AS(value.get_ref<json::number_integer_t&>()"
+            ),
+        },
+    },
+}
 CONFIGURE = [
     "cmake",
     "-S",
@@ -42,14 +69,20 @@ def save(path, value):
 
 def record_file(path):
     record = json.loads(path.read_text())
+    case = CASES.get(record["number"])
+    if case is None:
+        raise ValueError("JSON_RECORD_IDENTITY")
     if (record["org"], record["repo"], record["number"], record["base"]["sha"]) != (
         "nlohmann",
         "json",
-        4537,
-        BASE,
+        record["number"],
+        case["base"],
     ) or any(
         hashlib.sha256(record[key].encode()).hexdigest() != digest
-        for key, digest in (("test_patch", TEST_SHA), ("fix_patch", REFERENCE_SHA))
+        for key, digest in (
+            ("test_patch", case["test_sha256"]),
+            ("fix_patch", case["reference_sha256"]),
+        )
     ):
         raise ValueError("JSON_RECORD_IDENTITY")
     if len(set(record["run_result"]["passed_tests"])) != 98:
@@ -68,6 +101,7 @@ def main():
     parser.add_argument("--reference-check", action="store_true")
     args = parser.parse_args()
     record = record_file(args.record)
+    case = CASES[record["number"]]
     evaluator = args.evaluator_source.resolve(strict=True)
     if git(evaluator, "rev-parse", "HEAD").decode().strip() != EVALUATOR_COMMIT:
         parser.error("JSON_EVALUATOR_IDENTITY")
@@ -89,8 +123,8 @@ def main():
         if (
             resolved.image_id != IMAGE
             or resolved.base_commit != provenance["prepared_commit"]
-            or provenance["upstream_commit"] != BASE
-            or resolved.task.id != "nlohmann-json-4537"
+            or provenance["upstream_commit"] != case["base"]
+            or resolved.task.id != f"nlohmann-json-{record['number']}"
             or list(resolved.task.commands.configure) != CONFIGURE
         ):
             parser.error("JSON_TASK_IDENTITY")
@@ -117,7 +151,7 @@ def main():
     name = "repropatch-json-oracle-" + uuid.uuid4().hex[:12]
     started = time.monotonic()
     execution = {
-        "upstream_commit": BASE,
+        "upstream_commit": case["base"],
         "image": IMAGE,
         "model_requests": 0,
         "reference_check": args.reference_check,
@@ -125,16 +159,16 @@ def main():
     }
     with tempfile.TemporaryDirectory(dir=output.parent, prefix="json-native-") as temp:
         source = Path(temp) / "source"
-        archive(args.repository, BASE, source)
+        archive(args.repository, case["base"], source)
         git(source, "init", "--template=", "-q", ".")
         test_patch = output / "official-test.patch"
         test_patch.write_text(record["test_patch"])
         git(source, "apply", str(test_patch))
         if patch:
             git(source, "apply", str(output / "candidate.patch"))
-        if (
-            "Regression test for issue #3915 - JSON_DIAGNOSTICS trigger assertion"
-            not in (source / "tests/src/unit-diagnostics.cpp").read_text()
+        if any(
+            marker not in (source / path).read_text()
+            for path, marker in case["test_markers"].items()
         ):
             raise ValueError("JSON_TEST_PATCH_NOT_APPLIED")
         # 原生 FetchContent 测试从只读快照进行本地 Git 克隆。
@@ -154,6 +188,11 @@ def main():
             output / "source-check.json",
             {
                 "test_patch_applied": True,
+                "instance_id": f"nlohmann__json-{record['number']}",
+                "test_files_sha256": {
+                    path: hashlib.sha256((source / path).read_bytes()).hexdigest()
+                    for path in case["test_markers"]
+                },
                 "diagnostics_sha256": hashlib.sha256(
                     (source / "tests/src/unit-diagnostics.cpp").read_bytes()
                 ).hexdigest(),
