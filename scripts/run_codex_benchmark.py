@@ -88,7 +88,9 @@ def main():
         parser.error("CODEX_VERSION_MISMATCH")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
-    (output / "adapter.py").write_bytes(Path(__file__).read_bytes())
+    relay_file = output / "adapter.py"
+    relay_file.write_bytes(Path(__file__).read_bytes())
+    relay_file.chmod(0o644)
     (output / "common-input.json").write_bytes(args.common_input.read_bytes())
     (output / "task.yaml").write_bytes(args.task.read_bytes())
     trace = output / "http-native"
@@ -227,7 +229,7 @@ def main():
             "--mount",
             f"type=bind,source={code_host},target=/opt/codex-code-mode-host,readonly",
             "--mount",
-            f"type=bind,source={Path(__file__).resolve()},target=/opt/adapter.py,readonly",
+            f"type=bind,source={relay_file},target=/opt/adapter.py,readonly",
             "--mount",
             f"type=bind,source={transport},target=/model,readonly",
             "--env",
@@ -345,10 +347,13 @@ def main():
         server.server_close()
         socket_path.unlink(missing_ok=True)
     print(json.dumps(result, ensure_ascii=False))
+    if args.check_only:
+        return 0 if result.get("exit_code") == 0 else 2
+    return 0
 
 
 if __name__ == "__main__":
     if sys.argv[1:] == ["--relay"]:
         relay()
     else:
-        main()
+        raise SystemExit(main())
