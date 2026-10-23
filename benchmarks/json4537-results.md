@@ -21,9 +21,10 @@ Codex CLI **0/2**。候选和原版各有一次首次请求连接中断；Codex 
 | 第二轮 | mini-SWE-agent | 8 / 8 | 98/98，通过 | Submitted |
 
 缺陷涉及对象范围插入后 JSON_DIAGNOSTICS 的父对象指针及 invariant 断言。
-批量候选同时修复 `include/nlohmann/json.hpp` 与 `single_include/nlohmann/json.hpp`，
-内部独立验收和公共 Oracle 均通过。公共 Oracle 从原始 base commit 应用官方测试补丁和候选，
-使用固定上游 parser 评分全部 98 项测试。
+原版成功候选和批量候选的哈希相同，只修改 `include/nlohmann/json.hpp`。
+原版公共 Oracle 在默认多头配置下评分 98 项测试。补充双入口评分确认该候选的多头入口通过，
+单头入口仍触发同一 invariant 断言。mini 和 Codex 的已评分候选通过两种入口。
+[双入口补充评分](json4537-header-audit.md)记录候选、镜像与逐项结果。
 
 候选在第四仓库选题前冻结，核心 SHA-256 为
 `3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef`；

@@ -221,8 +221,9 @@
     "native_tests": 98,
     "f2p": 1,
     "p2p": 97,
-    "model_comparison_status": "两轮四组与第三次对照已公开；Codex第四次统一HTTP复测通过98项原生测试",
+    "model_comparison_status": "两轮四组与第三次对照已公开；Codex第四次统一HTTP复测通过98项原生测试；双入口补充评分已公开",
     "results": "json4537-results.json",
+    "header_audit": "json4537-header-audit.json",
     "model_requests_archived": 40,
     "candidate_resolved": 1,
     "candidate_attempts": 2

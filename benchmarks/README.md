@@ -9,6 +9,7 @@ simdjson中Full仍失败，mini通过；Codex首次传输中断、独立复测�
 [批量修复与四组复测](batched-repair-results.md)保存 simdjson 候选2/2、第二轮原版成功、
 mini与Codex目标回归失败，以及FMT构建失败与全部中断记录。
 [第四仓库两轮结果](json4537-results.md)保存 json-4537 的四组原始尝试。
+[json-4537 双入口补充评分](json4537-header-audit.md)核对完整 98 项 Oracle 覆盖的单头分发入口。
 [修复周期与对照复测](repair-followup-results.md)保存 FMT 相关模板反馈候选 1/3 的结果、
 Codex 统一 HTTP 客户端后 json-4537 的 98/98 成功，以及短周期三题 0/3 的全部记录。
 

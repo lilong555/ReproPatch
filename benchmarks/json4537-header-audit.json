@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "oracle_version": "json4537-header-audit-v1",
+  "instance_id": "nlohmann__json-4537",
+  "issue": 3915,
+  "upstream_commit": "e6cafa573aac6ed9227f752a5371c0b3f436307d",
+  "image": "sha256:85df2a93b8024356d4f10a729382a9a0663f73b3c0adc312a36dadb962e86477",
+  "case": {
+    "path": "benchmarks/cases/json/diagnostics-insert.cpp",
+    "sha256": "749f5f1c959449b18c7fe5c5a8f12d8304f8c5ec6a67b4157e8da4d5b802c2fd",
+    "compile_flags": ["-std=c++11", "-O1"],
+    "resources": {"cpus": 2, "memory_mib": 512, "network": "none", "user": 65534}
+  },
+  "patches": [
+    {
+      "name": "base",
+      "candidate_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "legacy_native_oracle": null,
+      "multi_header": "FAIL",
+      "single_header": "FAIL",
+      "distribution_complete": false
+    },
+    {
+      "name": "upstream_reference",
+      "candidate_sha256": "809d83d243aff95215f0f089dfb060c7e6f70bfe2158c5fb756556abcb67e9f1",
+      "legacy_native_oracle": {"accepted": true, "required_tests": 98, "passed_tests": 98},
+      "multi_header": "PASS",
+      "single_header": "PASS",
+      "distribution_complete": true
+    },
+    {
+      "name": "repropatch_full_and_batched_candidate",
+      "candidate_sha256": "074990bd9a3c645d6d90500488c8b7bd431b08ea56185b266f75e118db7a04a0",
+      "legacy_native_oracle": {"accepted": true, "required_tests": 98, "passed_tests": 98},
+      "multi_header": "PASS",
+      "single_header": "FAIL",
+      "distribution_complete": false,
+      "historical_runs": ["json4537-control-1", "json4537-candidate-2", "json4537-control-transport-3"]
+    },
+    {
+      "name": "mini_first",
+      "candidate_sha256": "b84ade4aa1fd76d73b3fb7ad2253b105e1b023a48c1dcc23e99605962aa89177",
+      "legacy_native_oracle": {"accepted": true, "required_tests": 98, "passed_tests": 98},
+      "multi_header": "PASS",
+      "single_header": "PASS",
+      "distribution_complete": true
+    },
+    {
+      "name": "mini_second",
+      "candidate_sha256": "b33783c712c33003f700a1847de890a4ac2699f65caafb795dadda3fef8ee936",
+      "legacy_native_oracle": {"accepted": true, "required_tests": 98, "passed_tests": 98},
+      "multi_header": "PASS",
+      "single_header": "PASS",
+      "distribution_complete": true
+    },
+    {
+      "name": "mini_third",
+      "candidate_sha256": "ee7c4d2defa9e5819ff15058c6600ae50deda7826c4403fa824c0e860b7543d0",
+      "legacy_native_oracle": {"accepted": true, "required_tests": 98, "passed_tests": 98},
+      "multi_header": "PASS",
+      "single_header": "PASS",
+      "distribution_complete": true
+    },
+    {
+      "name": "codex_httpx",
+      "candidate_sha256": "25aaff103f2b89fa09a170512ea8d2847a1a9fce55746316acbe991b478e1a0a",
+      "legacy_native_oracle": {"accepted": true, "required_tests": 98, "passed_tests": 98},
+      "multi_header": "PASS",
+      "single_header": "PASS",
+      "distribution_complete": true
+    }
+  ]
+}

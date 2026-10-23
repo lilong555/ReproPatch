@@ -26,6 +26,8 @@ simdjson 在核心冻结后按固定数据文件首条选取；Full 的候选修
 [批量修复候选](benchmarks/batched-repair-results.md)在 simdjson 两次通过 99/99；第二轮原版也通过，
 mini 与 Codex 各通过 97/99。第四仓库 [nlohmann/json](benchmarks/json4537-results.md) 已完成
 98 项资格与真实评分：两轮候选 1/2、原版 1/2、mini 2/2，连接与权限失败逐次保留。
+新增[双头文件入口评分](benchmarks/json4537-header-audit.md)：历史 Full 与批量候选通过多头入口，
+单头入口仍复现 issue #3915；mini 与 Codex 的有效候选通过两种入口。
 该批 FMT 候选构建失败，完整结果随证据保存。
 [相关模板反馈候选](benchmarks/repair-followup-results.md)在 FMT-4286 三次尝试中修复 1 次，
 成功补丁通过 21/21；Codex 统一宿主传输后的 json-4537 复测通过 98/98。

@@ -61,6 +61,9 @@ CONFIGURE = [
     "-DCMAKE_CXX_FLAGS=-O1",
 ]
 CTEST = ["ctest", "--test-dir", "/build", "--output-on-failure", "--no-tests=error"]
+HEADER_REGRESSION = (
+    Path(__file__).resolve().parent.parent / "benchmarks/cases/json/diagnostics-insert.cpp"
+)
 
 
 def save(path, value):
@@ -90,6 +93,90 @@ def record_file(path):
     return record
 
 
+def check_header_regressions(source, output, name):
+    """以两个公开头文件入口执行 #3915 的最小回归。"""
+    case = source / "header-regression.cpp"
+    case.write_bytes(HEADER_REGRESSION.read_bytes())
+    set_container_read_permissions(case)
+    commands = {
+        "multi_header": [
+            "g++",
+            "-std=c++11",
+            "-O1",
+            "-I/src/include",
+            "/src/header-regression.cpp",
+            "-o",
+            "/build/multi-header",
+        ],
+        "single_header": [
+            "g++",
+            "-std=c++11",
+            "-O1",
+            "-I/src/single_include",
+            "/src/header-regression.cpp",
+            "-o",
+            "/build/single-header",
+        ],
+    }
+    started = time.monotonic()
+    results = {}
+    log_path = output / "header-regressions.log"
+    with log_path.open("wb") as log:
+        for index, (key, command) in enumerate(commands.items()):
+            container = f"{name}-{index}"
+            argv = [
+                "docker",
+                "run",
+                "--rm",
+                "--pull=never",
+                "--name",
+                container,
+                "--network=none",
+                "--read-only",
+                "--cap-drop=ALL",
+                "--security-opt=no-new-privileges:true",
+                "--user=65534:65534",
+                "--cpus=2",
+                "--memory=512m",
+                "--memory-swap=512m",
+                "--pids-limit=64",
+                "--ulimit=core=0:0",
+                "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
+                "--tmpfs=/build:rw,exec,nosuid,nodev,size=256m,uid=65534,gid=65534,mode=0700",
+                "--mount",
+                f"type=bind,source={source},target=/src,readonly",
+                "--workdir=/build",
+                IMAGE,
+                "bash",
+                "-ec",
+                shlex.join(command) + " && " + shlex.join([command[-1]]),
+            ]
+            log.write((f"[{key}] " + shlex.join(argv) + "\n").encode())
+            try:
+                completed = subprocess.run(argv, stdout=log, stderr=subprocess.STDOUT, timeout=300)
+                results[key] = {"exit_code": completed.returncode, "error": None}
+            except subprocess.TimeoutExpired:
+                results[key] = {"exit_code": None, "error": "HEADER_REGRESSION_TIME_LIMIT"}
+            finally:
+                subprocess.run(["docker", "rm", "-f", container], capture_output=True, timeout=30)
+            left = subprocess.check_output(
+                ["docker", "ps", "-aq", "--filter", "name=^/" + container + "$"], timeout=30
+            )
+            results[key]["container_deleted"] = not left.strip()
+            passed = results[key]["exit_code"] == 0 and results[key]["container_deleted"]
+            results[key]["status"] = "PASS" if passed else "FAIL"
+    passed = all(item["status"] == "PASS" for item in results.values())
+    return {
+        "multi_header": results["multi_header"],
+        "single_header": results["single_header"],
+        "details": results,
+        "distribution_complete": passed,
+        "duration_seconds": time.monotonic() - started,
+        "command_sha256": hashlib.sha256(json.dumps(commands, sort_keys=True).encode()).hexdigest(),
+        "case_sha256": hashlib.sha256(HEADER_REGRESSION.read_bytes()).hexdigest(),
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--record", type=Path, required=True)
@@ -99,6 +186,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--task", type=Path)
     parser.add_argument("--reference-check", action="store_true")
+    parser.add_argument("--header-regression-only", action="store_true")
     args = parser.parse_args()
     record = record_file(args.record)
     case = CASES[record["number"]]
@@ -111,8 +199,10 @@ def main():
         parser.error("JSON_CANDIDATE_TOO_LARGE")
     if args.reference_check and patch not in (b"", record["fix_patch"].encode()):
         parser.error("JSON_REFERENCE_IDENTITY")
-    if args.task is None and not args.reference_check:
+    if args.task is None and not args.reference_check and not args.header_regression_only:
         parser.error("JSON_TASK_REQUIRED")
+    if args.header_regression_only and record["number"] != 4537:
+        parser.error("JSON_HEADER_REGRESSION_UNAVAILABLE")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     (output / "candidate.patch").write_bytes(patch)
@@ -137,7 +227,7 @@ def main():
                     resolved.editable_files, resolved.protected_files
                 )
             save(output / "scope.json", {"changed_files": list(changed), "worktree_removed": True})
-    if not patch and not args.reference_check:
+    if not patch and not args.reference_check and not args.header_regression_only:
         save(
             output / "oracle-verdict.json",
             {
@@ -184,6 +274,22 @@ def main():
             "固定原生候选与测试",
         )
         set_container_read_permissions(source)
+        if args.header_regression_only:
+            headers = check_header_regressions(
+                source, output, "repropatch-json-headers-" + uuid.uuid4().hex[:12]
+            )
+            save(
+                output / "header-audit.json",
+                {
+                    "oracle_version": "json4537-header-audit-v1",
+                    "candidate_sha256": hashlib.sha256(patch).hexdigest(),
+                    "legacy_native_oracle": None,
+                    "header_regressions": headers,
+                    "model_requests": 0,
+                },
+            )
+            print(json.dumps(headers, ensure_ascii=False))
+            return 0 if headers["distribution_complete"] else 1
         save(
             output / "source-check.json",
             {
