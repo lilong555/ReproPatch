@@ -175,6 +175,16 @@
       "verification": "逐文件大小及哈希、凭据哨兵、独立解压重算通过",
       "scope": "nlohmann/json第四仓库两轮四组全部原始模型结果与98项公共Oracle",
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4537-results-2026-10-23/ReproPatch-json4537-results-2026-10-23.tar.gz"
+    },
+    {
+      "name": "ReproPatch-repair-followup-2026-10-23.tar.gz",
+      "sha256": "6c106dc914c4f4ed5d77226035a1a6036d313a65c3ea562d0aff790b26657ab4",
+      "size_bytes": 12131730,
+      "files": 6694,
+      "uncompressed_bytes": 67106887,
+      "verification": "逐文件大小与哈希、凭据哨兵、独立解压重算通过",
+      "scope": "10条短周期、相关模板反馈与原生框架对照复测；完整成功和失败",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-repair-followup-2026-10-23/ReproPatch-repair-followup-2026-10-23.tar.gz"
     }
   ]
 }

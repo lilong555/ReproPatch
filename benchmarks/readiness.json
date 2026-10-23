@@ -136,7 +136,8 @@
     "actual_billed_cost_cny": null
   },
   "in_progress_experiments": [
-    "short-cycle-pilot"
+    "json4525-qualification-recovered",
+    "json4525-comparison"
   ],
   "diagnostic_candidates_promoted": false,
   "historical_contract_results": "contract-results.json",
@@ -182,21 +183,35 @@
     "uncompressed_bytes": 50324616,
     "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致"
   },
-  "latest_candidate_results": "json4537-results.json",
-  "latest_candidate_report": "json4537-results.md",
+  "latest_candidate_results": "repair-followup-results.json",
+  "latest_candidate_report": "repair-followup-results.md",
   "candidate_implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
   "candidate_production_adopted": false,
   "candidate_simdjson_repeat": {
     "attempts": 2,
     "resolved": 2
   },
-  "cumulative_archived_cpa_requests": 623,
+  "cumulative_archived_cpa_requests": 701,
+  "short_related_candidate": {
+    "implementation_sha256": "1f77a7d1421abe0a6fefe6e187fbfe464d72d0b850c3a0ac5ae5a40005ae76fd",
+    "production_adopted": false,
+    "fmt4286_resolved": 1,
+    "fmt4286_attempts": 3,
+    "report": "repair-followup-results.md"
+  },
+  "codex_json4537_all_attempts": {
+    "attempts": 4,
+    "resolved": 1,
+    "latest_host_transport": "httpx2",
+    "latest_requests": 8,
+    "latest_native_tests_passed": 98
+  },
   "json4537_qualification": {
     "report": "json4537-qualification.md",
     "native_tests": 98,
     "f2p": 1,
     "p2p": 97,
-    "model_comparison_status": "两轮四组已公开；独立第三次对照复测已完成，待归档",
+    "model_comparison_status": "两轮四组与第三次对照已公开；Codex第四次统一HTTP复测通过98项原生测试",
     "results": "json4537-results.json",
     "model_requests_archived": 40,
     "candidate_resolved": 1,

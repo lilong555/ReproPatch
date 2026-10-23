@@ -26,7 +26,10 @@ simdjson 在核心冻结后按固定数据文件首条选取；Full 的候选修
 [批量修复候选](benchmarks/batched-repair-results.md)在 simdjson 两次通过 99/99；第二轮原版也通过，
 mini 与 Codex 各通过 97/99。第四仓库 [nlohmann/json](benchmarks/json4537-results.md) 已完成
 98 项资格与真实评分：两轮候选 1/2、原版 1/2、mini 2/2，连接与权限失败逐次保留。
-FMT 候选仍构建失败，修复策略继续进行冻结预算下的真实对照。
+该批 FMT 候选构建失败，完整结果随证据保存。
+[相关模板反馈候选](benchmarks/repair-followup-results.md)在 FMT-4286 三次尝试中修复 1 次，
+成功补丁通过 21/21；Codex 统一宿主传输后的 json-4537 复测通过 98/98。
+新整数访问缺陷 json-4525 正在完成参考资格及四组对照。
 [五个诊断反馈候选](benchmarks/diagnostic-feedback-results.md)保留0/5的独立结果，生产核心保持固定。
 DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，账单费用未知。
 [首次 Luna](benchmarks/luna-results.md)、[预算反馈](benchmarks/repair-cycle-results.md)、

@@ -1,0 +1,682 @@
+{
+  "schema_version": 1,
+  "scope": "短修复周期、相关模板反馈与第四仓库传输复测",
+  "attempts": [
+    {
+      "experiment": "json4537-baseline-transport-rerun",
+      "group": "control",
+      "instance_id": "nlohmann__json-4537",
+      "attempt": "json4537-control-transport-3",
+      "implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+      "result": {
+        "path": "json4537-baseline-transport-rerun/control/result.json",
+        "sha256": "2e32d34f45bb1a00dea3724c5b0aed4f6754870e025d9cc4b0b0563fb7f45e9e",
+        "size_bytes": 1018
+      },
+      "candidate": {
+        "path": "json4537-baseline-transport-rerun/control/candidate.patch",
+        "sha256": "074990bd9a3c645d6d90500488c8b7bd431b08ea56185b266f75e118db7a04a0",
+        "size_bytes": 556
+      },
+      "oracle": {
+        "path": "json4537-baseline-transport-rerun/control-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": {
+        "path": "json4537-baseline-transport-rerun/control/runs/35dd17a63fca4b66837cffc55f37d8c0/events.sqlite3",
+        "sha256": "c88f352b295eb103ce509a3d41e67fc3bded6464043451baddbbbd1d3dbcf863",
+        "size_bytes": 942080
+      },
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "agent_outcome": "ACCEPTED",
+      "agent_reason": "VERIFICATION_PASSED",
+      "cli_exit_code": null,
+      "model_requests": 6,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 69169,
+        "output_tokens": 350
+      },
+      "tool_calls": 5,
+      "first_edit_step": 4,
+      "self_checks": [
+        {
+          "step": 5,
+          "passed": true
+        }
+      ],
+      "related_uses": [],
+      "worker_seconds": 1044.285786981999,
+      "oracle_seconds": 299.23724976499943,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "json4537-baseline-transport-rerun",
+      "group": "codex",
+      "instance_id": "nlohmann__json-4537",
+      "attempt": "json4537-codex-transport-3",
+      "implementation_sha256": null,
+      "result": {
+        "path": "json4537-baseline-transport-rerun/codex/result.json",
+        "sha256": "d54a38aeadc58ce04b4235b3a9c3081616f89d6db8e7b8ec53a50749c35f2d94",
+        "size_bytes": 1293
+      },
+      "candidate": {
+        "path": "json4537-baseline-transport-rerun/codex/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "json4537-baseline-transport-rerun/codex-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": null,
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "native_tests_executed": false,
+      "required_tests": 0,
+      "passed_tests": 0,
+      "agent_outcome": null,
+      "agent_reason": null,
+      "cli_exit_code": 1,
+      "model_requests": 1,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "tool_calls": 0,
+      "first_edit_step": null,
+      "self_checks": [],
+      "related_uses": [],
+      "worker_seconds": 10.652627893001409,
+      "oracle_seconds": null,
+      "adapter_sha256": "58a09f84f8b94d36c4ea2798ac4feaf315304fdc04e668237b418fd4fffd7029"
+    },
+    {
+      "experiment": "json4537-baseline-transport-rerun",
+      "group": "mini",
+      "instance_id": "nlohmann__json-4537",
+      "attempt": "json4537-mini-transport-3",
+      "implementation_sha256": null,
+      "result": {
+        "path": "json4537-baseline-transport-rerun/mini/result.json",
+        "sha256": "724bb1b5ac637c08ff9aa8e17e0af9d34b63217067ecb5058a57ff683c0ede76",
+        "size_bytes": 705
+      },
+      "candidate": {
+        "path": "json4537-baseline-transport-rerun/mini/candidate.patch",
+        "sha256": "ee7c4d2defa9e5819ff15058c6600ae50deda7826c4403fa824c0e860b7543d0",
+        "size_bytes": 1156
+      },
+      "oracle": {
+        "path": "json4537-baseline-transport-rerun/mini-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": null,
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "agent_outcome": null,
+      "agent_reason": "MODEL_REQUEST_FAILED:InternalServerError",
+      "cli_exit_code": null,
+      "model_requests": 7,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 68105,
+        "output_tokens": 811
+      },
+      "tool_calls": 6,
+      "first_edit_step": null,
+      "self_checks": [],
+      "related_uses": [],
+      "worker_seconds": 214.57539581499987,
+      "oracle_seconds": 295.56397136399937,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "json4537-codex-httpx",
+      "group": "codex-httpx",
+      "instance_id": "nlohmann__json-4537",
+      "attempt": "json4537-codex-httpx-4",
+      "implementation_sha256": null,
+      "result": {
+        "path": "json4537-codex-httpx/codex/result.json",
+        "sha256": "4a6f3f42df85b6b0fe981f5d4b132cc7af9cfcc049626de6fe8a377afa0bf4ad",
+        "size_bytes": 1277
+      },
+      "candidate": {
+        "path": "json4537-codex-httpx/codex/candidate.patch",
+        "sha256": "25aaff103f2b89fa09a170512ea8d2847a1a9fce55746316acbe991b478e1a0a",
+        "size_bytes": 1010
+      },
+      "oracle": {
+        "path": "json4537-codex-httpx/codex-oracle/oracle-verdict.json",
+        "sha256": "428db42a9024cd193a31f4348d214dd788108b5807590ba8b22cfd3c0ce415ca",
+        "size_bytes": 6328
+      },
+      "events": null,
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 98,
+      "passed_tests": 98,
+      "agent_outcome": null,
+      "agent_reason": null,
+      "cli_exit_code": 0,
+      "model_requests": 8,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 182636,
+        "output_tokens": 932
+      },
+      "tool_calls": 7,
+      "first_edit_step": null,
+      "self_checks": [],
+      "related_uses": [],
+      "worker_seconds": 62.33167737700023,
+      "oracle_seconds": 287.44047958900046,
+      "adapter_sha256": "da84bf71a858d38a7a710db1962a3d58e96cf55e9009e3ee684793e1d39b2a64"
+    },
+    {
+      "experiment": "short-cycle-pilot",
+      "group": "short-cycle",
+      "instance_id": "fmtlib__fmt-4286",
+      "attempt": "short-cycle-fmt4286-1",
+      "implementation_sha256": "d0174ace4be3116c7dfcdd79f99a340a5677a19042f26d01c0b0f3109cad05e2",
+      "result": {
+        "path": "short-cycle-pilot/fmt4286/result.json",
+        "sha256": "9bb45b52851c289d739827c836b5efecf25fd8bd2600a982014dae07b78e72cb",
+        "size_bytes": 989
+      },
+      "candidate": {
+        "path": "short-cycle-pilot/fmt4286/candidate.patch",
+        "sha256": "3042b2af98a8fe20e57028188acf777ad75ee9a12f2f6579aac70dfc9b0ac4ae",
+        "size_bytes": 1644
+      },
+      "oracle": {
+        "path": "short-cycle-pilot/fmt4286-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "events": {
+        "path": "short-cycle-pilot/fmt4286/runs/1f496f5323124fa29e0300122fee0c42/events.sqlite3",
+        "sha256": "4ac04539bae4d2691678779755dd5d6a246ddf9b9ebdc522181df8c7062ab673",
+        "size_bytes": 376832
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "native_tests_executed": true,
+      "required_tests": 21,
+      "passed_tests": 20,
+      "agent_outcome": "REJECTED",
+      "agent_reason": "F2P_FAILED",
+      "cli_exit_code": null,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 161076,
+        "output_tokens": 689
+      },
+      "tool_calls": 18,
+      "first_edit_step": 3,
+      "self_checks": [
+        {
+          "step": 4,
+          "passed": false
+        },
+        {
+          "step": 6,
+          "passed": false
+        },
+        {
+          "step": 11,
+          "passed": false
+        },
+        {
+          "step": 12,
+          "passed": false
+        }
+      ],
+      "related_uses": [],
+      "worker_seconds": 548.0542164689996,
+      "oracle_seconds": 83.08097000400085,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "short-cycle-pilot",
+      "group": "short-cycle",
+      "instance_id": "fmtlib__fmt-4310",
+      "attempt": "short-cycle-fmt4310-1",
+      "implementation_sha256": "d0174ace4be3116c7dfcdd79f99a340a5677a19042f26d01c0b0f3109cad05e2",
+      "result": {
+        "path": "short-cycle-pilot/fmt4310/result.json",
+        "sha256": "68b389033bef02b0829f7243f003bea0cbe4d5264f2bf234b5399411802f4186",
+        "size_bytes": 995
+      },
+      "candidate": {
+        "path": "short-cycle-pilot/fmt4310/candidate.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "oracle": {
+        "path": "short-cycle-pilot/fmt4310-oracle/oracle-verdict.json",
+        "sha256": "75f4f50ee39dcf2db43ddb7574348f95b6002d87007468ff16b4e01e85c393bd",
+        "size_bytes": 105
+      },
+      "events": {
+        "path": "short-cycle-pilot/fmt4310/runs/a11f416f97e24367b87b3dd81959fcd5/events.sqlite3",
+        "sha256": "e57dd19cbe2221ea59c958b0b0cab4b200c7ad7f3665f802b37c23b572875eb2",
+        "size_bytes": 110592
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NO_PATCH",
+      "native_tests_executed": false,
+      "required_tests": 0,
+      "passed_tests": 0,
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "model_requests": 1,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "tool_calls": 0,
+      "first_edit_step": null,
+      "self_checks": [],
+      "related_uses": [],
+      "worker_seconds": 94.01172552700154,
+      "oracle_seconds": null,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "short-cycle-pilot",
+      "group": "short-cycle",
+      "instance_id": "simdjson__simdjson-2178",
+      "attempt": "short-cycle-simd2178-1",
+      "implementation_sha256": "d0174ace4be3116c7dfcdd79f99a340a5677a19042f26d01c0b0f3109cad05e2",
+      "result": {
+        "path": "short-cycle-pilot/simd2178/result.json",
+        "sha256": "279404fa848c586bd9355935c6057998fae3a669aa7cf7161690e23ada959b64",
+        "size_bytes": 991
+      },
+      "candidate": {
+        "path": "short-cycle-pilot/simd2178/candidate.patch",
+        "sha256": "1d656eccd5b17d4eaf4c2bf0ce4503ea55a33e560098f64a1ade6787dac9c2b4",
+        "size_bytes": 675
+      },
+      "oracle": {
+        "path": "short-cycle-pilot/simd2178-oracle/oracle-verdict.json",
+        "sha256": "8c98aab8b09deaeb68ec0d0111fff917f06bfee05b772a76fcc701153fb69699",
+        "size_bytes": 6875
+      },
+      "events": {
+        "path": "short-cycle-pilot/simd2178/runs/c9a52f1990fc4fbc963605023848b769/events.sqlite3",
+        "sha256": "c03333c961c51fb5449622a9e576be04c9fb5ccba607f81363b933b7f6dec37a",
+        "size_bytes": 741376
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "native_tests_executed": true,
+      "required_tests": 99,
+      "passed_tests": 97,
+      "agent_outcome": "REJECTED",
+      "agent_reason": "F2P_FAILED",
+      "cli_exit_code": null,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 268969,
+        "output_tokens": 988
+      },
+      "tool_calls": 15,
+      "first_edit_step": 4,
+      "self_checks": [
+        {
+          "step": 5,
+          "passed": false
+        },
+        {
+          "step": 8,
+          "passed": false
+        },
+        {
+          "step": 10,
+          "passed": false
+        }
+      ],
+      "related_uses": [],
+      "worker_seconds": 727.4542450990011,
+      "oracle_seconds": 131.57193040700076,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "short-related-pilot",
+      "group": "short-related",
+      "instance_id": "fmtlib__fmt-4286",
+      "attempt": "short-related-fmt4286-1",
+      "implementation_sha256": "1f77a7d1421abe0a6fefe6e187fbfe464d72d0b850c3a0ac5ae5a40005ae76fd",
+      "result": {
+        "path": "short-related-pilot/rp/result.json",
+        "sha256": "b74bb6a201d397196aa41d1a1e2920ca5a8b02d7a8c8b0c6e9201bcfc4ffa5a1",
+        "size_bytes": 996
+      },
+      "candidate": {
+        "path": "short-related-pilot/rp/candidate.patch",
+        "sha256": "8121618705b96161dc5a83cb904508d82c1c2d1e0183f4d7419a68567e2b2fb4",
+        "size_bytes": 901
+      },
+      "oracle": {
+        "path": "short-related-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "events": {
+        "path": "short-related-pilot/rp/runs/d2988975aa3343a5b4553aec8cca883d/events.sqlite3",
+        "sha256": "4ab512fafac17931d8836e4426be5e98bb326d543942cca6ad12a93bbbb62b9f",
+        "size_bytes": 159744
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "native_tests_executed": true,
+      "required_tests": 21,
+      "passed_tests": 20,
+      "agent_outcome": "ERROR",
+      "agent_reason": "MODEL_CONNECTION_ERROR",
+      "cli_exit_code": null,
+      "model_requests": 7,
+      "unknown_usage_requests": 1,
+      "known_usage_tokens": {
+        "input_tokens": 56111,
+        "output_tokens": 533
+      },
+      "tool_calls": 12,
+      "first_edit_step": 4,
+      "self_checks": [
+        {
+          "step": 6,
+          "passed": false
+        }
+      ],
+      "related_uses": [],
+      "worker_seconds": 219.32301656300115,
+      "oracle_seconds": 80.87969774500016,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "short-related-repeat",
+      "group": "short-related",
+      "instance_id": "fmtlib__fmt-4286",
+      "attempt": "short-related-fmt4286-2",
+      "implementation_sha256": "1f77a7d1421abe0a6fefe6e187fbfe464d72d0b850c3a0ac5ae5a40005ae76fd",
+      "result": {
+        "path": "short-related-repeat/rp2/result.json",
+        "sha256": "5b0b99597e674915bd59814f84223bdc0be0e91cce50569aff712d9b63d11cbe",
+        "size_bytes": 990
+      },
+      "candidate": {
+        "path": "short-related-repeat/rp2/candidate.patch",
+        "sha256": "afc2b731d3324d483035784f31ad5420064a9c169c86743dce7990b5552e108d",
+        "size_bytes": 1739
+      },
+      "oracle": {
+        "path": "short-related-repeat/rp2-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "events": {
+        "path": "short-related-repeat/rp2/runs/60e9306dc662477d90981247c21026e2/events.sqlite3",
+        "sha256": "e64c80d6892dbb5eb92a28934e5a7c47f59e4ed82bc71dad5e487ab98e7a9536",
+        "size_bytes": 385024
+      },
+      "oracle_resolved": false,
+      "oracle_reason": "NATIVE_BUILD_OR_TEST_FAILED",
+      "native_tests_executed": true,
+      "required_tests": 21,
+      "passed_tests": 20,
+      "agent_outcome": "REJECTED",
+      "agent_reason": "F2P_FAILED",
+      "cli_exit_code": null,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 157842,
+        "output_tokens": 1254
+      },
+      "tool_calls": 18,
+      "first_edit_step": 2,
+      "self_checks": [
+        {
+          "step": 4,
+          "passed": false
+        },
+        {
+          "step": 9,
+          "passed": false
+        },
+        {
+          "step": 11,
+          "passed": false
+        },
+        {
+          "step": 12,
+          "passed": false
+        }
+      ],
+      "related_uses": [
+        {
+          "step": 8,
+          "path": "include/fmt/format.h",
+          "line": 1618
+        },
+        {
+          "step": 8,
+          "path": "include/fmt/format.h",
+          "line": 1642
+        },
+        {
+          "step": 8,
+          "path": "include/fmt/format.h",
+          "line": 1644
+        },
+        {
+          "step": 8,
+          "path": "include/fmt/std.h",
+          "line": 699
+        },
+        {
+          "step": 10,
+          "path": "include/fmt/format.h",
+          "line": 1617
+        },
+        {
+          "step": 10,
+          "path": "include/fmt/format.h",
+          "line": 2214
+        },
+        {
+          "step": 10,
+          "path": "include/fmt/format.h",
+          "line": 3964
+        },
+        {
+          "step": 10,
+          "path": "include/fmt/printf.h",
+          "line": 470
+        },
+        {
+          "step": 10,
+          "path": "test/base-test.cc",
+          "line": 495
+        }
+      ],
+      "worker_seconds": 632.4510325350002,
+      "oracle_seconds": 85.68046045899973,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    },
+    {
+      "experiment": "short-related-repeat",
+      "group": "short-related",
+      "instance_id": "fmtlib__fmt-4286",
+      "attempt": "short-related-fmt4286-3",
+      "implementation_sha256": "1f77a7d1421abe0a6fefe6e187fbfe464d72d0b850c3a0ac5ae5a40005ae76fd",
+      "result": {
+        "path": "short-related-repeat/rp3/result.json",
+        "sha256": "9624ab464ae20024ec5bbd72086171e3c6c14446ce184ff7fe2858215a192951",
+        "size_bytes": 1000
+      },
+      "candidate": {
+        "path": "short-related-repeat/rp3/candidate.patch",
+        "sha256": "7bc6620c3bd4dcdfc19e4a1ca8ece6c0a3ff052a76adcd057ab7feec05fc95ae",
+        "size_bytes": 2111
+      },
+      "oracle": {
+        "path": "short-related-repeat/rp3-oracle/oracle-verdict.json",
+        "sha256": "4185bf548391ab91fe9f77bec7a0d7f4c70308ee2161e307d57e4f527509f90d",
+        "size_bytes": 1083
+      },
+      "events": {
+        "path": "short-related-repeat/rp3/runs/80546bc4522d4c10a43389b29f9a87ac/events.sqlite3",
+        "sha256": "398320967a38e9189be6aa127b9140c479a4f81fa239c0e036f798fc70d0ab35",
+        "size_bytes": 286720
+      },
+      "oracle_resolved": true,
+      "oracle_reason": "NATIVE_SUITE_PASSED",
+      "native_tests_executed": true,
+      "required_tests": 21,
+      "passed_tests": 21,
+      "agent_outcome": "ACCEPTED",
+      "agent_reason": "VERIFICATION_PASSED",
+      "cli_exit_code": null,
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "known_usage_tokens": {
+        "input_tokens": 156095,
+        "output_tokens": 830
+      },
+      "tool_calls": 18,
+      "first_edit_step": 2,
+      "self_checks": [
+        {
+          "step": 4,
+          "passed": false
+        },
+        {
+          "step": 8,
+          "passed": false
+        }
+      ],
+      "related_uses": [
+        {
+          "step": 7,
+          "path": "include/fmt/format.h",
+          "line": 1618
+        },
+        {
+          "step": 7,
+          "path": "include/fmt/format.h",
+          "line": 1642
+        },
+        {
+          "step": 7,
+          "path": "include/fmt/format.h",
+          "line": 1644
+        },
+        {
+          "step": 7,
+          "path": "include/fmt/format.h",
+          "line": 3963
+        },
+        {
+          "step": 7,
+          "path": "include/fmt/std.h",
+          "line": 699
+        },
+        {
+          "step": 12,
+          "path": "include/fmt/format.h",
+          "line": 1618
+        },
+        {
+          "step": 12,
+          "path": "include/fmt/format.h",
+          "line": 1642
+        },
+        {
+          "step": 12,
+          "path": "include/fmt/format.h",
+          "line": 1644
+        },
+        {
+          "step": 12,
+          "path": "include/fmt/format.h",
+          "line": 3963
+        },
+        {
+          "step": 12,
+          "path": "include/fmt/std.h",
+          "line": 699
+        }
+      ],
+      "worker_seconds": 437.84585290200084,
+      "oracle_seconds": 84.55499321699972,
+      "adapter_sha256": {
+        "run_benchmark_agent.py": "df9d4c2397b78058b215798e94ebf80ba4bdba4d1ec230cfd082717ac5793ba8",
+        "benchmark_budget.py": "9ed62a74bedfbbb805b96971ac88b73647194ff9aa435b968f880e653765c9db"
+      }
+    }
+  ],
+  "model": "gpt-6-luna",
+  "base_url": "https://cpa.liyinlong.me/v1",
+  "production_adopted": false,
+  "short_related_fmt4286": {
+    "resolved": 1,
+    "attempts": 3
+  },
+  "prior_archived_cpa_requests": 623,
+  "new_cpa_requests": 78,
+  "cumulative_archived_cpa_requests": 701,
+  "unknown_usage_requests": 4,
+  "actual_billed_cost_cny": null,
+  "historical_deepseek_cost_upper_bound_cny": 2.18923088,
+  "selection": "已有失败题上的开发诊断与重复；全部候选、连接中断和失败保留，后续新任务另批评估",
+  "limits": {
+    "requests": 12,
+    "tools": 24,
+    "output_tokens": 8192,
+    "input_bytes": 262144
+  },
+  "execution_slots": 1
+}
