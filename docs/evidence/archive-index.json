@@ -121,6 +121,17 @@
       "verification": "凭据哨兵零匹配；逐文件字节及哈希通过；独立解压重算汇总一致",
       "files": 13528,
       "result_summary": "benchmarks/cross-framework-results.json"
+    },
+    {
+      "scope": "five_cpp_diagnostic_feedback_candidates",
+      "name": "ReproPatch-diagnostic-feedback-2026-10-23.tar.gz",
+      "sha256": "013f1826e70fdfcc67eff9d4e5904447b4a0d8db1af04be102de0f2b4d6fc8a0",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-diagnostic-feedback-2026-10-23/ReproPatch-diagnostic-feedback-2026-10-23.tar.gz",
+      "size_bytes": 9281029,
+      "files": 5942,
+      "uncompressed_bytes": 50324616,
+      "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致",
+      "result_summary": "benchmarks/diagnostic-feedback-results.json"
     }
   ]
 }

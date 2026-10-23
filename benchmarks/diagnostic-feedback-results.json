@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "scope": "固定12请求下的五个C++反馈诊断候选",
+  "production_implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+  "attempts": [
+    {
+      "experiment": "search-context-pilot",
+      "instance_id": "fmtlib__fmt-4286",
+      "implementation_sha256": "7d93980b6ea04b41baa2de990e8fa9ef80dd2b2dfc53f161255a6f9a8162e113",
+      "protocol": {
+        "path": "search-context-pilot/protocol.json",
+        "sha256": "ab0396089e4c36032ff3605a8b07de4b581ba97679e356e095fd4f12f42be44c",
+        "size_bytes": 930
+      },
+      "result": {
+        "path": "search-context-pilot/rp/result.json",
+        "sha256": "972735f6f245cdd479bed1965e1f2dcb44d576c9bc7ea3276ed88cd50b45831f",
+        "size_bytes": 986
+      },
+      "report": {
+        "path": "search-context-pilot/rp/runs/1e785f79728642749778cb36a02beebf/report.json",
+        "sha256": "fa8c448e66d2094ef9adcbfdc3d1f03d2f1a38e31c1cb653b4bde0e3aaa5bac5",
+        "size_bytes": 440954
+      },
+      "candidate": {
+        "path": "search-context-pilot/rp/candidate.patch",
+        "sha256": "3042b2af98a8fe20e57028188acf777ad75ee9a12f2f6579aac70dfc9b0ac4ae",
+        "size_bytes": 1644
+      },
+      "oracle": {
+        "path": "search-context-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "native_reason": "F2P_FAILED",
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 131264,
+        "output_tokens": 782
+      },
+      "first_edit_step": 4,
+      "self_check_steps": [
+        6,
+        10
+      ],
+      "adopted": false
+    },
+    {
+      "experiment": "search-context-simd",
+      "instance_id": "simdjson__simdjson-2178",
+      "implementation_sha256": "7d93980b6ea04b41baa2de990e8fa9ef80dd2b2dfc53f161255a6f9a8162e113",
+      "protocol": {
+        "path": "search-context-simd/protocol.json",
+        "sha256": "d258712004cc7dbaf570c5d0eb50bbff044ee3dac429e30eb6fd4dfb41f8f143",
+        "size_bytes": 662
+      },
+      "result": {
+        "path": "search-context-simd/rp/result.json",
+        "sha256": "4d60820382653bb5a80b423f35fbfe47ad18b151b67301d0a401fd90ee65d987",
+        "size_bytes": 990
+      },
+      "report": {
+        "path": "search-context-simd/rp/runs/881e8b9e3d514b8a9ed9c5bb20a7350d/report.json",
+        "sha256": "8479391a489d092c95e3cc04dea6698b0175967d504924239b33721443ecc422",
+        "size_bytes": 1846886
+      },
+      "candidate": {
+        "path": "search-context-simd/rp/candidate.patch",
+        "sha256": "8da9a628053d893c5596b12d7a2020bab465da971701a535e5588dca931d3850",
+        "size_bytes": 1393
+      },
+      "oracle": {
+        "path": "search-context-simd/rp-oracle/oracle-verdict.json",
+        "sha256": "8c98aab8b09deaeb68ec0d0111fff917f06bfee05b772a76fcc701153fb69699",
+        "size_bytes": 6875
+      },
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "native_reason": "F2P_FAILED",
+      "model_requests": 10,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 262564,
+        "output_tokens": 753
+      },
+      "first_edit_step": 4,
+      "self_check_steps": [
+        5,
+        9
+      ],
+      "adopted": false
+    },
+    {
+      "experiment": "diagnostic-context-pilot",
+      "instance_id": "fmtlib__fmt-4286",
+      "implementation_sha256": "2acf79c618c67e30907e5c0d4053d16dd79769a9d9006ec850ce6baf9fbf9d85",
+      "protocol": {
+        "path": "diagnostic-context-pilot/protocol.json",
+        "sha256": "5bc721b3999856d493c050bf29e7cb9960414f76ac6b0dcad08edb4e587d8bdc",
+        "size_bytes": 1014
+      },
+      "result": {
+        "path": "diagnostic-context-pilot/rp/result.json",
+        "sha256": "159244c33f9183454b409fbe831b95e1c33f67b0ce4581dc3aad5fd6eb3a30c9",
+        "size_bytes": 1010
+      },
+      "report": {
+        "path": "diagnostic-context-pilot/rp/runs/b65013dfb53548d197566685c329a142/report.json",
+        "sha256": "798336c208de01644e82364cca2b2c1606341f5bdadc14b7fe37d6173173605a",
+        "size_bytes": 815942
+      },
+      "candidate": {
+        "path": "diagnostic-context-pilot/rp/candidate.patch",
+        "sha256": "8b7ba8d1f0a47c89e082f01fe145a13144b043e4c14a65a336883b1b5f374c28",
+        "size_bytes": 1761
+      },
+      "oracle": {
+        "path": "diagnostic-context-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "68a51a9cb00baddba3ce00bc2184eae8326ee436adb0dbd8b85e668349df9790",
+        "size_bytes": 1093
+      },
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "native_reason": "CANDIDATE_BUILD_FAILED",
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 108967,
+        "output_tokens": 492
+      },
+      "first_edit_step": 8,
+      "self_check_steps": [
+        10,
+        12
+      ],
+      "adopted": false
+    },
+    {
+      "experiment": "baseline-context-pilot",
+      "instance_id": "fmtlib__fmt-4286",
+      "implementation_sha256": "b6cdac04483e4d92bb915e964efd31bf8833ab57a6df81891e01e015067ad447",
+      "protocol": {
+        "path": "baseline-context-pilot/protocol.json",
+        "sha256": "7bcefbee3bd5a6edcb26696938096a1204da56231d2ebbd7a956bbc60b522f6c",
+        "size_bytes": 1008
+      },
+      "result": {
+        "path": "baseline-context-pilot/rp/result.json",
+        "sha256": "7aab828cf04210ef2bb024d819b52e1fc1eaba8ebd0ebbc307dc17ce92f4cca3",
+        "size_bytes": 994
+      },
+      "report": {
+        "path": "baseline-context-pilot/rp/runs/f25b85ae4b724445a44d4956c0634bd3/report.json",
+        "sha256": "69b5034cbdb81531213fca93778b587c3f857d11044f3f9742904c598666cc3c",
+        "size_bytes": 440924
+      },
+      "candidate": {
+        "path": "baseline-context-pilot/rp/candidate.patch",
+        "sha256": "8121618705b96161dc5a83cb904508d82c1c2d1e0183f4d7419a68567e2b2fb4",
+        "size_bytes": 901
+      },
+      "oracle": {
+        "path": "baseline-context-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "native_reason": "F2P_FAILED",
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 151616,
+        "output_tokens": 1396
+      },
+      "first_edit_step": 5,
+      "self_check_steps": [
+        8,
+        10
+      ],
+      "adopted": false
+    },
+    {
+      "experiment": "ranked-context-pilot",
+      "instance_id": "fmtlib__fmt-4286",
+      "implementation_sha256": "0cfc63f06ccd8c959a7f970415840a81898e65a4bc5c054ef152a6181c43fa0d",
+      "protocol": {
+        "path": "ranked-context-pilot/protocol.json",
+        "sha256": "9e906f7fcfb6b1bce3a455ae59e4f7606c669de91091f9dc35e28c3dd5995754",
+        "size_bytes": 1034
+      },
+      "result": {
+        "path": "ranked-context-pilot/rp/result.json",
+        "sha256": "4a187f9bf8b82461e86c5a45dbaeda9e92113fbc5626cc9f2fc4ef0e208f0fb0",
+        "size_bytes": 991
+      },
+      "report": {
+        "path": "ranked-context-pilot/rp/runs/73f70bf19b1f417193877081edaf0177/report.json",
+        "sha256": "69b2660b6c2ddddc3e5028a55f0a816a6b415e4adce820203240bd30c77bba51",
+        "size_bytes": 440637
+      },
+      "candidate": {
+        "path": "ranked-context-pilot/rp/candidate.patch",
+        "sha256": "f59e8719837a0a59de2c681606614b6834424a7be6467913bf0536223b5d4d8b",
+        "size_bytes": 1661
+      },
+      "oracle": {
+        "path": "ranked-context-pilot/rp-oracle/oracle-verdict.json",
+        "sha256": "6690a1eda7a249d20aca040b956462fdacfa44f4bdbefbf4711f8f9fe0070c45",
+        "size_bytes": 1094
+      },
+      "oracle_resolved": false,
+      "native_outcome": "REJECTED",
+      "native_reason": "F2P_FAILED",
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "raw_usage": {
+        "input_tokens": 142495,
+        "output_tokens": 914
+      },
+      "first_edit_step": 6,
+      "self_check_steps": [
+        8,
+        10
+      ],
+      "adopted": false
+    }
+  ],
+  "resolved": 0,
+  "model_requests": 57,
+  "unknown_usage_requests": 0,
+  "adopted_candidates": [],
+  "prior_archived_cpa_requests": 487,
+  "requests_already_in_cross_framework_archive": 24,
+  "new_archived_cpa_requests": 33,
+  "cumulative_archived_cpa_requests": 520,
+  "actual_billed_cost_cny": null,
+  "historical_deepseek_cost_upper_bound_cny": 2.18923088
+}

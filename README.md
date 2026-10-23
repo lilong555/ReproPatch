@@ -23,6 +23,8 @@ simdjson 在核心冻结后按固定数据文件首条选取；Full 的候选修
 当前泛化与连续修复仍有明确失败样本，详见[三框架报告](benchmarks/cross-framework-results.md)、
 [逐次数据](benchmarks/cross-framework-results.json)及[源码清单](benchmarks/cross-framework-source-manifest.json)。
 历史[只读契约反馈实验](benchmarks/contract-results.md)保留 Catch2 三次重复：Full 6/6、mini 3/6、内部消融 3/6。
+[五个诊断反馈候选](benchmarks/diagnostic-feedback-results.md)的独立结果为0/5，当前核心保持固定，
+后续改进聚焦批量定位修改和连续修复的交互开销。
 DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，账单费用未知。
 [首次 Luna](benchmarks/luna-results.md)、[预算反馈](benchmarks/repair-cycle-results.md)、
 [搜索上下文](benchmarks/cpp-navigation-results.md)、[rc3](benchmarks/rc3-rerun.md)及

@@ -129,15 +129,14 @@
     "prior_archived": 367,
     "codex_including_calibration": 63,
     "simd_including_codex_retest": 33,
-    "completed_diagnostics": 24,
+    "completed_diagnostics": 57,
     "new_unknown_usage": 2,
-    "cumulative_archived": 487,
+    "cumulative_archived": 520,
     "actual_billed_cost_cny": null
   },
   "in_progress_experiments": [
-    "search-context-simd",
-    "baseline-context-pilot",
-    "ranked-context-pilot"
+    "batched-repair-pilot",
+    "batched-repair-simd"
   ],
   "diagnostic_candidates_promoted": false,
   "historical_contract_results": "contract-results.json",
@@ -171,5 +170,16 @@
     "file_count": 13528,
     "uncompressed_bytes": 159154022,
     "verification": "凭据哨兵零匹配；逐文件字节及哈希通过；独立解压重算汇总一致"
+  },
+  "diagnostic_results": "diagnostic-feedback-results.json",
+  "diagnostic_report": "diagnostic-feedback-results.md",
+  "diagnostic_archive": {
+    "name": "ReproPatch-diagnostic-feedback-2026-10-23.tar.gz",
+    "sha256": "013f1826e70fdfcc67eff9d4e5904447b4a0d8db1af04be102de0f2b4d6fc8a0",
+    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-diagnostic-feedback-2026-10-23/ReproPatch-diagnostic-feedback-2026-10-23.tar.gz",
+    "size_bytes": 9281029,
+    "files": 5942,
+    "uncompressed_bytes": 50324616,
+    "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致"
   }
 }

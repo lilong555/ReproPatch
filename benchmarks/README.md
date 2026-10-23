@@ -5,6 +5,7 @@
 记录每次尝试的源码身份、请求用量、候选及公共 Oracle 结论。
 六题首次结果为 Full 4/6、mini 3/6、Codex 4/6；相同HTTPS端点四题子集为2/4、3/4、2/4。
 simdjson中Full仍失败，mini通过；Codex首次传输中断、独立复测仍失败，两次完整保留。
+[诊断反馈候选](diagnostic-feedback-results.md)保存五次0/5的后续实验，生产核心继续固定。
 
 ## 实验矩阵
 
