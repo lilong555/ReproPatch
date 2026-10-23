@@ -1,6 +1,6 @@
 # ReproPatch 评测
 
-当前结果使用 `gpt-6-luna`，覆盖 Catch2、FMT、simdjson 六题，并加入原生 Codex CLI 对照。
+当前结果使用 `gpt-6-luna`，覆盖 Catch2、FMT、simdjson、nlohmann/json 七题，并加入原生 Codex CLI 对照。
 [结果报告](cross-framework-results.md)、[逐次数据](cross-framework-results.json)和[准备状态](readiness.json)
 记录每次尝试的源码身份、请求用量、候选及公共 Oracle 结论。
 六题首次结果为 Full 4/6、mini 3/6、Codex 4/6；相同HTTPS端点四题子集为2/4、3/4、2/4。
@@ -8,6 +8,9 @@ simdjson中Full仍失败，mini通过；Codex首次传输中断、独立复测�
 [诊断反馈候选](diagnostic-feedback-results.md)保存五次0/5的后续实验，生产核心继续固定。
 [批量修复与四组复测](batched-repair-results.md)保存 simdjson 候选2/2、第二轮原版成功、
 mini与Codex目标回归失败，以及FMT构建失败与全部中断记录。
+[第四仓库两轮结果](json4537-results.md)保存 json-4537 的四组原始尝试。
+[修复周期与对照复测](repair-followup-results.md)保存 FMT 相关模板反馈候选 1/3 的结果、
+Codex 统一 HTTP 客户端后 json-4537 的 98/98 成功，以及短周期三题 0/3 的全部记录。
 
 ## 实验矩阵
 
@@ -15,6 +18,9 @@ mini与Codex目标回归失败，以及FMT构建失败与全部中断记录。
 | --- | --- | ---: | --- |
 | Catch2-2187、2723；FMT-4310、4286、4057；simdjson-2178 | ReproPatch Full、mini-SWE-agent、Codex CLI | 1 | 同题共享的独立公共 Oracle |
 | 历史Catch2-2187、2723 | ReproPatch Full、mini-SWE-agent、ReproPatch Ablation | 3 | 固定 Multi-SWE-bench 官方 Report |
+| json-4537 | 批量修复候选、原版、mini、Codex | 两轮，后续原生对照独立编号 | 完整98项原生 Oracle |
+| FMT-4286 | 相关模板反馈候选 | 3 | 完整21项原生 Oracle |
+| json-4525，模型实验进行中 | 原版、mini、相关模板反馈候选、Codex | 各1次，协议已冻结 | 完整98项原生 Oracle |
 
 Full 提供只读接口追踪反馈、文件可编辑状态和明确的构建工具说明。
 Ablation 使用这些反馈加入前的核心源码，保留相同的预算反馈、执行与验收机制。
@@ -33,10 +39,11 @@ mini 的执行时限扣除 Full 基线耗时及 10 秒清理余量。消融组�
 
 固定 [Multi-SWE-bench](https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench)
 revision `56ff018c04a38e27ada1e9d0a6d5839a51f88f0d`，C++ 任务池共 **129 个实例**。
-当前 **7/129** 完成 Task v2 参考验收，覆盖四个仓库，其中三个 FMT 实例属于编译回归扩展。
+当前 **8/129** 完成 Task v2 参考验收，覆盖四个仓库，其中三个 FMT 实例属于编译回归扩展。
 [筛查清单](coverage.json)保留完整任务池；其余实例的动态兼容性仍待验证。
-[nlohmann/json-4537](json4537-qualification.md)通过全部98项原生参考检查和1 F2P +97 P2P内部验收，
-四组真实模型实验正在执行。
+[nlohmann/json-4537](json4537-qualification.md)通过全部98项原生参考检查和1 F2P +97 P2P内部验收。
+全部已公开尝试累计为批量候选1/2、原版2/3、mini3/3、Codex1/4，逐次编号及故障见对应报告。
+[json-4525](json4525-qualification.md)通过2 F2P +96 P2P内部资格和98项原生参考检查，四组模型实验正在执行。
 
 Catch2 的参考验收与测试组见[参考任务池](reference-pool.md)。公共 Oracle 固定 evaluator
 `4b96a678b136f87c8760fa475697f3c98d5f9e5e`，分别要求 2 F2P + 50 P2P、2 F2P + 100 P2P。

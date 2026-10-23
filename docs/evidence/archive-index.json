@@ -185,6 +185,16 @@
       "verification": "逐文件大小与哈希、凭据哨兵、独立解压重算通过",
       "scope": "10条短周期、相关模板反馈与原生框架对照复测；完整成功和失败",
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-repair-followup-2026-10-23/ReproPatch-repair-followup-2026-10-23.tar.gz"
+    },
+    {
+      "name": "ReproPatch-json4525-qualification-2026-10-23.tar.gz",
+      "sha256": "a052b7b2407877934352a0d7450588d1ab1b23b0cd38e9709cfb7fc33b75ecbb",
+      "size_bytes": 9664427,
+      "files": 1467,
+      "uncompressed_bytes": 18106465,
+      "verification": "逐文件哈希、凭据哨兵、独立解压与Git bundle校验通过",
+      "scope": "json-4525完整参考资格：2F2P与96P2P、独立98项、原生98项、零模型",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4525-qualification-2026-10-23/ReproPatch-json4525-qualification-2026-10-23.tar.gz"
     }
   ]
 }

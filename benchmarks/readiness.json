@@ -106,12 +106,12 @@
     }
   },
   "coverage": {
-    "verified_instances": 7,
+    "verified_instances": 8,
     "cpp_pool": 129,
-    "ratio": 0.05426356589147287,
+    "ratio": 0.06201550387596899,
     "repositories": 4,
     "adapted_compile_extensions": 3,
-    "adapted_logic_tasks": 4,
+    "adapted_logic_tasks": 5,
     "verified_repositories": 4
   },
   "codex": {
@@ -136,7 +136,6 @@
     "actual_billed_cost_cny": null
   },
   "in_progress_experiments": [
-    "json4525-qualification-recovered",
     "json4525-comparison"
   ],
   "diagnostic_candidates_promoted": false,
@@ -156,8 +155,8 @@
     "inference": "样本用于工程诊断；独立仓库泛化由simdjson单题直接观察"
   },
   "ci": {
-    "source_commit": "38d5c9949fadc6cbc430186919ec47278acd3ad2",
-    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39919832386",
+    "source_commit": "af4c91db1b96e46853f50da245a91bd3e6e514cd",
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39948649808",
     "status": "passed",
     "core": 331,
     "sdk": 147,
@@ -198,6 +197,17 @@
     "fmt4286_resolved": 1,
     "fmt4286_attempts": 3,
     "report": "repair-followup-results.md"
+  },
+  "json4525_qualification": {
+    "report": "json4525-qualification.md",
+    "upstream_commit": "1b9a9d1f2122e73b69f5d62d0ce3ebda8cd41ff0",
+    "prepared_commit": "8df37183e76b41fe0edc963ce6ccda51d174c256",
+    "native_tests": 98,
+    "internal_independent_tests": 98,
+    "f2p": 2,
+    "p2p": 96,
+    "model_requests": 0,
+    "model_comparison_status": "四组协议冻结，原版组正在执行"
   },
   "codex_json4537_all_attempts": {
     "attempts": 4,
