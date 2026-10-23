@@ -132,6 +132,39 @@
       "uncompressed_bytes": 50324616,
       "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致",
       "result_summary": "benchmarks/diagnostic-feedback-results.json"
+    },
+    {
+      "name": "ReproPatch-batched-repair-2026-10-23.tar.gz",
+      "sha256": "fa5bda676e1165df360851d874fe26efad97ce364dfeed9441cee08aeec8da95",
+      "size_bytes": 14234226,
+      "files": 7431,
+      "uncompressed_bytes": 74374701,
+      "verification": "逐文件大小与哈希、凭据哨兵、独立解压重算通过",
+      "scope": "batched_repair_simdjson_repeat_and_codex_control",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-batched-repair-2026-10-23/ReproPatch-batched-repair-2026-10-23.tar.gz",
+      "result_summary": "benchmarks/batched-repair-results.json"
+    },
+    {
+      "name": "ReproPatch-json4537-qualification-2026-10-23.tar.gz",
+      "sha256": "fbdbe39d870889cb10720d13ce1ccf7d307d63aa0681e3b67021b2730770f617",
+      "size_bytes": 302637551,
+      "files": 2267,
+      "uncompressed_bytes": 485425791,
+      "model_requests": 0,
+      "verification": "逐文件哈希、凭据哨兵和独立解压资格结果通过",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4537-qualification-2026-10-23/ReproPatch-json4537-qualification-2026-10-23.tar.gz",
+      "scope": "nlohmann_json_4537_reference_qualification",
+      "result_summary": "benchmarks/json4537-qualification.md"
+    },
+    {
+      "image_id": "sha256:85df2a93b8024356d4f10a729382a9a0663f73b3c0adc312a36dadb962e86477",
+      "sha256": "0c7d2a777e46d0bd64082a76b3ed5515a7531f14feeee0557de8727b40f97a77",
+      "size_bytes": 314355181,
+      "verification": "Docker归档配置SHA-256与实际运行镜像一致",
+      "name": "ReproPatch-json4537-toolchain-2026-10-23.tar.gz",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-json4537-qualification-2026-10-23/ReproPatch-json4537-toolchain-2026-10-23.tar.gz",
+      "scope": "nlohmann_json_4537_reference_qualification",
+      "result_summary": "benchmarks/json4537-qualification.md"
     }
   ]
 }

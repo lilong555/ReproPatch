@@ -106,12 +106,13 @@
     }
   },
   "coverage": {
-    "verified_instances": 6,
+    "verified_instances": 7,
     "cpp_pool": 129,
-    "ratio": 0.046511627906976744,
-    "repositories": 3,
+    "ratio": 0.05426356589147287,
+    "repositories": 4,
     "adapted_compile_extensions": 3,
-    "adapted_logic_tasks": 3
+    "adapted_logic_tasks": 4,
+    "verified_repositories": 4
   },
   "codex": {
     "version": "0.163.0",
@@ -190,5 +191,12 @@
     "attempts": 2,
     "resolved": 2
   },
-  "cumulative_archived_cpa_requests": 583
+  "cumulative_archived_cpa_requests": 583,
+  "json4537_qualification": {
+    "report": "json4537-qualification.md",
+    "native_tests": 98,
+    "f2p": 1,
+    "p2p": 97,
+    "model_comparison_status": "running"
+  }
 }

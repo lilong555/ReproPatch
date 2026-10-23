@@ -33,8 +33,10 @@ mini 的执行时限扣除 Full 基线耗时及 10 秒清理余量。消融组�
 
 固定 [Multi-SWE-bench](https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench)
 revision `56ff018c04a38e27ada1e9d0a6d5839a51f88f0d`，C++ 任务池共 **129 个实例**。
-当前 **6/129** 完成 Task v2 参考验收，其中三个 FMT 实例属于编译回归扩展。
+当前 **7/129** 完成 Task v2 参考验收，覆盖四个仓库，其中三个 FMT 实例属于编译回归扩展。
 [筛查清单](coverage.json)保留完整任务池；其余实例的动态兼容性仍待验证。
+[nlohmann/json-4537](json4537-qualification.md)通过全部98项原生参考检查和1 F2P +97 P2P内部验收，
+四组真实模型实验正在执行。
 
 Catch2 的参考验收与测试组见[参考任务池](reference-pool.md)。公共 Oracle 固定 evaluator
 `4b96a678b136f87c8760fa475697f3c98d5f9e5e`，分别要求 2 F2P + 50 P2P、2 F2P + 100 P2P。
