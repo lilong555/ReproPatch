@@ -3,6 +3,8 @@
 Git 保存关键摘要、源码清单和少量直接用于解析器测试的 CTest 样本。
 完整原始日志、SQLite、JUnit、原生模型附件及运行快照由 GitHub Release Assets 保存。
 [附件索引](archive-index.json) 记录下载地址、SHA-256、原始文件数量与大小。
+当前[六题三框架对照](../../benchmarks/cross-framework-results.md)包含Codex原生轨迹、
+simdjson完整原生评分、接入及传输失败、独立复测、源码快照和prepared仓库bundle。
 当前[只读契约反馈对照](../../benchmarks/contract-results.md)提供 22 条评分的原始轨迹、
 SQLite、公共 Oracle 记录和实际 FMT 工具链镜像。证据包支持独立解压后从账本重算结果。
 

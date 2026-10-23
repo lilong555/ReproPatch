@@ -109,6 +109,18 @@
       "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz",
       "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
       "verification": "Docker归档中的配置SHA-256与实际镜像ID一致"
+    },
+    {
+      "scope": "six_cpp_tasks_codex_and_simdjson_generalization",
+      "name": "ReproPatch-cross-framework-2026-10-23.tar.gz",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cross-framework-2026-10-23/ReproPatch-cross-framework-2026-10-23.tar.gz",
+      "sha256": "986b31c8f19ab29c1530d6b0bc20391eb6d2e09f7598ca2e9631df69e0c89549",
+      "size_bytes": 36469422,
+      "file_count": 13528,
+      "uncompressed_bytes": 159154022,
+      "verification": "凭据哨兵零匹配；逐文件字节及哈希通过；独立解压重算汇总一致",
+      "files": 13528,
+      "result_summary": "benchmarks/cross-framework-results.json"
     }
   ]
 }

@@ -10,25 +10,26 @@
 当前实现提供实时预算反馈、只读接口追踪和短修复循环：模型可查看文件的可编辑状态，
 沿声明、宏和调用关系定位实现，再通过固定构建及测试检查候选。
 
-最新同模型 `gpt-6-luna` 对照共有 **22 条尝试**，由公共 Oracle 评分：
+`gpt-6-luna` 六题首次对照覆盖 Catch2、FMT、simdjson 三个仓库，使用公共 Oracle 评分：
 
-| 范围 | ReproPatch Full | mini-SWE-agent | ReproPatch Ablation |
+| 范围 | ReproPatch Full | mini-SWE-agent | Codex CLI 0.163.0 |
 | --- | ---: | ---: | ---: |
-| 两个 Catch2 实例，每题每组 3 次 | **6/6** | **3/6** | **3/6** |
-| 三组端点相同的 Catch2 子集 | **5/5** | **3/5** | **3/5** |
-| 两个 FMT 编译回归实例，每题每组 1 次 | **1/2** | **1/2** | — |
+| 六题首次尝试 | **4/6** | **3/6** | **4/6** |
+| 相同 HTTPS 端点的四题子集 | **2/4** | **3/4** | **2/4** |
+| 第三仓库 simdjson-2178 | **0/1** | **1/1** | **0/1** |
 
-Catch2 两题参与开发诊断，重复运行展示该范围的稳定性；FMT 两题按固定数据文件顺序选取。
-FMT-4310 双方修复成功，FMT-4286 双方仍失败，后续重点是编译与运行错误的连续修复。
-控制器中断和端点迁移逐次披露，详见 [结果报告](benchmarks/contract-results.md)、
-[结构化结果](benchmarks/contract-results.json)和[源码清单](benchmarks/contract-source-manifest.json)。
+Codex 的 simdjson 首次响应传输中断，独立复测产生的候选仍失败，两次记录分别保留。
+simdjson 在核心冻结后按固定数据文件首条选取；Full 的候选修复了越界错误码，仍未处理错误转义语法。
+当前泛化与连续修复仍有明确失败样本，详见[三框架报告](benchmarks/cross-framework-results.md)、
+[逐次数据](benchmarks/cross-framework-results.json)及[源码清单](benchmarks/cross-framework-source-manifest.json)。
+历史[只读契约反馈实验](benchmarks/contract-results.md)保留 Catch2 三次重复：Full 6/6、mini 3/6、内部消融 3/6。
 DeepSeek 历史累计费用上界 **¥2.18923088 / ¥20**；CPA 用量另记，账单费用未知。
 [首次 Luna](benchmarks/luna-results.md)、[预算反馈](benchmarks/repair-cycle-results.md)、
 [搜索上下文](benchmarks/cpp-navigation-results.md)、[rc3](benchmarks/rc3-rerun.md)及
 [rc2](benchmarks/pilot-results.md)分别保留各批原始成绩。
 
 SQLite 保存运行状态、预算、事件和 Checkpoint，支持受控暂停、有限恢复、只读轨迹与证据导出。
-当前实现的 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39788199908) 通过
+当前实现的 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39901573799) 通过
 **331 核心 + 147 SDK + 21 Docker 场景，共 499 项**；执行范围见 [测试报告](docs/TEST_REPORT.md)。
 原始证据保存为带 SHA-256 的 Release Assets，Git 保留摘要与清单，见 [证据索引](docs/evidence/README.md)。
 

@@ -1,33 +1,36 @@
 # ReproPatch 评测
 
-最新实验使用 `gpt-6-luna`，包含两个 Catch2 实例的三组重复对照，以及两个 FMT 编译回归任务。
-[结果报告](contract-results.md)、[逐次数据](contract-results.json)和[准备状态](readiness.json)
+当前结果使用 `gpt-6-luna`，覆盖 Catch2、FMT、simdjson 六题，并加入原生 Codex CLI 对照。
+[结果报告](cross-framework-results.md)、[逐次数据](cross-framework-results.json)和[准备状态](readiness.json)
 记录每次尝试的源码身份、请求用量、候选及公共 Oracle 结论。
+六题首次结果为 Full 4/6、mini 3/6、Codex 4/6；相同HTTPS端点四题子集为2/4、3/4、2/4。
+simdjson中Full仍失败，mini通过；Codex首次传输中断、独立复测仍失败，两次完整保留。
 
 ## 实验矩阵
 
 | 任务 | 组别 | 每题每组次数 | 评分方式 |
 | --- | --- | ---: | --- |
-| Catch2-2187、Catch2-2723 | ReproPatch Full、mini-SWE-agent、ReproPatch Ablation | 3 | 固定 Multi-SWE-bench 官方 Report |
-| FMT-4310、FMT-4286 | ReproPatch Full、mini-SWE-agent | 1 | 原始 CMake 全量构建及 21 项原生 CTest |
+| Catch2-2187、2723；FMT-4310、4286、4057；simdjson-2178 | ReproPatch Full、mini-SWE-agent、Codex CLI | 1 | 同题共享的独立公共 Oracle |
+| 历史Catch2-2187、2723 | ReproPatch Full、mini-SWE-agent、ReproPatch Ablation | 3 | 固定 Multi-SWE-bench 官方 Report |
 
 Full 提供只读接口追踪反馈、文件可编辑状态和明确的构建工具说明。
 Ablation 使用这些反馈加入前的核心源码，保留相同的预算反馈、执行与验收机制。
-mini 固定为 2.4.6，commit `04d809ceab9df28f9adaed044884180159172930`。
+mini 固定为 2.4.6，commit `04d809ceab9df28f9adaed044884180159172930`；Codex CLI固定0.163.0。
 各组使用同一模型标识、Issue、源码基线、修改范围、镜像及测试。
 每次最多 12 个模型请求、24 次工具调用、每响应 8 次工具调用，输出上限 8192 token，
 请求超时 90 秒，输入边界 256 KiB。
 
-每题 Full 先运行，mini 复用经 SHA-256 核验的首次领域输入；两组保留各自系统提示和工具协议。
+每题 Full 先运行，mini和Codex复用经 SHA-256 核验的领域输入；各组保留原生系统提示和工具协议。
 mini 的执行时限扣除 Full 基线耗时及 10 秒清理余量。消融组自行执行干净基线。
 最后两条尝试使用用户提供的新 CPA 地址，端点和控制器中断记录见结果报告。
-两道 Catch2 题参与过开发诊断；FMT 两题按固定数据文件顺序选取。
+两道 Catch2 题参与过开发诊断；FMT三题和simdjson按固定数据文件顺序选取。
+完整端点、基线日志、原生工具协议和计时范围差异见当前报告；历史重复见[只读契约反馈实验](contract-results.md)。
 
 ## 数据集与适配
 
 固定 [Multi-SWE-bench](https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench)
 revision `56ff018c04a38e27ada1e9d0a6d5839a51f88f0d`，C++ 任务池共 **129 个实例**。
-当前 **4/129** 完成 Task v2 参考验收，其中两个 FMT 实例属于编译回归扩展。
+当前 **6/129** 完成 Task v2 参考验收，其中三个 FMT 实例属于编译回归扩展。
 [筛查清单](coverage.json)保留完整任务池；其余实例的动态兼容性仍待验证。
 
 Catch2 的参考验收与测试组见[参考任务池](reference-pool.md)。公共 Oracle 固定 evaluator
@@ -35,10 +38,21 @@ Catch2 的参考验收与测试组见[参考任务池](reference-pool.md)。公�
 
 FMT 原始记录的测试阶段为 `NONE`，F2P/P2P 为空，缺陷在构建阶段暴露。
 [准备脚本](../scripts/prepare_fmt_task.py)将原生回归目标的编译及执行放入受保护的 CTest 节点，
-形成 1 F2P + 20 P2P。双方使用同一 prepared Task。
+形成 1 F2P + 20 P2P；4057为1 F2P +19 P2P。各组使用同一 prepared Task。
 [公共 Oracle](../scripts/check_fmt_candidate.py)从原始 commit 应用官方测试补丁和候选，
 使用原始 CMake 文件完整构建、运行 21 项原生测试；评分范围为本项目的编译回归扩展。
 参考补丁仅用于环境资格检查。
+
+[simdjson准备入口](../scripts/prepare_simdjson_task.py)固定原始提交、官方测试补丁及两项离线依赖，
+将编译输出和大样本临时文件放到可写构建目录；Task为2 F2P +97 P2P。
+[独立评分入口](../scripts/check_simdjson_candidate.py)重建原始提交，完整构建并运行99项原生测试。
+prepared仓库bundle、原始测试、参考补丁及源码清单由当前Release附件提供。
+
+[Codex运行入口](../scripts/run_codex_benchmark.py)复用mini的源码权限环境，
+通过Unix套接字连接固定模型计量代理；容器内使用虚拟凭据，原始SSE和用量在宿主保存。
+`--binary`指定固定版本的原生二进制及同目录配套运行组件，`--check-only`执行零模型环境检查。
+同题的`--task`、`--mini-source`、`--mini-environment`、`--common-input`、`--ledger`、
+`--attempt`、`--output`和`--agent-seconds`沿用现有输入，最终候选交给相同公共Oracle。
 
 ## 执行入口
 

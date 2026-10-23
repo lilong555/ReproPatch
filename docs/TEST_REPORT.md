@@ -1,6 +1,11 @@
 # 测试报告
 
-当前只读契约反馈、mini 源码权限及 CPA 端点检查通过 15 项定向测试，Ruff 检查与格式通过。
+Codex CLI 对照与 simdjson 适配实现提交 `379ede5ef62320129428b922926227cc7d001872` 的
+[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/39901573799)通过：331核心、147 SDK、21真实Docker场景。
+simdjson-2178参考补丁通过内部2 F2P +97 P2P验收，以及独立原生99项测试。
+六题三框架成绩和传输失败、独立复测记录见[结果报告](../benchmarks/cross-framework-results.md)。
+
+只读契约反馈、mini 源码权限及 CPA 端点检查通过 15 项定向测试，Ruff 检查与格式通过。
 实现提交 `d56e208b78b9c12ea5ba06c846cf539d7bdbfd4c` 的
 [GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/39788199908) 全部通过：
 331 项核心、147 项 SDK、21 项真实 Docker，共 499 项；0 失败、0 错误、0 跳过。
