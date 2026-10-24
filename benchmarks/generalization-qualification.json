@@ -103,5 +103,14 @@
     "fmt4055首次基线签名失配；实际编译诊断error:匹配后参考验收通过",
     "simd1899基线DOM失败、On-Demand通过；F2P固定为basictests，On-Demand保留P2P",
     "simd1899外部原生执行成功；使用既有Oracle环境对保存日志完成官方解析"
-  ]
+  ],
+  "evidence_release": "https://github.com/lilong555/ReproPatch/releases/tag/benchmark-generalization-qualification-2026-10-24",
+  "archive": {
+    "asset": "ReproPatch-generalization-qualification-2026-10-24.tar.gz",
+    "sha256": "f94e47d32974a501e01c8059f8299ed535203e6d679e3ac6d9f232220df9adb9",
+    "size_bytes": 3208915,
+    "files": 2632,
+    "model_requests": 0,
+    "verified": true
+  }
 }

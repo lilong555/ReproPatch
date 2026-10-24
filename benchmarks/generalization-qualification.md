@@ -1,6 +1,6 @@
 # 两项新实例资格
 
-FMT-4055 与 simdjson-1899 均完成零模型资格检查。参考补丁分别通过 20 项、93 项完整原生测试，同时通过 ReproPatch 新工作树独立验收。结构化身份与日志引用见 [资格结果](generalization-qualification.json)，正式顺序与采用标准见 [实验协议](generalization-protocol.json)。
+FMT-4055 与 simdjson-1899 均完成零模型资格检查。参考补丁分别通过 20 项、93 项完整原生测试，同时通过 ReproPatch 新工作树独立验收。[原始资格证据包](https://github.com/lilong555/ReproPatch/releases/tag/benchmark-generalization-qualification-2026-10-24)包含 2,632 个文件，归档 SHA-256 为 `f94e47d32974a501e01c8059f8299ed535203e6d679e3ac6d9f232220df9adb9`。结构化身份与日志引用见 [资格结果](generalization-qualification.json)，正式顺序与采用标准见 [实验协议](generalization-protocol.json)。
 
 | 实例 | 固定上游提交 | 基线 F2P | P2P | 参考补丁完整原生 Oracle |
 |---|---|---|---:|---:|
