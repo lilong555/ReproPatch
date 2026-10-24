@@ -1,5 +1,6 @@
 """Codex 对照的流证据、整批准入与稳定候选。"""
 
+import hashlib
 import http.server
 import json
 import os
@@ -120,6 +121,62 @@ def test_budget_and_tool_batch_admission(adapter, task):
         adapter.admit_tools(batch(9), 0, 24)
     with pytest.raises(BudgetLimit, match="TOOL_BUDGET"):
         adapter.admit_tools(batch(1), 24, 24)
+    with pytest.raises(BudgetLimit, match="TOOL_BUDGET"):
+        adapter.admit_tools(batch(3), 23, 24)
+    assert adapter.admit_tools(batch(0), 24, 24) == 24
+
+
+def test_native_reasoning_configuration(adapter):
+    assert adapter.native_settings()["model_reasoning_effort"] == "medium"
+    assert adapter.native_settings("high")["model_reasoning_effort"] == "high"
+
+
+@pytest.mark.parametrize(
+    ("fallback", "expected"),
+    [
+        ("candidate_ref", b"reference"),
+        ("patch_diff", b"patch"),
+        ("unverified_diagnostics", b"diagnostic"),
+        (None, b""),
+    ],
+)
+def test_candidate_first_nonempty_source_and_corruption_are_explicit(
+    adapter, tmp_path, fallback, expected
+):
+    from dataclasses import asdict
+
+    import run_benchmark_agent as worker
+
+    from repropatch.artifacts import EvidenceRef
+    from repropatch.errors import InfrastructureError
+
+    directory = tmp_path / "native"
+    output = tmp_path / "producer"
+    directory.mkdir()
+    output.mkdir()
+    reference = EvidenceRef.save(
+        directory, "reference.patch", expected if fallback == "candidate_ref" else b""
+    )
+    report = {"outcome": "ERROR", "candidate": {"patch": asdict(reference)}}
+    (directory / "patch.diff").write_bytes(b"patch" if fallback == "patch_diff" else b"")
+    (directory / "diagnostics").mkdir()
+    if fallback is not None:
+        (directory / "diagnostics/unverified.patch").write_bytes(b"diagnostic")
+    metadata = worker.export_repropatch_candidate(report, directory, output)
+    assert metadata["candidate_source"] == fallback
+    assert metadata["candidate_available"] == (fallback is not None)
+    assert metadata["recovered_from_unverified_patch"] == (fallback == "unverified_diagnostics")
+    assert metadata["candidate_bytes"] == len(expected)
+    assert metadata["candidate_sha256"] == (
+        hashlib.sha256(expected).hexdigest() if expected else None
+    )
+    assert (output / "candidate.patch").exists() == (fallback is not None)
+    if expected:
+        assert (output / "candidate.patch").read_bytes() == expected
+    assert report["outcome"] == "ERROR"
+    (directory / "reference.patch").write_bytes(b"corrupt")
+    with pytest.raises(InfrastructureError, match="ARTIFACT_CORRUPT"):
+        worker.export_repropatch_candidate(report, directory, output)
 
 
 @pytest.mark.docker

@@ -161,7 +161,13 @@ def test_six_tools_and_policy_feedback_use_native_items(task, tmp_path):
     names = ["list_directory", "read_file", "search_code", "edit_file", "run_command", "run_shell"]
 
     def inspect(call):
+        from repropatch.harness import SYSTEM
+
         assert [tool.name for tool in call.tools] == names
+        assert 'run_command("reproduce")' in SYSTEM and 'run_command("verify")' in SYSTEM
+        assert "single_include/" in SYSTEM
+        description = next(tool.description for tool in call.tools if tool.name == "run_command")
+        assert "reproduce" in description and "verify" in description and "F2P" in description
         outputs = [i for i in call.input if i.get("type") == "function_call_output"]
         assert len(outputs) == 3
         data = [json.loads(item["output"]) for item in outputs]

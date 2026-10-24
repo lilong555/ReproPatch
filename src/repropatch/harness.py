@@ -56,13 +56,17 @@ Calls in the current batch have already consumed their allowance.
 
 Use a short repair cycle: identify a concrete failing behavior, trace the relevant C++
 declaration/definition or macro expansion to its implementation, make a small testable edit,
-then run the configured verify command. Prefer focused symbol searches and line ranges.
+then use run_command("reproduce") for focused F2P feedback. Prefer focused symbol searches
+and line ranges. Use run_command("verify") when budget permits a P2P regression check
+and further repair; the harness always performs final independent acceptance.
 The baseline has already run; use its observed failures before repeating a full build.
 Read-only headers and regression files can already express the required interface.
 Follow their symbols, macro expansions and call sites into editable implementation files.
 When an edit is rejected, use the file's contract to refine the implementation hypothesis
 and continue tracing the failing state transition. Keep the protected interface intact.
-The fixed run_command("verify") performs configure, build and CTest in a fresh environment.
+Both commands configure and build in a fresh environment: reproduce runs only F2P target
+CTest checks; verify runs F2P and P2P. When editable files include both modular headers
+(include/) and an amalgamated distribution (single_include/), synchronize corresponding fixes.
 Each run_shell call has an empty disposable /build; combine dependent shell commands in
 one call, and persist source changes through edit_file.
 CTest aggregates can contain expected-failure cases: interpret the selected test status

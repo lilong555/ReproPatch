@@ -293,7 +293,7 @@ def sdk_tools(toolbox, boundary, shell):
 
     @function_tool(failure_error_function=None)
     async def run_command(name: Literal["reproduce", "verify"]) -> str:
-        """在全新容器中依次配置、编译和运行固定CTest；verify覆盖F2P与P2P。"""
+        """全新容器配置、编译后，reproduce仅运行F2P；verify运行F2P与P2P，供有预算继续修复时检查回归；最终由Harness独立验收。"""
         return await boundary("run_command", lambda: toolbox.run_command(name))
 
     @function_tool(failure_error_function=None)

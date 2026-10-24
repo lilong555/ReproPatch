@@ -110,6 +110,37 @@ def save(path, value):
     path.chmod(0o600)
 
 
+def export_repropatch_candidate(report, directory, output):
+    """按来源优先级选择首个非空补丁，证据引用的校验错误原样传播。"""
+    from repropatch.artifacts import EvidenceRef
+
+    reference = (report.get("candidate") or {}).get("patch")
+    patch = (
+        EvidenceRef(**reference).read(directory, limit=8 * 1024 * 1024)
+        if reference is not None
+        else b""
+    )
+    candidate_source = "candidate_ref" if patch else None
+    for source, path in (
+        ("patch_diff", directory / "patch.diff"),
+        ("unverified_diagnostics", directory / "diagnostics/unverified.patch"),
+    ):
+        if patch:
+            break
+        if path.is_file():
+            patch = path.read_bytes()
+            candidate_source = source if patch else None
+    if patch:
+        (output / "candidate.patch").write_bytes(patch)
+    return {
+        "candidate_available": bool(patch),
+        "candidate_source": candidate_source,
+        "recovered_from_unverified_patch": candidate_source == "unverified_diagnostics",
+        "candidate_bytes": len(patch),
+        "candidate_sha256": hashlib.sha256(patch).hexdigest() if patch else None,
+    }
+
+
 def repropatch_agent(args, hooks):
     import httpx2
 
@@ -147,23 +178,13 @@ def repropatch_agent(args, hooks):
     finally:
         models.responses_model = factory
     directory = Path(report["artifact_directory"])
-    from repropatch.artifacts import EvidenceRef
-
-    reference = (report.get("candidate") or {}).get("patch")
-    if reference is not None:
-        patch = EvidenceRef(**reference).read(directory, limit=8 * 1024 * 1024)
-        (args.output / "candidate.patch").write_bytes(patch)
-    elif (directory / "patch.diff").is_file():
-        (args.output / "candidate.patch").write_bytes((directory / "patch.diff").read_bytes())
-    elif (directory / "diagnostics/unverified.patch").is_file():
-        (args.output / "candidate.patch").write_bytes(
-            (directory / "diagnostics/unverified.patch").read_bytes()
-        )
+    candidate = export_repropatch_candidate(report, directory, args.output)
     return {
         "native_run_id": report["run_id"],
         "native_outcome": report["outcome"],
         "native_reason": report["reason_code"],
         "native_artifact_dir": str(directory),
+        **candidate,
         "tool_calls": report["tool_calls"],
         "model_steps": report["model_steps"],
         "container_deleted": report["cleanup_confirmed"],

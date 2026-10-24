@@ -1043,7 +1043,7 @@ wheels = [
 
 [[package]]
 name = "repropatch"
-version = "0.3.0rc3"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "pyyaml" },

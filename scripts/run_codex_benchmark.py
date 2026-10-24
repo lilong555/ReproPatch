@@ -21,6 +21,25 @@ def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
+def native_settings(reasoning_effort="medium"):
+    """原生 CLI 的固定配置，推理强度同时由上游请求留证。"""
+    return {
+        "model_provider": "benchmark",
+        "model": "gpt-6-luna",
+        "approval_policy": "never",
+        "model_reasoning_effort": reasoning_effort,
+        "web_search": "disabled",
+        "model_providers.benchmark.name": "CPA isolated metered relay",
+        "model_providers.benchmark.base_url": "http://127.0.0.1:8318/v1",
+        "model_providers.benchmark.env_key": "BENCHMARK_MODEL_KEY",
+        "model_providers.benchmark.wire_api": "responses",
+        "model_providers.benchmark.request_max_retries": 0,
+        "model_providers.benchmark.stream_max_retries": 0,
+        "model_providers.benchmark.stream_idle_timeout_ms": 100000,
+        "model_providers.benchmark.supports_websockets": False,
+    }
+
+
 def read_model_stream(client, url, payload, headers, trace, identity, ledger):
     """逐块持久化 SSE，完整响应完成计量后再交给工具准入。"""
     started = time.monotonic()
@@ -188,6 +207,12 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--agent-seconds", type=int, required=True)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument(
+        "--reasoning-effort",
+        choices=("none", "low", "medium", "high"),
+        default="medium",
+        help="Codex 原生推理强度，默认 medium；实际请求参数逐次保存",
+    )
     args = parser.parse_args()
     task = Task.load(args.task)
     validate_task_budget(task)
@@ -221,7 +246,7 @@ def main():
         if args.check_only
         else httpx2.Client(trust_env=True, follow_redirects=False, timeout=90)
     )
-    state = {"tool_calls_admitted": 0, "errors": []}
+    state = {"tool_calls_admitted": 0, "observed_request_reasoning": [], "errors": []}
 
     class Model(http.server.BaseHTTPRequestHandler):
         def log_message(self, *_):
@@ -247,6 +272,7 @@ def main():
                     raise ValueError("MODEL_REQUEST_SIZE")
                 raw = self.rfile.read(size)
                 body = json.loads(raw)
+                state["observed_request_reasoning"].append(body.get("reasoning"))
                 if body.get("model") != "gpt-6-luna" or body.get("stream") is not True:
                     raise ValueError("MODEL_SETTINGS_MISMATCH")
                 if any(t.get("type") not in {"function", "custom"} for t in body.get("tools", [])):
@@ -368,21 +394,7 @@ def main():
             {"returncode": check.returncode, "readable_files": len(readable)},
         )
         check.check_returncode()
-        native_config = {
-            "model_provider": "benchmark",
-            "model": "gpt-6-luna",
-            "approval_policy": "never",
-            "model_reasoning_effort": "none",
-            "web_search": "disabled",
-            "model_providers.benchmark.name": "CPA isolated metered relay",
-            "model_providers.benchmark.base_url": "http://127.0.0.1:8318/v1",
-            "model_providers.benchmark.env_key": "BENCHMARK_MODEL_KEY",
-            "model_providers.benchmark.wire_api": "responses",
-            "model_providers.benchmark.request_max_retries": 0,
-            "model_providers.benchmark.stream_max_retries": 0,
-            "model_providers.benchmark.stream_idle_timeout_ms": 100000,
-            "model_providers.benchmark.supports_websockets": False,
-        }
+        native_config = native_settings(args.reasoning_effort)
         save(output / "native-config.json", native_config)
         cli = [
             "/opt/codex",
@@ -430,8 +442,23 @@ def main():
             result["cleanup_error_type"] = type(error).__name__
             result["producer_status"] = "ENVIRONMENT_ERROR"
         if "producer_status" not in result:
+            budget_reason = next(
+                (
+                    error["code"]
+                    for error in state["errors"]
+                    if error["code"]
+                    in {
+                        "BENCHMARK_REQUEST_LIMIT",
+                        "TOOL_BATCH_LIMIT",
+                        "TOOL_BUDGET",
+                        "CONTEXT_LIMIT",
+                    }
+                ),
+                None,
+            )
             result["producer_status"] = (
                 result.get("stop_reason")
+                or budget_reason
                 or ("MODEL_REQUEST_ERROR" if state["errors"] else None)
                 or ("FINISHED" if result.get("exit_code") == 0 else "CLI_ERROR")
             )

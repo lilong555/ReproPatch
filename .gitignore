@@ -23,3 +23,5 @@ docs/evidence/**
 !docs/evidence/p1-06/ctest-samples/**
 docs/evidence/**/runs/**
 docs/evidence/**/sandboxes/**
+
+git-history.bundle
