@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "scope": "Unique passed JUnit cases across execution snapshots; not one full final-tree suite run. Overlapping reruns are deduplicated by classname and parametrized name.",
+  "unique_passed_junit_cases": 558,
+  "new_module_unique_passed": {
+    "tests.test_qualification_evidence": 1,
+    "tests.test_benchmark_scoring": 26,
+    "tests.test_qualified_cpp_candidate": 9,
+    "tests.test_actions_benchmark": 18,
+    "tests.test_cpp_batch_qualification": 4,
+    "tests.test_benchmark_efficiency": 8
+  },
+  "junit_sources": [
+    {
+      "path": ".repropatch/actions-archive-final-junit.xml",
+      "sha256": "93b02dc8c115b765bfd4f3631ea2f66fa948f4bb004f53daea723cff2b84f2df",
+      "passed": 18,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/actions-evidence-gate-junit.xml",
+      "sha256": "daa18e51b4d34e936487016eeb63eee3984917fd14f52f36dc0cebe5b3ec6864",
+      "passed": 15,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/actions-final-junit.xml",
+      "sha256": "9c7b9fab2b977a4653d736b7c56bc90b8b8454fa3472be5936eb06670b8fd473",
+      "passed": 12,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/actions-archive-receipt.xml",
+      "sha256": "f8b15fa55c1c8f4758ef290b5453477e5850b507ce740d953ab73730102c5f55",
+      "passed": 18,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/benchmark-score-contracts.xml",
+      "sha256": "c37c16d4a5dd8aa232a830e12dd825e99dafe210aef008c7122a6e2a1cf7e4d3",
+      "passed": 24,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/benchmark-score-evidence-gate.xml",
+      "sha256": "7959f2abada197d53c8e4a643136240215a0edb4f92c3ca536ef27ee86cd81a7",
+      "passed": 26,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/benchmark-scoring-final.xml",
+      "sha256": "eb598d2e58f1bccce01a80db1dc60433745cdeb16a2f5e85b08f8e0cbda7e03e",
+      "passed": 33,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/benchmark-scoring.xml",
+      "sha256": "4e0a090eda3217652afcf8387a5075484fb2a961abb7a568477acdc539cec730",
+      "passed": 32,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/efficiency-contracts.xml",
+      "sha256": "54c9195795fc65b0d89ee4aa7908014d1bf6237eb3db9f6f7d3cb0dd0f7b686b",
+      "passed": 7,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/core-efficiency-local/pytest-nondocker.xml",
+      "sha256": "25b8990bed4d3433ce25da2d8f25ec35308076460259d6610c1f9be2c1f053c0",
+      "passed": 501,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/oracle-review-junit.xml",
+      "sha256": "2827e357d43b0b16c5b614ed3a09f4d3acb0a0384b4c18cb6bda84b4e21b0aca",
+      "passed": 23,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/targeted-review-escalated-junit.xml",
+      "sha256": "cf8a4b23f4ccdc023ef81ae9718e99b8f635d8a80e87be84232eded64bd2e5dd",
+      "passed": 25,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": ".repropatch/task-expansion-local/evidence-deadline.xml",
+      "sha256": "6b43f8f369c0bcb762b9f8ef68a036c32d46c8e01096e420f538912b179e1c81",
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "full_nondocker_gate": {
+    "passed": 501,
+    "deselected_docker_at_that_snapshot": 22,
+    "seconds": 238.35,
+    "scope": "Earlier implementation snapshot; later modified paths have targeted tests"
+  },
+  "latest_targeted_actions_gate": {
+    "passed": 18,
+    "seconds": 1.33
+  },
+  "latest_targeted_scoring_gate": {
+    "passed": 26,
+    "seconds": 3.09
+  },
+  "latest_qualification_evidence_gate": {
+    "passed": 3,
+    "deselected": 2,
+    "seconds": 1.82
+  },
+  "quality_checks": {
+    "ruff_check": "PASSED",
+    "ruff_format_check": "79 files already formatted",
+    "actionlint": "PASSED: 1.7.12",
+    "git_diff_check": "PASSED"
+  },
+  "not_executed": [
+    "Docker integration including one newly added cache test",
+    "New GitHub-hosted Runner CI/Benchmark smoke",
+    "Paid-model benchmark and no-self-check ablation"
+  ],
+  "interrupted_review": {
+    "status": "CANCELLED_SANDBOX_BLOCKED",
+    "reason": "Known sandbox interaction with existing httpx2 MockTransport response contract; reproduced on original HEAD by core agent. Interrupted rather than reporting full suite as passed.",
+    "last_test": "tests/test_agent_runtime.py::test_responses_configuration_uses_same_harness_and_closes_client[False]",
+    "model_requests": 0,
+    "replacement": "Escalated offline targeted suite; prior complete non-Docker suite passed 501 with 22 deselected."
+  },
+  "model_requests": 0
+}

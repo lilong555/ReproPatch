@@ -1,0 +1,9 @@
+variant,n,median_seconds,expected_pass,observed_pass,max_build_bytes,max_cache_bytes
+cold-make,3,47.63715875599996,True,"[True, True, True]",9273344,4096
+cold-ninja,3,40.43976010100005,True,"[True, True, True]",9490432,4096
+cache-fill,1,39.689160272000095,True,[True],9420800,10981376
+cache-warm-fresh-build,3,1.6047271209999963,True,"[True, True, True]",8134656,11165696
+incremental-unchanged,3,0.4869453359999625,True,"[True, True, True]",8134656,11165696
+reference-reverted,1,8.964812184000039,False,[False],8134656,16158720
+reference-reapplied,1,0.6844815799998969,True,[True],8138752,16199680
+final-cold,1,42.47838029100001,True,[True],8122368,16199680

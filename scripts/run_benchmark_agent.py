@@ -146,6 +146,26 @@ def save(path, value):
     path.chmod(0o600)
 
 
+def attempt_identity(task, attempt):
+    """跨框架绑定同一份 Task 文件；原生 resolved contract SHA 另行记录。"""
+    return {
+        "attempt_id": attempt,
+        "task_id": task.id,
+        "task_sha256": hashlib.sha256(task.source_bytes).hexdigest(),
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": task.revision,
+        "image_id": task.environment.image,
+    }
+
+
+def candidate_metadata(patch):
+    return {
+        "candidate_available": bool(patch),
+        "candidate_bytes": len(patch),
+        "candidate_sha256": hashlib.sha256(patch).hexdigest() if patch else None,
+    }
+
+
 def export_repropatch_candidate(report, directory, output):
     """按来源优先级选择首个非空补丁，证据引用的校验错误原样传播。"""
     from repropatch.artifacts import EvidenceRef
@@ -169,18 +189,15 @@ def export_repropatch_candidate(report, directory, output):
     if patch:
         (output / "candidate.patch").write_bytes(patch)
     return {
-        "candidate_available": bool(patch),
+        **candidate_metadata(patch),
         "candidate_source": candidate_source,
         "recovered_from_unverified_patch": candidate_source == "unverified_diagnostics",
-        "candidate_bytes": len(patch),
-        "candidate_sha256": hashlib.sha256(patch).hexdigest() if patch else None,
     }
 
 
-def repropatch_agent(args, hooks):
+def repropatch_agent(args, hooks, task):
     import repropatch.models as models
     from repropatch.harness import Harness
-    from repropatch.task import Task
 
     factory = models.responses_model
     model_name, base_url, key_env, use_proxy = provider(args)
@@ -191,11 +208,11 @@ def repropatch_agent(args, hooks):
             async with factory(*values, **options, http_client=client) as model:
                 yield model
 
-    # 只注入已有公开 http_client 参数，Runner、工具和独立验收均使用原实现。
+    # 计量经公开 http_client 注入；候选模式保留冻结与补丁往返检查。
     models.responses_model = metered
     try:
         report = Harness(
-            Task.load(args.task),
+            task,
             model=models.ResponsesConfig(
                 model=model_name,
                 url=base_url,
@@ -204,6 +221,8 @@ def repropatch_agent(args, hooks):
                 use_env_proxy=use_proxy,
             ),
             output_root=args.output / "runs",
+            candidate_only=getattr(args, "candidate_only", False),
+            compiler_cache=getattr(args, "compiler_cache", False),
         ).run()
     finally:
         models.responses_model = factory
@@ -211,9 +230,17 @@ def repropatch_agent(args, hooks):
     candidate = export_repropatch_candidate(report, directory, args.output)
     return {
         "native_run_id": report["run_id"],
+        "native_status": report["outcome"] or report["state"],
         "native_outcome": report["outcome"],
         "native_reason": report["reason_code"],
         "native_artifact_dir": str(directory),
+        "native_task_sha256": report["provenance"]["task_sha256"],
+        "native_image_id": report["provenance"]["image_id"],
+        "baseline_eligible": report["reproduced"],
+        "candidate_roundtrip_verified": report["candidate_roundtrip_verified"],
+        "internal_verification_status": report["benchmark"]["internal_verification"],
+        "internal_acceptance": report["verified"],
+        "benchmark": report["benchmark"],
         **candidate,
         "tool_calls": report["tool_calls"],
         "model_steps": report["model_steps"],
@@ -221,10 +248,9 @@ def repropatch_agent(args, hooks):
     }
 
 
-def mini_agent(args, hooks):
-    from repropatch.task import Task, canonical_json
+def mini_agent(args, hooks, task):
+    from repropatch.task import canonical_json
 
-    task = Task.load(args.task)
     model_name, base_url, _, use_proxy = provider(args)
     config, task_input, source = mini_inputs(args, task)
     os.environ["MSWEA_GLOBAL_CONFIG_DIR"] = str(args.output / "mini-settings")
@@ -451,6 +477,11 @@ def mini_agent(args, hooks):
         raise RuntimeError("CONTAINER_CLEANUP_UNCONFIRMED")
     return {
         "native_exit_status": result.get("exit_status"),
+        "native_status": result.get("exit_status"),
+        "native_reason": result.get("exit_status"),
+        "internal_verification_status": "not_performed",
+        "internal_acceptance": None,
+        **candidate_metadata(patch),
         "tool_calls_admitted": calls,
         "model_steps": agent.n_calls,
         "container_deleted": deleted,
@@ -475,7 +506,15 @@ def main():
     parser.add_argument("--common-input", type=Path)
     parser.add_argument("--agent-seconds", type=int, default=800)
     parser.add_argument("--check-only", action="store_true", help="只读预检，不创建 Run 或调用模型")
+    parser.add_argument(
+        "--candidate-only", action="store_true", help="ReproPatch 导出候选供统一 Oracle"
+    )
+    parser.add_argument(
+        "--compiler-cache", action="store_true", help="ReproPatch 自检使用 Run 级 ccache"
+    )
     args = parser.parse_args()
+    if args.agent != "repropatch" and (args.candidate_only or args.compiler_cache):
+        parser.error("这两个选项只适用于 ReproPatch；mini 始终导出候选供统一 Oracle")
     from repropatch.errors import ReproPatchError
     from repropatch.task import Task
 
@@ -527,10 +566,23 @@ def main():
         return 0
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
+    (args.output / "task.original.yaml").write_bytes(task.source_bytes)
     hook_options = {"local_luna": True} if args.provider == "local-luna" else {}
     hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native", **hook_options)
     started = time.monotonic()
-    result = {"agent": args.agent, "attempt": args.attempt, "oracle_resolved": None}
+    result = {
+        "schema": "repropatch.benchmark-attempt.v1",
+        "agent": args.agent,
+        "attempt": args.attempt,
+        **attempt_identity(task, args.attempt),
+        **candidate_metadata(b""),
+        "native_status": "NOT_STARTED",
+        "native_reason": None,
+        "internal_verification_status": "not_started"
+        if args.agent == "repropatch"
+        else "not_performed",
+        "oracle_resolved": None,
+    }
     result["provider"] = {
         "profile": args.provider,
         "model": provider(args)[0],
@@ -544,10 +596,15 @@ def main():
     code = 1
     try:
         result.update(
-            repropatch_agent(args, hooks) if args.agent == "repropatch" else mini_agent(args, hooks)
+            repropatch_agent(args, hooks, task)
+            if args.agent == "repropatch"
+            else mini_agent(args, hooks, task)
         )
         code = 0
+    except KeyboardInterrupt:
+        result.update(native_status="CANCELLED", native_reason="USER_CANCELLED")
     except Exception as error:
+        result["native_status"] = "ERROR"
         result["error_type"] = type(error).__name__
         if isinstance(error, BudgetLimit):
             result["error_code"] = str(error)

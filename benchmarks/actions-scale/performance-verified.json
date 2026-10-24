@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "status": "VERIFIED",
+  "scope": "same current frozen measurement code; native fmt-4055 format-test; not whole Agent or GitHub Actions",
+  "pilot_status": "PILOT_EVIDENCE_INCOMPLETE_RETAINED_SEPARATELY",
+  "upstream_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "profile_script_sha256": "595fcbc57b680801751677655e20dca4199a6fa2117e2e627fb533e75b3d77ff",
+  "profile_json_sha256": "e6b3606d9adc19b18d33fa69d11f33eab3e4eee4e6d6ee1a7e5163b86bb18ec1",
+  "frozen_plan_sha256": "fb66941581fbc1455d6881de062a0f07757d1767cf6339c80ef0e6e05a85eb30",
+  "affinity_cpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "cpu_max": "800000 100000",
+  "versions": {
+    "cmake": "cmake version 4.4.4",
+    "ninja": "1.13.2.git.kitware.jobserver-pipe-1",
+    "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "ccache": "ccache version 4.9.1"
+  },
+  "optimization": "O3",
+  "build_jobs": 2,
+  "variants": {
+    "cache-fill": {
+      "n": 1,
+      "seconds": [
+        60.78171937500019
+      ],
+      "median_seconds": 60.78171937500019,
+      "min_seconds": 60.78171937500019,
+      "max_seconds": 60.78171937500019,
+      "observed_pass": [
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 1.396615274999931,
+        "build": 59.03413950799995,
+        "test": 0.34855547999995906
+      }
+    },
+    "cache-warm-fresh-build": {
+      "n": 3,
+      "seconds": [
+        2.4494293739999193,
+        2.647049831000004,
+        1.4882149860000027
+      ],
+      "median_seconds": 2.4494293739999193,
+      "min_seconds": 1.4882149860000027,
+      "max_seconds": 2.647049831000004,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 1.4676827590001267,
+        "build": 0.6600045989998762,
+        "test": 0.23725138800000423
+      }
+    },
+    "cold-make": {
+      "n": 3,
+      "seconds": [
+        46.79094319900014,
+        46.64779712299969,
+        59.99884126200004
+      ],
+      "median_seconds": 46.79094319900014,
+      "min_seconds": 46.64779712299969,
+      "max_seconds": 59.99884126200004,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 0.7896640620001563,
+        "build": 45.80293928299989,
+        "test": 0.22519002699982593
+      }
+    },
+    "cold-ninja": {
+      "n": 3,
+      "seconds": [
+        38.138349670000025,
+        38.358325937000245,
+        59.13442718400029
+      ],
+      "median_seconds": 38.358325937000245,
+      "min_seconds": 38.138349670000025,
+      "max_seconds": 59.13442718400029,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 1.2702853619998677,
+        "build": 37.313832480999736,
+        "test": 0.20784738599968478
+      }
+    },
+    "final-cold": {
+      "n": 1,
+      "seconds": [
+        38.45820757799993
+      ],
+      "median_seconds": 38.45820757799993,
+      "min_seconds": 38.45820757799993,
+      "max_seconds": 38.45820757799993,
+      "observed_pass": [
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 0.7686288610002521,
+        "build": 37.47594216200014,
+        "test": 0.20439371900010883
+      }
+    },
+    "incremental-unchanged": {
+      "n": 3,
+      "seconds": [
+        0.6792173030003141,
+        0.5058181370000057,
+        0.4175340629999482
+      ],
+      "median_seconds": 0.5058181370000057,
+      "min_seconds": 0.4175340629999482,
+      "max_seconds": 0.6792173030003141,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 0,
+        "build": 0.24984269399965342,
+        "test": 0.25512857400008215
+      }
+    },
+    "reference-reapplied": {
+      "n": 1,
+      "seconds": [
+        0.5850447699999677
+      ],
+      "median_seconds": 0.5850447699999677,
+      "min_seconds": 0.5850447699999677,
+      "max_seconds": 0.5850447699999677,
+      "observed_pass": [
+        true
+      ],
+      "expected_pass": true,
+      "stage_median_seconds": {
+        "configure": 0,
+        "build": 0.37900298100021246,
+        "test": 0.2036025040001732
+      }
+    },
+    "reference-reverted": {
+      "n": 1,
+      "seconds": [
+        10.068177788999947
+      ],
+      "median_seconds": 10.068177788999947,
+      "min_seconds": 10.068177788999947,
+      "max_seconds": 10.068177788999947,
+      "observed_pass": [
+        false
+      ],
+      "expected_pass": false,
+      "stage_median_seconds": {
+        "configure": 0,
+        "build": 10.06782767300001,
+        "test": 0
+      }
+    }
+  },
+  "comparisons": {
+    "make_to_ninja_reduction_percent": 18.021900576221107,
+    "ninja_to_ccache_warm_reduction_percent": 93.61434756557712,
+    "ninja_to_incremental_unchanged_reduction_percent": 98.68133417023788
+  },
+  "inner_wall_seconds": 407.36760149300017,
+  "outer_wall_seconds": 407.88288669400026,
+  "observer_seconds": 2.8782649670019964,
+  "observer_fraction": 0.007056596540078214,
+  "peaks": {
+    "filesystem_used_bytes": 1909641216,
+    "filesystem_free_bytes": 30179778560,
+    "host_memory_used_bytes": 1627029504,
+    "host_memory_total_bytes": 10451435520,
+    "cgroup_memory_current_bytes": 3258441728,
+    "cgroup_memory_limit_bytes": 8589934592,
+    "process_group_rss_bytes": 24330240,
+    "process_tree_rss_bytes": 900579328,
+    "host_cpu_percent": 42.46823956442831
+  },
+  "directory_peaks_allocated_bytes": {
+    "profile": 19312640
+  },
+  "directory_sample_interval_seconds": 30.0,
+  "final_build_bytes": 8122368,
+  "final_cache_bytes": 1548288,
+  "model_requests": 0,
+  "model_input_tokens": 0,
+  "model_output_tokens": 0,
+  "limitations": [
+    "N=3 repeated variants; one cache fill/control each; descriptive statistics only",
+    "Same four-CPU affinity on native host, not an isolated GitHub runner",
+    "Cold means fresh build tree and compiler cache disabled, with host page cache retained",
+    "Sampled resource peaks are lower bounds; host/cgroup totals are shared; summed process-tree RSS may count shared pages repeatedly",
+    "Per-command monitoring overhead included consistently in every current variant",
+    "Old pilot measurements excluded from every comparison"
+  ]
+}

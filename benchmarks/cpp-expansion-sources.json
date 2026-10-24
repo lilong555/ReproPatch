@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "queried_at": "2026-10-24",
+  "status": "STATIC_SOURCE_RESEARCH_NOT_DYNAMIC_QUALIFICATION",
+  "scope": "C++ only; count distinct instance IDs first, then review bug scope and issue/base duplication before any formal dataset inclusion",
+  "sources": [
+    {
+      "name": "ByteDance-Seed/Multi-SWE-bench",
+      "revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "cpp_instances": 129,
+      "repository_counts": {
+        "fmtlib/fmt": 41,
+        "nlohmann/json": 55,
+        "simdjson/simdjson": 20,
+        "catchorg/Catch2": 12,
+        "yhirose/cpp-httplib": 1
+      },
+      "official_url": "https://multi-swe-bench.github.io/",
+      "next_step": "Complete fmt qualification with strict bug-scope intersection; adapt batch qualification to existing json and simdjson preparation contracts."
+    },
+    {
+      "name": "SWE-bench/SWE-bench_Multilingual",
+      "revision": "846e647b9f33c0b51b739d005d13d85493c9af09",
+      "cpp_instances": 12,
+      "repository_counts": {
+        "fmtlib/fmt": 11,
+        "nlohmann/json": 1
+      },
+      "overlapping_instance_ids": [
+        "fmtlib__fmt-2310",
+        "fmtlib__fmt-2317",
+        "fmtlib__fmt-3158",
+        "fmtlib__fmt-3248",
+        "fmtlib__fmt-3272",
+        "fmtlib__fmt-3729",
+        "fmtlib__fmt-3750",
+        "fmtlib__fmt-3863"
+      ],
+      "new_instance_ids": [
+        "fmtlib__fmt-1683",
+        "fmtlib__fmt-2457",
+        "fmtlib__fmt-3901",
+        "nlohmann__json-4237"
+      ],
+      "distinct_id_increment": 4,
+      "official_url": "https://www.swebench.com/multilingual.html",
+      "dataset_url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Multilingual",
+      "metadata_snapshot_sha256": "335e52de3c05b2fd69d44959cd53f0815cfc3ab1dc95e7c2188c4158e9c97782",
+      "next_step": "Review the four distinct IDs, compare issue/base identities, and translate official evaluation contracts into current fmt/json adapters; do not count the eight overlapping IDs twice."
+    },
+    {
+      "name": "SWE-bench-Live/MultiLang",
+      "revision": "3638632e8153a10ca422c1022bed79023084b5c9",
+      "split": "cpp",
+      "cpp_instances": 142,
+      "repository_count": 43,
+      "repository_counts": {
+        "BYVoid/OpenCC": 11,
+        "ChaiScript/ChaiScript": 2,
+        "CleverRaven/Cataclysm-DDA": 4,
+        "ClickHouse/ClickHouse": 1,
+        "FastLED/FastLED": 3,
+        "GothenburgBitFactory/taskwarrior": 1,
+        "IfcOpenShell/IfcOpenShell": 1,
+        "KhronosGroup/glslang": 1,
+        "NVIDIA/stdexec": 1,
+        "OSGeo/gdal": 3,
+        "OpenRCT2/OpenRCT2": 1,
+        "TrenchBroom/TrenchBroom": 2,
+        "WasmEdge/WasmEdge": 3,
+        "actor-framework/actor-framework": 1,
+        "alibaba/yalantinglibs": 1,
+        "apache/kvrocks": 1,
+        "canonical/multipass": 2,
+        "carbon-language/carbon-lang": 3,
+        "dragonflydb/dragonfly": 5,
+        "duckdb/duckdb": 26,
+        "duckdb/ducklake": 3,
+        "esphome/esphome": 7,
+        "fmtlib/fmt": 1,
+        "harfbuzz/harfbuzz": 1,
+        "include-what-you-use/include-what-you-use": 1,
+        "kokkos/kokkos": 2,
+        "kvcache-ai/Mooncake": 2,
+        "luau-lang/luau": 2,
+        "microsoft/DirectXShaderCompiler": 5,
+        "ml-explore/mlx": 2,
+        "monero-project/monero": 2,
+        "musescore/MuseScore": 4,
+        "ninja-build/ninja": 1,
+        "nodejs/node-addon-api": 1,
+        "open-source-parsers/jsoncpp": 2,
+        "organicmaps/organicmaps": 1,
+        "pocoproject/poco": 2,
+        "pybind/pybind11": 1,
+        "root-project/root": 2,
+        "rui314/mold": 1,
+        "shader-slang/slang": 22,
+        "stephenberry/glaze": 3,
+        "versatica/mediasoup": 1
+      },
+      "overlapping_instance_ids": [],
+      "distinct_id_increment": 142,
+      "official_url": "https://swe-bench-live.github.io/",
+      "dataset_url": "https://huggingface.co/datasets/SWE-bench-Live/MultiLang",
+      "metadata_snapshot_sha256": "8e0d62bbf120c37c20fd83d35af930644c2c26cca225ed1a2c2aed94bab68176",
+      "initial_adapter_review_candidates": [
+        {
+          "instance_id": "fmtlib__fmt-4490",
+          "repo": "fmtlib/fmt",
+          "base_commit": "ae8cb1e8e6b788aaaaf45db829a37e319ee0c169",
+          "issue_numbers": [
+            "4487"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.fmtlib_1776_fmt-4490",
+          "created_at": "2025-07-08T11:15:57Z",
+          "f2p_count": 2,
+          "p2p_count": 567
+        },
+        {
+          "instance_id": "ninja-build__ninja-2749",
+          "repo": "ninja-build/ninja",
+          "base_commit": "5ff92d8a51b7af43aa53df0ad733c2c3e0120d4f",
+          "issue_numbers": [
+            "2641"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.ninja-build_1776_ninja-2749",
+          "created_at": "2026-03-22T18:26:46Z",
+          "f2p_count": 2,
+          "p2p_count": 455
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1123",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "0d980eb0d4a28774554175621eacd88fc1b5fd4a",
+          "issue_numbers": [
+            "919"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1123",
+          "created_at": "2026-04-17T05:49:56Z",
+          "f2p_count": 2,
+          "p2p_count": 95
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1094",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "7d654ce3098fcaa8b186698035dc78c23d7c1d50",
+          "issue_numbers": [
+            "582"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1094",
+          "created_at": "2026-04-11T16:34:13Z",
+          "f2p_count": 1,
+          "p2p_count": 76
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1096",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "8e070a8eda5c26fe09944d800c4585f561c63995",
+          "issue_numbers": [
+            "910"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1096",
+          "created_at": "2026-04-12T05:58:06Z",
+          "f2p_count": 1,
+          "p2p_count": 76
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1307",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "e0228c84167a405b4a51d1b3939ec0b9a856a63d",
+          "issue_numbers": [
+            "790"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1307",
+          "created_at": "2026-06-13T03:19:17Z",
+          "f2p_count": 1,
+          "p2p_count": 141
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1257",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "dc5aaf19d85aaa0cfea59942cdf9366851bc2cf2",
+          "issue_numbers": [
+            "930"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1257",
+          "created_at": "2026-05-29T22:33:44Z",
+          "f2p_count": 1,
+          "p2p_count": 123
+        },
+        {
+          "instance_id": "open-source-parsers__jsoncpp-1696",
+          "repo": "open-source-parsers/jsoncpp",
+          "base_commit": "11279616cf96c81d57542d5ddabc49d4ad79a0ac",
+          "issue_numbers": [
+            "1500"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.open-source-parsers_1776_jsoncpp-1696",
+          "created_at": "2026-06-17T07:45:58Z",
+          "f2p_count": 1,
+          "p2p_count": 294
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-461",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "c69190c26fb6ed5a05fd443a29a9724f87e15b73",
+          "issue_numbers": [
+            "440"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-461",
+          "created_at": "2020-06-29T04:38:48Z",
+          "f2p_count": 1,
+          "p2p_count": 144
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1289",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "3d33957ac073115c188e722f1f16e1cfeda6a651",
+          "issue_numbers": [
+            "1275"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1289",
+          "created_at": "2026-06-07T15:48:57Z",
+          "f2p_count": 1,
+          "p2p_count": 141
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1405",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "56d028aa324c407a51b74da7891450e408432569",
+          "issue_numbers": [
+            "541",
+            "1397"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1405",
+          "created_at": "2026-07-07T01:39:02Z",
+          "f2p_count": 1,
+          "p2p_count": 198
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1255",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "83b53993506cc7792b03edef7d1d4c7f3da8a8a8",
+          "issue_numbers": [
+            "722",
+            "896"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1255",
+          "created_at": "2026-05-28T20:40:30Z",
+          "f2p_count": 1,
+          "p2p_count": 123
+        },
+        {
+          "instance_id": "open-source-parsers__jsoncpp-1693",
+          "repo": "open-source-parsers/jsoncpp",
+          "base_commit": "5f1f240f10a19a61929b5c573974900cb62e9dac",
+          "issue_numbers": [
+            "1611"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.open-source-parsers_1776_jsoncpp-1693",
+          "created_at": "2026-06-16T21:21:03Z",
+          "f2p_count": 1,
+          "p2p_count": 292
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1310",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "f1e3d25c9f0b265c58f0631105b5a3a9f4e9ef9a",
+          "issue_numbers": [
+            "1309"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1310",
+          "created_at": "2026-06-13T15:59:03Z",
+          "f2p_count": 1,
+          "p2p_count": 141
+        },
+        {
+          "instance_id": "BYVoid__OpenCC-1326",
+          "repo": "BYVoid/OpenCC",
+          "base_commit": "fae773614fbc7df6547e3c3d8a6a02a7ec10053a",
+          "issue_numbers": [
+            "585"
+          ],
+          "docker_image": "starryzhang/sweb.eval.x86_64.byvoid_1776_opencc-1326",
+          "created_at": "2026-06-22T15:40:35Z",
+          "f2p_count": 1,
+          "p2p_count": 161
+        }
+      ],
+      "nonempty_f2p_p2p_records": 136,
+      "next_step": "Prioritize one existing fmt task, then small Ninja/jsoncpp/OpenCC projects after measured preparation cost. Pin supplied container image tags to immutable digests; review per-task rebuild/test scripts and parsers; rerun baseline/reference independently. Larger DuckDB/slang projects remain deferred."
+    }
+  ],
+  "limitations": [
+    "Static counts do not establish bug status, independence, reproducibility or qualification.",
+    "Live metadata includes records with zero P2P; these must not bypass the ReproPatch qualification contract.",
+    "Hugging Face rows were retrieved during a pinned-revision metadata audit; snapshot hashes identify retrieved metadata, not downloaded immutable Parquet source files. Freeze full source file hashes before executing a new-source batch.",
+    "No repair-model requests were made. Source research and preparation do not constitute a final-holdout freeze; record any later strategy-development exposure separately.",
+    "Repository or dataset language labels do not prove that each repair modifies C++; require production C++ patch scope during adapter review, particularly for mixed-language repositories."
+  ]
+}

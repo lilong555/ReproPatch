@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_AWAITING_EXECUTION",
+  "registered_at": "2026-10-24T15:54:54.566273+00:00",
+  "repository_commit": "fbdb60570602c61545d4c5b73e2fed92fbe319f6",
+  "scope": "native fmt-4055 target A/B; current common measurement code; independent of incomplete pilot",
+  "instance_id": "fmtlib__fmt-4055",
+  "upstream_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "dataset_sha256": "7d060ca46ba6343373aa68ced7fcca70e2ce0addac7ec610c47d2bbfcfed6762",
+  "affinity_cpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "available_affinity_cpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "repeats": 3,
+  "optimization": "O3",
+  "build_jobs": 2,
+  "model_requests": 0,
+  "model_tokens": 0,
+  "cpu_max": "800000 100000",
+  "memory_max": "8589934592",
+  "environment_flags": {},
+  "tools": {
+    "c++": {
+      "path": "/usr/bin/x86_64-linux-gnu-g++-13",
+      "sha256": "52f1ddb33fe78b9441e0f42e9cd22c571f1101938e046c8a26582494e041cc73",
+      "version": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
+    },
+    "g++": {
+      "path": "/usr/bin/x86_64-linux-gnu-g++-13",
+      "sha256": "52f1ddb33fe78b9441e0f42e9cd22c571f1101938e046c8a26582494e041cc73",
+      "version": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
+    },
+    "cmake": {
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/cmake",
+      "sha256": "335e68330939166b59973b7f9130afee827964c933a3745be6e1d957bc468686",
+      "version": "cmake version 4.4.4"
+    },
+    "ninja": {
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/ninja",
+      "sha256": "08639e194fffa7f08b259fc4abfa4803aff66b64de52549cee42ec527d55cea6",
+      "version": "1.13.2.git.kitware.jobserver-pipe-1"
+    },
+    "ccache": {
+      "path": "/usr/bin/ccache",
+      "sha256": "3ce30c8fe66f2d2db45d1913871059557e2c04ddecd6cb389bbba17f2b77dd63",
+      "version": "ccache version 4.9.1"
+    },
+    "taskset": {
+      "path": "/usr/bin/taskset",
+      "sha256": "a9c851792e54e91fba7b827019380abee54e715b6817899c835e4f221354b260",
+      "version": "taskset from util-linux 2.39.3"
+    }
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "pyyaml_version": "6.0.3",
+  "source_files": [
+    {
+      "path": "code/scripts/profile_cpp_build.py",
+      "repository_path": "scripts/profile_cpp_build.py",
+      "sha256": "595fcbc57b680801751677655e20dca4199a6fa2117e2e627fb533e75b3d77ff",
+      "size_bytes": 13019
+    },
+    {
+      "path": "code/scripts/profile_cpp_concurrency.py",
+      "repository_path": "scripts/profile_cpp_concurrency.py",
+      "sha256": "f3ae20eb091b060b3fd2ef04c532c084922d97898643ed9a0f241bdf396523d5",
+      "size_bytes": 7674
+    },
+    {
+      "path": "code/scripts/benchmark_resources.py",
+      "repository_path": "scripts/benchmark_resources.py",
+      "sha256": "440529fa0479869741a9b9e451f1cb6c9233fd89109b381c652c8229c731e5af",
+      "size_bytes": 15717
+    },
+    {
+      "path": "code/scripts/qualify_cpp_batch.py",
+      "repository_path": "scripts/qualify_cpp_batch.py",
+      "sha256": "b2783483db6e0d40b1072ee00e53f8769da32d23b0eae4f1b87ee425b7c98122",
+      "size_bytes": 32756
+    },
+    {
+      "path": "code/scripts/prepare_multiswe_task.py",
+      "repository_path": "scripts/prepare_multiswe_task.py",
+      "sha256": "9f4245b1e1b0fb2be55c17c714f5a607f0f781e6a7894f8abfa9973277d26b37",
+      "size_bytes": 11129
+    },
+    {
+      "path": "code/scripts/actions_benchmark.py",
+      "repository_path": "scripts/actions_benchmark.py",
+      "sha256": "70010b75f8b88642187613764a54cc94c77b6cc31e74ca3da3f3b9e34d7204d5",
+      "size_bytes": 25651
+    },
+    {
+      "path": "code/scripts/screen_multiswe.py",
+      "repository_path": "scripts/screen_multiswe.py",
+      "sha256": "2c5ced61de084b7bd96f5aa9174654e9ee1bd60641ca1f3c26c275e628d67b85",
+      "size_bytes": 5831
+    },
+    {
+      "path": "code/scripts/check_qualified_cpp_candidate.py",
+      "repository_path": "scripts/check_qualified_cpp_candidate.py",
+      "sha256": "e91602eb0078dd0e97eb0b5e46d39033685f0c6a8e27c2f82863fbb47710f6b7",
+      "size_bytes": 12587
+    },
+    {
+      "path": "code/src/repropatch/__init__.py",
+      "repository_path": "src/repropatch/__init__.py",
+      "sha256": "0cfeb28145cf0901f99718fee1da018a3206a7e9b032a07e5becf54355293cb4",
+      "size_bytes": 105
+    },
+    {
+      "path": "code/src/repropatch/__main__.py",
+      "repository_path": "src/repropatch/__main__.py",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "size_bytes": 48
+    },
+    {
+      "path": "code/src/repropatch/agent_runtime.py",
+      "repository_path": "src/repropatch/agent_runtime.py",
+      "sha256": "d32e69cad861268f0be33cccb0c1d43f81e249fb640bf68f874bdfea4c907176",
+      "size_bytes": 18309
+    },
+    {
+      "path": "code/src/repropatch/artifacts.py",
+      "repository_path": "src/repropatch/artifacts.py",
+      "sha256": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+      "size_bytes": 6464
+    },
+    {
+      "path": "code/src/repropatch/cli.py",
+      "repository_path": "src/repropatch/cli.py",
+      "sha256": "599654e3cc2643f6ff77231ab8fcfe715ea9e22a9331b4d51e44d784aac56391",
+      "size_bytes": 14748
+    },
+    {
+      "path": "code/src/repropatch/errors.py",
+      "repository_path": "src/repropatch/errors.py",
+      "sha256": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+      "size_bytes": 1521
+    },
+    {
+      "path": "code/src/repropatch/events.py",
+      "repository_path": "src/repropatch/events.py",
+      "sha256": "005afef70b3536ca71dc6f79310206f9e0960608c9c6f6ea9bc4b4e147c23b00",
+      "size_bytes": 33650
+    },
+    {
+      "path": "code/src/repropatch/harness.py",
+      "repository_path": "src/repropatch/harness.py",
+      "sha256": "45611c917c24ffecbc2c09e1e3dcc6eb3b0954bd82771c25bd766ce0f87a2f6d",
+      "size_bytes": 42173
+    },
+    {
+      "path": "code/src/repropatch/models.py",
+      "repository_path": "src/repropatch/models.py",
+      "sha256": "02092ae40d74f2ff456745fd12d233eb1bf6c4d6237cda57e7f977e0ede1e4bc",
+      "size_bytes": 9085
+    },
+    {
+      "path": "code/src/repropatch/process.py",
+      "repository_path": "src/repropatch/process.py",
+      "sha256": "0c2bb81edc9fc0338475d34fa60eea300209ffddcfc34d5555195783671af2b8",
+      "size_bytes": 11753
+    },
+    {
+      "path": "code/src/repropatch/recovery.py",
+      "repository_path": "src/repropatch/recovery.py",
+      "sha256": "1b2ac898ebc53d76f7ac30732d1c52d51a155d42807652925cfdadb01c841a64",
+      "size_bytes": 36474
+    },
+    {
+      "path": "code/src/repropatch/reports.py",
+      "repository_path": "src/repropatch/reports.py",
+      "sha256": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+      "size_bytes": 21699
+    },
+    {
+      "path": "code/src/repropatch/resources.py",
+      "repository_path": "src/repropatch/resources.py",
+      "sha256": "eed16d735b3d6398d95875e4b9e72b343a26e04fca1aea82f6517e3817bf51e1",
+      "size_bytes": 13158
+    },
+    {
+      "path": "code/src/repropatch/sandbox.py",
+      "repository_path": "src/repropatch/sandbox.py",
+      "sha256": "a3d4add74f0608dbd41381187432ba0c23c30169802417741063dac3fd747ee4",
+      "size_bytes": 19027
+    },
+    {
+      "path": "code/src/repropatch/task.py",
+      "repository_path": "src/repropatch/task.py",
+      "sha256": "b7eea501b412edbac73d18bc6658672e9187816e9989352368694973a5ad6e35",
+      "size_bytes": 25448
+    },
+    {
+      "path": "code/src/repropatch/tools.py",
+      "repository_path": "src/repropatch/tools.py",
+      "sha256": "17cf832d5eb8e9af56b1731171cdc3a4bc325394989ae297d3fecc761bc08032",
+      "size_bytes": 12188
+    },
+    {
+      "path": "code/src/repropatch/trace.py",
+      "repository_path": "src/repropatch/trace.py",
+      "sha256": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+      "size_bytes": 7847
+    },
+    {
+      "path": "code/src/repropatch/verification.py",
+      "repository_path": "src/repropatch/verification.py",
+      "sha256": "9756cafc1b7befbd341599de484ce54e30bbcb936489a4d076e79523ddbda1ce",
+      "size_bytes": 35836
+    },
+    {
+      "path": "code/src/repropatch/workspace.py",
+      "repository_path": "src/repropatch/workspace.py",
+      "sha256": "af50e11c40351a8a4451ae6bc2a214f88ff74631e6db424d3a731e0c945aadd0",
+      "size_bytes": 37524
+    },
+    {
+      "path": "code/benchmarks/coverage.json",
+      "repository_path": "benchmarks/coverage.json",
+      "sha256": "4a1c6f7dcca6098d40b4643226e1d5ee0d28650c07a0a38f7e95b7d9ac6104b1",
+      "size_bytes": 260398
+    },
+    {
+      "path": "code/pyproject.toml",
+      "repository_path": "pyproject.toml",
+      "sha256": "a0e82611a734e12006a1c5b6bd70fde6e69eae8eb14305bf5be3c070ece8adc7",
+      "size_bytes": 888
+    },
+    {
+      "path": "code/scripts/launch_profile.py",
+      "repository_path": null,
+      "sha256": "2e3b9e8b6b07149732e75468d44c6b5da33a89dabe1ecf2e8fb2e1893a3d7f80",
+      "size_bytes": 553
+    }
+  ],
+  "pilot_status": "PILOT_EVIDENCE_INCOMPLETE",
+  "pilot_hash_audit": ".repropatch/profile-inner-hash-audit.json"
+}

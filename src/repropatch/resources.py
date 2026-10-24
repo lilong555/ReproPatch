@@ -78,6 +78,7 @@ class RunResources:
         obj.worktrees = []
         obj.prior_worktrees = data["worktrees"]
         obj.snapshots = {entry["path"]: entry for entry in data["snapshots"]}
+        obj.compiler_cache = data.get("compiler_cache")
         obj.containers = {}
         for event in snapshot.events:
             p = event["payload"]
@@ -103,6 +104,7 @@ class RunResources:
         self.commit = commit
         self.worktrees = []
         self.snapshots = {}
+        self.compiler_cache = None
         self.containers = {}
         self.cleanup_errors = []
         self.event_log = None
@@ -165,6 +167,7 @@ class RunResources:
                 }.values()
             ),
             "snapshots": list(self.snapshots.values()),
+            "compiler_cache": self.compiler_cache,
             "containers": list(self.containers.values()),
             "cleanup_errors": self.cleanup_errors,
         }
@@ -183,6 +186,36 @@ class RunResources:
             raise InfrastructureError("WORKTREE_OWNERSHIP: 工作树不在本 Run 工作区")
         self.worktrees.append(worktree)
         self.save()
+
+    def prepare_compiler_cache(self):
+        """只在本 Run 根内创建一个可丢弃的 ccache，绝不用于最终冷验收。"""
+        self.assert_owned()
+        path = self.workspace / "compiler-cache"
+        if self.compiler_cache is None or not self.compiler_cache["exists"]:
+            path.mkdir(mode=0o777)
+            path.chmod(0o777)  # 容器内固定 nobody UID；宿主父目录始终为 0700。
+            self.compiler_cache = {
+                "path": str(path),
+                "identity": list(self._identity(path)),
+                "exists": True,
+            }
+            self.save()
+        elif self._identity(path) != tuple(self.compiler_cache["identity"]):
+            raise SourceChanged("CACHE_OWNERSHIP: 编译缓存目录身份发生变化")
+        return path
+
+    def remove_compiler_cache(self):
+        if self.compiler_cache is None or not self.compiler_cache["exists"]:
+            return
+        path = self.workspace / "compiler-cache"
+        if (
+            str(path) != self.compiler_cache["path"]
+            or self._identity(path) != tuple(self.compiler_cache["identity"])
+            or not shutil.rmtree.avoids_symlink_attacks
+        ):
+            raise SourceChanged("CACHE_OWNERSHIP: 不删除身份不明的编译缓存")
+        shutil.rmtree(path)
+        self.compiler_cache["exists"] = False
 
     def record_container(self, record):
         if record["run_id"] != self.run_id:
@@ -250,6 +283,11 @@ class RunResources:
         if not self.containers_clean:
             keep = True
             self.cleanup_errors.append("CLEANUP_UNCONFIRMED: 保留容器相关工作区供诊断")
+        else:
+            try:
+                self.remove_compiler_cache()
+            except Exception as exc:
+                self.cleanup_errors.append(f"CACHE_CLEANUP: {exc}")
         for worktree in reversed(self.worktrees):
             if keep and (
                 worktree.path.name == "repair" or worktree.path.name.startswith("repair-r")

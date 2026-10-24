@@ -1,0 +1,68 @@
+{
+  "cold": {
+    "status": "success",
+    "wall_seconds": 1.7038756660001582,
+    "observer_seconds": 0.012803309000219087,
+    "sample_count": 2,
+    "watched_peaks_allocated_bytes": {
+      "inputs": 1781760
+    },
+    "final_directories": {
+      "inputs": {
+        "allocated_bytes": 1781760,
+        "status": "ok",
+        "errors": 0
+      }
+    },
+    "peaks": {
+      "filesystem_used_bytes": 1945354240,
+      "filesystem_free_bytes": 30099349504,
+      "host_memory_used_bytes": 2241941504,
+      "host_memory_total_bytes": 10451435520,
+      "cgroup_memory_current_bytes": 3636441088,
+      "cgroup_memory_limit_bytes": 8589934592,
+      "process_group_rss_bytes": 34934784,
+      "process_tree_rss_bytes": 34934784,
+      "host_cpu_percent": 83.60655737704919
+    }
+  },
+  "warm": {
+    "status": "success",
+    "wall_seconds": 0.10681574900013402,
+    "observer_seconds": 0.0068803429999206855,
+    "sample_count": 1,
+    "watched_peaks_allocated_bytes": {
+      "inputs": 1781760
+    },
+    "final_directories": {
+      "inputs": {
+        "allocated_bytes": 1781760,
+        "status": "ok",
+        "errors": 0
+      }
+    },
+    "peaks": {
+      "filesystem_used_bytes": 2045435904,
+      "filesystem_free_bytes": 29990526976,
+      "host_memory_used_bytes": 2303991808,
+      "host_memory_total_bytes": 10451435520,
+      "cgroup_memory_current_bytes": 3892350976,
+      "cgroup_memory_limit_bytes": 8589934592,
+      "process_group_rss_bytes": 3276800,
+      "process_tree_rss_bytes": 3276800
+    }
+  },
+  "scope": "two fixed fmt source commits and dataset; local input preparation, no C++ compile, no Actions cache transfer",
+  "model_requests": 0,
+  "plan": "5a969840bfa1f6a4328d85af561ea3693e33018dd91646d5c3c9019695513b77",
+  "compression_sample": {
+    "status": "LOCAL_ARCHIVE_VERIFIED",
+    "remote_archive_status": "NOT_UPLOADED",
+    "sha256": "ce1bb1d19dd5cf7bfc3300cac6144ab1ab623e4b38cea2027df85768ee2f32d9",
+    "files": 62,
+    "uncompressed_bytes": 87021,
+    "archive_bytes": 16152,
+    "pack_seconds": 0.153186628000185,
+    "content_note": "Compression size/time and outer SHA are valid; payload is the earlier profile pilot with two incomplete inner logs. It is not complete primary performance evidence."
+  }
+}

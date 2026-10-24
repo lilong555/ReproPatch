@@ -35,6 +35,8 @@ def parser():
     run.add_argument("--allow-paid-model", action="store_true")
     run.add_argument("--json", action="store_true")
     run.add_argument("--pause-after-step", type=int, help="在累计 N 个 turn 后的完整输入边界暂停")
+    run.add_argument("--candidate-only", action="store_true", help="冻结候选供外部 Oracle 评分")
+    run.add_argument("--compiler-cache", action="store_true", help="自检使用本 Run 独占的 ccache")
     verify = commands.add_parser("verify-patch", help="无需模型的独立补丁验收")
     verify.add_argument("task", type=Path)
     verify.add_argument("--patch", required=True, type=Path)
@@ -238,6 +240,8 @@ def main(argv=None):
                     args.output_root,
                     pause_after_step=args.pause_after_step,
                     script_source=source,
+                    **({"candidate_only": True} if args.candidate_only else {}),
+                    **({"compiler_cache": True} if args.compiler_cache else {}),
                 )
             else:
                 if args.mock_script:
@@ -257,6 +261,8 @@ def main(argv=None):
                     task,
                     config,
                     args.output_root,
+                    **({"candidate_only": True} if args.candidate_only else {}),
+                    **({"compiler_cache": True} if args.compiler_cache else {}),
                     **(
                         {"pause_after_step": args.pause_after_step}
                         if args.pause_after_step is not None
@@ -283,6 +289,8 @@ def _print_summary(report, args):
             "state": report["state"],
             "outcome": report["outcome"],
             "reason_code": report["reason_code"],
+            "candidate_only": report.get("benchmark", {}).get("candidate_only", False),
+            "internal_verification": report.get("benchmark", {}).get("internal_verification"),
             "paused": report.get("paused", False),
             "artifact_dir": report["artifact_directory"],
             "artifacts_complete": report.get("artifacts_complete", True),
@@ -301,6 +309,13 @@ def _print_summary(report, args):
             print(f"repropatch: {summary['command_error']}", file=sys.stderr)
             return 3
         if summary["paused"]:
+            return 0
+        if (
+            report["reason_code"] == "EXTERNAL_ORACLE_REQUIRED"
+            and report.get("candidate_roundtrip_verified")
+            and report.get("cleanup_confirmed")
+            and report.get("artifacts_complete")
+        ):
             return 0
         if report["outcome"] == "CANCELLED":
             return 130

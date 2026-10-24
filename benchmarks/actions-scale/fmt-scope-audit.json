@@ -1,0 +1,989 @@
+{
+  "schema": "repropatch.semantic-task-scope.v1",
+  "review_date_utc": "2026-10-24",
+  "review_method": "manual review of pinned dataset title, body, resolved_issues and fix_patch; no live per-issue refresh",
+  "dataset": {
+    "repository": "ByteDance-Seed/Multi-SWE-bench",
+    "revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+    "relative_path": "cpp/fmtlib__fmt_dataset.jsonl",
+    "downloaded_file_sha256": "7d060ca46ba6343373aa68ced7fcca70e2ce0addac7ec610c47d2bbfcfed6762",
+    "records": 41
+  },
+  "classification_policy": {
+    "bug_fix": "Clear incorrect existing behavior, regression, existing generic API implementation error, or violation of an existing contract explicitly described in the issue. Eligible only as a defect candidate; dynamic qualification is separate.",
+    "feature_or_enhancement": "Adds a new type, public API, presentation mode, or capability without clear evidence of a prior supported behavior failing.",
+    "mixed_or_unclear": "The record combines compatibility/support expansion with an expected-behavior claim whose historical contract is unclear. Excluded from the conservative defect count until reviewed."
+  },
+  "counts": {
+    "bug_fix": 24,
+    "feature_or_enhancement": 13,
+    "mixed_or_unclear": 4
+  },
+  "counting_notes": [
+    "41 source records are real upstream issue/PR tasks, not 41 confirmed defects. Only bug_fix rows count toward the conservative semantic defect candidate pool.",
+    "Intersect bug_fix with an exact frozen-toolchain QUALIFIED result for formal defect inclusion; HOST_QUALIFIED is a native precheck, not Docker qualification.",
+    "This audit does not claim model success, dynamic reproducibility, holdout status, or absence of previous model attempts.",
+    "Feature and unclear rows may remain useful for separately labelled issue-resolution evaluation and engineering regression; do not pool them into a pure bug-repair denominator.",
+    "3912 and 3913 share the same upstream issue and base commit; group related issues before dataset splitting or independent-sample analysis.",
+    "Classification is conservative and based on pinned source contents. Borderline compatibility changes remain mixed_or_unclear, even when their test patch can produce F2P behavior."
+  ],
+  "related_task_groups": [
+    {
+      "task_ids": [
+        "fmt-3912",
+        "fmt-3913"
+      ],
+      "reason": "same resolved issue #3772 and same base commit; two implementations of the year_month_day feature request",
+      "issue_url": "https://github.com/fmtlib/fmt/issues/3772"
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": "fmt-4310",
+      "instance_id": "fmtlib__fmt-4310",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Add args() accessor back to fmt::format_context",
+      "reason": "11.1.0 清理移除了 11.0.0 已可使用的 context.args()，现有自定义 formatter 无法编译；补丁恢复该 accessor。",
+      "theme": "API compatibility; compilation regression",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/4310",
+      "resolved_issues": [
+        {
+          "number": 4307,
+          "title": "Can't access context args() directly in 11.1.0",
+          "url": "https://github.com/fmtlib/fmt/issues/4307"
+        }
+      ],
+      "base_commit": "01914f0389ef6ff151c289670f6910e059d5063f",
+      "fix_patch_sha256": "f3a54f9ae8cc967cda9faefc6a4b7fc2ed3da8daf5e83c6340018845018605c1",
+      "fix_paths": [
+        "include/fmt/base.h"
+      ],
+      "source_record_sha256": "cc539f818f53b9394cd0be71f03265af0baf9acbfb7cfebe967225e85018cd53"
+    },
+    {
+      "task_id": "fmt-4286",
+      "instance_id": "fmtlib__fmt-4286",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Improve xchar support for std::bitset formatter and fix ``fill`` copying bug",
+      "reason": "已有带 Char 参数的 bitset / nested formatter 错用窄字符基类，宽字符 fill 复制可读空指针；补丁修正 Char 传播及 fill 复制。",
+      "theme": "character types; template compilation; invalid memory access",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/4286",
+      "resolved_issues": [
+        {
+          "number": 4285,
+          "title": "std::bitset formatting (nested_formatter) does not work with wchar_t",
+          "url": "https://github.com/fmtlib/fmt/issues/4285"
+        }
+      ],
+      "base_commit": "e3ddede6c4ee818825c4e5a6dfa1d384860c27d9",
+      "fix_patch_sha256": "cb30e0912b415a30796aeed3e3a80b3678119c67839d4683cd363f51a10f1288",
+      "fix_paths": [
+        "include/fmt/format.h",
+        "include/fmt/std.h"
+      ],
+      "source_record_sha256": "195a0bfdb51a1f94fad023b2794b46706e5f9421231cf887e0c96adad246036b"
+    },
+    {
+      "task_id": "fmt-4057",
+      "instance_id": "fmtlib__fmt-4057",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix usage with std::generator",
+      "reason": "已有 range_formatter 向 write_debug_string 复制迭代器，std::generator 的迭代器不可复制而编译失败；补丁改为移动迭代器。",
+      "theme": "ranges; move-only iterator; compilation failure",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/4057",
+      "resolved_issues": [
+        {
+          "number": 4053,
+          "title": "trunk doesn't work with `std::generator`",
+          "url": "https://github.com/fmtlib/fmt/issues/4053"
+        }
+      ],
+      "base_commit": "ccea338070c795fd966a4dc08b19268b6fbad5ef",
+      "fix_patch_sha256": "8463a77c84862b6944eca1b677974668180f8e7c880d88508f5ab0316d9457d6",
+      "fix_paths": [
+        "include/fmt/ranges.h"
+      ],
+      "source_record_sha256": "cc7c4642ff9a94efdeb9a664f87048ef0a36549162310909ba8a7d35d0b40a73"
+    },
+    {
+      "task_id": "fmt-4055",
+      "instance_id": "fmtlib__fmt-4055",
+      "classification": "mixed_or_unclear",
+      "counts_as_defect_candidate": false,
+      "title": "Enable inheriting from formatter<std::string_view>",
+      "reason": "补丁增加显式 format(Type, context) 转发，使可转为 std::string_view 的用户类型可继承 formatter；Issue 同时提到此前隐式转换支持被有意禁用，现有承诺边界不充分，暂不计缺陷。",
+      "theme": "formatter customization compatibility; support boundary unclear",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/4055",
+      "resolved_issues": [
+        {
+          "number": 4036,
+          "title": "formatter simply inheriting from built-in formatter is not recognised",
+          "url": "https://github.com/fmtlib/fmt/issues/4036"
+        }
+      ],
+      "base_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+      "fix_patch_sha256": "2aedc1aec04c079e10dcb00b96eeadb621e85dd00832ead6966d7b0265ab6aeb",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "7006f97c37c0c4aad6bd94d6b4a69b450d541bb375a993fc792a4c565c12a0ad"
+    },
+    {
+      "task_id": "fmt-3913",
+      "instance_id": "fmtlib__fmt-3913",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "implement year_month_day",
+      "reason": "Issue #3772 明确请求新增 std::chrono::year_month_day 支持；补丁新增日期类型和 formatter，并扩展 calendar 格式串能力。",
+      "theme": "new chrono type formatting",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3913",
+      "resolved_issues": [
+        {
+          "number": 3772,
+          "title": "Add support for `std::chrono::year_month_day`",
+          "url": "https://github.com/fmtlib/fmt/issues/3772"
+        }
+      ],
+      "base_commit": "3b5f3de3b57505c7f1a60ee40ef3448c623b1326",
+      "fix_patch_sha256": "cb87187b30a51071fe946518f3c36fcb477cd045b715263ced3d7e6a8c70be4d",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "242929eda7520745ef9294d6cff1b713a4e08acb22d6415aa5c6e3167eb0d1ed"
+    },
+    {
+      "task_id": "fmt-3912",
+      "instance_id": "fmtlib__fmt-3912",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Implement fmt::year_month_day",
+      "reason": "Issue #3772 明确请求新增 year_month_day 支持；与 3913 引用相同 Issue 和相同 base，不可当两个独立缺陷。",
+      "theme": "new chrono type formatting; related duplicate request",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3912",
+      "resolved_issues": [
+        {
+          "number": 3772,
+          "title": "Add support for `std::chrono::year_month_day`",
+          "url": "https://github.com/fmtlib/fmt/issues/3772"
+        }
+      ],
+      "base_commit": "3b5f3de3b57505c7f1a60ee40ef3448c623b1326",
+      "fix_patch_sha256": "ded46a38e0a857f8b209ae7cddb8f197275a926a58875514745e3bcc07323e16",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "5a5c5feca1bd1dbb6a2372ef684f01707e6a38070eb089e163f5518395f1d1ae"
+    },
+    {
+      "task_id": "fmt-3863",
+      "instance_id": "fmtlib__fmt-3863",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Support character range formatting",
+      "reason": "新增 C++23 字符范围 :s / :?s 格式说明符；原先拒绝尚未实现的新说明符，不构成已确认行为回归。",
+      "theme": "new character-range presentation modes",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3863",
+      "resolved_issues": [
+        {
+          "number": 3857,
+          "title": "support C++23 character range formatting",
+          "url": "https://github.com/fmtlib/fmt/issues/3857"
+        }
+      ],
+      "base_commit": "0166f455f6681144a18553d2ea0cda8946bff019",
+      "fix_patch_sha256": "c402ee9902b4ae9df3f13f0c2d9560da35e7f39befe29d044248335b950960ac",
+      "fix_paths": [
+        "include/fmt/ranges.h"
+      ],
+      "source_record_sha256": "f132d0211419b4ce505df393f0bd6bbe4711ad44fab749a6f290527f1733000e"
+    },
+    {
+      "task_id": "fmt-3824",
+      "instance_id": "fmtlib__fmt-3824",
+      "classification": "mixed_or_unclear",
+      "counts_as_defect_candidate": false,
+      "title": "Consider ADL begin() and end() when joining ranges",
+      "reason": "把 join 的 std::begin/end 换成 ADL 查找，以接纳新的用户范围协议；Issue 询问现有行为是否有意，未提供先前支持或明确 API 保证。",
+      "theme": "range protocol extension; ADL compatibility",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3824",
+      "resolved_issues": [
+        {
+          "number": 3813,
+          "title": "join does not use ADL on begin/end of its ranges",
+          "url": "https://github.com/fmtlib/fmt/issues/3813"
+        }
+      ],
+      "base_commit": "2caf1b3b91f6d56f420cec8bf752f9af26aa51af",
+      "fix_patch_sha256": "9141559f1146705e4efce6f634dc178dc556979afa92574482eb931e242b2663",
+      "fix_paths": [
+        "include/fmt/ranges.h"
+      ],
+      "source_record_sha256": "4be5118bf8aa124237133a713c8adb69c47518728b91153a87634f94d68832d5"
+    },
+    {
+      "task_id": "fmt-3819",
+      "instance_id": "fmtlib__fmt-3819",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Increment the next arg id on named arguments to allow adding positional arguments after named arguments.",
+      "reason": "现有 dynamic_format_arg_store 混合命名及位置参数实际输出 1 2 2，期望 1 2 3；补丁同步自动参数索引。",
+      "theme": "argument indexing; incorrect output",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3819",
+      "resolved_issues": [
+        {
+          "number": 3817,
+          "title": "The vformat & vprint functions produce incorrect output when mixing named and positional arguments.",
+          "url": "https://github.com/fmtlib/fmt/issues/3817"
+        }
+      ],
+      "base_commit": "0147e08225db261f5689fc17a986ede7f1db56f0",
+      "fix_patch_sha256": "07368f992aac7866ef377c1cb9f92604d384dda1285142e15889bfb0b6e8eff9",
+      "fix_paths": [
+        "include/fmt/base.h",
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "d013422ac53276c6ec1636477d843ba669e30bfee34aacf778032b323a5d5c7d"
+    },
+    {
+      "task_id": "fmt-3750",
+      "instance_id": "fmtlib__fmt-3750",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Add localized formatting to non-decimal presentation types of ints",
+      "reason": "现有 localized 整数格式忽略已给出的进制类型，{:LX} 输出十进制；补丁在 localized writer 中处理 presentation type。",
+      "theme": "numeric formatting; locale and radix",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3750",
+      "resolved_issues": [
+        {
+          "number": 3693,
+          "title": "Localized formatting is always decimal",
+          "url": "https://github.com/fmtlib/fmt/issues/3693"
+        }
+      ],
+      "base_commit": "274ba2645bdae12f6f0c7d7ca24659c4af670548",
+      "fix_patch_sha256": "ff9e464796224a582cbf4e39b579a0d2e45873fff2b03cb88960e31a60d0b4fb",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "36944621c96dfcc2d8604d8d2c213046bf5ee2229589dc2349fc17314fbe2fa1"
+    },
+    {
+      "task_id": "fmt-3734",
+      "instance_id": "fmtlib__fmt-3734",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Disallow presentation_type `c` in combination with `bool` arg",
+      "reason": "已有解析器错误接纳 bool 的 c 字符格式，Issue 给出缺值及异常字符输出；补丁拒绝该不合法组合。",
+      "theme": "format validation; incorrect output",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3734",
+      "resolved_issues": [
+        {
+          "number": 3726,
+          "title": "presentation_type `c` accepted in combination with `bool`",
+          "url": "https://github.com/fmtlib/fmt/issues/3726"
+        }
+      ],
+      "base_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+      "fix_patch_sha256": "8e68d6501d3613af060529a60249c04bd20400ec407d73787dac58d908b5813b",
+      "fix_paths": [
+        "include/fmt/core.h"
+      ],
+      "source_record_sha256": "fce6586d9f0bfa4c0b711fde8c3de46ccb58d573b7ba7306392fa2b0670cbeb2"
+    },
+    {
+      "task_id": "fmt-3732",
+      "instance_id": "fmtlib__fmt-3732",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Implement `%j` specifier for `std::chrono::duration`",
+      "reason": "Issue 明确报告文档已规定 duration 的 %j 为天数，而实现不能编译；补丁补齐已有 day-of-year handler 的检查和输出。此判断依据随数据提供的文档描述。",
+      "theme": "documented chrono contract; missing duration handler",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3732",
+      "resolved_issues": [
+        {
+          "number": 3643,
+          "title": "%j doesn't seem to work with a duration object",
+          "url": "https://github.com/fmtlib/fmt/issues/3643"
+        }
+      ],
+      "base_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+      "fix_patch_sha256": "cb52453cfa250ead41e38c03c68d87aa607c9a6ea4f0d05033f8bc3e73e6492c",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "71f08784618984136aa1aa348de08b999b5fa6cedff3b4c88546f1901528e91e"
+    },
+    {
+      "task_id": "fmt-3729",
+      "instance_id": "fmtlib__fmt-3729",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Add native and generic representation for filesystem::path format spec",
+      "reason": "Issue 提议为 filesystem::path 增加新的 n / g 类型选项，以选择 native / generic 表示；属于新格式能力。",
+      "theme": "new filesystem path presentation modes",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3729",
+      "resolved_issues": [
+        {
+          "number": 3715,
+          "title": "Support both generic and native format of std::filesystem::path",
+          "url": "https://github.com/fmtlib/fmt/issues/3715"
+        }
+      ],
+      "base_commit": "5cfd28d476c6859617878f951931b8ce7d36b9df",
+      "fix_patch_sha256": "586dfb85f6cf1dfcffc74d5dafe00d9c189e521060bdb6a1bbaec3612233d473",
+      "fix_paths": [
+        "include/fmt/std.h"
+      ],
+      "source_record_sha256": "88244aab002ea145948eef29b8501dc9a9823c330b4ddeb64961df9ae4a0560c"
+    },
+    {
+      "task_id": "fmt-3727",
+      "instance_id": "fmtlib__fmt-3727",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix overflow in time_point formatting with large dates",
+      "reason": "现有低分辨率 time_point 格式化先转为高分辨率 system_clock 导致大日期溢出；补丁直接按 duration 转换并保留安全转换检查。",
+      "theme": "integer overflow; chrono conversion",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3727",
+      "resolved_issues": [
+        {
+          "number": 3725,
+          "title": "Date overflow with std::chrono::time_point",
+          "url": "https://github.com/fmtlib/fmt/issues/3725"
+        }
+      ],
+      "base_commit": "06f1c0d725855861535e9e65cd4d502aca7c61ed",
+      "fix_patch_sha256": "1e5b2e54d779c5e44df41ad0511837f9091e847085306045cda9cddb186b2848",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "9881c1d75fcf0ae42883b45770eec67dd205d0825ba905bd4d5b0725b7ee7533"
+    },
+    {
+      "task_id": "fmt-3713",
+      "instance_id": "fmtlib__fmt-3713",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "fix: support `optional<T>` with `format_as(T)` (#3712)",
+      "reason": "已有 optional<T> 与 format_as(T) 组合在 Clang 下因私有继承隐藏 set_debug_format 而无法编译；补丁公开基类函数。",
+      "theme": "template access control; compiler compatibility",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3713",
+      "resolved_issues": [
+        {
+          "number": 3712,
+          "title": "formatting a std::optional with format_as function fails to compile using clang",
+          "url": "https://github.com/fmtlib/fmt/issues/3712"
+        }
+      ],
+      "base_commit": "649fe0fc8b9366375eab67639cab404617c527cd",
+      "fix_patch_sha256": "6bce177a4ed0d1bace4568df585c707bd6aff85d729db8f4edc047d77be107f1",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "f4eafd1de03d6173a543d8f4bb2d1b06af1e3acbee76aa5e47e6e6b273b0fdd4"
+    },
+    {
+      "task_id": "fmt-3569",
+      "instance_id": "fmtlib__fmt-3569",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Added format_as for std::vector<bool>::reference",
+      "reason": "为此前不支持的 std::vector<bool>::reference 代理类型新增 format_as 并引入 vector 头；Issue 未证明该代理类型曾获支持或存在行为回归。",
+      "theme": "new proxy-type formatting support",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3569",
+      "resolved_issues": [
+        {
+          "number": 3567,
+          "title": "Formatting element of std::vector<bool> fails",
+          "url": "https://github.com/fmtlib/fmt/issues/3567"
+        }
+      ],
+      "base_commit": "8a4bec5cf53387356738a06ba0cf4fdf086241ae",
+      "fix_patch_sha256": "64a9511857dcd77f1fa36d242bea16dcf7f217e917c433ab01d8f66a6dc3384d",
+      "fix_paths": [
+        "include/fmt/std.h"
+      ],
+      "source_record_sha256": "7a67b506335e4cd0bbde31da170065e912c659b68b0380f5350c3b253f69230c"
+    },
+    {
+      "task_id": "fmt-3555",
+      "instance_id": "fmtlib__fmt-3555",
+      "classification": "mixed_or_unclear",
+      "counts_as_defect_candidate": false,
+      "title": "to_string supports types with format_as",
+      "reason": "补丁使 to_string 支持 format_as 自定义；Issue 只证明 format 可以而 to_string 不可以，并明确询问是否预期，尚不能确认旧 API 承诺。",
+      "theme": "customization consistency; support boundary unclear",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3555",
+      "resolved_issues": [
+        {
+          "number": 3545,
+          "title": "to_string() doesn't work with custom format_as()?",
+          "url": "https://github.com/fmtlib/fmt/issues/3545"
+        }
+      ],
+      "base_commit": "f4214ae8dd9cdfcbeb5e2db66aee59d066d9cb0c",
+      "fix_patch_sha256": "f28f0a4f7202a6ffa3e4eb7a5482b48c7abdd0012fdbebca52d615facc5d976b",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "6b510bc41d2f217b7a5125d4549a258999ee654b45b2159e1010fe3b17085cfe"
+    },
+    {
+      "task_id": "fmt-3537",
+      "instance_id": "fmtlib__fmt-3537",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Added format_string forwarding tests to color-test, Fixed #3536",
+      "reason": "已有 text_style print 接收 basic_format_string 的转发调用被错误 SFINAE 排除；补丁让 to_string_view 识别该现有格式字符串类型。",
+      "theme": "template forwarding; SFINAE; compilation failure",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3537",
+      "resolved_issues": [
+        {
+          "number": 3536,
+          "title": "Consider format_string as a string for enable-if",
+          "url": "https://github.com/fmtlib/fmt/issues/3536"
+        }
+      ],
+      "base_commit": "661b23edeb52d400cf5812e7330f14f05c072fab",
+      "fix_patch_sha256": "773168d4166ba1ac390943ca52dce9d889a2b889185fd6a421794548b8c0994c",
+      "fix_paths": [
+        "include/fmt/core.h"
+      ],
+      "source_record_sha256": "7073034900db0f5e5a6561e06e67cef33ae2c7c26d1428517af0bd37b745fb9e"
+    },
+    {
+      "task_id": "fmt-3279",
+      "instance_id": "fmtlib__fmt-3279",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Add formatters for container adapters",
+      "reason": "Issue 明确请求为 stack / queue / priority_queue 新增 formatter；补丁增加容器适配器类型检测与 formatter。",
+      "theme": "new STL container-adaptor formatters",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3279",
+      "resolved_issues": [
+        {
+          "number": 3215,
+          "title": "Add formatters for STL container adapters",
+          "url": "https://github.com/fmtlib/fmt/issues/3215"
+        }
+      ],
+      "base_commit": "f89cd276f7dead38f11cebc73d1e91a1b1b38124",
+      "fix_patch_sha256": "11839ee07de64bd1f8f713e3b56857ba0e49328c86e3c6cb66e6f5b978be8bcf",
+      "fix_paths": [
+        "include/fmt/ranges.h"
+      ],
+      "source_record_sha256": "69a8396ec8eace1071d7fd69c36678842bd2c9bd93c5aa95ac5d3e3c5b1cb8fa"
+    },
+    {
+      "task_id": "fmt-3272",
+      "instance_id": "fmtlib__fmt-3272",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix localized format for float-point numbers",
+      "reason": "现有 localized 浮点输出把小数位用于计算分组分隔符，导致指定宽度 15 得到 9 或 14；补丁用整数部分长度计算。",
+      "theme": "numeric alignment; locale",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3272",
+      "resolved_issues": [
+        {
+          "number": 3263,
+          "title": "Alignment of floating-point numbers is incorrect if the output is localized and the integer part is zero",
+          "url": "https://github.com/fmtlib/fmt/issues/3263"
+        }
+      ],
+      "base_commit": "bfc0924eacaa3c6163eb872c8948098565464192",
+      "fix_patch_sha256": "65e6ac09c599697024d261283dfbd9f16f3ce67252e72772206cf8c077a45835",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "1ceef16e92328b2e9c137bc7bb0a26543a7d3da25df1108362004217da4f96e6"
+    },
+    {
+      "task_id": "fmt-3271",
+      "instance_id": "fmtlib__fmt-3271",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Implement glibc ext for sec, min, and hour",
+      "reason": "为 chrono 增加 glibc 的 - / _ / 0 padding 扩展和新 pad_type；Issue 请求 strftime 扩展兼容，未证明 fmt 原有支持。",
+      "theme": "new nonstandard chrono padding extensions",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3271",
+      "resolved_issues": [
+        {
+          "number": 2959,
+          "title": "Support strftime `-` extension",
+          "url": "https://github.com/fmtlib/fmt/issues/2959"
+        }
+      ],
+      "base_commit": "bfc0924eacaa3c6163eb872c8948098565464192",
+      "fix_patch_sha256": "dce2c736f6970f63076f09b37e1d75b52183444ae0692d2121fd8f80224b3cd9",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "07cda4ebee044a45bfd4c119ea0f74789ba962d38628c2980a3706d0cd03d903"
+    },
+    {
+      "task_id": "fmt-3260",
+      "instance_id": "fmtlib__fmt-3260",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Support fill, align & width for time point",
+      "reason": "Issue 引用现有 chrono 格式语法含 fill/align/width，但 time_point 会把 >30 原样输出；补丁修正该已声明格式的解析与填充。",
+      "theme": "documented chrono contract; alignment parsing",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3260",
+      "resolved_issues": [
+        {
+          "number": 3237,
+          "title": "formatting chrono with padding",
+          "url": "https://github.com/fmtlib/fmt/issues/3237"
+        }
+      ],
+      "base_commit": "2622cd23e69b67316cf678a97c268a874774c0e1",
+      "fix_patch_sha256": "1d3a6c824dac11182c34c8d7b8f2625b093e4b58366b008d0c24f5d36754fc50",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "8d5a3bdd05d6210ef6f3a79c9b074ba2e775d308eba7fe4bbf9f8b01c71e1cec"
+    },
+    {
+      "task_id": "fmt-3248",
+      "instance_id": "fmtlib__fmt-3248",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Ignore 0 character when align is present",
+      "reason": "现有解析同时给出 align 和 0 时仍用零填充，违反预期且已有明确错误输出；补丁在显式对齐时忽略 0。",
+      "theme": "format option interaction; alignment",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3248",
+      "resolved_issues": [
+        {
+          "number": 3236,
+          "title": "Wrong formatting when both alignment and '0' for leading zeroes is given",
+          "url": "https://github.com/fmtlib/fmt/issues/3236"
+        }
+      ],
+      "base_commit": "275b4b3417e26be3bdb5b45e16fa9af6584973a2",
+      "fix_patch_sha256": "07b68c0c2142a357fa40360fc81871093657b35fe97101b3c7d42e05b931ec8b",
+      "fix_paths": [
+        "include/fmt/core.h"
+      ],
+      "source_record_sha256": "f5f4918d8a831db29375d07a7f49ff550c1f31046772b26d3b207452607abe5d"
+    },
+    {
+      "task_id": "fmt-3158",
+      "instance_id": "fmtlib__fmt-3158",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fixing formatting of range of range of char.",
+      "reason": "现有嵌套字符范围输出错误或出现重载歧义；补丁使 range_formatter 在空规格分支也调用底层 parse。",
+      "theme": "nested ranges; formatter state propagation",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/3158",
+      "resolved_issues": [
+        {
+          "number": 2634,
+          "title": "Some ranges of char are misprinted or don't compile",
+          "url": "https://github.com/fmtlib/fmt/issues/2634"
+        }
+      ],
+      "base_commit": "80f8d34427d40ec5e7ce3b10ededc46bd4bd5759",
+      "fix_patch_sha256": "3801e073c48baa16573903620c40840967cd55cc9efb7e90258aa5b0a542bb00",
+      "fix_paths": [
+        "include/fmt/ranges.h"
+      ],
+      "source_record_sha256": "6aa7819c57ca276b06766af31007e9e60385cec28c01577312fe526d682a3474"
+    },
+    {
+      "task_id": "fmt-2940",
+      "instance_id": "fmtlib__fmt-2940",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix is_formattable for tuple-like types.",
+      "reason": "is_formattable<std::tuple<T>> 在 T 不可格式化时错误返回 true，实际格式化硬编译失败；补丁检查所有元素的可格式化性。",
+      "theme": "type trait correctness; tuple templates",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2940",
+      "resolved_issues": [
+        {
+          "number": 2939,
+          "title": "tuple-formatter doesn't check that the tuple-elements are formattable.",
+          "url": "https://github.com/fmtlib/fmt/issues/2939"
+        }
+      ],
+      "base_commit": "eaa8efb950be5d8f1803a99b06f76cf398c67cb8",
+      "fix_patch_sha256": "e44624800c137036532062521efc055405ba63c6920f53a37c633a6e18460e8b",
+      "fix_paths": [
+        "include/fmt/ranges.h"
+      ],
+      "source_record_sha256": "a1c85c9299d57a6d2f61dc7223162e81bcc37f652b16761855abfa9b1783671e"
+    },
+    {
+      "task_id": "fmt-2610",
+      "instance_id": "fmtlib__fmt-2610",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Formatting of function pointers, member function pointers, member object pointers...",
+      "reason": "已有参数映射接受应禁止的函数指针及成员指针，Issue 明确给出错误接纳示例；补丁将这些类型映射为不支持。",
+      "theme": "type validation; pointer formatting",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2610",
+      "resolved_issues": [
+        {
+          "number": 2609,
+          "title": "Formatting of function pointers should be disallowed",
+          "url": "https://github.com/fmtlib/fmt/issues/2609"
+        }
+      ],
+      "base_commit": "19cac63fe4b4d8fe6a4ced28de16a68659cf9035",
+      "fix_patch_sha256": "94597b980608bd066838eccec60491ea451261a9c74ffbc9e3d7275c0d12c242",
+      "fix_paths": [
+        "include/fmt/core.h"
+      ],
+      "source_record_sha256": "f8a58df2b099acfd8f9af38dd4bd7715d6bed708bc25efbd13045d0241ab178a"
+    },
+    {
+      "task_id": "fmt-2394",
+      "instance_id": "fmtlib__fmt-2394",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Add faint, blink, reverse and conceal to the emphases",
+      "reason": "为 text emphasis 新增 faint / blink / reverse / conceal 枚举及转义输出；Issue 请求更多样式，属于新增能力。",
+      "theme": "new terminal text styles",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2394",
+      "resolved_issues": [
+        {
+          "number": 2302,
+          "title": "Add more emphases",
+          "url": "https://github.com/fmtlib/fmt/issues/2302"
+        }
+      ],
+      "base_commit": "cfc05e05f08dc0b6fe619831c96f00ee27d99613",
+      "fix_patch_sha256": "f9a464860e99bab76108c5cd5bced442645c82800bde08d89020761dbaeefd8e",
+      "fix_paths": [
+        "include/fmt/color.h"
+      ],
+      "source_record_sha256": "0d98daa6b6e1015eb4007626c21e19dc9dbab242cb0663491fd6b0d166079ea9"
+    },
+    {
+      "task_id": "fmt-2317",
+      "instance_id": "fmtlib__fmt-2317",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Align hex floats right as default",
+      "reason": "现有十六进制浮点数默认左对齐，而已提供的文档要求数字默认右对齐；补丁修正数值 writer 的默认对齐。",
+      "theme": "documented numeric formatting; alignment",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2317",
+      "resolved_issues": [
+        {
+          "number": 2308,
+          "title": "Hex float default alignment",
+          "url": "https://github.com/fmtlib/fmt/issues/2308"
+        }
+      ],
+      "base_commit": "7612f18dc8e0112e64e0845a1ebe9da6cfb8a123",
+      "fix_patch_sha256": "c1e2f8290f8b898f4e3e6d281864f84b46f9b976860c4437c05f70434eb52504",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "922dbc4040fa85821e87f7838c063654551cb66eb9633953540f017febfbbb4c"
+    },
+    {
+      "task_id": "fmt-2310",
+      "instance_id": "fmtlib__fmt-2310",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Ignore zero-padding for non-finite floating points",
+      "reason": "现有 NAN / infinity 受到零填充，违背 Issue 引用的既有文档且产生 00+nan；补丁在非有限值中改为空格填充。",
+      "theme": "floating-point edge cases; padding",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2310",
+      "resolved_issues": [
+        {
+          "number": 2305,
+          "title": "Numeric zero fill is applied to inf/nan",
+          "url": "https://github.com/fmtlib/fmt/issues/2305"
+        }
+      ],
+      "base_commit": "bc13c6de390751ecf8daa1b1ce8f775d104fdc65",
+      "fix_patch_sha256": "eaa55ff6ed3fbc7d79dbd48bc83bfa819aebcc5ecc6661e211357045d70e2513",
+      "fix_paths": [
+        "include/fmt/core.h",
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "8ef992e0515a435fe8c6f7e1ffce3585bb568304955ad197fda4e7d706af45d8"
+    },
+    {
+      "task_id": "fmt-2292",
+      "instance_id": "fmtlib__fmt-2292",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Added support for subsecond resolution for time_point",
+      "reason": "已有 time_point 的 %S / %T 丢失亚秒部分，Issue 给出 01 与期望 01.234000000 的差异；补丁保留并输出原输入精度。",
+      "theme": "chrono precision; incorrect output",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2292",
+      "resolved_issues": [
+        {
+          "number": 2207,
+          "title": "Printed seconds precision does not match C++20 spec",
+          "url": "https://github.com/fmtlib/fmt/issues/2207"
+        }
+      ],
+      "base_commit": "0dd91e20d5e8c7c41154acbb4fbe6b9d37688ea3",
+      "fix_patch_sha256": "c5c0fc866cc0b42088217a3291b28dfd559544add913071bdc4d76e7d4cb7d1a",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "c945856b414b1201446597f3a3990960ad8ee101b142b8651d99ea35b3b55708"
+    },
+    {
+      "task_id": "fmt-2158",
+      "instance_id": "fmtlib__fmt-2158",
+      "classification": "mixed_or_unclear",
+      "counts_as_defect_candidate": false,
+      "title": "Make truncating_iterator an output_iterator",
+      "reason": "补丁为旧 truncating_iterator 增加默认构造及 difference_type，以满足 C++20 output_iterator；Issue 未确认旧版本是否承诺 C++20 concept 兼容，暂不计缺陷。",
+      "theme": "iterator concept compatibility; historical contract unclear",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2158",
+      "resolved_issues": [
+        {
+          "number": 2156,
+          "title": "truncating_iterator is no std::output_iterator",
+          "url": "https://github.com/fmtlib/fmt/issues/2156"
+        }
+      ],
+      "base_commit": "835b910e7d758efdfdce9f23df1b190deb3373db",
+      "fix_patch_sha256": "2f0b9b79bc1d464239ed9348bfa51abd3455421bcef4f8c1ca833fd6f9a24449",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "981ba5e3f87f803414f984f2c229dac32412c4a986f48a4134f64610ab083d03"
+    },
+    {
+      "task_id": "fmt-2070",
+      "instance_id": "fmtlib__fmt-2070",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix format_to(memory_buffer, text_style) overload",
+      "reason": "现有带 text_style 的 format_to 在 memory_buffer 上错误匹配普通格式重载而编译失败；补丁补齐正确的 buffer 重载。",
+      "theme": "overload resolution; existing formatting API",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/2070",
+      "resolved_issues": [
+        {
+          "number": 2069,
+          "title": "format_to uses wrong overload when formatting to memory_buffer with a text_style",
+          "url": "https://github.com/fmtlib/fmt/issues/2069"
+        }
+      ],
+      "base_commit": "e737672614dfad3a6df23ffe3f2348fcfa4d3944",
+      "fix_patch_sha256": "141b42af471bca4d35869f865e9d1400dac3236dc82fc15d67cee0eb4b84f0bd",
+      "fix_paths": [
+        "include/fmt/color.h"
+      ],
+      "source_record_sha256": "c3481f338b932d7a0351f549e6af147d8d9771559243c53f36277589f5848c10"
+    },
+    {
+      "task_id": "fmt-1837",
+      "instance_id": "fmtlib__fmt-1837",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Add formatters for chrono::time_point<system_clock>",
+      "reason": "Issue 标题即 Feature Request: Print std::chrono::time_point；补丁新增 system_clock time_point formatter 及转换重载。",
+      "theme": "new chrono type formatter",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/1837",
+      "resolved_issues": [
+        {
+          "number": 1819,
+          "title": "Feature Request: Print std::chrono::time_point",
+          "url": "https://github.com/fmtlib/fmt/issues/1819"
+        }
+      ],
+      "base_commit": "c7e6d8afb06cec7b8244f963dc081daf7e70f7f6",
+      "fix_patch_sha256": "bb50a0d73aae935724f090336d79a15dfe376a3f6825c5ac1d7130daa6b23ece",
+      "fix_paths": [
+        "include/fmt/chrono.h"
+      ],
+      "source_record_sha256": "8ed653913f905013d2e41c2a6cac9b27832ed7c7c8dab6663ba45386ad4fc3fd"
+    },
+    {
+      "task_id": "fmt-1663",
+      "instance_id": "fmtlib__fmt-1663",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Support named args in dynamic_format_arg_store (#1655).",
+      "reason": "Issue 请求 dynamic_format_arg_store 新增命名参数能力，原来只支持已有位置参数；补丁实现新的 named-argument 存储支持。",
+      "theme": "new dynamic named-argument support",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/1663",
+      "resolved_issues": [
+        {
+          "number": 1655,
+          "title": "Dynamic construction of *named* argument lists?",
+          "url": "https://github.com/fmtlib/fmt/issues/1655"
+        }
+      ],
+      "base_commit": "8d9d528bf52c60864802844e8acf16db09dae19a",
+      "fix_patch_sha256": "8f69f080bd21d7c086a35986a37fe4ee470e9a6d4b1a1196cbbee28c153833a5",
+      "fix_paths": [
+        "include/fmt/core.h"
+      ],
+      "source_record_sha256": "e2a7b7777423b5171f7febf6ff641f7b481db950a038d89147687be642809b47"
+    },
+    {
+      "task_id": "fmt-1407",
+      "instance_id": "fmtlib__fmt-1407",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Move has_formatter into the public fmt namespace.",
+      "reason": "将内部 has_formatter 暴露到公共命名空间，使用户新增 SFINAE 查询能力；无现有错误行为或回归证据。",
+      "theme": "new public trait API",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/1407",
+      "resolved_issues": [
+        {
+          "number": 1369,
+          "title": "Detect if type is formattable in SFINAE-friendly way?",
+          "url": "https://github.com/fmtlib/fmt/issues/1369"
+        }
+      ],
+      "base_commit": "1f918159edded99c9c0cf005c96ecc12e4cc92b1",
+      "fix_patch_sha256": "d8e37a8ca5cac33db126e336596caaf94209dbab171f5d0a2e993bd5b36e7ca8",
+      "fix_paths": [
+        "include/fmt/core.h"
+      ],
+      "source_record_sha256": "7e4a1df1abd2dc66a5db7e6fe3d2a47ce1517bb51d4c988c1b5eb50e757ddf67"
+    },
+    {
+      "task_id": "fmt-1390",
+      "instance_id": "fmtlib__fmt-1390",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix UTF-8 truncation",
+      "reason": "现有 UTF-8 精度截断按字节切开 é，输出不完整编码；补丁按 code point 计算截断位置。",
+      "theme": "Unicode boundary handling; string truncation",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/1390",
+      "resolved_issues": [
+        {
+          "number": 1389,
+          "title": "UTF-8 truncation",
+          "url": "https://github.com/fmtlib/fmt/issues/1389"
+        }
+      ],
+      "base_commit": "d6eede9e085f0b36edcf0a2f6dff5f7875181019",
+      "fix_patch_sha256": "55ee287f0fd89b6261b4a22c4664a0b32b4adc5570281a4e275931448035adbd",
+      "fix_paths": [
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "6bab44ae56296b781a1685ac5a2a08cbc2e854378c77e1f8532919602814c356"
+    },
+    {
+      "task_id": "fmt-1361",
+      "instance_id": "fmtlib__fmt-1361",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Support single precision floats in grisu formatting",
+      "reason": "现有 Grisu 对 float 误用 double 边界，使 0.1f 输出多余精度；补丁采用 binary32 边界并传递单精度标志。",
+      "theme": "floating-point precision; numeric algorithm",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/1361",
+      "resolved_issues": [
+        {
+          "number": 1336,
+          "title": "Support single precision floats in grisu formatting",
+          "url": "https://github.com/fmtlib/fmt/issues/1336"
+        }
+      ],
+      "base_commit": "a5abe5d95cb8a8015913be9748a9661f3e1fbda8",
+      "fix_patch_sha256": "54e1e5611d930dab1dbbcf50e4d57a730bdaf7432d77fcbfe695bc0d7e083611",
+      "fix_paths": [
+        "include/fmt/format-inl.h",
+        "include/fmt/format.h"
+      ],
+      "source_record_sha256": "d7c7ab2335cf711f0eb1a39afedc1f74d83cc2a19a904496ca0f1e230fa30c5a"
+    },
+    {
+      "task_id": "fmt-1171",
+      "instance_id": "fmtlib__fmt-1171",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fixed issue with formatting to an array of chars",
+      "reason": "已有 prepared_format::format_to(char array) 无法编译；补丁使 vformat_to 正确传播迭代器 Context 及参数类型。",
+      "theme": "generic output context; compilation failure",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/1171",
+      "resolved_issues": [
+        {
+          "number": 1169,
+          "title": "fmt::prepare fails to compile formatting to an array of chars",
+          "url": "https://github.com/fmtlib/fmt/issues/1169"
+        }
+      ],
+      "base_commit": "87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d",
+      "fix_patch_sha256": "d0cbb054d3943fe808f2407aabbd6d124f40e9b43293f21c9a8d6b4a30dbcd1c",
+      "fix_paths": [
+        "include/fmt/prepare.h"
+      ],
+      "source_record_sha256": "0c80c4be97b4c46753b805ae0ff57d21e042bbb813485b18422d62e45b8b74c2"
+    },
+    {
+      "task_id": "fmt-974",
+      "instance_id": "fmtlib__fmt-974",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Add support for builtin terminal colors.",
+      "reason": "新增 terminal_color 枚举以使用终端调色板颜色；Issue 提议另一种颜色模式，不是恢复已确认的原有行为。",
+      "theme": "new terminal color mode",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/974",
+      "resolved_issues": [
+        {
+          "number": 968,
+          "title": "Support ASCII color escape code numbers",
+          "url": "https://github.com/fmtlib/fmt/issues/968"
+        }
+      ],
+      "base_commit": "7f7504b3f532c6cd7d6de405241f774df6b4b666",
+      "fix_patch_sha256": "5a8180d3f5b589fb0a28e1470ec1e5444a34d1b3302df2982a2796f380ff8acb",
+      "fix_paths": [
+        "include/fmt/color.h"
+      ],
+      "source_record_sha256": "94a2e9b3e526fb60cd7949da6d5a29db5db437b6c514313009a5d5a097d16628"
+    },
+    {
+      "task_id": "fmt-967",
+      "instance_id": "fmtlib__fmt-967",
+      "classification": "feature_or_enhancement",
+      "counts_as_defect_candidate": false,
+      "title": "Add file stream support for stylized text printing.",
+      "reason": "为带样式文本新增 FILE* / stderr 输出入口；Issue 明确请求缺少的新能力。",
+      "theme": "new styled file-stream output API",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/967",
+      "resolved_issues": [
+        {
+          "number": 944,
+          "title": "Colored print improvements",
+          "url": "https://github.com/fmtlib/fmt/issues/944"
+        }
+      ],
+      "base_commit": "bf1f1c73e39c7ee6581ee0d5bb2471856a14bdb2",
+      "fix_patch_sha256": "0eae6886f99f40b60e80673b064cc9ffc839082ddaf580055898e40606cbaddf",
+      "fix_paths": [
+        "include/fmt/color.h"
+      ],
+      "source_record_sha256": "0e9e17c7b1095e35e3d089855ead3b429c739df80546f72168613e66bb4351a8"
+    },
+    {
+      "task_id": "fmt-493",
+      "instance_id": "fmtlib__fmt-493",
+      "classification": "bug_fix",
+      "counts_as_defect_candidate": true,
+      "title": "Fix FormatBuf implementation (#491)",
+      "reason": "原 FormatBuf put-area 可超出可写 buffer 并写入未初始化内存，Issue 有内存分配崩溃复现；补丁重做 overflow/xsputn 以同步 buffer。",
+      "theme": "buffer bounds; memory corruption",
+      "pull_request_url": "https://github.com/fmtlib/fmt/pull/493",
+      "resolved_issues": [
+        {
+          "number": 491,
+          "title": "MemoryWriter allocation issue",
+          "url": "https://github.com/fmtlib/fmt/issues/491"
+        }
+      ],
+      "base_commit": "c03f55ec3a0511611fa7f0537f858544a0ed03bd",
+      "fix_patch_sha256": "bcd694768fc73548deebfc50e23f60372904a3f67f16310e80b98329456c6ea4",
+      "fix_paths": [
+        "fmt/ostream.h"
+      ],
+      "source_record_sha256": "bb836e3ddf56703331f147257195836f9d63a9381ac2e2e5480f402c61418ac2"
+    }
+  ]
+}

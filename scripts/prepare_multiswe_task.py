@@ -5,8 +5,11 @@ import hashlib
 import io
 import json
 import os
+import signal
 import subprocess
 import tarfile
+import tempfile
+import time
 from pathlib import Path
 
 import yaml
@@ -21,29 +24,52 @@ REVIEWED_DOCUMENTATION = {
 }
 
 
-def git(repository, *args):
+def git(repository, *args, deadline=None, cancelled=None):
     env = dict(
         os.environ,
         GIT_AUTHOR_DATE="2026-10-21T00:00:00Z",
         GIT_COMMITTER_DATE="2026-10-21T00:00:00Z",
     )
-    return subprocess.check_output(
-        [
-            "git",
-            "-C",
-            str(repository),
-            "-c",
-            "core.hooksPath=/dev/null",
-            "-c",
-            "commit.gpgsign=false",
-            "-c",
-            "user.name=ReproPatch Benchmark",
-            "-c",
-            "user.email=benchmark@example.invalid",
-            *args,
-        ],
-        env=env,
-    )
+    command = [
+        "git",
+        "-C",
+        str(repository),
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "user.name=ReproPatch Benchmark",
+        "-c",
+        "user.email=benchmark@example.invalid",
+        *args,
+    ]
+    if deadline is None:
+        return subprocess.check_output(command, env=env)
+
+    def check_budget():
+        if cancelled is not None and cancelled():
+            raise InterruptedError("TASK_CANCELLED")
+        if time.monotonic() >= deadline:
+            raise TimeoutError("TASK_DEADLINE")
+
+    check_budget()
+    # A partial clone may fetch during git archive. Bound that subprocess and
+    # its descendants as part of preparation, before the compiler is started.
+    with tempfile.TemporaryFile() as output:
+        process = subprocess.Popen(command, stdout=output, env=env, start_new_session=True)
+        try:
+            while process.poll() is None:
+                check_budget()
+                time.sleep(0.05)
+            if process.returncode:
+                raise subprocess.CalledProcessError(process.returncode, command)
+            output.seek(0)
+            return output.read()
+        finally:
+            if process.poll() is None:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait(timeout=10)
 
 
 def main():

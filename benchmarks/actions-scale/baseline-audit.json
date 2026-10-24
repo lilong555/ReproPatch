@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "audited_main_commit": "fbdb60570602c61545d4c5b73e2fed92fbe319f6",
+  "latest_ci_url": "https://github.com/lilong555/ReproPatch/actions/runs/40099198765",
+  "latest_ci_status": "success",
+  "formal_version": "v0.3.0",
+  "prior_formal_scope": "2 exposed tasks x 3 frameworks, six first attempts of frozen v2; not fresh holdout",
+  "formal_requests": 61,
+  "calibration_requests": 1,
+  "input_tokens": 1159968,
+  "output_tokens": 7874,
+  "cost": "UNKNOWN",
+  "groups": {
+    "full": {
+      "attempts": 2,
+      "oracle_pass": 1,
+      "native_accepted": 1,
+      "recovered_oracle_pass": 0,
+      "infrastructure_failure": 0,
+      "model_requests": 23,
+      "tool_calls": 22,
+      "input_tokens": 399532,
+      "output_tokens": 1944,
+      "unknown_usage_requests": 0,
+      "reproduce_calls": 3,
+      "verify_calls": 1
+    },
+    "mini": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "native_accepted": 0,
+      "recovered_oracle_pass": 0,
+      "infrastructure_failure": 0,
+      "model_requests": 14,
+      "tool_calls": 14,
+      "input_tokens": 176690,
+      "output_tokens": 2712,
+      "unknown_usage_requests": 0,
+      "reproduce_calls": 0,
+      "verify_calls": 0
+    },
+    "codex": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "native_accepted": 0,
+      "recovered_oracle_pass": 0,
+      "infrastructure_failure": 0,
+      "model_requests": 24,
+      "tool_calls": 24,
+      "input_tokens": 583746,
+      "output_tokens": 3218,
+      "unknown_usage_requests": 0,
+      "reproduce_calls": 0,
+      "verify_calls": 0
+    }
+  },
+  "attempts": [
+    {
+      "task_id": "fmt-4055",
+      "framework": "full",
+      "attempt_id": "v2-fmt4055-full-1",
+      "native_outcome": "REJECTED",
+      "oracle_pass": false,
+      "infrastructure_failure": false,
+      "candidate_bytes": 818,
+      "candidate_sha256": "92c0fa7a975206182cd4e845fdbde3f4774fad80aa9838fce37b5a6bca00cdc3",
+      "model_requests": 12,
+      "tool_calls": 12,
+      "input_tokens": 137511,
+      "output_tokens": 1210,
+      "wall_seconds": 240.3653605870004,
+      "phase_seconds": {
+        "baseline_seconds": 86.989417,
+        "repair_seconds": 91.244013,
+        "self_check_seconds": 34.649552,
+        "independent_seconds": 58.951946,
+        "external_oracle_seconds": 58.228682973000105
+      },
+      "error_category": "STEP_BUDGET"
+    },
+    {
+      "task_id": "fmt-4055",
+      "framework": "mini",
+      "attempt_id": "v2-fmt4055-mini-1",
+      "native_outcome": "Submitted",
+      "oracle_pass": false,
+      "infrastructure_failure": false,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "model_requests": 9,
+      "tool_calls": 9,
+      "input_tokens": 79745,
+      "output_tokens": 1918,
+      "wall_seconds": 72.76950024599955,
+      "phase_seconds": {
+        "baseline_seconds": null,
+        "repair_seconds": 72.76950024599955,
+        "self_check_seconds": null,
+        "independent_seconds": null,
+        "external_oracle_seconds": null
+      },
+      "error_category": null
+    },
+    {
+      "task_id": "fmt-4055",
+      "framework": "codex",
+      "attempt_id": "v2-fmt4055-codex-1",
+      "native_outcome": null,
+      "oracle_pass": false,
+      "infrastructure_failure": false,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "model_requests": 12,
+      "tool_calls": 12,
+      "input_tokens": 230285,
+      "output_tokens": 2207,
+      "wall_seconds": 82.8778261310008,
+      "phase_seconds": {
+        "baseline_seconds": null,
+        "repair_seconds": 82.8778261310008,
+        "self_check_seconds": null,
+        "independent_seconds": null,
+        "external_oracle_seconds": null
+      },
+      "error_category": "BENCHMARK_REQUEST_LIMIT"
+    },
+    {
+      "task_id": "simdjson-1899",
+      "framework": "full",
+      "attempt_id": "v2-simd1899-full-1",
+      "native_outcome": "ACCEPTED",
+      "oracle_pass": true,
+      "infrastructure_failure": false,
+      "candidate_bytes": 1157,
+      "candidate_sha256": "d1f5db15825cc1e3dbf9a4ee6efd4051cb9f9fae2f08f76fe8659901d9641ed0",
+      "model_requests": 11,
+      "tool_calls": 10,
+      "input_tokens": 262021,
+      "output_tokens": 734,
+      "wall_seconds": 845.4625569880009,
+      "phase_seconds": {
+        "baseline_seconds": 195.183094,
+        "repair_seconds": 439.091248,
+        "self_check_seconds": 359.506753,
+        "independent_seconds": 192.197741,
+        "external_oracle_seconds": 157.01674580399958
+      },
+      "error_category": null
+    },
+    {
+      "task_id": "simdjson-1899",
+      "framework": "mini",
+      "attempt_id": "v2-simd1899-mini-1",
+      "native_outcome": "Submitted",
+      "oracle_pass": false,
+      "infrastructure_failure": false,
+      "candidate_bytes": 770,
+      "candidate_sha256": "74aacfabe15d1af8db96825129ac820138b545aff82e7842f06561a7538d4dfb",
+      "model_requests": 5,
+      "tool_calls": 5,
+      "input_tokens": 96945,
+      "output_tokens": 794,
+      "wall_seconds": 31.0392828439999,
+      "phase_seconds": {
+        "baseline_seconds": null,
+        "repair_seconds": 31.0392828439999,
+        "self_check_seconds": null,
+        "independent_seconds": null,
+        "external_oracle_seconds": 151.47231590799856
+      },
+      "error_category": null
+    },
+    {
+      "task_id": "simdjson-1899",
+      "framework": "codex",
+      "attempt_id": "v2-simd1899-codex-1",
+      "native_outcome": null,
+      "oracle_pass": false,
+      "infrastructure_failure": false,
+      "candidate_bytes": 770,
+      "candidate_sha256": "74aacfabe15d1af8db96825129ac820138b545aff82e7842f06561a7538d4dfb",
+      "model_requests": 12,
+      "tool_calls": 12,
+      "input_tokens": 353461,
+      "output_tokens": 1011,
+      "wall_seconds": 81.73742991499967,
+      "phase_seconds": {
+        "baseline_seconds": null,
+        "repair_seconds": 81.73742991499967,
+        "self_check_seconds": null,
+        "independent_seconds": null,
+        "external_oracle_seconds": 149.54267391400026
+      },
+      "error_category": "BENCHMARK_REQUEST_LIMIT"
+    }
+  ],
+  "archive_verification": {
+    "base_commit": "fbdb60570602c61545d4c5b73e2fed92fbe319f6",
+    "source_release": "https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0",
+    "archive_bytes": 50459248,
+    "sha256": "91788186c7c0aa6cd036e292c5f401e0791d0c0ffc8f0c50f19c3134e49d803f",
+    "verification": "size and SHA-256 verified; full gzip archive read successfully",
+    "runs": [
+      {
+        "path": "generalization/.repropatch/generalization-v2-2026-10-24/v2-fmt4055-full-1/runs/abd5f68966984cb29a160d63b8d60818/report.json",
+        "outcome": "REJECTED",
+        "worker_seconds": 240.03063458199995,
+        "timing": {
+          "created_at": "2026-10-24T08:46:19.372269+00:00",
+          "deadline_at": "2026-10-24T09:26:19.372269+00:00",
+          "elapsed_ms": 240031,
+          "finished_at": "2026-10-24T08:50:19.402904+00:00"
+        },
+        "evaluations": [
+          {
+            "evaluation_role": "baseline",
+            "started_at": "2026-10-24T08:46:20.082221+00:00",
+            "finished_at": "2026-10-24T08:47:47.071638+00:00",
+            "issue_code": null
+          },
+          {
+            "evaluation_role": "agent_check",
+            "started_at": "2026-10-24T08:48:23.796126+00:00",
+            "finished_at": "2026-10-24T08:48:58.445678+00:00",
+            "issue_code": null
+          },
+          {
+            "evaluation_role": "independent",
+            "started_at": "2026-10-24T08:49:20.254272+00:00",
+            "finished_at": "2026-10-24T08:50:19.206218+00:00",
+            "issue_code": null
+          }
+        ]
+      },
+      {
+        "path": "generalization/.repropatch/generalization-v2-2026-10-24/v2-simd1899-full-1/runs/8dbbec7cbcb84c0980a26917bc4b866a/report.json",
+        "outcome": "ACCEPTED",
+        "worker_seconds": 844.2136055240007,
+        "timing": {
+          "created_at": "2026-10-24T08:53:59.319871+00:00",
+          "deadline_at": "2026-10-24T09:53:59.319871+00:00",
+          "elapsed_ms": 844214,
+          "finished_at": "2026-10-24T09:08:03.533477+00:00"
+        },
+        "evaluations": [
+          {
+            "evaluation_role": "baseline",
+            "started_at": "2026-10-24T08:54:03.594153+00:00",
+            "finished_at": "2026-10-24T08:57:18.777247+00:00",
+            "issue_code": null
+          },
+          {
+            "evaluation_role": "agent_check",
+            "started_at": "2026-10-24T08:57:46.623327+00:00",
+            "finished_at": "2026-10-24T08:59:12.664684+00:00",
+            "issue_code": null
+          },
+          {
+            "evaluation_role": "agent_check",
+            "started_at": "2026-10-24T08:59:51.295348+00:00",
+            "finished_at": "2026-10-24T09:01:16.397085+00:00",
+            "issue_code": null
+          },
+          {
+            "evaluation_role": "agent_check",
+            "started_at": "2026-10-24T09:01:26.666152+00:00",
+            "finished_at": "2026-10-24T09:04:35.029811+00:00",
+            "issue_code": null
+          },
+          {
+            "evaluation_role": "independent",
+            "started_at": "2026-10-24T09:04:49.498850+00:00",
+            "finished_at": "2026-10-24T09:08:01.696591+00:00",
+            "issue_code": null
+          }
+        ]
+      }
+    ]
+  },
+  "current_task_model_requests": 0,
+  "github_write_attempt": {
+    "operation": "create branch feat/actions-benchmark-scale from audited main",
+    "http_status": 403,
+    "message": "Resource not accessible by integration",
+    "remote_branch_created": false,
+    "pull_request_created": false,
+    "new_workflow_run": "NOT_EXECUTED"
+  },
+  "local_docker_daemon": "UNAVAILABLE"
+}

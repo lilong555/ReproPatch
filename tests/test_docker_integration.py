@@ -79,6 +79,37 @@ def test_docker_wrong_patch_is_rejected(docker_task, tmp_path):
     assert report["status"] == "failed" and not report["verified"]
 
 
+def test_docker_ccache_self_checks_keep_final_acceptance_cold(docker_task, tmp_path):
+    actions = [
+        {
+            "tool": "edit_file",
+            "arguments": {
+                "path": "src/stats.cpp",
+                "old": "int best = 0;",
+                "new": "int best = samples.front();",
+            },
+        },
+        {"tool": "run_command", "arguments": {"name": "reproduce"}},
+        {"tool": "run_command", "arguments": {"name": "verify"}},
+        {"finish": "done"},
+    ]
+    report = Harness(docker_task, scripted(actions), tmp_path / "runs", compiler_cache=True).run()
+    assert report["outcome"] == "ACCEPTED", report
+    checks = [e for e in report["evaluations"] if e["evaluation_role"] == "agent_check"]
+    assert len(checks) == 2
+    stats = {
+        key: int(value)
+        for key, value in (
+            line.split() for line in checks[-1]["compiler_cache"]["stats"]["stdout"].splitlines()
+        )
+    }
+    assert stats.get("direct_cache_hit", 0) + stats.get("preprocessed_cache_hit", 0) >= 1
+    assert report["baseline"]["compiler_cache"] is None
+    assert report["independent"]["compiler_cache"] is None
+    assert not (Path(report["workspace_directory"]) / "compiler-cache").exists()
+    assert report["cleanup_confirmed"] and report["artifacts_complete"]
+
+
 def test_sdk_pause_preserves_checkpoint_after_real_container_cleanup(docker_task, tmp_path):
     from dataclasses import replace
 

@@ -1,0 +1,324 @@
+name: C++ benchmark qualification
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/benchmark.yml'
+      - 'scripts/actions_benchmark.py'
+      - 'scripts/qualify_cpp_batch.py'
+      - 'scripts/verify_qualification_evidence.py'
+      - 'scripts/profile_cpp_build.py'
+      - 'scripts/profile_cpp_concurrency.py'
+      - 'scripts/benchmark_resources.py'
+      - 'scripts/check_qualified_cpp_candidate.py'
+      - 'scripts/score_benchmark_attempt.py'
+      - 'docker/Dockerfile'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'qualify, profile (fmt-4055 A/B), or plan-formal (no model execution)'
+        type: choice
+        options: [qualify, profile, plan-formal]
+        default: qualify
+      task_set:
+        description: 'smoke, fmt-all (41), or comma-separated frozen fmt instance IDs'
+        type: string
+        default: smoke
+      parallel_jobs:
+        description: 'Independent runners; each runner builds one task at a time with -j2'
+        type: choice
+        options: ['1', '2', '4']
+        default: '2'
+      optimization:
+        description: 'Frozen qualification flags; O0 retains Release/NDEBUG and is reported separately'
+        type: choice
+        options: [O3, O0]
+        default: O3
+      batch_id:
+        description: 'Optional human-readable prefix; immutable run/attempt identity is appended'
+        type: string
+        default: cpp
+      model:
+        description: 'Recorded for the proposed formal protocol only'
+        type: string
+        default: gpt-6-luna
+      frameworks:
+        description: 'Recorded formal arms; no credentials or model calls in this workflow'
+        type: string
+        default: repropatch,repropatch-no-checks,mini,codex
+      requests_per_attempt:
+        description: 'Proposed request allocation, 1..12; execution cap is zero'
+        type: number
+        default: 12
+      total_request_cap:
+        description: 'Check the proposed global allocation against this cap; 0 means proposal only'
+        type: number
+        default: 0
+      allow_paid_model:
+        description: 'Paid execution requires a separately reviewed provider cost policy; true is rejected'
+        type: boolean
+        default: false
+      cache_inputs:
+        description: 'Opt in to Actions source-cache A/B; default off until transfer overhead is measured'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cpp-benchmark-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      execute: ${{ steps.plan.outputs.execute }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Freeze task and zero-spend execution plan
+        id: plan
+        env:
+          MODE: ${{ inputs.mode || 'qualify' }}
+          TASKS: ${{ inputs.task_set || 'smoke' }}
+          PARALLEL: ${{ inputs.parallel_jobs || '2' }}
+          BATCH: ${{ inputs.batch_id || 'pr-smoke' }}
+          MODEL: ${{ inputs.model || 'gpt-6-luna' }}
+          FRAMEWORKS: ${{ inputs.frameworks || 'repropatch,repropatch-no-checks,mini,codex' }}
+          REQUESTS: ${{ inputs.requests_per_attempt || 12 }}
+          CAP: ${{ inputs.total_request_cap || 0 }}
+          ALLOW_PAID: ${{ inputs.allow_paid_model || false }}
+          OPTIMIZATION: ${{ inputs.optimization || 'O0' }}
+          CACHE_INPUTS: ${{ inputs.cache_inputs || false }}
+        run: |
+          paid=()
+          if [[ "$ALLOW_PAID" == true ]]; then paid+=(--allow-paid-model); fi
+          estimates=()
+          if [[ "$OPTIMIZATION" == O0 && -f benchmarks/actions-scale/qualification-estimates.json ]]; then
+            estimates+=(--estimates benchmarks/actions-scale/qualification-estimates.json)
+          fi
+          cache=()
+          if [[ "$CACHE_INPUTS" == true ]]; then cache+=(--cache-inputs); fi
+          python scripts/actions_benchmark.py plan \
+            --mode "$MODE" --tasks "$TASKS" --parallel "$PARALLEL" \
+            --batch "$BATCH-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" \
+            --model "$MODEL" --frameworks "$FRAMEWORKS" --requests "$REQUESTS" \
+            --optimization "$OPTIMIZATION" --backend docker \
+            --total-request-cap "$CAP" "${paid[@]}" "${estimates[@]}" "${cache[@]}" \
+            --output .repropatch/plan.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: plan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .repropatch/plan.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  qualify:
+    needs: plan
+    if: needs.plan.outputs.execute == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(inputs.parallel_jobs || '2') }}
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      SHARD: ${{ matrix.shard }}
+      INSTANCES: ${{ matrix.instances }}
+      OPTIMIZATION: ${{ inputs.optimization || 'O0' }}
+      MODE: ${{ inputs.mode || 'qualify' }}
+      REPROPATCH_BATCH_ID: ${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: plan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .repropatch/
+      - name: Install core only
+        run: |
+          mkdir -p ".repropatch/evidence/$SHARD"
+          python scripts/benchmark_resources.py \
+            --output ".repropatch/evidence/$SHARD/python-setup" --timeout 600 \
+            -- python -m pip install -e .
+          python -m pip freeze > ".repropatch/evidence/$SHARD/python-packages.txt"
+      - name: Restore bounded source-object cache
+        id: inputs-cache
+        if: inputs.cache_inputs == true
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .repropatch/inputs
+          key: cpp-inputs-v1-${{ runner.os }}-${{ hashFiles('benchmarks/coverage.json') }}-${{ matrix.inputs_key }}
+      - name: Prepare fixed dataset and shared Git objects
+        run: |
+          mkdir -p ".repropatch/evidence/$SHARD"
+          cp .repropatch/plan.json ".repropatch/evidence/$SHARD/plan.json"
+          python scripts/benchmark_resources.py \
+            --output ".repropatch/evidence/$SHARD/setup" --timeout 600 --watch-interval 30 \
+            --watch checkout=. --watch inputs=.repropatch/inputs \
+            -- python scripts/actions_benchmark.py prepare \
+            --plan .repropatch/plan.json --instances "$INSTANCES" --output .repropatch/inputs
+      - name: Save source inputs only on trusted main
+        if: inputs.cache_inputs == true && github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && steps.inputs-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .repropatch/inputs
+          key: ${{ steps.inputs-cache.outputs.cache-primary-key }}
+      - name: Build one shared toolchain and capture identity
+        run: |
+          python scripts/benchmark_resources.py \
+            --output ".repropatch/evidence/$SHARD/image" --timeout 900 --watch-interval 30 \
+            --watch docker=/var/lib/docker \
+            -- docker build --tag repropatch-benchmark:local --file docker/Dockerfile docker
+          docker image inspect repropatch-benchmark:local > ".repropatch/evidence/$SHARD/image-inspect.json"
+          docker image inspect --format '{{.Id}}' repropatch-benchmark:local > .repropatch/image-id
+          docker system df -v > ".repropatch/evidence/$SHARD/docker-disk-after-image.txt"
+      - name: Qualify baseline, reference F2P and independent native Oracle
+        run: |
+          python scripts/benchmark_resources.py \
+            --output ".repropatch/evidence/$SHARD/resources" --timeout 16200 --watch-interval 30 \
+            --kill-grace-seconds 90 \
+            --watch docker=/var/lib/docker --watch checkout=.git \
+            --watch inputs=.repropatch/inputs --watch evidence=.repropatch/evidence \
+            -- python scripts/qualify_cpp_batch.py \
+            --dataset .repropatch/inputs/dataset --repository .repropatch/inputs/fmt \
+            --instances "$INSTANCES" --image "$(cat .repropatch/image-id)" \
+            --backend docker --jobs 1 --build-jobs 2 --task-timeout 1800 \
+            --optimization "$OPTIMIZATION" --output ".repropatch/evidence/$SHARD/qualification"
+      - name: Measure real fmt cold and warm target builds
+        if: inputs.mode == 'profile' && contains(matrix.instances, 'fmtlib__fmt-4055')
+        run: |
+          python scripts/benchmark_resources.py \
+            --output ".repropatch/evidence/$SHARD/profile-resources" --timeout 1800 --watch-interval 30 \
+            --kill-grace-seconds 90 \
+            --watch profile=".repropatch/evidence/$SHARD/profile" --watch docker=/var/lib/docker \
+            -- python scripts/profile_cpp_build.py \
+            --dataset .repropatch/inputs/dataset --repository .repropatch/inputs/fmt \
+            --backend docker --image "$(cat .repropatch/image-id)" --repeats 3 \
+            --optimization "$OPTIMIZATION" \
+            --output ".repropatch/evidence/$SHARD/profile"
+      - name: Remove only containers owned by this shard
+        if: always()
+        timeout-minutes: 2
+        run: |
+          mapfile -t containers < <(docker ps -aq --filter "label=repropatch.batch=$REPROPATCH_BATCH_ID")
+          if (( ${#containers[@]} )); then docker rm -f "${containers[@]}"; fi
+          remaining=$(docker ps -aq --filter "label=repropatch.batch=$REPROPATCH_BATCH_ID")
+          test -z "$remaining"
+          mkdir -p ".repropatch/evidence/$SHARD"
+          docker system df -v > ".repropatch/evidence/$SHARD/docker-disk-after-cleanup.txt"
+      - name: Audit qualification evidence before counting passed tasks
+        if: always()
+        timeout-minutes: 5
+        run: |
+          test -f ".repropatch/evidence/$SHARD/qualification/batch-summary.json"
+          python scripts/verify_qualification_evidence.py \
+            --batch ".repropatch/evidence/$SHARD/qualification" \
+            --output ".repropatch/evidence/$SHARD/audited/audit" \
+            --summary-output ".repropatch/evidence/$SHARD/audited/batch-summary.json"
+      - name: Freeze raw evidence and verify SHA-256
+        if: always()
+        timeout-minutes: 10
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          mkdir -p ".repropatch/evidence/$SHARD"
+          cp .repropatch/plan.json ".repropatch/evidence/$SHARD/plan.json"
+          python -c 'import json,os,pathlib; pathlib.Path(".repropatch/evidence",os.environ["SHARD"],"job-status.json").write_text(json.dumps({"job_status":os.environ["JOB_STATUS"],"batch_owner":os.environ["REPROPATCH_BATCH_ID"],"remote_archive_status":"NOT_UPLOADED"})+"\n")'
+          python scripts/actions_benchmark.py pack \
+            --source ".repropatch/evidence/$SHARD" \
+            --output ".repropatch/archives/batch-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-$SHARD.tar.gz"
+      - name: Upload evidence
+        id: upload_evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: evidence-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+          path: |
+            .repropatch/archives/*.tar.gz
+            .repropatch/archives/*.sha256
+            .repropatch/archives/*.metadata.json
+          include-hidden-files: true
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - name: Download published evidence for independent checksum verification
+        id: download_evidence
+        if: always() && steps.upload_evidence.outcome == 'success'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: evidence-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+          path: .repropatch/download-verification/${{ matrix.shard }}/
+      - name: Record remote archive receipt
+        if: always()
+        env:
+          UPLOAD_STATUS: ${{ steps.upload_evidence.outcome }}
+          DOWNLOAD_STATUS: ${{ steps.download_evidence.outcome }}
+          ARTIFACT_URL: ${{ steps.upload_evidence.outputs.artifact-url }}
+          ARTIFACT_ID: ${{ steps.upload_evidence.outputs.artifact-id }}
+        run: |
+          python scripts/actions_benchmark.py archive-receipt \
+            --metadata ".repropatch/archives/batch-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-$SHARD.tar.metadata.json" \
+            --downloaded ".repropatch/download-verification/$SHARD/batch-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-$SHARD.tar.gz" \
+            --upload-status "$UPLOAD_STATUS" --download-status "$DOWNLOAD_STATUS" \
+            --artifact-url "$ARTIFACT_URL" --artifact-id "$ARTIFACT_ID" \
+            --output ".repropatch/evidence/$SHARD/audited/archive-receipt.json"
+      - name: Upload small aggregation inputs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: summary-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+          path: .repropatch/evidence/${{ matrix.shard }}/audited/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
+
+  aggregate:
+    needs: [plan, qualify]
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: plan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .repropatch/
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true # missing/cancelled shards remain NOT_EXECUTED in the frozen plan
+        with:
+          pattern: summary-${{ github.run_id }}-${{ github.run_attempt }}-*
+          path: .repropatch/summaries/
+      - name: Include every preregistered task
+        run: |
+          python scripts/actions_benchmark.py aggregate --plan .repropatch/plan.json \
+            --source .repropatch/summaries --output .repropatch/report
+          cat .repropatch/report/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .repropatch/report/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "queried_at": "2026-10-24T15:30:45.461453+00:00",
+  "dataset": "ByteDance-Seed/Multi-SWE-bench",
+  "metadata_url": "https://huggingface.co/api/datasets/ByteDance-Seed/Multi-SWE-bench",
+  "current_main_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "frozen_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "same_revision": true,
+  "current_cpp_files": 5,
+  "current_cpp_rows": 129,
+  "files": [
+    {
+      "path": "cpp/catchorg__Catch2_dataset.jsonl",
+      "size": 698675,
+      "sha256": "a2fad917a116bca66692129bfa91bbf6d1e8563dd0bbd7fd82732d6a82f3048f",
+      "rows": 12,
+      "matches_frozen_file": true,
+      "source_url": "https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench/resolve/56ff018c04a38e27ada1e9d0a6d5839a51f88f0d/cpp/catchorg__Catch2_dataset.jsonl"
+    },
+    {
+      "path": "cpp/fmtlib__fmt_dataset.jsonl",
+      "size": 375788,
+      "sha256": "7d060ca46ba6343373aa68ced7fcca70e2ce0addac7ec610c47d2bbfcfed6762",
+      "rows": 41,
+      "matches_frozen_file": true,
+      "source_url": "https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench/resolve/56ff018c04a38e27ada1e9d0a6d5839a51f88f0d/cpp/fmtlib__fmt_dataset.jsonl"
+    },
+    {
+      "path": "cpp/nlohmann__json_dataset.jsonl",
+      "size": 4019513,
+      "sha256": "bdc33098e920b20fcdef5680953a723c171bd8f53608e8cecad305e96495a93c",
+      "rows": 55,
+      "matches_frozen_file": true,
+      "source_url": "https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench/resolve/56ff018c04a38e27ada1e9d0a6d5839a51f88f0d/cpp/nlohmann__json_dataset.jsonl"
+    },
+    {
+      "path": "cpp/simdjson__simdjson_dataset.jsonl",
+      "size": 1506793,
+      "sha256": "0a7aba551a76754fd088c5eccbab4caae025bdf6cdae2faa05a9f7b5f11994c2",
+      "rows": 20,
+      "matches_frozen_file": true,
+      "source_url": "https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench/resolve/56ff018c04a38e27ada1e9d0a6d5839a51f88f0d/cpp/simdjson__simdjson_dataset.jsonl"
+    },
+    {
+      "path": "cpp/yhirose__cpp-httplib_dataset.jsonl",
+      "size": 60772,
+      "sha256": "3551b73936dd788873b7727649ca94c102678d5541f1eb0a14d27730799d6143",
+      "rows": 1,
+      "matches_frozen_file": true,
+      "source_url": "https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench/resolve/56ff018c04a38e27ada1e9d0a6d5839a51f88f0d/cpp/yhirose__cpp-httplib_dataset.jsonl"
+    }
+  ],
+  "executing_batch_data_changed": false
+}

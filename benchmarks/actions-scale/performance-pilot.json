@@ -1,0 +1,486 @@
+{
+  "schema_version": 1,
+  "status": "PILOT_EVIDENCE_INCOMPLETE",
+  "scope": "native-host real fmt-4055 format-test target; not full suite, Agent or Actions performance",
+  "source_main_commit": "fbdb60570602c61545d4c5b73e2fed92fbe319f6",
+  "upstream_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+  "test_patch_sha256": "522a0743d188fe71eabf415f770fc21db1c7fa896fedc35a731e55b3e9edc478",
+  "reference_patch_sha256": "2aedc1aec04c079e10dcb00b96eeadb621e85dd00832ead6966d7b0265ab6aeb",
+  "profile_script_sha256": "0ede2c6abfe2fb87f4a2332680199273b45f2621b3d63f97d14fddc54b6bebce",
+  "profile_json_sha256": "09d2ce214b4e4199819232ed0a63490cd7115f65ef56554a707969693d6c58cc",
+  "versions": {
+    "cmake": "cmake version 4.4.4",
+    "ninja": "1.13.2.git.kitware.jobserver-pipe-1",
+    "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "ccache": "ccache version 4.9.1"
+  },
+  "build_jobs": 2,
+  "optimization": "Release default O3; fixed CMake 4.4.4",
+  "model_requests": 0,
+  "model_input_tokens": 0,
+  "model_output_tokens": 0,
+  "variants": {
+    "cold-make": {
+      "n": 3,
+      "seconds": [
+        42.09624636900003,
+        49.31111763199999,
+        47.63715875599996
+      ],
+      "median_seconds": 47.63715875599996,
+      "expected_pass": true,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0.8733200039999929,
+        "build": 46.54691366099996,
+        "test": 0.2155965050000077
+      },
+      "maximum_build_bytes": 9273344,
+      "maximum_cache_bytes": 4096
+    },
+    "cold-ninja": {
+      "n": 3,
+      "seconds": [
+        35.739486525000075,
+        40.43976010100005,
+        42.85687575399993
+      ],
+      "median_seconds": 40.43976010100005,
+      "expected_pass": true,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0.7731779729999744,
+        "build": 39.301329413000076,
+        "test": 0.21493440500000816
+      },
+      "maximum_build_bytes": 9490432,
+      "maximum_cache_bytes": 4096
+    },
+    "cache-fill": {
+      "n": 1,
+      "seconds": [
+        39.689160272000095
+      ],
+      "median_seconds": 39.689160272000095,
+      "expected_pass": true,
+      "observed_pass": [
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0.9185155729999224,
+        "build": 38.548208672999976,
+        "test": 0.2173336199999767
+      },
+      "maximum_build_bytes": 9420800,
+      "maximum_cache_bytes": 10981376
+    },
+    "cache-warm-fresh-build": {
+      "n": 3,
+      "seconds": [
+        1.4132511010000144,
+        1.719670715999996,
+        1.6047271209999963
+      ],
+      "median_seconds": 1.6047271209999963,
+      "expected_pass": true,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0.8686064839999972,
+        "build": 0.4655348009999898,
+        "test": 0.26700736700001926
+      },
+      "maximum_build_bytes": 8134656,
+      "maximum_cache_bytes": 11165696
+    },
+    "incremental-unchanged": {
+      "n": 3,
+      "seconds": [
+        0.4869453359999625,
+        0.4828301199999032,
+        0.5352993679999827
+      ],
+      "median_seconds": 0.4869453359999625,
+      "expected_pass": true,
+      "observed_pass": [
+        true,
+        true,
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0,
+        "build": 0.2645978330000389,
+        "test": 0.2647656189999452
+      },
+      "maximum_build_bytes": 8134656,
+      "maximum_cache_bytes": 11165696
+    },
+    "reference-reverted": {
+      "n": 1,
+      "seconds": [
+        8.964812184000039
+      ],
+      "median_seconds": 8.964812184000039,
+      "expected_pass": false,
+      "observed_pass": [
+        false
+      ],
+      "stage_median_seconds": {
+        "configure": 0,
+        "build": 8.964575480000008,
+        "test": 0
+      },
+      "maximum_build_bytes": 8134656,
+      "maximum_cache_bytes": 16158720
+    },
+    "reference-reapplied": {
+      "n": 1,
+      "seconds": [
+        0.6844815799998969
+      ],
+      "median_seconds": 0.6844815799998969,
+      "expected_pass": true,
+      "observed_pass": [
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0,
+        "build": 0.4655025200000864,
+        "test": 0.21708990900003755
+      },
+      "maximum_build_bytes": 8138752,
+      "maximum_cache_bytes": 16199680
+    },
+    "final-cold": {
+      "n": 1,
+      "seconds": [
+        42.47838029100001
+      ],
+      "median_seconds": 42.47838029100001,
+      "expected_pass": true,
+      "observed_pass": [
+        true
+      ],
+      "stage_median_seconds": {
+        "configure": 0.8694928390000314,
+        "build": 41.34193323399995,
+        "test": 0.26522522400000526
+      },
+      "maximum_build_bytes": 8122368,
+      "maximum_cache_bytes": 16199680
+    }
+  },
+  "comparisons": {
+    "make_to_ninja_reduction_percent": 15.108790790536798,
+    "ninja_to_ccache_warm_reduction_percent": 96.03180850481773,
+    "ninja_to_incremental_unchanged_reduction_percent": 98.79587481532087
+  },
+  "wall_seconds": 356.350214895,
+  "outer_wall_seconds": 357.08130677299994,
+  "sampled_profile_peak_allocated_bytes": 30081024,
+  "final_build_bytes": 8122368,
+  "final_cache_bytes": 16199680,
+  "shared_host_cpu_peak_percent": 87.22943722943724,
+  "shared_cgroup_memory_peak_bytes": 4132700160,
+  "cgroup_memory_limit_bytes": 8589934592,
+  "process_memory_peak": "NOT_MEASURED_RELIABLY: original process-group sampler missed namespace and descendant processes",
+  "observer_seconds": 3.1233305930007873,
+  "limitations": [
+    "N=3 for repeated variants, no confidence claim",
+    "Other qualification work shared the host during measurement",
+    "Incremental build tree reuse is an experiment only; core implements per-run ccache with fresh build trees",
+    "Final control is a cold target build; separate qualification runs verify the full upstream native suite",
+    "GitHub cache transfer/restore/upload and Docker overhead NOT MEASURED",
+    "Two retained logs fail their recorded inner SHA-256; preserve pilot numbers but exclude from final fully-auditable A/B result."
+  ],
+  "execution_status": "PASSED",
+  "evidence_status": "INCOMPLETE",
+  "inner_hash_audit": {
+    "checked": 43,
+    "mismatches": [
+      {
+        "path": "cold-make-2-test.log",
+        "expected_sha256": "f7f513ef4c4790c208bf0a23ce5338ee7f75b65e731cd873e54d7aed0aeb6ad5",
+        "actual_sha256": "95c5513f40c87d9e8c64f3cbb3118c918e7449305b64b108d691143aaaab3d11",
+        "match": false
+      },
+      {
+        "path": "cache-warm-fresh-build-2-configure.log",
+        "expected_sha256": "233dd2dfd27c6fe89e448840696c74e1bfcc54f2ed7b6ead24049fb642f7b826",
+        "actual_sha256": "f29b26729cad512480d85acc0202941e35be80527678acb8d3be7eb70d3ef3bf",
+        "match": false
+      }
+    ],
+    "checks": [
+      {
+        "path": "cold-make-0-configure.log",
+        "expected_sha256": "086f5177f0687a44bf7aa18ae24ebffc5d18c5a26ea98efb1c18bea478f6ce0d",
+        "actual_sha256": "086f5177f0687a44bf7aa18ae24ebffc5d18c5a26ea98efb1c18bea478f6ce0d",
+        "match": true
+      },
+      {
+        "path": "cold-make-0-build.log",
+        "expected_sha256": "760e51e2aded8c67a1fc789786c8be022b4b651ae8a38b63ed6ec50ded646b94",
+        "actual_sha256": "760e51e2aded8c67a1fc789786c8be022b4b651ae8a38b63ed6ec50ded646b94",
+        "match": true
+      },
+      {
+        "path": "cold-make-0-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-0-configure.log",
+        "expected_sha256": "7f94b9a0d388fa8ad4d2e1512e5867ae741f5c49bd2aebc7f71cebfc32c63a89",
+        "actual_sha256": "7f94b9a0d388fa8ad4d2e1512e5867ae741f5c49bd2aebc7f71cebfc32c63a89",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-0-build.log",
+        "expected_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "actual_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-0-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "cold-make-1-configure.log",
+        "expected_sha256": "7f94b9a0d388fa8ad4d2e1512e5867ae741f5c49bd2aebc7f71cebfc32c63a89",
+        "actual_sha256": "7f94b9a0d388fa8ad4d2e1512e5867ae741f5c49bd2aebc7f71cebfc32c63a89",
+        "match": true
+      },
+      {
+        "path": "cold-make-1-build.log",
+        "expected_sha256": "760e51e2aded8c67a1fc789786c8be022b4b651ae8a38b63ed6ec50ded646b94",
+        "actual_sha256": "760e51e2aded8c67a1fc789786c8be022b4b651ae8a38b63ed6ec50ded646b94",
+        "match": true
+      },
+      {
+        "path": "cold-make-1-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-1-configure.log",
+        "expected_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "actual_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-1-build.log",
+        "expected_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "actual_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-1-test.log",
+        "expected_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "actual_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "match": true
+      },
+      {
+        "path": "cold-make-2-configure.log",
+        "expected_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "actual_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "match": true
+      },
+      {
+        "path": "cold-make-2-build.log",
+        "expected_sha256": "7e07b4b50ca0390a89710ccd89f89c4cf3be0a3863869b82a6ad53fb1311b525",
+        "actual_sha256": "7e07b4b50ca0390a89710ccd89f89c4cf3be0a3863869b82a6ad53fb1311b525",
+        "match": true
+      },
+      {
+        "path": "cold-make-2-test.log",
+        "expected_sha256": "f7f513ef4c4790c208bf0a23ce5338ee7f75b65e731cd873e54d7aed0aeb6ad5",
+        "actual_sha256": "95c5513f40c87d9e8c64f3cbb3118c918e7449305b64b108d691143aaaab3d11",
+        "match": false
+      },
+      {
+        "path": "cold-ninja-2-configure.log",
+        "expected_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "actual_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-2-build.log",
+        "expected_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "actual_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "match": true
+      },
+      {
+        "path": "cold-ninja-2-test.log",
+        "expected_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "actual_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "match": true
+      },
+      {
+        "path": "cache-fill-0-configure.log",
+        "expected_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "actual_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "match": true
+      },
+      {
+        "path": "cache-fill-0-build.log",
+        "expected_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "actual_sha256": "cc6adf46e30c3ccf16b0cb94dd52710fc54f4972f56bb3500632768ebeb3d048",
+        "match": true
+      },
+      {
+        "path": "cache-fill-0-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-0-configure.log",
+        "expected_sha256": "1adf9da4c916bcf74962fc8ba49c848580b76586908e0b179b1df108e14e8db0",
+        "actual_sha256": "1adf9da4c916bcf74962fc8ba49c848580b76586908e0b179b1df108e14e8db0",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-0-build.log",
+        "expected_sha256": "6d85c178d96d5f70610ea777f8878e73a03b91e2b0bd41ed87c5dbc06cf86756",
+        "actual_sha256": "6d85c178d96d5f70610ea777f8878e73a03b91e2b0bd41ed87c5dbc06cf86756",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-0-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "incremental-unchanged-0-build.log",
+        "expected_sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+        "actual_sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+        "match": true
+      },
+      {
+        "path": "incremental-unchanged-0-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-1-configure.log",
+        "expected_sha256": "233dd2dfd27c6fe89e448840696c74e1bfcc54f2ed7b6ead24049fb642f7b826",
+        "actual_sha256": "233dd2dfd27c6fe89e448840696c74e1bfcc54f2ed7b6ead24049fb642f7b826",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-1-build.log",
+        "expected_sha256": "63c2e9ef64113cc8bd423c56c7a5ccf56135e7bd17f5430f0294b7e1c68bcb8a",
+        "actual_sha256": "63c2e9ef64113cc8bd423c56c7a5ccf56135e7bd17f5430f0294b7e1c68bcb8a",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-1-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "incremental-unchanged-1-build.log",
+        "expected_sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+        "actual_sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+        "match": true
+      },
+      {
+        "path": "incremental-unchanged-1-test.log",
+        "expected_sha256": "f7f513ef4c4790c208bf0a23ce5338ee7f75b65e731cd873e54d7aed0aeb6ad5",
+        "actual_sha256": "f7f513ef4c4790c208bf0a23ce5338ee7f75b65e731cd873e54d7aed0aeb6ad5",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-2-configure.log",
+        "expected_sha256": "233dd2dfd27c6fe89e448840696c74e1bfcc54f2ed7b6ead24049fb642f7b826",
+        "actual_sha256": "f29b26729cad512480d85acc0202941e35be80527678acb8d3be7eb70d3ef3bf",
+        "match": false
+      },
+      {
+        "path": "cache-warm-fresh-build-2-build.log",
+        "expected_sha256": "65e09bc5ee7a0f6f77f88ca7891cb97eda7ce4334e5d0d1c4b6f46744927738b",
+        "actual_sha256": "65e09bc5ee7a0f6f77f88ca7891cb97eda7ce4334e5d0d1c4b6f46744927738b",
+        "match": true
+      },
+      {
+        "path": "cache-warm-fresh-build-2-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "incremental-unchanged-2-build.log",
+        "expected_sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+        "actual_sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+        "match": true
+      },
+      {
+        "path": "incremental-unchanged-2-test.log",
+        "expected_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "actual_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "match": true
+      },
+      {
+        "path": "reference-reverted-0-build.log",
+        "expected_sha256": "0ee05d7c0b28d890cf79c56e8b78d8f1b2bd4344b4c5579400cdd2168b379555",
+        "actual_sha256": "0ee05d7c0b28d890cf79c56e8b78d8f1b2bd4344b4c5579400cdd2168b379555",
+        "match": true
+      },
+      {
+        "path": "reference-reapplied-0-build.log",
+        "expected_sha256": "bf13b319e3e1ba8d930e98c60c9ed44ca2c88a083a28c2502a773141d495368b",
+        "actual_sha256": "bf13b319e3e1ba8d930e98c60c9ed44ca2c88a083a28c2502a773141d495368b",
+        "match": true
+      },
+      {
+        "path": "reference-reapplied-0-test.log",
+        "expected_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "actual_sha256": "4dfc6d1fd079847ac8048e8a5782f96cb0f91776caf3eb9655b0d192f082d104",
+        "match": true
+      },
+      {
+        "path": "final-cold-0-configure.log",
+        "expected_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "actual_sha256": "2c69c5a7d040645ca8093ef269503e63c0fe85aa4739e2445c8781465514c420",
+        "match": true
+      },
+      {
+        "path": "final-cold-0-build.log",
+        "expected_sha256": "92a459227526150633caa14cb76414ec1350c6aea140e37d921b15241193b315",
+        "actual_sha256": "92a459227526150633caa14cb76414ec1350c6aea140e37d921b15241193b315",
+        "match": true
+      },
+      {
+        "path": "final-cold-0-test.log",
+        "expected_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "actual_sha256": "8151e574598895f52a3634d59465c91d9f79dd7271e53bd7fcb5fb3761c55228",
+        "match": true
+      },
+      {
+        "path": "ccache-stats.log",
+        "expected_sha256": "085bae482fe0d6d36067a61a7003dcc6c5b58fad54e7b61018b075b5dab51920",
+        "actual_sha256": "085bae482fe0d6d36067a61a7003dcc6c5b58fad54e7b61018b075b5dab51920",
+        "match": true
+      }
+    ]
+  }
+}

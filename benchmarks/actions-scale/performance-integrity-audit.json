@@ -1,0 +1,276 @@
+{
+  "status": "VERIFIED",
+  "kind": "profile",
+  "source_files": 30,
+  "verified_command_logs": 43,
+  "telemetry_files": 44,
+  "total_sample_rows": 824,
+  "telemetry": [
+    {
+      "path": "profile/cache-fill-0-build-command/telemetry.json",
+      "samples": 58,
+      "status": "success",
+      "sha256": "7cd5433790346db0454817beecf62632c4c0a840bc67f2b23f96c38205cd1106"
+    },
+    {
+      "path": "profile/cache-fill-0-configure-command/telemetry.json",
+      "samples": 2,
+      "status": "success",
+      "sha256": "71427337b368827c37ba5c99de7a713897ad837d316d7b29033dd42ea37cc13f"
+    },
+    {
+      "path": "profile/cache-fill-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "967b1c38f43858c6c6cd0c5dc2434561345f31acf52629be27c65dbc7a0c6343"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-0-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "6d7f495ef3eb7168ce019cedcfe54e08da268b2f0edba1ccba096acdb811aca4"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-0-configure-command/telemetry.json",
+      "samples": 2,
+      "status": "success",
+      "sha256": "4868d59316ca44695f792f9e4330e488c39d834ea3929d9b0ed01b7d3eef2a13"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "145508fbcceca7586637c9d340c64227da3bf59872fffba206cad6465b31447a"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-1-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "84d9b85f941bf2a004aa3886ce0ab30ca2bf4c1a75c04c4b8bb9e7f3a6779031"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-1-configure-command/telemetry.json",
+      "samples": 2,
+      "status": "success",
+      "sha256": "fdb179ab5e2889f75cd5d631a9f83f044c28facdc9711c96c1cb5b24ed900079"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-1-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "be5790031e16522517d090b608c39b558fa0fadba7d698cd1f7ae29ead4a9f44"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-2-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "f4dfae954e8022e8abe375c8b0eb52686089a34c9c8496a3f68fa1d0a49fe6cb"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-2-configure-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "0bd400b8cdf3ac7ded015016628e9704304b7c501547520a183a7e92adb773ee"
+    },
+    {
+      "path": "profile/cache-warm-fresh-build-2-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "c6b1f832de850772d5be5661ac93c720f4d7e0dd47d5fbc4f776d107feb78dcf"
+    },
+    {
+      "path": "profile/ccache-stats-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "9fed55f8d6ddf96e4c1a62afc6035dcfe792037b953af059115d1a55c1ad0fa6"
+    },
+    {
+      "path": "profile/cold-make-0-build-command/telemetry.json",
+      "samples": 45,
+      "status": "success",
+      "sha256": "a274842cdb29f5a3e6a93cbbdd3873aa192219176936ae9b4a1031e70e1677d6"
+    },
+    {
+      "path": "profile/cold-make-0-configure-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "6129bf6714b989297628fda1238c50e90c9f87c0db9edfef77cc3e741f7c3106"
+    },
+    {
+      "path": "profile/cold-make-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "3ad221b87771733922aeb87f85165c244c3dbc88a35e5dc849f548b3a2f7eab2"
+    },
+    {
+      "path": "profile/cold-make-1-build-command/telemetry.json",
+      "samples": 45,
+      "status": "success",
+      "sha256": "42ba8bbef73d7eaa1da879bc39d059b38a2b2dc19b5c2ece17ae4eb9deb9ac3d"
+    },
+    {
+      "path": "profile/cold-make-1-configure-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "9a069f20701f5676a2f6b63eb0c0870809cea55a9dc9f48ba8abed154c904c36"
+    },
+    {
+      "path": "profile/cold-make-1-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "a2a8bd9ddc46a3ac52d45a69c61c0766df62ca5016a0f9df257ecb357fa404dd"
+    },
+    {
+      "path": "profile/cold-make-2-build-command/telemetry.json",
+      "samples": 58,
+      "status": "success",
+      "sha256": "0d2b246ea914747c08e9d14905671bb5816883601c6bb49b9763e0e00f44c704"
+    },
+    {
+      "path": "profile/cold-make-2-configure-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "9dc6c5d56ddefafcac3d05781c08dc65529a8228b7ae86bb4717804347c56be2"
+    },
+    {
+      "path": "profile/cold-make-2-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "6431a877bd8747e4e6751c6cb52128d50685da485a230752ee9fefcaaf72d750"
+    },
+    {
+      "path": "profile/cold-ninja-0-build-command/telemetry.json",
+      "samples": 37,
+      "status": "success",
+      "sha256": "51449ebc41f5c7f9a3a060a60e1631c047226b47d88af7f76e255a37a50b4c21"
+    },
+    {
+      "path": "profile/cold-ninja-0-configure-command/telemetry.json",
+      "samples": 2,
+      "status": "success",
+      "sha256": "47b403ebacbb98a50ebc6900a307d93d63b7fc16b12178b01ba9cefa3ee8a19c"
+    },
+    {
+      "path": "profile/cold-ninja-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "d3920796a4759233601d8a882ef4b9b60de19bc396671dd73ffebdced6c8dde0"
+    },
+    {
+      "path": "profile/cold-ninja-1-build-command/telemetry.json",
+      "samples": 37,
+      "status": "success",
+      "sha256": "a87c7606e95f0039162a451a319fe8b6ca7abebac951486602d9b2679539f39d"
+    },
+    {
+      "path": "profile/cold-ninja-1-configure-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "23115be1a982075f97905c6827ddf613e5e927ee2dbc6c25d9945d7c62b16465"
+    },
+    {
+      "path": "profile/cold-ninja-1-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "d44cff3bfbf35fa1edf753a20c8ec3c7ff4356c3a85d936e780fc4b2949b2c6e"
+    },
+    {
+      "path": "profile/cold-ninja-2-build-command/telemetry.json",
+      "samples": 56,
+      "status": "success",
+      "sha256": "d235fa1de7c86c34b05310d3825035bc7edf694ddd2eebbdf71596dee5e0a222"
+    },
+    {
+      "path": "profile/cold-ninja-2-configure-command/telemetry.json",
+      "samples": 2,
+      "status": "success",
+      "sha256": "5d73794904217becde2784920abd11b8986c85600fee0a90e744fa43d878ac9a"
+    },
+    {
+      "path": "profile/cold-ninja-2-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "0998934cbf1993ed1d4be77f29ef96a1745946cbbac1407a847de6b619d52b85"
+    },
+    {
+      "path": "profile/final-cold-0-build-command/telemetry.json",
+      "samples": 38,
+      "status": "success",
+      "sha256": "6ca50b7759837e06a23634c68200d880020a46c300f992118d61e439e2eda5b3"
+    },
+    {
+      "path": "profile/final-cold-0-configure-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "535d31b55cbb805b721fc582398fdde67ebdb388c2ec6bfd79d4050d71d200bd"
+    },
+    {
+      "path": "profile/final-cold-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "0371a81180290475f2eb3ca9b42e17c4483f53c5687bc3374988da9c48ba1eed"
+    },
+    {
+      "path": "profile/incremental-unchanged-0-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "b45567fd65c9aaec0c384920571298f95508523dd00e60ee4e32a85c5aee6060"
+    },
+    {
+      "path": "profile/incremental-unchanged-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "64906c11b20e236a455eee272a68a095d1f552c384dd5b93552f6917ed8a0c7a"
+    },
+    {
+      "path": "profile/incremental-unchanged-1-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "9586ce08f04ab8a9dcb4329fd88c64183daeaf1b7698408b22fc9a39be8ddfa3"
+    },
+    {
+      "path": "profile/incremental-unchanged-1-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "53f14805bd7789e1ead2597f0ea396511eed159ff1664ca0d76e4b93534ac0e0"
+    },
+    {
+      "path": "profile/incremental-unchanged-2-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "11de6e37f50c44f087d133af50fd0af61255a555cf964654c633737dbe046e90"
+    },
+    {
+      "path": "profile/incremental-unchanged-2-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "37dc98a9a37e5642636f0b31c041dcb7c1cf46b05a15c05e1c8456a1ed17f346"
+    },
+    {
+      "path": "profile/reference-reapplied-0-build-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "d2294756e40b055d6629651f83457e2d0e4331dca90baff21519df385e0d4a6c"
+    },
+    {
+      "path": "profile/reference-reapplied-0-test-command/telemetry.json",
+      "samples": 1,
+      "status": "success",
+      "sha256": "d118efed291d55a527dcec1f33a5aa53f293f0bde5d12de59d7d1048b497dcbf"
+    },
+    {
+      "path": "profile/reference-reverted-0-build-command/telemetry.json",
+      "samples": 10,
+      "status": "command_failed",
+      "sha256": "1242e50393454d3dc6ec01729b1f4a59d40ff76f26a773a4b561520d77305a1e"
+    },
+    {
+      "path": "resources/telemetry.json",
+      "samples": 401,
+      "status": "success",
+      "sha256": "8ac9f1e09dbc66e51bf5adce056aad5371b3c0a890265d284adc4ce7d670baaa"
+    }
+  ],
+  "frozen_plan_sha256": "fb66941581fbc1455d6881de062a0f07757d1767cf6339c80ef0e6e05a85eb30",
+  "model_requests": 0
+}
