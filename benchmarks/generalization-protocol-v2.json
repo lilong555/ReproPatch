@@ -1,0 +1,336 @@
+{
+  "schema_version": 2,
+  "created_at": "2026-10-24T07:52:46.618296+00:00",
+  "stage": "FROZEN_BEFORE_V2_MODEL_REQUESTS",
+  "model_requests_at_freeze": 0,
+  "supersedes": "benchmarks/generalization-protocol.json",
+  "superseded_protocol_sha256": "00ed4717b4bd45064ba23137e416ba5ce5b2194330d0b1064d083f17000ae2e3",
+  "supersede_reason": "Codex 推理对齐 medium；公开既有 F2P 自检；候选首个非空来源留证；六次三框架对照",
+  "v1_closure": {
+    "path": "benchmarks/generalization-v1-results.json",
+    "sha256": "d7859c5adf477da6d697d46388b97152c60cd52b01057818e68b937074edb1d1",
+    "size_bytes": 52591
+  },
+  "prior_exposure": "两项预注册新实例已有 v1 尝试；v2 为冻结新配置复核，历史尝试单独保留",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
+  "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+  "source_manifest": {
+    "path": ".repropatch/generalization-v2-2026-10-24/source-manifest.json",
+    "sha256": "2245f5698bf1352314b46b09f409dca281e037ff7d4bb869f8f82e020aa8a74e",
+    "size_bytes": 6792
+  },
+  "system_sha256": "268a01e6794c962273144e0e35225255112ace053749a068b2402af9d8e00883",
+  "tools_sha256": "0b6d579abe3082b62c6d639b2c2f5480aaf0c2df4285de7fe01d6d570258084e",
+  "tasks": [
+    {
+      "key": "fmt4055",
+      "instance_id": "fmt-4055",
+      "status": "QUALIFIED",
+      "model_requests": 0,
+      "task": {
+        "path": ".repropatch/generalization-v2-2026-10-24/tasks/fmt4055/task.yaml",
+        "sha256": "a51d07631c4c0d1c8cf33080152fefd045db0d73ca4111882b67649d942898ab",
+        "size_bytes": 3348
+      },
+      "task_sha256": "214a36ebd8dcfb35a4970f81fd494db3b64b8c33973bb5b8756294dade762579",
+      "prepared_commit": "148a69d245a44b1cc74baa6c9e05922fd8cb1b30",
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "budget": {
+        "max_steps": 12,
+        "max_tool_calls": 24,
+        "wall_seconds": 2400,
+        "verification_reserve_seconds": 1200,
+        "model_timeout_seconds": 90,
+        "command_timeout_seconds": 600,
+        "max_output_tokens": 8192
+      },
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": 19,
+      "native_tests": 20,
+      "reference_internal": {
+        "path": ".repropatch/fmt4055-qualification/reference-runs-v2/522b153d00a94a50a9513c3cebcec7ae/report.json",
+        "sha256": "dbdf46f5f3aa3db9fce09537a94a24beb3c00477faa3904c8548b663b41ed483",
+        "size_bytes": 847952
+      },
+      "reference_events": {
+        "path": ".repropatch/fmt4055-qualification/reference-runs-v2/522b153d00a94a50a9513c3cebcec7ae/events.sqlite3",
+        "sha256": "a320d52b6e37b5ea8ea14809021f47f18edf050f50c1af948ca141887d967043",
+        "size_bytes": 180224
+      },
+      "reference_external": {
+        "path": ".repropatch/fmt4055-qualification/reference-oracle/oracle-verdict.json",
+        "sha256": "a880bb5b422415b3bbfa0eacf789bc1ee37644fe6073cdb67ac06bd78c18ef08",
+        "size_bytes": 1024
+      },
+      "reference_execution": {
+        "path": ".repropatch/fmt4055-qualification/reference-oracle/execution.json",
+        "sha256": "9b129629ccea8d98420e13203fd491e11e5f7d11bef34a86733d82923a36ec0f",
+        "size_bytes": 20253
+      },
+      "record": {
+        "path": ".repropatch/generalization-v2-2026-10-24/tasks/fmt4055/record.json",
+        "sha256": "7b5a4c7156c81490d4e598d6ccbe05813c771e8b607c8b8c76e32e85132523be",
+        "size_bytes": 8902
+      },
+      "common_input": {
+        "path": ".repropatch/generalization-v2-2026-10-24/tasks/fmt4055/common-input.json",
+        "sha256": "2aa8b0807324b4e70caadbe61b879690307d24a6f7958e9d685b41e6b1287823",
+        "size_bytes": 16926
+      },
+      "common_input_origin": {
+        "path": ".repropatch/generalization-2026-10-24/fmt4055-scripted-runs/ff483280ed1e402a9948913823cdc7fc/agent/native/0001-input.json",
+        "sha256": "2aa8b0807324b4e70caadbe61b879690307d24a6f7958e9d685b41e6b1287823",
+        "size_bytes": 16926
+      },
+      "external_agent_seconds": 1090,
+      "host_path_scope": "workspace/output 路径独立；执行契约 SHA 保持资格身份"
+    },
+    {
+      "key": "simd1899",
+      "instance_id": "simdjson-1899",
+      "status": "QUALIFIED",
+      "model_requests": 0,
+      "task": {
+        "path": ".repropatch/generalization-v2-2026-10-24/tasks/simd1899/task.yaml",
+        "sha256": "9424a21c0f84f9914ce2a3ec8fd32f62fd334fd56c508a5ca2030b248e991ba8",
+        "size_bytes": 14031
+      },
+      "task_sha256": "4f7032e044582dd807b34443e12ce7e29087c0dce4f78dc4043bef5b12d1d894",
+      "prepared_commit": "65d4d8f24f77034e5b900b5a9bc77f69f7615bf7",
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "budget": {
+        "max_steps": 12,
+        "max_tool_calls": 24,
+        "wall_seconds": 3600,
+        "verification_reserve_seconds": 1800,
+        "model_timeout_seconds": 90,
+        "command_timeout_seconds": 900,
+        "max_output_tokens": 8192
+      },
+      "f2p": [
+        "basictests"
+      ],
+      "p2p": 92,
+      "native_tests": 93,
+      "reference_internal": {
+        "path": ".repropatch/simd1899-qualification/runs-v2/8c8d2b7a060f43c2afd3f69a6a504f6d/report.json",
+        "sha256": "65dc0642c88394eec8c487ead002ecfe263071016b5071109787c0f309f5a310",
+        "size_bytes": 1162672
+      },
+      "reference_events": {
+        "path": ".repropatch/simd1899-qualification/runs-v2/8c8d2b7a060f43c2afd3f69a6a504f6d/events.sqlite3",
+        "sha256": "95efbf551501f38a4567a125aa84c1644987598ede1e0d852254d682fa3535ab",
+        "size_bytes": 581632
+      },
+      "reference_external": {
+        "path": ".repropatch/simd1899-qualification/reference-oracle/oracle-verdict.json",
+        "sha256": "8fd1e558da1cd5065506b6655d54fb5934fd441b10161cc82db04bf0c15bb367",
+        "size_bytes": 6781
+      },
+      "reference_execution": {
+        "path": ".repropatch/simd1899-qualification/reference-oracle/execution.json",
+        "sha256": "3e8a485084c5ed4752b7661b53b4cba203fae27a722034104f574bfc2a305601",
+        "size_bytes": 1456
+      },
+      "record": {
+        "path": ".repropatch/generalization-v2-2026-10-24/tasks/simd1899/record.json",
+        "sha256": "738ff627f7cf1dae545d2a472b74e2b74d41af3a9dc1c5051d656850034add14",
+        "size_bytes": 30460
+      },
+      "common_input": {
+        "path": ".repropatch/generalization-v2-2026-10-24/tasks/simd1899/common-input.json",
+        "sha256": "190203156484b23b9ec7839673b9ed4c151845492ea74fe267ceb2d7c59bd2e5",
+        "size_bytes": 60407
+      },
+      "common_input_origin": {
+        "path": ".repropatch/generalization-2026-10-24/simd1899-scripted-runs/f5da4a8da58348cfa80fc02b497bc0fc/agent/native/0001-input.json",
+        "sha256": "190203156484b23b9ec7839673b9ed4c151845492ea74fe267ceb2d7c59bd2e5",
+        "size_bytes": 60407
+      },
+      "external_agent_seconds": 1598,
+      "host_path_scope": "workspace/output 路径独立；执行契约 SHA 保持资格身份"
+    }
+  ],
+  "frameworks": {
+    "full": {
+      "version": "0.3.0",
+      "parallel_tool_calls": false
+    },
+    "mini": {
+      "version": "2.4.6",
+      "commit": "04d809ceab9df28f9adaed044884180159172930"
+    },
+    "codex": {
+      "version": "0.163.0",
+      "binary": {
+        "path": ".repropatch/codex-0.163.0/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+        "sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+        "size_bytes": 296865480
+      },
+      "code_host": {
+        "path": ".repropatch/codex-0.163.0/package/vendor/x86_64-unknown-linux-musl/bin/codex-code-mode-host",
+        "sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+        "size_bytes": 74277776
+      },
+      "native_config": {
+        "model_provider": "benchmark",
+        "model": "gpt-6-luna",
+        "approval_policy": "never",
+        "model_reasoning_effort": "medium",
+        "web_search": "disabled",
+        "model_providers.benchmark.name": "CPA isolated metered relay",
+        "model_providers.benchmark.base_url": "http://127.0.0.1:8318/v1",
+        "model_providers.benchmark.env_key": "BENCHMARK_MODEL_KEY",
+        "model_providers.benchmark.wire_api": "responses",
+        "model_providers.benchmark.request_max_retries": 0,
+        "model_providers.benchmark.stream_max_retries": 0,
+        "model_providers.benchmark.stream_idle_timeout_ms": 100000,
+        "model_providers.benchmark.supports_websockets": false
+      }
+    }
+  },
+  "sequence": [
+    {
+      "task": "fmt4055",
+      "group": "full",
+      "attempt": "v2-fmt4055-full-1",
+      "repeat": 1
+    },
+    {
+      "task": "fmt4055",
+      "group": "mini",
+      "attempt": "v2-fmt4055-mini-1",
+      "repeat": 1
+    },
+    {
+      "task": "fmt4055",
+      "group": "codex",
+      "attempt": "v2-fmt4055-codex-1",
+      "repeat": 1
+    },
+    {
+      "task": "simd1899",
+      "group": "full",
+      "attempt": "v2-simd1899-full-1",
+      "repeat": 1
+    },
+    {
+      "task": "simd1899",
+      "group": "mini",
+      "attempt": "v2-simd1899-mini-1",
+      "repeat": 1
+    },
+    {
+      "task": "simd1899",
+      "group": "codex",
+      "attempt": "v2-simd1899-codex-1",
+      "repeat": 1
+    }
+  ],
+  "execution_slots": 1,
+  "formal_runs": 6,
+  "formal_request_cap": 72,
+  "request_limit_per_attempt": 12,
+  "tool_limit": 24,
+  "tool_batch_limit": 8,
+  "max_output_tokens": 8192,
+  "input_bytes": 262144,
+  "model_timeout_seconds": 90,
+  "model": "gpt-6-luna",
+  "endpoint": "https://cpa.liyinlong.me/v1",
+  "expected_reasoning_effort": "medium",
+  "request_parameters": {
+    "full": {
+      "stream": false,
+      "reasoning": "省略；逐次响应核查 medium"
+    },
+    "mini": {
+      "stream": false,
+      "reasoning": "省略；逐次响应核查 medium"
+    },
+    "codex": {
+      "stream": true,
+      "reasoning": {
+        "effort": "medium"
+      }
+    }
+  },
+  "prior_default_reasoning_evidence": {
+    "full": {
+      "request": {
+        "path": ".repropatch/generalization-2026-10-24/fmt4055-full-1/http-native/4a05bd62eafd40259bd9e9a7df471d5f-request.json",
+        "sha256": "5262c8b8e1e0dbe707467ab431f6ab8302537a435542c72274ef2371b7ca826c",
+        "size_bytes": 19425
+      },
+      "response": {
+        "path": ".repropatch/generalization-2026-10-24/fmt4055-full-1/http-native/4a05bd62eafd40259bd9e9a7df471d5f-response.json",
+        "sha256": "7b1321af61f75a21bd767df4e965c1d4920e6b466d9f63e7b0429a7d0a16ac95",
+        "size_bytes": 7190
+      },
+      "request_reasoning": null,
+      "response_reasoning": {
+        "context": "all_turns",
+        "effort": "medium",
+        "mode": "standard",
+        "summary": null
+      }
+    },
+    "mini": {
+      "request": {
+        "path": ".repropatch/generalization-2026-10-24/fmt4055-mini-1/http-native/7e92ff76d8cc4e93b060333e1b97a81e-request.json",
+        "sha256": "e2122fe7ee6ca0e751ac31e3dd9c2ccbebbe1140ae3aae937c753a0c8073cd63",
+        "size_bytes": 18319
+      },
+      "response": {
+        "path": ".repropatch/generalization-2026-10-24/fmt4055-mini-1/http-native/7e92ff76d8cc4e93b060333e1b97a81e-response.json",
+        "sha256": "db472e90b3557dbd915bbaac60d55da9b477618610b12f7270d063fc5ebdd2c9",
+        "size_bytes": 3537
+      },
+      "request_reasoning": null,
+      "response_reasoning": {
+        "context": "all_turns",
+        "effort": "medium",
+        "mode": "standard",
+        "summary": null
+      }
+    }
+  },
+  "calibration": {
+    "request_cap": 1,
+    "ledger": ".repropatch/generalization-v2-2026-10-24/calibration-usage.sqlite3",
+    "purpose": "固定 Codex CLI 请求与上游响应中的 medium",
+    "included_in_formal_scores": false
+  },
+  "fairness_check": "每次实际请求与响应核对；参数偏离时保留尝试并停止派发下一次",
+  "tool_admission": "完整响应留证、整批准入、再转交 CLI；工具满额后允许纯文本总结请求",
+  "self_check_policy": "调试优先 reproduce；预算允许继续修复时 verify；Harness 最终独立验收",
+  "primary_metric": "统一外部原生 Oracle 通过率；全部六次按原顺序报告",
+  "outcome_classes": [
+    "native_accepted",
+    "recovered_oracle_pass",
+    "oracle_pass",
+    "infrastructure_failure",
+    "oracle_failure"
+  ],
+  "retests": {
+    "allowed": false,
+    "automatic_retries": 0
+  },
+  "optional_dev_runs": {
+    "enabled": false,
+    "requests": 0
+  },
+  "differences": [
+    "Full 六个函数工具；mini 原生 Bash；Codex 原生 Shell 与补丁工具",
+    "Full 每次检查使用新容器；mini 与 Codex 使用持久修复容器",
+    "Full 按 readable 过滤文件工具；mini 与 Codex 可读取完整 prepared 源码",
+    "mini/Codex 共用资格领域输入；Full 独立运行基线，逐阶段耗时单列",
+    "外部框架修复期限按资格基线耗时扣除；Full 按实际基线耗时扣除",
+    "两题均无 nlohmann/json 单头文件专项；single_header_pass 记为 null"
+  ],
+  "cost_cny": null,
+  "cost_basis": "CPA 账户已获授权；计入请求和真实 tokens，账单金额未知"
+}
