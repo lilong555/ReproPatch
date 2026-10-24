@@ -1,5 +1,14 @@
 # 测试报告
 
+源码提交 `c16454d36ec11dcd5f757fa3f91dfa1a6486ff9e` 的
+[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40067634876)通过：
+332 项核心、151 项 SDK、21 项指定真实 Docker 门禁，共 504 项。
+本地 Codex 超时冻结场景另通过 1 项真实 Docker 检查；完整、分段、中断 SSE
+保留字节、计量一次与工具整批准入的定向检查通过。
+FMT-4055 参考补丁通过内部独立验收及外部 20 项原生测试；simdjson-1899
+通过内部 1 F2P + 92 P2P 验收与外部 93 项原生测试。两题资格阶段模型请求为 0，
+[资格报告与原始证据](../benchmarks/generalization-qualification.md)包含全部身份和首次资格诊断。
+
 Codex CLI 对照与 simdjson 适配实现提交 `379ede5ef62320129428b922926227cc7d001872` 的
 [完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/39901573799)通过：331核心、147 SDK、21真实Docker场景。
 simdjson-2178参考补丁通过内部2 F2P +97 P2P验收，以及独立原生99项测试。
