@@ -1,0 +1,241 @@
+{
+  "created_at": "2026-10-24T05:46:46.283018+00:00",
+  "stage": "FROZEN_BEFORE_MODEL_REQUESTS",
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "tasks": [
+    {
+      "key": "fmt4055",
+      "instance_id": "fmt-4055",
+      "status": "QUALIFIED",
+      "model_requests": 0,
+      "task": {
+        "path": ".repropatch/generalization-2026-10-24/tasks/fmt4055/task.yaml",
+        "sha256": "aba1e9af62ab40c845c1a0692d601ea33962dcee561c4692958fadfcfaf19d55",
+        "size_bytes": 3342
+      },
+      "task_sha256": "214a36ebd8dcfb35a4970f81fd494db3b64b8c33973bb5b8756294dade762579",
+      "prepared_commit": "148a69d245a44b1cc74baa6c9e05922fd8cb1b30",
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "budget": {
+        "max_steps": 12,
+        "max_tool_calls": 24,
+        "wall_seconds": 2400,
+        "verification_reserve_seconds": 1200,
+        "model_timeout_seconds": 90,
+        "command_timeout_seconds": 600,
+        "max_output_tokens": 8192
+      },
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": 19,
+      "native_tests": 20,
+      "reference_internal": {
+        "path": ".repropatch/fmt4055-qualification/reference-runs-v2/522b153d00a94a50a9513c3cebcec7ae/report.json",
+        "sha256": "dbdf46f5f3aa3db9fce09537a94a24beb3c00477faa3904c8548b663b41ed483",
+        "size_bytes": 847952
+      },
+      "reference_events": {
+        "path": ".repropatch/fmt4055-qualification/reference-runs-v2/522b153d00a94a50a9513c3cebcec7ae/events.sqlite3",
+        "sha256": "a320d52b6e37b5ea8ea14809021f47f18edf050f50c1af948ca141887d967043",
+        "size_bytes": 180224
+      },
+      "reference_external": {
+        "path": ".repropatch/fmt4055-qualification/reference-oracle/oracle-verdict.json",
+        "sha256": "a880bb5b422415b3bbfa0eacf789bc1ee37644fe6073cdb67ac06bd78c18ef08",
+        "size_bytes": 1024
+      },
+      "reference_execution": {
+        "path": ".repropatch/fmt4055-qualification/reference-oracle/execution.json",
+        "sha256": "9b129629ccea8d98420e13203fd491e11e5f7d11bef34a86733d82923a36ec0f",
+        "size_bytes": 20253
+      }
+    },
+    {
+      "key": "simd1899",
+      "instance_id": "simdjson-1899",
+      "status": "QUALIFIED",
+      "model_requests": 0,
+      "task": {
+        "path": ".repropatch/generalization-2026-10-24/tasks/simd1899/task.yaml",
+        "sha256": "47fb8c353264640a79e2fb84d0ec014b065c4c8e7396263058f451cb441d2fe5",
+        "size_bytes": 14025
+      },
+      "task_sha256": "4f7032e044582dd807b34443e12ce7e29087c0dce4f78dc4043bef5b12d1d894",
+      "prepared_commit": "65d4d8f24f77034e5b900b5a9bc77f69f7615bf7",
+      "image_id": "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a",
+      "budget": {
+        "max_steps": 12,
+        "max_tool_calls": 24,
+        "wall_seconds": 3600,
+        "verification_reserve_seconds": 1800,
+        "model_timeout_seconds": 90,
+        "command_timeout_seconds": 900,
+        "max_output_tokens": 8192
+      },
+      "f2p": [
+        "basictests"
+      ],
+      "p2p": 92,
+      "native_tests": 93,
+      "reference_internal": {
+        "path": ".repropatch/simd1899-qualification/runs-v2/8c8d2b7a060f43c2afd3f69a6a504f6d/report.json",
+        "sha256": "65dc0642c88394eec8c487ead002ecfe263071016b5071109787c0f309f5a310",
+        "size_bytes": 1162672
+      },
+      "reference_events": {
+        "path": ".repropatch/simd1899-qualification/runs-v2/8c8d2b7a060f43c2afd3f69a6a504f6d/events.sqlite3",
+        "sha256": "95efbf551501f38a4567a125aa84c1644987598ede1e0d852254d682fa3535ab",
+        "size_bytes": 581632
+      },
+      "reference_external": {
+        "path": ".repropatch/simd1899-qualification/reference-oracle/oracle-verdict.json",
+        "sha256": "8fd1e558da1cd5065506b6655d54fb5934fd441b10161cc82db04bf0c15bb367",
+        "size_bytes": 6781
+      },
+      "reference_execution": {
+        "path": ".repropatch/simd1899-qualification/reference-oracle/execution.json",
+        "sha256": "3e8a485084c5ed4752b7661b53b4cba203fae27a722034104f574bfc2a305601",
+        "size_bytes": 1456
+      }
+    }
+  ],
+  "model": "gpt-6-luna",
+  "endpoint": "https://cpa.liyinlong.me/v1",
+  "implementations": {
+    "full": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+    "candidate": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef"
+  },
+  "source_manifest": {
+    "path": ".repropatch/generalization-2026-10-24/source-manifest.json",
+    "sha256": "bbb53ba855e6e217b7fb34d14a856b7cc7600d95b6d53fb818f4c841c7cbd780",
+    "size_bytes": 9090
+  },
+  "sequence": [
+    {
+      "task": "fmt4055",
+      "group": "full",
+      "repeat": 1,
+      "attempt": "fmt4055-full-1"
+    },
+    {
+      "task": "fmt4055",
+      "group": "candidate",
+      "repeat": 1,
+      "attempt": "fmt4055-candidate-1"
+    },
+    {
+      "task": "fmt4055",
+      "group": "mini",
+      "repeat": 1,
+      "attempt": "fmt4055-mini-1"
+    },
+    {
+      "task": "fmt4055",
+      "group": "codex",
+      "repeat": 1,
+      "attempt": "fmt4055-codex-1"
+    },
+    {
+      "task": "fmt4055",
+      "group": "codex",
+      "repeat": 2,
+      "attempt": "fmt4055-codex-2"
+    },
+    {
+      "task": "fmt4055",
+      "group": "mini",
+      "repeat": 2,
+      "attempt": "fmt4055-mini-2"
+    },
+    {
+      "task": "fmt4055",
+      "group": "candidate",
+      "repeat": 2,
+      "attempt": "fmt4055-candidate-2"
+    },
+    {
+      "task": "fmt4055",
+      "group": "full",
+      "repeat": 2,
+      "attempt": "fmt4055-full-2"
+    },
+    {
+      "task": "simd1899",
+      "group": "mini",
+      "repeat": 1,
+      "attempt": "simd1899-mini-1"
+    },
+    {
+      "task": "simd1899",
+      "group": "codex",
+      "repeat": 1,
+      "attempt": "simd1899-codex-1"
+    },
+    {
+      "task": "simd1899",
+      "group": "full",
+      "repeat": 1,
+      "attempt": "simd1899-full-1"
+    },
+    {
+      "task": "simd1899",
+      "group": "candidate",
+      "repeat": 1,
+      "attempt": "simd1899-candidate-1"
+    },
+    {
+      "task": "simd1899",
+      "group": "candidate",
+      "repeat": 2,
+      "attempt": "simd1899-candidate-2"
+    },
+    {
+      "task": "simd1899",
+      "group": "full",
+      "repeat": 2,
+      "attempt": "simd1899-full-2"
+    },
+    {
+      "task": "simd1899",
+      "group": "codex",
+      "repeat": 2,
+      "attempt": "simd1899-codex-2"
+    },
+    {
+      "task": "simd1899",
+      "group": "mini",
+      "repeat": 2,
+      "attempt": "simd1899-mini-2"
+    }
+  ],
+  "execution_slots": 1,
+  "request_limit_per_attempt": 12,
+  "formal_request_cap": 192,
+  "tool_limit": 24,
+  "tool_batch_limit": 8,
+  "output_tokens": 8192,
+  "input_bytes": 262144,
+  "common_input_source": "各题ScriptedModel零HTTP运行保存的原生初始领域输入；Full/Candidate自行复现基线",
+  "request_parameters": {
+    "full_candidate_mini": {
+      "stream": false,
+      "reasoning": "省略"
+    },
+    "codex": {
+      "stream": true,
+      "reasoning": "none"
+    },
+    "max_output_tokens": 8192
+  },
+  "selection": "审查预注册FMT4055与simdjson1899；新实例、既有仓库；simd原始Issue包含局部修复线索",
+  "candidate_change": "parallel_tool_calls=True和已归档九行批量修复提示；策略组合保持冻结",
+  "adoption_rule": {
+    "new_success": "四个配对中新增成功且另一任务无相应退化",
+    "efficiency": "两题成功配对请求数均稳定减少约20%，token和同范围耗时无明显反向增长",
+    "otherwise": "保留Full默认，发布逐次结果并结束该候选开发"
+  },
+  "retests": "正式16次全部保留；环境复测全批最多两次，单独登记，不覆盖首次结果",
+  "cost_cny": null,
+  "cost_basis": "CPA供应商账单未知；实测请求与token单独记录"
+}

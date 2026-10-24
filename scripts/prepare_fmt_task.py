@@ -17,6 +17,13 @@ TEST_PATCH_SHA256 = "9038d83d8a393ef1dec82b5ee8eec43b5abcac43cea26e264ba506d0f38
 REFERENCE_SHA256 = "f3a54f9ae8cc967cda9faefc6a4b7fc2ed3da8daf5e83c6340018845018605c1"
 IMAGE = "sha256:beb37ec7c7573716554cc526daf8febbe6a69b13f114612e46bc0c75504be61a"
 CASES = {
+    4055: {
+        "base_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+        "test_patch_sha256": "522a0743d188fe71eabf415f770fc21db1c7fa896fedc35a731e55b3e9edc478",
+        "reference_sha256": "2aedc1aec04c079e10dcb00b96eeadb621e85dd00832ead6966d7b0265ab6aeb",
+        "compile_target": "format-test",
+        "compile_signature": "error:",
+    },
     4310: {
         "base_commit": BASE_COMMIT,
         "test_patch_sha256": TEST_PATCH_SHA256,
@@ -67,7 +74,9 @@ NATIVE_TESTS = (
 def native_tests(record):
     """按固定上游版本保留完整原生测试集合。"""
     return tuple(
-        name for name in NATIVE_TESTS if record["number"] != 4057 or name != "no-builtin-types-test"
+        name
+        for name in NATIVE_TESTS
+        if record["number"] not in {4055, 4057} or name != "no-builtin-types-test"
     )
 
 
@@ -82,12 +91,12 @@ CONFIGURE = [
     "-DCMAKE_BUILD_TYPE=Release",
 ]
 CTEST = ["ctest", "--test-dir", "/build", "--output-on-failure", "--no-tests=error"]
-CTEST_ADAPTER = """  if (name STREQUAL "base-test")
+CTEST_ADAPTER = """  if (name STREQUAL "__TARGET__")
     # 编译回归在 CTest 内构建原生目标，保留同一个回归用例和运行结果。
-    set_target_properties(base-test PROPERTIES EXCLUDE_FROM_ALL TRUE)
-    add_test(NAME base-test COMMAND ${CMAKE_COMMAND}
+    set_target_properties(__TARGET__ PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    add_test(NAME __TARGET__ COMMAND ${CMAKE_COMMAND}
       "-DBUILD_DIR=${CMAKE_BINARY_DIR}"
-      "-DTEST_BINARY=$<TARGET_FILE:base-test>"
+      "-DTEST_BINARY=$<TARGET_FILE:__TARGET__>"
       -P "${PROJECT_SOURCE_DIR}/test/repropatch-build-test.cmake")
   else ()
     add_test(NAME ${name} COMMAND ${name})
@@ -95,7 +104,7 @@ CTEST_ADAPTER = """  if (name STREQUAL "base-test")
 """
 COMPILE_TEST = """# 构建或测试失败原样传播；源码和此脚本均由 Task 保护。
 execute_process(
-  COMMAND "${CMAKE_COMMAND}" --build "${BUILD_DIR}" --target base-test --parallel 2
+  COMMAND "${CMAKE_COMMAND}" --build "${BUILD_DIR}" --target __TARGET__ --parallel 2
   RESULT_VARIABLE build_status)
 if (NOT build_status STREQUAL "0")
   message(FATAL_ERROR "FMT_COMPILE_REGRESSION: ${build_status}")
@@ -154,9 +163,9 @@ def main():
     needle = "  add_test(NAME ${name} COMMAND ${name})\n"
     if original.count(needle) != 1:
         raise ValueError("FMT_CMAKE_LAYOUT_CHANGED")
-    cmake.write_text(original.replace(needle, CTEST_ADAPTER.replace("base-test", target)))
+    cmake.write_text(original.replace(needle, CTEST_ADAPTER.replace("__TARGET__", target)))
     (repository / "test/repropatch-build-test.cmake").write_text(
-        COMPILE_TEST.replace("base-test", target)
+        COMPILE_TEST.replace("__TARGET__", target)
     )
     git(repository, "add", "-f", ".")
     git(repository, "commit", "-qm", "固定编译回归与 CTest 入口")

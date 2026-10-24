@@ -21,6 +21,7 @@ from benchmark_budget import (
     BudgetLimit,
     LocalUsageLedger,
     check_pricing_date,
+    validate_task_budget,
 )
 
 
@@ -423,13 +424,7 @@ def main():
 
     try:
         task = Task.load(args.task)
-        if (
-            task.budget.max_output_tokens != POLICY["max_output_tokens"]
-            or task.budget.max_steps != POLICY["request_limit_per_attempt"]
-            or task.budget.model_timeout_seconds != 90
-            or task.budget.max_tool_calls != 24
-        ):
-            raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
+        validate_task_budget(task)
         if args.provider == "local-luna":
             ledger = LocalUsageLedger(args.ledger)
         else:

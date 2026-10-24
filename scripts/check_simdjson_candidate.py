@@ -15,7 +15,7 @@ from prepare_fmt_task import IMAGE
 from prepare_mini_environment import set_container_read_permissions
 from prepare_multiswe_task import git
 from prepare_simdjson_task import (
-    BASE,
+    CASES,
     CONFIGURE,
     CTEST,
     DATA_COMMIT,
@@ -38,21 +38,23 @@ def main():
     parser.add_argument("--repository", type=Path, required=True)
     parser.add_argument("--data-repository", type=Path, required=True)
     parser.add_argument("--cxxopts-repository", type=Path, required=True)
+    parser.add_argument("--number", type=int, choices=sorted(CASES))
     parser.add_argument("--candidate", type=Path, required=True)
     parser.add_argument("--task", type=Path, required=True)
     parser.add_argument("--evaluator-source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--reference-check", action="store_true")
     args = parser.parse_args()
-    record = record_file(args.record)
+    record = record_file(args.record, args.number)
+    case = CASES[record["number"]]
     resolved = resolve_task(Task.load(args.task))
     provenance = json.loads((resolved.repository_path.parent / "provenance.json").read_text())
     if (
         resolved.image_id != IMAGE
         or resolved.base_commit != provenance["prepared_commit"]
-        or resolved.task.id != "simdjson-simdjson-2178"
+        or resolved.task.id != f"simdjson-simdjson-{record['number']}"
         or list(resolved.task.commands.configure) != CONFIGURE
-        or provenance["upstream_commit"] != BASE
+        or provenance["upstream_commit"] != case["base"]
     ):
         parser.error("SIMDJSON_TASK_IDENTITY")
     evaluator = args.evaluator_source.resolve(strict=True)
@@ -83,7 +85,7 @@ def main():
     name = "repropatch-simd-oracle-" + uuid.uuid4().hex[:12]
     started = time.monotonic()
     execution = {
-        "upstream_commit": BASE,
+        "upstream_commit": case["base"],
         "image": IMAGE,
         "model_requests": 0,
         "dependencies": provenance["dependencies"],
@@ -91,7 +93,7 @@ def main():
     }
     with tempfile.TemporaryDirectory(dir=output.parent, prefix="simd-oracle-") as tmp:
         source = Path(tmp) / "source"
-        archive(args.repository, BASE, source)
+        archive(args.repository, case["base"], source)
         archive(args.data_repository, DATA_COMMIT, source / "dependencies/.cache/simdjson-data")
         archive(
             args.cxxopts_repository,
@@ -159,7 +161,11 @@ def main():
     observed = Simdjson.parse_log(None, (output / "stdout.log").read_text())
     required = set(record["run_result"]["passed_tests"])
     missing = required - observed.passed_tests
-    accepted = execution["exit_code"] == 0 and execution["container_deleted"] and not missing
+    accepted = (
+        execution["exit_code"] == 0
+        and execution["container_deleted"]
+        and observed.passed_tests == required
+    )
     accepted = accepted and not observed.failed_tests and not observed.skipped_tests
     verdict = {
         "accepted": bool(accepted),

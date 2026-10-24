@@ -24,6 +24,7 @@ from repropatch.task import Task, resolve_task
 from repropatch.workspace import Worktree
 
 PREPARED_COMMITS = {
+    4055: "148a69d245a44b1cc74baa6c9e05922fd8cb1b30",
     4310: "512849d9dfdef27c9bc46e410a8fdf9997c8dab6",
     4286: "af86d0892b0da6dcd80528ba391a20ad7cf7e3e0",
     4057: "71fba7a1916d064832dfdd6a8d705aa0a1a07102",

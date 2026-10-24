@@ -68,6 +68,25 @@ def test_last_turn_tools_execute_and_patch_is_independently_verified(task, tmp_p
     model.assert_complete()
 
 
+def test_last_turn_two_edits_are_serial_and_independently_verified(task, tmp_path):
+    from agents.testing import function_call
+
+    second = function_call(
+        "edit_file",
+        {"path": "src/stats.cpp", "old": "value > best", "new": "best < value"},
+        call_id="second-edit",
+    )
+    report, model = selected(task, tmp_path, [[edit(), second]], max_steps=1)
+    assert report["outcome"] == "ACCEPTED"
+    assert report["agent"]["tool_calls_used"] == 2
+    assert report["independent"]["evaluation_role"] == "independent"
+    finished = [row for row in events(report) if row["type"] == "tool_finished"]
+    assert [row["tool_call_id"] for row in finished] == ["s000001.t01", "s000001.t02"]
+    patch = (Path(report["artifact_directory"]) / "patch.diff").read_text()
+    assert "+    int best = samples.front();" in patch and "+        if (best < value)" in patch
+    model.assert_complete()
+
+
 @pytest.mark.parametrize("candidate", [False, True])
 def test_over_budget_batch_has_no_partial_side_effects(task, tmp_path, candidate):
     from agents.testing import function_call

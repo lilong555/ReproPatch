@@ -37,6 +37,17 @@ class BudgetLimit(RuntimeError):
     """发送前额度不足或请求不属于本次冻结实验。"""
 
 
+def validate_task_budget(task):
+    """模型调用前核对各框架共用的任务额度。"""
+    if (
+        task.budget.max_output_tokens != POLICY["max_output_tokens"]
+        or task.budget.max_steps != POLICY["request_limit_per_attempt"]
+        or task.budget.model_timeout_seconds != 90
+        or task.budget.max_tool_calls != 24
+    ):
+        raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
+
+
 def check_pricing_date():
     """跨 UTC 日必须复核价格，不以本地时区或运行目录恢复额度。"""
     if datetime.now(UTC).date().isoformat() != POLICY["verified_date"]:

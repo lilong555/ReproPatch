@@ -233,5 +233,15 @@
     "model_requests_archived": 40,
     "candidate_resolved": 1,
     "candidate_attempts": 2
+  },
+  "pending_generalization": {
+    "protocol": "generalization-protocol.json",
+    "qualification": "generalization-qualification.json",
+    "report": "generalization-qualification.md",
+    "qualified_tasks": 2,
+    "formal_attempts": 16,
+    "formal_request_cap": 192,
+    "model_requests_at_freeze": 0,
+    "status": "QUALIFIED_PROTOCOL_FROZEN"
   }
 }

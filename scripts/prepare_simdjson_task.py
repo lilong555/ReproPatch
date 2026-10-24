@@ -1,4 +1,4 @@
-"""固定 simdjson-2178、离线依赖和原生 CTest，生成第三仓库泛化任务。"""
+"""固定 simdjson 实例、离线依赖和原生 CTest，生成泛化任务。"""
 
 import argparse
 import hashlib
@@ -13,11 +13,25 @@ from prepare_multiswe_task import git
 
 from repropatch.task import Task
 
-BASE = "bf7834179c1f8fc523c9fd73d29b46348ae1d576"
-TEST_SHA = "4f01c78195b6d33b3c7af22d599e1b311e7f2936b9c5865a9c258a49aae0b092"
-REFERENCE_SHA = "50c86f0f6681b1b3298e253d1c741572d868c78371f64459d29daa5da1dac18c"
 DATA_COMMIT = "a5b13babe65c1bba7186b41b43d4cbdc20a5c470"
-F2P = ("pointercheck", "ondemand_json_pointer_tests")
+CASES = {
+    2178: {
+        "base": "bf7834179c1f8fc523c9fd73d29b46348ae1d576",
+        "test_sha": "4f01c78195b6d33b3c7af22d599e1b311e7f2936b9c5865a9c258a49aae0b092",
+        "reference_sha": "50c86f0f6681b1b3298e253d1c741572d868c78371f64459d29daa5da1dac18c",
+        "f2p": ("pointercheck", "ondemand_json_pointer_tests"),
+        "failure_marker": "issue 2154",
+        "native_count": 99,
+    },
+    1899: {
+        "base": "5809e51ae405d763700ec19083009a2a1cdbfdbc",
+        "test_sha": "6538c27467d7756d925288815c8bcaa89d1e70e4ccf1b6e45d4bba09d859e5bf",
+        "reference_sha": "d07fef0e6a7a12b4d31d79dc3d399f315925ef97624eaf82c0c44ce698047b6a",
+        "f2p": ("basictests",),
+        "failure_marker": "Failed",
+        "native_count": 93,
+    },
+}
 CONFIGURE = [
     "cmake",
     "-S",
@@ -32,18 +46,36 @@ CONFIGURE = [
 CTEST = ["ctest", "--test-dir", "/build", "--output-on-failure", "--no-tests=error"]
 
 
-def record_file(path):
-    record = json.loads(path.read_text())
+def record_file(path, number=None):
+    if path.suffix == ".jsonl":
+        if number is None:
+            raise ValueError("SIMDJSON_JSONL_REQUIRES_NUMBER")
+        record = next(
+            row
+            for row in map(json.loads, path.read_text().splitlines())
+            if row.get("number") == number
+        )
+    else:
+        record = json.loads(path.read_text())
+        number = record["number"] if number is None else number
+    case = CASES[number]
     if (record["org"], record["repo"], record["number"], record["base"]["sha"]) != (
         "simdjson",
         "simdjson",
-        2178,
-        BASE,
+        number,
+        case["base"],
     ) or any(
         hashlib.sha256(record[k].encode()).hexdigest() != h
-        for k, h in (("test_patch", TEST_SHA), ("fix_patch", REFERENCE_SHA))
+        for k, h in (("test_patch", case["test_sha"]), ("fix_patch", case["reference_sha"]))
     ):
         raise ValueError("SIMDJSON_RECORD_IDENTITY")
+    required = set(record["run_result"]["passed_tests"])
+    if (
+        len(required) != case["native_count"]
+        or required != set(record["fix_patch_result"]["passed_tests"])
+        or not set(case["f2p"]) <= required
+    ):
+        raise ValueError("SIMDJSON_NATIVE_TEST_IDENTITY")
     return record
 
 
@@ -96,13 +128,15 @@ def main():
     parser.add_argument("--repository", type=Path, required=True)
     parser.add_argument("--data-repository", type=Path, required=True)
     parser.add_argument("--cxxopts-repository", type=Path, required=True)
+    parser.add_argument("--number", type=int, choices=sorted(CASES), default=2178)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    record = record_file(args.record)
+    case = CASES[args.number]
+    record = record_file(args.record, args.number)
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     source = output / "repository"
-    archive(args.repository, BASE, source)
+    archive(args.repository, case["base"], source)
     archive(args.data_repository, DATA_COMMIT, source / "dependencies/.cache/simdjson-data")
     cxxopts = git(args.cxxopts_repository, "rev-parse", "794c975^{commit}").decode().strip()
     archive(args.cxxopts_repository, cxxopts, source / "dependencies/.cache/cxxopts")
@@ -126,11 +160,11 @@ def main():
         if p.is_file() and p.suffix in {".h", ".cpp"}
     )
     required = sorted(record["run_result"]["passed_tests"])
-    assert len(required) == 99 and set(F2P) <= set(required)
+    f2p = case["f2p"]
     description = "\n\n".join(i["title"] + "\n" + i["body"] for i in record["resolved_issues"])
     task = {
         "version": 2,
-        "id": "simdjson-simdjson-2178",
+        "id": f"simdjson-simdjson-{args.number}",
         "repository": {"path": str(source), "commit": prepared},
         "environment": {"image": IMAGE, "build_tmpfs_mib": 1024},
         "bug": {
@@ -148,9 +182,14 @@ def main():
         },
         "tests": {
             "fail_to_pass": [
-                {"name": n, "expected_exit_code": 8, "output_contains": "issue 2154"} for n in F2P
+                {
+                    "name": n,
+                    "expected_exit_code": 8,
+                    "output_contains": case["failure_marker"],
+                }
+                for n in f2p
             ],
-            "pass_to_pass": sorted(set(required) - set(F2P)),
+            "pass_to_pass": sorted(set(required) - set(f2p)),
             "protected_paths": ["tests/", "examples/", "cmake/", "dependencies/", "CMakeLists.txt"],
         },
         "files": {
@@ -173,16 +212,20 @@ def main():
     path.write_text(yaml.safe_dump(task, sort_keys=False, allow_unicode=True))
     Task.load(path)
     provenance = {
-        "instance_id": "simdjson__simdjson-2178",
-        "upstream_commit": BASE,
+        "instance_id": f"simdjson__simdjson-{args.number}",
+        "upstream_commit": case["base"],
         "prepared_commit": prepared,
         "image": IMAGE,
         "native_required_tests": required,
-        "test_patch_sha256": TEST_SHA,
-        "reference_patch_sha256": REFERENCE_SHA,
+        "test_patch_sha256": hashlib.sha256(record["test_patch"].encode()).hexdigest(),
+        "reference_patch_sha256": hashlib.sha256(record["fix_patch"].encode()).hexdigest(),
         "dependencies": {"simdjson-data": DATA_COMMIT, "cxxopts": cxxopts},
         "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
-        "selection": "第三仓库固定数据文件首条；核心6c13冻结后选定",
+        "selection": (
+            "第三仓库固定数据文件首条；核心6c13冻结后选定"
+            if args.number == 2178
+            else "预注册新任务样本；策略源码冻结后选定"
+        ),
         "model_requests": 0,
     }
     (output / "provenance.json").write_text(

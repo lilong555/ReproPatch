@@ -21,6 +21,121 @@ def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
+def read_model_stream(client, url, payload, headers, trace, identity, ledger):
+    """逐块持久化 SSE，完整响应完成计量后再交给工具准入。"""
+    started = time.monotonic()
+    metadata = {
+        "request_id": identity,
+        "http_status": None,
+        "first_byte_seconds": None,
+        "last_byte_seconds": None,
+        "received_bytes": 0,
+        "response_completed_seen": False,
+        "usage_complete": False,
+        "error_type": None,
+        "cause_type": None,
+    }
+    data = bytearray()
+    status = None
+    completed = None
+    content_type = "text/event-stream"
+    try:
+        with (trace / (identity + "-response.sse")).open("xb") as evidence:
+            with client.stream("POST", url, content=payload, headers=headers) as response:
+                status = response.status_code
+                metadata["http_status"] = status
+                content_type = response.headers.get("Content-Type", content_type)
+                for chunk in response.iter_bytes():
+                    if not chunk:
+                        continue
+                    received = time.monotonic() - started
+                    if metadata["first_byte_seconds"] is None:
+                        metadata["first_byte_seconds"] = received
+                    metadata["last_byte_seconds"] = received
+                    evidence.write(chunk)
+                    evidence.flush()
+                    data.extend(chunk)
+                    metadata["received_bytes"] += len(chunk)
+        for line in data.splitlines():
+            if not line.startswith(b"data: ") or line == b"data: [DONE]":
+                continue
+            event = json.loads(line[6:])
+            if event.get("type") in {
+                "response.completed",
+                "response.incomplete",
+                "response.failed",
+            }:
+                completed = event.get("response")
+                metadata["response_completed_seen"] = event["type"] == "response.completed"
+        if status == 200 and not metadata["response_completed_seen"]:
+            raise ValueError("MODEL_RESPONSE_INCOMPLETE")
+        return status, bytes(data), content_type, completed
+    except Exception as error:
+        metadata["error_type"] = type(error).__name__
+        metadata["cause_type"] = type(error.__cause__).__name__ if error.__cause__ else None
+        raise
+    finally:
+        usage = (completed or {}).get("usage") or {}
+        metadata["usage_complete"] = status == 200 and all(
+            type(usage.get(key)) is int and usage[key] >= 0
+            for key in ("input_tokens", "output_tokens")
+        )
+        content = json.dumps(completed, ensure_ascii=False).encode() if completed else bytes(data)
+        (trace / (identity + "-response.json")).write_bytes(content)
+        save(trace / (identity + "-transport.json"), metadata)
+        # 传输异常使用本地状态 0 完成一次结算，HTTP 状态仍在元数据中保留未知。
+        ledger.settle(identity, content, status if status is not None else 0)
+
+
+def admit_tools(completed, admitted, maximum):
+    """整批检查后返回累计额度，调用者随后才转发可执行事件。"""
+    from benchmark_budget import BudgetLimit
+
+    calls = sum(
+        item.get("type") in {"function_call", "custom_tool_call"}
+        for item in (completed or {}).get("output", [])
+    )
+    if calls > 8:
+        raise BudgetLimit("TOOL_BATCH_LIMIT")
+    if admitted + calls > maximum:
+        raise BudgetLimit("TOOL_BUDGET")
+    return admitted + calls
+
+
+def stop_container(name):
+    """终止本次拥有的容器及其进程，确认删除后允许读取候选。"""
+    subprocess.run(["docker", "rm", "-f", name], capture_output=True, timeout=30)
+    left = subprocess.check_output(
+        ["docker", "ps", "-aq", "--filter", "name=^/" + name + "$"], timeout=30
+    )
+    if left.strip():
+        raise RuntimeError("CODEX_CONTAINER_CLEANUP_UNCONFIRMED")
+
+
+def export_candidate(source, output):
+    """容器停止后保存候选字节及身份。"""
+    patch = subprocess.check_output(
+        [
+            "git",
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-C",
+            str(source),
+            "diff",
+            "--binary",
+            "HEAD",
+            "--",
+        ],
+        timeout=30,
+    )
+    (output / "candidate.patch").write_bytes(patch)
+    return {
+        "candidate_sha256": hashlib.sha256(patch).hexdigest(),
+        "candidate_bytes": len(patch),
+        "candidate_available": bool(patch),
+    }
+
+
 class UnixHTTP(http.client.HTTPConnection):
     """容器仅连接挂载的模型代理套接字。"""
 
@@ -57,7 +172,7 @@ def relay():
 
 def main():
     import httpx2
-    from benchmark_budget import BudgetLimit, LocalUsageLedger
+    from benchmark_budget import BudgetLimit, LocalUsageLedger, validate_task_budget
     from run_benchmark_agent import mini_inputs
 
     from repropatch.task import Task
@@ -75,6 +190,7 @@ def main():
     parser.add_argument("--check-only", action="store_true")
     args = parser.parse_args()
     task = Task.load(args.task)
+    validate_task_budget(task)
     config, common, source = mini_inputs(args, task)
     subprocess.run(
         ["git", "-C", str(source), "diff", "--quiet", "HEAD", "--"], check=True, timeout=30
@@ -144,40 +260,23 @@ def main():
                 (trace / (identity + "-cli-request.json")).write_bytes(raw)
                 (trace / (identity + "-request.json")).write_bytes(payload)
                 # 共用 ReproPatch 的 HTTP 客户端与宿主代理配置，保留原始 SSE 字节。
-                response = upstream.post(
+                status, data, content_type, completed = read_model_stream(
+                    upstream,
                     "https://cpa.liyinlong.me/v1/responses",
-                    content=payload,
-                    headers={
+                    payload,
+                    {
                         "Authorization": "Bearer " + key,
                         "Content-Type": "application/json",
                         "User-Agent": "ReproPatch-Codex-Benchmark/1",
                         "Accept-Encoding": "identity",
                     },
+                    trace,
+                    identity,
+                    ledger,
                 )
-                status, data = response.status_code, response.content
-                content_type = response.headers.get("Content-Type", "text/event-stream")
-                (trace / (identity + "-response.sse")).write_bytes(data)
-                completed = None
-                for line in data.splitlines():
-                    if not line.startswith(b"data: ") or line == b"data: [DONE]":
-                        continue
-                    event = json.loads(line[6:])
-                    if event.get("type") in {
-                        "response.completed",
-                        "response.incomplete",
-                        "response.failed",
-                    }:
-                        completed = event.get("response")
-                content = json.dumps(completed, ensure_ascii=False).encode() if completed else data
-                (trace / (identity + "-response.json")).write_bytes(content)
-                ledger.settle(identity, content, status)
-                calls = sum(
-                    item.get("type") in {"function_call", "custom_tool_call"}
-                    for item in (completed or {}).get("output", [])
+                state["tool_calls_admitted"] = admit_tools(
+                    completed, state["tool_calls_admitted"], task.budget.max_tool_calls
                 )
-                if state["tool_calls_admitted"] + calls > 24:
-                    raise BudgetLimit("TOOL_BUDGET")
-                state["tool_calls_admitted"] += calls
                 self.reply(status, data, content_type)
             except Exception as error:
                 # 异常仅记录类型和本地稳定码，供应商敏感正文保存在私有原始证据中。
@@ -220,7 +319,7 @@ def main():
         "container_deleted": False,
         "differences": [
             "原生 Codex 提示、Shell 与补丁工具；持久容器及完整源码可读",
-            "CLI 原生 SSE 原字节缓冲后转发；输出上限由代理设为8192",
+            "CLI 原生 SSE 逐块留证，整响应准入后转发；输出上限由代理设为8192",
             "容器断网，通过固定模型专用 Unix 套接字连接宿主计量代理",
         ],
     }
@@ -322,32 +421,25 @@ def main():
                 result["exit_code"] = process.returncode
             except subprocess.TimeoutExpired:
                 result["stop_reason"] = "AGENT_TIME_LIMIT"
-        patch = subprocess.check_output(
-            [
-                "git",
-                "-c",
-                "core.hooksPath=/dev/null",
-                "-C",
-                str(source),
-                "diff",
-                "--binary",
-                "HEAD",
-                "--",
-            ],
-            timeout=30,
-        )
-        (output / "candidate.patch").write_bytes(patch)
-        result["candidate_sha256"] = hashlib.sha256(patch).hexdigest()
-        result["candidate_bytes"] = len(patch)
     finally:
-        subprocess.run(["docker", "rm", "-f", name], capture_output=True, timeout=30)
-        left = subprocess.check_output(
-            ["docker", "ps", "-aq", "--filter", "name=^/" + name + "$"], timeout=30
-        )
+        try:
+            stop_container(name)
+            result["container_deleted"] = True
+            result.update(export_candidate(source, output))
+        except Exception as error:
+            result["cleanup_error_type"] = type(error).__name__
+            result["producer_status"] = "ENVIRONMENT_ERROR"
+        if "producer_status" not in result:
+            result["producer_status"] = (
+                result.get("stop_reason")
+                or ("MODEL_REQUEST_ERROR" if state["errors"] else None)
+                or ("FINISHED" if result.get("exit_code") == 0 else "CLI_ERROR")
+            )
         result.update(
-            container_deleted=not left.strip(),
             duration_seconds=time.monotonic() - started,
             usage=ledger.summary(args.attempt),
+            internal_acceptance=None,
+            oracle_status=None,
             **state,
         )
         save(output / "result.json", result)
