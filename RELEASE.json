@@ -356,13 +356,20 @@
   "stable_release": {
     "product_version": "0.3.0",
     "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-    "publication_status": "requires_authorization",
+    "publication_status": "published",
+    "source_commit": "6e69e589f10fae7b77658b5a450d01455f5eb9dc",
+    "release_tag": "v0.3.0",
+    "release_id": 422678867,
+    "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0",
+    "published_at": "2026-10-24T11:22:07Z",
     "source_validation": "docs/evidence/v0.3.0/summary.json",
     "distribution_manifest": "release-manifest.json",
+    "distribution_manifest_sha256": "de5019ec77c1051238e2d1e7c663bf1ea75eb07e7edc9c5a2df22e67323f5306",
     "artifact_names": [
       "repropatch-0.3.0-py3-none-any.whl",
       "repropatch-0.3.0.tar.gz",
-      "ReproPatch-generalization-v2-2026-10-24.tar.gz"
+      "ReproPatch-generalization-v2-2026-10-24.tar.gz",
+      "ReproPatch-release-validation-0.3.0.tar.gz"
     ]
   }
 }
