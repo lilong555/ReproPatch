@@ -163,102 +163,180 @@
     "paid_model_requests": 47,
     "cost_upper_bound_cny": 0.5466308
   },
-  "implementation_scope": "已发布 v0.3.0rc3；当前开发实现身份见 development",
+  "implementation_scope": "顶层发布身份与验证字段记录已发布 v0.3.0rc3；当前源码和 0.3.0 交付见 development 与 stable_release",
   "development": {
-    "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
-    "state": "local_luna_evaluated_with_task_localization_gap",
-    "results": "benchmarks/luna-results.json",
-    "budget_cap_cny": 20,
-    "authorization": "累计20元预算内自主推进",
-    "previous_deepseek_results": "benchmarks/repair-cycle-results.json",
-    "previous_ci": {
-      "run_id": 39726799381,
-      "source_commit": "ad4fa91be6964945593c389d575d2899601d9800",
-      "conclusion": "success",
-      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39726799381"
-    },
-    "ci": {
-      "run_id": 39753439473,
-      "source_commit": "717132638acdf8533c379e24026fea0583ded03c",
-      "conclusion": "success",
-      "url": "https://github.com/lilong555/ReproPatch/actions/runs/39753439473"
-    },
+    "product_version": "0.3.0",
+    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+    "state": "six_run_comparison_completed",
+    "results": "benchmarks/generalization-final-results.json",
+    "protocol": "benchmarks/generalization-protocol-v2.json",
     "validation": {
-      "targeted_passed": 45,
-      "failed": 0,
-      "skipped": 0,
-      "ruff": "passed"
+      "product_version": "0.3.0",
+      "status": "passed",
+      "scope": "本地核心、SDK 与真实 Docker 完整回归",
+      "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+      "tests": {
+        "core": 338,
+        "sdk": 154,
+        "docker": 22,
+        "total": 514,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "ruff": "passed",
+      "model_requests": 0,
+      "source_manifest": {
+        "path": ".repropatch/release-validation-0.3.0/docker/source-manifest.json",
+        "sha256": "ea11dc0a91f15a9954fab67b85a72568d1fac042e820d63d5ae3eae2056aae8b",
+        "size_bytes": 8244
+      },
+      "junit": {
+        "core": {
+          "path": ".repropatch/release-validation-0.3.0/core.xml",
+          "sha256": "fb6ff903a057d28302c227c3f78e7f19619c3e40fdb520fa92f87f69dbee5437",
+          "size_bytes": 435946
+        },
+        "sdk": {
+          "path": ".repropatch/release-validation-0.3.0/sdk.xml",
+          "sha256": "2f2799c455ebd4aa0ea7dc0f79561b930a157e6e34ed8107149b14db7ca9f5a9",
+          "size_bytes": 20216
+        },
+        "docker": {
+          "path": ".repropatch/release-validation-0.3.0/docker/docker-tests.xml",
+          "sha256": "a5460d17a271a67684ae284176ce18d955e5194bff725b1b34935b60159e367d",
+          "size_bytes": 3054
+        }
+      },
+      "luna_parameter_checks": "benchmarks/luna-max-config.json",
+      "frozen_v2_ci": {
+        "run_id": 40077207849,
+        "source_commit": "326c6ab8a1e97b003350303abfcb9de76bb9b2c9",
+        "tests": 510,
+        "conclusion": "success",
+        "url": "https://github.com/lilong555/ReproPatch/actions/runs/40077207849"
+      },
+      "release_ci": "发布附件 release-manifest.json 保存发布提交的 GitHub CI 身份与证据"
     },
     "known_deepseek_cost_upper_bound_cny": 2.18923088,
-    "local_model_cost_cny": null
+    "luna_model_requests": 913,
+    "luna_cost_cny": null,
+    "model_usage_audit": "benchmarks/model-usage-audit.json",
+    "luna_configuration": "benchmarks/luna-max-config.json"
   },
   "latest_development_benchmark": {
-    "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+    "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
     "model": "gpt-6-luna",
-    "results": "benchmarks/luna-results.json",
+    "reasoning_effort": "medium",
+    "results": "benchmarks/generalization-final-results.json",
+    "protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1",
     "metrics": {
-      "repropatch": {
-        "tasks": 2,
-        "first_launch_resolved": 1,
-        "resolved_at_1": 0.5,
-        "completed_execution_resolved": 1,
-        "completed_execution_resolved_rate": 0.5,
-        "model_requests_including_infrastructure": 20
+      "full": {
+        "attempts": 2,
+        "oracle_pass": 1,
+        "native_accepted": 1,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 23,
+        "tool_calls": 22,
+        "input_tokens": 399532,
+        "output_tokens": 1944,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 3,
+        "verify_calls": 1
       },
       "mini": {
-        "tasks": 2,
-        "first_launch_resolved": 1,
-        "resolved_at_1": 0.5,
-        "completed_execution_resolved": 2,
-        "completed_execution_resolved_rate": 1.0,
-        "model_requests_including_infrastructure": 21
+        "attempts": 2,
+        "oracle_pass": 0,
+        "native_accepted": 0,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 14,
+        "tool_calls": 14,
+        "input_tokens": 176690,
+        "output_tokens": 2712,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 0,
+        "verify_calls": 0
+      },
+      "codex": {
+        "attempts": 2,
+        "oracle_pass": 0,
+        "native_accepted": 0,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 24,
+        "tool_calls": 24,
+        "input_tokens": 583746,
+        "output_tokens": 3218,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 0,
+        "verify_calls": 0
       }
     },
-    "requests_including_probe": 42,
+    "formal_requests": 61,
+    "independent_calibration_requests": 1,
+    "unknown_usage_requests": 0,
     "cost_cny": null,
-    "infrastructure_retries": 1,
-    "archive": {
-      "name": "ReproPatch-luna-pilot-2026-10-22.tar.gz",
-      "sha256": "1f650bcd6a44ed2e7d67f63d9cfd00e5983edf0a8e1934a2167222600f5c88ba",
-      "files": 2140,
-      "size_bytes": 4371148,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-luna-pilot-2026-10-22/ReproPatch-luna-pilot-2026-10-22.tar.gz",
-      "verification": "逐文件字节与哈希核验；在独立解压包中用标准库重算结果一致；凭据哨兵0匹配"
-    }
+    "evidence": "benchmarks/generalization-evidence.json"
   },
   "latest_experiment_benchmark": {
-    "implementation_sha256": "27facf988076312ebf374552a2409fac1bfd2ce91fda3ba811916b8e2c032b02",
+    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+    "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
     "model": "gpt-6-luna",
-    "results": "benchmarks/luna-results.json",
+    "reasoning_effort": "medium",
+    "results": "benchmarks/generalization-final-results.json",
+    "protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1",
     "metrics": {
-      "repropatch": {
-        "tasks": 2,
-        "first_launch_resolved": 1,
-        "resolved_at_1": 0.5,
-        "completed_execution_resolved": 1,
-        "completed_execution_resolved_rate": 0.5,
-        "model_requests_including_infrastructure": 20
+      "full": {
+        "attempts": 2,
+        "oracle_pass": 1,
+        "native_accepted": 1,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 23,
+        "tool_calls": 22,
+        "input_tokens": 399532,
+        "output_tokens": 1944,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 3,
+        "verify_calls": 1
       },
       "mini": {
-        "tasks": 2,
-        "first_launch_resolved": 1,
-        "resolved_at_1": 0.5,
-        "completed_execution_resolved": 2,
-        "completed_execution_resolved_rate": 1.0,
-        "model_requests_including_infrastructure": 21
+        "attempts": 2,
+        "oracle_pass": 0,
+        "native_accepted": 0,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 14,
+        "tool_calls": 14,
+        "input_tokens": 176690,
+        "output_tokens": 2712,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 0,
+        "verify_calls": 0
+      },
+      "codex": {
+        "attempts": 2,
+        "oracle_pass": 0,
+        "native_accepted": 0,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 24,
+        "tool_calls": 24,
+        "input_tokens": 583746,
+        "output_tokens": 3218,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 0,
+        "verify_calls": 0
       }
     },
-    "requests_including_probe": 42,
+    "formal_requests": 61,
+    "independent_calibration_requests": 1,
+    "unknown_usage_requests": 0,
     "cost_cny": null,
-    "infrastructure_retries": 1,
-    "archive": {
-      "name": "ReproPatch-luna-pilot-2026-10-22.tar.gz",
-      "sha256": "1f650bcd6a44ed2e7d67f63d9cfd00e5983edf0a8e1934a2167222600f5c88ba",
-      "files": 2140,
-      "size_bytes": 4371148,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-luna-pilot-2026-10-22/ReproPatch-luna-pilot-2026-10-22.tar.gz",
-      "verification": "逐文件字节与哈希核验；在独立解压包中用标准库重算结果一致；凭据哨兵0匹配"
-    }
+    "evidence": "benchmarks/generalization-evidence.json"
   },
   "deepseek_development_benchmark": {
     "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
@@ -274,5 +352,17 @@
     "repropatch_resolved": 0,
     "mini_resolved": 0,
     "tasks_per_agent": 2
+  },
+  "stable_release": {
+    "product_version": "0.3.0",
+    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+    "publication_status": "requires_authorization",
+    "source_validation": "docs/evidence/v0.3.0/summary.json",
+    "distribution_manifest": "release-manifest.json",
+    "artifact_names": [
+      "repropatch-0.3.0-py3-none-any.whl",
+      "repropatch-0.3.0.tar.gz",
+      "ReproPatch-generalization-v2-2026-10-24.tar.gz"
+    ]
   }
 }

@@ -1,247 +1,135 @@
 {
-  "schema_version": 4,
-  "scope": "六个真实C++实例、三框架首次对照与simdjson泛化",
-  "product_version": "0.3.0rc3",
+  "schema_version": 5,
+  "scope": "两题六次三框架冻结配置复核与完整历史证据",
+  "product_version": "0.3.0",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
   "cpp_instances": 129,
-  "current_implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
-  "latest_measured_implementation_sha256": "6c13e9efed3f3c13206bf225c8aaed5413e438e27786af92f8adff98d63e7338",
+  "current_implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+  "latest_measured_implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
   "current_implementation_has_real_benchmark": true,
-  "current_results": "cross-framework-results.json",
-  "report": "cross-framework-results.md",
-  "source_manifest": "cross-framework-source-manifest.json",
+  "current_results": "generalization-final-results.json",
+  "report": "generalization-final-results.md",
+  "protocol": "generalization-protocol-v2.json",
+  "protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1",
+  "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
   "model": "gpt-6-luna",
   "base_urls": [
-    "http://127.0.0.1:8317/v1",
     "https://cpa.liyinlong.me/v1"
   ],
+  "measured_reasoning_effort": "medium",
+  "future_luna_defaults": "luna-max-config.json",
   "metrics": {
-    "first_six": {
-      "repropatch": {
-        "attempts": 6,
-        "resolved": 4,
-        "resolved_at_1": 0.6666666666666666,
-        "model_requests": 58,
-        "unknown_usage_requests": 0,
-        "input_tokens": 845736,
-        "output_tokens": 3365
-      },
-      "mini": {
-        "attempts": 6,
-        "resolved": 3,
-        "resolved_at_1": 0.5,
-        "model_requests": 47,
-        "unknown_usage_requests": 0,
-        "input_tokens": 787492,
-        "output_tokens": 6912
-      },
-      "codex": {
-        "attempts": 6,
-        "resolved": 4,
-        "resolved_at_1": 0.6666666666666666,
-        "model_requests": 60,
-        "unknown_usage_requests": 2,
-        "input_tokens": 1506752,
-        "output_tokens": 6408
-      }
+    "full": {
+      "attempts": 2,
+      "oracle_pass": 1,
+      "native_accepted": 1,
+      "recovered_oracle_pass": 0,
+      "infrastructure_failure": 0,
+      "model_requests": 23,
+      "tool_calls": 22,
+      "input_tokens": 399532,
+      "output_tokens": 1944,
+      "unknown_usage_requests": 0,
+      "reproduce_calls": 3,
+      "verify_calls": 1
     },
-    "same_https_endpoint": {
-      "repropatch": {
-        "attempts": 4,
-        "resolved": 2,
-        "resolved_at_1": 0.5,
-        "model_requests": 35,
-        "unknown_usage_requests": 0,
-        "input_tokens": 396125,
-        "output_tokens": 1993
-      },
-      "mini": {
-        "attempts": 4,
-        "resolved": 3,
-        "resolved_at_1": 0.75,
-        "model_requests": 26,
-        "unknown_usage_requests": 1,
-        "input_tokens": 319716,
-        "output_tokens": 3652
-      },
-      "codex": {
-        "attempts": 4,
-        "resolved": 2,
-        "resolved_at_1": 0.5,
-        "model_requests": 37,
-        "unknown_usage_requests": 1,
-        "input_tokens": 714197,
-        "output_tokens": 3863
-      }
+    "mini": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "native_accepted": 0,
+      "recovered_oracle_pass": 0,
+      "infrastructure_failure": 0,
+      "model_requests": 14,
+      "tool_calls": 14,
+      "input_tokens": 176690,
+      "output_tokens": 2712,
+      "unknown_usage_requests": 0,
+      "reproduce_calls": 0,
+      "verify_calls": 0
     },
-    "held_out_repository": {
-      "repropatch": {
-        "attempts": 1,
-        "resolved": 0,
-        "resolved_at_1": 0.0,
-        "model_requests": 10,
-        "unknown_usage_requests": 0,
-        "input_tokens": 171604,
-        "output_tokens": 775
-      },
-      "mini": {
-        "attempts": 1,
-        "resolved": 1,
-        "resolved_at_1": 1.0,
-        "model_requests": 10,
-        "unknown_usage_requests": 0,
-        "input_tokens": 196706,
-        "output_tokens": 1602
-      },
-      "codex": {
-        "attempts": 1,
-        "resolved": 0,
-        "resolved_at_1": 0.0,
-        "model_requests": 1,
-        "unknown_usage_requests": 1,
-        "input_tokens": 0,
-        "output_tokens": 0
-      }
+    "codex": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "native_accepted": 0,
+      "recovered_oracle_pass": 0,
+      "infrastructure_failure": 0,
+      "model_requests": 24,
+      "tool_calls": 24,
+      "input_tokens": 583746,
+      "output_tokens": 3218,
+      "unknown_usage_requests": 0,
+      "reproduce_calls": 0,
+      "verify_calls": 0
     }
   },
   "coverage": {
-    "verified_instances": 8,
+    "verified_instances": 10,
     "cpp_pool": 129,
-    "ratio": 0.06201550387596899,
+    "ratio": 0.07751937984496124,
     "repositories": 4,
-    "adapted_compile_extensions": 3,
-    "adapted_logic_tasks": 5,
-    "verified_repositories": 4
+    "adapted_compile_extensions": 4,
+    "adapted_logic_tasks": 6
   },
-  "codex": {
-    "version": "0.163.0",
-    "simd_first_attempt": "传输中断；1未知用量请求；首次成绩保持",
-    "simd_retest_resolved": false,
-    "retest_attempt": "simd2178-codex-2"
+  "formal_v2": {
+    "status": "completed",
+    "attempts": 6,
+    "requests": 61,
+    "request_cap": 72,
+    "unknown_usage_requests": 0,
+    "calibration_requests": 1,
+    "prior_exposure": "两项预注册新实例已有 v1 尝试；v2 为冻结新配置复核，历史尝试单独保留"
+  },
+  "historical_v1": {
+    "protocol": "generalization-protocol.json",
+    "results": "generalization-v1-results.json",
+    "status": "CLOSED_SUPERSEDED",
+    "requests": 110,
+    "unknown_usage_requests": 1,
+    "scored": 10,
+    "cancelled": 1,
+    "not_run": 5
+  },
+  "model_usage_audit": "model-usage-audit.json",
+  "luna_usage": {
+    "unique_requests": 913,
+    "unknown_usage_requests": 15,
+    "input_tokens": 15732486,
+    "output_tokens": 86608,
+    "cost_cny": null,
+    "summary_only_probe_requests": 1,
+    "total_with_recorded_probe": 914
   },
   "historical_deepseek": {
-    "requests": 185,
-    "cost_upper_bound_cny": 2.18923088,
-    "budget_cap_cny": 20,
-    "active_budget_ledger": "/home/li/repropatch/.repropatch/cpp-navigation-pilot/budget.sqlite3"
+    "unique_requests": 185,
+    "unknown_usage_requests": 0,
+    "input_tokens": 5727390,
+    "output_tokens": 94607,
+    "cost_upper_bound_cny": 2.18923088
   },
-  "local_luna_requests": {
-    "prior_archived": 367,
-    "codex_including_calibration": 63,
-    "simd_including_codex_retest": 33,
-    "completed_diagnostics": 57,
-    "new_unknown_usage": 2,
-    "cumulative_archived": 520,
-    "actual_billed_cost_cny": null
-  },
-  "in_progress_experiments": [
-    "json4525-comparison"
-  ],
-  "diagnostic_candidates_promoted": false,
-  "historical_contract_results": "contract-results.json",
-  "fairness": {
-    "same_model_alias": true,
-    "same_base_and_image_per_task": true,
-    "shared_public_oracle": true,
-    "first_six_endpoint_scope": "历史四题Full/mini为localhost；Codex为HTTPS",
-    "same_https_subset": "三个FMT和simdjson；4310/4286使用已保存的后续Full控制组及mini",
-    "same_https_fmt_domain": "任务、提交、镜像、可编辑集合、预算一致；各次基线日志和时间不同",
-    "simd_shared_initial_domain": true,
-    "codex_interface": "原生CLI 0.163.0、Shell/补丁工具与SSE；代理统一8192输出和12请求；推理none",
-    "framework_interface": "Full/mini沿用原生接口；原始请求保留实际采样和推理设置",
-    "resource_overlap": "Codex Catch2与simdjson资格检查部分重叠；耗时单列",
-    "timing": "Full worker含基线和验收；mini与Codex为原生修复及自检；Oracle时间独立",
-    "inference": "样本用于工程诊断；独立仓库泛化由simdjson单题直接观察"
-  },
-  "ci": {
-    "source_commit": "af4c91db1b96e46853f50da245a91bd3e6e514cd",
-    "url": "https://github.com/lilong555/ReproPatch/actions/runs/39948649808",
-    "status": "passed",
-    "core": 331,
-    "sdk": 147,
-    "docker_scenarios": 21
-  },
-  "archive": {
-    "name": "ReproPatch-cross-framework-2026-10-23.tar.gz",
-    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-cross-framework-2026-10-23/ReproPatch-cross-framework-2026-10-23.tar.gz",
-    "sha256": "986b31c8f19ab29c1530d6b0bc20391eb6d2e09f7598ca2e9631df69e0c89549",
-    "size_bytes": 36469422,
-    "file_count": 13528,
-    "uncompressed_bytes": 159154022,
-    "verification": "凭据哨兵零匹配；逐文件字节及哈希通过；独立解压重算汇总一致"
-  },
-  "diagnostic_results": "diagnostic-feedback-results.json",
-  "diagnostic_report": "diagnostic-feedback-results.md",
-  "diagnostic_archive": {
-    "name": "ReproPatch-diagnostic-feedback-2026-10-23.tar.gz",
-    "sha256": "013f1826e70fdfcc67eff9d4e5904447b4a0d8db1af04be102de0f2b4d6fc8a0",
-    "url": "https://github.com/lilong555/ReproPatch/releases/download/benchmark-diagnostic-feedback-2026-10-23/ReproPatch-diagnostic-feedback-2026-10-23.tar.gz",
-    "size_bytes": 9281029,
-    "files": 5942,
-    "uncompressed_bytes": 50324616,
-    "verification": "逐文件哈希和大小通过；凭据哨兵零匹配；独立解压重算一致"
-  },
-  "latest_candidate_results": "repair-followup-results.json",
-  "latest_candidate_report": "repair-followup-results.md",
-  "candidate_implementation_sha256": "3e137a39883ac87f35092b5497bfe86063bd179002c2b4b48e3beef15fd4a3ef",
+  "in_progress_experiments": [],
+  "optional_dev_runs": 0,
   "candidate_production_adopted": false,
-  "candidate_simdjson_repeat": {
-    "attempts": 2,
-    "resolved": 2
+  "qualification": "generalization-qualification.json",
+  "evidence": "generalization-evidence.json",
+  "validation": "../docs/evidence/v0.3.0/summary.json",
+  "tests": {
+    "core": 338,
+    "sdk": 154,
+    "docker": 22,
+    "total": 514,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
   },
-  "cumulative_archived_cpa_requests": 742,
-  "short_related_candidate": {
-    "implementation_sha256": "1f77a7d1421abe0a6fefe6e187fbfe464d72d0b850c3a0ac5ae5a40005ae76fd",
-    "production_adopted": false,
-    "fmt4286_resolved": 1,
-    "fmt4286_attempts": 3,
-    "report": "repair-followup-results.md"
-  },
-  "json4525_qualification": {
-    "report": "json4525-qualification.md",
-    "upstream_commit": "1b9a9d1f2122e73b69f5d62d0ce3ebda8cd41ff0",
-    "prepared_commit": "8df37183e76b41fe0edc963ce6ccda51d174c256",
-    "native_tests": 98,
-    "internal_independent_tests": 98,
-    "f2p": 2,
-    "p2p": 96,
-    "model_requests": 0,
-    "model_comparison_status": "四组固定预算对照已完成：Full、mini、Codex各通过98项；相关模板候选编译失败",
-    "results": "json4525-results.json",
-    "model_requests_archived": 41,
-    "repropatch_full_resolved": 1,
-    "candidate_resolved": 0,
-    "mini_resolved": 1,
-    "codex_resolved": 1
-  },
-  "codex_json4537_all_attempts": {
-    "attempts": 4,
-    "resolved": 1,
-    "latest_host_transport": "httpx2",
-    "latest_requests": 8,
-    "latest_native_tests_passed": 98
-  },
-  "json4537_qualification": {
-    "report": "json4537-qualification.md",
-    "native_tests": 98,
-    "f2p": 1,
-    "p2p": 97,
-    "model_comparison_status": "两轮四组与第三次对照已公开；Codex第四次统一HTTP复测通过98项原生测试；双入口补充评分已公开",
-    "results": "json4537-results.json",
-    "header_audit": "json4537-header-audit.json",
-    "model_requests_archived": 40,
-    "candidate_resolved": 1,
-    "candidate_attempts": 2
-  },
-  "pending_generalization": {
-    "protocol": "generalization-protocol.json",
-    "qualification": "generalization-qualification.json",
-    "report": "generalization-qualification.md",
-    "qualified_tasks": 2,
-    "formal_attempts": 16,
-    "formal_request_cap": 192,
-    "model_requests_at_freeze": 0,
-    "status": "QUALIFIED_PROTOCOL_FROZEN"
+  "historical_results": {
+    "contract-results": "contract-results.json",
+    "cross-framework-results": "cross-framework-results.json",
+    "diagnostic-feedback-results": "diagnostic-feedback-results.json",
+    "batched-repair-results": "batched-repair-results.json",
+    "json4537-results": "json4537-results.json",
+    "json4537-header-audit": "json4537-header-audit.json",
+    "repair-followup-results": "repair-followup-results.json",
+    "json4525-results": "json4525-results.json"
   }
 }

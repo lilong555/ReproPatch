@@ -1,123 +1,125 @@
 # ReproPatch 评测
 
-当前结果使用 `gpt-6-luna`，覆盖 Catch2、FMT、simdjson、nlohmann/json 七题，并加入原生 Codex CLI 对照。
-[结果报告](cross-framework-results.md)、[逐次数据](cross-framework-results.json)和[准备状态](readiness.json)
-记录每次尝试的源码身份、请求用量、候选及公共 Oracle 结论。
-六题首次结果为 Full 4/6、mini 3/6、Codex 4/6；相同HTTPS端点四题子集为2/4、3/4、2/4。
-simdjson中Full仍失败，mini通过；Codex首次传输中断、独立复测仍失败，两次完整保留。
-[诊断反馈候选](diagnostic-feedback-results.md)保存五次0/5的后续实验，生产核心继续固定。
-[批量修复与四组复测](batched-repair-results.md)保存 simdjson 候选2/2、第二轮原版成功、
-mini与Codex目标回归失败，以及FMT构建失败与全部中断记录。
-[第四仓库两轮结果](json4537-results.md)保存 json-4537 的四组原始尝试。
-[json-4537 双入口补充评分](json4537-header-audit.md)核对完整 98 项 Oracle 覆盖的单头分发入口。
-[json-4525 新任务对照](json4525-results.md)记录 Full、mini 与 Codex 的 98/98 修复，
-以及批量相关模板候选的编译失败；[完整原始证据](https://github.com/lilong555/ReproPatch/releases/tag/benchmark-json4525-results-2026-10-23)
-包含 41 次模型请求与每次 Oracle 日志。
-[修复周期与对照复测](repair-followup-results.md)保存 FMT 相关模板反馈候选 1/3 的结果、
-Codex 统一 HTTP 客户端后 json-4537 的 98/98 成功，以及短周期三题 0/3 的全部记录。
+当前交付为 [v2 六次固定预算对照](generalization-final-results.md)：Full 1/2、mini 0/2、Codex 0/2。
+全部六次按预注册顺序执行，61 次正式请求与 1 次独立校准分别记账，用量均完整结算。
+两题已有 v1 尝试，v2 用于冻结新配置后的复核；[v1 历史记录](generalization-v1-results.md)
+保留 110 次请求、10 次评分、1 次取消和 5 项未执行。
 
-## 实验矩阵
+## 协议与版本
 
-| 任务 | 组别 | 每题每组次数 | 评分方式 |
-| --- | --- | ---: | --- |
-| Catch2-2187、2723；FMT-4310、4286、4057；simdjson-2178 | ReproPatch Full、mini-SWE-agent、Codex CLI | 1 | 同题共享的独立公共 Oracle |
-| 历史Catch2-2187、2723 | ReproPatch Full、mini-SWE-agent、ReproPatch Ablation | 3 | 固定 Multi-SWE-bench 官方 Report |
-| json-4537 | 批量修复候选、原版、mini、Codex | 两轮，后续原生对照独立编号 | 完整98项原生 Oracle |
-| FMT-4286 | 相关模板反馈候选 | 3 | 完整21项原生 Oracle |
-| json-4525，模型实验进行中 | 原版、mini、相关模板反馈候选、Codex | 各1次，协议已冻结 | 完整98项原生 Oracle |
+| 项目 | v2 实际配置 |
+| --- | --- |
+| 模型 / 端点 | `gpt-6-luna` / `https://cpa.liyinlong.me/v1` |
+| 实际推理强度 | 三框架响应均为 `medium`；Codex 请求显式传入 `medium` |
+| ReproPatch | 0.3.0，核心指纹 `81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7` |
+| 执行源码 | `04d884e91fd1ed583c4d2766bee6de3d385162b9`，逐文件清单随证据归档 |
+| mini-SWE-agent | 2.4.6，`04d809ceab9df28f9adaed044884180159172930` |
+| Codex CLI | 0.163.0，主程序及配套运行组件分别固定 SHA-256 |
+| 每次预算 | 12 请求、24 工具、单响应最多 8 工具、8192 输出 tokens、256 KiB 输入、90 秒模型超时 |
+| 执行顺序 | fmt Full → mini → Codex；simdjson Full → mini → Codex，单槽位 |
+| 评分 | 相同原始基线与完整外部原生 Oracle，所有首次运行保留 |
 
-Full 提供只读接口追踪反馈、文件可编辑状态和明确的构建工具说明。
-Ablation 使用这些反馈加入前的核心源码，保留相同的预算反馈、执行与验收机制。
-mini 固定为 2.4.6，commit `04d809ceab9df28f9adaed044884180159172930`；Codex CLI固定0.163.0。
-各组使用同一模型标识、Issue、源码基线、修改范围、镜像及测试。
-每次最多 12 个模型请求、24 次工具调用、每响应 8 次工具调用，输出上限 8192 token，
-请求超时 90 秒，输入边界 256 KiB。
+[冻结协议](generalization-protocol-v2.json)提供 Task SHA、prepared commit、镜像、时限与参数证据。
+Full 使用六个函数工具和逐轮新容器；mini 与 Codex 使用原生 Shell/补丁接口和持久修复容器。
+Full 的 worker 时间包含基线与内部独立验收，外部框架的时间覆盖修复和自检，外部 Oracle 耗时单列。
 
-每题 Full 先运行，mini和Codex复用经 SHA-256 核验的领域输入；各组保留原生系统提示和工具协议。
-mini 的执行时限扣除 Full 基线耗时及 10 秒清理余量。消融组自行执行干净基线。
-最后两条尝试使用用户提供的新 CPA 地址，端点和控制器中断记录见结果报告。
-两道 Catch2 题参与过开发诊断；FMT三题和simdjson按固定数据文件顺序选取。
-完整端点、基线日志、原生工具协议和计时范围差异见当前报告；历史重复见[只读契约反馈实验](contract-results.md)。
+后续 Luna 对照默认 `max`，三个客户端的实际请求构造已通过零付费检查。
+[Luna 配置](luna-max-config.json)记录检查证据；供应商 `max` 响应仍需在新的独立校准预算中确认。
+每批实验须在请求前显式冻结推理强度、源码和总请求额度。v2 沿用其归档源码中的 `medium` 参数。
+历史实验的框架版本以各次原始运行记录为准，本次 mini 的版本为 2.4.6。
 
-## 数据集与适配
+## 数据集与独立验收
 
 固定 [Multi-SWE-bench](https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench)
-revision `56ff018c04a38e27ada1e9d0a6d5839a51f88f0d`，C++ 任务池共 **129 个实例**。
-当前 **8/129** 完成 Task v2 参考验收，覆盖四个仓库，其中三个 FMT 实例属于编译回归扩展。
-[筛查清单](coverage.json)保留完整任务池；其余实例的动态兼容性仍待验证。
-[nlohmann/json-4537](json4537-qualification.md)通过全部98项原生参考检查和1 F2P +97 P2P内部验收。
-全部已公开尝试累计为批量候选1/2、原版2/3、mini3/3、Codex1/4，逐次编号及故障见对应报告。
-[json-4525](json4525-qualification.md)通过2 F2P +96 P2P内部资格和98项原生参考检查，四组模型实验正在执行。
+revision `56ff018c04a38e27ada1e9d0a6d5839a51f88f0d`，C++ 任务池共 129 个实例。
+**10/129** 已完成 Task v2 参考验收，覆盖 Catch2、fmt、simdjson、nlohmann/json 四个仓库。
+其中四题为 FMT 编译回归扩展，六题为逻辑回归任务；[准备状态](readiness.json)与[筛查清单](coverage.json)分别记录动态资格和完整任务池。
 
-Catch2 的参考验收与测试组见[参考任务池](reference-pool.md)。公共 Oracle 固定 evaluator
-`4b96a678b136f87c8760fa475697f3c98d5f9e5e`，分别要求 2 F2P + 50 P2P、2 F2P + 100 P2P。
+| v2 实例 | prepared commit | 内部测试 | 外部原生测试 |
+| --- | --- | --- | ---: |
+| fmt-4055 | `148a69d245a44b1cc74baa6c9e05922fd8cb1b30` | 1 F2P + 19 P2P | 20 |
+| simdjson-1899 | `65d4d8f24f77034e5b900b5a9bc77f69f7615bf7` | 1 F2P + 92 P2P | 93 |
 
-FMT 原始记录的测试阶段为 `NONE`，F2P/P2P 为空，缺陷在构建阶段暴露。
-[准备脚本](../scripts/prepare_fmt_task.py)将原生回归目标的编译及执行放入受保护的 CTest 节点，
-形成 1 F2P + 20 P2P；4057为1 F2P +19 P2P。各组使用同一 prepared Task。
-[公共 Oracle](../scripts/check_fmt_candidate.py)从原始 commit 应用官方测试补丁和候选，
-使用原始 CMake 文件完整构建、运行 21 项原生测试；评分范围为本项目的编译回归扩展。
-参考补丁仅用于环境资格检查。
+[资格报告](generalization-qualification.md)保存两题参考补丁的内部与外部通过结果，资格阶段模型请求为零。
+FMT 的原始记录在构建阶段暴露缺陷；[准备脚本](../scripts/prepare_fmt_task.py)
+将回归目标的编译与执行放入受保护的 CTest 节点。
+[外部 FMT Oracle](../scripts/check_fmt_candidate.py)使用原始 CMake 完整构建和测试。
+[simdjson 准备脚本](../scripts/prepare_simdjson_task.py)固定离线依赖，
+[外部 Oracle](../scripts/check_simdjson_candidate.py)从原始提交重建并评分。
 
-[simdjson准备入口](../scripts/prepare_simdjson_task.py)固定原始提交、官方测试补丁及两项离线依赖，
-将编译输出和大样本临时文件放到可写构建目录；Task为2 F2P +97 P2P。
-[独立评分入口](../scripts/check_simdjson_candidate.py)重建原始提交，完整构建并运行99项原生测试。
-prepared仓库bundle、原始测试、参考补丁及源码清单由当前Release附件提供。
+## 计分与修复观察
 
-[Codex运行入口](../scripts/run_codex_benchmark.py)复用mini的源码权限环境，
-通过Unix套接字连接固定模型计量代理；容器内使用虚拟凭据，原始SSE和用量在宿主保存。
-`--binary`指定固定版本的原生二进制及同目录配套运行组件，`--check-only`执行零模型环境检查。
-同题的`--task`、`--mini-source`、`--mini-environment`、`--common-input`、`--ledger`、
-`--attempt`、`--output`和`--agent-seconds`沿用现有输入，最终候选交给相同公共Oracle。
+| 字段 | 含义 |
+| --- | --- |
+| `oracle_pass` | 统一外部原生验收全部通过，主指标 |
+| `native_accepted` | ReproPatch 内部接受且外部通过 |
+| `recovered_oracle_pass` | ReproPatch 原生未接受，但保存的候选通过外部验收 |
+| `candidate_source` | 首个非空的证据引用、patch.diff、未验证诊断或外部工作树 diff |
+| `infrastructure_failure` | 可定位的环境或运行基础设施失败 |
+| `error_category` | 模型、预算、时间或执行错误，独立于补丁评分 |
 
-## 执行入口
+空候选记录 `NO_PATCH`，其测试执行状态为未运行。Codex CLI 非零退出单列原因；本次两次均触达 12 请求上限。
+Full 的三个 F2P 自检和一次全量自检有原始事件及阶段耗时。simdjson 的两次 F2P 自检约 86.0 秒、85.1 秒，
+全量自检约 188.4 秒，均包含配置与编译。该案例观察到 F2P 反馈后的继续修改；机制归因需要独立配对实验。
+两题的 `single_header_pass` 为 null，json-4537 的历史单头文件审计独立报告。
 
-安装环境分别使用 `requirements/agent.txt` 和 `requirements/benchmark-mini.txt`。
-`--provider local-luna` 选择 CPA `https://cpa.liyinlong.me/v1`，从进程环境 `OPENAI_API_KEY` 读取密钥，
-使用环境代理。原始 HTTP 正文保存模型参数和用量，鉴权头只在客户端使用。
-CPA 使用独立用量账本，费用保留未知；DeepSeek 历史费用上界为 **¥2.18923088 / ¥20**。
+## 零模型复核
+
+[证据清单](generalization-evidence.json)给出归档名称、SHA-256、文件数量与发布状态。
+证据包含 v1/v2 原始请求、SSE、事件库、候选、Oracle 日志、资格记录、执行源码、prepared 仓库 bundle 和重算脚本。
+运行镜像使用已归档的 [C++ 工具链](https://github.com/lilong555/ReproPatch/releases/download/benchmark-contract-comparison-2026-10-22/ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz)，
+镜像及归档校验值见[附件索引](../docs/evidence/archive-index.json)。
+
+```bash
+sha256sum -c ReproPatch-generalization-v2-2026-10-24.tar.gz.sha256
+mkdir -p evidence
+tar -xzf ReproPatch-generalization-v2-2026-10-24.tar.gz -C evidence
+docker load -i ReproPatch-cpp-toolchain-beb37ec7c757.tar.gz
+python evidence/generalization/.repropatch/restore_generalization.py \
+  --evidence-root evidence/generalization --task simd1899 --output replay-simd1899
+repropatch verify-patch replay-simd1899/task.yaml \
+  --patch evidence/generalization/.repropatch/generalization-v2-2026-10-24/v2-simd1899-full-1/candidate.patch \
+  --producer archived-full --json
+```
+
+恢复脚本从 bundle 创建本机仓库，仅重定位 Task 的宿主路径，并核对规范任务 SHA 与冻结协议一致。
+同一补丁的模型生成过程保留为原始轨迹；上述命令重新执行独立验收。
+
+## 真实模型执行入口
+
+环境分别使用 `requirements/agent.txt` 和 `requirements/benchmark-mini.txt`。
+`--provider local-luna` 从 `OPENAI_API_KEY` 环境变量读取凭据，鉴权头仅在宿主客户端使用。
+原始正文保存实际模型参数和用量。运行前先完成协议冻结与零模型预检。
 
 ```bash
 PYTHONPATH=scripts python -c \
-  'from benchmark_budget import LocalUsageLedger; LocalUsageLedger.create(".repropatch/luna-usage.sqlite3")'
-
+  'from benchmark_budget import LocalUsageLedger; LocalUsageLedger.create(".repropatch/new-luna-usage.sqlite3")'
 python scripts/run_benchmark_agent.py --check-only --provider local-luna \
-  --agent repropatch --task "$TASK" --ledger .repropatch/luna-usage.sqlite3 \
-  --attempt luna-rp-1 --output .repropatch/luna-rp-1
-
-python scripts/run_benchmark_agent.py --provider local-luna \
-  --agent repropatch --task "$TASK" --ledger .repropatch/luna-usage.sqlite3 \
-  --attempt luna-rp-1 --output .repropatch/luna-rp-1
+  --agent repropatch --reasoning-effort max --task "$TASK" \
+  --ledger .repropatch/new-luna-usage.sqlite3 --attempt registered-full-1 \
+  --output .repropatch/registered-full-1
 ```
 
-`TASK` 指向冻结预算的 Task v2 文件。准备脚本的默认参数与实际实验配置分开记录。
-预检检查 Task、账本和 mini 输入，保持零模型请求、零费用预留、零 Run 创建。
-mini 额外提供 `--mini-source`、`--mini-environment`、`--common-input` 和 `--agent-seconds`。
-其源码权限由准备脚本显式设置；首个请求前以实际容器用户读取全部可读文件。
-每次尝试使用独立输出目录；相同批次持续使用同一账本。
+实际运行使用同一参数并移除 `--check-only`。mini 额外提供 `--mini-source`、`--mini-environment`、
+`--common-input` 与 `--agent-seconds`；[Codex 入口](../scripts/run_codex_benchmark.py)还需 `--binary`。
+Codex 代理逐块保存上游 SSE，完整响应通过 `admit_tools` 后交给 CLI；工具额度满后保留纯文本总结请求的机会。
 
-## 计分与可靠性
+[累计账本审计](model-usage-audit.json)按原始请求 ID 去重：Luna 913 次，15 次用量未知，
+另有一个仅存历史响应摘要的连通性探针；DeepSeek 185 次，费用上界 ¥2.18923088。
+Luna 账单金额保持未知，离线响应夹具独立于真实模型计量。
 
-非空候选交由各组共用的公共 Oracle 评分。预算耗尽后产生的有效补丁仍计成功。
-空补丁记录 `NO_PATCH`，测试执行状态为未运行。环境故障、控制器中断、未知用量逐条保留。
-ReproPatch 内部独立验收作为附加观察，与公共 Oracle 分开统计。
+## 历史实验
 
-| 指标 | 分母与含义 |
+| 范围 | 结果与证据 |
 | --- | --- |
-| Resolved@1 | 单次尝试的 Oracle 成功率；重复实验按实例和重复编号展示 |
-| Benchmark Coverage | 完成适配验收的实例 / 全部 129 个 C++ 实例 |
-| False Acceptance Rate | Oracle 判无效但内部接受的候选 / Oracle 判无效的已评测候选；另列错误接受占全部接受的比例 |
-| Cost per Resolved Task | 模型费用 / 成功数；账单缺失时为未知 |
-| Wall-clock Time | 分开报告 Agent worker、基线、自检、独立验收和公共 Oracle 耗时 |
+| Catch2 组合反馈消融 | [Full 6/6、mini 3/6、消融 3/6](contract-results.md)，两道开发题、每题三次 |
+| 六题三框架历史对照 | [Full 4/6、mini 3/6、Codex 4/6](cross-framework-results.md)，端点与推理设置差异逐条保留 |
+| 诊断与导航 | [五个诊断候选](diagnostic-feedback-results.md)与[导航实验](cpp-navigation-results.md)保留失败记录 |
+| 批量调用研究组 | [simdjson 候选与原版复测](batched-repair-results.md)，候选已归档 |
+| json-4537 | [原生测试](json4537-results.md)与[双头文件审计](json4537-header-audit.md) |
+| json-4525 | [Full、mini、Codex 均通过 98 项；相关模板候选编译失败](json4525-results.md) |
+| FMT 连续修复 | [相关模板候选 1/3 与其他首次结果](repair-followup-results.md) |
+| 早期模型 | [Luna](luna-results.md)、[DeepSeek 预算反馈](repair-cycle-results.md)、[rc3](rc3-rerun.md)、[rc2](pilot-results.md) |
 
-恢复机制的确定性证据复用[13 个故障场景](../docs/evidence/p2-04/recovery-gate/summary.json)：
-3 个安全边界恢复成功、9 个明确拒绝恢复、1 个原控制器持锁。
-本轮三组消融评价修复反馈；可靠性故障向量与真实修复成绩分别展示。
-
-## 历史记录
-
-[首次 Luna](luna-results.md) · [DeepSeek 预算反馈](repair-cycle-results.md) ·
-[搜索上下文](cpp-navigation-results.md) · [rc3](rc3-rerun.md) · [rc2](pilot-results.md)。
-各批次保留全部首次结果及接入故障。
-原始轨迹、SQLite 和日志位于带 SHA-256 的 Release Assets，Git 保存摘要和源码清单。
-[Harbor fixture pilot](harbor-pilot.md)保留为产物收集实验；通用 Harbor、额外 Agent 和执行器扩展暂停。
+全部实验保留原始身份、失败、取消与独立编号的复测。组合反馈消融支持组合策略的开发集观察，
+当前两题复核说明端到端流程及有限预算下的实际行为。额外任务、候选 Prompt 和可选 Dev 配对均未进入 v2。

@@ -21,7 +21,7 @@ def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
-def native_settings(reasoning_effort="medium"):
+def native_settings(reasoning_effort="max"):
     """原生 CLI 的固定配置，推理强度同时由上游请求留证。"""
     return {
         "model_provider": "benchmark",
@@ -209,9 +209,9 @@ def main():
     parser.add_argument("--check-only", action="store_true")
     parser.add_argument(
         "--reasoning-effort",
-        choices=("none", "low", "medium", "high"),
-        default="medium",
-        help="Codex 原生推理强度，默认 medium；实际请求参数逐次保存",
+        choices=("none", "low", "medium", "high", "xhigh", "max"),
+        default="max",
+        help="Codex 原生推理强度，默认 max；实际请求参数逐次保存",
     )
     args = parser.parse_args()
     task = Task.load(args.task)

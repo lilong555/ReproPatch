@@ -1,0 +1,48 @@
+{
+  "product_version": "0.3.0",
+  "status": "passed",
+  "scope": "本地核心、SDK 与真实 Docker 完整回归",
+  "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+  "tests": {
+    "core": 338,
+    "sdk": 154,
+    "docker": 22,
+    "total": 514,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "ruff": "passed",
+  "model_requests": 0,
+  "source_manifest": {
+    "path": ".repropatch/release-validation-0.3.0/docker/source-manifest.json",
+    "sha256": "ea11dc0a91f15a9954fab67b85a72568d1fac042e820d63d5ae3eae2056aae8b",
+    "size_bytes": 8244
+  },
+  "junit": {
+    "core": {
+      "path": ".repropatch/release-validation-0.3.0/core.xml",
+      "sha256": "fb6ff903a057d28302c227c3f78e7f19619c3e40fdb520fa92f87f69dbee5437",
+      "size_bytes": 435946
+    },
+    "sdk": {
+      "path": ".repropatch/release-validation-0.3.0/sdk.xml",
+      "sha256": "2f2799c455ebd4aa0ea7dc0f79561b930a157e6e34ed8107149b14db7ca9f5a9",
+      "size_bytes": 20216
+    },
+    "docker": {
+      "path": ".repropatch/release-validation-0.3.0/docker/docker-tests.xml",
+      "sha256": "a5460d17a271a67684ae284176ce18d955e5194bff725b1b34935b60159e367d",
+      "size_bytes": 3054
+    }
+  },
+  "luna_parameter_checks": "benchmarks/luna-max-config.json",
+  "frozen_v2_ci": {
+    "run_id": 40077207849,
+    "source_commit": "326c6ab8a1e97b003350303abfcb9de76bb9b2c9",
+    "tests": 510,
+    "conclusion": "success",
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/40077207849"
+  },
+  "release_ci": "发布附件 release-manifest.json 保存发布提交的 GitHub CI 身份与证据"
+}

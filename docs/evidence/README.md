@@ -1,14 +1,17 @@
 # 验收证据
 
-Git 保存关键摘要、源码清单和少量直接用于解析器测试的 CTest 样本。
-完整原始日志、SQLite、JUnit、原生模型附件及运行快照由 GitHub Release Assets 保存。
-[附件索引](archive-index.json) 记录下载地址、SHA-256、原始文件数量与大小。
-当前[六题三框架对照](../../benchmarks/cross-framework-results.md)包含Codex原生轨迹、
-simdjson完整原生评分、接入及传输失败、独立复测、源码快照和prepared仓库bundle。
-[批量修复复测](../../benchmarks/batched-repair-results.md)包含两次simdjson候选成功、原版成功、
-mini与Codex目标失败，以及全部模型和宿主中断记录。
-当前[只读契约反馈对照](../../benchmarks/contract-results.md)提供 22 条评分的原始轨迹、
-SQLite、公共 Oracle 记录和实际 FMT 工具链镜像。证据包支持独立解压后从账本重算结果。
+Git 保存关键摘要、源码清单和少量解析器测试样本，完整原始日志、SQLite、JUnit 与模型附件按 SHA-256 归档。
+[附件索引](archive-index.json)记录已发布历史证据，
+[当前证据清单](../../benchmarks/generalization-evidence.json)记录 v1/v2 运行、资格、用量和本地验证的文件数、哈希与发布状态。
+
+[0.3.0 验证摘要](v0.3.0/summary.json)对应 338 核心、154 SDK、22 Docker 场景。
+[v2 六次对照](../../benchmarks/generalization-final-results.md)包含全部首跑的原始请求、SSE、工具轨迹、候选与独立原生评分。
+[v1 封存](../../benchmarks/generalization-v1-results.md)单列 110 次历史请求，
+[累计账本审计](../../benchmarks/model-usage-audit.json)按请求 ID 去重并逐条核对正文哈希。
+
+证据包提供冻结执行源码、两项 prepared bundle 和本机路径恢复工具。
+[零模型复核命令](../../benchmarks/README.md#零模型复核)使用同一镜像重新运行独立验收。
+Luna max 的客户端请求检查属于本地响应夹具，其模型费用计数保持 0。
 
 下载附件和同名 `.sha256` 后，在项目根目录执行：
 

@@ -1,5 +1,6 @@
 """Codex 对照的流证据、整批准入与稳定候选。"""
 
+import asyncio
 import hashlib
 import http.server
 import json
@@ -10,6 +11,7 @@ import time
 import uuid
 from dataclasses import replace
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -127,8 +129,81 @@ def test_budget_and_tool_batch_admission(adapter, task):
 
 
 def test_native_reasoning_configuration(adapter):
-    assert adapter.native_settings()["model_reasoning_effort"] == "medium"
-    assert adapter.native_settings("high")["model_reasoning_effort"] == "high"
+    assert adapter.native_settings()["model_reasoning_effort"] == "max"
+    assert adapter.native_settings("medium")["model_reasoning_effort"] == "medium"
+
+
+@pytest.mark.sdk
+@pytest.mark.parametrize("effort", [None, "max", "medium"])
+def test_luna_sdk_request_and_ledger_preserve_reasoning(adapter, tmp_path, effort):
+    import httpx2
+    import run_benchmark_agent as worker
+    from benchmark_budget import BudgetHooks, LocalUsageLedger
+    from openai import AsyncOpenAI
+
+    expected = effort or "max"
+    ledger = LocalUsageLedger.create(tmp_path / "usage.sqlite3")
+    trace = tmp_path / "http"
+    hooks = BudgetHooks(ledger, "reasoning", trace, local_luna=True)
+    args = SimpleNamespace(provider="local-luna", reasoning_effort=effort)
+    received = []
+
+    def respond(request):
+        body = json.loads(request.content)
+        received.append(request.content)
+        assert body["reasoning"] == {"effort": expected}
+        assert body["input"] == "离线推理配置检查"
+        assert int(request.headers["Content-Length"]) == len(request.content)
+        return httpx2.Response(
+            200,
+            json={
+                "id": "resp_offline",
+                "object": "response",
+                "created_at": 0,
+                "model": "gpt-6-luna",
+                "status": "completed",
+                "output": [],
+                "reasoning": body["reasoning"],
+                "usage": {"input_tokens": 3, "output_tokens": 1, "total_tokens": 4},
+            },
+        )
+
+    async def exercise():
+        async with worker.responses_client(
+            args, hooks, transport=httpx2.MockTransport(respond)
+        ) as client:
+            async with AsyncOpenAI(
+                api_key="offline-fixture",
+                base_url=worker.provider(args)[1],
+                http_client=client,
+                max_retries=0,
+            ) as api:
+                result = await api.responses.create(
+                    model="gpt-6-luna",
+                    input="离线推理配置检查",
+                    max_output_tokens=8192,
+                    store=False,
+                )
+                assert result.reasoning.effort == expected
+
+    asyncio.run(exercise())
+    assert len(received) == 1
+    assert next(trace.glob("*-request.json")).read_bytes() == received[0]
+    with ledger.connect() as db:
+        digest = db.execute("SELECT request_sha256 FROM requests").fetchone()[0]
+    assert digest == hashlib.sha256(received[0]).hexdigest()
+    assert ledger.summary()["unknown_usage_requests"] == 0
+
+
+def test_explicit_reasoning_preserves_deepseek_policy(adapter):
+    import run_benchmark_agent as worker
+    from benchmark_budget import BudgetLimit
+
+    args = SimpleNamespace(provider="deepseek", reasoning_effort=None)
+    assert worker.reasoning_parameters(args) == {}
+    args.reasoning_effort = "max"
+    with pytest.raises(BudgetLimit, match="REASONING_EFFORT_REQUIRES_LUNA"):
+        worker.reasoning_parameters(args)
 
 
 @pytest.mark.parametrize(

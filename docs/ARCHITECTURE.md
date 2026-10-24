@@ -1,6 +1,6 @@
 # 架构与关键取舍
 
-本文描述当前 **0.3.0rc3、Task v2** 实现。目标架构见
+本文描述当前 **0.3.0、Task v2** 实现。目标架构见
 [Spec 2026-10-19.2](../specs/2026-10-19.2/docs/ARCHITECTURE.md)：
 独立 `verify-patch` 验收路径与 SDK 基础入口已提供；自动路径六工具、整批预算与原生上下文已提供。
 当前两条入口共用生命周期与独立验证器，模型循环由 SDK 拥有。
@@ -43,11 +43,13 @@ Git hooks、fsmonitor、外部 diff 与 textconv 不参与运行。完整文件�
 `Toolbox` 在宿主机顺序执行读/搜/精确替换，所有路径限定在修复 Worktree。
 模型没有宿主 Shell、Docker 或宿主网络工具。`run_shell` 可在一次性受限制容器内运行 Shell，
 源码只读，持久化源码编辑经 `edit_file`。`run_command` 引用预配置的 `reproduce/verify`，
-会在新环境中先配置和构建。
+会在新环境中先配置和构建。`reproduce` 只运行 F2P 目标测试；
+`verify` 运行 F2P/P2P，供有预算继续修复时检查回归。最终由 Harness 在独立工作树验收。
 每次 `run_shell` 的 `/build` 为独立临时空间；`run_command` 一次完成配置、编译及固定测试。
 `read_file` 返回 `editable` 标志，模型可直接识别可读接口和允许修改的实现。
 受保护文件的编辑反馈引导模型沿声明、宏展开和调用关系继续定位实现；
 系统提示使用同一修复策略，并明确构建工具与临时目录的生命周期。
+同时可编辑模块化与分发单头文件的任务会提示同步对应实现。
 
 `RunResources` 为 Run 创建独占 0700 控制目录和工作区，持有真实文件锁；资源记录固定根身份、Git 管理目录、容器 ID 与标签。
 `AuditBudget` 限制非源码审计文件为 256 MiB，给最终报告和清理诊断保留空间；控制文件为 0600。
@@ -79,6 +81,23 @@ image ID/digest，PREPARING 查询实际 ID，后续阶段均使用该 ID。CPU�
 producer trace 是独立的未验证附件，不能构造 CommandResult 或替代 baseline/independent。
 纯验证 CLI 及其导入链不加载 models 或 Agents SDK。验证执行遵守阶段 deadline、验证预留和清理余量；
 SDK 原生 Items、预算、错误与取消契约见 [P1-05](P1-05.md)。
+
+## 跨框架计量与评分
+
+Full 与 mini 的实际 HTTP 请求和响应由同一账本保存；Luna 对照入口默认使用
+`reasoning.effort=max`，每批实验显式固定参数。Full 在公开 HTTP 客户端的请求构造入口设置该字段，
+mini 使用原生 Responses 参数，Codex 使用 `model_reasoning_effort`。
+v2 归档源码固定 `medium`，对应六次已完成的正式运行。
+
+Codex 代理按 `read_model_stream → admit_tools → self.reply` 执行：
+先逐块保存完整上游 SSE 与传输元数据，再检查单响应 8 工具和累计 24 工具的预算，
+最后将已准入响应交给 CLI。工具额度满后仍可请求纯文本总结，请求次数继续受账本限制。
+容器停止并确认删除后才导出候选，避免超时后的源码继续变化。
+
+ReproPatch 候选导出依次读取 EvidenceRef、`patch.diff` 与 `diagnostics/unverified.patch`，
+选择首个非空补丁；损坏的 EvidenceRef 原样报错。原生结局保持在报告中，
+`candidate_source`、`candidate_bytes`、`candidate_sha256` 与回收标志记录实际来源。
+三个框架统一使用外部原生 Oracle 评分，原生接受、回收通过、环境故障和补丁失败分别保存。
 
 ## 信任边界
 

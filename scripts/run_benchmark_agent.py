@@ -32,6 +32,42 @@ def provider(args):
     return POLICY["model"], "https://api.deepseek.com", "DEEPSEEK_API_KEY", True
 
 
+def reasoning_parameters(args):
+    """Luna 默认使用 max；显式参数用于冻结各次实验配置。"""
+    effort = args.reasoning_effort
+    if args.provider == "local-luna":
+        return {"reasoning": {"effort": effort or "max"}}
+    if effort is not None:
+        raise BudgetLimit("REASONING_EFFORT_REQUIRES_LUNA")
+    return {}
+
+
+def responses_client(args, hooks, *, transport=None):
+    """在公开请求构造入口设置推理参数，计量保存实际发送的正文。"""
+    import httpx2
+
+    parameters = reasoning_parameters(args)
+
+    class ConfiguredClient(httpx2.AsyncClient):
+        def build_request(self, method, url, **options):
+            if parameters:
+                body = {**json.loads(options["content"]), **parameters}
+                options["content"] = json.dumps(
+                    body, ensure_ascii=False, separators=(",", ":")
+                ).encode()
+                headers = httpx2.Headers(options.get("headers"))
+                headers.pop("content-length", None)
+                options["headers"] = headers
+            return super().build_request(method, url, **options)
+
+    return ConfiguredClient(
+        trust_env=provider(args)[3],
+        follow_redirects=False,
+        transport=transport,
+        event_hooks={"request": [hooks.async_request], "response": [hooks.async_response]},
+    )
+
+
 def mini_inputs(args, task):
     """只读检查原生 mini 材料与共同输入，不加载模型或启动容器。"""
     from prepare_mini_environment import MINI_COMMIT
@@ -142,8 +178,6 @@ def export_repropatch_candidate(report, directory, output):
 
 
 def repropatch_agent(args, hooks):
-    import httpx2
-
     import repropatch.models as models
     from repropatch.harness import Harness
     from repropatch.task import Task
@@ -153,11 +187,7 @@ def repropatch_agent(args, hooks):
 
     @asynccontextmanager
     async def metered(*values, **options):
-        async with httpx2.AsyncClient(
-            trust_env=use_proxy,
-            follow_redirects=False,
-            event_hooks={"request": [hooks.async_request], "response": [hooks.async_response]},
-        ) as client:
+        async with responses_client(args, hooks) as client:
             async with factory(*values, **options, http_client=client) as model:
                 yield model
 
@@ -244,6 +274,7 @@ def mini_agent(args, hooks):
             "store": False,
             "num_retries": 0,
             "timeout": task.budget.model_timeout_seconds,
+            **reasoning_parameters(args),
         },
     )
     env = None
@@ -430,6 +461,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--agent", choices=("repropatch", "mini"), required=True)
     parser.add_argument("--provider", choices=("deepseek", "local-luna"), default="deepseek")
+    parser.add_argument(
+        "--reasoning-effort",
+        choices=("none", "low", "medium", "high", "xhigh", "max"),
+        help="Luna 推理强度，默认 max；各次实验须显式冻结",
+    )
     parser.add_argument("--task", type=Path, required=True)
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--attempt", required=True)
@@ -444,6 +480,7 @@ def main():
     from repropatch.task import Task
 
     try:
+        parameters = reasoning_parameters(args)
         task = Task.load(args.task)
         validate_task_budget(task)
         if args.provider == "local-luna":
@@ -478,7 +515,13 @@ def main():
     if args.check_only:
         print(
             json.dumps(
-                {"ok": True, "check_only": True, "agent": args.agent, "requests_reserved": 0}
+                {
+                    "ok": True,
+                    "check_only": True,
+                    "agent": args.agent,
+                    "requests_reserved": 0,
+                    **parameters,
+                }
             )
         )
         return 0
@@ -492,6 +535,7 @@ def main():
         "profile": args.provider,
         "model": provider(args)[0],
         "base_url": provider(args)[1],
+        **parameters,
     }
     result["adapter_source_sha256"] = {
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()

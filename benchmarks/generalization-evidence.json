@@ -1,0 +1,16 @@
+{
+  "name": "ReproPatch-generalization-v2-2026-10-24.tar.gz",
+  "sha256": "91788186c7c0aa6cd036e292c5f401e0791d0c0ffc8f0c50f19c3134e49d803f",
+  "local_path": ".repropatch/release-assets/ReproPatch-generalization-v2-2026-10-24.tar.gz",
+  "size_bytes": 50459248,
+  "file_count": 16801,
+  "uncompressed_bytes": 297536773,
+  "v1_requests": 110,
+  "v2_requests": 61,
+  "v2_calibration_requests": 1,
+  "verification": "凭据扫描零匹配；归档内全部文件逐字节核验大小与 SHA-256",
+  "source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
+  "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+  "release_tag": "v0.3.0",
+  "publication_status": "prepared"
+}

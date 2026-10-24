@@ -1,5 +1,33 @@
 # 测试报告
 
+当前源码 **0.3.0、Task v2** 的本地完整回归通过 **514 项**：338 项核心、154 项 SDK、22 项真实 Docker。
+失败、错误与跳过均为 0；Ruff 检查与格式通过。
+[机器可读摘要](evidence/v0.3.0/summary.json)记录 JUnit、源码清单和原始日志引用，完整原件随证据包交付。
+核心指纹为 `81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7`。
+
+| 检查 | 结果 | 关注点 |
+| --- | ---: | --- |
+| 核心 | 338 通过 | 权限、源码与补丁往返、CTest、事件与恢复、首个非空候选、坏引用报错 |
+| SDK | 154 通过 | Runner、预算与整批准入、F2P 工具说明、SSE 留证与结算、Luna 请求参数 |
+| 真实 Docker | 22 通过 | 隔离、超时、清理、暂停恢复、独立验收、停止写者后导出补丁 |
+| Luna max 客户端 | 三组离线检查通过 | Full 的实际 SDK HTTP 正文、mini 2.4.6 的 Responses 正文、Codex 0.163.0 的原生请求 |
+
+Luna max 检查使用本地响应夹具，付费模型请求为 0；供应商响应校准状态见
+[配置记录](../benchmarks/luna-max-config.json)。后续调用显式记录推理档位。
+
+[v2 正式对照](../benchmarks/generalization-final-results.md)六次首跑使用冻结 medium 配置，
+Full 1/2、mini 0/2、Codex 0/2，61/72 次请求全部结算，另 1 次独立参数校准。
+Full 在 simdjson-1899 通过内部和外部 93 项测试；所有失败、空候选和预算结束状态完整保留。
+两题资格阶段模型请求为 0，参考补丁分别通过 20、93 项外部原生测试。
+
+冻结协议提交 `326c6ab8a1e97b003350303abfcb9de76bb9b2c9` 的
+[GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/40077207849)通过 510 项。
+当前完整测试集合为上表的 514 项；发布提交的 CI 身份和分发包校验记录在发布附件 `release-manifest.json`，
+[工作流](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)保留具体提交状态。
+本地容器门禁使用 `umask 0022`；早期目录权限失败的原始证据与后续通过记录共同归档。
+
+## 历史验证记录
+
 源码提交 `c16454d36ec11dcd5f757fa3f91dfa1a6486ff9e` 的
 [完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40067634876)通过：
 332 项核心、151 项 SDK、21 项指定真实 Docker 门禁，共 504 项。
@@ -47,7 +75,7 @@ simdjson-2178参考补丁通过内部2 F2P +97 P2P验收，以及独立原生99�
 DeepSeek 累计 Benchmark 费用上界 ¥2.18923088。FMT 编译任务的当前验收见上方结果。
 已发布 rc3 的成绩及 CI 记录如下。
 
-当前版本：**0.3.0rc3，Task v2**。验收日期：2026-10-21。
+rc3 发布验证：**0.3.0rc3，Task v2**。验收日期：2026-10-21。
 当前本地范围为 6 项定向检查：基线与自检规模反馈 2 项、配置/编译/测试发现失败诊断 3 项、
 SDK 自动修复与独立验收 1 项。完整执行证据不因精简模型视图而删除。
 另从 rc2 的真实 Catch2 历史输入和自检证据，经过公开 SDK Runner 进行离线输入边界检查：
@@ -65,7 +93,7 @@ Benchmark 启动预检的定向范围为 `tests/test_benchmark_budget.py` 的 5 
 [CI](https://github.com/lilong555/ReproPatch/actions/runs/39717468270)
 已通过 325 项核心、147 项 SDK 和 21 项真实 Docker，共 493 项。
 
-## 当前 rc3 真实对照与免费演示
+## rc3 真实对照与免费演示
 
 2026-10-22 两题、两组、各一次的真实尝试已完成：ReproPatch 0/2、mini-SWE-agent 0/2，
 47 次模型请求，费用上界 ¥0.54663080，未知用量 0 次。
