@@ -1,6 +1,7 @@
 # ReproPatch
 
-面向 C++ 工程的可复现代码修复与独立验收 Harness。源码版本 **0.3.0**，任务格式 **Task v2**。
+面向 C++ 工程的可复现代码修复与独立验收 Harness。
+正式版本 **[v0.3.0](https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0)** 已于 2026-10-24 发布，任务格式 **Task v2**。
 
 ReproPatch 将固定 Git 基线、文件编辑权限、模型预算和 CMake/CTest 验收连接成一个修复流程。
 模型通过六个受控工具读取和修改实现；Harness 在独立工作树与全新容器中重建候选，依据 F2P/P2P 测试决定是否接受。
@@ -22,6 +23,10 @@ flowchart LR
 [规格](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [测试报告](docs/TEST_REPORT.md) ·
 [评测与复现](benchmarks/README.md) · [发布身份](RELEASE.json) ·
 [CI](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)
+
+发布提交 `6e69e58` 通过 **514 项测试**：338 Core、154 SDK、22 真实 Docker。
+发布页提供 wheel、sdist、原始实验和验证证据，共 11 个附件，公开下载的 SHA-256 均已核验。
+[当前发布清单](RELEASE.json)记录正式版本身份，[rc3 原始清单](docs/releases/v0.3.0rc3.json)保存历史制品与验证记录。
 
 ## 固定预算下的实际结果
 
@@ -51,7 +56,8 @@ Full 在 simdjson 第 3 步产生首个编辑，通过 F2P 自检识别剩余的
 
 后续 Luna 对照入口默认使用 `max`，也支持显式 `--reasoning-effort medium`。
 三框架的参数检查范围与供应商校准状态见 [Luna 配置](benchmarks/luna-max-config.json)。
-v2 的执行源码、协议和请求记录始终对应其冻结的 `medium` 配置。
+`max` 已通过三个客户端的离线请求检查，真实供应商响应校准与新一批实验待执行。
+v2 的执行源码、协议和请求记录对应冻结的 `medium` 配置。
 
 ## 修复循环
 
@@ -77,7 +83,7 @@ v2 的执行源码、协议和请求记录始终对应其冻结的 `medium` 配�
 WSL2 可使用启用 Ubuntu 集成的 Docker Desktop Linux 引擎。先准备编译镜像，再生成固定 commit/image 的 Task。
 
 ```bash
-git clone https://github.com/lilong555/ReproPatch.git
+git clone --branch v0.3.0 https://github.com/lilong555/ReproPatch.git
 cd ReproPatch
 python3.12 -m venv .venv
 source .venv/bin/activate

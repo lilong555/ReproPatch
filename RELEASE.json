@@ -1,18 +1,22 @@
 {
-  "product_version": "0.3.0rc3",
-  "release_status": "release_candidate",
+  "schema_version": 2,
+  "product_version": "0.3.0",
+  "release_status": "published",
   "task_format_version": 2,
   "spec_revision": "2026-10-19.2",
-  "execution_source_parent_commit": "8779a2be1226830442c7383c2147b77df5f84f52",
-  "execution_source_has_uncommitted_changes": true,
   "release_identity": {
-    "tag": "v0.3.0rc3",
-    "commit": null,
-    "commit_source": "GitHub Release tag 与发布附件 release-manifest.json；源码树不内嵌自指 commit"
+    "tag": "v0.3.0",
+    "commit": "6e69e589f10fae7b77658b5a450d01455f5eb9dc",
+    "url": "https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0",
+    "published_at": "2026-10-24T11:22:07Z",
+    "manifest": {
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0/release-manifest.json",
+      "sha256": "de5019ec77c1051238e2d1e7c663bf1ea75eb07e7edc9c5a2df22e67323f5306",
+      "size_bytes": 3041
+    }
   },
-  "current_task": "R3",
-  "task_status": "in_progress",
-  "next_task": null,
+  "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+  "task_status": "complete",
   "completed_tasks": [
     "P1-01",
     "P1-02",
@@ -32,199 +36,82 @@
     "T3",
     "T4"
   ],
-  "verification_date": "2026-10-21",
-  "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
   "validation": {
-    "scope": "targeted_feedback_contract_and_historical_offline_sdk_boundary",
-    "passed": 6,
-    "failed": 0,
-    "skipped": 0,
-    "full_suite_rerun": false,
-    "feedback_context": "benchmarks/feedback-context.json",
-    "source_manifest": "benchmarks/feedback-source-manifest.json",
-    "archive": {
-      "scope": "rc3 反馈视图定向检查与历史数据离线 SDK 输入边界",
-      "name": "ReproPatch-feedback-context-0.3.0rc3.tar.gz",
-      "sha256": "6ea3a492587ef94eeb7de439cead5c5e97a10f6a17f0cc1ad81d6f45e97a7f52",
-      "files": 32,
-      "size_bytes": 358352,
-      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.3.0rc3/ReproPatch-feedback-context-0.3.0rc3.tar.gz"
+    "status": "passed",
+    "source_commit": "6e69e589f10fae7b77658b5a450d01455f5eb9dc",
+    "tests": {
+      "core": 338,
+      "sdk": 154,
+      "docker": 22,
+      "total": 514,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "ci": {
+      "status": "passed",
+      "source_commit": "6e69e589f10fae7b77658b5a450d01455f5eb9dc",
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40087135391",
+      "run_id": 40087135391,
+      "tests": {
+        "core": 338,
+        "sdk": 154,
+        "docker": 22,
+        "total": 514
+      },
+      "source_files_matched": 81
+    },
+    "evidence": "docs/evidence/v0.3.0/summary.json"
+  },
+  "distribution_validation": {
+    "status": "passed",
+    "core_modules": 19,
+    "sdist_tracked_files_verified": 424,
+    "correct_patch": "ACCEPTED",
+    "wrong_patch": "REJECTED",
+    "model_requests": 0
+  },
+  "artifacts": {
+    "repropatch-0.3.0-py3-none-any.whl": {
+      "sha256": "44138f93c6800c9309f8b08bc7e8b944525e43673b8b83d00af2829e50fed32e",
+      "size_bytes": 109936
+    },
+    "repropatch-0.3.0.tar.gz": {
+      "sha256": "fc4df55726db326d8d801a1f5a03b2ae1342f7782a93a69d3078e8d420fd9b27",
+      "size_bytes": 1352591
+    },
+    "ReproPatch-generalization-v2-2026-10-24.tar.gz": {
+      "sha256": "91788186c7c0aa6cd036e292c5f401e0791d0c0ffc8f0c50f19c3134e49d803f",
+      "size_bytes": 50459248
+    },
+    "ReproPatch-release-validation-0.3.0.tar.gz": {
+      "sha256": "af942c7ef56bff23728c9fd8851d3dcf415acb752220cc99fdb7d4351104e229",
+      "size_bytes": 1376552
     }
   },
-  "previous_release_certification": {
-    "product_version": "0.3.0rc1",
-    "execution_source_parent_commit": "a1ff64080860f21bc89793955c9c2c9261406b5c",
-    "implementation_sha256": "91a9765346389bc121191eab0e443482a6f2645af7191bb9eff5fe770225b86e",
-    "tests": {
-      "passed": 483,
-      "failed": 0,
-      "skipped": 0,
-      "non_docker_passed": 462,
-      "real_docker_passed": 21,
-      "source_integrity_cases": 36,
-      "runtime_lifecycle_cases": 29,
-      "verification_cases": 57,
-      "core_passed": 315,
-      "sdk_contract_passed": 147,
-      "sdk_api_contract_cases": 45,
-      "agent_runtime_cases": 19,
-      "event_report_cases": 21,
-      "installed_non_docker_passed": 462,
-      "recovery_transaction_cases": 19,
-      "checkpoint_cases": 29,
-      "resume_cases": 38,
-      "trace_readonly_cases": 18,
-      "recovery_fault_gate_cases": 13
-    },
-    "evidence": "docs/evidence/p2-04",
-    "execution_source_manifest": "docs/evidence/p2-04/docker-gate/source-manifest.json",
-    "sdk_contract_source_manifest": "docs/evidence/p2-04/sdk-contract/source-manifest.json",
-    "wheel_and_sdist_sha256": {
-      "repropatch-0.3.0rc1-py3-none-any.whl": "daded7f8d584c140148e71c3c59e2e577ba118a42157318b2e23cdeff5ef3a3e",
-      "repropatch-0.3.0rc1.tar.gz": "1619c582b81f7536b30239999823ff4aa2dee3d7df1ad05a9d60036f8e98048f"
-    },
-    "offline_release_gates_verified": true,
-    "release_gate_audit": "docs/evidence/p2-04/release-audit.json",
-    "distribution_checks": "docs/evidence/p2-04/distribution-checks.json",
-    "real_model_verified": false,
-    "release_tag": "v0.3.0rc1",
-    "release_commit": "b4e568072c5423e81695e88bfae51709fe49e4d4"
+  "public_download_verification": {
+    "assets": 11,
+    "sha256_verified": true,
+    "verified_at": "2026-10-24T11:23:05.373641+00:00"
   },
-  "real_model_verified": false,
-  "historical_model_certification": {
-    "product_version": "0.2.0rc1",
-    "evidence": "docs/evidence/p1-08/live-deepseek/summary.json"
-  },
-  "benchmark_protocol": "benchmarks/README.md",
-  "evidence_storage": "summaries_in_git_raw_release_assets",
-  "evidence_archive_index": "docs/evidence/archive-index.json",
-  "wheel_and_sdist_sha256": {
-    "repropatch-0.3.0rc3-py3-none-any.whl": "6fbec92dbc74d10539734f3806d0b2f18245c54567ab47c124d21a83095d80ec",
-    "repropatch-0.3.0rc3.tar.gz": "1148dbce70c502880a0deacf9cf19a58580d89b316700e1589e22767d7ddf80b"
-  },
-  "sqlite_single_authority": true,
-  "database_schema_version": 2,
-  "checkpoint_support": true,
-  "resume_support": true,
-  "controlled_pause_support": true,
-  "trace_replay_support": true,
-  "export_trace_support": true,
-  "phase2_complete": true,
   "sdk_versions": {
     "openai-agents": "0.24.0",
     "openai": "3.35.1",
     "httpx2": "2.15.1",
     "pydantic": "2.14.1"
   },
-  "sdk_production_cli_integrated": true,
-  "distribution_validation": {
-    "status": "passed",
-    "scope": "wheel_and_sdist_bytes_and_metadata_not_clean_install",
-    "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
-    "wheel_python_files_verified": 19,
-    "sdist_files_verified": 369,
-    "clean_install_rerun": false,
-    "wheel_and_sdist_sha256": {
-      "repropatch-0.3.0rc3-py3-none-any.whl": "6fbec92dbc74d10539734f3806d0b2f18245c54567ab47c124d21a83095d80ec",
-      "repropatch-0.3.0rc3.tar.gz": "1148dbce70c502880a0deacf9cf19a58580d89b316700e1589e22767d7ddf80b"
-    }
-  },
-  "previous_targeted_certification": {
-    "product_version": "0.3.0rc2",
-    "implementation_sha256": "31ac9b699870b99e0b6eceab24513590f0a3df868a24ee027dc8aab267496ddd",
-    "validation": {
-      "scope": "targeted_regression_and_native_environment_checks",
-      "passed": 21,
-      "failed": 0,
-      "skipped": 0,
-      "full_suite_rerun": false,
-      "context_check": "benchmarks/context-check.json",
-      "native_mini_check": "benchmarks/mini-environment.json"
-    },
-    "wheel_and_sdist_sha256": {
-      "repropatch-0.3.0rc2-py3-none-any.whl": "3961369e8f6c38d245bf004f8cc69ec2cfbb57ed3999ddb7bd4bbf650c204f07",
-      "repropatch-0.3.0rc2.tar.gz": "48b54e83524b8ee3023a0ea31489742d01535ee6c5eabc793b25cb84b5ddaade"
-    },
-    "release_identity": {
-      "tag": "v0.3.0rc2",
-      "commit": "536941690ba8c6bbffeea1df366b3a69d3186f04",
-      "commit_source": "已发布 rc2 Release tag"
-    }
+  "capabilities": {
+    "sqlite_single_authority": true,
+    "database_schema_version": 2,
+    "checkpoint_support": true,
+    "resume_support": true,
+    "controlled_pause_support": true,
+    "trace_replay_support": true,
+    "export_trace_support": true,
+    "phase2_complete": true,
+    "sdk_production_cli_integrated": true
   },
   "real_model_benchmark": {
-    "evaluated_product_version": "0.3.0rc3",
-    "current_product_evaluated": true,
-    "execution_source_commit": "77da9ccb25c059a5af3d5148479881fe5a303120",
-    "results": "benchmarks/rc3-rerun.json",
-    "historical_results": "benchmarks/pilot-results.json",
-    "repropatch_resolved": 0,
-    "mini_resolved": 0,
-    "tasks_per_agent": 2,
-    "paid_model_requests": 47,
-    "cost_upper_bound_cny": 0.5466308
-  },
-  "implementation_scope": "顶层发布身份与验证字段记录已发布 v0.3.0rc3；当前源码和 0.3.0 交付见 development 与 stable_release",
-  "development": {
-    "product_version": "0.3.0",
-    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-    "state": "six_run_comparison_completed",
-    "results": "benchmarks/generalization-final-results.json",
-    "protocol": "benchmarks/generalization-protocol-v2.json",
-    "validation": {
-      "product_version": "0.3.0",
-      "status": "passed",
-      "scope": "本地核心、SDK 与真实 Docker 完整回归",
-      "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-      "tests": {
-        "core": 338,
-        "sdk": 154,
-        "docker": 22,
-        "total": 514,
-        "failed": 0,
-        "errors": 0,
-        "skipped": 0
-      },
-      "ruff": "passed",
-      "model_requests": 0,
-      "source_manifest": {
-        "path": ".repropatch/release-validation-0.3.0/docker/source-manifest.json",
-        "sha256": "ea11dc0a91f15a9954fab67b85a72568d1fac042e820d63d5ae3eae2056aae8b",
-        "size_bytes": 8244
-      },
-      "junit": {
-        "core": {
-          "path": ".repropatch/release-validation-0.3.0/core.xml",
-          "sha256": "fb6ff903a057d28302c227c3f78e7f19619c3e40fdb520fa92f87f69dbee5437",
-          "size_bytes": 435946
-        },
-        "sdk": {
-          "path": ".repropatch/release-validation-0.3.0/sdk.xml",
-          "sha256": "2f2799c455ebd4aa0ea7dc0f79561b930a157e6e34ed8107149b14db7ca9f5a9",
-          "size_bytes": 20216
-        },
-        "docker": {
-          "path": ".repropatch/release-validation-0.3.0/docker/docker-tests.xml",
-          "sha256": "a5460d17a271a67684ae284176ce18d955e5194bff725b1b34935b60159e367d",
-          "size_bytes": 3054
-        }
-      },
-      "luna_parameter_checks": "benchmarks/luna-max-config.json",
-      "frozen_v2_ci": {
-        "run_id": 40077207849,
-        "source_commit": "326c6ab8a1e97b003350303abfcb9de76bb9b2c9",
-        "tests": 510,
-        "conclusion": "success",
-        "url": "https://github.com/lilong555/ReproPatch/actions/runs/40077207849"
-      },
-      "release_ci": "发布附件 release-manifest.json 保存发布提交的 GitHub CI 身份与证据"
-    },
-    "known_deepseek_cost_upper_bound_cny": 2.18923088,
-    "luna_model_requests": 913,
-    "luna_cost_cny": null,
-    "model_usage_audit": "benchmarks/model-usage-audit.json",
-    "luna_configuration": "benchmarks/luna-max-config.json"
-  },
-  "latest_development_benchmark": {
     "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
     "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
     "model": "gpt-6-luna",
@@ -281,95 +168,28 @@
     "cost_cny": null,
     "evidence": "benchmarks/generalization-evidence.json"
   },
-  "latest_experiment_benchmark": {
-    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-    "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
-    "model": "gpt-6-luna",
-    "reasoning_effort": "medium",
-    "results": "benchmarks/generalization-final-results.json",
-    "protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1",
-    "metrics": {
-      "full": {
-        "attempts": 2,
-        "oracle_pass": 1,
-        "native_accepted": 1,
-        "recovered_oracle_pass": 0,
-        "infrastructure_failure": 0,
-        "model_requests": 23,
-        "tool_calls": 22,
-        "input_tokens": 399532,
-        "output_tokens": 1944,
-        "unknown_usage_requests": 0,
-        "reproduce_calls": 3,
-        "verify_calls": 1
-      },
-      "mini": {
-        "attempts": 2,
-        "oracle_pass": 0,
-        "native_accepted": 0,
-        "recovered_oracle_pass": 0,
-        "infrastructure_failure": 0,
-        "model_requests": 14,
-        "tool_calls": 14,
-        "input_tokens": 176690,
-        "output_tokens": 2712,
-        "unknown_usage_requests": 0,
-        "reproduce_calls": 0,
-        "verify_calls": 0
-      },
-      "codex": {
-        "attempts": 2,
-        "oracle_pass": 0,
-        "native_accepted": 0,
-        "recovered_oracle_pass": 0,
-        "infrastructure_failure": 0,
-        "model_requests": 24,
-        "tool_calls": 24,
-        "input_tokens": 583746,
-        "output_tokens": 3218,
-        "unknown_usage_requests": 0,
-        "reproduce_calls": 0,
-        "verify_calls": 0
+  "benchmark_scope": "两道已参与 v1 的实例，三框架各一次冻结 medium 配置复核；全部失败与历史尝试保留",
+  "future_luna_defaults": {
+    "reasoning_effort": "max",
+    "client_request_validation": "passed_offline",
+    "provider_response_calibration": "pending",
+    "evidence": "benchmarks/luna-max-config.json"
+  },
+  "evidence_storage": "summaries_in_git_raw_release_assets",
+  "evidence_archive_index": "docs/evidence/archive-index.json",
+  "model_usage_audit": "benchmarks/model-usage-audit.json",
+  "historical_releases": [
+    {
+      "product_version": "0.3.0rc3",
+      "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0rc3",
+      "source_manifest": "docs/releases/v0.3.0rc3.json",
+      "source_manifest_sha256": "fdbd317d6478909cba6f53a607bbb0217d258ea206b3130e29f7c511c0877b96",
+      "source_manifest_url": "https://github.com/lilong555/ReproPatch/blob/v0.3.0rc3/RELEASE.json",
+      "implementation_sha256": "2715236f2161b39e6eb6b117b4d6926720a9df21dfb0d158f501712124ebbf20",
+      "wheel_and_sdist_sha256": {
+        "repropatch-0.3.0rc3-py3-none-any.whl": "6fbec92dbc74d10539734f3806d0b2f18245c54567ab47c124d21a83095d80ec",
+        "repropatch-0.3.0rc3.tar.gz": "1148dbce70c502880a0deacf9cf19a58580d89b316700e1589e22767d7ddf80b"
       }
-    },
-    "formal_requests": 61,
-    "independent_calibration_requests": 1,
-    "unknown_usage_requests": 0,
-    "cost_cny": null,
-    "evidence": "benchmarks/generalization-evidence.json"
-  },
-  "deepseek_development_benchmark": {
-    "implementation_sha256": "3ec6fe96fe7fb9385d767922cac0131bd1f0a0c6045776fa95c2ea1bde2b3285",
-    "results": "benchmarks/repair-cycle-results.json",
-    "repropatch_resolved": 1,
-    "mini_resolved": 0,
-    "tasks_per_agent": 2,
-    "cost_upper_bound_cny": 0.50842656
-  },
-  "navigation_experiment_benchmark": {
-    "implementation_sha256": "14b94bf9fc2934b55a8f4ecc2b81ed5cf5849381ed8b65636ff1d1764f4c949c",
-    "results": "benchmarks/cpp-navigation-results.json",
-    "repropatch_resolved": 0,
-    "mini_resolved": 0,
-    "tasks_per_agent": 2
-  },
-  "stable_release": {
-    "product_version": "0.3.0",
-    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-    "publication_status": "published",
-    "source_commit": "6e69e589f10fae7b77658b5a450d01455f5eb9dc",
-    "release_tag": "v0.3.0",
-    "release_id": 422678867,
-    "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0",
-    "published_at": "2026-10-24T11:22:07Z",
-    "source_validation": "docs/evidence/v0.3.0/summary.json",
-    "distribution_manifest": "release-manifest.json",
-    "distribution_manifest_sha256": "de5019ec77c1051238e2d1e7c663bf1ea75eb07e7edc9c5a2df22e67323f5306",
-    "artifact_names": [
-      "repropatch-0.3.0-py3-none-any.whl",
-      "repropatch-0.3.0.tar.gz",
-      "ReproPatch-generalization-v2-2026-10-24.tar.gz",
-      "ReproPatch-release-validation-0.3.0.tar.gz"
-    ]
-  }
+    }
+  ]
 }
