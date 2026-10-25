@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: '执行已冻结的两题四臂，最多96次正式请求，另1次max校准'
+        description: '96：两题首批；912：首批链路通过后执行其余19题四臂'
         required: true
         type: choice
-        options: ['96']
+        options: ['96', '912']
         default: '96'
 
 permissions:
@@ -20,11 +20,14 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
+  FORMAL_PROTOCOL: ${{ inputs.authorization == '912' && 'benchmarks/formal-max-full-protocol.json' || 'benchmarks/formal-max-protocol.json' }}
 
 jobs:
   calibration:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    outputs:
+      tasks: ${{ steps.plan.outputs.tasks }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -50,7 +53,26 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh run download 40199698518 --repo "$GITHUB_REPOSITORY" --name formal-calibration-40199698518 --dir .repropatch/calibration-input
-          python scripts/formal_benchmark.py verify-calibration --source .repropatch/calibration-input --output .repropatch/calibration
+          python scripts/formal_benchmark.py verify-calibration --protocol "$FORMAL_PROTOCOL" --source .repropatch/calibration-input --output .repropatch/calibration
+      - name: Require complete pilot evidence before full campaign
+        if: inputs.authorization == '912'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 40206574619 --repo "$GITHUB_REPOSITORY" --name formal-results-40206574619 --dir .repropatch/pilot-input
+          python scripts/formal_benchmark.py verify-pilot --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/pilot-gate
+      - name: Freeze task matrix
+        id: plan
+        env:
+          AUTHORIZED_REQUESTS: ${{ inputs.authorization }}
+        run: |
+          python - <<'PY'
+          import json, os
+          p = json.load(open(os.environ['FORMAL_PROTOCOL']))
+          assert p['formal_request_cap'] == int(os.environ['AUTHORIZED_REQUESTS'])
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('tasks=' + json.dumps(p['tasks']) + '\n')
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -68,7 +90,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        instance: [fmtlib__fmt-3727, fmtlib__fmt-3750]
+        instance: ${{ fromJSON(needs.calibration.outputs.tasks) }}
     env:
       INSTANCE: ${{ matrix.instance }}
       REPROPATCH_BATCH_ID: formal-${{ github.run_id }}-${{ matrix.instance }}
@@ -103,7 +125,8 @@ jobs:
           .repropatch/agent-env/bin/python scripts/actions_benchmark.py prepare --plan .repropatch/input-plan.json --instances "$INSTANCE" --output .repropatch/inputs
           python - <<'PY'
           import base64, hashlib, io, json, pathlib, subprocess, tarfile, urllib.request
-          p = json.load(open('benchmarks/formal-max-protocol.json'))
+          import os
+          p = json.load(open(os.environ['FORMAL_PROTOCOL']))
           subprocess.run(['docker', 'pull', p['image']], check=True)
           data = urllib.request.urlopen(p['codex_tarball'], timeout=120).read()
           assert 'sha512-' + base64.b64encode(hashlib.sha512(data).digest()).decode() == p['codex_tarball_integrity']
@@ -114,11 +137,11 @@ jobs:
           assert hashlib.sha256(binary.with_name('codex-code-mode-host').read_bytes()).hexdigest() == p['code_host_sha256']
           PY
       - name: Reconstruct exact task and common baseline without supplier calls
-        run: .repropatch/agent-env/bin/python scripts/formal_benchmark.py prepare --instance "$INSTANCE" --output .repropatch/formal-output
+        run: .repropatch/agent-env/bin/python scripts/formal_benchmark.py prepare --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --output .repropatch/formal-output
       - name: Execute four first attempts and score every candidate
         env:
           OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
-        run: .repropatch/agent-env/bin/python -u scripts/formal_benchmark.py run --instance "$INSTANCE" --output .repropatch/formal-output
+        run: .repropatch/agent-env/bin/python -u scripts/formal_benchmark.py run --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --output .repropatch/formal-output
       - name: Preserve raw evidence
         if: always()
         run: |
@@ -172,7 +195,7 @@ jobs:
           pattern: formal-summary-${{ github.run_id }}-*
           path: .repropatch/summaries
       - run: |
-          python scripts/formal_benchmark.py aggregate --source .repropatch/summaries --output .repropatch/results
+          python scripts/formal_benchmark.py aggregate --protocol "$FORMAL_PROTOCOL" --source .repropatch/summaries --output .repropatch/results
           cat .repropatch/results/results.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

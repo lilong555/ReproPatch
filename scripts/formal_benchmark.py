@@ -1,4 +1,4 @@
-"""执行固定两题四臂首跑，静态分配请求额度，复用完整冷 Oracle。"""
+"""执行冻结的四臂首跑，静态分配请求额度，复用完整冷 Oracle。"""
 
 import argparse
 import hashlib
@@ -22,7 +22,7 @@ PROTOCOL = ROOT / "benchmarks/formal-max-protocol.json"
 
 def protocol():
     value = json.loads(PROTOCOL.read_text())
-    assert sum(a["request_cap"] for a in value["attempts"]) == 96
+    assert sum(a["request_cap"] for a in value["attempts"]) == value["formal_request_cap"]
     assert os.environ.get("GITHUB_RUN_ATTEMPT", "1") == "1", "重跑使用新的预注册批次"
     return value
 
@@ -103,11 +103,48 @@ def verify_calibration(source, output):
     p = protocol()
     assert request["model"] == p["model"] and request["reasoning"]["effort"] == "max"
     assert response["status"] == "completed" and response["reasoning"]["effort"] == "max"
-    assert json.loads((source / "provenance.json").read_text())["protocol_sha256"] == sha(PROTOCOL)
+    calibration_protocol = json.loads((source / "protocol.json").read_text())
+    assert all(
+        calibration_protocol[key] == p[key]
+        for key in ("model", "endpoint", "reasoning_effort", "max_output_tokens")
+    )
     usage = LocalUsageLedger(source / "usage.sqlite3").summary()
     assert usage["requests"] == 1 and usage["unknown_usage_requests"] == 0
     shutil.copytree(source, output)
-    save(output / "verification.json", {"passed": True, "new_model_requests": 0, **reference})
+    save(
+        output / "verification.json",
+        {
+            "passed": True,
+            "new_model_requests": 0,
+            "execution_protocol_sha256": sha(PROTOCOL),
+            **reference,
+        },
+    )
+
+
+def pilot_gate(value, p):
+    """八个首跑均有冷验收裁决、请求用量闭合，才开放后续任务。"""
+    initial = ROOT / "benchmarks/formal-max-protocol.json"
+    expected = {a["attempt_id"] for a in json.loads(initial.read_text())["attempts"]}
+    rows = value["attempts"]
+    assert value["protocol_sha256"] == p["pilot_protocol_sha256"] == sha(initial)
+    assert len(rows) == len(expected) and {r["attempt_id"] for r in rows} == expected
+    for row in rows:
+        score = row["score"]
+        assert score["classification"] in {"resolved", "candidate"}, "PILOT_INFRASTRUCTURE"
+        assert type(score["accepted"]) is bool, "PILOT_SCORING_INCOMPLETE"
+        usage = score["worker_usage"]
+        assert 1 <= usage["requests"] <= 12 and usage["unknown_usage_requests"] == 0
+    assert sum(row["score"]["worker_usage"]["requests"] for row in rows) <= 96
+
+
+def verify_pilot(source, output):
+    p = protocol()
+    value = json.loads((source / "results.json").read_text())
+    pilot_gate(value, p)
+    output.mkdir(parents=True, exist_ok=False)
+    shutil.copyfile(source / "results.json", output / "pilot-results.json")
+    save(output / "gate.json", {"passed": True, "pilot_run_id": p["pilot_run_id"]})
 
 
 def prepare(instance, output):
@@ -119,6 +156,7 @@ def prepare(instance, output):
     from repropatch.task import Task
 
     p = protocol()
+    assert instance in p["tasks"]
     output.mkdir(parents=True, exist_ok=False)
     freeze_configuration(output, p)
     assert (
@@ -366,18 +404,24 @@ def aggregate(source, output):
 
 
 def main():
+    global PROTOCOL
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "stage", choices=("calibrate", "verify-calibration", "prepare", "run", "aggregate")
+        "stage",
+        choices=("calibrate", "verify-calibration", "verify-pilot", "prepare", "run", "aggregate"),
     )
+    parser.add_argument("--protocol", type=Path, default=PROTOCOL)
     parser.add_argument("--instance")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source", type=Path)
     args = parser.parse_args()
+    PROTOCOL = args.protocol.resolve(strict=True)
     if args.stage == "calibrate":
         calibrate(args.output)
     elif args.stage == "verify-calibration":
         verify_calibration(args.source, args.output)
+    elif args.stage == "verify-pilot":
+        verify_pilot(args.source, args.output)
     elif args.stage == "prepare":
         prepare(args.instance, args.output)
     elif args.stage == "run":
