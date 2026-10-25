@@ -116,6 +116,29 @@ def test_rejects_unapproved_or_underfunded_execution(tmp_path, monkeypatch, chan
     assert not (tmp_path / "plan.json").exists()
 
 
+@pytest.mark.parametrize("image", ["ghcr.io/example/toolchain:latest", "ubuntu:24.04"])
+def test_shared_toolchain_requires_an_immutable_registry_digest(tmp_path, monkeypatch, image):
+    with pytest.raises(ValueError, match="TOOLCHAIN_REQUIRES_FIXED"):
+        make_plan(tmp_path, monkeypatch, backend="docker", toolchain_image=image)
+
+
+def test_aggregate_rejects_a_shard_with_a_different_toolchain(tmp_path, monkeypatch):
+    image = "ghcr.io/example/toolchain@sha256:" + "a" * 64
+    plan_path, plan = make_plan(tmp_path, monkeypatch, backend="docker", toolchain_image=image)
+    summary = shard_summary(plan)
+    summary["backend"] = "docker"
+    directory = tmp_path / "inputs"
+    save_summary(directory / "batch-summary.json", summary)
+    BENCH.save(
+        directory / "toolchain.json",
+        {"image": image.replace("a" * 64, "b" * 64), "image_id": "sha256:" + "c" * 64},
+    )
+    with pytest.raises(ValueError, match="SHARED_TOOLCHAIN_IDENTITY_MISMATCH"):
+        BENCH.aggregate(
+            argparse.Namespace(plan=plan_path, source=directory, output=tmp_path / "report")
+        )
+
+
 def test_aggregate_preserves_missing_tasks_and_real_qualifier_fields(tmp_path, monkeypatch):
     plan_path, plan = make_plan(tmp_path, monkeypatch)
     save_summary(tmp_path / "inputs/shard-1/batch-summary.json", shard_summary(plan))

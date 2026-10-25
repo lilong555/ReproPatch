@@ -39,6 +39,12 @@ def read_plan(path):
 
 
 def plan(args):
+    toolchain_image = getattr(args, "toolchain_image", "")
+    if toolchain_image and (
+        args.backend != "docker"
+        or not re.fullmatch(r"ghcr\.io/[a-z0-9._/-]+@sha256:[0-9a-f]{64}", toolchain_image)
+    ):
+        raise ValueError("TOOLCHAIN_REQUIRES_FIXED_GHCR_DIGEST_AND_DOCKER")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,95}", args.batch):
         raise ValueError("INVALID_BATCH_ID")
     if not 1 <= args.parallel <= 4 or not 1 <= args.requests <= 12:
@@ -145,7 +151,14 @@ def plan(args):
             "task_timeout_seconds": 1800,
             "backend": args.backend,
             "optimization": args.optimization,
-            "toolchain_scope": "per-job-local-image" if args.backend == "docker" else "native-host",
+            "toolchain_scope": (
+                "shared-ghcr-digest"
+                if toolchain_image
+                else "per-job-local-image"
+                if args.backend == "docker"
+                else "native-host"
+            ),
+            "toolchain_image": toolchain_image or None,
             "actions_input_cache": args.cache_inputs,
         },
         "notes": [
@@ -374,6 +387,22 @@ def aggregate(args):
         if data.get("dataset_revision") != frozen["dataset_revision"]:
             raise ValueError("RESULT_DATASET_MISMATCH")
         policy = frozen["resource_policy"]
+        expected_image = policy.get("toolchain_image")
+        if expected_image:
+            environment_path = path.parent / "toolchain.json"
+            if not environment_path.is_file():
+                raise ValueError("SHARED_TOOLCHAIN_RECEIPT_MISSING")
+            environment = json.loads(environment_path.read_text())
+            if (
+                environment.get("image") != expected_image
+                or not re.fullmatch(r"sha256:[0-9a-f]{64}", environment.get("image_id", ""))
+                or any(
+                    row.get("image_id") != environment["image_id"]
+                    for row in data.get("tasks", data.get("results", []))
+                    if row.get("status") == "QUALIFIED"
+                )
+            ):
+                raise ValueError("SHARED_TOOLCHAIN_IDENTITY_MISMATCH")
         for field in ("backend", "optimization"):
             if field in policy and data.get(field) != policy[field]:
                 raise ValueError("RESULT_CONFIGURATION_MISMATCH: " + field)
@@ -571,6 +600,7 @@ def main():
     p.add_argument("--allow-paid-model", action="store_true")
     p.add_argument("--cache-inputs", action="store_true")
     p.add_argument("--backend", choices=("docker", "native"), default="docker")
+    p.add_argument("--toolchain-image", default="")
     p.add_argument("--optimization", choices=("O0", "O1", "O2", "O3"), default="O3")
     p.add_argument("--estimates", type=Path)
     p.add_argument("--output", type=Path, required=True)

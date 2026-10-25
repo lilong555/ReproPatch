@@ -10,6 +10,7 @@
 | 入口 | 实际行为 |
 | --- | --- |
 | `.github/workflows/benchmark.yml` | 手动资格检查、真实 fmt 构建性能试验、零消费正式实验计划；相关 PR 自动执行两题免费 smoke |
+| `.github/workflows/toolchain.yml` | 手动构建共享工具链并发布 GHCR digest，保存镜像身份与工具版本 |
 | `scripts/qualify_cpp_batch.py` | 固定数据集与源码，动态判断基线 F2P/P2P，参考补丁定向验证，独立冷构建原生全套 Oracle |
 | `scripts/verify_qualification_evidence.py` | 核对每份原始证据与冻结清单；原件不变，合格执行与完整证据分别记录 |
 | `scripts/check_qualified_cpp_candidate.py` | 对已合格任务冻结的候选执行相同冷 Oracle，单列空候选、无效补丁、范围违规、构建/测试及基础设施错误 |
@@ -71,9 +72,20 @@ Runner 硬终止仍可能阻止归档上传；汇总保留缺失任务，不能�
 不使用 `pull_request_target`。Actions 固定官方提交 SHA。
 批次 ID 包含 GitHub Run ID 与 Run Attempt；原有已完成尝试不被覆盖。
 
-每个 Job 当前从 Dockerfile 构建一次镜像，记录本地不可变 image ID 和工具版本。
-该配置属于 `per-job-local-image`：跨 Job 统一、可重新拉取的工具链尚需发布 GHCR digest。
-在固定 digest 之前，资格结果可按已记录的环境复核，但不宣称不同 Job 已使用完全相同的镜像。
+`toolchain.yml` 使用独立 Job 的 `packages: write` 权限发布工具链，输出
+`ghcr.io/lilong555/repropatch-benchmark@sha256:...` 和对应 image ID。
+批量实验传入 `toolchain_image` 后，各 Job 按同一 digest 拉取镜像，汇总时核对镜像回执与任务 image ID。
+工具链发布与拉取分别保存身份和计时，注册表凭据在步骤结束后移除。
+PR smoke 默认每个 Job 本地构建镜像，记录各自不可变 image ID；手动配对实验使用固定共享 digest。
+
+```bash
+gh workflow run toolchain.yml --ref main
+gh run download TOOLCHAIN_RUN_ID --pattern 'toolchain-*' --dir toolchain
+gh workflow run benchmark.yml --ref main \
+  -f mode=qualify -f task_set=smoke -f parallel_jobs=2 \
+  -f optimization=O3 -f batch_id=cpp-shared-smoke \
+  -f toolchain_image=ghcr.io/lilong555/repropatch-benchmark@sha256:DIGEST
+```
 
 ## 本地零模型预检
 

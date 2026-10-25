@@ -30,6 +30,7 @@ import yaml
 from prepare_multiswe_task import git as prepare_git
 from screen_multiswe import patch_paths
 
+from repropatch.errors import ReproPatchError
 from repropatch.task import IMAGE_ID, Task
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -407,10 +408,10 @@ def write_task(record, source, directory, image, f2p, p2p, configure=CONFIGURE, 
             "Source /src; build /build. Run reproduce for F2P feedback."
         },
         "commands": {
-            "configure": configure,
+            "configure": list(configure),
             "build": ["cmake", "--build", "/build", "--parallel", "2"],
-            "reproduce": CTEST,
-            "verify": CTEST,
+            "reproduce": list(CTEST),
+            "verify": list(CTEST),
         },
         "tests": {
             "fail_to_pass": [
@@ -559,7 +560,6 @@ def qualify(record, args):
         if oracle["status"] != "PASSED":
             result["status"] = "NATIVE_ORACLE_" + oracle["status"]
             return result
-        result["status"] = "QUALIFIED" if args.backend == "docker" else "HOST_QUALIFIED"
         result["native_oracle"] = {
             "adapter_used": False,
             "cold_build": True,
@@ -584,6 +584,7 @@ def qualify(record, args):
                 "Repeat qualification with a fixed Docker image; "
                 "host result is not isolated Task v2 qualification"
             )
+        result["status"] = "QUALIFIED" if args.backend == "docker" else "HOST_QUALIFIED"
         return result
     except InterruptedError as error:
         result.update(status="CANCELLED", failure_type=type(error).__name__, diagnostic=str(error))
@@ -608,6 +609,8 @@ def qualify(record, args):
         OSError,
         RuntimeError,
         ET.ParseError,
+        ReproPatchError,
+        yaml.YAMLError,
     ) as error:
         result.update(
             status="CANCELLED" if CANCELLED.is_set() else "PREPARATION_FAILED",

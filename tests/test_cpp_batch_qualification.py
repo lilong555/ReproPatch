@@ -89,6 +89,18 @@ def test_real_reference_checks_keep_host_and_isolated_qualification_separate(tmp
     assert not (directory / "task.yaml").exists()
     assert (directory / "repository/include/fmt/value.h").read_text().endswith("= 0;\n")
     assert (directory / "manifest.json").is_file()
+    # Docker 资格导出的任务同时使用两条独立 CTest 命令，YAML 保持普通值。
+    task_path = batch.write_task(
+        record,
+        directory / "repository",
+        directory,
+        "sha256:" + "a" * 64,
+        result["f2p"],
+        result["p2p"],
+    )
+    exported = batch.Task.load(task_path)
+    assert exported.commands.reproduce == exported.commands.verify == tuple(batch.CTEST)
+    assert "&id" not in task_path.read_text() and "*id" not in task_path.read_text()
 
     import check_qualified_cpp_candidate as oracle
 

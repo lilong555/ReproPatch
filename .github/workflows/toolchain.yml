@@ -1,0 +1,61 @@
+name: Publish benchmark toolchain
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Publish fixed toolchain and verify registry digest
+        env:
+          REGISTRY_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .repropatch/toolchain
+          image="ghcr.io/${GITHUB_REPOSITORY,,}-benchmark:run-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          printf '%s' "$REGISTRY_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+          docker build --label "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+            --tag "$image" --file docker/Dockerfile docker
+          docker push "$image" | tee .repropatch/toolchain/push.log
+          docker image inspect "$image" > .repropatch/toolchain/image-inspect.json
+          export TOOLCHAIN_TAG="$image"
+          python - <<'PY'
+          import hashlib, json, os, pathlib, re
+          root = pathlib.Path('.repropatch/toolchain')
+          info = json.loads((root / 'image-inspect.json').read_text())[0]
+          digest = re.findall(r'digest: (sha256:[0-9a-f]{64})', (root / 'push.log').read_text())[-1]
+          image = os.environ['TOOLCHAIN_TAG'].split(':')[0] + '@' + digest
+          assert image in info['RepoDigests']
+          record = {'image': image, 'image_id': info['Id'], 'source_commit': os.environ['GITHUB_SHA'],
+                    'dockerfile_sha256': hashlib.sha256(pathlib.Path('docker/Dockerfile').read_bytes()).hexdigest(),
+                    'model_requests': 0}
+          (root / 'toolchain.json').write_text(json.dumps(record, indent=2) + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('共享工具链：`' + image + '`\n')
+          print(json.dumps(record))
+          PY
+          image=$(python -c "import json; print(json.load(open('.repropatch/toolchain/toolchain.json'))['image'])")
+          docker pull "$image"
+          docker run --rm --network=none --read-only --entrypoint /bin/sh "$image" \
+            -c 'g++ --version; cmake --version; ninja --version; ccache --version' > .repropatch/toolchain/versions.txt
+      - name: Remove registry credential
+        if: always()
+        run: docker logout ghcr.io
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: toolchain-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .repropatch/toolchain/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

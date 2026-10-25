@@ -62,6 +62,10 @@ on:
         description: 'Opt in to Actions source-cache A/B; default off until transfer overhead is measured'
         type: boolean
         default: false
+      toolchain_image:
+        description: 'Optional fixed ghcr.io image@sha256 digest shared by all runners'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -99,6 +103,7 @@ jobs:
           ALLOW_PAID: ${{ inputs.allow_paid_model || false }}
           OPTIMIZATION: ${{ inputs.optimization || 'O0' }}
           CACHE_INPUTS: ${{ inputs.cache_inputs || false }}
+          TOOLCHAIN_IMAGE: ${{ inputs.toolchain_image }}
         run: |
           paid=()
           if [[ "$ALLOW_PAID" == true ]]; then paid+=(--allow-paid-model); fi
@@ -113,6 +118,7 @@ jobs:
             --batch "$BATCH-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" \
             --model "$MODEL" --frameworks "$FRAMEWORKS" --requests "$REQUESTS" \
             --optimization "$OPTIMIZATION" --backend docker \
+            --toolchain-image "$TOOLCHAIN_IMAGE" \
             --total-request-cap "$CAP" "${paid[@]}" "${estimates[@]}" "${cache[@]}" \
             --output .repropatch/plan.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -128,6 +134,9 @@ jobs:
     if: needs.plan.outputs.execute == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 350
+    permissions:
+      contents: read
+      packages: read
     strategy:
       fail-fast: false
       max-parallel: ${{ fromJSON(inputs.parallel_jobs || '2') }}
@@ -137,6 +146,7 @@ jobs:
       INSTANCES: ${{ matrix.instances }}
       OPTIMIZATION: ${{ inputs.optimization || 'O0' }}
       MODE: ${{ inputs.mode || 'qualify' }}
+      TOOLCHAIN_IMAGE: ${{ inputs.toolchain_image }}
       REPROPATCH_BATCH_ID: ${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -180,6 +190,7 @@ jobs:
           path: .repropatch/inputs
           key: ${{ steps.inputs-cache.outputs.cache-primary-key }}
       - name: Build one shared toolchain and capture identity
+        if: inputs.toolchain_image == ''
         run: |
           python scripts/benchmark_resources.py \
             --output ".repropatch/evidence/$SHARD/image" --timeout 900 --watch-interval 30 \
@@ -187,6 +198,28 @@ jobs:
             -- docker build --tag repropatch-benchmark:local --file docker/Dockerfile docker
           docker image inspect repropatch-benchmark:local > ".repropatch/evidence/$SHARD/image-inspect.json"
           docker image inspect --format '{{.Id}}' repropatch-benchmark:local > .repropatch/image-id
+          docker system df -v > ".repropatch/evidence/$SHARD/docker-disk-after-image.txt"
+      - name: Pull fixed shared toolchain and capture identity
+        if: inputs.toolchain_image != ''
+        env:
+          REGISTRY_TOKEN: ${{ github.token }}
+        run: |
+          printf '%s' "$REGISTRY_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+          python scripts/benchmark_resources.py \
+            --output ".repropatch/evidence/$SHARD/image" --timeout 900 --watch-interval 30 \
+            --watch docker=/var/lib/docker \
+            -- docker pull "$TOOLCHAIN_IMAGE"
+          docker logout ghcr.io
+          docker image inspect "$TOOLCHAIN_IMAGE" > ".repropatch/evidence/$SHARD/image-inspect.json"
+          docker image inspect --format '{{.Id}}' "$TOOLCHAIN_IMAGE" > .repropatch/image-id
+          python - <<'PY'
+          import json, os, pathlib
+          root = pathlib.Path('.repropatch/evidence') / os.environ['SHARD']
+          image = json.loads((root / 'image-inspect.json').read_text())[0]
+          record = {'image': os.environ['TOOLCHAIN_IMAGE'], 'image_id': image['Id']}
+          assert record['image'] in image['RepoDigests']
+          (root / 'toolchain.json').write_text(json.dumps(record, indent=2) + '\n')
+          PY
           docker system df -v > ".repropatch/evidence/$SHARD/docker-disk-after-image.txt"
       - name: Qualify baseline, reference F2P and independent native Oracle
         run: |
@@ -231,6 +264,9 @@ jobs:
             --batch ".repropatch/evidence/$SHARD/qualification" \
             --output ".repropatch/evidence/$SHARD/audited/audit" \
             --summary-output ".repropatch/evidence/$SHARD/audited/batch-summary.json"
+          if [[ -f ".repropatch/evidence/$SHARD/toolchain.json" ]]; then
+            cp ".repropatch/evidence/$SHARD/toolchain.json" ".repropatch/evidence/$SHARD/audited/toolchain.json"
+          fi
       - name: Freeze raw evidence and verify SHA-256
         if: always()
         timeout-minutes: 10
