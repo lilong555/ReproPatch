@@ -2,3 +2,8 @@
 -c harbor.txt
 httpx2==2.16.0
 httpcore2==2.16.0
+mcp==2.3.0
+mcp-types==2.3.0
+sse-starlette==3.5.1
+python-multipart==0.0.32
+truststore==0.10.5

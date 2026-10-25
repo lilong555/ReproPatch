@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: '48：补齐首批未请求的四臂；912：其余19题四臂'
+        description: 'mini两项首次模型尝试，最多24次请求，沿用首批96次总上限'
         required: true
         type: choice
-        options: ['48', '912']
-        default: '48'
+        options: ['24']
+        default: '24'
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.authorization == '912' && 'benchmarks/formal-max-full-v2-protocol.json' || 'benchmarks/formal-max-completion-protocol.json' }}
+  FORMAL_PROTOCOL: benchmarks/formal-max-mini-protocol.json
 
 jobs:
   calibration:
@@ -54,21 +54,18 @@ jobs:
         run: |
           gh run download 40199698518 --repo "$GITHUB_REPOSITORY" --name formal-calibration-40199698518 --dir .repropatch/calibration-input
           python scripts/formal_benchmark.py verify-calibration --protocol "$FORMAL_PROTOCOL" --source .repropatch/calibration-input --output .repropatch/calibration
-      - name: Require complete pilot evidence before full campaign
-        if: inputs.authorization == '912'
+      - name: Verify prior attempts and remaining request allocations
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run download 40206574619 --repo "$GITHUB_REPOSITORY" --name formal-results-40206574619 --dir .repropatch/pilot-input/prior
-          gh run download 40208451903 --repo "$GITHUB_REPOSITORY" --name formal-results-40208451903 --dir .repropatch/pilot-input/completion
-          python scripts/formal_benchmark.py verify-pilot --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/pilot-gate
-      - name: Confirm untouched arms and remaining pilot budget
-        if: inputs.authorization == '48'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh run download 40206574619 --repo "$GITHUB_REPOSITORY" --name formal-results-40206574619 --dir .repropatch/pilot-input
-          python scripts/formal_benchmark.py verify-completion --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/completion-gate
+          python - <<'PY'
+          import json, os, subprocess
+          p = json.load(open(os.environ['FORMAL_PROTOCOL']))
+          for entry in p['prior_results']:
+              run = str(entry['run_id'])
+              subprocess.run(['gh', 'run', 'download', run, '--repo', os.environ['GITHUB_REPOSITORY'], '--name', 'formal-results-' + run, '--dir', '.repropatch/pilot-input/' + run], check=True)
+          PY
+          python scripts/formal_benchmark.py verify-registry --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/registry-gate
       - name: Freeze task matrix
         id: plan
         env:
@@ -117,13 +114,14 @@ jobs:
           git -C .repropatch/mini-source fetch --depth=1 https://github.com/SWE-agent/mini-swe-agent.git 04d809ceab9df28f9adaed044884180159172930
           git -C .repropatch/mini-source checkout --detach FETCH_HEAD
           python -m venv .repropatch/mini-env
-          .repropatch/mini-env/bin/python -m pip install -c requirements/formal-mini.txt -e . litellm==1.106.1 httpx2==2.16.0 rich jinja2 tenacity python-dotenv platformdirs
+          .repropatch/mini-env/bin/python -m pip install -c requirements/formal-mini.txt -e . litellm==1.106.1 httpx2==2.16.0 mcp==2.3.0 mcp-types==2.3.0 rich jinja2 tenacity python-dotenv platformdirs
           MSWEA_SILENT_STARTUP=1 PYTHONPATH=.repropatch/mini-source/src .repropatch/mini-env/bin/python - <<'PY'
           from minisweagent.agents.default import DefaultAgent
           from minisweagent.environments.docker import DockerEnvironment
           from minisweagent.models.litellm_response_model import LitellmResponseModel
           print('固定 mini Agent、Docker 环境与 Responses 模型导入成功')
           PY
+          .repropatch/mini-env/bin/python scripts/check_mini_transport.py --mini-source .repropatch/mini-source --output .repropatch/formal-preflight/mini-wire
       - name: Restore frozen qualification and pinned tools
         env:
           GH_TOKEN: ${{ github.token }}
@@ -154,8 +152,10 @@ jobs:
         if: always()
         run: |
           python - <<'PY'
-          import json, pathlib
+          import json, pathlib, shutil
           root = pathlib.Path('.repropatch/formal-output'); root.mkdir(exist_ok=True)
+          if pathlib.Path('.repropatch/formal-preflight').is_dir():
+              shutil.copytree('.repropatch/formal-preflight', root / 'preflight')
           (root / 'runner-status.json').write_text(json.dumps({'job_status': '${{ job.status }}', 'instance': '${{ matrix.instance }}'}))
           for name in ['summary.json', 'protocol.json', 'usage.sqlite3']:
               if (root / name).is_file():

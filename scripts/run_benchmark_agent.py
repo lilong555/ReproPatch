@@ -691,6 +691,8 @@ def main():
         result["error_type"] = type(error).__name__
         if isinstance(error, BudgetLimit):
             result["error_code"] = str(error)
+        elif isinstance(error, RuntimeError) and str(error).startswith("MODEL_REQUEST_FAILED:"):
+            result["error_code"] = str(error)
     finally:
         if args.agent == "mini" and (args.output / "cleanup.json").is_file():
             cleanup = json.loads((args.output / "cleanup.json").read_text())

@@ -228,6 +228,58 @@ def verify_completion(source, output):
     save(output / "gate.json", {"passed": True, "prior_run_id": p["prior_run_id"]})
 
 
+def registry_gate(rows, p):
+    """按实际发出的请求确定首跑，保留环境失败和已知终止超时。"""
+    assert len({r["attempt_id"] for r in rows}) == len(rows)
+    issued = [r for r in rows if r["score"]["worker_usage"]["requests"]]
+    used = sum(r["score"]["worker_usage"]["requests"] for r in issued)
+    known_timeouts = set(p["known_timeout_attempt_ids"])
+    for row in issued:
+        score = row["score"]
+        usage = score["worker_usage"]
+        assert 1 <= usage["requests"] <= 12
+        if row["attempt_id"] in known_timeouts:
+            assert score["native_reason"] == "MODEL_REQUEST_TIMEOUT"
+            assert score["classification"] == "infrastructure"
+            assert usage["unknown_usage_requests"] == 1
+        else:
+            assert score["classification"] in {"resolved", "candidate"}, "PILOT_INFRASTRUCTURE"
+            assert type(score["accepted"]) is bool and usage["unknown_usage_requests"] == 0
+    if p["campaign_stage"] == "mini-completion":
+        assert used == p["prior_model_requests"]
+        assert used + p["formal_request_cap"] <= p["pilot_request_cap"]
+        for attempt in p["attempts"]:
+            assert all(
+                (r["instance_id"], r["arm"]) != (attempt["instance_id"], attempt["arm"])
+                for r in issued
+            ), "MODEL_ATTEMPT_ALREADY_ISSUED"
+    else:
+        expected = {(task, arm) for task in p["pilot_tasks"] for arm in p["arms"]}
+        assert len(issued) == len(expected)
+        assert {(r["instance_id"], r["arm"]) for r in issued} == expected
+        assert used <= p["pilot_request_cap"]
+        assert used + p["formal_request_cap"] <= p["campaign_request_cap"]
+    return {"passed": True, "prior_model_requests": used, "prior_attempt_records": len(rows)}
+
+
+def verify_registry(source, output):
+    p = protocol()
+    rows = []
+    for entry in p["prior_results"]:
+        file = source / str(entry["run_id"]) / "results.json"
+        if entry.get("results_sha256"):
+            assert sha(file) == entry["results_sha256"]
+        value = json.loads(file.read_text())
+        assert value["protocol_sha256"] == entry["protocol_sha256"]
+        assert {r["attempt_id"] for r in value["attempts"]} == set(entry["attempt_ids"])
+        rows.extend(value["attempts"])
+    result = registry_gate(rows, p)
+    output.mkdir(parents=True, exist_ok=False)
+    shutil.copytree(source, output / "source-results")
+    save(output / "gate.json", result)
+    save(output / "prior-attempts.json", {"attempts": rows})
+
+
 def prepare(instance, output):
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
@@ -505,6 +557,7 @@ def main():
             "verify-calibration",
             "verify-pilot",
             "verify-completion",
+            "verify-registry",
             "prepare",
             "run",
             "aggregate",
@@ -524,6 +577,8 @@ def main():
         verify_pilot(args.source, args.output)
     elif args.stage == "verify-completion":
         verify_completion(args.source, args.output)
+    elif args.stage == "verify-registry":
+        verify_registry(args.source, args.output)
     elif args.stage == "prepare":
         prepare(args.instance, args.output)
     elif args.stage == "run":

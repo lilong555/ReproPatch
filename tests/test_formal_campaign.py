@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from formal_benchmark import ROOT, completed_pilot_gate, completion_gate, pilot_gate
+from formal_benchmark import ROOT, completed_pilot_gate, completion_gate, pilot_gate, registry_gate
 
 
 @pytest.fixture
@@ -122,3 +122,48 @@ def test_full_campaign_preserves_prior_timeouts_and_requires_measured_completion
         rows = completed_pilot_gate(pilot, completion, p)
         assert len(rows) == 8
         assert sum(r["score"]["worker_usage"]["unknown_usage_requests"] for r in rows) == 2
+
+
+@pytest.mark.parametrize("changed", [None, "issued_mini", "new_unknown_usage"])
+def test_registry_completes_only_zero_request_trials(pilot, changed):
+    p = json.loads((ROOT / "benchmarks/formal-max-mini-protocol.json").read_text())
+    for row in pilot["attempts"]:
+        score = row["score"]
+        if row["arm"] in {"mini", "codex"}:
+            score["worker_usage"]["requests"] = 0
+        elif row["arm"] == "no-checks":
+            score.update(native_reason="MODEL_REQUEST_TIMEOUT", classification="infrastructure")
+            score["worker_usage"].update(
+                requests=10 if row["instance_id"].endswith("3727") else 11,
+                unknown_usage_requests=1,
+            )
+    rows = list(pilot["attempts"])
+    completion = json.loads((ROOT / "benchmarks/formal-max-completion-protocol.json").read_text())
+    for attempt in completion["attempts"]:
+        rows.append(
+            {
+                **attempt,
+                "score": {
+                    "classification": "candidate",
+                    "accepted": False,
+                    "worker_usage": {
+                        "requests": 0
+                        if attempt["arm"] == "mini"
+                        else 5
+                        if attempt["instance_id"].endswith("3727")
+                        else 11,
+                        "unknown_usage_requests": 0,
+                    },
+                },
+            }
+        )
+    if changed == "issued_mini":
+        rows[-2]["score"]["worker_usage"]["requests"] = 1
+    elif changed == "new_unknown_usage":
+        rows[-1]["score"]["worker_usage"]["unknown_usage_requests"] = 1
+    if changed:
+        with pytest.raises(AssertionError):
+            registry_gate(rows, p)
+    else:
+        result = registry_gate(rows, p)
+        assert result["prior_model_requests"] == 61
