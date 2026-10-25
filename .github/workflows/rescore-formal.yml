@@ -147,3 +147,11 @@ jobs:
           path: .repropatch/rescore-results/
           include-hidden-files: true
           retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rescored-summary-reused
+          path: .repropatch/rescore-summaries/previous/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 14

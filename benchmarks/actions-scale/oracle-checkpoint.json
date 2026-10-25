@@ -1,6 +1,11 @@
 {
   "source_run_id": 40212667694,
-  "completed_tasks": [],
-  "run_id": null,
-  "code_sha256": null
+  "completed_tasks": [
+    "fmtlib__fmt-1171",
+    "fmtlib__fmt-1361"
+  ],
+  "run_id": 40216295246,
+  "code_sha256": "c9e12f8a4c5a452b1f277e7b0be071bd2ccc198b7ff624c7a13f12793f98403b",
+  "source_protocol": "formal-max-full-180s-protocol.json",
+  "model_requests": 0
 }
