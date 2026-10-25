@@ -24,13 +24,12 @@ flowchart LR
 [评测与复现](benchmarks/README.md) · [发布身份](RELEASE.json) ·
 [CI](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)
 
-当前开发分支新增 [Actions Benchmark 与效率改动](docs/ACTIONS_BENCHMARK.md)：
-41 条 fmt 候选的批量资格检查、Run 内 ccache、候选导出与统一冷 Oracle、资源采样和按批证据归档。
-本轮 **41/41 原生资格证据完整**；其中 **24 个明确缺陷、21 个没有仓库历史模型尝试记录**。
-原生结果标为 `HOST_QUALIFIED`，新增 Docker 资格与正式模型实验仍待云端执行。
-[本轮实施报告](docs/BENCHMARK_SCALE_REPORT.md)单列本地实测、原生预检与未运行的云端项目；
-[任务状态索引](benchmarks/task-status.json)区分历史模型暴露、辅助 smoke 和新资格记录。
-正式发布和下述历史模型成绩仍对应原冻结版本。
+[GitHub Actions 实验](docs/ACTIONS_RESULTS.md)完成固定镜像下的资格检查、构建缓存 A/B 和 1/2/4 Job 对照。
+**21 道明确缺陷中 21 道通过 O3 Docker 资格**，仓库历史模型尝试审查为无记录；
+新模型请求与 Token 均为 **0**。当前开发源码通过 **584 项 CI**，覆盖 23 项真实 Docker 检查。
+同一真实 C++ 目标的热 ccache 中位耗时为 **0.87 秒**，冷 Ninja 为 **13.27 秒**，重复变体各三个样本。
+完整 Agent 的端到端效果待后续模型实验。[逐题资格与证据](benchmarks/actions-scale/cloud-results.json)
+保留全部 Run、失败记录、固定镜像和下载 SHA-256；执行命令见 [Actions 说明](docs/ACTIONS_BENCHMARK.md)。
 
 发布提交 `6e69e58` 通过 **514 项测试**：338 Core、154 SDK、22 真实 Docker。
 发布页提供 wheel、sdist、原始实验和验证证据，共 11 个附件，公开下载的 SHA-256 均已核验。

@@ -1,13 +1,13 @@
 {
   "schema_version": 5,
-  "scope": "两题六次三框架冻结配置复核与完整历史证据",
+  "scope": "已发布 v2 模型修复复核与开发态云端 Docker 资格、构建实验",
   "product_version": "0.3.0",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
   "cpp_instances": 129,
-  "current_implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+  "current_implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
   "latest_measured_implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-  "current_implementation_has_real_benchmark": true,
+  "current_implementation_has_real_benchmark": false,
   "current_results": "generalization-final-results.json",
   "report": "generalization-final-results.md",
   "protocol": "generalization-protocol-v2.json",
@@ -69,7 +69,8 @@
     "ratio": 0.07751937984496124,
     "repositories": 4,
     "adapted_compile_extensions": 4,
-    "adapted_logic_tasks": 6
+    "adapted_logic_tasks": 6,
+    "scope": "v0.3.0 历史 Harness 适配集；开发态批量资格另见 cloud_experiments"
   },
   "formal_v2": {
     "status": "completed",
@@ -112,12 +113,12 @@
   "candidate_production_adopted": false,
   "qualification": "generalization-qualification.json",
   "evidence": "generalization-evidence.json",
-  "validation": "../docs/evidence/v0.3.0/summary.json",
+  "validation": "../docs/evidence/actions-2026-10-25/summary.json",
   "tests": {
-    "core": 338,
-    "sdk": 154,
-    "docker": 22,
-    "total": 514,
+    "core": 406,
+    "sdk": 155,
+    "docker": 23,
+    "total": 584,
     "failed": 0,
     "errors": 0,
     "skipped": 0
@@ -131,5 +132,14 @@
     "json4537-header-audit": "json4537-header-audit.json",
     "repair-followup-results": "repair-followup-results.json",
     "json4525-results": "json4525-results.json"
+  },
+  "cloud_experiments": {
+    "results": "actions-scale/cloud-results.json",
+    "runs": "actions-scale/cloud-runs.json",
+    "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+    "new_bug_fix_tasks_registered": 21,
+    "new_bug_fix_tasks_qualified": 21,
+    "unique_cloud_instances": 23,
+    "model_requests": 0
   }
 }

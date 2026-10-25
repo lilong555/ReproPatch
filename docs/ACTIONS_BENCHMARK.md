@@ -1,9 +1,9 @@
 # C++ Benchmark 云端执行与效率改动
 
-本轮实现位于 `feat/actions-benchmark-scale`，基于
-`fbdb60570602c61545d4c5b73e2fed92fbe319f6`。正式发布 `v0.3.0` 的身份及历史成绩保持独立。
-实际测量、完整任务计数与执行限制见 [本轮报告](BENCHMARK_SCALE_REPORT.md)，
-官方配额和优化取舍见 [Actions 资源依据](ACTIONS_RESOURCES.md)。
+GitHub Actions 提供零模型 C++ 资格检查、固定共享工具链、构建性能测量和完整证据归档。
+云端结果见 [Actions 实验报告](ACTIONS_RESULTS.md)，本地原生环境记录见
+[构建与资格报告](BENCHMARK_SCALE_REPORT.md)。正式版本 `v0.3.0` 的发布身份和模型成绩按原始记录保存。
+资源依据与优化取舍见 [Actions 资源依据](ACTIONS_RESOURCES.md)。
 
 ## 当前可执行范围
 
@@ -26,8 +26,8 @@
 
 ## Actions 使用
 
-工作流首次出现在独立分支时，通过 PR 的两题无模型 smoke 验证。
-GitHub 官方要求 `workflow_dispatch` 文件存在于默认分支；合并后可使用 Actions 页面，或：
+工作流位于默认分支 `main`，相关 PR 自动运行两题无模型 smoke。
+手动运行使用 Actions 页面或以下命令：
 
 ```bash
 gh workflow run benchmark.yml --ref main \
@@ -68,8 +68,9 @@ Runner 硬终止仍可能阻止归档上传；汇总保留缺失任务，不能�
 
 ### 权限与身份
 
-`GITHUB_TOKEN` 仅 `contents: read`，Checkout 不保留凭据，未注入模型 API Secrets，
-不使用 `pull_request_target`。Actions 固定官方提交 SHA。
+Benchmark 工作流使用 `contents: read`，拉取固定工具链的 Job 另有 `packages: read`。
+工具链发布工作流仅在发布 Job 使用 `packages: write`。
+Checkout 结束后移除 Git 凭据；运行环境使用固定官方 Action SHA，模型 API Secrets 保持未配置状态。
 批次 ID 包含 GitHub Run ID 与 Run Attempt；原有已完成尝试不被覆盖。
 
 `toolchain.yml` 使用独立 Job 的 `packages: write` 权限发布工具链，输出
@@ -194,7 +195,8 @@ python scripts/actions_benchmark.py pack \
 Workflow 上传后会重新下载原始包，对照上传前 metadata 中的 SHA-256，另存
 `archive-receipt.json`；只有这一步成功才记录 `ARCHIVE_VERIFIED_REMOTE`。
 上传、下载或校验失败时，即使测试通过，云端聚合仍降为 `EVIDENCE_INCOMPLETE`，
-同时保留执行状态和具体归档失败原因。本轮没有实际执行远端步骤。
+同时保留执行状态和具体归档失败原因。云端 Run 与下载校验记录见
+[机器可读汇总](../benchmarks/actions-scale/cloud-results.json)。
 Actions 原始产物保留 7 天，聚合结果 14 天，已压缩文件使用上传 `compression-level: 0`。
 正式证据应复用现有按批 Release 的方式长期公开保存，每包低于 2 GiB，附下载 SHA-256。
 本工作流尚未实现自动发布 Release；短期 Artifact 不能代替长期证据。

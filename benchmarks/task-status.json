@@ -474,6 +474,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194796255,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194796255",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "45adb94fc967d88cabc9728309fe3c7abe74fcc9",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -611,6 +622,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194796255,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194796255",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "f95b4e5621f209c9733e9a40a6a1139a59607efb",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -701,6 +723,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194878862,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194878862",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "c41f45b6074c1aef18d5338ebc8c46bbe760386e",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -746,6 +779,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194878862,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194878862",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -791,6 +835,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194878862,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194878862",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "b9309a90cd99c2d60966521f48ab0b1f98199696",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -836,6 +891,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "3a5bdaa601d568a01e915d4858baf8ee1d19565b",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -926,6 +992,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194878862,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194878862",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -971,6 +1048,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "97636a89940bd5ba0eb2a867310e67ba6e204b14",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1108,6 +1196,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "0e9bcadff1972224879c5e91bda96e76b255a667",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1199,6 +1298,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "b8d0e68656c771d54a53546c7dfa6775895c4f77",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1289,6 +1399,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "ebe09d4c5b41ab2138aad48520ad4db832f24fbc",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1334,6 +1455,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "ce1f62d5b70ec5ce195e6d602b6fd842b12ffee5",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1379,6 +1511,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "22537f693587b349fc8f90cf0b4b81ecb6651722",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1424,6 +1567,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "11e73853be14cf0994732a60b20f432bb35f1cc8",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1470,6 +1624,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "2d25291ed6dc2e6f9eb6dc9725bf0a3f59956dbf",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1561,6 +1726,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "749b81b56118df1ee261c59be0063ddd497bc087",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1606,6 +1782,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "e1dd7145fb647df47e039667a8a343e5c95c0b97",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1651,6 +1838,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "a8f51a04083ef9e4a81de5c0c8fcb9a13c2076be",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1743,6 +1941,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "73e27385b0b7457144e4e894bb24a99fd1b9089c",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1927,6 +2136,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "f990de0620d704ea88d2f628ffb0f23173225742",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -1974,6 +2194,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "b4d5376546b567486b0a171941f74a58f2ffafa8",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -2020,6 +2251,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "b124ca34b3a4eab7709b8c6fa0e390495ce4a2ac",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -2157,6 +2399,17 @@
         "preparation_reference_exposure": true,
         "strategy_tuning_exposure": "NOT_ASSERTED",
         "final_holdout_frozen": false
+      },
+      "cloud_docker_qualification": {
+        "status": "QUALIFIED",
+        "run_id": 40194807297,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+        "optimization": "O3",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "prepared_commit": "0c6ba753c9da0c669b6ba08bbddd557c506d7c8a",
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "formal_model_attempts": 0
       }
     },
     {
@@ -4336,5 +4589,13 @@
   "historical_qualified_issue_scope_counts": {
     "bug_fix": 8,
     "mixed_or_unclear": 2
+  },
+  "cloud_requalification": {
+    "date": "2026-10-25",
+    "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+    "unique_qualified_instances": 23,
+    "new_bug_fix_qualified": 21,
+    "results": "benchmarks/actions-scale/cloud-results.json",
+    "formal_model_attempts": 0
   }
 }

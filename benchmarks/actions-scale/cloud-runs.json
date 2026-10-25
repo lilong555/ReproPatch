@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+  "runs": [
+    {
+      "batch": "fmt21-o3",
+      "run_id": 40194807297,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+      "conclusion": "success",
+      "inputs": {
+        "mode": "qualify",
+        "task_set": "fmtlib__fmt-1171,fmtlib__fmt-1361,fmtlib__fmt-1390,fmtlib__fmt-2070,fmtlib__fmt-2292,fmtlib__fmt-2310,fmtlib__fmt-2317,fmtlib__fmt-2610,fmtlib__fmt-2940,fmtlib__fmt-3158,fmtlib__fmt-3248,fmtlib__fmt-3260,fmtlib__fmt-3272,fmtlib__fmt-3537,fmtlib__fmt-3713,fmtlib__fmt-3727,fmtlib__fmt-3732,fmtlib__fmt-3734,fmtlib__fmt-3750,fmtlib__fmt-3819,fmtlib__fmt-493",
+        "parallel_jobs": "2",
+        "optimization": "O3",
+        "batch_id": "fmt21-o3",
+        "model": "gpt-6-luna",
+        "frameworks": "repropatch,repropatch-no-checks,mini,codex",
+        "requests_per_attempt": "12",
+        "total_request_cap": "0",
+        "allow_paid_model": "false",
+        "cache_inputs": "false",
+        "toolchain_image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a"
+      },
+      "registered_tasks": 21,
+      "status_counts": {
+        "QUALIFIED": 21
+      },
+      "archive_status_counts": {
+        "ARCHIVE_VERIFIED_REMOTE": 21
+      },
+      "metrics": {
+        "workflow_wall_seconds": 2317.0,
+        "all_job_active_minutes": 68.43333333333334,
+        "qualification_job_span_seconds": 2292.0,
+        "qualification_job_active_minutes": 68.15
+      },
+      "archives": [
+        {
+          "path": "batch-40194807297-1-0.tar.gz",
+          "sha256": "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+          "bytes": 584972,
+          "verified_files": 308
+        },
+        {
+          "path": "batch-40194807297-1-1.tar.gz",
+          "sha256": "7413bfd973143bb5ba6b05dce99cd3f847a05176c80304c3ea735c5b4eaaa257",
+          "bytes": 531783,
+          "verified_files": 283
+        }
+      ]
+    },
+    {
+      "batch": "fmt-build-ab",
+      "run_id": 40194849008,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194849008",
+      "conclusion": "success",
+      "inputs": {
+        "mode": "profile",
+        "task_set": "fmtlib__fmt-4055",
+        "parallel_jobs": "1",
+        "optimization": "O3",
+        "batch_id": "fmt-build-ab",
+        "model": "gpt-6-luna",
+        "frameworks": "repropatch,repropatch-no-checks,mini,codex",
+        "requests_per_attempt": "12",
+        "total_request_cap": "0",
+        "allow_paid_model": "false",
+        "cache_inputs": "false",
+        "toolchain_image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a"
+      },
+      "registered_tasks": 1,
+      "status_counts": {
+        "QUALIFIED": 1
+      },
+      "archive_status_counts": {
+        "ARCHIVE_VERIFIED_REMOTE": 1
+      },
+      "metrics": {
+        "workflow_wall_seconds": 335.0,
+        "all_job_active_minutes": 5.466666666666667,
+        "qualification_job_span_seconds": 310.0,
+        "qualification_job_active_minutes": 5.166666666666667
+      },
+      "archives": [
+        {
+          "path": "batch-40194849008-1-0.tar.gz",
+          "sha256": "c8c706537ce7789fd4183d9a31f1df7f4612ba8ad7b21f1d31f1488c8babc485",
+          "bytes": 146866,
+          "verified_files": 296
+        }
+      ]
+    },
+    {
+      "batch": "jobs-1-o3",
+      "run_id": 40194858972,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194858972",
+      "conclusion": "success",
+      "inputs": {
+        "mode": "qualify",
+        "task_set": "fmtlib__fmt-3819,fmtlib__fmt-3750,fmtlib__fmt-3734,fmtlib__fmt-3727",
+        "parallel_jobs": "1",
+        "optimization": "O3",
+        "batch_id": "jobs-1-o3",
+        "model": "gpt-6-luna",
+        "frameworks": "repropatch,repropatch-no-checks,mini,codex",
+        "requests_per_attempt": "12",
+        "total_request_cap": "0",
+        "allow_paid_model": "false",
+        "cache_inputs": "false",
+        "toolchain_image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a"
+      },
+      "registered_tasks": 4,
+      "status_counts": {
+        "QUALIFIED": 4
+      },
+      "archive_status_counts": {
+        "ARCHIVE_VERIFIED_REMOTE": 4
+      },
+      "metrics": {
+        "workflow_wall_seconds": 1042.0,
+        "all_job_active_minutes": 17.25,
+        "qualification_job_span_seconds": 1020.0,
+        "qualification_job_active_minutes": 17.0
+      },
+      "archives": [
+        {
+          "path": "batch-40194858972-1-0.tar.gz",
+          "sha256": "14a09d3cfae9bbd2a085771ce43a4bc95fcf8ea3a369f0444a9ac88a536288b8",
+          "bytes": 252212,
+          "verified_files": 133
+        }
+      ]
+    },
+    {
+      "batch": "jobs-2-o3",
+      "run_id": 40194868713,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194868713",
+      "conclusion": "success",
+      "inputs": {
+        "mode": "qualify",
+        "task_set": "fmtlib__fmt-3819,fmtlib__fmt-3750,fmtlib__fmt-3734,fmtlib__fmt-3727",
+        "parallel_jobs": "2",
+        "optimization": "O3",
+        "batch_id": "jobs-2-o3",
+        "model": "gpt-6-luna",
+        "frameworks": "repropatch,repropatch-no-checks,mini,codex",
+        "requests_per_attempt": "12",
+        "total_request_cap": "0",
+        "allow_paid_model": "false",
+        "cache_inputs": "false",
+        "toolchain_image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a"
+      },
+      "registered_tasks": 4,
+      "status_counts": {
+        "QUALIFIED": 4
+      },
+      "archive_status_counts": {
+        "ARCHIVE_VERIFIED_REMOTE": 4
+      },
+      "metrics": {
+        "workflow_wall_seconds": 547.0,
+        "all_job_active_minutes": 17.216666666666665,
+        "qualification_job_span_seconds": 524.0,
+        "qualification_job_active_minutes": 16.95
+      },
+      "archives": [
+        {
+          "path": "batch-40194868713-1-0.tar.gz",
+          "sha256": "4f6b14f0c7a5cb4378efcb4de4f8c8ce1bbd5371f738d5e0d656ab69eb123b9d",
+          "bytes": 145345,
+          "verified_files": 83
+        },
+        {
+          "path": "batch-40194868713-1-1.tar.gz",
+          "sha256": "3d97636ce6a0ec8cc4e45b4c6d539aaf8cbdd00fd370f683ff83051d3a07aef2",
+          "bytes": 140698,
+          "verified_files": 83
+        }
+      ]
+    },
+    {
+      "batch": "jobs-4-o3",
+      "run_id": 40194878862,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194878862",
+      "conclusion": "success",
+      "inputs": {
+        "mode": "qualify",
+        "task_set": "fmtlib__fmt-3819,fmtlib__fmt-3750,fmtlib__fmt-3734,fmtlib__fmt-3727",
+        "parallel_jobs": "4",
+        "optimization": "O3",
+        "batch_id": "jobs-4-o3",
+        "model": "gpt-6-luna",
+        "frameworks": "repropatch,repropatch-no-checks,mini,codex",
+        "requests_per_attempt": "12",
+        "total_request_cap": "0",
+        "allow_paid_model": "false",
+        "cache_inputs": "false",
+        "toolchain_image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a"
+      },
+      "registered_tasks": 4,
+      "status_counts": {
+        "QUALIFIED": 4
+      },
+      "archive_status_counts": {
+        "ARCHIVE_VERIFIED_REMOTE": 4
+      },
+      "metrics": {
+        "workflow_wall_seconds": 291.0,
+        "all_job_active_minutes": 17.583333333333332,
+        "qualification_job_span_seconds": 271.0,
+        "qualification_job_active_minutes": 17.333333333333332
+      },
+      "archives": [
+        {
+          "path": "batch-40194878862-1-0.tar.gz",
+          "sha256": "365c4bf2d3a0913ba9057d095d201f78d2a655a3d4f8ed5ebb08d00cc9ab5b7a",
+          "bytes": 92434,
+          "verified_files": 58
+        },
+        {
+          "path": "batch-40194878862-1-1.tar.gz",
+          "sha256": "5db6127de4f33024df4a8de787c5e8a487fa7daa93d23434b8c9d979a153e2cd",
+          "bytes": 89623,
+          "verified_files": 58
+        },
+        {
+          "path": "batch-40194878862-1-2.tar.gz",
+          "sha256": "e33e6842f11cb6252a3f74fb7f1729416cfccf573ed39fcc2fc62620cfe52656",
+          "bytes": 92690,
+          "verified_files": 58
+        },
+        {
+          "path": "batch-40194878862-1-3.tar.gz",
+          "sha256": "0d86ab2d20db534a96f3c8b59eac410afe895d084c23d6b36669d757fa9b7772",
+          "bytes": 87384,
+          "verified_files": 58
+        }
+      ]
+    },
+    {
+      "batch": "shared-smoke-v2",
+      "run_id": 40194796255,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194796255",
+      "conclusion": "success",
+      "inputs": {
+        "mode": "qualify",
+        "task_set": "smoke",
+        "parallel_jobs": "2",
+        "optimization": "O3",
+        "batch_id": "shared-smoke-v2",
+        "model": "gpt-6-luna",
+        "frameworks": "repropatch,repropatch-no-checks,mini,codex",
+        "requests_per_attempt": "12",
+        "total_request_cap": "0",
+        "allow_paid_model": "false",
+        "cache_inputs": "false",
+        "toolchain_image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a"
+      },
+      "registered_tasks": 2,
+      "status_counts": {
+        "QUALIFIED": 2
+      },
+      "archive_status_counts": {
+        "ARCHIVE_VERIFIED_REMOTE": 2
+      },
+      "metrics": {
+        "workflow_wall_seconds": 285.0,
+        "all_job_active_minutes": 8.383333333333333,
+        "qualification_job_span_seconds": 264.0,
+        "qualification_job_active_minutes": 8.166666666666666
+      },
+      "archives": [
+        {
+          "path": "batch-40194796255-1-0.tar.gz",
+          "sha256": "b4232dd5c1be383f709bcca8e943bed8eabd5c58464b36a47ed4e0d4e1137599",
+          "bytes": 88126,
+          "verified_files": 58
+        },
+        {
+          "path": "batch-40194796255-1-1.tar.gz",
+          "sha256": "4c47d8ddda4fb9a1e462324d258e86805c6aa6374f3550206c796b77091025b0",
+          "bytes": 82331,
+          "verified_files": 58
+        }
+      ]
+    }
+  ],
+  "model_requests": 0
+}

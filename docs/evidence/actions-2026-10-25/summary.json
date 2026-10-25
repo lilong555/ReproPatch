@@ -1,0 +1,33 @@
+{
+  "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+  "run_id": 40194625159,
+  "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194625159",
+  "conclusion": "success",
+  "tests": {
+    "core": 406,
+    "sdk": 155,
+    "docker": 23,
+    "total": 584
+  },
+  "source_files_matched": 97,
+  "implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
+  "model_requests": 0,
+  "qualification_results": "../../../benchmarks/actions-scale/cloud-results.json",
+  "junit": {
+    "core": {
+      "artifact_path": "python-cpp-evidence/results.xml",
+      "sha256": "48780162e6b2fb291f6848c2a8d52113a3ed0e41555bad21f4913ca98c057418",
+      "size_bytes": 445871
+    },
+    "sdk": {
+      "artifact_path": "sdk-contract-evidence/results.xml",
+      "sha256": "afd82216e8b304909e7cf57d18796a011fecc927b9eb8f57155d9481af65aad9",
+      "size_bytes": 20347
+    },
+    "docker": {
+      "artifact_path": "docker-gate-evidence/docker-tests.xml",
+      "sha256": "274d9a0fb3dab1c742fcc64344ff7588d86c2325719e6d3ee6403c93a2459c38",
+      "size_bytes": 3181
+    }
+  }
+}

@@ -3,13 +3,14 @@
 正式版本 **v0.3.0 已发布**，任务格式为 **Task v2**。目标规格为 [2026-10-19.2](../specs/2026-10-19.2/SPEC.md)，
 原始规格与各次历史验收保留独立版本和证据。
 
-## 当前开发分支增量
+## 云端执行与开发态验证
 
-新增 `benchmark.yml`、fmt 批量资格、统一候选 Oracle、Run 内 ccache、candidate-only、
-阶段资源采样与 SHA-256 归档。代码、实际本地测量和剩余门禁见
-[BENCHMARK_SCALE_REPORT.md](BENCHMARK_SCALE_REPORT.md)。这批改动尚未成为 v0.3.0 发布内容，
-也未在 GitHub-hosted Runner 上执行；连接写权限返回 403，本地无 Docker daemon。
-原生资格与正式 Docker 资格分开记录，正式新模型请求为 0。
+零模型 Actions 工作流、fmt 批量资格、固定 GHCR 工具链、Run 内 ccache、candidate-only、
+统一冷 Oracle、资源采样和 SHA-256 归档已运行。[云端结果](ACTIONS_RESULTS.md)
+记录 21 道明确缺陷的 O3 Docker 资格、构建 A/B 和 1/2/4 Job 对照，21 道主批次任务合格。
+[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40194625159)通过 584 项：406 Core、155 SDK、23 真实 Docker。
+当前开发核心指纹为 `69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84`。
+这些云端资格与性能实验的模型请求和 Token 均为 0，模型修复成绩继续引用冻结的 v2 记录。
 
 ## 已发布的实施状态
 

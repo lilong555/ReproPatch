@@ -1,0 +1,2667 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "scope": "GitHub-hosted Runner、固定 Docker 工具链、零模型资格与构建实验",
+  "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+  "imported_commit": "310257b7c7d047e7fc9c77cec90d7fcfcbf9a3aa",
+  "pull_request": "https://github.com/lilong555/ReproPatch/pull/1",
+  "toolchain": {
+    "image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a",
+    "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+    "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+    "dockerfile_sha256": "e704a9fc4a1a7e00d728979a850c9ad62b09b7f910df9c901e7092063414e411",
+    "model_requests": 0,
+    "publication_run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194628716",
+    "versions": {
+      "cmake": "cmake version 3.28.3",
+      "ninja": "1.11.1",
+      "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "ccache": "ccache version 4.9.1"
+    },
+    "anonymous_pull": true
+  },
+  "ci": {
+    "source_commit": "6c6222c5b0a93b6ce09f121db257b00e68297d9b",
+    "run_id": 40194625159,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194625159",
+    "conclusion": "success",
+    "tests": {
+      "core": 406,
+      "sdk": 155,
+      "docker": 23,
+      "total": 584
+    },
+    "source_files_matched": 97
+  },
+  "qualification": {
+    "run_id": 40194807297,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194807297",
+    "optimization": "O3",
+    "backend": "docker",
+    "registered_tasks": 21,
+    "status_counts": {
+      "QUALIFIED": 21
+    },
+    "archive_status_counts": {
+      "ARCHIVE_VERIFIED_REMOTE": 21
+    },
+    "tasks": [
+      {
+        "instance_id": "fmtlib__fmt-1171",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "2874d60ff43c4af894294c4d6a9b726b",
+        "upstream_commit": "87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d",
+        "prepared_commit": "b124ca34b3a4eab7709b8c6fa0e390495ce4a2ac",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "d0cbb054d3943fe808f2407aabbd6d124f40e9b43293f21c9a8d6b4a30dbcd1c",
+        "test_patch_sha256": "b53a92d737a924009181013eb8cfd52106849af2f6b1d4bc0418c714487ba7b7",
+        "task_file_sha256": "1087e6ba1793186a91da28943a92b4bde036e82f48826e8ca3f6d477cc25d87e",
+        "f2p": [
+          "prepare-test"
+        ],
+        "p2p": [
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "core-test",
+          "custom-formatter-test",
+          "format-impl-test",
+          "format-test",
+          "grisu-test",
+          "gtest-extra-test",
+          "locale-test",
+          "ostream-test",
+          "posix-mock-test",
+          "posix-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 16,
+        "wall_seconds": 179.13545499700012,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-1171"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 34116935,
+          "reference": 5437717,
+          "native-oracle": 36878197
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 16,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 17
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 73.82830562499976,
+          "reference": 23.04163270800018,
+          "native-oracle": 81.53854695499922
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-1361",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "19aca60fc3a64ceebf7c11b25adcea32",
+        "upstream_commit": "a5abe5d95cb8a8015913be9748a9661f3e1fbda8",
+        "prepared_commit": "b4d5376546b567486b0a171941f74a58f2ffafa8",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "54e1e5611d930dab1dbbcf50e4d57a730bdaf7432d77fcbfe695bc0d7e083611",
+        "test_patch_sha256": "6b04ad961667e927741da83554b708a8a9e161463667f09fcbbae4df493ddafa",
+        "task_file_sha256": "89e84465ebe942898744db04651e6ffe509f928cf745cf41eb0bce2431079fd1",
+        "f2p": [
+          "format-impl-test",
+          "grisu-test"
+        ],
+        "p2p": [
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-test",
+          "core-test",
+          "custom-formatter-test",
+          "format-test",
+          "gtest-extra-test",
+          "locale-test",
+          "ostream-test",
+          "posix-mock-test",
+          "posix-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test"
+        ],
+        "f2p_count": 2,
+        "p2p_count": 15,
+        "wall_seconds": 194.634468599,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-1361"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 40312551,
+          "reference": 6095433,
+          "native-oracle": 42300229
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 15,
+              "failed": 2
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 2
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 17
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 86.84986506799987,
+          "reference": 17.62194363000026,
+          "native-oracle": 89.37255751399994
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-1390",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "1f0e2f7880f144edbb3a1af439eef48e",
+        "upstream_commit": "d6eede9e085f0b36edcf0a2f6dff5f7875181019",
+        "prepared_commit": "f990de0620d704ea88d2f628ffb0f23173225742",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "55ee287f0fd89b6261b4a22c4664a0b32b4adc5570281a4e275931448035adbd",
+        "test_patch_sha256": "f7844b296195bfe93e5ff17a8d8ca4571357b89b99ed1978a2517ddd330ada4c",
+        "task_file_sha256": "aa8032badefc3c0d6868e8690640239c18c08cd5e93a062ad9c77feb03d88660",
+        "f2p": [
+          "format-test"
+        ],
+        "p2p": [
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-test",
+          "core-test",
+          "custom-formatter-test",
+          "format-impl-test",
+          "grisu-test",
+          "gtest-extra-test",
+          "locale-test",
+          "ostream-test",
+          "posix-mock-test",
+          "posix-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 16,
+        "wall_seconds": 285.02108743100007,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-1390"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42123729,
+          "reference": 11185336,
+          "native-oracle": 42071465
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 16,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 17
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 126.41646043500032,
+          "reference": 55.89756383399981,
+          "native-oracle": 101.96977234799988
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-2070",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "fd40399c45204c5bb46edad0a2dcbb6a",
+        "upstream_commit": "e737672614dfad3a6df23ffe3f2348fcfa4d3944",
+        "prepared_commit": "73e27385b0b7457144e4e894bb24a99fd1b9089c",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "141b42af471bca4d35869f865e9d1400dac3236dc82fc15d67cee0eb4b84f0bd",
+        "test_patch_sha256": "bd50dfc37d196d623e81d1ceb673c77346db3ce8ac635e61aa108a55b7458a48",
+        "task_file_sha256": "df19bd3b7a6857bc1a94be45a13d6a004998fb758aee2bce8d317fdb682b11af",
+        "f2p": [
+          "color-test"
+        ],
+        "p2p": [
+          "assert-test",
+          "chrono-test",
+          "compile-test",
+          "core-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "locale-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 14,
+        "wall_seconds": 119.04740425099999,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-2070"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 32152998,
+          "reference": 3772782,
+          "native-oracle": 33231095
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 14,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 15
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 55.089562258000115,
+          "reference": 9.502991243999759,
+          "native-oracle": 53.6859286949998
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-2292",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "745f4e72ed074f109af309c6249fd7ee",
+        "upstream_commit": "0dd91e20d5e8c7c41154acbb4fbe6b9d37688ea3",
+        "prepared_commit": "a8f51a04083ef9e4a81de5c0c8fcb9a13c2076be",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "c5c0fc866cc0b42088217a3291b28dfd559544add913071bdc4d76e7d4cb7d1a",
+        "test_patch_sha256": "0253b58a552c9bd6965d31d1f7f408b41f642150e5134e9d14e2bc2d4dcade07",
+        "task_file_sha256": "b611afb628ffa50822ce4cb0c62545fab3f1dc275a362b7a183abf3402066eb0",
+        "f2p": [
+          "chrono-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "color-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "locale-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "wchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 17,
+        "wall_seconds": 174.63764489900018,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-2292"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 38751136,
+          "reference": 6305421,
+          "native-oracle": 38755036
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 17,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 18
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 82.04275445500048,
+          "reference": 16.22751627499997,
+          "native-oracle": 75.62601532000008
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-2310",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "a3b0fba046ce48fcb4788266f54b2769",
+        "upstream_commit": "bc13c6de390751ecf8daa1b1ce8f775d104fdc65",
+        "prepared_commit": "e1dd7145fb647df47e039667a8a343e5c95c0b97",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "eaa55ff6ed3fbc7d79dbd48bc83bfa819aebcc5ecc6661e211357045d70e2513",
+        "test_patch_sha256": "4cbba31e89383a5aff3375411c29c00bbcfc3b9bb070470428c7967616348bb1",
+        "task_file_sha256": "de494268c45f62992a213fffa2dd90dde736f0825cfe1a21fa711d769d361149",
+        "f2p": [
+          "format-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "wchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 16,
+        "wall_seconds": 150.60670660300002,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-2310"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 35521325,
+          "reference": 8054113,
+          "native-oracle": 35520230
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 16,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 17
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 67.29951701999994,
+          "reference": 20.53075053800012,
+          "native-oracle": 62.00689835700041
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-2317",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "f0c21a761049471889c47189c770dd94",
+        "upstream_commit": "7612f18dc8e0112e64e0845a1ebe9da6cfb8a123",
+        "prepared_commit": "749b81b56118df1ee261c59be0063ddd497bc087",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "c1e2f8290f8b898f4e3e6d281864f84b46f9b976860c4437c05f70434eb52504",
+        "test_patch_sha256": "6befe2d99212212218d9ab2e60fada96f8a2df2f0e0d7e007ac8f15eba73a8de",
+        "task_file_sha256": "c35120a7dbf86edbce87c982c26729a9a4e3875aea321443c8c2b10fca0fa12e",
+        "f2p": [
+          "format-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "unicode-test",
+          "wchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 17,
+        "wall_seconds": 190.26665952100007,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-2317"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 37817635,
+          "reference": 8061113,
+          "native-oracle": 37845429
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 17,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 18
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 88.25086443200007,
+          "reference": 22.74605875500015,
+          "native-oracle": 78.53092554400018
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-2610",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "1fec2dc489f74eb8837dab0ce99afd35",
+        "upstream_commit": "19cac63fe4b4d8fe6a4ced28de16a68659cf9035",
+        "prepared_commit": "2d25291ed6dc2e6f9eb6dc9725bf0a3f59956dbf",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "94597b980608bd066838eccec60491ea451261a9c74ffbc9e3d7275c0d12c242",
+        "test_patch_sha256": "62d56f109711dd236cc8c97a93c6b8d3af34411613de3197d21024913b5aa652",
+        "task_file_sha256": "31ba9c52b069db30610649bbdae809d0c632696c46d3a8ecc8e603f3893fecbe",
+        "f2p": [
+          "core-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 18,
+        "wall_seconds": 155.003607118,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-2610"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 34528067,
+          "reference": 6616799,
+          "native-oracle": 38264904
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 18,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 19
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 69.60717890299975,
+          "reference": 12.905246858999817,
+          "native-oracle": 71.71267392200025
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-2940",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "7c9a1f357a72489ca9e1a60864ed81bf",
+        "upstream_commit": "eaa8efb950be5d8f1803a99b06f76cf398c67cb8",
+        "prepared_commit": "11e73853be14cf0994732a60b20f432bb35f1cc8",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "e44624800c137036532062521efc055405ba63c6920f53a37c633a6e18460e8b",
+        "test_patch_sha256": "d69be3f83c3f5e44be8570819c85d4a5ff12c4c3b19b3ecb623df486a7d6a258",
+        "task_file_sha256": "80f1544e2334f93dd75d904b16818e3d3543b36c3e72672d5547f083d12f0fbb",
+        "f2p": [
+          "ranges-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 198.88493627399998,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-2940"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 40129218,
+          "reference": 4377963,
+          "native-oracle": 40118453
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 93.35733973399988,
+          "reference": 13.624852551999766,
+          "native-oracle": 91.14992981000023
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3158",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "22949b2db9544337988cda1836233c7a",
+        "upstream_commit": "80f8d34427d40ec5e7ce3b10ededc46bd4bd5759",
+        "prepared_commit": "22537f693587b349fc8f90cf0b4b81ecb6651722",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "3801e073c48baa16573903620c40840967cd55cc9efb7e90258aa5b0a542bb00",
+        "test_patch_sha256": "dd768202c53ca779ff9ab209974be3af6ec9927882469f738caaec4b50e5195c",
+        "task_file_sha256": "1704dfc8d961ceb2588dcaeec1b076ea29e89abf3bac5a20a2443f4eb471e0c2",
+        "f2p": [
+          "ranges-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 165.23657452199996,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-3158"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 40689165,
+          "reference": 4482181,
+          "native-oracle": 40687108
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 78.22313208000014,
+          "reference": 11.503829378000091,
+          "native-oracle": 74.71207822900033
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3248",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "e878958f3f3944f2832423d52c0f77e6",
+        "upstream_commit": "275b4b3417e26be3bdb5b45e16fa9af6584973a2",
+        "prepared_commit": "ce1f62d5b70ec5ce195e6d602b6fd842b12ffee5",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "07b68c0c2142a357fa40360fc81871093657b35fe97101b3c7d42e05b931ec8b",
+        "test_patch_sha256": "32cefc18390effacb5b414a8eb0bc875746980bb1ff951c6bd01e0977b8e1577",
+        "task_file_sha256": "39427bbeb635514501efa455745d92b52eb9c49d0752bc8890e87ef1886f661b",
+        "f2p": [
+          "format-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 230.54822073600008,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-3248"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 41946261,
+          "reference": 7776394,
+          "native-oracle": 41934258
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 109.09281447099988,
+          "reference": 21.34044874600022,
+          "native-oracle": 99.3679984610003
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3260",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "3139ec68f78e42d49d0d961e5af8b969",
+        "upstream_commit": "2622cd23e69b67316cf678a97c268a874774c0e1",
+        "prepared_commit": "ebe09d4c5b41ab2138aad48520ad4db832f24fbc",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "1d3a6c824dac11182c34c8d7b8f2625b093e4b58366b008d0c24f5d36754fc50",
+        "test_patch_sha256": "fab17066aee19d652d76bd7960a03e00c2b6f6ad70bebd30a2e5d1af963688f6",
+        "task_file_sha256": "83be3f5134959a7d4d817fbc476088022611722986279fe3ded542b0fe2f6ece",
+        "f2p": [
+          "chrono-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 191.69137772700003,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-3260"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 41660356,
+          "reference": 6404654,
+          "native-oracle": 41687404
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 89.24823056199989,
+          "reference": 17.21894247800003,
+          "native-oracle": 84.44155262600009
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3272",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "1748c64075f747a989309a16e9b60f25",
+        "upstream_commit": "bfc0924eacaa3c6163eb872c8948098565464192",
+        "prepared_commit": "b8d0e68656c771d54a53546c7dfa6775895c4f77",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "65e6ac09c599697024d261283dfbd9f16f3ce67252e72772206cf8c077a45835",
+        "test_patch_sha256": "a68f5753c59c94ab58aa4bf5000ce8d71db2c8376fc5270331384ade27971197",
+        "task_file_sha256": "f87fac2b67b7efdfb315cae32767d8d74036f98876f8624da1f70f3f5e9e997f",
+        "f2p": [
+          "xchar-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 220.22663277200013,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-3272"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 41712770,
+          "reference": 5667174,
+          "native-oracle": 41708700
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 104.37858876300015,
+          "reference": 16.62692588999994,
+          "native-oracle": 98.47345823100022
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3537",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "bbd0ac21e2de4b3cad9b6ddab0ace65c",
+        "upstream_commit": "661b23edeb52d400cf5812e7330f14f05c072fab",
+        "prepared_commit": "0e9bcadff1972224879c5e91bda96e76b255a667",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "773168d4166ba1ac390943ca52dce9d889a2b889185fd6a421794548b8c0994c",
+        "test_patch_sha256": "bc867f0bbfd328360e239eff1673cec78b0f41121d7d92e6f69e9bd0a6da5093",
+        "task_file_sha256": "ddffe55160f822e67dd750c1adb677430b070dc0bcbb91356ec862504419539c",
+        "f2p": [
+          "color-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 180.68171594800003,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-3537"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 41514864,
+          "reference": 4006435,
+          "native-oracle": 42527324
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 82.32359628100005,
+          "reference": 11.606553118000193,
+          "native-oracle": 85.94050599299999
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3713",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "eb50dab90d934b099bd256ea50a883de",
+        "upstream_commit": "649fe0fc8b9366375eab67639cab404617c527cd",
+        "prepared_commit": "97636a89940bd5ba0eb2a867310e67ba6e204b14",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "6bce177a4ed0d1bace4568df585c707bd6aff85d729db8f4edc047d77be107f1",
+        "test_patch_sha256": "fce9930a4e95f5be2a37b2c8707e86ee9035134ac177a3a888e6887f1dbfb576",
+        "task_file_sha256": "2c60ec1d02848fe17c159b06bb282d19a1a7b036f7236aabf15b1812294630b8",
+        "f2p": [
+          "std-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 219.61634625800014,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-3713"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42754828,
+          "reference": 4376115,
+          "native-oracle": 42753117
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 103.97659012300005,
+          "reference": 13.219741187000068,
+          "native-oracle": 101.67348691699988
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3727",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "55d4a651f918424b88f15ca5f4fde77c",
+        "upstream_commit": "06f1c0d725855861535e9e65cd4d502aca7c61ed",
+        "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "1e5b2e54d779c5e44df41ad0511837f9091e847085306045cda9cddb186b2848",
+        "test_patch_sha256": "76eac48ef70cf13f40a9d99390ec7decc840451c0bae1aedaa93dd2ba7b77002",
+        "task_file_sha256": "4240d9ab722174243de936d1b2b3c9dc6274696d2ef799cebccf4898e38ac024",
+        "f2p": [
+          "chrono-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 203.95208940199996,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-3727"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42878170,
+          "reference": 6914198,
+          "native-oracle": 42900563
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 94.25134041399986,
+          "reference": 20.422588456000085,
+          "native-oracle": 88.45072278500004
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3732",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "614ff1007d9e4d23a7b33c0628809164",
+        "upstream_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+        "prepared_commit": "3a5bdaa601d568a01e915d4858baf8ee1d19565b",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "cb52453cfa250ead41e38c03c68d87aa607c9a6ea4f0d05033f8bc3e73e6492c",
+        "test_patch_sha256": "dcbf90013ff4348ee71615dd0516d771439ba83ced588bbfdba048d5d3d8d1e5",
+        "task_file_sha256": "4b4c8c1b17588d9802eb48a253bec43935b1ffc9ba4ad77cfb9dc66bc01436e3",
+        "f2p": [
+          "chrono-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 236.27573341699997,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-3732"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42742158,
+          "reference": 6934987,
+          "native-oracle": 42727002
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 110.6019579,
+          "reference": 23.64305863100003,
+          "native-oracle": 101.27745482500006
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3734",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "035b805de0364bb3960a1729fa28ba74",
+        "upstream_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+        "prepared_commit": "b9309a90cd99c2d60966521f48ab0b1f98199696",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "8e68d6501d3613af060529a60249c04bd20400ec407d73787dac58d908b5813b",
+        "test_patch_sha256": "f77bdc2e68ce64cf18d72e8a591db1408f548bb8116480a1517e078e731367e5",
+        "task_file_sha256": "c5483923598fa397fb63e8a973ee137e1a33840b05d1930fe968c18d9f54b9b3",
+        "f2p": [
+          "format-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 198.14744874399997,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-3734"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42731026,
+          "reference": 7840068,
+          "native-oracle": 42717234
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 91.651297769,
+          "reference": 18.520602516999986,
+          "native-oracle": 87.04179135099992
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3750",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "38899b120916446bb54819d4d4f210b0",
+        "upstream_commit": "274ba2645bdae12f6f0c7d7ca24659c4af670548",
+        "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "ff9e464796224a582cbf4e39b579a0d2e45873fff2b03cb88960e31a60d0b4fb",
+        "test_patch_sha256": "3359813bda05130864c1f81af650f4a3ebe93df2ca8ec448b1cb3e443ae1f358",
+        "task_file_sha256": "ea199d69b636ce51202cc6204339dcc11c4e59c1941f060408757451aad85628",
+        "f2p": [
+          "format-test"
+        ],
+        "p2p": [
+          "args-test",
+          "assert-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "core-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 230.42769337700003,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-3750"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42860703,
+          "reference": 7858641,
+          "native-oracle": 42919232
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 19,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 107.87428983000001,
+          "reference": 21.135556748,
+          "native-oracle": 100.66863465600005
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-3819",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "d437560de27045dd8c5fae8d41371ade",
+        "upstream_commit": "0147e08225db261f5689fc17a986ede7f1db56f0",
+        "prepared_commit": "c41f45b6074c1aef18d5338ebc8c46bbe760386e",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "07368f992aac7866ef377c1cb9f92604d384dda1285142e15889bfb0b6e8eff9",
+        "test_patch_sha256": "edd718ae82592d6adc8dc571e2ed735a8673ce9adbdab5aac33ddae470d1d14d",
+        "task_file_sha256": "d6e782ae0d5f0e2b880e352859c8789cdf2b6ff8adeb822c1871907434e1d4dd",
+        "f2p": [
+          "args-test"
+        ],
+        "p2p": [
+          "assert-test",
+          "base-test",
+          "chrono-test",
+          "color-test",
+          "compile-fp-test",
+          "compile-test",
+          "enforce-checks-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "os-test",
+          "ostream-test",
+          "posix-mock-test",
+          "printf-test",
+          "ranges-test",
+          "scan-test",
+          "std-test",
+          "unicode-test",
+          "xchar-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 19,
+        "wall_seconds": 199.127080225,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "20b9c4b6ffa19836951cdaf0c102c4d195437f5ce258be813274bc27aeecc409",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "4a5d6b940fff22b28e05a3a5a7b0f0dbe7949ab459ab4c347e6553e15f818a1c",
+          "task_directory": ".repropatch/evidence/1/qualification/fmtlib__fmt-3819"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 42178456,
+          "reference": 3891004,
+          "native-oracle": 42181791
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "failed": 1,
+              "passed": 19
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 20
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 93.46257603999997,
+          "reference": 11.8134527,
+          "native-oracle": 93.06307519399999
+        }
+      },
+      {
+        "instance_id": "fmtlib__fmt-493",
+        "status": "QUALIFIED",
+        "execution_status": "QUALIFIED",
+        "attempt_id": "4397d6fe93f5406e88c1728bd71b8659",
+        "upstream_commit": "c03f55ec3a0511611fa7f0537f858544a0ed03bd",
+        "prepared_commit": "0c6ba753c9da0c669b6ba08bbddd557c506d7c8a",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "optimization": "O3",
+        "reference_patch_sha256": "bcd694768fc73548deebfc50e23f60372904a3f67f16310e80b98329456c6ea4",
+        "test_patch_sha256": "c51ceabdf4ffb68f8a4ea50b9d22f7ffd879efa48b28f0eefd04b162ee4cd997",
+        "task_file_sha256": "9ded51f6dbce18fc1911071dcbe9dafb14d8f999c56cd45169202ff676a77695",
+        "f2p": [
+          "ostream-test"
+        ],
+        "p2p": [
+          "assert-test",
+          "container-test",
+          "custom-formatter-test",
+          "format-impl-test",
+          "format-test",
+          "gtest-extra-test",
+          "macro-test",
+          "posix-mock-test",
+          "posix-test",
+          "printf-test",
+          "string-test",
+          "time-test",
+          "util-test"
+        ],
+        "f2p_count": 1,
+        "p2p_count": 13,
+        "wall_seconds": 94.29852743599986,
+        "evidence_status": "VERIFIED",
+        "archive_status": "ARCHIVE_VERIFIED_REMOTE",
+        "archive_receipt_sha256": "92d2ab1f10a4bfdd794bb44c21e146d50b38f3b4f34ff4cdf0a67ec7db321f37",
+        "evidence_audit": {
+          "path": "audit/audit.json",
+          "sha256": "97c6a945b4e4c54820db8f589f3e28fac2ceaf078c7b45cf30bd5d639661b045",
+          "task_directory": ".repropatch/evidence/0/qualification/fmtlib__fmt-493"
+        },
+        "exposure": {
+          "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+          "sources": [],
+          "split": "holdout_candidate",
+          "qualification_exposes_reference_to_preparation_code": true,
+          "holdout_frozen": false
+        },
+        "phase_build_bytes": {
+          "baseline": 25012978,
+          "reference": 4086441,
+          "native-oracle": 25009162
+        },
+        "cleanup": {
+          "status": "SUCCEEDED",
+          "errors": [],
+          "builds_kept": false
+        },
+        "phases": {
+          "baseline": {
+            "status": "TESTS_FAILED",
+            "tests": {
+              "passed": 13,
+              "failed": 1
+            }
+          },
+          "reference": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 1
+            }
+          },
+          "native_oracle": {
+            "status": "PASSED",
+            "tests": {
+              "passed": 14
+            }
+          }
+        },
+        "phase_command_seconds": {
+          "baseline": 42.58072667400029,
+          "reference": 10.314445048000835,
+          "native-oracle": 40.66306076099954
+        }
+      }
+    ]
+  },
+  "all_cloud_qualifications": {
+    "registered_task_executions": 36,
+    "unique_instances": 23,
+    "status_counts": {
+      "QUALIFIED": 36
+    },
+    "scope": "包含并发对照中的重复执行；模型修复首跑数为 0"
+  },
+  "target_build_profile": {
+    "instance_id": "fmtlib__fmt-4055",
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/40194849008",
+    "run_id": 40194849008,
+    "status": "PASSED",
+    "samples": [
+      {
+        "variant": "cold-make",
+        "repeat": 0,
+        "generator": "Unix Makefiles",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 18.755797282000003,
+        "build_bytes": 9117696,
+        "cache_bytes": 4096,
+        "commands": {
+          "configure": {
+            "seconds": 0.519796566999986,
+            "exit_code": 0,
+            "log": "cold-make-0-configure.log",
+            "sha256": "7530c3735df3e60cf170c35c15477589483d1f5094b1fdea514c36accef1cd01",
+            "resource_evidence": "cold-make-0-configure-command"
+          },
+          "build": {
+            "seconds": 18.042792458000008,
+            "exit_code": 0,
+            "log": "cold-make-0-build.log",
+            "sha256": "b4a42896a30ff57978a502210cd0f22064c89ea1b1d90518e9ddb0b3c8ed99bd",
+            "resource_evidence": "cold-make-0-build-command"
+          },
+          "test": {
+            "seconds": 0.12755710599998338,
+            "exit_code": 0,
+            "log": "cold-make-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cold-make-0-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cold-ninja",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 13.267503577000014,
+        "build_bytes": 7999488,
+        "cache_bytes": 4096,
+        "commands": {
+          "configure": {
+            "seconds": 0.38751578800000175,
+            "exit_code": 0,
+            "log": "cold-ninja-0-configure.log",
+            "sha256": "a3594739c1931d90ec35afe3af01d02115e18066dbb38feae58a49dc5b4b073e",
+            "resource_evidence": "cold-ninja-0-configure-command"
+          },
+          "build": {
+            "seconds": 12.696746931999996,
+            "exit_code": 0,
+            "log": "cold-ninja-0-build.log",
+            "sha256": "404348d318633e3834d63604699ec318f05b60d00324b8f10c759295969e753c",
+            "resource_evidence": "cold-ninja-0-build-command"
+          },
+          "test": {
+            "seconds": 0.12751402999998618,
+            "exit_code": 0,
+            "log": "cold-ninja-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cold-ninja-0-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cold-make",
+        "repeat": 1,
+        "generator": "Unix Makefiles",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 18.362381800999998,
+        "build_bytes": 9117696,
+        "cache_bytes": 4096,
+        "commands": {
+          "configure": {
+            "seconds": 0.45578403199999684,
+            "exit_code": 0,
+            "log": "cold-make-1-configure.log",
+            "sha256": "cb84faa4d16dcc256f22d3b32d99769e055507642357a8ea57459970d984bf90",
+            "resource_evidence": "cold-make-1-configure-command"
+          },
+          "build": {
+            "seconds": 17.71140693099997,
+            "exit_code": 0,
+            "log": "cold-make-1-build.log",
+            "sha256": "b4a42896a30ff57978a502210cd0f22064c89ea1b1d90518e9ddb0b3c8ed99bd",
+            "resource_evidence": "cold-make-1-build-command"
+          },
+          "test": {
+            "seconds": 0.13630141299995557,
+            "exit_code": 0,
+            "log": "cold-make-1-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cold-make-1-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cold-ninja",
+        "repeat": 1,
+        "generator": "Ninja",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 12.942362145999994,
+        "build_bytes": 7999488,
+        "cache_bytes": 4096,
+        "commands": {
+          "configure": {
+            "seconds": 0.3754309700000249,
+            "exit_code": 0,
+            "log": "cold-ninja-1-configure.log",
+            "sha256": "a3594739c1931d90ec35afe3af01d02115e18066dbb38feae58a49dc5b4b073e",
+            "resource_evidence": "cold-ninja-1-configure-command"
+          },
+          "build": {
+            "seconds": 12.381251571000007,
+            "exit_code": 0,
+            "log": "cold-ninja-1-build.log",
+            "sha256": "404348d318633e3834d63604699ec318f05b60d00324b8f10c759295969e753c",
+            "resource_evidence": "cold-ninja-1-build-command"
+          },
+          "test": {
+            "seconds": 0.1298127759999943,
+            "exit_code": 0,
+            "log": "cold-ninja-1-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cold-ninja-1-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cold-make",
+        "repeat": 2,
+        "generator": "Unix Makefiles",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 18.23623459999999,
+        "build_bytes": 9117696,
+        "cache_bytes": 4096,
+        "commands": {
+          "configure": {
+            "seconds": 0.4391490720000206,
+            "exit_code": 0,
+            "log": "cold-make-2-configure.log",
+            "sha256": "cb84faa4d16dcc256f22d3b32d99769e055507642357a8ea57459970d984bf90",
+            "resource_evidence": "cold-make-2-configure-command"
+          },
+          "build": {
+            "seconds": 17.620889610999996,
+            "exit_code": 0,
+            "log": "cold-make-2-build.log",
+            "sha256": "4e0d88673f728cea1db0b0570ce9db24875e1f722514cae274abbba6e5633899",
+            "resource_evidence": "cold-make-2-build-command"
+          },
+          "test": {
+            "seconds": 0.12425159500003247,
+            "exit_code": 0,
+            "log": "cold-make-2-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cold-make-2-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cold-ninja",
+        "repeat": 2,
+        "generator": "Ninja",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 13.783382281999991,
+        "build_bytes": 7999488,
+        "cache_bytes": 4096,
+        "commands": {
+          "configure": {
+            "seconds": 0.3782014980000099,
+            "exit_code": 0,
+            "log": "cold-ninja-2-configure.log",
+            "sha256": "a3594739c1931d90ec35afe3af01d02115e18066dbb38feae58a49dc5b4b073e",
+            "resource_evidence": "cold-ninja-2-configure-command"
+          },
+          "build": {
+            "seconds": 13.222239885999954,
+            "exit_code": 0,
+            "log": "cold-ninja-2-build.log",
+            "sha256": "404348d318633e3834d63604699ec318f05b60d00324b8f10c759295969e753c",
+            "resource_evidence": "cold-ninja-2-build-command"
+          },
+          "test": {
+            "seconds": 0.12682867000000897,
+            "exit_code": 0,
+            "log": "cold-ninja-2-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cold-ninja-2-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cache-fill",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 14.30241483499998,
+        "build_bytes": 8003584,
+        "cache_bytes": 7094272,
+        "commands": {
+          "configure": {
+            "seconds": 0.38197106000001213,
+            "exit_code": 0,
+            "log": "cache-fill-0-configure.log",
+            "sha256": "a3594739c1931d90ec35afe3af01d02115e18066dbb38feae58a49dc5b4b073e",
+            "resource_evidence": "cache-fill-0-configure-command"
+          },
+          "build": {
+            "seconds": 13.73944535000004,
+            "exit_code": 0,
+            "log": "cache-fill-0-build.log",
+            "sha256": "404348d318633e3834d63604699ec318f05b60d00324b8f10c759295969e753c",
+            "resource_evidence": "cache-fill-0-build-command"
+          },
+          "test": {
+            "seconds": 0.12233869400000685,
+            "exit_code": 0,
+            "log": "cache-fill-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cache-fill-0-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cache-warm-fresh-build",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 1.0111649950000015,
+        "build_bytes": 8003584,
+        "cache_bytes": 7135232,
+        "commands": {
+          "configure": {
+            "seconds": 0.5047331600000007,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-0-configure.log",
+            "sha256": "cb84faa4d16dcc256f22d3b32d99769e055507642357a8ea57459970d984bf90",
+            "resource_evidence": "cache-warm-fresh-build-0-configure-command"
+          },
+          "build": {
+            "seconds": 0.2917535860000271,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-0-build.log",
+            "sha256": "fc84d6b82f04901983b868d6f6bca9e45a653ab75280e3e2721ab80361afe153",
+            "resource_evidence": "cache-warm-fresh-build-0-build-command"
+          },
+          "test": {
+            "seconds": 0.13434751299996606,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cache-warm-fresh-build-0-test-command"
+          }
+        }
+      },
+      {
+        "variant": "incremental-unchanged",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": true,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 0.45377652900003795,
+        "build_bytes": 8003584,
+        "cache_bytes": 7135232,
+        "commands": {
+          "build": {
+            "seconds": 0.2662216349999653,
+            "exit_code": 0,
+            "log": "incremental-unchanged-0-build.log",
+            "sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+            "resource_evidence": "incremental-unchanged-0-build-command"
+          },
+          "test": {
+            "seconds": 0.148192760000029,
+            "exit_code": 0,
+            "log": "incremental-unchanged-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "incremental-unchanged-0-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cache-warm-fresh-build",
+        "repeat": 1,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 0.8677621479999971,
+        "build_bytes": 8003584,
+        "cache_bytes": 7135232,
+        "commands": {
+          "configure": {
+            "seconds": 0.3987504559999593,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-1-configure.log",
+            "sha256": "cb84faa4d16dcc256f22d3b32d99769e055507642357a8ea57459970d984bf90",
+            "resource_evidence": "cache-warm-fresh-build-1-configure-command"
+          },
+          "build": {
+            "seconds": 0.2894001700000217,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-1-build.log",
+            "sha256": "fc84d6b82f04901983b868d6f6bca9e45a653ab75280e3e2721ab80361afe153",
+            "resource_evidence": "cache-warm-fresh-build-1-build-command"
+          },
+          "test": {
+            "seconds": 0.12090857599997662,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-1-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cache-warm-fresh-build-1-test-command"
+          }
+        }
+      },
+      {
+        "variant": "incremental-unchanged",
+        "repeat": 1,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": true,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 0.2760978640000076,
+        "build_bytes": 8003584,
+        "cache_bytes": 7135232,
+        "commands": {
+          "build": {
+            "seconds": 0.12176139899997906,
+            "exit_code": 0,
+            "log": "incremental-unchanged-1-build.log",
+            "sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+            "resource_evidence": "incremental-unchanged-1-build-command"
+          },
+          "test": {
+            "seconds": 0.11753387900000689,
+            "exit_code": 0,
+            "log": "incremental-unchanged-1-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "incremental-unchanged-1-test-command"
+          }
+        }
+      },
+      {
+        "variant": "cache-warm-fresh-build",
+        "repeat": 2,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 0.8587513609999746,
+        "build_bytes": 8003584,
+        "cache_bytes": 7135232,
+        "commands": {
+          "configure": {
+            "seconds": 0.38932462500002885,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-2-configure.log",
+            "sha256": "a3594739c1931d90ec35afe3af01d02115e18066dbb38feae58a49dc5b4b073e",
+            "resource_evidence": "cache-warm-fresh-build-2-configure-command"
+          },
+          "build": {
+            "seconds": 0.28259941400000343,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-2-build.log",
+            "sha256": "fc84d6b82f04901983b868d6f6bca9e45a653ab75280e3e2721ab80361afe153",
+            "resource_evidence": "cache-warm-fresh-build-2-build-command"
+          },
+          "test": {
+            "seconds": 0.13239075199999206,
+            "exit_code": 0,
+            "log": "cache-warm-fresh-build-2-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "cache-warm-fresh-build-2-test-command"
+          }
+        }
+      },
+      {
+        "variant": "incremental-unchanged",
+        "repeat": 2,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": true,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 0.2918964819999701,
+        "build_bytes": 8003584,
+        "cache_bytes": 7135232,
+        "commands": {
+          "build": {
+            "seconds": 0.1267076720000091,
+            "exit_code": 0,
+            "log": "incremental-unchanged-2-build.log",
+            "sha256": "8c35b1682f73592d30612d7b0fabdb384fcfff35cb5a076cb48b85b1368aa794",
+            "resource_evidence": "incremental-unchanged-2-build-command"
+          },
+          "test": {
+            "seconds": 0.12724373600002536,
+            "exit_code": 0,
+            "log": "incremental-unchanged-2-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "incremental-unchanged-2-test-command"
+          }
+        }
+      },
+      {
+        "variant": "reference-reverted",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": true,
+        "expected_pass": false,
+        "passed": false,
+        "seconds": 3.341659897999989,
+        "build_bytes": 8007680,
+        "cache_bytes": 7266304,
+        "commands": {
+          "build": {
+            "seconds": 3.32116901400002,
+            "exit_code": 1,
+            "log": "reference-reverted-0-build.log",
+            "sha256": "b1a426729369aa5c97d7c3532798fb4aae7b4f9f89c6bfcf94496acc711012ff",
+            "resource_evidence": "reference-reverted-0-build-command"
+          }
+        }
+      },
+      {
+        "variant": "reference-reapplied",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": true,
+        "incremental": true,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 0.4571084780000092,
+        "build_bytes": 8015872,
+        "cache_bytes": 7266304,
+        "commands": {
+          "build": {
+            "seconds": 0.2829034320000119,
+            "exit_code": 0,
+            "log": "reference-reapplied-0-build.log",
+            "sha256": "db89b954a90073080df12870f989ad9f4f23ef94c164e1345c90c5f2b45a4f0b",
+            "resource_evidence": "reference-reapplied-0-build-command"
+          },
+          "test": {
+            "seconds": 0.1337062580000179,
+            "exit_code": 0,
+            "log": "reference-reapplied-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "reference-reapplied-0-test-command"
+          }
+        }
+      },
+      {
+        "variant": "final-cold",
+        "repeat": 0,
+        "generator": "Ninja",
+        "compiler_cache": false,
+        "incremental": false,
+        "expected_pass": true,
+        "passed": true,
+        "seconds": 14.081919725000034,
+        "build_bytes": 7999488,
+        "cache_bytes": 7266304,
+        "commands": {
+          "configure": {
+            "seconds": 0.4169230879999759,
+            "exit_code": 0,
+            "log": "final-cold-0-configure.log",
+            "sha256": "cb84faa4d16dcc256f22d3b32d99769e055507642357a8ea57459970d984bf90",
+            "resource_evidence": "final-cold-0-configure-command"
+          },
+          "build": {
+            "seconds": 13.461702533999983,
+            "exit_code": 0,
+            "log": "final-cold-0-build.log",
+            "sha256": "404348d318633e3834d63604699ec318f05b60d00324b8f10c759295969e753c",
+            "resource_evidence": "final-cold-0-build-command"
+          },
+          "test": {
+            "seconds": 0.1417247800000041,
+            "exit_code": 0,
+            "log": "final-cold-0-test.log",
+            "sha256": "ce2941e221e501ddab304500a1c2f08819945f4494dc444fcaa8322980784148",
+            "resource_evidence": "final-cold-0-test-command"
+          }
+        }
+      }
+    ],
+    "medians_seconds": {
+      "cache-fill": 14.30241483499998,
+      "cache-warm-fresh-build": 0.8677621479999971,
+      "cold-make": 18.362381800999998,
+      "cold-ninja": 13.267503577000014,
+      "final-cold": 14.081919725000034,
+      "incremental-unchanged": 0.2918964819999701,
+      "reference-reapplied": 0.4571084780000092,
+      "reference-reverted": 3.341659897999989
+    },
+    "warm_reduction_percent": 93.45949188584119,
+    "sample_count_per_repeated_variant": 3,
+    "wall_seconds": 131.658074608,
+    "scope": "同一目标的配置、构建与目标测试计时；冷样本使用全新 build 并关闭 ccache"
+  },
+  "job_concurrency": {
+    "sample_count_per_configuration": 1,
+    "instances": [
+      "fmtlib__fmt-3819",
+      "fmtlib__fmt-3750",
+      "fmtlib__fmt-3734",
+      "fmtlib__fmt-3727"
+    ],
+    "build_jobs_per_runner": 2,
+    "results": [
+      {
+        "jobs": 1,
+        "tasks": 4,
+        "statuses": {
+          "QUALIFIED": 4
+        },
+        "run_id": 40194858972,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194858972",
+        "workflow_wall_seconds": 1042.0,
+        "all_job_active_minutes": 17.25,
+        "qualification_job_span_seconds": 1020.0,
+        "qualification_job_active_minutes": 17.0,
+        "task_active_p50_seconds": 249.9653587135
+      },
+      {
+        "jobs": 2,
+        "tasks": 4,
+        "statuses": {
+          "QUALIFIED": 4
+        },
+        "run_id": 40194868713,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194868713",
+        "workflow_wall_seconds": 547.0,
+        "all_job_active_minutes": 17.216666666666665,
+        "qualification_job_span_seconds": 524.0,
+        "qualification_job_active_minutes": 16.95,
+        "task_active_p50_seconds": 241.236923461
+      },
+      {
+        "jobs": 4,
+        "tasks": 4,
+        "statuses": {
+          "QUALIFIED": 4
+        },
+        "run_id": 40194878862,
+        "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40194878862",
+        "workflow_wall_seconds": 291.0,
+        "all_job_active_minutes": 17.583333333333332,
+        "qualification_job_span_seconds": 271.0,
+        "qualification_job_active_minutes": 17.333333333333332,
+        "task_active_p50_seconds": 237.78211274850003
+      }
+    ],
+    "timing_scope": "Job span 从首个资格 Job 开始到最后一个资格 Job 结束；active minutes 为 API Job 活动区间之和，含准备与归档",
+    "queue_and_machine_variation": "每组一次，分别由 GitHub 分配独立 Runner；保留全部阶段与主机记录"
+  },
+  "initial_failed_smoke": {
+    "run_id": 40193853784,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/40193853784",
+    "conclusion": "failure",
+    "counted_as_qualified": false,
+    "reason": "Task 导出时重复列表产生 YAML alias，导致整个任务汇总中断",
+    "archives": [
+      {
+        "path": "batch-40193853784-1-0.tar.gz",
+        "sha256": "692fa2a4eb3f68059e82593f996ed319d77ec155e7cec9412a8c18b64a4cbe3f",
+        "bytes": 82824,
+        "verified_files": 56
+      },
+      {
+        "path": "batch-40193853784-1-1.tar.gz",
+        "sha256": "373cfb077678ccae63af83493552cc6d1af038a9e0cfe7f5d4ee7b48439900e2",
+        "bytes": 88523,
+        "verified_files": 56
+      }
+    ],
+    "successful_revalidation_run_id": 40194275983
+  },
+  "dispatch_validation": {
+    "rejected_requests": 1,
+    "http_status": 422,
+    "field": "requests_per_attempt",
+    "run_created": false,
+    "model_requests": 0,
+    "request_path": "shared-smoke-dispatch.json"
+  },
+  "archives": [
+    {
+      "run_id": 40194849008,
+      "path": "batch-40194849008-1-0.tar.gz",
+      "sha256": "c8c706537ce7789fd4183d9a31f1df7f4612ba8ad7b21f1d31f1488c8babc485",
+      "bytes": 146866,
+      "verified_files": 296
+    },
+    {
+      "run_id": 40194807297,
+      "path": "batch-40194807297-1-0.tar.gz",
+      "sha256": "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+      "bytes": 584972,
+      "verified_files": 308
+    },
+    {
+      "run_id": 40194807297,
+      "path": "batch-40194807297-1-1.tar.gz",
+      "sha256": "7413bfd973143bb5ba6b05dce99cd3f847a05176c80304c3ea735c5b4eaaa257",
+      "bytes": 531783,
+      "verified_files": 283
+    },
+    {
+      "run_id": 40194858972,
+      "path": "batch-40194858972-1-0.tar.gz",
+      "sha256": "14a09d3cfae9bbd2a085771ce43a4bc95fcf8ea3a369f0444a9ac88a536288b8",
+      "bytes": 252212,
+      "verified_files": 133
+    },
+    {
+      "run_id": 40194868713,
+      "path": "batch-40194868713-1-0.tar.gz",
+      "sha256": "4f6b14f0c7a5cb4378efcb4de4f8c8ce1bbd5371f738d5e0d656ab69eb123b9d",
+      "bytes": 145345,
+      "verified_files": 83
+    },
+    {
+      "run_id": 40194868713,
+      "path": "batch-40194868713-1-1.tar.gz",
+      "sha256": "3d97636ce6a0ec8cc4e45b4c6d539aaf8cbdd00fd370f683ff83051d3a07aef2",
+      "bytes": 140698,
+      "verified_files": 83
+    },
+    {
+      "run_id": 40194878862,
+      "path": "batch-40194878862-1-0.tar.gz",
+      "sha256": "365c4bf2d3a0913ba9057d095d201f78d2a655a3d4f8ed5ebb08d00cc9ab5b7a",
+      "bytes": 92434,
+      "verified_files": 58
+    },
+    {
+      "run_id": 40194878862,
+      "path": "batch-40194878862-1-1.tar.gz",
+      "sha256": "5db6127de4f33024df4a8de787c5e8a487fa7daa93d23434b8c9d979a153e2cd",
+      "bytes": 89623,
+      "verified_files": 58
+    },
+    {
+      "run_id": 40194878862,
+      "path": "batch-40194878862-1-2.tar.gz",
+      "sha256": "e33e6842f11cb6252a3f74fb7f1729416cfccf573ed39fcc2fc62620cfe52656",
+      "bytes": 92690,
+      "verified_files": 58
+    },
+    {
+      "run_id": 40194878862,
+      "path": "batch-40194878862-1-3.tar.gz",
+      "sha256": "0d86ab2d20db534a96f3c8b59eac410afe895d084c23d6b36669d757fa9b7772",
+      "bytes": 87384,
+      "verified_files": 58
+    },
+    {
+      "run_id": 40194796255,
+      "path": "batch-40194796255-1-0.tar.gz",
+      "sha256": "b4232dd5c1be383f709bcca8e943bed8eabd5c58464b36a47ed4e0d4e1137599",
+      "bytes": 88126,
+      "verified_files": 58
+    },
+    {
+      "run_id": 40194796255,
+      "path": "batch-40194796255-1-1.tar.gz",
+      "sha256": "4c47d8ddda4fb9a1e462324d258e86805c6aa6374f3550206c796b77091025b0",
+      "bytes": 82331,
+      "verified_files": 58
+    }
+  ],
+  "downloaded_archives_and_file_hashes_verified": true,
+  "model_requests": 0,
+  "model_input_tokens": 0,
+  "model_output_tokens": 0,
+  "formal_model_attempts": 0,
+  "historical_formal_results": "../generalization-final-results.json",
+  "historical_reasoning_effort": "medium",
+  "future_luna_reasoning_effort": "max",
+  "provider_max_calibration": "pending",
+  "artifact_retention_days": {
+    "raw": 7,
+    "reports": 14
+  }
+}

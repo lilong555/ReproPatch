@@ -1,4 +1,6 @@
-# ReproPatch 扩容、Actions 与性能实施报告
+# 2026-10-24 原生资格与本地性能记录
+
+[GitHub Actions 运行与 Docker 资格](ACTIONS_RESULTS.md)记录云端结果。
 
 日期：2026-10-24 UTC。审查基线为最新 `main`
 [`fbdb60570602c61545d4c5b73e2fed92fbe319f6`](https://github.com/lilong555/ReproPatch/commit/fbdb60570602c61545d4c5b73e2fed92fbe319f6)。

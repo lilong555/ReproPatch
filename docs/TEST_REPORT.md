@@ -1,6 +1,17 @@
 # 测试报告
 
-当前源码 **0.3.0、Task v2** 的本地完整回归通过 **514 项**：338 项核心、154 项 SDK、22 项真实 Docker。
+## 当前开发源码
+
+[GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/40194625159)在 `6c6222c5b0a93b6ce09f121db257b00e68297d9b` 通过 **584 项**：
+**406 Core、155 SDK、23 真实 Docker**，失败、错误与跳过均为 0，Ruff 与格式检查通过。
+CI 的 97 个执行源码文件哈希与实验源码一致。
+核心指纹为 `69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84`。
+[机器可读验证](evidence/actions-2026-10-25/summary.json)与[云端实验](ACTIONS_RESULTS.md)关联 JUnit、任务与原始归档。
+新增检查覆盖候选导出、Run 内 ccache、批量资格、独立评分、共享镜像与证据完整性。
+
+## v0.3.0 发布验证
+
+已发布 **v0.3.0、Task v2** 的本地完整回归通过 **514 项**：338 项核心、154 项 SDK、22 项真实 Docker。
 失败、错误与跳过均为 0；Ruff 检查与格式通过。
 [机器可读摘要](evidence/v0.3.0/summary.json)记录 JUnit、源码清单和原始日志引用，完整原件随证据包交付。
 核心指纹为 `81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7`。
@@ -22,7 +33,7 @@ Full 在 simdjson-1899 通过内部和外部 93 项测试；所有失败、空�
 
 冻结协议提交 `326c6ab8a1e97b003350303abfcb9de76bb9b2c9` 的
 [GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/40077207849)通过 510 项。
-当前完整测试集合为上表的 514 项；发布提交的 CI 身份和分发包校验记录在发布附件 `release-manifest.json`，
+v0.3.0 发布时的完整测试集合为上表的 514 项；发布提交的 CI 身份和分发包校验记录在发布附件 `release-manifest.json`，
 [工作流](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)保留具体提交状态。
 本地容器门禁使用 `umask 0022`；早期目录权限失败的原始证据与后续通过记录共同归档。
 

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "purpose": "GitHub Actions 零模型 Docker 资格和构建实验",
+  "import_commit": "310257b7c7d047e7fc9c77cec90d7fcfcbf9a3aa",
+  "execution_branch": "feat/actions-benchmark-scale",
+  "qualification_tasks": [
+    "fmtlib__fmt-1171",
+    "fmtlib__fmt-1361",
+    "fmtlib__fmt-1390",
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-2292",
+    "fmtlib__fmt-2310",
+    "fmtlib__fmt-2317",
+    "fmtlib__fmt-2610",
+    "fmtlib__fmt-2940",
+    "fmtlib__fmt-3158",
+    "fmtlib__fmt-3248",
+    "fmtlib__fmt-3260",
+    "fmtlib__fmt-3272",
+    "fmtlib__fmt-3537",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-3727",
+    "fmtlib__fmt-3732",
+    "fmtlib__fmt-3734",
+    "fmtlib__fmt-3750",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-493"
+  ],
+  "qualification_optimization": "O3",
+  "qualification_jobs": 2,
+  "build_profile": {
+    "instance_id": "fmtlib__fmt-4055",
+    "repeats": 3,
+    "optimization": "O3"
+  },
+  "concurrency_comparison": {
+    "instances": [
+      "fmtlib__fmt-3819",
+      "fmtlib__fmt-3750",
+      "fmtlib__fmt-3734",
+      "fmtlib__fmt-3727"
+    ],
+    "jobs": [
+      1,
+      2,
+      4
+    ],
+    "build_jobs_per_runner": 2,
+    "optimization": "O3",
+    "repeats": 1
+  },
+  "toolchain_policy": "全部手动批次使用同一 GHCR digest；镜像 ID 与原始证据逐项核对",
+  "input_cache": false,
+  "model_requests_cap": 0,
+  "retention": {
+    "raw_artifacts_days": 7,
+    "reports_days": 14
+  },
+  "failed_attempt_policy": "保留全部 Run；修正执行问题后的验证使用新 Run ID"
+}

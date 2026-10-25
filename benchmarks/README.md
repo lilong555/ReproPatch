@@ -1,9 +1,13 @@
 # ReproPatch 评测
 
-当前交付为 [v2 六次固定预算对照](generalization-final-results.md)：Full 1/2、mini 0/2、Codex 0/2。
+模型修复成绩为 [v2 六次固定预算对照](generalization-final-results.md)：Full 1/2、mini 0/2、Codex 0/2。
 全部六次按预注册顺序执行，61 次正式请求与 1 次独立校准分别记账，用量均完整结算。
 两题已有 v1 尝试，v2 用于冻结新配置后的复核；[v1 历史记录](generalization-v1-results.md)
 保留 110 次请求、10 次评分、1 次取消和 5 项未执行。
+
+[GitHub Actions 实验](../docs/ACTIONS_RESULTS.md)完成 21 题固定镜像 O3 Docker 重验，其中 21 题合格，
+并完成构建缓存 A/B 与 1/2/4 Job 对照；新模型请求为 0。[逐题 CSV](actions-scale/cloud-qualification.csv)
+和[完整 JSON](actions-scale/cloud-results.json)保存任务状态与原始归档身份。
 
 ## 协议与版本
 
@@ -32,7 +36,7 @@ Full 的 worker 时间包含基线与内部独立验收，外部框架的时间�
 
 固定 [Multi-SWE-bench](https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench)
 revision `56ff018c04a38e27ada1e9d0a6d5839a51f88f0d`，C++ 任务池共 129 个实例。
-**10/129** 已完成 Task v2 参考验收，覆盖 Catch2、fmt、simdjson、nlohmann/json 四个仓库。
+v0.3.0 历史适配集 **10/129** 已完成 Task v2 参考验收，覆盖 Catch2、fmt、simdjson、nlohmann/json 四个仓库。
 其中四题为 FMT 编译回归扩展，六题为逻辑回归任务；[准备状态](readiness.json)与[筛查清单](coverage.json)分别记录动态资格和完整任务池。
 
 | v2 实例 | prepared commit | 内部测试 | 外部原生测试 |
