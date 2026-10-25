@@ -147,6 +147,30 @@ def verify_pilot(source, output):
     save(output / "gate.json", {"passed": True, "pilot_run_id": p["pilot_run_id"]})
 
 
+def completion_gate(value, p):
+    """补齐阶段只接收尚未发出模型请求的实验臂，沿用首批总额度。"""
+    assert value["protocol_sha256"] == p["prior_protocol_sha256"]
+    rows = {r["attempt_id"]: r for r in value["attempts"]}
+    usage = [r["score"]["worker_usage"] for r in rows.values()]
+    spent = sum(u["requests"] for u in usage)
+    assert spent == p["prior_model_requests"]
+    assert sum(u["unknown_usage_requests"] for u in usage) == p["prior_unknown_usage_requests"]
+    assert spent + p["formal_request_cap"] <= p["parent_request_cap"]
+    for attempt in p["attempts"]:
+        original = rows[attempt["original_attempt_id"]]
+        assert original["score"]["worker_usage"]["requests"] == 0
+        assert original["score"]["oracle_executed"] is False
+
+
+def verify_completion(source, output):
+    value = json.loads((source / "results.json").read_text())
+    p = protocol()
+    completion_gate(value, p)
+    output.mkdir(parents=True, exist_ok=False)
+    shutil.copyfile(source / "results.json", output / "prior-results.json")
+    save(output / "gate.json", {"passed": True, "prior_run_id": p["prior_run_id"]})
+
+
 def prepare(instance, output):
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
@@ -237,13 +261,13 @@ def execute(instance, output):
     p = protocol()
     settings = json.loads((output / "prepared.json").read_text())
     attempts = [a for a in p["attempts"] if a["instance_id"] == instance]
-    ledger = output / "usage.sqlite3"
-    LocalUsageLedger.create_scoped(ledger, {a["attempt_id"]: a["request_cap"] for a in attempts})
     agent_python = sys.executable
     mini_python = str(ROOT / ".repropatch/mini-env/bin/python")
     summaries = []
     for attempt in attempts:
         arm = attempt["arm"]
+        ledger = output / "ledgers" / (arm + ".sqlite3")
+        LocalUsageLedger.create_scoped(ledger, {attempt["attempt_id"]: attempt["request_cap"]})
         target = output / arm
         common = [
             "--task",
@@ -353,13 +377,24 @@ def execute(instance, output):
             if score_file.is_file()
             else {"status": "SCORING_ERROR", "accepted": None}
         )
-        summaries.append({**attempt, "worker_exit": code, "score_exit": score_code, "score": score})
+        summaries.append(
+            {
+                **attempt,
+                "worker_exit": code,
+                "score_exit": score_code,
+                "score": score,
+                "usage": LocalUsageLedger(ledger).summary(),
+            }
+        )
         save(
             output / "summary.json",
             {
                 "instance_id": instance,
                 "attempts": summaries,
-                "usage": LocalUsageLedger(ledger).summary(),
+                "usage": {
+                    key: sum(r["usage"][key] for r in summaries)
+                    for key in ("requests", "unknown_usage_requests")
+                },
             },
         )
         print(
@@ -408,7 +443,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "stage",
-        choices=("calibrate", "verify-calibration", "verify-pilot", "prepare", "run", "aggregate"),
+        choices=(
+            "calibrate",
+            "verify-calibration",
+            "verify-pilot",
+            "verify-completion",
+            "prepare",
+            "run",
+            "aggregate",
+        ),
     )
     parser.add_argument("--protocol", type=Path, default=PROTOCOL)
     parser.add_argument("--instance")
@@ -422,6 +465,8 @@ def main():
         verify_calibration(args.source, args.output)
     elif args.stage == "verify-pilot":
         verify_pilot(args.source, args.output)
+    elif args.stage == "verify-completion":
+        verify_completion(args.source, args.output)
     elif args.stage == "prepare":
         prepare(args.instance, args.output)
     elif args.stage == "run":

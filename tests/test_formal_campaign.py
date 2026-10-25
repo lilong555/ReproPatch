@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from formal_benchmark import ROOT, pilot_gate
+from formal_benchmark import ROOT, completion_gate, pilot_gate
 
 
 @pytest.fixture
@@ -52,3 +52,27 @@ def test_incomplete_pilot_stops_full_campaign(pilot, issue):
         ] = 1 if issue == "unknown_usage" else 13
     with pytest.raises(AssertionError):
         pilot_gate(pilot, p)
+
+
+@pytest.mark.parametrize("changed", [None, "started_arm", "over_cap"])
+def test_completion_uses_only_untouched_arms_and_remaining_budget(pilot, changed):
+    p = json.loads((ROOT / "benchmarks/formal-max-completion-protocol.json").read_text())
+    for row in pilot["attempts"]:
+        usage = row["score"]["worker_usage"]
+        if row["arm"] in {"mini", "codex"}:
+            usage["requests"] = 0
+            row["score"]["oracle_executed"] = False
+        elif row["arm"] == "no-checks":
+            usage.update(
+                requests=10 if row["instance_id"].endswith("3727") else 11,
+                unknown_usage_requests=1,
+            )
+    if changed == "started_arm":
+        pilot["attempts"][2]["score"]["worker_usage"]["requests"] = 1
+    elif changed == "over_cap":
+        p["formal_request_cap"] = 52
+    if changed:
+        with pytest.raises(AssertionError):
+            completion_gate(pilot, p)
+    else:
+        completion_gate(pilot, p)

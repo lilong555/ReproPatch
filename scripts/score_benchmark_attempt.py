@@ -42,6 +42,7 @@ def producer_blocker(worker):
         and worker.get("candidate_available")
         and (
             state in {"CLI_ERROR", "MODEL_REQUEST_ERROR"}
+            or (state == "ERROR" and reason.startswith("MODEL_"))
             or worker.get("recovered_from_unverified_patch")
             or worker.get("candidate_source") == "native_frozen"
         )

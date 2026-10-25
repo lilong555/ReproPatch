@@ -205,6 +205,7 @@ def test_native_qualification_and_empty_candidate_are_separate(attempt):
     [
         {"native_status": "CLI_ERROR"},
         {"native_status": "MODEL_REQUEST_ERROR"},
+        {"native_status": "ERROR", "native_reason": "MODEL_REQUEST_TIMEOUT"},
         {"native_status": "ERROR", "recovered_from_unverified_patch": True},
         {"native_status": "ERROR", "candidate_source": "native_frozen"},
     ],

@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: '96：两题首批；912：首批链路通过后执行其余19题四臂'
+        description: '48：补齐首批未请求的四臂；912：其余19题四臂'
         required: true
         type: choice
-        options: ['96', '912']
-        default: '96'
+        options: ['48', '912']
+        default: '48'
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.authorization == '912' && 'benchmarks/formal-max-full-protocol.json' || 'benchmarks/formal-max-protocol.json' }}
+  FORMAL_PROTOCOL: ${{ inputs.authorization == '912' && 'benchmarks/formal-max-full-protocol.json' || 'benchmarks/formal-max-completion-protocol.json' }}
 
 jobs:
   calibration:
@@ -61,6 +61,13 @@ jobs:
         run: |
           gh run download 40206574619 --repo "$GITHUB_REPOSITORY" --name formal-results-40206574619 --dir .repropatch/pilot-input
           python scripts/formal_benchmark.py verify-pilot --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/pilot-gate
+      - name: Confirm untouched arms and remaining pilot budget
+        if: inputs.authorization == '48'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 40206574619 --repo "$GITHUB_REPOSITORY" --name formal-results-40206574619 --dir .repropatch/pilot-input
+          python scripts/formal_benchmark.py verify-completion --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/completion-gate
       - name: Freeze task matrix
         id: plan
         env:
