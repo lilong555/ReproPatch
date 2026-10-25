@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "scope": "Retained completed build files: three trees before cleanup vs one completed phase tree; logical bytes, not allocated bytes or sampled system peak. Same native task and optimization; not controlled wall-time A/B. Old result.json hashes verified; old command logs remain incomplete and explicitly superseded for qualification.",
+  "model_requests": 0,
+  "measurements": [
+    {
+      "instance_id": "fmtlib__fmt-3824",
+      "upstream_commit": "2caf1b3b91f6d56f420cec8bf752f9af26aa51af",
+      "same_upstream": true,
+      "same_optimization": true,
+      "same_reference_patch": true,
+      "old_completed_build_trees_logical_bytes": 209613441,
+      "new_largest_completed_phase_tree_logical_bytes": 98748916,
+      "new_phase_bytes": {
+        "baseline": 98733578,
+        "reference": 12066767,
+        "native-oracle": 98748916
+      },
+      "reduction_fraction": 0.5288998857663904,
+      "old_result_sha256": "a3c01a0c89756700d4c05ec11b2e8878ca8d82c3aad37ebd671a31210399c32e",
+      "new_result_sha256": "ea722f6f1404b3846f4d3093dd5d0d1c2c9f2cb512bbd4bbcc98788b1063ab61"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3912",
+      "upstream_commit": "3b5f3de3b57505c7f1a60ee40ef3448c623b1326",
+      "same_upstream": true,
+      "same_optimization": true,
+      "same_reference_patch": true,
+      "old_completed_build_trees_logical_bytes": 206274741,
+      "new_largest_completed_phase_tree_logical_bytes": 99318242,
+      "new_phase_bytes": {
+        "baseline": 89751863,
+        "reference": 17147700,
+        "native-oracle": 99318242
+      },
+      "reduction_fraction": 0.5185147657026994,
+      "old_result_sha256": "3d7dc3336a4d30e37d467f9d6bbaaaa4d742e44ecda402cf5a9dd00fa4f9c983",
+      "new_result_sha256": "0dad6ca86c3dd1ece78b551e3761e5d6b89b3e295ddfcd76058b5684aa02b7f0"
+    }
+  ]
+}

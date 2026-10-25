@@ -40,6 +40,7 @@ from .verification import (
     StageDeadline,
     baseline_result,
     evaluate_checks,
+    prepare_candidate_validation,
     verify_candidate,
 )
 
@@ -104,9 +105,15 @@ class Harness:
         producer_trace=None,
         pause_after_step=None,
         script_source=None,
+        candidate_only=False,
+        compiler_cache=False,
     ):
         if (model is None) == (patch_file is None):
             raise ReproPatchError("INPUT_MODE: 只能选择模型修复或外部补丁验收之一")
+        if model is None and (candidate_only or compiler_cache):
+            raise ReproPatchError("BENCHMARK_MODE: 候选导出与自检缓存仅适用于模型修复入口")
+        self.candidate_only = candidate_only
+        self.compiler_cache = compiler_cache
         if pause_after_step is not None and (
             model is None
             or type(pause_after_step) is not int
@@ -381,6 +388,12 @@ class Harness:
             "run_id": run_id,
             "task_id": self.task.id,
             "input_mode": self.input_mode,
+            "benchmark": {
+                "candidate_only": self.candidate_only,
+                "compiler_cache": "ccache" if self.compiler_cache else "off",
+                "internal_verification": "not_started",
+                "final_oracle_required": self.candidate_only,
+            },
             "state": "CREATED",
             "outcome": None,
             "reason_code": None,
@@ -552,7 +565,13 @@ class Harness:
         if "docker" in versions:
             versions["docker_server"] = versions.pop("docker")
         self.context = RunContext(
-            self.resolved, self.resources, self.log, clock, self.factory, self.test_backend
+            self.resolved,
+            self.resources,
+            self.log,
+            clock,
+            self.factory,
+            self.test_backend,
+            use_compiler_cache=self.compiler_cache,
         )
         original = self.context.new_worktree("repair" if self.model is not None else "baseline")
         if self.model is not None:
@@ -596,6 +615,10 @@ class Harness:
                     "sdk_versions": sdk_versions,
                     "key_env": getattr(self.model, "key_env", None),
                     "script": asdict(script_ref) if script_ref is not None else None,
+                    "benchmark": {
+                        "candidate_only": self.candidate_only,
+                        "compiler_cache": self.compiler_cache,
+                    },
                 }
             )
             + b"\n",
@@ -690,22 +713,46 @@ class Harness:
                         self.report["candidate"] = candidate.to_dict()
                 if candidate is not None:
                     self._transition("VERIFYING")
-                    result = verify_candidate(self.resolved, self.baseline, candidate, self.context)
-                    self.independent = result.independent
-                    self.report["candidate_roundtrip_verified"] = result.independent is not None
-                    self.log.emit(
-                        "verification_finished",
-                        {
-                            "evaluation_role": "independent",
-                            "candidate": candidate.to_dict(),
-                            "evidence": asdict(result.independent.evidence)
-                            if result.independent is not None
-                            else None,
-                            "verdict": result.outcome,
-                            "reason_code": result.reason_code,
-                        },
-                    )
-                    self._set_result(result.outcome, result.reason_code)
+                    if self.candidate_only:
+                        prepare_candidate_validation(
+                            self.resolved, self.baseline, candidate, self.context
+                        )
+                        self.report["candidate_roundtrip_verified"] = True
+                        self.report["benchmark"]["internal_verification"] = "skipped_candidate_only"
+                        self.log.emit(
+                            "verification_finished",
+                            {
+                                "evaluation_role": "candidate_export",
+                                "candidate": candidate.to_dict(),
+                                "roundtrip_verified": True,
+                                "internal_verification_executed": False,
+                                "verdict": None,
+                                "reason_code": "EXTERNAL_ORACLE_REQUIRED",
+                            },
+                        )
+                        self._set_result("INCONCLUSIVE", "EXTERNAL_ORACLE_REQUIRED")
+                    else:
+                        result = verify_candidate(
+                            self.resolved, self.baseline, candidate, self.context
+                        )
+                        self.independent = result.independent
+                        self.report["candidate_roundtrip_verified"] = result.independent is not None
+                        self.report["benchmark"]["internal_verification"] = (
+                            "executed" if result.independent is not None else "unavailable"
+                        )
+                        self.log.emit(
+                            "verification_finished",
+                            {
+                                "evaluation_role": "independent",
+                                "candidate": candidate.to_dict(),
+                                "evidence": asdict(result.independent.evidence)
+                                if result.independent is not None
+                                else None,
+                                "verdict": result.outcome,
+                                "reason_code": result.reason_code,
+                            },
+                        )
+                        self._set_result(result.outcome, result.reason_code)
         except HarnessPause:
             paused = True
             self.report.update(state="INTERRUPTED", outcome=None, reason_code=None, paused=True)
@@ -716,7 +763,12 @@ class Harness:
             self._set_result("REJECTED", str(exc).split(":", 1)[0])
             self.report["error"] = str(exc)
         except StageDeadline as exc:
-            self._set_result("INCONCLUSIVE", "BASELINE_INCOMPLETE")
+            verifying = self.report["state"] == "VERIFYING"
+            self._set_result(
+                "INCONCLUSIVE", "VERIFICATION_TIMEOUT" if verifying else "BASELINE_INCOMPLETE"
+            )
+            if verifying:
+                self.report["benchmark"]["internal_verification"] = "unavailable"
             self.report["error"] = str(exc)
         except (ReproPatchError, OSError) as exc:
             self._set_result(

@@ -1,0 +1,30 @@
+{
+  "status": "VERIFIED",
+  "kind": "concurrency",
+  "source_files": 31,
+  "verified_command_logs": 48,
+  "telemetry_files": 3,
+  "total_sample_rows": 441,
+  "telemetry": [
+    {
+      "path": "w1/resources/telemetry.json",
+      "samples": 197,
+      "status": "success",
+      "sha256": "ee05d7032838de3d70d0cde3d80b1d9e16eb302d9bf477715ba0dc53933fd9c1"
+    },
+    {
+      "path": "w2/resources/telemetry.json",
+      "samples": 147,
+      "status": "success",
+      "sha256": "6ef18483d6299d990b2276e00db126c33d44e946031dec893299bde225cb34f3"
+    },
+    {
+      "path": "w4/resources/telemetry.json",
+      "samples": 97,
+      "status": "success",
+      "sha256": "0e8fb0421dbf267b90017b489bfb3a56c509119844ac5918e445f99f30335972"
+    }
+  ],
+  "frozen_plan_sha256": "c926757b99871926ef17e8140f6e4666b4f74f5a1c4975a7b08d0f34cf61bba8",
+  "model_requests": 0
+}

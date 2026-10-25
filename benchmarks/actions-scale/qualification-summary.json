@@ -1,0 +1,4766 @@
+{
+  "schema_version": 1,
+  "batch_id": "fmt41-native-evidence-review-20261024",
+  "plan_sha256": "1ad3d5b9cc06a8d117f75d23e03c77f140adaa7cdbaaa523238eefdc11e1734c",
+  "registered_tasks": 41,
+  "status_counts": {
+    "HOST_QUALIFIED": 41
+  },
+  "archive_status_counts": {
+    "NOT_REQUIRED_LOCAL_AGGREGATION": 41
+  },
+  "phase_status_counts": {
+    "baseline": {
+      "TESTS_FAILED": 41
+    },
+    "reference": {
+      "PASSED": 41
+    },
+    "native_oracle": {
+      "PASSED": 41
+    }
+  },
+  "task_duration_seconds": {
+    "sample_count": 41,
+    "total": 7473.163641151001,
+    "p50": 200.26102818000004,
+    "p90": 228.12252875600007,
+    "p95": 240.80990973999997,
+    "scope": "sum of task wall times; not Runner minutes or batch wall time",
+    "percentile_method": "linear interpolation at (sample_count - 1) * fraction"
+  },
+  "model_requests": 0,
+  "model_tokens": {
+    "input": 0,
+    "output": 0
+  },
+  "model_cost": "NOT_APPLICABLE_NO_MODEL_CALLS",
+  "github_run_url": "NOT_MEASURED",
+  "tasks": [
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-4310",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "01914f0389ef6ff151c289670f6910e059d5063f",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "RECORDED",
+        "sources": [
+          "benchmarks/contract-results.json",
+          "benchmarks/cross-framework-results.json",
+          "benchmarks/repair-followup-results.json"
+        ],
+        "split": "development",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "567ca27bb2841bed17d0b14ed2691db26db9dc89",
+      "reference_patch_sha256": "f3a54f9ae8cc967cda9faefc6a4b7fc2ed3da8daf5e83c6340018845018605c1",
+      "test_patch_sha256": "9038d83d8a393ef1dec82b5ee8eec43b5abcac43cea26e264ba506d0f3851079",
+      "f2p": [
+        "base-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 228.12252875600007,
+      "phase_build_bytes": {
+        "baseline": 89042600,
+        "reference": 16301660,
+        "native-oracle": 97700990
+      },
+      "build_bytes_before_cleanup": 0,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "30d866c5cf0f36968f973585af90b617326ac808d4380f97ed87b836f530334d"
+      },
+      "original_result_sha256": "8cc9f6d6bd3a00d26c6adcccd22667639c97be11051d9201cce864c7c7f2315b",
+      "original_manifest_sha256": "c0a5a9b306e22cb5a95ee1446d85ddeaf21d9e06149a02e455ea4e60675223ea",
+      "evidence_origin": {
+        "task_directory": "/tmp/repropatch-fmt-snapshot-retry-20261024/fmtlib__fmt-4310",
+        "audited_summary": "/tmp/repropatch-fmt-snapshot-retry-audited-20261024/batch-summary.json",
+        "audited_summary_sha256": "93eff365b633b44ff9ae9a4b81979cbc40d71d0a02da6adcf16ea08b9b24336f",
+        "execution_source_manifest_sha256": "9ff0d7a73e6753d0ac4912574dfe4a3bb8f35d7fe108a5d3eac55f7e2433529f"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 111.67571149899959,
+        "reference": 20.47337172599964,
+        "native-oracle": 95.15737015100012
+      },
+      "command_wall_seconds": {
+        "configure": 2.6143572149994725,
+        "inventory": 0.7159362459997283,
+        "build": 217.12963881199994,
+        "ctest": 6.846521103000214
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 228.12252875600007,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 20
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-4286",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "e3ddede6c4ee818825c4e5a6dfa1d384860c27d9",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "RECORDED",
+        "sources": [
+          "benchmarks/batched-repair-results.json",
+          "benchmarks/contract-results.json",
+          "benchmarks/cross-framework-results.json",
+          "benchmarks/diagnostic-feedback-results.json",
+          "benchmarks/repair-followup-results.json"
+        ],
+        "split": "development",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "cb38a218243d3fab7080c59da4f09bdbadc81a38",
+      "reference_patch_sha256": "cb30e0912b415a30796aeed3e3a80b3678119c67839d4683cd363f51a10f1288",
+      "test_patch_sha256": "87b52d25b995bbc7eb42a034bc9b80418ecd66575af92f033a739d7287443971",
+      "f2p": [
+        "xchar-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "no-builtin-types-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test"
+      ],
+      "wall_seconds": 230.09927133499968,
+      "phase_build_bytes": {
+        "baseline": 92614278,
+        "reference": 12742770,
+        "native-oracle": 97703045
+      },
+      "build_bytes_before_cleanup": 0,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "30d866c5cf0f36968f973585af90b617326ac808d4380f97ed87b836f530334d"
+      },
+      "original_result_sha256": "0bef4421271aa28c2f2a4e9f945e96820644f7249de73192f53f067ee051d71b",
+      "original_manifest_sha256": "d3355e69af8039a8c96bd9c2c50707bdbe933939c2c3c242ec9ab1e2030ccb3d",
+      "evidence_origin": {
+        "task_directory": "/tmp/repropatch-fmt-snapshot-retry-20261024/fmtlib__fmt-4286",
+        "audited_summary": "/tmp/repropatch-fmt-snapshot-retry-audited-20261024/batch-summary.json",
+        "audited_summary_sha256": "93eff365b633b44ff9ae9a4b81979cbc40d71d0a02da6adcf16ea08b9b24336f",
+        "execution_source_manifest_sha256": "9ff0d7a73e6753d0ac4912574dfe4a3bb8f35d7fe108a5d3eac55f7e2433529f"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 118.40004040600024,
+        "reference": 18.426776926000002,
+        "native-oracle": 92.46582227800036
+      },
+      "command_wall_seconds": {
+        "configure": 2.9372962320003353,
+        "inventory": 0.7098169050004799,
+        "build": 212.8361745909997,
+        "ctest": 12.8093518820001
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 230.09927133499968,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 20
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-4057",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "ccea338070c795fd966a4dc08b19268b6fbad5ef",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "RECORDED",
+        "sources": [
+          "benchmarks/cross-framework-results.json"
+        ],
+        "split": "development",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "41b9d90eda6445dc50420f822eaf85d2799134db",
+      "reference_patch_sha256": "8463a77c84862b6944eca1b677974668180f8e7c880d88508f5ab0316d9457d6",
+      "test_patch_sha256": "4fe5920891ea0a3d3b49d171f62ef2f843638248ace826d511e261a999c0db49",
+      "f2p": [
+        "ranges-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 209.13356225200005,
+      "build_bytes_before_cleanup": 207280086,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "2da6adeb5ff4976ac9c551385abc4afa2cd036df43a3f5cba5bf98c37f64babc",
+      "original_manifest_sha256": "a79330fe37d580e7f8785632167ccbc95d541fe198fb59e802081f6efd2a6dfa",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-4057",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 99.39241949999973,
+        "reference": 14.194746544999589,
+        "native-oracle": 94.42007875199988
+      },
+      "command_wall_seconds": {
+        "configure": 3.2220156729998735,
+        "inventory": 1.2083508279999933,
+        "build": 198.9516569939998,
+        "ctest": 4.625221301999545
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 209.13356225200005,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-4055",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "RECORDED",
+        "sources": [
+          "benchmarks/generalization-final-results.json",
+          "benchmarks/generalization-v1-results.json"
+        ],
+        "split": "development",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "45adb94fc967d88cabc9728309fe3c7abe74fcc9",
+      "reference_patch_sha256": "2aedc1aec04c079e10dcb00b96eeadb621e85dd00832ead6966d7b0265ab6aeb",
+      "test_patch_sha256": "522a0743d188fe71eabf415f770fc21db1c7fa896fedc35a731e55b3e9edc478",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 209.24236740700007,
+      "build_bytes_before_cleanup": 207121447,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "e6212068572b5c902df191a3dad0cde8a4200d6507cab846729b8f101eeb442a",
+      "original_manifest_sha256": "566c5e2cb6c5fb705a457bf10346d35e78bf612870c998a430e427a35c62fcfa",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-4055",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "mixed_or_unclear",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 93.80003815899988,
+        "reference": 21.42527731700011,
+        "native-oracle": 93.01804220600002
+      },
+      "command_wall_seconds": {
+        "configure": 3.6777397110001857,
+        "inventory": 1.1189244449999478,
+        "build": 196.79529702899993,
+        "ctest": 6.651396496999951
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 209.24236740700007,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3913",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "3b5f3de3b57505c7f1a60ee40ef3448c623b1326",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "bd04c90aca01efe170d2dbe17f6cbbeb4f3dd992",
+      "reference_patch_sha256": "cb87187b30a51071fe946518f3c36fcb477cd045b715263ced3d7e6a8c70be4d",
+      "test_patch_sha256": "30e4e5f4ca13237ac3e8c3da550b22b0c95902f8c50c703ce1654d05ecd36b29",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 213.2751376189999,
+      "build_bytes_before_cleanup": 206291918,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "bee1d1edd7ab6e82d6bed831496ed5db868b0da816f678bd1f0f4db4b4b3168f",
+      "original_manifest_sha256": "9ce9f1c01a5b87e3688f091598b16a4b2bc6acb812d77de6455faaa17128ca05",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3913",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 101.01536747499972,
+        "reference": 20.24515526999994,
+        "native-oracle": 90.63836171599996
+      },
+      "command_wall_seconds": {
+        "configure": 3.7253149960001792,
+        "inventory": 2.4702808659998254,
+        "build": 199.46343351199982,
+        "ctest": 6.239855086999796
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 213.2751376189999,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3912",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "3b5f3de3b57505c7f1a60ee40ef3448c623b1326",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "5296d6fbe2f6988d7d0cd513102573484561eddd",
+      "reference_patch_sha256": "ded46a38e0a857f8b209ae7cddb8f197275a926a58875514745e3bcc07323e16",
+      "test_patch_sha256": "35df02135aae6c18dfd067a172780474f97bcdd4044aaf0177968fe297c0b893",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 244.66465579800024,
+      "phase_build_bytes": {
+        "baseline": 89751863,
+        "reference": 17147700,
+        "native-oracle": 99318242
+      },
+      "build_bytes_before_cleanup": 0,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "2188594faa5fd1ac2827cd48be973d9176885efaeea4823fb9751c766f4948a8"
+      },
+      "original_result_sha256": "0dad6ca86c3dd1ece78b551e3761e5d6b89b3e295ddfcd76058b5684aa02b7f0",
+      "original_manifest_sha256": "bf9c499df6b0052b14f03d7c9916affb1f1a8914d6e5c58b8af8606eaa7af684",
+      "evidence_origin": {
+        "task_directory": "/tmp/repropatch-fmt-evidence-retry-20261024/fmtlib__fmt-3912",
+        "audited_summary": "/tmp/repropatch-fmt-evidence-retry-audited-strict-20261024/batch-summary.json",
+        "audited_summary_sha256": "451f62d3a44f17d4134dcf6a18e0cf30a91e0310f57815f7261b978fc6730f15",
+        "execution_source_manifest_sha256": "9ff0d7a73e6753d0ac4912574dfe4a3bb8f35d7fe108a5d3eac55f7e2433529f"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 112.10950022999941,
+        "reference": 22.02071087900049,
+        "native-oracle": 109.3352576229995
+      },
+      "command_wall_seconds": {
+        "configure": 3.566674941999736,
+        "inventory": 0.8497919739997997,
+        "build": 232.4363167399997,
+        "ctest": 6.612685076000162
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 244.66465579800024,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3863",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "0166f455f6681144a18553d2ea0cda8946bff019",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "f95b4e5621f209c9733e9a40a6a1139a59607efb",
+      "reference_patch_sha256": "c402ee9902b4ae9df3f13f0c2d9560da35e7f39befe29d044248335b950960ac",
+      "test_patch_sha256": "05046cda006cee75fba27a4601c76edf4a107b28e9091455dd2417a9019bd900",
+      "f2p": [
+        "ranges-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 208.0933877240002,
+      "build_bytes_before_cleanup": 210109220,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "c0245f7ae5ec02a4f0bed77890332f0a08c96d7d2336bf290db68e0982c2bd6c",
+      "original_manifest_sha256": "c3228fbe9987d59200d525a02c301401e511bc060727ce39947f1f19ea55aa1c",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3863",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 104.12310675700019,
+        "reference": 12.620794502000308,
+        "native-oracle": 90.606490313
+      },
+      "command_wall_seconds": {
+        "configure": 2.8223681690001285,
+        "inventory": 0.8057682360001763,
+        "build": 194.7836834300001,
+        "ctest": 8.938571737000075
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 208.0933877240002,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3824",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "2caf1b3b91f6d56f420cec8bf752f9af26aa51af",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "036f28904eda49407b016eeb3f95a30b17b41bc1",
+      "reference_patch_sha256": "9141559f1146705e4efce6f634dc178dc556979afa92574482eb931e242b2663",
+      "test_patch_sha256": "d675b30af76e2f1962cc4d5b8ec3da414963c317c32861b5493cc921494f8dfb",
+      "f2p": [
+        "ranges-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 248.49767937199977,
+      "phase_build_bytes": {
+        "baseline": 98733578,
+        "reference": 12066767,
+        "native-oracle": 98748916
+      },
+      "build_bytes_before_cleanup": 0,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "2188594faa5fd1ac2827cd48be973d9176885efaeea4823fb9751c766f4948a8"
+      },
+      "original_result_sha256": "ea722f6f1404b3846f4d3093dd5d0d1c2c9f2cb512bbd4bbcc98788b1063ab61",
+      "original_manifest_sha256": "b9e14ff28923b88fad9b60d92a2c35ff11689d37d03dcd351349ed605e0b1987",
+      "evidence_origin": {
+        "task_directory": "/tmp/repropatch-fmt-evidence-retry-20261024/fmtlib__fmt-3824",
+        "audited_summary": "/tmp/repropatch-fmt-evidence-retry-audited-strict-20261024/batch-summary.json",
+        "audited_summary_sha256": "451f62d3a44f17d4134dcf6a18e0cf30a91e0310f57815f7261b978fc6730f15",
+        "execution_source_manifest_sha256": "9ff0d7a73e6753d0ac4912574dfe4a3bb8f35d7fe108a5d3eac55f7e2433529f"
+      },
+      "semantic_classification": "mixed_or_unclear",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 120.05958207200001,
+        "reference": 16.002236050000192,
+        "native-oracle": 111.27837295399968
+      },
+      "command_wall_seconds": {
+        "configure": 2.9224947249999786,
+        "inventory": 0.8159577520000312,
+        "build": 230.63846857399994,
+        "ctest": 12.963270024999929
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 248.49767937199977,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3819",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "0147e08225db261f5689fc17a986ede7f1db56f0",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "c41f45b6074c1aef18d5338ebc8c46bbe760386e",
+      "reference_patch_sha256": "07368f992aac7866ef377c1cb9f92604d384dda1285142e15889bfb0b6e8eff9",
+      "test_patch_sha256": "edd718ae82592d6adc8dc571e2ed735a8673ce9adbdab5aac33ddae470d1d14d",
+      "f2p": [
+        "args-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "base-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 208.016962337,
+      "build_bytes_before_cleanup": 208034119,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "0d723e03c90f9e3453f4c9003f02d96b5de359d0bf40592b70a4323164f8a6b8",
+      "original_manifest_sha256": "7fe839b6ee0cd45b30af08a37ea8d9d4679140356057747147b1dc8a01d7fe3d",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3819",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 106.82052528100007,
+        "reference": 10.682866492999892,
+        "native-oracle": 89.7290308170002
+      },
+      "command_wall_seconds": {
+        "configure": 2.823963663000086,
+        "inventory": 0.8240864550000424,
+        "build": 199.47072591799997,
+        "ctest": 4.113646555000059
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 208.016962337,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3750",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "274ba2645bdae12f6f0c7d7ca24659c4af670548",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+      "reference_patch_sha256": "ff9e464796224a582cbf4e39b579a0d2e45873fff2b03cb88960e31a60d0b4fb",
+      "test_patch_sha256": "3359813bda05130864c1f81af650f4a3ebe93df2ca8ec448b1cb3e443ae1f358",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 212.96574095699998,
+      "build_bytes_before_cleanup": 214744993,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "087aaebe49d3007b4ab7cb04127dca48bd368ba11bdfd991f115b650c19bda90",
+      "original_manifest_sha256": "80e926353854b8769d3b584dac8417fdf3c51a20d824bcdb5cb627f0222d4560",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3750",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 109.17766904799987,
+        "reference": 18.433080468999606,
+        "native-oracle": 84.62383787399995
+      },
+      "command_wall_seconds": {
+        "configure": 3.032117988999971,
+        "inventory": 0.7085308149999037,
+        "build": 194.48119009299967,
+        "ctest": 14.01274849399988
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 212.96574095699998,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3734",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "b9309a90cd99c2d60966521f48ab0b1f98199696",
+      "reference_patch_sha256": "8e68d6501d3613af060529a60249c04bd20400ec407d73787dac58d908b5813b",
+      "test_patch_sha256": "f77bdc2e68ce64cf18d72e8a591db1408f548bb8116480a1517e078e731367e5",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 201.91575159299987,
+      "build_bytes_before_cleanup": 213880576,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "5f5ead3d51ec95c239ec97a0fb436da14c5c8200644f475ae63928d41724d3dd",
+      "original_manifest_sha256": "b3d368393234bd7b878df381d2375da7717c141f266dd3af545e45f2ba25e850",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3734",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 93.4384588800001,
+        "reference": 16.993643561,
+        "native-oracle": 91.15597133600022
+      },
+      "command_wall_seconds": {
+        "configure": 2.5410286310000174,
+        "inventory": 0.7023821559998851,
+        "build": 186.0827353550003,
+        "ctest": 12.26192763500012
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 201.91575159299987,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3732",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "3a5bdaa601d568a01e915d4858baf8ee1d19565b",
+      "reference_patch_sha256": "cb52453cfa250ead41e38c03c68d87aa607c9a6ea4f0d05033f8bc3e73e6492c",
+      "test_patch_sha256": "dcbf90013ff4348ee71615dd0516d771439ba83ced588bbfdba048d5d3d8d1e5",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 200.26102818000004,
+      "build_bytes_before_cleanup": 214915523,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "92510b64378b9d4d65ff5f9d88caa07959d06f1b5e044f41dfc429bfff945f90",
+      "original_manifest_sha256": "b31302dc480ae4643db0bda049684ce1c5a256dbd9dbc6c78423c39fde57a489",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3732",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 89.25065811399986,
+        "reference": 19.57646562800028,
+        "native-oracle": 91.07916739100006
+      },
+      "command_wall_seconds": {
+        "configure": 2.7136557239998638,
+        "inventory": 0.8070921230000749,
+        "build": 184.62670573900004,
+        "ctest": 11.758837547000212
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 200.26102818000004,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3729",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "5cfd28d476c6859617878f951931b8ce7d36b9df",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "ffbd2d35afbd41036be88c8e62afd92dbb5ee1a6",
+      "reference_patch_sha256": "586dfb85f6cf1dfcffc74d5dafe00d9c189e521060bdb6a1bbaec3612233d473",
+      "test_patch_sha256": "89531699c5f1d8264a1450b8545f0152756cf00a94604b2c08a49e8c45290254",
+      "f2p": [
+        "std-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 192.36808158100007,
+      "build_bytes_before_cleanup": 208861293,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "e1499ab16e7fc7dde28cd1357a61c1f5b7f88a674f3837bd9fe707846594afdd",
+      "original_manifest_sha256": "f193bf117bf6d9b3c7078c24722b5717a188bd48e8a6cc9b93bbcc162cba08d4",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3729",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 88.66541458200027,
+        "reference": 13.171824743000116,
+        "native-oracle": 90.255110048
+      },
+      "command_wall_seconds": {
+        "configure": 2.713341274000186,
+        "inventory": 0.8074491340000804,
+        "build": 181.3289215719999,
+        "ctest": 7.242637393000223
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 192.36808158100007,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3727",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "06f1c0d725855861535e9e65cd4d502aca7c61ed",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+      "reference_patch_sha256": "1e5b2e54d779c5e44df41ad0511837f9091e847085306045cda9cddb186b2848",
+      "test_patch_sha256": "76eac48ef70cf13f40a9d99390ec7decc840451c0bae1aedaa93dd2ba7b77002",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 202.76544685900012,
+      "build_bytes_before_cleanup": 215694780,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "8549a0971713356dfb41d9aad7cdac195f0d84fe94f88cbc8d8daa22f7f75ed6",
+      "original_manifest_sha256": "59a07bd0e1985b52b870c3d4b663aaceeb4f77c098d70f6983bb03b5018f299e",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3727",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 91.64931429900025,
+        "reference": 20.79496553399963,
+        "native-oracle": 89.90602496199995
+      },
+      "command_wall_seconds": {
+        "configure": 2.9257983130000866,
+        "inventory": 0.907265298999846,
+        "build": 183.88981282999976,
+        "ctest": 14.627428353000141
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 202.76544685900012,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3713",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "649fe0fc8b9366375eab67639cab404617c527cd",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "97636a89940bd5ba0eb2a867310e67ba6e204b14",
+      "reference_patch_sha256": "6bce177a4ed0d1bace4568df585c707bd6aff85d729db8f4edc047d77be107f1",
+      "test_patch_sha256": "fce9930a4e95f5be2a37b2c8707e86ee9035134ac177a3a888e6887f1dbfb576",
+      "f2p": [
+        "std-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 209.40961523700003,
+      "build_bytes_before_cleanup": 209353718,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "8844b2ba4fb0041b15e005fdddbd7e774833c683763dcfae57213678cda89e2d",
+      "original_manifest_sha256": "d852d0280dce589876a5f3315eb4f2acd88e81907d7efeeef31c3d09235c1b69",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3713",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 99.115848744,
+        "reference": 13.879671409999673,
+        "native-oracle": 96.00989874900029
+      },
+      "command_wall_seconds": {
+        "configure": 3.018120401000033,
+        "inventory": 0.8034507959998791,
+        "build": 195.8698942320002,
+        "ctest": 9.313953473999845
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 209.40961523700003,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3569",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "8a4bec5cf53387356738a06ba0cf4fdf086241ae",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "5836d0283e0e698ed3ac90e79dbbc2a8e41e8f96",
+      "reference_patch_sha256": "64a9511857dcd77f1fa36d242bea16dcf7f217e917c433ab01d8f66a6dc3384d",
+      "test_patch_sha256": "c9eee74dc157412cc37fa09c266c1f6512acd852f5db8d5fd6c3e0c201e0af6b",
+      "f2p": [
+        "std-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 200.44025807699995,
+      "build_bytes_before_cleanup": 204263038,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "1d2574dae7b771af02054fb7eff8363179f79076e40135e816367ec25cd4f56c",
+      "original_manifest_sha256": "1a3ccd762a09b364f4573d2f6ef8c7ffebf6ce2e496b27788fc9a6b898b1e214",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3569",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 92.89921975600032,
+        "reference": 13.375680042000113,
+        "native-oracle": 93.75557606799998
+      },
+      "command_wall_seconds": {
+        "configure": 2.616112017000205,
+        "inventory": 0.7060843290000776,
+        "build": 192.28182825000022,
+        "ctest": 4.426451269999916
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 200.44025807699995,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3555",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "f4214ae8dd9cdfcbeb5e2db66aee59d066d9cb0c",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "f8c027c7f2cff4bdcea36bb672e191694f855fd2",
+      "reference_patch_sha256": "f28f0a4f7202a6ffa3e4eb7a5482b48c7abdd0012fdbebca52d615facc5d976b",
+      "test_patch_sha256": "3c8a5ccdd01dccb8104a1c811ace48ea67a42828554fde0a084f041341f6ff32",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 213.41153601099995,
+      "build_bytes_before_cleanup": 212854740,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "afc60f3147afb7e1a7dc31983538acb8a753e7eb963c5c12a915ef613df43471",
+      "original_manifest_sha256": "7c0a7a98bcebcd0ed58f74f20084bea271594336a3982050032398aed98df028",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3555",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "mixed_or_unclear",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 97.57175877199984,
+        "reference": 17.80882887699977,
+        "native-oracle": 97.67672123600028
+      },
+      "command_wall_seconds": {
+        "configure": 3.129861374000029,
+        "inventory": 0.8050198490000184,
+        "build": 196.82757165599992,
+        "ctest": 12.294856005999918
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 213.41153601099995,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3537",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "661b23edeb52d400cf5812e7330f14f05c072fab",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "0e9bcadff1972224879c5e91bda96e76b255a667",
+      "reference_patch_sha256": "773168d4166ba1ac390943ca52dce9d889a2b889185fd6a421794548b8c0994c",
+      "test_patch_sha256": "bc867f0bbfd328360e239eff1673cec78b0f41121d7d92e6f69e9bd0a6da5093",
+      "f2p": [
+        "color-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 206.17433981500017,
+      "build_bytes_before_cleanup": 204569278,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "ea64564340e1d51989769ec4e5bfc3b949a29ca9cfc454d1ccabdce97c642abd",
+      "original_manifest_sha256": "eca3251ebfa4cd20024b075890364ae39fc8ed29fc5f21325ec6a3c7805d2b0d",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3537",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 97.8653690640001,
+        "reference": 10.992545809000148,
+        "native-oracle": 96.90908734899972
+      },
+      "command_wall_seconds": {
+        "configure": 2.7191626630001338,
+        "inventory": 0.7032481769997503,
+        "build": 198.82680316899996,
+        "ctest": 3.517788213000131
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 206.17433981500017,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3279",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "f89cd276f7dead38f11cebc73d1e91a1b1b38124",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "00b684b16d861a87614882842c8beea149347c3a",
+      "reference_patch_sha256": "11839ee07de64bd1f8f713e3b56857ba0e49328c86e3c6cb66e6f5b978be8bcf",
+      "test_patch_sha256": "bb59d438def002f91fbf4d36ec03933dcc403faa8090518d953b29e071ea8fbe",
+      "f2p": [
+        "ranges-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 191.40087827899993,
+      "build_bytes_before_cleanup": 203367106,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "64b1e383bbb5b54cbfb1a885684498b794d19621a30e465f27e850688489c208",
+      "original_manifest_sha256": "cbaa1ea480a2e1d292f70f9abb905fe7c045bef322ad073c7d4ce415063418e1",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3279",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 82.39140060500017,
+        "reference": 15.543661479000093,
+        "native-oracle": 93.03066180799988
+      },
+      "command_wall_seconds": {
+        "configure": 2.824343868999904,
+        "inventory": 0.8048918580000191,
+        "build": 182.57264360800013,
+        "ctest": 4.763844557000084
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 191.40087827899993,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3272",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "bfc0924eacaa3c6163eb872c8948098565464192",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "b8d0e68656c771d54a53546c7dfa6775895c4f77",
+      "reference_patch_sha256": "65e6ac09c599697024d261283dfbd9f16f3ce67252e72772206cf8c077a45835",
+      "test_patch_sha256": "a68f5753c59c94ab58aa4bf5000ce8d71db2c8376fc5270331384ade27971197",
+      "f2p": [
+        "xchar-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test"
+      ],
+      "wall_seconds": 219.76182098800018,
+      "build_bytes_before_cleanup": 208801837,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "5f6076bbd18382e72263496ee9b4b55d223dc8071b824978d6b6e50ccb609495",
+      "original_manifest_sha256": "51a23e2b4c0dc1ea18b68810e1e6b2ddda161c365deb5fcb5df4c34c46cc3bc5",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3272",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 93.26306492900017,
+        "reference": 18.888403247999804,
+        "native-oracle": 107.14672879100021
+      },
+      "command_wall_seconds": {
+        "configure": 2.9268146540000544,
+        "inventory": 0.8203845660000297,
+        "build": 205.04398563000018,
+        "ctest": 10.50701211799992
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 219.76182098800018,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3271",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "bfc0924eacaa3c6163eb872c8948098565464192",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "44db60de931505582ba53af2b6efa3a3c438e8a1",
+      "reference_patch_sha256": "dce2c736f6970f63076f09b37e1d75b52183444ae0692d2121fd8f80224b3cd9",
+      "test_patch_sha256": "ddd9284048e04906379f43abb649e9391c826a9600f07b72dd3924148f30d16e",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 217.6372022529997,
+      "build_bytes_before_cleanup": 210855962,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "edf93d65ddba7740e208e85f9ca90d97742ffbc1341819c405eb966ef638fd98",
+      "original_manifest_sha256": "482dddc1764ccfb3d9ec5695514668d3bb98643693c2ba2a1dc77619b845f6d8",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3271",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 93.82164155100008,
+        "reference": 19.29662183000005,
+        "native-oracle": 104.00978239099982
+      },
+      "command_wall_seconds": {
+        "configure": 3.022941630999867,
+        "inventory": 0.804169765000097,
+        "build": 199.8367378060002,
+        "ctest": 13.464196569999785
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 217.6372022529997,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3260",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "2622cd23e69b67316cf678a97c268a874774c0e1",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "ebe09d4c5b41ab2138aad48520ad4db832f24fbc",
+      "reference_patch_sha256": "1d3a6c824dac11182c34c8d7b8f2625b093e4b58366b008d0c24f5d36754fc50",
+      "test_patch_sha256": "fab17066aee19d652d76bd7960a03e00c2b6f6ad70bebd30a2e5d1af963688f6",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 209.95395841799996,
+      "build_bytes_before_cleanup": 210355523,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "de5eafe30d1408f0d7aada301fa434b31e247c49e867008eda3c56a6a482183b",
+      "original_manifest_sha256": "0141522e4ab94eb565fccee25a7920528eed0f14d0763064df49a6bdf379c729",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3260",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 91.35925965799993,
+        "reference": 19.5839668430001,
+        "native-oracle": 98.57868928999983
+      },
+      "command_wall_seconds": {
+        "configure": 2.715082238999912,
+        "inventory": 0.8146062529999654,
+        "build": 192.23488031800002,
+        "ctest": 13.757346980999955
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 209.95395841799996,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3248",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "275b4b3417e26be3bdb5b45e16fa9af6584973a2",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "ce1f62d5b70ec5ce195e6d602b6fd842b12ffee5",
+      "reference_patch_sha256": "07b68c0c2142a357fa40360fc81871093657b35fe97101b3c7d42e05b931ec8b",
+      "test_patch_sha256": "32cefc18390effacb5b414a8eb0bc875746980bb1ff951c6bd01e0977b8e1577",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 240.80990973999997,
+      "build_bytes_before_cleanup": 215027333,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "a8dd2517ff2ac2cd78d1c4bbb4a398854e3d991fad7d598d3ed59a5dca1634d0",
+      "original_manifest_sha256": "d2c3122c4fcd6b49362a1052ede1fd57c6309a47bd6d34d2a574980ada112092",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3248",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 111.70483851899985,
+        "reference": 20.505156584999895,
+        "native-oracle": 108.14894781600015
+      },
+      "command_wall_seconds": {
+        "configure": 2.719842926999945,
+        "inventory": 0.7065377690000787,
+        "build": 221.06799871500016,
+        "ctest": 15.864563508999709
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 240.80990973999997,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-3158",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "80f8d34427d40ec5e7ce3b10ededc46bd4bd5759",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "22537f693587b349fc8f90cf0b4b81ecb6651722",
+      "reference_patch_sha256": "3801e073c48baa16573903620c40840967cd55cc9efb7e90258aa5b0a542bb00",
+      "test_patch_sha256": "dd768202c53ca779ff9ab209974be3af6ec9927882469f738caaec4b50e5195c",
+      "f2p": [
+        "ranges-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 186.428631108,
+      "build_bytes_before_cleanup": 207040827,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "ae83498a7d5674f9657bee3ab59f2c28b4bcf27cd3dee355388cb568b0671b44",
+      "original_manifest_sha256": "86ec1b7c9d629225250c4631890711e01bbc140d726b47e6e7e6c3fbfbdbb446",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-3158",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 83.67613357699975,
+        "reference": 12.24445627499972,
+        "native-oracle": 89.64491382300002
+      },
+      "command_wall_seconds": {
+        "configure": 3.4239319439998326,
+        "inventory": 0.6034811050003555,
+        "build": 175.0064957519994,
+        "ctest": 6.531594873999893
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 186.428631108,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2940",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "eaa8efb950be5d8f1803a99b06f76cf398c67cb8",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "11e73853be14cf0994732a60b20f432bb35f1cc8",
+      "reference_patch_sha256": "e44624800c137036532062521efc055405ba63c6920f53a37c633a6e18460e8b",
+      "test_patch_sha256": "d69be3f83c3f5e44be8570819c85d4a5ff12c4c3b19b3ecb623df486a7d6a258",
+      "f2p": [
+        "ranges-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "scan-test",
+        "std-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 180.30827761800037,
+      "build_bytes_before_cleanup": 205768249,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "d90da141fc35e4c185202eede26c2e3c02fc1ad29d82bc3e76e4fe52a07ebf39",
+      "original_manifest_sha256": "bd19d08680804a8521641d0f3958f301e2ee5967212a726bfa21d5adf92ad4b3",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2940",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 83.78209421799966,
+        "reference": 10.946674450000046,
+        "native-oracle": 85.0947971290002
+      },
+      "command_wall_seconds": {
+        "configure": 3.3117693190001773,
+        "inventory": 0.8059728040002483,
+        "build": 168.97667902400008,
+        "ctest": 6.729144649999398
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 180.30827761800037,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 19
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2610",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "19cac63fe4b4d8fe6a4ced28de16a68659cf9035",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "2d25291ed6dc2e6f9eb6dc9725bf0a3f59956dbf",
+      "reference_patch_sha256": "94597b980608bd066838eccec60491ea451261a9c74ffbc9e3d7275c0d12c242",
+      "test_patch_sha256": "62d56f109711dd236cc8c97a93c6b8d3af34411613de3197d21024913b5aa652",
+      "f2p": [
+        "core-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-fp-test",
+        "compile-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 179.55166319799991,
+      "build_bytes_before_cleanup": 192573520,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "9eb3c3e1a98dc261da605658cca54dc475641573c631dba84aa87c05ed204f13",
+      "original_manifest_sha256": "350c0aeefa78cca4353bdeeba93836ff80094a57798774855e19553370b34d46",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2610",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 75.38085374399998,
+        "reference": 19.11085552400027,
+        "native-oracle": 84.63185971299981
+      },
+      "command_wall_seconds": {
+        "configure": 4.697596051000346,
+        "inventory": 0.8083616139997503,
+        "build": 168.68679979199987,
+        "ctest": 4.930811524000092
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 179.55166319799991,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 18
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2394",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "cfc05e05f08dc0b6fe619831c96f00ee27d99613",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "424b1eea273d000b9c4f1dbf34787791cb233c89",
+      "reference_patch_sha256": "f9a464860e99bab76108c5cd5bced442645c82800bde08d89020761dbaeefd8e",
+      "test_patch_sha256": "76862918b5520d200adec1db9a1751b6ee40d9ccf041eaa358d9b4ee6d1ab19b",
+      "f2p": [
+        "color-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "unicode-test",
+        "xchar-test"
+      ],
+      "wall_seconds": 138.50177160500016,
+      "build_bytes_before_cleanup": 174337953,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "fc7216d622c5fca296af8bbe43ad67612ba51d329018af7221cb098d350e9aef",
+      "original_manifest_sha256": "645d27190ab4a6e89dd48e7f0e1e6903d29a0c529f9164a4cab3aaeacceb7339",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2394",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 64.9634807780003,
+        "reference": 8.609543083000062,
+        "native-oracle": 64.2585385680004
+      },
+      "command_wall_seconds": {
+        "configure": 5.013737147000029,
+        "inventory": 0.7106152970004587,
+        "build": 129.79629566500034,
+        "ctest": 2.310914319999938
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 138.50177160500016,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 17
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2317",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "7612f18dc8e0112e64e0845a1ebe9da6cfb8a123",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "749b81b56118df1ee261c59be0063ddd497bc087",
+      "reference_patch_sha256": "c1e2f8290f8b898f4e3e6d281864f84b46f9b976860c4437c05f70434eb52504",
+      "test_patch_sha256": "6befe2d99212212218d9ab2e60fada96f8a2df2f0e0d7e007ac8f15eba73a8de",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "unicode-test",
+        "wchar-test"
+      ],
+      "wall_seconds": 167.96327488999987,
+      "build_bytes_before_cleanup": 191433069,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "ba27f099f75b0e9ce84c0707c6993617882e91d0f0437738ea9c4a404114baaa",
+      "original_manifest_sha256": "55ee928e647d00d20787afd8764d74690a4178f524d483c847658077dea74143",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2317",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 75.74665104999985,
+        "reference": 20.702465510000366,
+        "native-oracle": 70.57140174699998
+      },
+      "command_wall_seconds": {
+        "configure": 5.000424352999744,
+        "inventory": 0.9090896340003383,
+        "build": 147.73827490600024,
+        "ctest": 13.372729413999878
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 167.96327488999987,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 17
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2310",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "bc13c6de390751ecf8daa1b1ce8f775d104fdc65",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "e1dd7145fb647df47e039667a8a343e5c95c0b97",
+      "reference_patch_sha256": "eaa55ff6ed3fbc7d79dbd48bc83bfa819aebcc5ecc6661e211357045d70e2513",
+      "test_patch_sha256": "4cbba31e89383a5aff3375411c29c00bbcfc3b9bb070470428c7967616348bb1",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "wchar-test"
+      ],
+      "wall_seconds": 146.94972017100008,
+      "build_bytes_before_cleanup": 179113693,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "dc6d4f109a0f356c11c9082e5be1a2a60fb0529821f522b6776c99243ecc1690",
+      "original_manifest_sha256": "0186d54a8ddc00ad86eae3bab273253c922d2a473ddf89dccd5889acccde892d",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2310",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 65.76585770700012,
+        "reference": 20.073101617000248,
+        "native-oracle": 60.367646384999716
+      },
+      "command_wall_seconds": {
+        "configure": 4.24469758999976,
+        "inventory": 0.6705722279998554,
+        "build": 126.26374240199993,
+        "ctest": 15.027593489000537
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 146.94972017100008,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 16
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2292",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "0dd91e20d5e8c7c41154acbb4fbe6b9d37688ea3",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "a8f51a04083ef9e4a81de5c0c8fcb9a13c2076be",
+      "reference_patch_sha256": "c5c0fc866cc0b42088217a3291b28dfd559544add913071bdc4d76e7d4cb7d1a",
+      "test_patch_sha256": "0253b58a552c9bd6965d31d1f7f408b41f642150e5134e9d14e2bc2d4dcade07",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "args-test",
+        "assert-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "enforce-checks-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "locale-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test",
+        "wchar-test"
+      ],
+      "wall_seconds": 150.3261962419997,
+      "build_bytes_before_cleanup": 192773896,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "ce16a1d594695f809031dfa37b6fd9551a3af5240c115eaafa356cf39f400c68",
+      "original_manifest_sha256": "797585abced4cb1eb83d252d489bd78001abfa02c460564e9ca0abd32eef8b08",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2292",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 66.21006699500049,
+        "reference": 16.37006413300014,
+        "native-oracle": 67.27194333000034
+      },
+      "command_wall_seconds": {
+        "configure": 4.19581963300061,
+        "inventory": 0.8081940050001322,
+        "build": 136.7083289860002,
+        "ctest": 8.139731834000031
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 150.3261962419997,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 17
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2158",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "835b910e7d758efdfdce9f23df1b190deb3373db",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "d260acb8623e4d39e604ac71c04f54009a69bef3",
+      "reference_patch_sha256": "2f0b9b79bc1d464239ed9348bfa51abd3455421bcef4f8c1ca833fd6f9a24449",
+      "test_patch_sha256": "c7c91171d160e0f46e2f3d0bd171fad03f00ec7e30923c3b17e8504639e310fe",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "enforce-compile-string-test",
+        "format-impl-test",
+        "gtest-extra-test",
+        "locale-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 132.29872327199973,
+      "build_bytes_before_cleanup": 165295688,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "0752d0884f30c710a509292ad4fcf3ee6e0b0c7b86af607c8d599c989c4fb030",
+      "original_manifest_sha256": "a769d2f247acc5ac0c1d00c2785e0c13fcd0b6f661fc0d2c1d88bb4f0809e568",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2158",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "mixed_or_unclear",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 53.27067692399987,
+        "reference": 24.545828270999664,
+        "native-oracle": 53.978251042000466
+      },
+      "command_wall_seconds": {
+        "configure": 3.83750555000006,
+        "inventory": 0.9122678619996805,
+        "build": 122.30974913800037,
+        "ctest": 4.735233686999891
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 132.29872327199973,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 15
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-2070",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "e737672614dfad3a6df23ffe3f2348fcfa4d3944",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "73e27385b0b7457144e4e894bb24a99fd1b9089c",
+      "reference_patch_sha256": "141b42af471bca4d35869f865e9d1400dac3236dc82fc15d67cee0eb4b84f0bd",
+      "test_patch_sha256": "bd50dfc37d196d623e81d1ceb673c77346db3ce8ac635e61aa108a55b7458a48",
+      "f2p": [
+        "color-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "compile-test",
+        "core-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "locale-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 118.15633435600012,
+      "build_bytes_before_cleanup": 157372850,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "2336fc088c7c689dc2ead355e4f2cf209f20c2066d65673184ee558b487fb23f",
+      "original_manifest_sha256": "23d9e63de4e478b33ab86478071d1e5bf43b38e592668734623058256f619322",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-2070",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 55.01003506100005,
+        "reference": 10.885304755000107,
+        "native-oracle": 51.82042572200044
+      },
+      "command_wall_seconds": {
+        "configure": 4.9612907289997565,
+        "inventory": 0.6109045580001293,
+        "build": 109.60159020200035,
+        "ctest": 2.541980049000358
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 118.15633435600012,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 14
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-1837",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "c7e6d8afb06cec7b8244f963dc081daf7e70f7f6",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "d63989a6294f7bd9d7e17cd769ceba9cc322597d",
+      "reference_patch_sha256": "bb50a0d73aae935724f090336d79a15dfe376a3f6825c5ac1d7130daa6b23ece",
+      "test_patch_sha256": "6c2f333871168b9c68961926cfe63938e1f5bfdbec88fb8192b493bbec7b44ec",
+      "f2p": [
+        "chrono-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "custom-formatter-test",
+        "format-impl-test",
+        "format-test",
+        "grisu-test",
+        "gtest-extra-test",
+        "locale-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 133.54425909600013,
+      "build_bytes_before_cleanup": 150504241,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "a3395fd40b3bb1e8aadf0f87a9a5226b178c99afce9483b0399c6e691efa85d5",
+      "original_manifest_sha256": "28755743fc4544acc814a0f9cf8edbc5222fa0874c387d5cc8fa3173df15092d",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-1837",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 54.50183517499954,
+        "reference": 19.528747069000474,
+        "native-oracle": 58.974716640000224
+      },
+      "command_wall_seconds": {
+        "configure": 4.126567382999838,
+        "inventory": 0.8101340460002575,
+        "build": 123.74747633900051,
+        "ctest": 4.321121115999631
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 133.54425909600013,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 16
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-1663",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "8d9d528bf52c60864802844e8acf16db09dae19a",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "484634e159a57c8c540cde5695fe2bb25f96a91e",
+      "reference_patch_sha256": "8f69f080bd21d7c086a35986a37fe4ee470e9a6d4b1a1196cbbee28c153833a5",
+      "test_patch_sha256": "ef61b816cb3a949b6018ca6993093e475ffc22eb2bbf593519cc27cc265a432e",
+      "f2p": [
+        "core-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "custom-formatter-test",
+        "format-impl-test",
+        "format-test",
+        "grisu-test",
+        "gtest-extra-test",
+        "locale-test",
+        "os-test",
+        "ostream-test",
+        "posix-mock-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 128.34046594200026,
+      "build_bytes_before_cleanup": 162416317,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "4940e8f4df752782ec804fadb409045b66579ba186b0fd05c968d1b8f83f55a8",
+      "original_manifest_sha256": "bfdbfee1d58fe11eac1f9b89ae9316ee168ebf587523e38ed1d85d9db4d2086e",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-1663",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 54.54466236500048,
+        "reference": 13.394577232000756,
+        "native-oracle": 60.012270747
+      },
+      "command_wall_seconds": {
+        "configure": 4.346764476000317,
+        "inventory": 0.8200771360006911,
+        "build": 119.26960239900018,
+        "ctest": 3.51506633300005
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 128.34046594200026,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 16
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-1407",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "1f918159edded99c9c0cf005c96ecc12e4cc92b1",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "9824998f9ad12f771913dd07b15139b7b8f30a13",
+      "reference_patch_sha256": "d8e37a8ca5cac33db126e336596caaf94209dbab171f5d0a2e993bd5b36e7ca8",
+      "test_patch_sha256": "12fd223d158caf1c97663ab9edd5adf063211c59888fe36cfcce4a92ea14ab78",
+      "f2p": [
+        "core-test",
+        "format-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "custom-formatter-test",
+        "format-impl-test",
+        "grisu-test",
+        "gtest-extra-test",
+        "locale-test",
+        "ostream-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 161.19695401800027,
+      "build_bytes_before_cleanup": 192628140,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "2e2d05bba2fc740930903f79131700e801a7fb3b81afeb3a8d7d9faff2839b61",
+      "original_manifest_sha256": "4d921e54bb10d9d41f5a731c47f5f875c63528a3800dc7e798bc98fe1385a476",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-1407",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 62.39354888099979,
+        "reference": 31.34213103000002,
+        "native-oracle": 66.9574147390008
+      },
+      "command_wall_seconds": {
+        "configure": 6.187887737999972,
+        "inventory": 0.8082613590004257,
+        "build": 143.88973790399996,
+        "ctest": 9.807207649000247
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 161.19695401800027,
+      "reason": "",
+      "f2p_count": 2,
+      "p2p_count": 15
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-1390",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "d6eede9e085f0b36edcf0a2f6dff5f7875181019",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "f990de0620d704ea88d2f628ffb0f23173225742",
+      "reference_patch_sha256": "55ee287f0fd89b6261b4a22c4664a0b32b4adc5570281a4e275931448035adbd",
+      "test_patch_sha256": "f7844b296195bfe93e5ff17a8d8ca4571357b89b99ed1978a2517ddd330ada4c",
+      "f2p": [
+        "format-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "custom-formatter-test",
+        "format-impl-test",
+        "grisu-test",
+        "gtest-extra-test",
+        "locale-test",
+        "ostream-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 176.67620334999992,
+      "build_bytes_before_cleanup": 208927415,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "6140890793557a31872ffc5ed852bc62f6371cd3d24c8064a8400522ad45d22c",
+      "original_manifest_sha256": "27d40bb2babf61f3ef0a125af7ab1bb16056f11c04aa330c96bd8bf0385e5237",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-1390",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 82.60123200899943,
+        "reference": 31.299646061000203,
+        "native-oracle": 62.20210349399986
+      },
+      "command_wall_seconds": {
+        "configure": 6.099676473999807,
+        "inventory": 0.7945925029998762,
+        "build": 144.33250710000038,
+        "ctest": 24.876205486999424
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 176.67620334999992,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 16
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-1361",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "a5abe5d95cb8a8015913be9748a9661f3e1fbda8",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "b4d5376546b567486b0a171941f74a58f2ffafa8",
+      "reference_patch_sha256": "54e1e5611d930dab1dbbcf50e4d57a730bdaf7432d77fcbfe695bc0d7e083611",
+      "test_patch_sha256": "6b04ad961667e927741da83554b708a8a9e161463667f09fcbbae4df493ddafa",
+      "f2p": [
+        "format-impl-test",
+        "grisu-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "compile-test",
+        "core-test",
+        "custom-formatter-test",
+        "format-test",
+        "gtest-extra-test",
+        "locale-test",
+        "ostream-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 147.153774074,
+      "build_bytes_before_cleanup": 192526872,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "3c0cd637c9bf9395bcf9b28a70e52777b88a6e71af1819d1c320f600d35588a0",
+      "original_manifest_sha256": "478e465d691b061060b9ab3637eaa8c08c816961986fafd386fb86d96713f112",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-1361",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 65.74927863099947,
+        "reference": 11.642641233000177,
+        "native-oracle": 69.27788660499937
+      },
+      "command_wall_seconds": {
+        "configure": 5.406832974999816,
+        "inventory": 0.9098884969998835,
+        "build": 134.39697212999954,
+        "ctest": 5.956112866999774
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 147.153774074,
+      "reason": "",
+      "f2p_count": 2,
+      "p2p_count": 15
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-1171",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "b124ca34b3a4eab7709b8c6fa0e390495ce4a2ac",
+      "reference_patch_sha256": "d0cbb054d3943fe808f2407aabbd6d124f40e9b43293f21c9a8d6b4a30dbcd1c",
+      "test_patch_sha256": "b53a92d737a924009181013eb8cfd52106849af2f6b1d4bc0418c714487ba7b7",
+      "f2p": [
+        "prepare-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "color-test",
+        "core-test",
+        "custom-formatter-test",
+        "format-impl-test",
+        "format-test",
+        "grisu-test",
+        "gtest-extra-test",
+        "locale-test",
+        "ostream-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "ranges-test",
+        "scan-test"
+      ],
+      "wall_seconds": 131.08370926900034,
+      "build_bytes_before_cleanup": 168629939,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "90556ce6904fcfaf2904be8fcb96643f85084a89e5b3bcb8e949da28c200c913",
+      "original_manifest_sha256": "5811f86df273cf3d726f9c4fb89afb33c26c9da5248ff03b3ecd6850673660a9",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-1171",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 55.80363972199984,
+        "reference": 15.896263429000555,
+        "native-oracle": 59.036951034999674
+      },
+      "command_wall_seconds": {
+        "configure": 4.723045779000586,
+        "inventory": 0.7051391939994573,
+        "build": 122.5895220389998,
+        "ctest": 2.719147174000227
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 131.08370926900034,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 16
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-974",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "7f7504b3f532c6cd7d6de405241f774df6b4b666",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "500ffbdf2638468f7c0e8fdd313fb9740c325807",
+      "reference_patch_sha256": "5a8180d3f5b589fb0a28e1470ec1e5444a34d1b3302df2982a2796f380ff8acb",
+      "test_patch_sha256": "5f60c927c522e92a25433f9b848645932f747a12954830bb868258e803cf3c85",
+      "f2p": [
+        "format-impl-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "chrono-test",
+        "core-test",
+        "custom-formatter-test",
+        "format-test",
+        "gtest-extra-test",
+        "locale-test",
+        "ostream-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "ranges-test",
+        "time-test"
+      ],
+      "wall_seconds": 101.77725831199996,
+      "build_bytes_before_cleanup": 149996285,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "f0990c0f974f384986d3fdf707da0ec1faf61c2fc01f6efe2a7693eb92ed6f38",
+      "original_manifest_sha256": "785f0af6fd8684815a5b9afaa708ca73d14a5eb373b1920544a2fc1a8db0c31b",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-974",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 47.43342073399981,
+        "reference": 8.832042464000097,
+        "native-oracle": 45.027404065000155
+      },
+      "command_wall_seconds": {
+        "configure": 5.529760602999886,
+        "inventory": 0.609431880000102,
+        "build": 93.34620341800019,
+        "ctest": 1.8074713619998874
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 101.77725831199996,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 13
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-967",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "bf1f1c73e39c7ee6581ee0d5bb2471856a14bdb2",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "2617cdb0e6f97d2fa4243a31a719410682b0ccc5",
+      "reference_patch_sha256": "0eae6886f99f40b60e80673b064cc9ffc839082ddaf580055898e40606cbaddf",
+      "test_patch_sha256": "835d52688df484f22f2d291584c685bb338d57b99c87ce54855a038c111ab5c5",
+      "f2p": [
+        "format-impl-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "core-test",
+        "custom-formatter-test",
+        "format-test",
+        "gtest-extra-test",
+        "locale-test",
+        "ostream-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "ranges-test",
+        "time-test"
+      ],
+      "wall_seconds": 98.26730037800007,
+      "build_bytes_before_cleanup": 143822568,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "b2609b5ed9d41f990231a1aba787c5d9609dd1cfa923115a260126565e9e7948",
+      "original_manifest_sha256": "25dc0f1d50a567cf4639a30a06f69238b16b0071bc4687d02becaa24b74c0295",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-967",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "feature_or_enhancement",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 42.25060024200002,
+        "reference": 10.548801081999954,
+        "native-oracle": 45.043244695999874
+      },
+      "command_wall_seconds": {
+        "configure": 5.530774680999912,
+        "inventory": 0.6213446269998713,
+        "build": 89.78359226300017,
+        "ctest": 1.9069344489998912
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 98.26730037800007,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 12
+    },
+    {
+      "model_requests": 0,
+      "instance_id": "fmtlib__fmt-493",
+      "backend": "native",
+      "status": "HOST_QUALIFIED",
+      "upstream_commit": "c03f55ec3a0511611fa7f0537f858544a0ed03bd",
+      "image_id": null,
+      "optimization": "O0",
+      "exposure": {
+        "prior_model_attempts": "NO_REPOSITORY_RECORD_FOUND",
+        "sources": [],
+        "split": "holdout_candidate",
+        "qualification_exposes_reference_to_preparation_code": true,
+        "holdout_frozen": false
+      },
+      "prepared_commit": "0c6ba753c9da0c669b6ba08bbddd557c506d7c8a",
+      "reference_patch_sha256": "bcd694768fc73548deebfc50e23f60372904a3f67f16310e80b98329456c6ea4",
+      "test_patch_sha256": "c51ceabdf4ffb68f8a4ea50b9d22f7ffd879efa48b28f0eefd04b162ee4cd997",
+      "f2p": [
+        "ostream-test"
+      ],
+      "p2p": [
+        "assert-test",
+        "container-test",
+        "custom-formatter-test",
+        "format-impl-test",
+        "format-test",
+        "gtest-extra-test",
+        "macro-test",
+        "posix-mock-test",
+        "posix-test",
+        "printf-test",
+        "string-test",
+        "time-test",
+        "util-test"
+      ],
+      "wall_seconds": 76.21800366399975,
+      "build_bytes_before_cleanup": 92902901,
+      "execution_status": "HOST_QUALIFIED",
+      "evidence_status": "VERIFIED",
+      "evidence_audit": {
+        "path": "audit.json",
+        "sha256": "ee103f8c2b19669dd9f34187a7a6cfcd1c59bcde26c20f8e0a8005564827dc81"
+      },
+      "original_result_sha256": "505d399a422bdec508024eb7ab5b4360f092cb5c7f1d5be343162ba54e4d056a",
+      "original_manifest_sha256": "b69870734c77144cc17e405844b7c5e989cb1d07a641d36650be4a3f57ff9c3b",
+      "evidence_origin": {
+        "task_directory": ".repropatch/qualification-fmt39-host-O0-4workers/fmtlib__fmt-493",
+        "audited_summary": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/audited-continuation-strict/batch-summary.json",
+        "audited_summary_sha256": "ac7a3d813ec8a69cc8cf0e8dc2208f76ebf7b6a68fdd6e9288674327fbc5f6bf",
+        "execution_source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+      },
+      "semantic_classification": "bug_fix",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED"
+        },
+        "reference": {
+          "status": "PASSED"
+        },
+        "native_oracle": {
+          "status": "PASSED"
+        }
+      },
+      "phase_wall_seconds": {
+        "baseline": 31.586501002000205,
+        "reference": 9.36217561300009,
+        "native-oracle": 34.8635976999999
+      },
+      "command_wall_seconds": {
+        "configure": 6.57023260699998,
+        "inventory": 0.8134368209998684,
+        "build": 64.59422754600018,
+        "ctest": 3.834377341000163
+      },
+      "archive_status": "NOT_REQUIRED_LOCAL_AGGREGATION",
+      "duration_seconds": 76.21800366399975,
+      "reason": "",
+      "f2p_count": 1,
+      "p2p_count": 13
+    }
+  ],
+  "proposed_attempts": [],
+  "review_scope": "41 unique native O0 task prechecks; explicit post-execution evidence selection",
+  "native_qualified_unique": 41,
+  "new_docker_qualified": 0,
+  "new_formal_model_tasks": 0,
+  "semantic_counts": {
+    "bug_fix": 24,
+    "feature_or_enhancement": 13,
+    "mixed_or_unclear": 4
+  },
+  "new_bug_fix_without_repository_model_record": [
+    "fmtlib__fmt-1171",
+    "fmtlib__fmt-1361",
+    "fmtlib__fmt-1390",
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-2292",
+    "fmtlib__fmt-2310",
+    "fmtlib__fmt-2317",
+    "fmtlib__fmt-2610",
+    "fmtlib__fmt-2940",
+    "fmtlib__fmt-3158",
+    "fmtlib__fmt-3248",
+    "fmtlib__fmt-3260",
+    "fmtlib__fmt-3272",
+    "fmtlib__fmt-3537",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-3727",
+    "fmtlib__fmt-3732",
+    "fmtlib__fmt-3734",
+    "fmtlib__fmt-3750",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-493"
+  ],
+  "phase_wall_seconds_sum": {
+    "baseline": 3420.240776714999,
+    "reference": 690.2717705970024,
+    "native-oracle": 3337.970399099002
+  },
+  "command_wall_seconds_sum": {
+    "configure": 155.1387640640006,
+    "inventory": 34.15179176600111,
+    "build": 6918.514901578002,
+    "ctest": 340.677489002999
+  },
+  "attempt_ledger_counts": {
+    "PREPARATION_CANCELLED": 2,
+    "BASELINE_TESTS_FAILED": 2,
+    "HOST_QUALIFIED": 45,
+    "CANCELLED": 39
+  },
+  "attempt_ledger": [
+    {
+      "attempt_id": "qualification-smoke-host/fmtlib__fmt-4055",
+      "instance_id": "fmtlib__fmt-4055",
+      "execution_status": "PREPARATION_CANCELLED",
+      "individual_result_status": "PREPARATION_CANCELLED",
+      "wall_seconds": null,
+      "diagnostic": "Preflight corrected Git initialization of independent reference sources before qualification; no model requests",
+      "result_sha256": "4ad0b4ad76b40ae4d6c3a511a1e24179a367b5ef2b67fa6b82ba0972386a0e59",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-smoke-host/fmtlib__fmt-3863",
+      "instance_id": "fmtlib__fmt-3863",
+      "execution_status": "PREPARATION_CANCELLED",
+      "individual_result_status": "PREPARATION_CANCELLED",
+      "wall_seconds": null,
+      "diagnostic": "Preflight corrected Git initialization of independent reference sources before qualification; no model requests",
+      "result_sha256": "1faa4849b436943d056e18658832e4cb8cb435719b6f54d9a55d062534b15e05",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-smoke-host-v2/fmtlib__fmt-4055",
+      "instance_id": "fmtlib__fmt-4055",
+      "execution_status": "BASELINE_TESTS_FAILED",
+      "individual_result_status": "BASELINE_TESTS_FAILED",
+      "wall_seconds": 184.49769961100003,
+      "diagnostic": "",
+      "result_sha256": "f2b11dc16c9c282199f83240ff8b10affd87e11e6aa329c750b91004ea2812af",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-smoke-host-v2/fmtlib__fmt-3863",
+      "instance_id": "fmtlib__fmt-3863",
+      "execution_status": "BASELINE_TESTS_FAILED",
+      "individual_result_status": "BASELINE_TESTS_FAILED",
+      "wall_seconds": 187.19996240700004,
+      "diagnostic": "",
+      "result_sha256": "1e06f1308a5b7b6d1020d72b451614147f45dcc29d6736ce93618b37c6daf54b",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-4310",
+      "instance_id": "fmtlib__fmt-4310",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 184.21225719699999,
+      "diagnostic": "",
+      "result_sha256": "8ed29e75eaafc2d19fd08bb2a245ed30cd54a8a47cc843dcb47bc159d0c7a168",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-4286",
+      "instance_id": "fmtlib__fmt-4286",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 191.87107872,
+      "diagnostic": "",
+      "result_sha256": "ad9fa333c12c22f9fba25903b2632e2fef60d0b70a3eb52c6c279eec9db0d163",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-4057",
+      "instance_id": "fmtlib__fmt-4057",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 86.16466872499996,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "72cdfaf899845d94274973632cde1817bc923557452e80c742d713588ccaa489",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-4055",
+      "instance_id": "fmtlib__fmt-4055",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 78.55267670199999,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "84570bac1efbdb9d236e41e5bdcec863cbe3d814066588701d050b42dccf2523",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3913",
+      "instance_id": "fmtlib__fmt-3913",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.8840445939999881,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "45cfe126143792839da1d08d4e995eea5ce9f317896e915797b9ba91920e234d",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3912",
+      "instance_id": "fmtlib__fmt-3912",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.9282265200000666,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "de8416333db54401bca90066bdd92e83a8d72bf8d83b8c4aeb49b3ad43af42a2",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3863",
+      "instance_id": "fmtlib__fmt-3863",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.3451827300000332,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "ce4c620b1b0c9346bab21a32136a350ded36b5519c99cabf709e3f4a2ee262da",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3824",
+      "instance_id": "fmtlib__fmt-3824",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5664791180000748,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "67ffdf508ae217af30ad8d8762cffa284f160cd89ca4176f0780b746a9d134e3",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3819",
+      "instance_id": "fmtlib__fmt-3819",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6506993130000183,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "dbbb0a6b25b60c084f8bfac651a3ab387478bf8cc95217553abfa8c155c35ddf",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3750",
+      "instance_id": "fmtlib__fmt-3750",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6030542309999873,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "a2fe9dca09ccd2ccb04640d889745d0e97ece1ce0871f2d5fa0ff8b5b23ade51",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3734",
+      "instance_id": "fmtlib__fmt-3734",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.574027559000001,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "db4a0649d00ea132e7e886a0276513d5c2566dec2db8d31ba98a632bd8e4fe2d",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3732",
+      "instance_id": "fmtlib__fmt-3732",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.513323076000006,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "e95ca78769144bd6064dd19953681d962784fb4e3c271848d80a1e9489c57227",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3729",
+      "instance_id": "fmtlib__fmt-3729",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5158074849999821,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "450a390119f3e012b0211a1f7f5755d04edaceda9dcf5714e76fd85427fae23e",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3727",
+      "instance_id": "fmtlib__fmt-3727",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5103283710000142,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "aa8c35ecc98d1f2f3ae8bae01085666ce4f5149edf7863f330d27a370eb41f2d",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3713",
+      "instance_id": "fmtlib__fmt-3713",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5600099690000206,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "172c909dd896e853649b64b78458a931084a52217db58c6c3760a37f3da03ec8",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3569",
+      "instance_id": "fmtlib__fmt-3569",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "PREPARING",
+      "wall_seconds": 0.6014918040000339,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "2f81cf897e8e7fc4b966fc95e8a398eca7e6bc1f27429ec6a634ae15e92c86bb",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3555",
+      "instance_id": "fmtlib__fmt-3555",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5300224730000309,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "37b004a1b3103e910f6417846a3b0035c9c0427b3ec4b39bf8a1eba956a7faa0",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3537",
+      "instance_id": "fmtlib__fmt-3537",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.49482697300004475,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "b03f86f9d8a0df3baa9beadd6e45c242d1fb19d4026e0c51e9d9cb1d7cdb1a5a",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3279",
+      "instance_id": "fmtlib__fmt-3279",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.54797330100007,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "5f7c062884ea69eb05c7c653e3889bf69db905d1e1c663db94d61acf4b05394c",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3272",
+      "instance_id": "fmtlib__fmt-3272",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6868526910000128,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "4ff1c92478cadd381f9b01545ab5e9d6be606bcdbb7cb1cfb26ffa5f8635c621",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3271",
+      "instance_id": "fmtlib__fmt-3271",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.3667516670000168,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "88cb7ed40cbd84ffddb573f5dc0267a4040ada1f0dda3f6f14a9f1ccfa98d62b",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3260",
+      "instance_id": "fmtlib__fmt-3260",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5187751049999179,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "6e42f6c7181ec2271b33955f16affdf9db3f32675659ddfa7e9c8ec14cec9d0d",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3248",
+      "instance_id": "fmtlib__fmt-3248",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6254675010000028,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "58375907e1da9ebcec044f8407ca80636ae30dd3a365e8bc2a6fcda137cc7e04",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-3158",
+      "instance_id": "fmtlib__fmt-3158",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5883578380000927,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "da896d9d03b524d1bab365d57b89ac009305e20768dc6a533a58e6f272ef3954",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2940",
+      "instance_id": "fmtlib__fmt-2940",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.638149273999943,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "29fb4e8513206dc4ab173ed295d61de934d8b3658cd76f3d0973c74a4d38f4e5",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2610",
+      "instance_id": "fmtlib__fmt-2610",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6284443930001089,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "c34cface14cb8c21bf32424013f8f8d2734a529288d7a9982338f9292691f630",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2394",
+      "instance_id": "fmtlib__fmt-2394",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.7274838170000066,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "ccab4d595e1cb9424abe395dd4a08c69af57c8f99c656043b2dc012ab93f9a03",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2317",
+      "instance_id": "fmtlib__fmt-2317",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6623977520000608,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "99ba1aa9bf6d54b1fa1b0c52d19a11e7f3ff8fa8d5dbb6c37d3b952c222d2c99",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2310",
+      "instance_id": "fmtlib__fmt-2310",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5350644090000287,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "1594032ee442d3826749ed6acf305aa7bcf77051b6badf63b7d437c520ae5a2f",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2292",
+      "instance_id": "fmtlib__fmt-2292",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.8001594869999735,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "2623225302a8895a6ebad25ed9266479092a04b43c84fc1f61a901b2b187f16e",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2158",
+      "instance_id": "fmtlib__fmt-2158",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6372989340000004,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "20af472ef319b19e29eb5339772525843bd248f60793140155753ee2123776fd",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-2070",
+      "instance_id": "fmtlib__fmt-2070",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6788399459999255,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "d131e59ebae2c297296c38b89dd9478cdee61242837bf402c49de9b13aea1361",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-1837",
+      "instance_id": "fmtlib__fmt-1837",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.8516950160000079,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "eac8132b1206daf1a911d1e47fda34db53645c94557a53ab89bde98c142f2c80",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-1663",
+      "instance_id": "fmtlib__fmt-1663",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6203007780000007,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "741dfa4a22e2372ea00ffd2971e4829f3585bc5488b9592d71ae1baeb6363191",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-1407",
+      "instance_id": "fmtlib__fmt-1407",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.9005259540000452,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "ccf6c75976b944e91b2821ae059614d435b3d63777a8a2a4160444378e8813b8",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-1390",
+      "instance_id": "fmtlib__fmt-1390",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.5878255159999526,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "ac669bf099b6939b5267028f25a367c733a600e68b3379982ac301ea955cf873",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-1361",
+      "instance_id": "fmtlib__fmt-1361",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.7697217270000465,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "e0ed8e54100d0d864c2042e9ff64602f3cdb040f138b28b174879ba9862bbbd9",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-1171",
+      "instance_id": "fmtlib__fmt-1171",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.6879191489999812,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "4ac6ea17b2b7890d30f57e848aa504c03659a53e12bc259612c7426525ec2679",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-974",
+      "instance_id": "fmtlib__fmt-974",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.9227273879999984,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "1f8a976f16f2bc14a35977496fcb9d99d2cc90c5cd7c75d3c5e18b2fc535b1b4",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-967",
+      "instance_id": "fmtlib__fmt-967",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 0.8696732619999921,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "c554ce5338801396a5ff048d7d63a49d1df53b84c08566c1449e05713bf2aa60",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt41-host-O0/fmtlib__fmt-493",
+      "instance_id": "fmtlib__fmt-493",
+      "execution_status": "CANCELLED",
+      "individual_result_status": "CANCELLED",
+      "wall_seconds": 1.0314684659999784,
+      "diagnostic": "TASK_CANCELLED",
+      "result_sha256": "d24fa42d5d8ebaad5687793b8555c70db5162e92d49f4bb4aa1d1126b9326bbb",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-4057",
+      "instance_id": "fmtlib__fmt-4057",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 209.13356225200005,
+      "diagnostic": "",
+      "result_sha256": "2da6adeb5ff4976ac9c551385abc4afa2cd036df43a3f5cba5bf98c37f64babc",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-4055",
+      "instance_id": "fmtlib__fmt-4055",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 209.24236740700007,
+      "diagnostic": "",
+      "result_sha256": "e6212068572b5c902df191a3dad0cde8a4200d6507cab846729b8f101eeb442a",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3913",
+      "instance_id": "fmtlib__fmt-3913",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 213.2751376189999,
+      "diagnostic": "",
+      "result_sha256": "bee1d1edd7ab6e82d6bed831496ed5db868b0da816f678bd1f0f4db4b4b3168f",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3912",
+      "instance_id": "fmtlib__fmt-3912",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 211.231365438,
+      "diagnostic": "",
+      "result_sha256": "3d7dc3336a4d30e37d467f9d6bbaaaa4d742e44ecda402cf5a9dd00fa4f9c983",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3863",
+      "instance_id": "fmtlib__fmt-3863",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 208.0933877240002,
+      "diagnostic": "",
+      "result_sha256": "c0245f7ae5ec02a4f0bed77890332f0a08c96d7d2336bf290db68e0982c2bd6c",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3824",
+      "instance_id": "fmtlib__fmt-3824",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 210.28614471699984,
+      "diagnostic": "",
+      "result_sha256": "a3c01a0c89756700d4c05ec11b2e8878ca8d82c3aad37ebd671a31210399c32e",
+      "selected_complete_evidence": false,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3819",
+      "instance_id": "fmtlib__fmt-3819",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 208.016962337,
+      "diagnostic": "",
+      "result_sha256": "0d723e03c90f9e3453f4c9003f02d96b5de359d0bf40592b70a4323164f8a6b8",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3750",
+      "instance_id": "fmtlib__fmt-3750",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 212.96574095699998,
+      "diagnostic": "",
+      "result_sha256": "087aaebe49d3007b4ab7cb04127dca48bd368ba11bdfd991f115b650c19bda90",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3734",
+      "instance_id": "fmtlib__fmt-3734",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 201.91575159299987,
+      "diagnostic": "",
+      "result_sha256": "5f5ead3d51ec95c239ec97a0fb436da14c5c8200644f475ae63928d41724d3dd",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3732",
+      "instance_id": "fmtlib__fmt-3732",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 200.26102818000004,
+      "diagnostic": "",
+      "result_sha256": "92510b64378b9d4d65ff5f9d88caa07959d06f1b5e044f41dfc429bfff945f90",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3729",
+      "instance_id": "fmtlib__fmt-3729",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 192.36808158100007,
+      "diagnostic": "",
+      "result_sha256": "e1499ab16e7fc7dde28cd1357a61c1f5b7f88a674f3837bd9fe707846594afdd",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3727",
+      "instance_id": "fmtlib__fmt-3727",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 202.76544685900012,
+      "diagnostic": "",
+      "result_sha256": "8549a0971713356dfb41d9aad7cdac195f0d84fe94f88cbc8d8daa22f7f75ed6",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3713",
+      "instance_id": "fmtlib__fmt-3713",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 209.40961523700003,
+      "diagnostic": "",
+      "result_sha256": "8844b2ba4fb0041b15e005fdddbd7e774833c683763dcfae57213678cda89e2d",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3569",
+      "instance_id": "fmtlib__fmt-3569",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 200.44025807699995,
+      "diagnostic": "",
+      "result_sha256": "1d2574dae7b771af02054fb7eff8363179f79076e40135e816367ec25cd4f56c",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3555",
+      "instance_id": "fmtlib__fmt-3555",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 213.41153601099995,
+      "diagnostic": "",
+      "result_sha256": "afc60f3147afb7e1a7dc31983538acb8a753e7eb963c5c12a915ef613df43471",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3537",
+      "instance_id": "fmtlib__fmt-3537",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 206.17433981500017,
+      "diagnostic": "",
+      "result_sha256": "ea64564340e1d51989769ec4e5bfc3b949a29ca9cfc454d1ccabdce97c642abd",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3279",
+      "instance_id": "fmtlib__fmt-3279",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 191.40087827899993,
+      "diagnostic": "",
+      "result_sha256": "64b1e383bbb5b54cbfb1a885684498b794d19621a30e465f27e850688489c208",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3272",
+      "instance_id": "fmtlib__fmt-3272",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 219.76182098800018,
+      "diagnostic": "",
+      "result_sha256": "5f6076bbd18382e72263496ee9b4b55d223dc8071b824978d6b6e50ccb609495",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3271",
+      "instance_id": "fmtlib__fmt-3271",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 217.6372022529997,
+      "diagnostic": "",
+      "result_sha256": "edf93d65ddba7740e208e85f9ca90d97742ffbc1341819c405eb966ef638fd98",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3260",
+      "instance_id": "fmtlib__fmt-3260",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 209.95395841799996,
+      "diagnostic": "",
+      "result_sha256": "de5eafe30d1408f0d7aada301fa434b31e247c49e867008eda3c56a6a482183b",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3248",
+      "instance_id": "fmtlib__fmt-3248",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 240.80990973999997,
+      "diagnostic": "",
+      "result_sha256": "a8dd2517ff2ac2cd78d1c4bbb4a398854e3d991fad7d598d3ed59a5dca1634d0",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-3158",
+      "instance_id": "fmtlib__fmt-3158",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 186.428631108,
+      "diagnostic": "",
+      "result_sha256": "ae83498a7d5674f9657bee3ab59f2c28b4bcf27cd3dee355388cb568b0671b44",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2940",
+      "instance_id": "fmtlib__fmt-2940",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 180.30827761800037,
+      "diagnostic": "",
+      "result_sha256": "d90da141fc35e4c185202eede26c2e3c02fc1ad29d82bc3e76e4fe52a07ebf39",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2610",
+      "instance_id": "fmtlib__fmt-2610",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 179.55166319799991,
+      "diagnostic": "",
+      "result_sha256": "9eb3c3e1a98dc261da605658cca54dc475641573c631dba84aa87c05ed204f13",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2394",
+      "instance_id": "fmtlib__fmt-2394",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 138.50177160500016,
+      "diagnostic": "",
+      "result_sha256": "fc7216d622c5fca296af8bbe43ad67612ba51d329018af7221cb098d350e9aef",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2317",
+      "instance_id": "fmtlib__fmt-2317",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 167.96327488999987,
+      "diagnostic": "",
+      "result_sha256": "ba27f099f75b0e9ce84c0707c6993617882e91d0f0437738ea9c4a404114baaa",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2310",
+      "instance_id": "fmtlib__fmt-2310",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 146.94972017100008,
+      "diagnostic": "",
+      "result_sha256": "dc6d4f109a0f356c11c9082e5be1a2a60fb0529821f522b6776c99243ecc1690",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2292",
+      "instance_id": "fmtlib__fmt-2292",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 150.3261962419997,
+      "diagnostic": "",
+      "result_sha256": "ce16a1d594695f809031dfa37b6fd9551a3af5240c115eaafa356cf39f400c68",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2158",
+      "instance_id": "fmtlib__fmt-2158",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 132.29872327199973,
+      "diagnostic": "",
+      "result_sha256": "0752d0884f30c710a509292ad4fcf3ee6e0b0c7b86af607c8d599c989c4fb030",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-2070",
+      "instance_id": "fmtlib__fmt-2070",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 118.15633435600012,
+      "diagnostic": "",
+      "result_sha256": "2336fc088c7c689dc2ead355e4f2cf209f20c2066d65673184ee558b487fb23f",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-1837",
+      "instance_id": "fmtlib__fmt-1837",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 133.54425909600013,
+      "diagnostic": "",
+      "result_sha256": "a3395fd40b3bb1e8aadf0f87a9a5226b178c99afce9483b0399c6e691efa85d5",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-1663",
+      "instance_id": "fmtlib__fmt-1663",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 128.34046594200026,
+      "diagnostic": "",
+      "result_sha256": "4940e8f4df752782ec804fadb409045b66579ba186b0fd05c968d1b8f83f55a8",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-1407",
+      "instance_id": "fmtlib__fmt-1407",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 161.19695401800027,
+      "diagnostic": "",
+      "result_sha256": "2e2d05bba2fc740930903f79131700e801a7fb3b81afeb3a8d7d9faff2839b61",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-1390",
+      "instance_id": "fmtlib__fmt-1390",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 176.67620334999992,
+      "diagnostic": "",
+      "result_sha256": "6140890793557a31872ffc5ed852bc62f6371cd3d24c8064a8400522ad45d22c",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-1361",
+      "instance_id": "fmtlib__fmt-1361",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 147.153774074,
+      "diagnostic": "",
+      "result_sha256": "3c0cd637c9bf9395bcf9b28a70e52777b88a6e71af1819d1c320f600d35588a0",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-1171",
+      "instance_id": "fmtlib__fmt-1171",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 131.08370926900034,
+      "diagnostic": "",
+      "result_sha256": "90556ce6904fcfaf2904be8fcb96643f85084a89e5b3bcb8e949da28c200c913",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-974",
+      "instance_id": "fmtlib__fmt-974",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 101.77725831199996,
+      "diagnostic": "",
+      "result_sha256": "f0990c0f974f384986d3fdf707da0ec1faf61c2fc01f6efe2a7693eb92ed6f38",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-967",
+      "instance_id": "fmtlib__fmt-967",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 98.26730037800007,
+      "diagnostic": "",
+      "result_sha256": "b2609b5ed9d41f990231a1aba787c5d9609dd1cfa923115a260126565e9e7948",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "qualification-fmt39-host-O0-4workers/fmtlib__fmt-493",
+      "instance_id": "fmtlib__fmt-493",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 76.21800366399975,
+      "diagnostic": "",
+      "result_sha256": "505d399a422bdec508024eb7ab5b4360f092cb5c7f1d5be343162ba54e4d056a",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "repropatch-fmt-evidence-retry-20261024/fmtlib__fmt-3912",
+      "instance_id": "fmtlib__fmt-3912",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 244.66465579800024,
+      "diagnostic": "",
+      "result_sha256": "0dad6ca86c3dd1ece78b551e3761e5d6b89b3e295ddfcd76058b5684aa02b7f0",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "repropatch-fmt-evidence-retry-20261024/fmtlib__fmt-3824",
+      "instance_id": "fmtlib__fmt-3824",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 248.49767937199977,
+      "diagnostic": "",
+      "result_sha256": "ea722f6f1404b3846f4d3093dd5d0d1c2c9f2cb512bbd4bbcc98788b1063ab61",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "repropatch-fmt-snapshot-retry-20261024/fmtlib__fmt-4310",
+      "instance_id": "fmtlib__fmt-4310",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 228.12252875600007,
+      "diagnostic": "",
+      "result_sha256": "8cc9f6d6bd3a00d26c6adcccd22667639c97be11051d9201cce864c7c7f2315b",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    },
+    {
+      "attempt_id": "repropatch-fmt-snapshot-retry-20261024/fmtlib__fmt-4286",
+      "instance_id": "fmtlib__fmt-4286",
+      "execution_status": "HOST_QUALIFIED",
+      "individual_result_status": "HOST_QUALIFIED",
+      "wall_seconds": 230.09927133499968,
+      "diagnostic": "",
+      "result_sha256": "0bef4421271aa28c2f2a4e9f945e96820644f7249de73192f53f067ee051d71b",
+      "selected_complete_evidence": true,
+      "model_requests": 0
+    }
+  ],
+  "execution_batches": [
+    {
+      "batch_directory": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/qualification-smoke-host",
+      "summary_sha256": "808723fbc1b4b5de1a388d8b3f09c76707d8650322a41f7aa141517420325f7a",
+      "requested_instances": [
+        "fmtlib__fmt-4055",
+        "fmtlib__fmt-3863"
+      ],
+      "wall_seconds": null,
+      "jobs": 2,
+      "optimization": "O3; see original configure commands",
+      "source_manifest_sha256": null
+    },
+    {
+      "batch_directory": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/qualification-smoke-host-v2",
+      "summary_sha256": "e74edd2581c8f96a82a012a498592e40caae16c11f6b065c1b42fee88cbe0c64",
+      "requested_instances": [
+        "fmtlib__fmt-4055",
+        "fmtlib__fmt-3863"
+      ],
+      "wall_seconds": 187.25772540699995,
+      "jobs": 2,
+      "optimization": "O3; see original configure commands",
+      "source_manifest_sha256": null
+    },
+    {
+      "batch_directory": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/qualification-fmt41-host-O0",
+      "summary_sha256": "4bddac7ebd4505482d8228961d1e67039f2869a45b8656bab5a38018be2d6081",
+      "requested_instances": [
+        "fmtlib__fmt-4310",
+        "fmtlib__fmt-4286",
+        "fmtlib__fmt-4057",
+        "fmtlib__fmt-4055",
+        "fmtlib__fmt-3913",
+        "fmtlib__fmt-3912",
+        "fmtlib__fmt-3863",
+        "fmtlib__fmt-3824",
+        "fmtlib__fmt-3819",
+        "fmtlib__fmt-3750",
+        "fmtlib__fmt-3734",
+        "fmtlib__fmt-3732",
+        "fmtlib__fmt-3729",
+        "fmtlib__fmt-3727",
+        "fmtlib__fmt-3713",
+        "fmtlib__fmt-3569",
+        "fmtlib__fmt-3555",
+        "fmtlib__fmt-3537",
+        "fmtlib__fmt-3279",
+        "fmtlib__fmt-3272",
+        "fmtlib__fmt-3271",
+        "fmtlib__fmt-3260",
+        "fmtlib__fmt-3248",
+        "fmtlib__fmt-3158",
+        "fmtlib__fmt-2940",
+        "fmtlib__fmt-2610",
+        "fmtlib__fmt-2394",
+        "fmtlib__fmt-2317",
+        "fmtlib__fmt-2310",
+        "fmtlib__fmt-2292",
+        "fmtlib__fmt-2158",
+        "fmtlib__fmt-2070",
+        "fmtlib__fmt-1837",
+        "fmtlib__fmt-1663",
+        "fmtlib__fmt-1407",
+        "fmtlib__fmt-1390",
+        "fmtlib__fmt-1361",
+        "fmtlib__fmt-1171",
+        "fmtlib__fmt-974",
+        "fmtlib__fmt-967",
+        "fmtlib__fmt-493"
+      ],
+      "wall_seconds": 284.090622822,
+      "jobs": 2,
+      "optimization": "O0",
+      "source_manifest_sha256": null
+    },
+    {
+      "batch_directory": "/workspace/scratch/03284bd52f01/ReproPatch/.repropatch/qualification-fmt39-host-O0-4workers",
+      "summary_sha256": "fe76885393c6c091db43741f0dd774b0609f092e6a34c41362d38c6ca7524dce",
+      "requested_instances": [
+        "fmtlib__fmt-4057",
+        "fmtlib__fmt-4055",
+        "fmtlib__fmt-3913",
+        "fmtlib__fmt-3912",
+        "fmtlib__fmt-3863",
+        "fmtlib__fmt-3824",
+        "fmtlib__fmt-3819",
+        "fmtlib__fmt-3750",
+        "fmtlib__fmt-3734",
+        "fmtlib__fmt-3732",
+        "fmtlib__fmt-3729",
+        "fmtlib__fmt-3727",
+        "fmtlib__fmt-3713",
+        "fmtlib__fmt-3569",
+        "fmtlib__fmt-3555",
+        "fmtlib__fmt-3537",
+        "fmtlib__fmt-3279",
+        "fmtlib__fmt-3272",
+        "fmtlib__fmt-3271",
+        "fmtlib__fmt-3260",
+        "fmtlib__fmt-3248",
+        "fmtlib__fmt-3158",
+        "fmtlib__fmt-2940",
+        "fmtlib__fmt-2610",
+        "fmtlib__fmt-2394",
+        "fmtlib__fmt-2317",
+        "fmtlib__fmt-2310",
+        "fmtlib__fmt-2292",
+        "fmtlib__fmt-2158",
+        "fmtlib__fmt-2070",
+        "fmtlib__fmt-1837",
+        "fmtlib__fmt-1663",
+        "fmtlib__fmt-1407",
+        "fmtlib__fmt-1390",
+        "fmtlib__fmt-1361",
+        "fmtlib__fmt-1171",
+        "fmtlib__fmt-974",
+        "fmtlib__fmt-967",
+        "fmtlib__fmt-493"
+      ],
+      "wall_seconds": 1760.8646650849998,
+      "jobs": 4,
+      "optimization": "O0",
+      "source_manifest_sha256": "21ffea3a82c9b8237f650ddda6537a82779e8d43d031463c33aadf58bf1128a7"
+    },
+    {
+      "batch_directory": "/tmp/repropatch-fmt-evidence-retry-20261024",
+      "summary_sha256": "22b51dfc27ffdcc8f1688c3d8c0bf83597bb1c4eba1671da7553fe7f12c2d208",
+      "requested_instances": [
+        "fmtlib__fmt-3912",
+        "fmtlib__fmt-3824"
+      ],
+      "wall_seconds": 248.5962678980004,
+      "jobs": 2,
+      "optimization": "O0",
+      "source_manifest_sha256": "9ff0d7a73e6753d0ac4912574dfe4a3bb8f35d7fe108a5d3eac55f7e2433529f"
+    },
+    {
+      "batch_directory": "/tmp/repropatch-fmt-snapshot-retry-20261024",
+      "summary_sha256": "5a9a2e2f00af41a8a1a94f09ed40abc1e1dabbf5ec6fedb96b3a9ffbbe62e2ba",
+      "requested_instances": [
+        "fmtlib__fmt-4310",
+        "fmtlib__fmt-4286"
+      ],
+      "wall_seconds": 230.15936533099966,
+      "jobs": 2,
+      "optimization": "O0",
+      "source_manifest_sha256": "9ff0d7a73e6753d0ac4912574dfe4a3bb8f35d7fe108a5d3eac55f7e2433529f"
+    }
+  ],
+  "notes": [
+    "This is a review plan, not a retrospective preregistration claim.",
+    "The original 41-task requested list remains in the first execution batch.",
+    "Four explicit evidence retries replace incomplete evidence in the selected view only.",
+    "All original attempts, cancellations and environment failures remain in the attempt ledger.",
+    "Native O0 prechecks are not Docker qualification or model repair scores."
+  ]
+}

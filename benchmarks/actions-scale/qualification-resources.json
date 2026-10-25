@@ -1,0 +1,93 @@
+{
+  "model_requests": 0,
+  "runner_minutes": "NOT_MEASURED",
+  "scope": "native-host observations, not GitHub Runner; two retry batches overlap",
+  "batches": [
+    {
+      "directory": ".repropatch/qualification-fmt39-host-O0-4workers-resources",
+      "samples_declared": 1690,
+      "samples_observed": 1690,
+      "sample_count_matches": true,
+      "status": "success",
+      "wall_seconds": 1761.4569148679998,
+      "started_at": "2026-10-24T15:16:41.267880+00:00",
+      "finished_at": "2026-10-24T15:46:02.724792+00:00",
+      "peaks": {
+        "filesystem_used_bytes": 2442055680,
+        "filesystem_free_bytes": 30544994304,
+        "host_memory_used_bytes": 4246700032,
+        "host_memory_total_bytes": 10451435520,
+        "cgroup_memory_current_bytes": 5913677824,
+        "cgroup_memory_limit_bytes": 8589934592,
+        "process_group_rss_bytes": 85450752,
+        "host_cpu_percent": 91.45945945945945
+      },
+      "watched_peaks_allocated_bytes": {
+        "tmp": 842915840,
+        "upstream": 20283392,
+        "qualification": 379961344
+      },
+      "observer_seconds": 185.8422941899862,
+      "measurement_scope": "host/cgroup shared; RSS is process group; peaks are sampled lower bounds",
+      "minimum_filesystem_free_bytes": 29593374720
+    },
+    {
+      "directory": "/tmp/repropatch-fmt-evidence-retry-resources-20261024",
+      "samples_declared": 239,
+      "samples_observed": 239,
+      "sample_count_matches": true,
+      "status": "success",
+      "wall_seconds": 249.0500068890001,
+      "started_at": "2026-10-24T15:47:01.730458+00:00",
+      "finished_at": "2026-10-24T15:51:10.780500+00:00",
+      "peaks": {
+        "filesystem_used_bytes": 2098122752,
+        "filesystem_free_bytes": 30230904832,
+        "host_memory_used_bytes": 3329654784,
+        "host_memory_total_bytes": 10451435520,
+        "cgroup_memory_current_bytes": 4959821824,
+        "cgroup_memory_limit_bytes": 8589934592,
+        "process_group_rss_bytes": 24514560,
+        "process_tree_rss_bytes": 1896669184,
+        "host_cpu_percent": 90.66523605150213
+      },
+      "watched_peaks_allocated_bytes": {
+        "tmp": 447680512,
+        "upstream": 20283392,
+        "qualification": 30117888
+      },
+      "observer_seconds": 39.28623763099495,
+      "measurement_scope": "host/cgroup shared; group RSS uses root process group; tree RSS follows live PPid descendants including new sessions, excluding reparented children and Docker daemon-owned containers; summed RSS may count shared pages repeatedly; peaks are sampled lower bounds",
+      "minimum_filesystem_free_bytes": 29937307648
+    },
+    {
+      "directory": "/tmp/repropatch-fmt-snapshot-retry-resources-20261024",
+      "samples_declared": 222,
+      "samples_observed": 222,
+      "sample_count_matches": true,
+      "status": "success",
+      "wall_seconds": 230.62483831100008,
+      "started_at": "2026-10-24T15:48:02.595616+00:00",
+      "finished_at": "2026-10-24T15:51:53.220464+00:00",
+      "peaks": {
+        "filesystem_used_bytes": 2096660480,
+        "filesystem_free_bytes": 30192779264,
+        "host_memory_used_bytes": 3330236416,
+        "host_memory_total_bytes": 10451435520,
+        "cgroup_memory_current_bytes": 4979924992,
+        "cgroup_memory_limit_bytes": 8589934592,
+        "process_group_rss_bytes": 24223744,
+        "process_tree_rss_bytes": 1733468160,
+        "host_cpu_percent": 90.35897435897435
+      },
+      "watched_peaks_allocated_bytes": {
+        "tmp": 435200000,
+        "upstream": 20283392,
+        "qualification": 25059328
+      },
+      "observer_seconds": 34.4300271260031,
+      "measurement_scope": "host/cgroup shared; group RSS uses root process group; tree RSS follows live PPid descendants including new sessions, excluding reparented children and Docker daemon-owned containers; summed RSS may count shared pages repeatedly; peaks are sampled lower bounds",
+      "minimum_filesystem_free_bytes": 29938769920
+    }
+  ]
+}

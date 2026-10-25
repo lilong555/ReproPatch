@@ -603,6 +603,8 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         directory.parent,
         sandbox_factory=sandbox_factory,
         pause_after_step=pause_after_step,
+        candidate_only=config.get("benchmark", {}).get("candidate_only", False),
+        compiler_cache=config.get("benchmark", {}).get("compiler_cache", False),
     )
     harness.resources, harness.log, harness.directory = resources, log, directory
     clock = RunClock.restore(
@@ -627,6 +629,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         [harness.baseline],
         image_id=harness.baseline.image_id,
         isolated=harness.baseline.isolated,
+        use_compiler_cache=harness.compiler_cache,
     )
     prior_ids = {harness.baseline.evaluation_id}
     for event in snapshot.events:

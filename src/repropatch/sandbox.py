@@ -29,6 +29,7 @@ class DockerSandbox:
         log_root=None,
         audit_budget=None,
         record=None,
+        compiler_cache=None,
     ):
         if not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9_./:@-]{0,255}", image):
             raise ExecutionError("Invalid Docker image reference")
@@ -63,6 +64,7 @@ class DockerSandbox:
         self.operation_deadline = None
         self._cleaning = False
         self.host_versions = {}
+        self.compiler_cache = Path(compiler_cache) if compiler_cache is not None else None
 
     def ownership(self):
         return {
@@ -79,6 +81,7 @@ class DockerSandbox:
             "profile_verified": self.profile_verified,
             "profile": self.profile,
             "tools": self.tools,
+            "compiler_cache": str(self.compiler_cache) if self.compiler_cache is not None else None,
         }
 
     def _record(self):
@@ -181,6 +184,19 @@ class DockerSandbox:
         ]
         for name, value in self.labels.items():
             args += ["--label", f"{name}={value}"]
+        if self.compiler_cache is not None:
+            path = self.compiler_cache
+            if path.is_symlink() or not path.is_dir() or "," in str(path) or "\n" in str(path):
+                raise ExecutionError("CACHE_PATH: 编译缓存路径不受支持")
+            args += [
+                "--mount",
+                f"type=bind,source={path},target=/cache",
+                "--env=CCACHE_DIR=/cache",
+                "--env=CCACHE_MAXSIZE=1G",
+                "--env=CCACHE_COMPILERCHECK=content",
+                "--env=CCACHE_UMASK=000",
+                f"--env=CCACHE_NAMESPACE={self.run_id}",
+            ]
         return args + ["--entrypoint=/usr/bin/sleep", self.image_id or self.image, "infinity"]
 
     def _verify_profile(self, info):
@@ -202,6 +218,9 @@ class DockerSandbox:
             "IpcMode": "none",
         }
         binds = [m for m in info.get("Mounts", []) if m.get("Type") == "bind"]
+        expected_binds = {"/src": (str(self.source), False)}
+        if self.compiler_cache is not None:
+            expected_binds["/cache"] = (str(self.compiler_cache), True)
         if (
             any(host.get(k) != v for k, v in required.items())
             or host.get("CapDrop") != ["ALL"]
@@ -217,12 +236,11 @@ class DockerSandbox:
             or config.get("Cmd") != ["infinity"]
             or config.get("Healthcheck", {}).get("Test") != ["NONE"]
             or info.get("Image") != self.image_id
-            or len(binds) != 1
-            or binds[0].get("Source") != str(self.source)
-            or binds[0].get("Destination") != "/src"
-            or binds[0].get("RW")
+            or len(binds) != len(expected_binds)
+            or {mount.get("Destination"): (mount.get("Source"), mount.get("RW")) for mount in binds}
+            != expected_binds
             or any(
-                m.get("Destination") not in {"/src", "/tmp", "/build"}
+                m.get("Destination") not in {*expected_binds, "/tmp", "/build"}
                 for m in info.get("Mounts", [])
             )
         ):
@@ -307,7 +325,12 @@ class DockerSandbox:
                 "command -v cmake; command -v ctest; command -v c++; "
                 "command -v cat; command -v timeout; /usr/bin/sleep --version; "
                 "cmake --version; ctest --version; "
-                "printf '\\nREPROPATCH_CXX_VERSION\\n'; c++ --version",
+                "printf '\\nREPROPATCH_CXX_VERSION\\n'; c++ --version"
+                + (
+                    "; command -v ccache; ccache --version"
+                    if self.compiler_cache is not None
+                    else ""
+                ),
             )
         )
         if not result.ok:

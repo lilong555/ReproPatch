@@ -3,6 +3,16 @@
 正式版本 **v0.3.0 已发布**，任务格式为 **Task v2**。目标规格为 [2026-10-19.2](../specs/2026-10-19.2/SPEC.md)，
 原始规格与各次历史验收保留独立版本和证据。
 
+## 当前开发分支增量
+
+新增 `benchmark.yml`、fmt 批量资格、统一候选 Oracle、Run 内 ccache、candidate-only、
+阶段资源采样与 SHA-256 归档。代码、实际本地测量和剩余门禁见
+[BENCHMARK_SCALE_REPORT.md](BENCHMARK_SCALE_REPORT.md)。这批改动尚未成为 v0.3.0 发布内容，
+也未在 GitHub-hosted Runner 上执行；连接写权限返回 403，本地无 Docker daemon。
+原生资格与正式 Docker 资格分开记录，正式新模型请求为 0。
+
+## 已发布的实施状态
+
 | 交付 | 状态与验收 |
 | --- | --- |
 | Codex 参数与准入 | 默认 Luna max，支持显式档位；逐块留证、单次结算、整批准入后转发、退场后导出 |

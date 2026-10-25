@@ -133,6 +133,8 @@ def stop_container(name):
 
 def export_candidate(source, output):
     """容器停止后保存候选字节及身份。"""
+    from run_benchmark_agent import candidate_metadata
+
     patch = subprocess.check_output(
         [
             "git",
@@ -148,11 +150,7 @@ def export_candidate(source, output):
         timeout=30,
     )
     (output / "candidate.patch").write_bytes(patch)
-    return {
-        "candidate_sha256": hashlib.sha256(patch).hexdigest(),
-        "candidate_bytes": len(patch),
-        "candidate_available": bool(patch),
-    }
+    return candidate_metadata(patch)
 
 
 class UnixHTTP(http.client.HTTPConnection):
@@ -192,7 +190,7 @@ def relay():
 def main():
     import httpx2
     from benchmark_budget import BudgetLimit, LocalUsageLedger, validate_task_budget
-    from run_benchmark_agent import mini_inputs
+    from run_benchmark_agent import attempt_identity, candidate_metadata, mini_inputs
 
     from repropatch.task import Task
 
@@ -228,6 +226,7 @@ def main():
         parser.error("CODEX_VERSION_MISMATCH")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
+    (output / "task.original.yaml").write_bytes(task.source_bytes)
     relay_file = output / "adapter.py"
     relay_file.write_bytes(Path(__file__).read_bytes())
     relay_file.chmod(0o644)
@@ -333,8 +332,12 @@ def main():
     name = "repropatch-codex-" + uuid.uuid4().hex[:12]
     started = time.monotonic()
     result = {
+        "schema": "repropatch.benchmark-attempt.v1",
         "agent": "codex",
         "attempt": args.attempt,
+        **attempt_identity(task, args.attempt),
+        **candidate_metadata(b""),
+        "internal_verification_status": "not_performed",
         "version": version,
         "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
         "code_host_sha256": hashlib.sha256(code_host.read_bytes()).hexdigest(),
@@ -433,6 +436,10 @@ def main():
                 result["exit_code"] = process.returncode
             except subprocess.TimeoutExpired:
                 result["stop_reason"] = "AGENT_TIME_LIMIT"
+    except KeyboardInterrupt:
+        result.update(producer_status="CANCELLED", stop_reason="USER_CANCELLED")
+    except Exception as error:
+        result.update(producer_status="ENVIRONMENT_ERROR", error_type=type(error).__name__)
     finally:
         try:
             stop_container(name)
@@ -469,6 +476,8 @@ def main():
             oracle_status=None,
             **state,
         )
+        result["native_status"] = result["producer_status"]
+        result["native_reason"] = result.get("stop_reason") or result["producer_status"]
         save(output / "result.json", result)
         server.shutdown()
         server.server_close()
@@ -478,7 +487,7 @@ def main():
     print(json.dumps(result, ensure_ascii=False))
     if args.check_only:
         return 0 if result.get("exit_code") == 0 else 2
-    return 0
+    return 1 if result["native_status"] in {"ENVIRONMENT_ERROR", "CANCELLED", "CLI_ERROR"} else 0
 
 
 if __name__ == "__main__":

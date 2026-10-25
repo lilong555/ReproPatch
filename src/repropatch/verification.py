@@ -8,6 +8,7 @@ import sys
 import time
 import uuid
 import xml.etree.ElementTree as ET
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime, timedelta
 
@@ -94,6 +95,7 @@ class RunContext:
     evaluations: list = field(default_factory=list)
     image_id: str | None = None
     isolated: bool | None = None
+    use_compiler_cache: bool = False
 
     @property
     def directory(self):
@@ -157,6 +159,7 @@ class EvaluationEvidence:
     image_id: str | None = None
     container_name: str | None = None
     evidence: EvidenceRef | None = None
+    compiler_cache: dict | None = None
 
     @property
     def successful(self):
@@ -460,6 +463,9 @@ def evaluate_checks(task, workspace, role, run, *, only_f2p=False, baseline=None
     directory.mkdir(mode=0o700, exist_ok=True)
     (directory / eid).mkdir(mode=0o700)
     sandbox = run.factory(source)
+    if role == "agent_check" and run.use_compiler_cache:
+        sandbox.compiler_cache = run.resources.prepare_compiler_cache()
+        evidence.compiler_cache = {"kind": "ccache", "scope": "run-agent-check", "stats": None}
     sandbox.audit_log = run.log
     sandbox.audit_payload = {"evaluation_id": eid, "evaluation_role": role}
     if run.test_backend:
@@ -480,9 +486,29 @@ def evaluate_checks(task, workspace, role, run, *, only_f2p=False, baseline=None
     def complete_command(command):
         return command.status == "exited" and not command.output_truncated and command.error is None
 
+    @contextmanager
+    def collect_cache_stats():
+        try:
+            yield
+        finally:
+            # CTest 的编译型回归也计入缓存统计；遥测失败保留原始测试结论。
+            if (
+                evidence.compiler_cache is not None
+                and not isinstance(sys.exception(), KeyboardInterrupt)
+                and getattr(sandbox, "active", True)
+                and run.clock.remaining(role) > 0
+            ):
+                try:
+                    sandbox.timeout = min(10, run.clock.remaining(role))
+                    stats = sandbox.run(("ccache", "--print-stats"))
+                    evidence.commands.append(stats)
+                    evidence.compiler_cache["stats"] = stats.to_dict()
+                except Exception as error:
+                    evidence.compiler_cache["stats_error"] = type(error).__name__
+
     try:
         run.clock.timeout(role, task.task.budget.command_timeout_seconds)
-        with sandbox:
+        with sandbox, collect_cache_stats():
             entered = True
             evidence.isolated = sandbox.isolated
             evidence.image_id = getattr(sandbox, "image_id", None)
@@ -508,7 +534,14 @@ def evaluate_checks(task, workspace, role, run, *, only_f2p=False, baseline=None
                     evidence.issue_code = "IMAGE_TOOLS"
                     return evidence
             for name in ("configure", "build"):
-                result = execute(task.task.commands[name])
+                command = task.task.commands[name]
+                if name == "configure" and evidence.compiler_cache is not None:
+                    command = (
+                        *command,
+                        "-DCMAKE_C_COMPILER_LAUNCHER=ccache",
+                        "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache",
+                    )
+                result = execute(command)
                 setattr(evidence, name, result)
                 if not result.ok or not complete_command(result):
                     return evidence
@@ -805,19 +838,26 @@ def validate_evidence(evidence, root):
             observation.result.read(root, limit=RAW_OUTPUT_LIMIT)
 
 
-def verify_candidate(task, baseline, candidate, run):
+def prepare_candidate_validation(task, baseline, candidate, run):
+    """在固定基线重放冻结补丁并核对清单；编译评分由调用者明确选择。"""
     if baseline_result(task, baseline)[0] is not None:
         raise InfrastructureError("BASELINE_NOT_ELIGIBLE: 独立验收缺少完整基线")
     validate_evidence(baseline, run.directory)
+    run.clock.timeout("independent", task.task.budget.command_timeout_seconds)
+    target = run.new_worktree("validation")
+    original = SourceManifest.from_dict(
+        json.loads(baseline.source_manifest.read(run.directory, limit=256 * 1024 * 1024))
+    )
+    apply_candidate(
+        target, candidate, run.directory, original, task.editable_files, task.protected_files
+    )
+    candidate.load(run.directory)
+    return target
+
+
+def verify_candidate(task, baseline, candidate, run):
     try:
-        run.clock.timeout("independent", task.task.budget.command_timeout_seconds)
-        target = run.new_worktree("validation")
-        original = SourceManifest.from_dict(
-            json.loads(baseline.source_manifest.read(run.directory, limit=256 * 1024 * 1024))
-        )
-        apply_candidate(
-            target, candidate, run.directory, original, task.editable_files, task.protected_files
-        )
+        target = prepare_candidate_validation(task, baseline, candidate, run)
         evidence = evaluate_checks(task, target, "independent", run, baseline=baseline)
         candidate.load(run.directory)
         validate_evidence(evidence, run.directory)

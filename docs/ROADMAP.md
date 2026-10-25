@@ -21,6 +21,20 @@ Full 在 simdjson-1899 完成两次 F2P 自检后的修复并通过 93 项外部
 
 ## 下一轮实验
 
+### 当前开发分支：Actions 与任务扩容
+
+本轮在 `feat/actions-benchmark-scale` 实施无模型批量资格、Run 内 ccache、candidate-only、
+统一冷 Oracle、资源采样与证据打包。已完成的本地实验与全部失败记录见
+[扩容报告](BENCHMARK_SCALE_REPORT.md)，操作命令见 [Actions 执行说明](ACTIONS_BENCHMARK.md)。
+GitHub 连接创建分支返回 403，远端 PR/云端 smoke 尚未执行；本机没有 Docker daemon，
+新增 native 成功仅为 `HOST_QUALIFIED`。付费工作流当前只生成预算计划，不执行模型。
+
+优先将本轮成功且明确属于缺陷的实例做固定镜像 Docker 重验，随后扩大到 json/simdjson。
+正式新批次采用候选导出与统一外部冷 Oracle，并保留 `verify-patch` 产品完整验收。
+下面的三题方案是此前的下一轮提案；正式执行前应以新的冻结任务、配置与总金额上限取代。
+
+### 历史三题提案
+
 | 工作 | 验收标准 |
 | --- | --- |
 | 新实例资格与冻结协议 | 3 道本项目中尚无模型修复尝试的 C++ 缺陷；基线复现、参考补丁和统一外部 Oracle 通过，源码与配置固定 |
