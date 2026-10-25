@@ -294,7 +294,7 @@ def prepare_execution_contract(directory, target, model_timeout_seconds):
     if original.budget.model_timeout_seconds == model_timeout_seconds:
         return directory
     assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
-    shutil.copytree(directory, target, ignore=shutil.ignore_patterns(".git"))
+    shutil.copytree(directory, target)
     for original_name, parent_name in (
         ("result.json", "native-qualification-parent.json"),
         ("task.yaml", "native-qualification-task.yaml"),
@@ -318,7 +318,7 @@ def prepare_execution_contract(directory, target, model_timeout_seconds):
     manifest = {
         str(file.relative_to(target)): {"size": file.stat().st_size, "sha256": sha(file)}
         for file in sorted(target.rglob("*"))
-        if file.is_file() and file != target / "manifest.json"
+        if file.is_file() and file != target / "manifest.json" and ".git" not in file.parts
     }
     save(target / "manifest.json", manifest)
     return target

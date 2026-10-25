@@ -1,0 +1,149 @@
+name: Frozen candidates cold Oracle
+
+on:
+  workflow_dispatch:
+    inputs:
+      tasks:
+        description: 'all 或逗号分隔任务；仅使用已冻结候选，模型请求为0'
+        required: true
+        default: 'all'
+        type: string
+  workflow_run:
+    workflows: ['Formal Luna max benchmark']
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: frozen-oracle-40212667694
+  cancel-in-progress: false
+
+env:
+  PYTHONPATH: ${{ github.workspace }}/src
+
+jobs:
+  plan:
+    if: github.event_name == 'workflow_dispatch' || format('{0}', github.event.workflow_run.id) == '40212667694'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      tasks: ${{ steps.plan.outputs.tasks }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TASK_SCOPE: ${{ inputs.tasks || 'all' }}
+        run: python scripts/rescore_formal.py plan --scope "$TASK_SCOPE" --output .repropatch/rescore-plan.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rescore-plan
+          path: .repropatch/rescore-plan.json
+          include-hidden-files: true
+          retention-days: 14
+
+  oracle:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        instance: ${{ fromJSON(needs.plan.outputs.tasks) }}
+    env:
+      INSTANCE: ${{ matrix.instance }}
+      GH_TOKEN: ${{ github.token }}
+      REPROPATCH_BATCH_ID: rescore-${{ github.run_id }}-${{ matrix.instance }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: rescore-plan
+          path: .repropatch/
+      - name: Prepare fixed native inputs
+        run: |
+          python scripts/actions_benchmark.py plan --tasks "$INSTANCE" --mode qualify --parallel 1 --batch "oracle-$GITHUB_RUN_ID-$INSTANCE" --backend docker --optimization O3 --output .repropatch/input-plan.json
+          python scripts/actions_benchmark.py prepare --plan .repropatch/input-plan.json --instances "$INSTANCE" --output .repropatch/inputs
+          python - <<'PY'
+          import json, subprocess
+          p = json.load(open('benchmarks/formal-max-full-180s-protocol.json'))
+          subprocess.run(['docker', 'pull', p['image']], check=True)
+          PY
+      - name: Score immutable candidates with zero model calls
+        run: python -u scripts/rescore_formal.py rescore --instance "$INSTANCE" --plan .repropatch/rescore-plan.json --output .repropatch/rescored
+      - name: Archive scoring evidence
+        if: always()
+        run: |
+          python scripts/actions_benchmark.py pack --source .repropatch/rescored --output .repropatch/rescored.tar.gz
+          mkdir -p .repropatch/rescore-summary
+          if test -f .repropatch/rescored/summary.json; then cp .repropatch/rescored/summary.json .repropatch/rescore-summary/summary.json; fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rescored-evidence-${{ matrix.instance }}
+          path: |
+            .repropatch/rescored.tar.gz
+            .repropatch/rescored.tar.gz.sha256
+            .repropatch/rescored.tar.metadata.json
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rescored-summary-${{ matrix.instance }}
+          path: .repropatch/rescore-summary/
+          include-hidden-files: true
+          retention-days: 14
+
+  aggregate:
+    needs: [plan, oracle]
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: rescore-plan
+          path: .repropatch/
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          pattern: rescored-summary-*
+          path: .repropatch/rescore-summaries
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/rescore_formal.py aggregate --source .repropatch/rescore-summaries --plan .repropatch/rescore-plan.json --output .repropatch/rescore-results
+          cat .repropatch/rescore-results/results.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rescored-results
+          path: .repropatch/rescore-results/
+          include-hidden-files: true
+          retention-days: 14
