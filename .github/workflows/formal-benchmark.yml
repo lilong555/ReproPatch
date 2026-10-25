@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: 'mini两项首次模型尝试，最多24次请求，沿用首批96次总上限'
+        description: '24：mini首次模型尝试；912：首批登记通过后执行其余19题'
         required: true
         type: choice
-        options: ['24']
+        options: ['24', '912']
         default: '24'
 
 permissions:
@@ -20,7 +20,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: benchmarks/formal-max-mini-protocol.json
+  FORMAL_PROTOCOL: ${{ inputs.authorization == '912' && 'benchmarks/formal-max-full-v3-protocol.json' || 'benchmarks/formal-max-mini-protocol.json' }}
 
 jobs:
   calibration:
