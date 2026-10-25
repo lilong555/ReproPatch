@@ -201,6 +201,25 @@ def test_native_qualification_and_empty_candidate_are_separate(attempt):
 
 
 @pytest.mark.parametrize(
+    "changes",
+    [
+        {"native_status": "CLI_ERROR"},
+        {"native_status": "MODEL_REQUEST_ERROR"},
+        {"native_status": "ERROR", "recovered_from_unverified_patch": True},
+        {"native_status": "ERROR", "candidate_source": "native_frozen"},
+    ],
+)
+def test_frozen_candidate_keeps_native_failure_and_reaches_scoring(attempt, changes):
+    scorer, args, metadata, _ = attempt
+    metadata.update(changes)
+    scorer.save(args.worker_result, metadata)
+    result = scorer.score(args)
+    assert result["status"] == "PENDING_ORACLE"
+    assert result["native_status"] == changes["native_status"]
+    assert result["qualification_evidence_status"] == "VERIFIED"
+
+
+@pytest.mark.parametrize(
     ("status", "accepted", "classification", "model_failure"),
     [
         ("ORACLE_PASSED", True, "resolved", False),

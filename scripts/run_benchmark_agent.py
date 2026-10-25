@@ -10,7 +10,7 @@ import sqlite3
 import subprocess
 import sys
 import time
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, contextmanager
 from dataclasses import asdict
 from pathlib import Path
 
@@ -195,6 +195,81 @@ def export_repropatch_candidate(report, directory, output):
     }
 
 
+@contextmanager
+def intermediate_checks(harness, enabled=True):
+    """消融组保留四个文件工具，基线与最终独立验收沿用 Harness。"""
+    if enabled:
+        yield
+        return
+    import repropatch.tools as tools_module
+
+    original_tools = tools_module.sdk_tools
+    original_instructions = harness.instructions
+    replacements = (
+        (
+            "make a minimal correct repair, and run verification.",
+            "make a minimal correct repair using the available file tools.",
+        ),
+        (
+            'then use run_command("reproduce") for focused F2P feedback. '
+            "Prefer focused symbol searches\n"
+            'and line ranges. Use run_command("verify") when budget permits '
+            "a P2P regression check\n"
+            "and further repair; the harness always performs final independent acceptance.\n"
+            "The baseline has already run; use its observed failures "
+            "before repeating a full build.",
+            "then review the change using focused symbol searches and line ranges.\n"
+            "Intermediate command execution is disabled for this experiment.\n"
+            "Use the observed baseline failures; "
+            "the harness performs final independent acceptance.",
+        ),
+        (
+            "Both commands configure and build in a fresh environment: "
+            "reproduce runs only F2P target\n"
+            "CTest checks; verify runs F2P and P2P. "
+            "When editable files include both modular headers",
+            "When editable files include both modular headers",
+        ),
+        (
+            "Each run_shell call has an empty disposable /build; "
+            "combine dependent shell commands in\n"
+            "one call, and persist source changes through edit_file.",
+            "Persist source changes through edit_file.",
+        ),
+        (
+            "Once a concrete repair hypothesis is supported by the code, edit and test it before\n"
+            "expanding the search. Reserve at least two tool calls "
+            "for an edit and verification, and\n"
+            "a model step to interpret the verification result. "
+            "Use the remaining steps to correct\n"
+            "observed failures.",
+            "Once a concrete repair hypothesis is supported by the code, edit it before\n"
+            "expanding the search. Reserve at least two tool calls for an edit and source review,\n"
+            "and a model step to assess the change against the observed baseline failures.",
+        ),
+    )
+    instructions = original_instructions
+    for old, new in replacements:
+        if instructions.count(old) != 1:
+            raise ValueError("ABLATION_PROMPT_IDENTITY")
+        instructions = instructions.replace(old, new)
+
+    def file_tools(*args, **kwargs):
+        return [
+            tool
+            for tool in original_tools(*args, **kwargs)
+            if tool.name not in {"run_command", "run_shell"}
+        ]
+
+    harness.instructions = instructions
+    tools_module.sdk_tools = file_tools
+    try:
+        yield
+    finally:
+        tools_module.sdk_tools = original_tools
+        harness.instructions = original_instructions
+
+
 def repropatch_agent(args, hooks, task):
     import repropatch.models as models
     from repropatch.harness import Harness
@@ -211,7 +286,7 @@ def repropatch_agent(args, hooks, task):
     # 计量经公开 http_client 注入；候选模式保留冻结与补丁往返检查。
     models.responses_model = metered
     try:
-        report = Harness(
+        harness = Harness(
             task,
             model=models.ResponsesConfig(
                 model=model_name,
@@ -223,7 +298,11 @@ def repropatch_agent(args, hooks, task):
             output_root=args.output / "runs",
             candidate_only=getattr(args, "candidate_only", False),
             compiler_cache=getattr(args, "compiler_cache", False),
-        ).run()
+        )
+        with intermediate_checks(
+            harness, enabled=getattr(args, "intermediate_checks", "enabled") == "enabled"
+        ):
+            report = harness.run()
     finally:
         models.responses_model = factory
     directory = Path(report["artifact_directory"])
@@ -512,9 +591,12 @@ def main():
     parser.add_argument(
         "--compiler-cache", action="store_true", help="ReproPatch 自检使用 Run 级 ccache"
     )
+    parser.add_argument("--intermediate-checks", choices=("enabled", "disabled"), default="enabled")
     args = parser.parse_args()
-    if args.agent != "repropatch" and (args.candidate_only or args.compiler_cache):
-        parser.error("这两个选项只适用于 ReproPatch；mini 始终导出候选供统一 Oracle")
+    if args.agent != "repropatch" and (
+        args.candidate_only or args.compiler_cache or args.intermediate_checks != "enabled"
+    ):
+        parser.error("候选模式、编译缓存和中途自检开关适用于 ReproPatch")
     from repropatch.errors import ReproPatchError
     from repropatch.task import Task
 
@@ -572,6 +654,7 @@ def main():
     started = time.monotonic()
     result = {
         "schema": "repropatch.benchmark-attempt.v1",
+        "intermediate_checks": args.intermediate_checks,
         "agent": args.agent,
         "attempt": args.attempt,
         **attempt_identity(task, args.attempt),
@@ -609,6 +692,13 @@ def main():
         if isinstance(error, BudgetLimit):
             result["error_code"] = str(error)
     finally:
+        if args.agent == "mini" and (args.output / "cleanup.json").is_file():
+            cleanup = json.loads((args.output / "cleanup.json").read_text())
+            result["container_deleted"] = cleanup["container_deleted"]
+            candidate = args.output / "candidate.patch"
+            if cleanup["container_deleted"] and candidate.is_file():
+                patch = candidate.read_bytes()
+                result.update(candidate_metadata(patch), candidate_source="native_frozen")
         result.update(
             duration_seconds=time.monotonic() - started, money=ledger.summary(args.attempt)
         )

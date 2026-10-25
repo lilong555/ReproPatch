@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "batch_id": "formal-max-two-fmt-2026-10-25",
+  "model": "gpt-6-luna",
+  "endpoint": "https://cpa.liyinlong.me/v1",
+  "reasoning_effort": "max",
+  "image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a",
+  "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+  "qualification_run_id": 40194807297,
+  "qualification_archive_sha256": [
+    "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+    "7413bfd973143bb5ba6b05dce99cd3f847a05176c80304c3ea735c5b4eaaa257"
+  ],
+  "tasks": [
+    "fmtlib__fmt-3727",
+    "fmtlib__fmt-3750"
+  ],
+  "arms": [
+    "full",
+    "no-checks",
+    "mini",
+    "codex"
+  ],
+  "attempts": [
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/full/first",
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "full",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/no-checks/first",
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "no-checks",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/mini/first",
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "mini",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/codex/first",
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "codex",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/full/first",
+      "instance_id": "fmtlib__fmt-3750",
+      "arm": "full",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/no-checks/first",
+      "instance_id": "fmtlib__fmt-3750",
+      "arm": "no-checks",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/mini/first",
+      "instance_id": "fmtlib__fmt-3750",
+      "arm": "mini",
+      "request_cap": 12
+    },
+    {
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/codex/first",
+      "instance_id": "fmtlib__fmt-3750",
+      "arm": "codex",
+      "request_cap": 12
+    }
+  ],
+  "formal_request_cap": 96,
+  "calibration_request_cap": 1,
+  "max_request_bytes": 262144,
+  "max_output_tokens": 8192,
+  "max_tool_calls": 24,
+  "max_tools_per_response": 8,
+  "model_timeout_seconds": 90,
+  "retries": 0,
+  "paid_calls_authorized": true,
+  "authorization": "用户要求尽快将正式任务放入 GitHub Actions；采用已说明的两题四臂96请求方案",
+  "cost_cny": null,
+  "cost_basis": "CPA 自备账户额度；供应商货币单价和账单未知，严格限制请求、请求字节与输出Token",
+  "mini_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "codex_version": "0.163.0",
+  "codex_binary": ".repropatch/codex/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+  "codex_sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+  "code_host_sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+  "codex_tarball": "https://registry.npmjs.org/@openai/codex/-/codex-0.163.0-linux-x64.tgz",
+  "codex_tarball_integrity": "sha512-uwRaOsrYogLQhcxAM/GoeWrw0QIWEMRo7c9gM8sKAviVkZQHlu9kRLJ5PkufbV+ABGjyZgIwiFdJ0LCJ0N6e8w==",
+  "self_check_policy": "Full 提供六工具与 Run 内 ccache；no-checks 提供四个文件工具；两组均导出候选，由同一独立冷Oracle评分",
+  "prior_model_attempts": "两项均无仓库历史模型修复尝试记录；资格准备读取了官方测试和参考补丁",
+  "scoring": "每次首次结果完整保留，模型异常和非零CLI退出的非空候选仍经独立Oracle裁决",
+  "timing_scope": "每组报告基线、修复、自检和冷Oracle；mini/Codex按共同基线测量扣除基线时间",
+  "artifacts_retention_days": 14
+}

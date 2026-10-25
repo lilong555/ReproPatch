@@ -37,6 +37,16 @@ def producer_blocker(worker):
         or reason in {"F2P_PASSED", "FAILURE_SIGNATURE_MISMATCH", "UNSUPPORTED_TEST_LAYOUT"}
     ):
         return "PREPARATION_FAILED", "preparation"
+    if (
+        worker.get("container_deleted")
+        and worker.get("candidate_available")
+        and (
+            state in {"CLI_ERROR", "MODEL_REQUEST_ERROR"}
+            or worker.get("recovered_from_unverified_patch")
+            or worker.get("candidate_source") == "native_frozen"
+        )
+    ):
+        return None
     if worker.get("error_type") or state in {
         "ERROR",
         "ENVIRONMENT_ERROR",

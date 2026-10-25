@@ -280,14 +280,49 @@ class LocalUsageLedger:
             )
         return cls(path)
 
+    @classmethod
+    def create_scoped(cls, path, attempts):
+        """正式批次固定每个 Attempt 的独占额度，分片额度相加构成总上限。"""
+        if not attempts or any(
+            type(cap) is not int or not 1 <= cap <= 12 for cap in attempts.values()
+        ):
+            raise BudgetLimit("INVALID_SCOPED_ALLOCATION")
+        ledger = cls.create(path)
+        with ledger.connect() as db:
+            db.execute("CREATE TABLE allocations(attempt TEXT PRIMARY KEY, request_cap INTEGER)")
+            db.executemany("INSERT INTO allocations VALUES (?,?)", attempts.items())
+        return ledger
+
     def reserve(self, attempt, payload):
         identity = uuid.uuid4().hex
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
+            scoped = db.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='allocations'"
+            ).fetchone()
+            cap = POLICY["request_limit_per_attempt"]
+            if scoped:
+                allocation = db.execute(
+                    "SELECT request_cap FROM allocations WHERE attempt=?", (attempt,)
+                ).fetchone()
+                if allocation is None:
+                    raise BudgetLimit("UNREGISTERED_FORMAL_ATTEMPT")
+                cap = allocation[0]
+                body = json.loads(payload)
+                if (
+                    len(payload) > 262144
+                    or body.get("model") != "gpt-6-luna"
+                    or body.get("reasoning", {}).get("effort") != "max"
+                    or type(body.get("max_output_tokens")) is not int
+                    or not 1 <= body["max_output_tokens"] <= 8192
+                ):
+                    raise BudgetLimit("FORMAL_REQUEST_PARAMETERS")
+                if db.execute("SELECT 1 FROM requests WHERE usage IS NULL LIMIT 1").fetchone():
+                    raise BudgetLimit("FORMAL_USAGE_UNSETTLED")
             count = db.execute(
                 "SELECT COUNT(*) FROM requests WHERE attempt=?", (attempt,)
             ).fetchone()[0]
-            if count >= POLICY["request_limit_per_attempt"]:
+            if count >= cap:
                 raise BudgetLimit("BENCHMARK_REQUEST_LIMIT")
             db.execute(
                 "INSERT INTO requests(id,attempt,sent_at,request_sha256) VALUES (?,?,?,?)",

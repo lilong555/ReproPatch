@@ -1,0 +1,175 @@
+name: Formal Luna max benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      authorization:
+        description: '执行已冻结的两题四臂，最多96次正式请求，另1次max校准'
+        required: true
+        type: choice
+        options: ['96']
+        default: '96'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: formal-luna-max
+  cancel-in-progress: false
+
+env:
+  PYTHONPATH: ${{ github.workspace }}/src
+
+jobs:
+  calibration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Check immutable batch and install fixed SDK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_REF" = refs/heads/main
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/formal-benchmark.yml/runs?event=workflow_dispatch&per_page=100" > /tmp/formal-runs.json
+          python - <<'PY'
+          import json, os
+          runs = json.load(open('/tmp/formal-runs.json'))['workflow_runs']
+          assert not any(str(r['id']) != os.environ['GITHUB_RUN_ID'] and r['head_sha'] == os.environ['GITHUB_SHA'] for r in runs), '同一源码批次只执行一次'
+          PY
+          python -m pip install -c requirements/agent.txt -e '.[agent]'
+      - name: Verify actual supplier max response
+        env:
+          OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
+        run: python scripts/formal_benchmark.py calibrate --output .repropatch/calibration
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: formal-calibration-${{ github.run_id }}
+          path: .repropatch/calibration/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+
+  attempts:
+    needs: calibration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        instance: [fmtlib__fmt-3727, fmtlib__fmt-3750]
+    env:
+      INSTANCE: ${{ matrix.instance }}
+      REPROPATCH_BATCH_ID: formal-${{ github.run_id }}-${{ matrix.instance }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install isolated framework environments
+        run: |
+          python -m venv .repropatch/agent-env
+          .repropatch/agent-env/bin/python -m pip install -c requirements/agent.txt -e '.[agent]'
+          git init --template= -q .repropatch/mini-source
+          git -C .repropatch/mini-source fetch --depth=1 https://github.com/SWE-agent/mini-swe-agent.git 04d809ceab9df28f9adaed044884180159172930
+          git -C .repropatch/mini-source checkout --detach FETCH_HEAD
+          python -m venv .repropatch/mini-env
+          .repropatch/mini-env/bin/python -m pip install -c requirements/benchmark-mini.txt -e . -e .repropatch/mini-source litellm==1.106.1 httpx2==2.16.0
+      - name: Restore frozen qualification and pinned tools
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 40194807297 --repo "$GITHUB_REPOSITORY" --pattern 'evidence-*' --dir .repropatch/qualification-input
+          .repropatch/agent-env/bin/python scripts/actions_benchmark.py plan --tasks "$INSTANCE" --mode qualify --parallel 1 --batch "formal-input-$GITHUB_RUN_ID-$INSTANCE" --backend docker --optimization O3 --output .repropatch/input-plan.json
+          .repropatch/agent-env/bin/python scripts/actions_benchmark.py prepare --plan .repropatch/input-plan.json --instances "$INSTANCE" --output .repropatch/inputs
+          python - <<'PY'
+          import base64, hashlib, io, json, pathlib, subprocess, tarfile, urllib.request
+          p = json.load(open('benchmarks/formal-max-protocol.json'))
+          subprocess.run(['docker', 'pull', p['image']], check=True)
+          data = urllib.request.urlopen(p['codex_tarball'], timeout=120).read()
+          assert 'sha512-' + base64.b64encode(hashlib.sha512(data).digest()).decode() == p['codex_tarball_integrity']
+          target = pathlib.Path('.repropatch/codex'); target.mkdir()
+          with tarfile.open(fileobj=io.BytesIO(data)) as archive: archive.extractall(target, filter='data')
+          binary = pathlib.Path(p['codex_binary'])
+          assert hashlib.sha256(binary.read_bytes()).hexdigest() == p['codex_sha256']
+          assert hashlib.sha256(binary.with_name('codex-code-mode-host').read_bytes()).hexdigest() == p['code_host_sha256']
+          PY
+      - name: Reconstruct exact task and common baseline without supplier calls
+        run: .repropatch/agent-env/bin/python scripts/formal_benchmark.py prepare --instance "$INSTANCE" --output .repropatch/formal-output
+      - name: Execute four first attempts and score every candidate
+        env:
+          OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
+        run: .repropatch/agent-env/bin/python -u scripts/formal_benchmark.py run --instance "$INSTANCE" --output .repropatch/formal-output
+      - name: Preserve raw evidence
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root = pathlib.Path('.repropatch/formal-output'); root.mkdir(exist_ok=True)
+          for name in ['summary.json', 'protocol.json', 'usage.sqlite3']:
+              if (root / name).is_file():
+                  target = pathlib.Path('.repropatch/summary'); target.mkdir(exist_ok=True)
+                  (target / name).write_bytes((root / name).read_bytes())
+          PY
+          .repropatch/agent-env/bin/python scripts/actions_benchmark.py pack --source .repropatch/formal-output --output .repropatch/formal-evidence.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: formal-evidence-${{ github.run_id }}-${{ matrix.instance }}
+          path: |
+            .repropatch/formal-evidence.tar.gz
+            .repropatch/formal-evidence.tar.gz.sha256
+            .repropatch/formal-evidence.tar.metadata.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: formal-summary-${{ github.run_id }}-${{ matrix.instance }}
+          path: .repropatch/summary/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+
+  aggregate:
+    needs: [calibration, attempts]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          pattern: formal-summary-${{ github.run_id }}-*
+          path: .repropatch/summaries
+      - run: |
+          python scripts/formal_benchmark.py aggregate --source .repropatch/summaries --output .repropatch/results
+          cat .repropatch/results/results.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: formal-results-${{ github.run_id }}
+          path: .repropatch/results/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
