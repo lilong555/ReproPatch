@@ -112,6 +112,7 @@ def test_budget_and_tool_batch_admission(adapter, task):
         ),
     )
     validate_task_budget(valid)
+    validate_task_budget(replace(valid, budget=replace(valid.budget, model_timeout_seconds=180)))
     with pytest.raises(BudgetLimit, match="TASK_BUDGET_MISMATCH"):
         validate_task_budget(replace(valid, budget=replace(valid.budget, max_steps=13)))
 
@@ -131,6 +132,10 @@ def test_budget_and_tool_batch_admission(adapter, task):
 def test_native_reasoning_configuration(adapter):
     assert adapter.native_settings()["model_reasoning_effort"] == "max"
     assert adapter.native_settings("medium")["model_reasoning_effort"] == "medium"
+    assert (
+        adapter.native_settings("max", 180)["model_providers.benchmark.stream_idle_timeout_ms"]
+        == 190000
+    )
 
 
 @pytest.mark.sdk

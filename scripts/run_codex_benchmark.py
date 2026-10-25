@@ -21,7 +21,7 @@ def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
-def native_settings(reasoning_effort="max"):
+def native_settings(reasoning_effort="max", model_timeout_seconds=90):
     """原生 CLI 的固定配置，推理强度同时由上游请求留证。"""
     return {
         "model_provider": "benchmark",
@@ -35,7 +35,7 @@ def native_settings(reasoning_effort="max"):
         "model_providers.benchmark.wire_api": "responses",
         "model_providers.benchmark.request_max_retries": 0,
         "model_providers.benchmark.stream_max_retries": 0,
-        "model_providers.benchmark.stream_idle_timeout_ms": 100000,
+        "model_providers.benchmark.stream_idle_timeout_ms": (model_timeout_seconds + 10) * 1000,
         "model_providers.benchmark.supports_websockets": False,
     }
 
@@ -158,7 +158,7 @@ class UnixHTTP(http.client.HTTPConnection):
 
     def connect(self):
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.sock.settimeout(100)
+        self.sock.settimeout(self.timeout)
         self.sock.connect("/model/socket")
 
 
@@ -168,7 +168,9 @@ def relay():
             pass
 
         def do_POST(self):
-            connection = UnixHTTP("localhost", timeout=100)
+            connection = UnixHTTP(
+                "localhost", timeout=int(os.environ.get("BENCHMARK_RELAY_TIMEOUT_SECONDS", "100"))
+            )
             try:
                 body = self.rfile.read(int(self.headers.get("Content-Length", "0")))
                 connection.request("POST", self.path, body, {"Content-Type": "application/json"})
@@ -243,7 +245,9 @@ def main():
     upstream = (
         None
         if args.check_only
-        else httpx2.Client(trust_env=True, follow_redirects=False, timeout=90)
+        else httpx2.Client(
+            trust_env=True, follow_redirects=False, timeout=task.budget.model_timeout_seconds
+        )
     )
     state = {"tool_calls_admitted": 0, "observed_request_reasoning": [], "errors": []}
 
@@ -343,7 +347,8 @@ def main():
         "code_host_sha256": hashlib.sha256(code_host.read_bytes()).hexdigest(),
         "adapter_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "provider": {"model": "gpt-6-luna", "base_url": "https://cpa.liyinlong.me/v1"},
-        "host_transport": "httpx2; trust_env=True; follow_redirects=False; timeout=90",
+        "host_transport": "httpx2; trust_env=True; follow_redirects=False; timeout="
+        + str(task.budget.model_timeout_seconds),
         "check_only": args.check_only,
         "container_deleted": False,
         "differences": [
@@ -375,6 +380,8 @@ def main():
             "--env",
             "BENCHMARK_MODEL_KEY=isolated-proxy",
             "--env",
+            "BENCHMARK_RELAY_TIMEOUT_SECONDS=" + str(task.budget.model_timeout_seconds + 10),
+            "--env",
             "CMAKE_BUILD_PARALLEL_LEVEL=2",
             "--workdir",
             "/src",
@@ -397,7 +404,7 @@ def main():
             {"returncode": check.returncode, "readable_files": len(readable)},
         )
         check.check_returncode()
-        native_config = native_settings(args.reasoning_effort)
+        native_config = native_settings(args.reasoning_effort, task.budget.model_timeout_seconds)
         save(output / "native-config.json", native_config)
         cli = [
             "/opt/codex",

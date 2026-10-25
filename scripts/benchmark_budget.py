@@ -38,11 +38,11 @@ class BudgetLimit(RuntimeError):
 
 
 def validate_task_budget(task):
-    """模型调用前核对各框架共用的任务额度。"""
+    """核对固定请求、工具和输出额度，超时由预注册 Task 选择90或180秒。"""
     if (
         task.budget.max_output_tokens != POLICY["max_output_tokens"]
         or task.budget.max_steps != POLICY["request_limit_per_attempt"]
-        or task.budget.model_timeout_seconds != 90
+        or task.budget.model_timeout_seconds not in (90, 180)
         or task.budget.max_tool_calls != 24
     ):
         raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")

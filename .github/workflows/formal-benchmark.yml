@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: '24：mini首次模型尝试；912：首批登记通过后执行其余19题'
+        description: '19道新题四臂首次运行，共912次请求上限，模型超时统一180秒'
         required: true
         type: choice
-        options: ['24', '912']
-        default: '24'
+        options: ['912']
+        default: '912'
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.authorization == '912' && 'benchmarks/formal-max-full-v3-protocol.json' || 'benchmarks/formal-max-mini-protocol.json' }}
+  FORMAL_PROTOCOL: benchmarks/formal-max-full-180s-protocol.json
 
 jobs:
   calibration:

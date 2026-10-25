@@ -127,6 +127,8 @@ def score(args):
             agent=worker.get("agent"),
             native_status=worker.get("native_status"),
             native_reason=worker.get("native_reason"),
+            worker_error_type=worker.get("error_type"),
+            worker_error_code=worker.get("error_code"),
             internal_verification_status=worker.get("internal_verification_status"),
             worker_usage=worker.get("usage", worker.get("money")),
         )

@@ -239,7 +239,13 @@ def registry_gate(rows, p):
         usage = score["worker_usage"]
         assert 1 <= usage["requests"] <= 12
         if row["attempt_id"] in known_timeouts:
-            assert score["native_reason"] == "MODEL_REQUEST_TIMEOUT"
+            expected = p.get("timeout_native_reasons", {}).get(
+                row["attempt_id"], "MODEL_REQUEST_TIMEOUT"
+            )
+            assert score["native_reason"] == expected
+            recorded = p.get("timeout_worker_result_sha256", {}).get(row["attempt_id"])
+            if recorded:
+                assert score["worker_result_sha256"] == recorded
             assert score["classification"] == "infrastructure"
             assert usage["unknown_usage_requests"] == 1
         else:
@@ -278,6 +284,44 @@ def verify_registry(source, output):
     shutil.copytree(source, output / "source-results")
     save(output / "gate.json", result)
     save(output / "prior-attempts.json", {"attempts": rows})
+
+
+def prepare_execution_contract(directory, target, model_timeout_seconds):
+    """原生资格证据保持原件，执行 Task 单独记录模型超时与父证据身份。"""
+    from repropatch.task import Task
+
+    original = Task.load(directory / "task.yaml")
+    if original.budget.model_timeout_seconds == model_timeout_seconds:
+        return directory
+    assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
+    shutil.copytree(directory, target, ignore=shutil.ignore_patterns(".git"))
+    for original_name, parent_name in (
+        ("result.json", "native-qualification-parent.json"),
+        ("task.yaml", "native-qualification-task.yaml"),
+        ("manifest.json", "native-qualification-manifest.json"),
+    ):
+        shutil.copyfile(directory / original_name, target / parent_name)
+    raw = original.to_dict()
+    raw["budget"]["model_timeout_seconds"] = model_timeout_seconds
+    task = Task.from_dict(raw, target)
+    (target / "task.yaml").write_bytes(task.source_bytes)
+    parent = directory / "result.json"
+    result = json.loads(parent.read_text())
+    result.update(
+        task_file_sha256=sha(target / "task.yaml"),
+        native_qualification_parent_sha256=sha(parent),
+        native_qualification_task_sha256=sha(directory / "task.yaml"),
+        native_qualification_manifest_sha256=sha(directory / "manifest.json"),
+        execution_budget_override={"model_timeout_seconds": model_timeout_seconds},
+    )
+    save(target / "result.json", result)
+    manifest = {
+        str(file.relative_to(target)): {"size": file.stat().st_size, "sha256": sha(file)}
+        for file in sorted(target.rglob("*"))
+        if file.is_file() and file != target / "manifest.json"
+    }
+    save(target / "manifest.json", manifest)
+    return target
 
 
 def prepare(instance, output):
@@ -340,7 +384,14 @@ def prepare(instance, output):
     from verify_qualification_evidence import verify_tree
 
     assert not verify_tree(directory, manifest)
+    directory = prepare_execution_contract(
+        directory, output / "qualified-contract", p["model_timeout_seconds"]
+    )
     task = Task.load(directory / "task.yaml")
+    expected_contract = p.get("task_contracts", {}).get(instance)
+    if expected_contract:
+        assert sha(directory / "task.yaml") == expected_contract["execution_task_sha256"]
+        assert task.revision == expected_contract["prepared_commit"]
     model = ScriptedModel([[assistant_message("基线输入准备完成。")]])
     baseline = Harness(task, model, output / "baseline-runs").run()
     assert baseline["reproduced"] and baseline["cleanup_confirmed"]
