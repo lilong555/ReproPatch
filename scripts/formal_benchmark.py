@@ -140,11 +140,68 @@ def pilot_gate(value, p):
 
 def verify_pilot(source, output):
     p = protocol()
+    if "pilot_completion_run_id" in p:
+        verify_completed_pilot(source, output, p)
+        return
     value = json.loads((source / "results.json").read_text())
     pilot_gate(value, p)
     output.mkdir(parents=True, exist_ok=False)
     shutil.copyfile(source / "results.json", output / "pilot-results.json")
     save(output / "gate.json", {"passed": True, "pilot_run_id": p["pilot_run_id"]})
+
+
+def completed_pilot_gate(prior, completion, p):
+    """保留首批终止超时，仅以尚未请求过的四项完成对照链路。"""
+    config = json.loads((ROOT / "benchmarks/formal-max-completion-protocol.json").read_text())
+    completion_gate(prior, config)
+    assert completion["protocol_sha256"] == p["completion_protocol_sha256"]
+    expected = {a["attempt_id"]: a for a in config["attempts"]}
+    rows = completion["attempts"]
+    assert len(rows) == 4 and {r["attempt_id"] for r in rows} == expected.keys()
+    for row in rows:
+        assert row["original_attempt_id"] == expected[row["attempt_id"]]["original_attempt_id"]
+        score = row["score"]
+        assert score["classification"] in {"resolved", "candidate"}, "COMPLETION_INFRASTRUCTURE"
+        assert type(score["accepted"]) is bool
+        usage = score["worker_usage"]
+        assert 1 <= usage["requests"] <= 12 and usage["unknown_usage_requests"] == 0
+    retained = [r for r in prior["attempts"] if r["arm"] in {"full", "no-checks"}]
+    assert len(retained) == 4
+    for row in retained:
+        score = row["score"]
+        if row["arm"] == "no-checks":
+            assert score["native_reason"] == "MODEL_REQUEST_TIMEOUT"
+            assert score["classification"] == "infrastructure"
+            assert score["worker_usage"]["unknown_usage_requests"] == 1
+        else:
+            assert score["classification"] in {"resolved", "candidate"}
+            assert type(score["accepted"]) is bool
+    total = config["prior_model_requests"] + sum(
+        r["score"]["worker_usage"]["requests"] for r in rows
+    )
+    assert total <= config["parent_request_cap"]
+    return retained + rows
+
+
+def verify_completed_pilot(source, output, p):
+    prior_file = source / "prior/results.json"
+    assert sha(prior_file) == p["prior_results_sha256"]
+    prior = json.loads(prior_file.read_text())
+    completion = json.loads((source / "completion/results.json").read_text())
+    rows = completed_pilot_gate(prior, completion, p)
+    output.mkdir(parents=True, exist_ok=False)
+    shutil.copytree(source, output / "source-results")
+    save(output / "combined-pilot-results.json", {"attempts": rows})
+    save(
+        output / "gate.json",
+        {
+            "passed": True,
+            "pilot_run_id": p["pilot_run_id"],
+            "completion_run_id": p["pilot_completion_run_id"],
+            "retained_supplier_timeouts": 2,
+            "retained_unknown_usage_requests": 2,
+        },
+    )
 
 
 def completion_gate(value, p):

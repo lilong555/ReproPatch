@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from formal_benchmark import ROOT, completion_gate, pilot_gate
+from formal_benchmark import ROOT, completed_pilot_gate, completion_gate, pilot_gate
 
 
 @pytest.fixture
@@ -76,3 +76,49 @@ def test_completion_uses_only_untouched_arms_and_remaining_budget(pilot, changed
             completion_gate(pilot, p)
     else:
         completion_gate(pilot, p)
+
+
+@pytest.mark.parametrize("changed", [None, "completion_failure", "completion_usage_unknown"])
+def test_full_campaign_preserves_prior_timeouts_and_requires_measured_completion(pilot, changed):
+    p = json.loads((ROOT / "benchmarks/formal-max-full-v2-protocol.json").read_text())
+    config = json.loads((ROOT / "benchmarks/formal-max-completion-protocol.json").read_text())
+    for row in pilot["attempts"]:
+        score = row["score"]
+        if row["arm"] in {"mini", "codex"}:
+            score["worker_usage"]["requests"] = 0
+            score["oracle_executed"] = False
+        elif row["arm"] == "no-checks":
+            score.update(
+                native_reason="MODEL_REQUEST_TIMEOUT",
+                classification="infrastructure",
+                accepted=None,
+            )
+            score["worker_usage"].update(
+                requests=10 if row["instance_id"].endswith("3727") else 11,
+                unknown_usage_requests=1,
+            )
+    completion = {
+        "protocol_sha256": p["completion_protocol_sha256"],
+        "attempts": [
+            {
+                **a,
+                "score": {
+                    "classification": "candidate",
+                    "accepted": False,
+                    "worker_usage": {"requests": 12, "unknown_usage_requests": 0},
+                },
+            }
+            for a in config["attempts"]
+        ],
+    }
+    if changed == "completion_failure":
+        completion["attempts"][0]["score"].update(classification="infrastructure", accepted=None)
+    elif changed == "completion_usage_unknown":
+        completion["attempts"][0]["score"]["worker_usage"]["unknown_usage_requests"] = 1
+    if changed:
+        with pytest.raises(AssertionError):
+            completed_pilot_gate(pilot, completion, p)
+    else:
+        rows = completed_pilot_gate(pilot, completion, p)
+        assert len(rows) == 8
+        assert sum(r["score"]["worker_usage"]["unknown_usage_requests"] for r in rows) == 2
