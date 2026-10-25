@@ -1,0 +1,4 @@
+# 原生 mini 核心运行依赖；Harbor 清单用于版本约束。
+-c harbor.txt
+httpx2==2.16.0
+httpcore2==2.16.0

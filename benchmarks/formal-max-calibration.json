@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "run_id": 40199698518,
+  "artifact": "formal-calibration-40199698518",
+  "status": "PASSED",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "new_model_requests": 1,
+  "usage": {
+    "input_tokens": 307,
+    "output_tokens": 17,
+    "total_tokens": 324,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "reasoning_tokens": 10
+    }
+  },
+  "formal_attempts_executed": 0,
+  "formal_status": "ENVIRONMENT_INSTALLATION_FAILED",
+  "source_commit": "685ffac5669e616efcad39f8c2c6e1626e367f90",
+  "files": {
+    "response.json": "cff30029da9261b75ebbc477dfc418eeaabb07179517a34bc484f58b514e6f68",
+    "usage.sqlite3": "00ecb4434d5240ba511017e28e75099b732f15dee0f2c1eb3ba090d9f577e30c",
+    "result.json": "37ce17b104a29139a07283d9ecf7a21a525b5c594c7fb2950ee96d00b037af7f",
+    "provenance.json": "a91e22c9dc79fdecc73711a605f8f2b4133b80fee8698870c6cc1c87c52678be",
+    "protocol.json": "fb09dd6742bb1734578f56cfd1550b426e7653de9a57245bd7d8323f17ee63e2",
+    "request.json": "ee208cde5b7ebfa7b6f3cd357272f863127b8a9ac4cba161de12c3720d48bf36"
+  }
+}

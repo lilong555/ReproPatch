@@ -45,10 +45,12 @@ jobs:
           assert not any(str(r['id']) != os.environ['GITHUB_RUN_ID'] and r['head_sha'] == os.environ['GITHUB_SHA'] for r in runs), '同一源码批次只执行一次'
           PY
           python -m pip install -c requirements/agent.txt -e '.[agent]'
-      - name: Verify actual supplier max response
+      - name: Verify frozen supplier max calibration
         env:
-          OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
-        run: python scripts/formal_benchmark.py calibrate --output .repropatch/calibration
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 40199698518 --repo "$GITHUB_REPOSITORY" --name formal-calibration-40199698518 --dir .repropatch/calibration-input
+          python scripts/formal_benchmark.py verify-calibration --source .repropatch/calibration-input --output .repropatch/calibration
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -85,7 +87,13 @@ jobs:
           git -C .repropatch/mini-source fetch --depth=1 https://github.com/SWE-agent/mini-swe-agent.git 04d809ceab9df28f9adaed044884180159172930
           git -C .repropatch/mini-source checkout --detach FETCH_HEAD
           python -m venv .repropatch/mini-env
-          .repropatch/mini-env/bin/python -m pip install -c requirements/benchmark-mini.txt -e . -e .repropatch/mini-source litellm==1.106.1 httpx2==2.16.0
+          .repropatch/mini-env/bin/python -m pip install -c requirements/formal-mini.txt -e . litellm==1.106.1 httpx2==2.16.0 rich jinja2 tenacity python-dotenv platformdirs
+          MSWEA_SILENT_STARTUP=1 PYTHONPATH=.repropatch/mini-source/src .repropatch/mini-env/bin/python - <<'PY'
+          from minisweagent.agents.default import DefaultAgent
+          from minisweagent.environments.docker import DockerEnvironment
+          from minisweagent.models.litellm_response_model import LitellmResponseModel
+          print('固定 mini Agent、Docker 环境与 Responses 模型导入成功')
+          PY
       - name: Restore frozen qualification and pinned tools
         env:
           GH_TOKEN: ${{ github.token }}
@@ -117,6 +125,7 @@ jobs:
           python - <<'PY'
           import json, pathlib
           root = pathlib.Path('.repropatch/formal-output'); root.mkdir(exist_ok=True)
+          (root / 'runner-status.json').write_text(json.dumps({'job_status': '${{ job.status }}', 'instance': '${{ matrix.instance }}'}))
           for name in ['summary.json', 'protocol.json', 'usage.sqlite3']:
               if (root / name).is_file():
                   target = pathlib.Path('.repropatch/summary'); target.mkdir(exist_ok=True)

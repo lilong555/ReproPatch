@@ -94,6 +94,22 @@ def calibrate(output):
     assert valid, "MAX_CALIBRATION_FAILED"
 
 
+def verify_calibration(source, output):
+    reference = json.loads((ROOT / "benchmarks/formal-max-calibration.json").read_text())
+    for name, digest in reference["files"].items():
+        assert sha(source / name) == digest, "CALIBRATION_EVIDENCE_CHANGED"
+    request = json.loads((source / "request.json").read_text())
+    response = json.loads((source / "response.json").read_text())
+    p = protocol()
+    assert request["model"] == p["model"] and request["reasoning"]["effort"] == "max"
+    assert response["status"] == "completed" and response["reasoning"]["effort"] == "max"
+    assert json.loads((source / "provenance.json").read_text())["protocol_sha256"] == sha(PROTOCOL)
+    usage = LocalUsageLedger(source / "usage.sqlite3").summary()
+    assert usage["requests"] == 1 and usage["unknown_usage_requests"] == 0
+    shutil.copytree(source, output)
+    save(output / "verification.json", {"passed": True, "new_model_requests": 0, **reference})
+
+
 def prepare(instance, output):
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
@@ -351,13 +367,17 @@ def aggregate(source, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=("calibrate", "prepare", "run", "aggregate"))
+    parser.add_argument(
+        "stage", choices=("calibrate", "verify-calibration", "prepare", "run", "aggregate")
+    )
     parser.add_argument("--instance")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source", type=Path)
     args = parser.parse_args()
     if args.stage == "calibrate":
         calibrate(args.output)
+    elif args.stage == "verify-calibration":
+        verify_calibration(args.source, args.output)
     elif args.stage == "prepare":
         prepare(args.instance, args.output)
     elif args.stage == "run":
