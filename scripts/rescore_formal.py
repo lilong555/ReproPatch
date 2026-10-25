@@ -48,7 +48,13 @@ def plan(scope, output):
         for a in assets
         if a["name"].startswith(f"formal-evidence-{SOURCE_RUN}-")
     }
-    selected = p["tasks"] if scope == "all" else scope.split(",")
+    selected = (
+        p["tasks"]
+        if scope == "all"
+        else [t for t in p["tasks"] if t in by_task]
+        if scope == "completed"
+        else scope.split(",")
+    )
     assert set(selected) <= set(p["tasks"]) and len(selected) == len(set(selected))
     checkpoint = json.loads(CHECKPOINT.read_text())
     reusable = (
@@ -74,6 +80,7 @@ def plan(scope, output):
 
 
 def restore_repository(directory, dataset, upstream):
+    directory = directory.resolve(strict=True)
     q = json.loads((directory / "result.json").read_text())
     record = next(r for r in records(dataset) if r["instance_id"] == q["instance_id"])
     source = directory / "repository"
@@ -185,6 +192,11 @@ def aggregate(source, plan_file, output):
     found = {}
     for file in source.rglob("summary.json"):
         value = json.loads(file.read_text())
+        if (
+            file.is_relative_to(source / "previous")
+            and value["instance_id"] not in p["reused_tasks"]
+        ):
+            continue
         if value.get("source_run_id") == SOURCE_RUN and value.get("code_sha256") == code_sha():
             key = value["instance_id"]
             assert key not in found, "DUPLICATE_RESCORE"

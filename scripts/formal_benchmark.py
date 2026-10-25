@@ -290,6 +290,8 @@ def prepare_execution_contract(directory, target, model_timeout_seconds):
     """原生资格证据保持原件，执行 Task 单独记录模型超时与父证据身份。"""
     from repropatch.task import Task
 
+    directory = directory.resolve(strict=True)
+    target = target.resolve()
     original = Task.load(directory / "task.yaml")
     if original.budget.model_timeout_seconds == model_timeout_seconds:
         return directory

@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       tasks:
-        description: 'all 或逗号分隔任务；仅使用已冻结候选，模型请求为0'
+        description: 'completed、all 或逗号分隔任务；使用冻结候选，模型请求0'
         required: true
-        default: 'all'
+        default: 'completed'
         type: string
   workflow_run:
     workflows: ['Formal Luna max benchmark']
