@@ -25,7 +25,7 @@ def digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def producer_blocker(worker):
+def producer_blocker(worker, *, frozen_candidate_exists=False):
     """Preparation and infrastructure states take precedence over an empty patch."""
     state, reason = worker.get("native_status"), worker.get("native_reason") or ""
     if state == "CANCELLED" or reason == "USER_CANCELLED":
@@ -41,7 +41,8 @@ def producer_blocker(worker):
         worker.get("container_deleted")
         and worker.get("candidate_available")
         and (
-            state in {"CLI_ERROR", "MODEL_REQUEST_ERROR"}
+            frozen_candidate_exists
+            or state in {"CLI_ERROR", "MODEL_REQUEST_ERROR"}
             or (state == "ERROR" and reason.startswith("MODEL_"))
             or worker.get("recovered_from_unverified_patch")
             or worker.get("candidate_source") == "native_frozen"
@@ -194,11 +195,14 @@ def score(args):
         if CANCELLED.is_set():
             result.update(status="CANCELLED", classification="cancelled")
             return result
-        blocker = producer_blocker(worker)
+        candidate = args.candidate or args.worker_result.parent / "candidate.patch"
+        blocker = producer_blocker(
+            worker,
+            frozen_candidate_exists=candidate.is_file() and candidate.stat().st_size > 0,
+        )
         if blocker:
             result.update(status=blocker[0], classification=blocker[1])
             return result
-        candidate = args.candidate or args.worker_result.parent / "candidate.patch"
         if not candidate.is_file():
             if worker.get("candidate_available") is False and worker.get("candidate_bytes") == 0:
                 if worker.get("candidate_sha256") is not None:
