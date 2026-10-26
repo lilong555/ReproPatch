@@ -4,15 +4,15 @@
 正式版本 **[v0.3.0](https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0)** 已于 2026-10-24 发布，任务格式 **Task v2**。
 
 ReproPatch 将固定 Git 基线、文件编辑权限、模型预算和 CMake/CTest 验收连接成一个修复流程。
-模型通过六个受控工具读取和修改实现；Harness 在独立工作树与全新容器中重建候选，依据 F2P/P2P 测试决定是否接受。
+模型可使用六工具 `legacy` 或持久 Bash `shell-only` 模式读取和修改实现；Harness 在独立工作树与全新容器中重建候选，依据 F2P/P2P 测试决定是否接受。
 `verify-patch` 使用同一验证器，核心安装即可完成零 API 密钥验收。
 
 ```mermaid
 flowchart LR
   T[固定 Task、Commit、镜像] --> B[干净基线与失败证据]
-  B --> A[SDK Runner 与六个受控工具]
-  A --> E[小步编辑]
-  E --> R[reproduce：构建与 F2P]
+  B --> A[SDK Runner：legacy 或 shell-only]
+  A --> E[源码修改]
+  E --> R[可见构建与测试反馈]
   R --> A
   A --> P[候选补丁与源码清单]
   X[外部补丁与本次合格基线] --> P
@@ -20,7 +20,7 @@ flowchart LR
   V --> O[结果、补丁、原始日志与 SQLite 事件]
 ```
 
-[规格](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [测试报告](docs/TEST_REPORT.md) ·
+[规格](SPEC.md) · [Shell-first](docs/SHELL_FIRST.md) · [架构](docs/ARCHITECTURE.md) · [测试报告](docs/TEST_REPORT.md) ·
 [评测与复现](benchmarks/README.md) · [发布身份](RELEASE.json) ·
 [CI](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)
 
@@ -71,7 +71,16 @@ Full 在 simdjson 第 3 步产生首个编辑，通过 F2P 自检识别剩余的
 `max` 已通过三个客户端的离线请求检查、一次真实供应商响应校准及上述 21 题正式实验。
 v2 的执行源码、协议和请求记录对应冻结的 `medium` 配置。
 
-## 修复循环
+## Shell-first 修复循环
+
+`run --tool-mode shell-only` 仅暴露 `bash`。同一修复阶段复用容器、源码快照和 `/build`，
+模型可组合搜索、阅读、原位编辑与增量构建。宿主在每条命令后审计源码，最终从干净环境独立验收。
+默认 `legacy` 保留原六工具流程；两种模式共用 Task、预算、SQLite 和冷 Oracle。
+
+镜像构建与真实 Docker 测试可直接运行现有 GitHub Actions；本地已有工具链镜像时可直接使用。
+零费用示例、执行契约和下一阶段计划见 [Shell-first 规格](docs/SHELL_FIRST.md)。
+
+## Legacy 修复循环
 
 | 机制 | 作用 |
 | --- | --- |
@@ -128,7 +137,8 @@ CMake 文件和测试受保护；修改范围为显式列举的 C/C++ 实现文�
 CTest 以 JSON inventory 固定测试身份，逐项保存 JUnit，并结合退出码与原始失败签名判定。
 完整源码及补丁契约见 [P1-03A](docs/P1-03A.md)，测试判定见 [P1-06](docs/P1-06.md)。
 
-容器使用非 root、断网、只读源码与根文件系统、无 capabilities，以及固定 CPU/内存/PID 和构建 tmpfs 限额。
+容器使用非 root、断网、只读根文件系统、无 capabilities，以及固定 CPU/内存/PID 和构建 tmpfs 限额。
+验收与 legacy Shell 使用只读源码；shell-only 修复容器仅将授权的已有文件挂载为可原位写入。
 创建后核查实际配置；超时、取消或输出达限时删除整个容器并再次 inspect。
 每命令双流原始输出上限 4 MiB，每 Run 审计预算 256 MiB；生命周期见 [P1-03B](docs/P1-03B.md)。
 
@@ -152,6 +162,7 @@ repropatch export-trace RUN_ID --root .repropatch/runs --output exports/trace.js
 
 Benchmark 导出候选时依次检查 EvidenceRef、`patch.diff`、`diagnostics/unverified.patch`，选择首个非空内容；
 损坏的证据引用明确报错。候选来源、原生结局与外部 Oracle 结果分别保存。
+shell-only 的非法源码审计会拒绝本次候选，其诊断补丁保留为分析证据。
 原始大文件通过带逐文件 SHA-256 清单的发布附件交付，Git 保存[证据索引](docs/evidence/README.md)与摘要。
 
 ## 开发验证

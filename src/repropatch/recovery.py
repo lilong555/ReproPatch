@@ -248,12 +248,19 @@ def _cleanup_owned(resources):
                 }
             ):
                 raise InfrastructureError("OWNED_RESOURCE_UNCONFIRMED: 容器登记归属无效")
+
+            def record_cleanup(value, original=record):
+                value = {**original, **value}
+                if original.get("kind") == "repair":
+                    value["paused"] = False
+                resources.record_container(value)
+
             sandbox = DockerSandbox(
                 Path(record["snapshot"]),
                 record["image_id"] or resources.commit,
                 run_id=resources.run_id,
                 purpose=record["purpose"],
-                record=resources.record_container,
+                record=record_cleanup,
             )
             sandbox.name, sandbox.labels = record["name"], record["labels"]
             sandbox.container_id, sandbox.image_id = record["container_id"], record["image_id"]

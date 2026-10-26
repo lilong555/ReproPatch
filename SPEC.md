@@ -4,6 +4,9 @@
 归档 16 个文件保持输入包原文；其中 CURRENT_STATE 为规格创建时的审计快照。
 当前产品能力以 [README](README.md) 和 [测试报告](docs/TEST_REPORT.md) 为准。
 
+[Shell-first 修复规格](docs/SHELL_FIRST.md)定义持久 Bash 模式、源码同步与冷 Oracle 契约，
+并给出目标级增量验证、编译诊断反馈和配对实验的实施顺序。
+
 当前候选版本为 **0.3.0rc3，Task v2**。
 P1-01 至 P1-08 已完成，包含 P1-03A、P1-03B 两项独立验收。
 两条路径共用结构化 CTest、固定 inventory 身份、原始字节清单和实际补丁往返；

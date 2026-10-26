@@ -49,13 +49,19 @@ def bash(command, **arguments):
 
 
 def assert_removed(report):
-    resources = json.loads((Path(report["artifact_directory"]) / "resources.json").read_text())
+    events = read_events(Path(report["artifact_directory"]), report["run_id"])
+    containers = {
+        event["payload"]["name"]: event["payload"]
+        for event in events.events
+        if event["type"] == "resource_registered"
+        and event["payload"].get("resource_type") == "container"
+    }
     assert report["cleanup"]["active_code_stopped"]
-    for record in resources["containers"]:
+    for record in containers.values():
         assert record["cleanup_confirmed"] and not record["cleanup_error"]
         check = run_process(["docker", "inspect", record["container_id"]], timeout=10)
         assert check.returncode == 1 and "No such object" in check.stderr
-    return resources["containers"]
+    return list(containers.values())
 
 
 def tool_results(report):
@@ -343,7 +349,7 @@ def test_shell_cli_example_uses_no_paid_model(shell_task, tmp_path):
     )
     assert child.returncode == 0, child.stdout.decode() + child.stderr.decode()
     result = json.loads(child.stdout)
-    report = json.loads((Path(result["artifact_directory"]) / "report.json").read_text())
+    report = json.loads((Path(result["artifact_dir"]) / "report.json").read_text())
     assert report["outcome"] == "ACCEPTED" and report["benchmark"]["tool_mode"] == "shell-only"
     assert report["usage"]["synthetic"] and report["agent"]["http_attempts"] == 0
     assert_removed(report)

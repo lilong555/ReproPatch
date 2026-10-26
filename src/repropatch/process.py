@@ -190,15 +190,16 @@ def run_process_bytes(
                 status = "infra_error"
                 error = f"COMMAND_IO: {exc}"
             finally:
+                # 先关闭本地输出生产者，避免 Docker 删除等待仍被管道背压阻塞的 exec。
+                try:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
                 if status != "exited" and on_stop is not None:
                     try:
                         on_stop(status)
                     except Exception as exc:
                         error = f"{error or status}; CLEANUP_UNCONFIRMED: {exc}"
-                try:
-                    os.killpg(proc.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
                 proc.wait()
     return RawResult(
         tuple(argv),
