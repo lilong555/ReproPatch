@@ -10,6 +10,11 @@ on:
         type: choice
         options: ['12', '480', '2520', '912', '504', '2016']
         default: '12'
+      inline_calibration:
+        description: '全量批次内先执行上下文校准，通过后自动启动105次修复'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -26,7 +31,7 @@ env:
 jobs:
   calibration:
     runs-on: ubuntu-24.04
-    timeout-minutes: 50
+    timeout-minutes: 60
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
     steps:
@@ -61,9 +66,9 @@ jobs:
         if: inputs.authorization == '12' || inputs.authorization == '480' || inputs.authorization == '2520'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python scripts/context_campaign.py preflight --protocol "$FORMAL_PROTOCOL" --output .repropatch/context-preflight
+        run: python scripts/context_campaign.py preflight --protocol "$FORMAL_PROTOCOL" --output .repropatch/context-preflight --wait-ci 1200
       - name: Calibrate supplier context within twelve requests
-        if: inputs.authorization == '12'
+        if: inputs.authorization == '12' || inputs.inline_calibration
         env:
           OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
         run: >-
@@ -97,6 +102,9 @@ jobs:
           formal_benchmark.PROTOCOL = pathlib.Path(os.environ['FORMAL_PROTOCOL'])
           p = formal_benchmark.protocol()
           assert p['formal_request_cap'] == int(os.environ['AUTHORIZED_REQUESTS'])
+          if p.get('inline_calibration'):
+              from context_campaign import calibration_gate
+              calibration_gate(pathlib.Path('.repropatch/calibration'), p)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
               stream.write('matrix=' + json.dumps(formal_benchmark.execution_matrix(p)) + '\n')
           PY

@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import subprocess
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -186,7 +187,7 @@ def pilot_gate(result, pilot_protocol, expected_protocol_sha):
     }
 
 
-def preflight(protocol_file, output):
+def preflight(protocol_file, output, wait_ci=0):
     p = json.loads(protocol_file.read_text())
     validate_protocol(p)
     output.mkdir(parents=True, exist_ok=False)
@@ -194,6 +195,11 @@ def preflight(protocol_file, output):
     assert identity["sha256"] == p["execution_sha256"], "EXECUTION_SOURCE_CHANGED"
     repo = os.environ.get("GITHUB_REPOSITORY", "lilong555/ReproPatch")
     ci = gh_json("api", f"repos/{repo}/actions/runs/{p['ci_run_id']}")
+    deadline = time.monotonic() + wait_ci
+    while ci["status"] != "completed" and time.monotonic() < deadline:
+        print(json.dumps({"waiting_for_ci": ci["id"], "status": ci["status"]}), flush=True)
+        time.sleep(min(15, max(0, deadline - time.monotonic())))
+        ci = gh_json("api", f"repos/{repo}/actions/runs/{p['ci_run_id']}")
     assert ci["status"] == "completed" and ci["conclusion"] == "success", "CI_GATE_FAILED"
     assert ci["head_sha"] == p["execution_source_commit"], "CI_SOURCE_MISMATCH"
     save(output / "ci.json", {k: ci[k] for k in ("id", "head_sha", "conclusion", "html_url")})
@@ -237,11 +243,12 @@ def main():
     parser.add_argument("--protocol", type=Path)
     parser.add_argument("--source", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--wait-ci", type=int, default=0)
     args = parser.parse_args()
     if args.mode == "identity":
         print(json.dumps(execution_identity(), ensure_ascii=False))
     elif args.mode == "preflight":
-        preflight(args.protocol, args.output)
+        preflight(args.protocol, args.output, args.wait_ci)
     else:
         result = pilot_gate(
             json.loads((args.source / "results.json").read_text()),
