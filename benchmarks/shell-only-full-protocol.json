@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "batch_id": "shell-only-full-20261026",
+  "authorization": "用户授权直接提交全部全量实验",
+  "paid_calls_authorized": true,
+  "model": "gpt-6-luna",
+  "endpoint": "https://cpa.liyinlong.me/v1",
+  "reasoning_effort": "max",
+  "arms": ["shell-only"],
+  "tool_mode": "shell-only",
+  "compiler_cache": false,
+  "candidate_only": true,
+  "formal_request_cap": 504,
+  "calibration_request_cap": 0,
+  "calibration_evidence": "benchmarks/formal-max-calibration.json",
+  "max_request_bytes": 262144,
+  "max_output_tokens": 8192,
+  "max_tool_calls": 48,
+  "max_tools_per_response": 8,
+  "model_timeout_seconds": 180,
+  "execution_budget_override": {
+    "max_steps": 24,
+    "max_tool_calls": 48,
+    "wall_seconds": 7200,
+    "verification_reserve_seconds": 1200
+  },
+  "retries": 0,
+  "cost_cny": null,
+  "cost_basis": "按供应商返回记录 Token；费用由供应商账单确定，请求静态分配为21题各24次",
+  "image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a",
+  "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+  "qualification_run_id": 40194807297,
+  "qualification_archive_sha256": [
+    "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+    "7413bfd973143bb5ba6b05dce99cd3f847a05176c80304c3ea735c5b4eaaa257"
+  ],
+  "framework_dependencies": "requirements/agent.txt",
+  "scoring": "冻结候选后使用原始提交、官方测试、固定镜像执行独立冷 Oracle，记录逐项 F2P/P2P",
+  "timing_scope": "Harness 总时限7200秒，保留1200秒验收时间；外部冷 Oracle 使用既有独立时限",
+  "comparison": "本批为21题24请求配置；历史19题四臂12请求结果作为诊断参考单独保留",
+  "artifacts_retention_days": 14,
+  "tasks": [
+    "fmtlib__fmt-1171",
+    "fmtlib__fmt-1361",
+    "fmtlib__fmt-1390",
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-2292",
+    "fmtlib__fmt-2310",
+    "fmtlib__fmt-2317",
+    "fmtlib__fmt-2610",
+    "fmtlib__fmt-2940",
+    "fmtlib__fmt-3158",
+    "fmtlib__fmt-3248",
+    "fmtlib__fmt-3260",
+    "fmtlib__fmt-3272",
+    "fmtlib__fmt-3537",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-3727",
+    "fmtlib__fmt-3732",
+    "fmtlib__fmt-3734",
+    "fmtlib__fmt-3750",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-493"
+  ],
+  "attempts": [
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-1171/shell-only/first",
+      "instance_id": "fmtlib__fmt-1171",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-1361/shell-only/first",
+      "instance_id": "fmtlib__fmt-1361",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-1390/shell-only/first",
+      "instance_id": "fmtlib__fmt-1390",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-2070/shell-only/first",
+      "instance_id": "fmtlib__fmt-2070",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-2292/shell-only/first",
+      "instance_id": "fmtlib__fmt-2292",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-2310/shell-only/first",
+      "instance_id": "fmtlib__fmt-2310",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-2317/shell-only/first",
+      "instance_id": "fmtlib__fmt-2317",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-2610/shell-only/first",
+      "instance_id": "fmtlib__fmt-2610",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-2940/shell-only/first",
+      "instance_id": "fmtlib__fmt-2940",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3158/shell-only/first",
+      "instance_id": "fmtlib__fmt-3158",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3248/shell-only/first",
+      "instance_id": "fmtlib__fmt-3248",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3260/shell-only/first",
+      "instance_id": "fmtlib__fmt-3260",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3272/shell-only/first",
+      "instance_id": "fmtlib__fmt-3272",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3537/shell-only/first",
+      "instance_id": "fmtlib__fmt-3537",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3713/shell-only/first",
+      "instance_id": "fmtlib__fmt-3713",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3727/shell-only/first",
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3732/shell-only/first",
+      "instance_id": "fmtlib__fmt-3732",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3734/shell-only/first",
+      "instance_id": "fmtlib__fmt-3734",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3750/shell-only/first",
+      "instance_id": "fmtlib__fmt-3750",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-3819/shell-only/first",
+      "instance_id": "fmtlib__fmt-3819",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "shell-only-full-20261026/fmtlib__fmt-493/shell-only/first",
+      "instance_id": "fmtlib__fmt-493",
+      "arm": "shell-only",
+      "request_cap": 24
+    }
+  ]
+}

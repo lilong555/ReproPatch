@@ -619,12 +619,17 @@ def main():
     try:
         parameters = reasoning_parameters(args)
         task = Task.load(args.task)
-        validate_task_budget(task)
         if args.provider == "local-luna":
             ledger = LocalUsageLedger(args.ledger)
         else:
             check_pricing_date()
             ledger = BudgetLedger(args.ledger)
+        request_cap = (
+            ledger.request_cap(args.attempt)
+            if args.provider == "local-luna" and args.tool_mode == "shell-only"
+            else 12
+        )
+        validate_task_budget(task, request_cap=request_cap)
         if args.agent == "mini":
             mini_inputs(args, task)
     except BudgetLimit as error:

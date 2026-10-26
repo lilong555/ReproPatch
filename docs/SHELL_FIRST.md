@@ -118,6 +118,31 @@ python scripts/check_docker_gate.py --image repropatch-cpp:0.1
 
 核心验收关注持久构建、合法源码导出、独立冷验收，以及正常结束和错误路径的资源清理。相关实现位于 `repair_sandbox.py`、`harness.py`、`agent_runtime.py`、`workspace.py` 和 `recovery.py`；旧版执行入口保持可用。
 
+## Shell-only 全量实验
+
+批次 `shell-only-full-20261026` 覆盖资格运行 `40194807297` 的全部 21 道 fmt 任务。配置位于 [`shell-only-full-protocol.json`](../benchmarks/shell-only-full-protocol.json)。
+
+| 项目 | 配置 |
+| --- | --- |
+| 模型 | `gpt-6-luna`，`reasoning_effort=max` |
+| 请求 | 每题至多 24 次，全批至多 504 次，自动重试为 0 |
+| 工具 | 仅 `bash`，每题至多 48 次调用 |
+| 执行时间 | Harness 7200 秒，含 1200 秒验收预留；单请求 180 秒 |
+| 运行环境 | 固定 GHCR 镜像，持久修复容器，ccache 关闭 |
+| 验收 | 冻结候选后执行独立冷 Oracle |
+| Actions | 21 题矩阵，并行 2 题，每个 Job 上限 150 分钟 |
+| 产物 | 逐题轨迹、请求账本、候选、冷评分及全量汇总，保留 14 天 |
+
+工作流按授权额度选择批次：
+
+```bash
+gh workflow run formal-benchmark.yml \
+  --ref feat/shell-first-agent \
+  -f authorization=504
+```
+
+镜像直接从 GHCR 拉取，模型校准复用已冻结证据。本批按 24 请求配置单独报告，历史四臂按原有 12 请求配置保留。
+
 ## 下一步实施
 
 ### 目标级增量验证

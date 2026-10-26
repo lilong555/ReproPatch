@@ -2,12 +2,13 @@
 
 import json
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from benchmark_budget import BudgetLimit, LocalUsageLedger
+from benchmark_budget import BudgetLimit, LocalUsageLedger, validate_task_budget
 
 
 def payload(effort="max"):
@@ -45,3 +46,26 @@ def test_unknown_provider_usage_stops_new_calls(tmp_path):
     with pytest.raises(BudgetLimit, match="FORMAL_USAGE_UNSETTLED"):
         ledger.reserve("first", payload())
     assert ledger.summary()["requests"] == 1
+
+
+def test_shell_allocation_admits_24_requests_and_preserves_legacy_budget(task, tmp_path):
+    ledger = LocalUsageLedger.create_scoped(tmp_path / "usage.sqlite3", {"shell": 24})
+    shell_task = replace(
+        task,
+        budget=replace(
+            task.budget,
+            max_steps=24,
+            max_tool_calls=48,
+            model_timeout_seconds=180,
+            max_output_tokens=8192,
+        ),
+    )
+    validate_task_budget(shell_task, request_cap=ledger.request_cap("shell"))
+    with pytest.raises(BudgetLimit, match="BENCHMARK_TASK_BUDGET_MISMATCH"):
+        validate_task_budget(shell_task)
+    for _ in range(24):
+        identity = ledger.reserve("shell", payload())
+        ledger.settle(identity, b'{"usage":{"input_tokens":1,"output_tokens":1}}', 200)
+    with pytest.raises(BudgetLimit, match="BENCHMARK_REQUEST_LIMIT"):
+        ledger.reserve("shell", payload())
+    assert ledger.summary()["requests"] == 24

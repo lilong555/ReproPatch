@@ -37,13 +37,13 @@ class BudgetLimit(RuntimeError):
     """发送前额度不足或请求不属于本次冻结实验。"""
 
 
-def validate_task_budget(task):
-    """核对固定请求、工具和输出额度，超时由预注册 Task 选择90或180秒。"""
+def validate_task_budget(task, *, request_cap=12):
+    """按批次额度核对请求、工具和输出预算。"""
     if (
         task.budget.max_output_tokens != POLICY["max_output_tokens"]
-        or task.budget.max_steps != POLICY["request_limit_per_attempt"]
+        or task.budget.max_steps != request_cap
         or task.budget.model_timeout_seconds not in (90, 180)
-        or task.budget.max_tool_calls != 24
+        or task.budget.max_tool_calls != request_cap * 2
     ):
         raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
 
@@ -284,7 +284,7 @@ class LocalUsageLedger:
     def create_scoped(cls, path, attempts):
         """正式批次固定每个 Attempt 的独占额度，分片额度相加构成总上限。"""
         if not attempts or any(
-            type(cap) is not int or not 1 <= cap <= 12 for cap in attempts.values()
+            type(cap) is not int or not 1 <= cap <= 24 for cap in attempts.values()
         ):
             raise BudgetLimit("INVALID_SCOPED_ALLOCATION")
         ledger = cls.create(path)
@@ -292,6 +292,21 @@ class LocalUsageLedger:
             db.execute("CREATE TABLE allocations(attempt TEXT PRIMARY KEY, request_cap INTEGER)")
             db.executemany("INSERT INTO allocations VALUES (?,?)", attempts.items())
         return ledger
+
+    def request_cap(self, attempt):
+        """读取当前 Attempt 的静态额度，历史非分片账本沿用12次。"""
+        with self.connect() as db:
+            scoped = db.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='allocations'"
+            ).fetchone()
+            if not scoped:
+                return POLICY["request_limit_per_attempt"]
+            allocation = db.execute(
+                "SELECT request_cap FROM allocations WHERE attempt=?", (attempt,)
+            ).fetchone()
+            if allocation is None:
+                raise BudgetLimit("UNREGISTERED_FORMAL_ATTEMPT")
+            return allocation[0]
 
     def reserve(self, attempt, payload):
         identity = uuid.uuid4().hex

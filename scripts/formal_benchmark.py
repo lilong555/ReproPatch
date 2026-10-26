@@ -1,4 +1,4 @@
-"""执行冻结的四臂首跑，静态分配请求额度，复用完整冷 Oracle。"""
+"""执行冻结批次的首跑，静态分配请求额度，复用完整冷 Oracle。"""
 
 import argparse
 import hashlib
@@ -286,16 +286,19 @@ def verify_registry(source, output):
     save(output / "prior-attempts.json", {"attempts": rows})
 
 
-def prepare_execution_contract(directory, target, model_timeout_seconds):
-    """原生资格证据保持原件，执行 Task 单独记录模型超时与父证据身份。"""
+def prepare_execution_contract(directory, target, model_timeout_seconds, budget_overrides=None):
+    """原生资格证据保持原件，执行 Task 单独记录预算与父证据身份。"""
     from repropatch.task import Task
 
     directory = directory.resolve(strict=True)
     target = target.resolve()
     original = Task.load(directory / "task.yaml")
-    if original.budget.model_timeout_seconds == model_timeout_seconds:
+    overrides = {**(budget_overrides or {}), "model_timeout_seconds": model_timeout_seconds}
+    raw = original.to_dict()
+    if all(raw["budget"].get(key) == value for key, value in overrides.items()):
         return directory
-    assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
+    if original.budget.model_timeout_seconds != model_timeout_seconds:
+        assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
     shutil.copytree(directory, target)
     for original_name, parent_name in (
         ("result.json", "native-qualification-parent.json"),
@@ -303,8 +306,7 @@ def prepare_execution_contract(directory, target, model_timeout_seconds):
         ("manifest.json", "native-qualification-manifest.json"),
     ):
         shutil.copyfile(directory / original_name, target / parent_name)
-    raw = original.to_dict()
-    raw["budget"]["model_timeout_seconds"] = model_timeout_seconds
+    raw["budget"].update(overrides)
     task = Task.from_dict(raw, target)
     (target / "task.yaml").write_bytes(task.source_bytes)
     parent = directory / "result.json"
@@ -314,7 +316,7 @@ def prepare_execution_contract(directory, target, model_timeout_seconds):
         native_qualification_parent_sha256=sha(parent),
         native_qualification_task_sha256=sha(directory / "task.yaml"),
         native_qualification_manifest_sha256=sha(directory / "manifest.json"),
-        execution_budget_override={"model_timeout_seconds": model_timeout_seconds},
+        execution_budget_override=overrides,
     )
     save(target / "result.json", result)
     manifest = {
@@ -387,7 +389,10 @@ def prepare(instance, output):
 
     assert not verify_tree(directory, manifest)
     directory = prepare_execution_contract(
-        directory, output / "qualified-contract", p["model_timeout_seconds"]
+        directory,
+        output / "qualified-contract",
+        p["model_timeout_seconds"],
+        p.get("execution_budget_override"),
     )
     task = Task.load(directory / "task.yaml")
     expected_contract = p.get("task_contracts", {}).get(instance)
@@ -400,7 +405,8 @@ def prepare(instance, output):
     initial = next(Path(baseline["artifact_directory"]).glob("agent/native/0001-input.json"))
     shutil.copyfile(initial, output / "common-input.json")
     mini = ROOT / ".repropatch/mini-source"
-    assert git(mini, "rev-parse", "HEAD").decode().strip() == MINI_COMMIT
+    if any(a["arm"] in {"mini", "codex"} for a in p["attempts"]):
+        assert git(mini, "rev-parse", "HEAD").decode().strip() == MINI_COMMIT
     evidence = baseline["baseline"]
     seconds = (
         datetime.fromisoformat(evidence["finished_at"])
@@ -443,7 +449,20 @@ def execute(instance, output):
             "--reasoning-effort",
             "max",
         ]
-        if arm in {"full", "no-checks"}:
+        if arm == "shell-only":
+            command = [
+                agent_python,
+                "scripts/run_benchmark_agent.py",
+                "--agent",
+                "repropatch",
+                "--provider",
+                "local-luna",
+                "--candidate-only",
+                "--tool-mode",
+                "shell-only",
+                *common,
+            ]
+        elif arm in {"full", "no-checks"}:
             command = [
                 agent_python,
                 "scripts/run_benchmark_agent.py",
