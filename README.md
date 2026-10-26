@@ -24,18 +24,23 @@ flowchart LR
 [评测与复现](benchmarks/README.md) · [发布身份](RELEASE.json) ·
 [CI](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)
 
-[GitHub Actions 实验](docs/ACTIONS_RESULTS.md)完成固定镜像下的资格检查、构建缓存 A/B 和 1/2/4 Job 对照。
-**21 道明确缺陷中 21 道通过 O3 Docker 资格**，仓库历史模型尝试审查为无记录；
-新模型请求与 Token 均为 **0**。当前开发源码通过 **584 项 CI**，覆盖 23 项真实 Docker 检查。
+[Luna max 正式实验](docs/ACTIONS_FORMAL.md)已在 GitHub Actions 完成 21 道新 fmt 缺陷的四臂首跑。
+统一 180 秒模型超时的 **19 题**中，外部冷 Oracle 通过数为 **Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19**，
+mini 的 3 次 HTTP 524 保留为基础设施错误；首批两题的 90 秒结果单列。
+正式实验共 **942/1008 次请求**，未知用量 7 次，独立 max 校准另计 1 次。
+Full 调用 9 次 `reproduce`、7 次 `verify`，自检累计 751.25 秒；本批关闭自检组的成功数较高。
+冻结模型源码通过 **614 项 CI**：431 Core、160 SDK、23 真实 Docker。
+
+[免费云端实验](docs/ACTIONS_RESULTS.md)完成 **21/21 O3 Docker 资格**和构建缓存、1/2/4 Job 对照，模型请求为 0。
 同一真实 C++ 目标的热 ccache 中位耗时为 **0.87 秒**，冷 Ninja 为 **13.27 秒**，重复变体各三个样本。
-完整 Agent 的端到端效果待后续模型实验。[逐题资格与证据](benchmarks/actions-scale/cloud-results.json)
-保留全部 Run、失败记录、固定镜像和下载 SHA-256；执行命令见 [Actions 说明](docs/ACTIONS_BENCHMARK.md)。
+[正式逐运行记录](benchmarks/actions-scale/formal-results.json)与[资格证据](benchmarks/actions-scale/cloud-results.json)
+保留任务身份、失败、用量、固定镜像和归档哈希；执行入口见 [Actions 说明](docs/ACTIONS_BENCHMARK.md)。
 
 发布提交 `6e69e58` 通过 **514 项测试**：338 Core、154 SDK、22 真实 Docker。
 发布页提供 wheel、sdist、原始实验和验证证据，共 11 个附件，公开下载的 SHA-256 均已核验。
 [当前发布清单](RELEASE.json)记录正式版本身份，[rc3 原始清单](docs/releases/v0.3.0rc3.json)保存历史制品与验证记录。
 
-## 固定预算下的实际结果
+## 历史 medium 对照
 
 2026-10-24 的 v2 对照使用同一 CPA 端点、`gpt-6-luna`、实际观测的 `medium` 推理强度，
 每题每框架首跑一次，最多 12 个模型请求与 24 次工具调用。六次正式运行共 **61/72 次请求**，
@@ -63,7 +68,7 @@ Full 在 simdjson 第 3 步产生首个编辑，通过 F2P 自检识别剩余的
 
 后续 Luna 对照入口默认使用 `max`，也支持显式 `--reasoning-effort medium`。
 三框架的参数检查范围与供应商校准状态见 [Luna 配置](benchmarks/luna-max-config.json)。
-`max` 已通过三个客户端的离线请求检查，真实供应商响应校准与新一批实验待执行。
+`max` 已通过三个客户端的离线请求检查、一次真实供应商响应校准及上述 21 题正式实验。
 v2 的执行源码、协议和请求记录对应冻结的 `medium` 配置。
 
 ## 修复循环

@@ -1,6 +1,13 @@
 # ReproPatch 评测
 
-模型修复成绩为 [v2 六次固定预算对照](generalization-final-results.md)：Full 1/2、mini 0/2、Codex 0/2。
+[Luna max 四臂实验](../docs/ACTIONS_FORMAL.md)已完成 21 道新 fmt 缺陷的 84 次首次实际模型运行。
+统一 180 秒模型超时的 19 题中，Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19；mini 三次 HTTP 524 保留。
+19 题共 866 请求；首批两题 90 秒实验另有 76 请求。独立 max 校准另计 1 次。
+[正式逐运行 JSON](actions-scale/formal-results.json)和[首批记录](actions-scale/formal-pilot-results.json)分别保存配置、用量与原始评分。
+
+## 历史 medium 对照
+
+已发布版本的模型修复成绩为 [v2 六次固定预算对照](generalization-final-results.md)：Full 1/2、mini 0/2、Codex 0/2。
 全部六次按预注册顺序执行，61 次正式请求与 1 次独立校准分别记账，用量均完整结算。
 两题已有 v1 尝试，v2 用于冻结新配置后的复核；[v1 历史记录](generalization-v1-results.md)
 保留 110 次请求、10 次评分、1 次取消和 5 项未执行。
@@ -9,7 +16,7 @@
 并完成构建缓存 A/B 与 1/2/4 Job 对照；新模型请求为 0。[逐题 CSV](actions-scale/cloud-qualification.csv)
 和[完整 JSON](actions-scale/cloud-results.json)保存任务状态与原始归档身份。
 
-## 协议与版本
+## 历史 v2 协议与版本
 
 | 项目 | v2 实际配置 |
 | --- | --- |
@@ -28,7 +35,7 @@ Full 使用六个函数工具和逐轮新容器；mini 与 Codex 使用原生 Sh
 Full 的 worker 时间包含基线与内部独立验收，外部框架的时间覆盖修复和自检，外部 Oracle 耗时单列。
 
 后续 Luna 对照默认 `max`，三个客户端的实际请求构造已通过零付费检查。
-[Luna 配置](luna-max-config.json)记录检查证据；供应商 `max` 响应仍需在新的独立校准预算中确认。
+[Luna 配置](luna-max-config.json)记录检查证据；[独立供应商校准](formal-max-calibration.json)已确认实际响应 `max`。
 每批实验须在请求前显式冻结推理强度、源码和总请求额度。v2 沿用其归档源码中的 `medium` 参数。
 历史实验的框架版本以各次原始运行记录为准，本次 mini 的版本为 2.4.6。
 

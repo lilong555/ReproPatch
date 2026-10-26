@@ -1,6 +1,18 @@
 # 测试报告
 
-## 当前开发源码
+## 冻结模型实验源码
+
+[GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/40212551852)在 `9d9e4be7ddcb9573edc5c7540b3e1808713d5744` 通过 **614 项**：
+**431 Core、160 SDK、23 真实 Docker**，失败、错误与跳过均为 0。
+三份根 JUnit 已下载并核对，原件 SHA-256 记录于[验证摘要](evidence/formal-max-2026-10-26/summary.json)。
+核心指纹为 `69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84`。
+
+[Luna max 正式实验](ACTIONS_FORMAL.md)完成 19 题四臂统一 180 秒首跑及首批两题 90 秒首跑。
+19 题共 866 请求，Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19，mini 三次 HTTP 524 保留。
+76 个 Worker 均确认容器清理；866 份真实请求均核对账本 SHA-256 和 `reasoning.effort=max`。
+冻结候选的冷 Oracle 验收共新增 0 模型请求。
+
+## 免费云端实验源码
 
 [GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/40194625159)在 `6c6222c5b0a93b6ce09f121db257b00e68297d9b` 通过 **584 项**：
 **406 Core、155 SDK、23 真实 Docker**，失败、错误与跳过均为 0，Ruff 与格式检查通过。

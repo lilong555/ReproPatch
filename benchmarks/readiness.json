@@ -1,66 +1,140 @@
 {
-  "schema_version": 5,
-  "scope": "已发布 v2 模型修复复核与开发态云端 Docker 资格、构建实验",
+  "schema_version": 6,
+  "scope": "已发布v0.3.0历史medium复核、开发态Docker资格与Luna max四臂正式实验",
   "product_version": "0.3.0",
   "dataset": "ByteDance-Seed/Multi-SWE-bench",
   "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
   "cpp_instances": 129,
   "current_implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
-  "latest_measured_implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
-  "current_implementation_has_real_benchmark": false,
-  "current_results": "generalization-final-results.json",
-  "report": "generalization-final-results.md",
-  "protocol": "generalization-protocol-v2.json",
-  "protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1",
-  "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
+  "latest_measured_implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
+  "current_implementation_has_real_benchmark": true,
+  "current_results": "actions-scale/formal-results.json",
+  "report": "../docs/ACTIONS_FORMAL.md",
+  "protocol": "formal-max-full-180s-protocol.json",
+  "protocol_sha256": "f0bb454d5dbd4e273517049509a9d67c667f39983740a51bff452d3fee38cc55",
+  "execution_source_commit": "9d9e4be7ddcb9573edc5c7540b3e1808713d5744",
   "model": "gpt-6-luna",
   "base_urls": [
     "https://cpa.liyinlong.me/v1"
   ],
-  "measured_reasoning_effort": "medium",
+  "measured_reasoning_effort": "max",
   "future_luna_defaults": "luna-max-config.json",
   "metrics": {
     "full": {
-      "attempts": 2,
-      "oracle_pass": 1,
-      "native_accepted": 1,
-      "recovered_oracle_pass": 0,
+      "attempts": 19,
+      "oracle_pass": 7,
       "infrastructure_failure": 0,
-      "model_requests": 23,
-      "tool_calls": 22,
-      "input_tokens": 399532,
-      "output_tokens": 1944,
+      "empty_candidate": 8,
+      "model_requests": 220,
       "unknown_usage_requests": 0,
-      "reproduce_calls": 3,
-      "verify_calls": 1
+      "tokens": {
+        "input_tokens": 2517400,
+        "output_tokens": 52680,
+        "reasoning_tokens": 40390
+      },
+      "tool_calls_known": 216,
+      "tool_calls_unknown_attempts": 0,
+      "reproduce_calls": 9,
+      "verify_calls": 7,
+      "run_shell_calls": 0,
+      "self_check_wall_seconds": 751.250192,
+      "worker_wall_median_seconds": 204.625499745,
+      "worker_wall_sum_seconds": 4022.337158977,
+      "baseline_wall_sum_seconds": 1675.565939,
+      "cold_oracle_wall_sum_seconds": 767.3200167,
+      "statuses": {
+        "ORACLE_BUILD_FAILED": 2,
+        "ORACLE_TESTS_FAILED": 2,
+        "ORACLE_PASSED": 7,
+        "EMPTY_CANDIDATE": 8
+      }
+    },
+    "no-checks": {
+      "attempts": 19,
+      "oracle_pass": 10,
+      "infrastructure_failure": 0,
+      "empty_candidate": 5,
+      "model_requests": 226,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 2558103,
+        "output_tokens": 53599,
+        "reasoning_tokens": 41652
+      },
+      "tool_calls_known": 223,
+      "tool_calls_unknown_attempts": 0,
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "self_check_wall_seconds": 0,
+      "worker_wall_median_seconds": 167.19112942500004,
+      "worker_wall_sum_seconds": 3296.102421803,
+      "baseline_wall_sum_seconds": 1683.023402,
+      "cold_oracle_wall_sum_seconds": 919.7772682290001,
+      "statuses": {
+        "ORACLE_BUILD_FAILED": 3,
+        "EMPTY_CANDIDATE": 5,
+        "ORACLE_PASSED": 10,
+        "ORACLE_TESTS_FAILED": 1
+      }
     },
     "mini": {
-      "attempts": 2,
-      "oracle_pass": 0,
-      "native_accepted": 0,
-      "recovered_oracle_pass": 0,
-      "infrastructure_failure": 0,
-      "model_requests": 14,
-      "tool_calls": 14,
-      "input_tokens": 176690,
-      "output_tokens": 2712,
-      "unknown_usage_requests": 0,
+      "attempts": 19,
+      "oracle_pass": 11,
+      "infrastructure_failure": 3,
+      "empty_candidate": 5,
+      "model_requests": 199,
+      "unknown_usage_requests": 3,
+      "tokens": {
+        "input_tokens": 3333417,
+        "output_tokens": 85847,
+        "reasoning_tokens": 57408
+      },
+      "tool_calls_known": 186,
+      "tool_calls_unknown_attempts": 3,
       "reproduce_calls": 0,
-      "verify_calls": 0
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "self_check_wall_seconds": 0,
+      "worker_wall_median_seconds": 152.98230447600008,
+      "worker_wall_sum_seconds": 2979.55893272,
+      "baseline_wall_sum_seconds": 0,
+      "cold_oracle_wall_sum_seconds": 1081.413866476,
+      "statuses": {
+        "ORACLE_PASSED": 11,
+        "ORACLE_TESTS_FAILED": 1,
+        "INFRASTRUCTURE_FAILED": 3,
+        "EMPTY_CANDIDATE": 2,
+        "ORACLE_BUILD_FAILED": 2
+      }
     },
     "codex": {
-      "attempts": 2,
-      "oracle_pass": 0,
-      "native_accepted": 0,
-      "recovered_oracle_pass": 0,
+      "attempts": 19,
+      "oracle_pass": 11,
       "infrastructure_failure": 0,
-      "model_requests": 24,
-      "tool_calls": 24,
-      "input_tokens": 583746,
-      "output_tokens": 3218,
+      "empty_candidate": 4,
+      "model_requests": 221,
       "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 5885767,
+        "output_tokens": 123492,
+        "reasoning_tokens": 91121
+      },
+      "tool_calls_known": 221,
+      "tool_calls_unknown_attempts": 0,
       "reproduce_calls": 0,
-      "verify_calls": 0
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "self_check_wall_seconds": 0,
+      "worker_wall_median_seconds": 143.82465364899997,
+      "worker_wall_sum_seconds": 3019.392128663,
+      "baseline_wall_sum_seconds": 0,
+      "cold_oracle_wall_sum_seconds": 1032.7131394189998,
+      "statuses": {
+        "ORACLE_BUILD_FAILED": 4,
+        "ORACLE_PASSED": 11,
+        "EMPTY_CANDIDATE": 4
+      }
     }
   },
   "coverage": {
@@ -79,7 +153,56 @@
     "request_cap": 72,
     "unknown_usage_requests": 0,
     "calibration_requests": 1,
-    "prior_exposure": "两项预注册新实例已有 v1 尝试；v2 为冻结新配置复核，历史尝试单独保留"
+    "prior_exposure": "两项预注册新实例已有 v1 尝试；v2 为冻结新配置复核，历史尝试单独保留",
+    "metrics": {
+      "full": {
+        "attempts": 2,
+        "oracle_pass": 1,
+        "native_accepted": 1,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 23,
+        "tool_calls": 22,
+        "input_tokens": 399532,
+        "output_tokens": 1944,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 3,
+        "verify_calls": 1
+      },
+      "mini": {
+        "attempts": 2,
+        "oracle_pass": 0,
+        "native_accepted": 0,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 14,
+        "tool_calls": 14,
+        "input_tokens": 176690,
+        "output_tokens": 2712,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 0,
+        "verify_calls": 0
+      },
+      "codex": {
+        "attempts": 2,
+        "oracle_pass": 0,
+        "native_accepted": 0,
+        "recovered_oracle_pass": 0,
+        "infrastructure_failure": 0,
+        "model_requests": 24,
+        "tool_calls": 24,
+        "input_tokens": 583746,
+        "output_tokens": 3218,
+        "unknown_usage_requests": 0,
+        "reproduce_calls": 0,
+        "verify_calls": 0
+      }
+    },
+    "execution_source_commit": "04d884e91fd1ed583c4d2766bee6de3d385162b9",
+    "implementation_sha256": "81cf1c1f0eeec5b7011e1387151d6e7eca0d1840bab3c3d0eab1a52a32fceaf7",
+    "measured_reasoning_effort": "medium",
+    "protocol": "generalization-protocol-v2.json",
+    "protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1"
   },
   "historical_v1": {
     "protocol": "generalization-protocol.json",
@@ -99,7 +222,8 @@
     "output_tokens": 86608,
     "cost_cny": null,
     "summary_only_probe_requests": 1,
-    "total_with_recorded_probe": 914
+    "total_with_recorded_probe": 914,
+    "scope": "v0.3.0历史账本审计"
   },
   "historical_deepseek": {
     "unique_requests": 185,
@@ -113,12 +237,12 @@
   "candidate_production_adopted": false,
   "qualification": "generalization-qualification.json",
   "evidence": "generalization-evidence.json",
-  "validation": "../docs/evidence/actions-2026-10-25/summary.json",
+  "validation": "../docs/evidence/formal-max-2026-10-26/summary.json",
   "tests": {
-    "core": 406,
-    "sdk": 155,
+    "core": 431,
+    "sdk": 160,
     "docker": 23,
-    "total": 584,
+    "total": 614,
     "failed": 0,
     "errors": 0,
     "skipped": 0
@@ -141,5 +265,22 @@
     "new_bug_fix_tasks_qualified": 21,
     "unique_cloud_instances": 23,
     "model_requests": 0
+  },
+  "max_campaign": {
+    "status": "completed",
+    "tasks": 21,
+    "attempts": 84,
+    "requests": 942,
+    "request_cap": 1008,
+    "unknown_usage_requests": 7,
+    "independent_calibration_requests": 1,
+    "pilot_results": "actions-scale/formal-pilot-results.json",
+    "formal_results": "actions-scale/formal-results.json",
+    "formal_tasks": 19,
+    "formal_attempts": 76,
+    "formal_requests": 866,
+    "formal_infrastructure_failures": 3,
+    "model_run_id": 40212667694,
+    "oracle_run_id": 40224074698
   }
 }

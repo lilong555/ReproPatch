@@ -1,0 +1,704 @@
+{
+  "schema_version": 1,
+  "status": "COMPLETED_WITH_RECORDED_INFRASTRUCTURE_FAILURES",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "model_timeout_seconds": 90,
+  "tasks": 2,
+  "attempts": [
+    {
+      "task_id": "fmtlib__fmt-3727",
+      "arm": "full",
+      "source_run_id": 40206574619,
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/full/first",
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 137138,
+        "output_tokens": 4326,
+        "reasoning_tokens": 3693
+      },
+      "request_reasoning_observed": {
+        "max": 12
+      },
+      "response_codes": {
+        "200": 12
+      },
+      "worker_wall_seconds": 323.357019431,
+      "tool_calls": 12,
+      "candidate_bytes": 1564,
+      "candidate_sha256": "52e78346e9b3ba6b88741265a1ea862144367953e5ddf15e16b412d57287a6c6",
+      "candidate_source": "candidate_ref",
+      "native_status": "INCONCLUSIVE",
+      "native_reason": "EXTERNAL_ORACLE_REQUIRED",
+      "container_deleted": true,
+      "ledger_sha256": "b45eb69229807375fe8a64f7d6be6f62b4076544770928082681eeb70721b671",
+      "worker_result_sha256": "cec04b73f99c72018ec1d3fc99de659df886e1c67efa08b13fbd1b87532b0966",
+      "reproduce_calls": 1,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 115.214053,
+      "self_check_wall_seconds": 87.342011,
+      "self_check_evaluations": 1,
+      "oracle_pass": false,
+      "oracle_status": "ORACLE_BUILD_FAILED",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/full/first",
+        "status": "ORACLE_BUILD_FAILED",
+        "classification": "candidate",
+        "accepted": false,
+        "model_failure": true,
+        "oracle_executed": true,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "cec04b73f99c72018ec1d3fc99de659df886e1c67efa08b13fbd1b87532b0966",
+        "qualification_sha256": "a3f7d58279854f757ad3ed3729fdde654fbc7c9e583e19b9bb6f82bc25a73c89",
+        "agent": "repropatch",
+        "native_status": "INCONCLUSIVE",
+        "native_reason": "EXTERNAL_ORACLE_REQUIRED",
+        "internal_verification_status": "skipped_candidate_only",
+        "worker_usage": {
+          "requests": 12,
+          "unknown_usage_requests": 0,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "8178ccfa6aff68efb30dd2cae315e4dd1f3d57bc07dad9d75070839a478429cd",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3727",
+        "task_sha256": "4240d9ab722174243de936d1b2b3c9dc6274696d2ef799cebccf4898e38ac024",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "candidate_available": true,
+        "candidate_bytes": 1564,
+        "candidate_sha256": "52e78346e9b3ba6b88741265a1ea862144367953e5ddf15e16b412d57287a6c6",
+        "oracle_status": "ORACLE_BUILD_FAILED",
+        "oracle_verdict_sha256": "422f96447370ae7d5f7b82f01aa9464525b5ce0dcdbd72b9d408fdc11bc7cf43",
+        "oracle_manifest_sha256": "c1fa7ea8f37dda8d4796f457ffcb4404616a4f38f85df3bd230ce3e7cb090862",
+        "f2p": {
+          "chrono-test": "not_run"
+        },
+        "p2p": {
+          "args-test": "not_run",
+          "assert-test": "not_run",
+          "color-test": "not_run",
+          "compile-fp-test": "not_run",
+          "compile-test": "not_run",
+          "core-test": "not_run",
+          "enforce-checks-test": "not_run",
+          "format-impl-test": "not_run",
+          "format-test": "not_run",
+          "gtest-extra-test": "not_run",
+          "os-test": "not_run",
+          "ostream-test": "not_run",
+          "posix-mock-test": "not_run",
+          "printf-test": "not_run",
+          "ranges-test": "not_run",
+          "scan-test": "not_run",
+          "std-test": "not_run",
+          "unicode-test": "not_run",
+          "xchar-test": "not_run"
+        },
+        "wall_seconds": 8.851213186999985
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3727",
+      "arm": "no-checks",
+      "source_run_id": 40206574619,
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/no-checks/first",
+      "model_requests": 10,
+      "unknown_usage_requests": 1,
+      "tokens": {
+        "input_tokens": 92209,
+        "output_tokens": 794,
+        "reasoning_tokens": 498
+      },
+      "request_reasoning_observed": {
+        "max": 10
+      },
+      "response_codes": {
+        "200": 9,
+        "None": 1
+      },
+      "worker_wall_seconds": 250.76058937100004,
+      "tool_calls": 9,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "candidate_source": null,
+      "native_status": "ERROR",
+      "native_reason": "MODEL_REQUEST_TIMEOUT",
+      "container_deleted": true,
+      "ledger_sha256": "b45eb69229807375fe8a64f7d6be6f62b4076544770928082681eeb70721b671",
+      "worker_result_sha256": "f0d090d957406ca266e0e9f900d3536e1d9dfa8b0c7dd3146bc30c833c8b106a",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 115.470256,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": null,
+      "oracle_status": "INFRASTRUCTURE_FAILED",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-20261025/fmtlib__fmt-3727/no-checks/first",
+        "status": "INFRASTRUCTURE_FAILED",
+        "classification": "infrastructure",
+        "accepted": null,
+        "model_failure": null,
+        "oracle_executed": false,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "f0d090d957406ca266e0e9f900d3536e1d9dfa8b0c7dd3146bc30c833c8b106a",
+        "qualification_sha256": "a3f7d58279854f757ad3ed3729fdde654fbc7c9e583e19b9bb6f82bc25a73c89",
+        "agent": "repropatch",
+        "native_status": "ERROR",
+        "native_reason": "MODEL_REQUEST_TIMEOUT",
+        "internal_verification_status": "not_started",
+        "worker_usage": {
+          "requests": 10,
+          "unknown_usage_requests": 1,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "8178ccfa6aff68efb30dd2cae315e4dd1f3d57bc07dad9d75070839a478429cd",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3727",
+        "task_sha256": "4240d9ab722174243de936d1b2b3c9dc6274696d2ef799cebccf4898e38ac024",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "wall_seconds": 0.06246729600002254
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3750",
+      "arm": "full",
+      "source_run_id": 40206574619,
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/full/first",
+      "model_requests": 12,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 146507,
+        "output_tokens": 3674,
+        "reasoning_tokens": 2517
+      },
+      "request_reasoning_observed": {
+        "max": 12
+      },
+      "response_codes": {
+        "200": 12
+      },
+      "worker_wall_seconds": 222.124251663,
+      "tool_calls": 12,
+      "candidate_bytes": 3119,
+      "candidate_sha256": "e1a30192569c7d30a72020311ccef0ea825ef28c384edfd1c5548fd303559116",
+      "candidate_source": "candidate_ref",
+      "native_status": "INCONCLUSIVE",
+      "native_reason": "EXTERNAL_ORACLE_REQUIRED",
+      "container_deleted": true,
+      "ledger_sha256": "5200b112ab35c4379116109d13ec214f0ca996cd97e6d72e9d98d64f0455f06c",
+      "worker_result_sha256": "ce9f5f33784674c6efcdffb833c5bba594bd5f67f922caaaaf92fa9a3488e320",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 113.992596,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": true,
+      "oracle_status": "ORACLE_PASSED",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/full/first",
+        "status": "ORACLE_PASSED",
+        "classification": "resolved",
+        "accepted": true,
+        "model_failure": false,
+        "oracle_executed": true,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "ce9f5f33784674c6efcdffb833c5bba594bd5f67f922caaaaf92fa9a3488e320",
+        "qualification_sha256": "0bdc8c9e8a6d1a22881a49cd05c68523f1e558b82fb5f22916d0f68acf0e0226",
+        "agent": "repropatch",
+        "native_status": "INCONCLUSIVE",
+        "native_reason": "EXTERNAL_ORACLE_REQUIRED",
+        "internal_verification_status": "skipped_candidate_only",
+        "worker_usage": {
+          "requests": 12,
+          "unknown_usage_requests": 0,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "cf5ac2cf06f5fbde101f6fb11970a92580fd0831b740880175984e4e2e09b9c9",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3750",
+        "task_sha256": "ea199d69b636ce51202cc6204339dcc11c4e59c1941f060408757451aad85628",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "candidate_available": true,
+        "candidate_bytes": 3119,
+        "candidate_sha256": "e1a30192569c7d30a72020311ccef0ea825ef28c384edfd1c5548fd303559116",
+        "oracle_status": "ORACLE_PASSED",
+        "oracle_verdict_sha256": "e20a9249392b4181559fe35ba5d805805bb0389d1c384958583e911d8f3ae889",
+        "oracle_manifest_sha256": "0b5b44a5b28abdeb9dd92717f88d329986c24219b5c8e7e28edc574bbbab9def",
+        "f2p": {
+          "format-test": "passed"
+        },
+        "p2p": {
+          "args-test": "passed",
+          "assert-test": "passed",
+          "chrono-test": "passed",
+          "color-test": "passed",
+          "compile-fp-test": "passed",
+          "compile-test": "passed",
+          "core-test": "passed",
+          "enforce-checks-test": "passed",
+          "format-impl-test": "passed",
+          "gtest-extra-test": "passed",
+          "os-test": "passed",
+          "ostream-test": "passed",
+          "posix-mock-test": "passed",
+          "printf-test": "passed",
+          "ranges-test": "passed",
+          "scan-test": "passed",
+          "std-test": "passed",
+          "unicode-test": "passed",
+          "xchar-test": "passed"
+        },
+        "wall_seconds": 105.35187813000005
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3750",
+      "arm": "no-checks",
+      "source_run_id": 40206574619,
+      "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/no-checks/first",
+      "model_requests": 11,
+      "unknown_usage_requests": 1,
+      "tokens": {
+        "input_tokens": 128093,
+        "output_tokens": 3057,
+        "reasoning_tokens": 2730
+      },
+      "request_reasoning_observed": {
+        "max": 11
+      },
+      "response_codes": {
+        "200": 10,
+        "None": 1
+      },
+      "worker_wall_seconds": 292.372657678,
+      "tool_calls": 10,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "candidate_source": null,
+      "native_status": "ERROR",
+      "native_reason": "MODEL_REQUEST_TIMEOUT",
+      "container_deleted": true,
+      "ledger_sha256": "5200b112ab35c4379116109d13ec214f0ca996cd97e6d72e9d98d64f0455f06c",
+      "worker_result_sha256": "01f126b0a79270a119c69df90f6482819667369d17f58a412c31a3208be8195f",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 113.823298,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": null,
+      "oracle_status": "INFRASTRUCTURE_FAILED",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-20261025/fmtlib__fmt-3750/no-checks/first",
+        "status": "INFRASTRUCTURE_FAILED",
+        "classification": "infrastructure",
+        "accepted": null,
+        "model_failure": null,
+        "oracle_executed": false,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "01f126b0a79270a119c69df90f6482819667369d17f58a412c31a3208be8195f",
+        "qualification_sha256": "0bdc8c9e8a6d1a22881a49cd05c68523f1e558b82fb5f22916d0f68acf0e0226",
+        "agent": "repropatch",
+        "native_status": "ERROR",
+        "native_reason": "MODEL_REQUEST_TIMEOUT",
+        "internal_verification_status": "not_started",
+        "worker_usage": {
+          "requests": 11,
+          "unknown_usage_requests": 1,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "cf5ac2cf06f5fbde101f6fb11970a92580fd0831b740880175984e4e2e09b9c9",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3750",
+        "task_sha256": "ea199d69b636ce51202cc6204339dcc11c4e59c1941f060408757451aad85628",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "wall_seconds": 0.061587147999944136
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3727",
+      "arm": "codex",
+      "source_run_id": 40208451903,
+      "attempt_id": "formal-max-completion-20261025/fmtlib__fmt-3727/codex/first",
+      "model_requests": 5,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 134462,
+        "output_tokens": 9154,
+        "reasoning_tokens": 7990
+      },
+      "request_reasoning_observed": {
+        "max": 5
+      },
+      "response_codes": {
+        "200": 5
+      },
+      "worker_wall_seconds": 198.09697023900003,
+      "tool_calls": 5,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "candidate_source": null,
+      "native_status": "CONTEXT_LIMIT",
+      "native_reason": "CONTEXT_LIMIT",
+      "container_deleted": true,
+      "ledger_sha256": "3ae8841dc7fe4d6cbd38ee28635cceb56a4496bbb280d01e6f66af11fac8f138",
+      "worker_result_sha256": "a32ac5c0205708d84016280a912300d6fa0c7a618b5337d2dec37affe54364c7",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 0,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": false,
+      "oracle_status": "EMPTY_CANDIDATE",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-completion-20261025/fmtlib__fmt-3727/codex/first",
+        "status": "EMPTY_CANDIDATE",
+        "classification": "candidate",
+        "accepted": false,
+        "model_failure": true,
+        "oracle_executed": false,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "a32ac5c0205708d84016280a912300d6fa0c7a618b5337d2dec37affe54364c7",
+        "qualification_sha256": "a3f7d58279854f757ad3ed3729fdde654fbc7c9e583e19b9bb6f82bc25a73c89",
+        "agent": "codex",
+        "native_status": "CONTEXT_LIMIT",
+        "native_reason": "CONTEXT_LIMIT",
+        "internal_verification_status": "not_performed",
+        "worker_usage": {
+          "requests": 5,
+          "unknown_usage_requests": 0,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "8178ccfa6aff68efb30dd2cae315e4dd1f3d57bc07dad9d75070839a478429cd",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3727",
+        "task_sha256": "4240d9ab722174243de936d1b2b3c9dc6274696d2ef799cebccf4898e38ac024",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "candidate_available": false,
+        "candidate_bytes": 0,
+        "candidate_sha256": null,
+        "wall_seconds": 0.06295232600001555
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3750",
+      "arm": "codex",
+      "source_run_id": 40208451903,
+      "attempt_id": "formal-max-completion-20261025/fmtlib__fmt-3750/codex/first",
+      "model_requests": 11,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 284688,
+        "output_tokens": 7752,
+        "reasoning_tokens": 6525
+      },
+      "request_reasoning_observed": {
+        "max": 11
+      },
+      "response_codes": {
+        "200": 11
+      },
+      "worker_wall_seconds": 198.953276196,
+      "tool_calls": 11,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "candidate_source": null,
+      "native_status": "CONTEXT_LIMIT",
+      "native_reason": "CONTEXT_LIMIT",
+      "container_deleted": true,
+      "ledger_sha256": "13a6e48bb87cdf9661ace46dd7fac9d67624261bac4585110cb2dec9feca620d",
+      "worker_result_sha256": "a62b60367a174621d2650380d0523d2ba04620461ce0f440bc7adaf5281ed177",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 0,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": false,
+      "oracle_status": "EMPTY_CANDIDATE",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-completion-20261025/fmtlib__fmt-3750/codex/first",
+        "status": "EMPTY_CANDIDATE",
+        "classification": "candidate",
+        "accepted": false,
+        "model_failure": true,
+        "oracle_executed": false,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "a62b60367a174621d2650380d0523d2ba04620461ce0f440bc7adaf5281ed177",
+        "qualification_sha256": "0bdc8c9e8a6d1a22881a49cd05c68523f1e558b82fb5f22916d0f68acf0e0226",
+        "agent": "codex",
+        "native_status": "CONTEXT_LIMIT",
+        "native_reason": "CONTEXT_LIMIT",
+        "internal_verification_status": "not_performed",
+        "worker_usage": {
+          "requests": 11,
+          "unknown_usage_requests": 0,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "cf5ac2cf06f5fbde101f6fb11970a92580fd0831b740880175984e4e2e09b9c9",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3750",
+        "task_sha256": "ea199d69b636ce51202cc6204339dcc11c4e59c1941f060408757451aad85628",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "candidate_available": false,
+        "candidate_bytes": 0,
+        "candidate_sha256": null,
+        "wall_seconds": 0.061381559999972524
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3727",
+      "arm": "mini",
+      "source_run_id": 40210024582,
+      "attempt_id": "formal-max-mini-20261025/fmtlib__fmt-3727/mini/first",
+      "model_requests": 5,
+      "unknown_usage_requests": 1,
+      "tokens": {
+        "input_tokens": 40571,
+        "output_tokens": 3630,
+        "reasoning_tokens": 3192
+      },
+      "request_reasoning_observed": {
+        "max": 5
+      },
+      "response_codes": {
+        "200": 4,
+        "None": 1
+      },
+      "worker_wall_seconds": 174.00254703800005,
+      "tool_calls": null,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "candidate_source": "native_frozen",
+      "native_status": "ERROR",
+      "native_reason": null,
+      "container_deleted": true,
+      "ledger_sha256": "b8a539b33a63bfa04e196a9d45302c79563adf31764eee1d22a6967e53386c16",
+      "worker_result_sha256": "691edb986c345fde59355768f960f9a92cbda8bf622e03a80739dd6ecb7caf7b",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 0,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": null,
+      "oracle_status": "INFRASTRUCTURE_FAILED",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-mini-20261025/fmtlib__fmt-3727/mini/first",
+        "status": "INFRASTRUCTURE_FAILED",
+        "classification": "infrastructure",
+        "accepted": null,
+        "model_failure": null,
+        "oracle_executed": false,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "691edb986c345fde59355768f960f9a92cbda8bf622e03a80739dd6ecb7caf7b",
+        "qualification_sha256": "a3f7d58279854f757ad3ed3729fdde654fbc7c9e583e19b9bb6f82bc25a73c89",
+        "agent": "mini",
+        "native_status": "ERROR",
+        "native_reason": null,
+        "internal_verification_status": "not_performed",
+        "worker_usage": {
+          "requests": 5,
+          "unknown_usage_requests": 1,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "8178ccfa6aff68efb30dd2cae315e4dd1f3d57bc07dad9d75070839a478429cd",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3727",
+        "task_sha256": "4240d9ab722174243de936d1b2b3c9dc6274696d2ef799cebccf4898e38ac024",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "wall_seconds": 0.0625982570000474
+      }
+    },
+    {
+      "task_id": "fmtlib__fmt-3750",
+      "arm": "mini",
+      "source_run_id": 40210024582,
+      "attempt_id": "formal-max-mini-20261025/fmtlib__fmt-3750/mini/first",
+      "model_requests": 10,
+      "unknown_usage_requests": 1,
+      "tokens": {
+        "input_tokens": 143422,
+        "output_tokens": 2087,
+        "reasoning_tokens": 1315
+      },
+      "request_reasoning_observed": {
+        "max": 10
+      },
+      "response_codes": {
+        "200": 9,
+        "None": 1
+      },
+      "worker_wall_seconds": 152.951999533,
+      "tool_calls": null,
+      "candidate_bytes": 0,
+      "candidate_sha256": null,
+      "candidate_source": "native_frozen",
+      "native_status": "ERROR",
+      "native_reason": null,
+      "container_deleted": true,
+      "ledger_sha256": "5ddfe66e2bca3430f8ff3e4d309603995341b8cb9e3d5198e5cba11075297467",
+      "worker_result_sha256": "b8e0926ba25010b9c35173385718e804cbf22c0d95c463c8362d06a69c3c9142",
+      "reproduce_calls": 0,
+      "verify_calls": 0,
+      "run_shell_calls": 0,
+      "baseline_wall_seconds": 0,
+      "self_check_wall_seconds": 0,
+      "self_check_evaluations": 0,
+      "oracle_pass": null,
+      "oracle_status": "INFRASTRUCTURE_FAILED",
+      "score": {
+        "schema": "repropatch.benchmark-score.v1",
+        "attempt_id": "formal-max-mini-20261025/fmtlib__fmt-3750/mini/first",
+        "status": "INFRASTRUCTURE_FAILED",
+        "classification": "infrastructure",
+        "accepted": null,
+        "model_failure": null,
+        "oracle_executed": false,
+        "scoring_model_requests": 0,
+        "worker_result_sha256": "b8e0926ba25010b9c35173385718e804cbf22c0d95c463c8362d06a69c3c9142",
+        "qualification_sha256": "0bdc8c9e8a6d1a22881a49cd05c68523f1e558b82fb5f22916d0f68acf0e0226",
+        "agent": "mini",
+        "native_status": "ERROR",
+        "native_reason": null,
+        "internal_verification_status": "not_performed",
+        "worker_usage": {
+          "requests": 10,
+          "unknown_usage_requests": 1,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "qualification_manifest_sha256": "cf5ac2cf06f5fbde101f6fb11970a92580fd0831b740880175984e4e2e09b9c9",
+        "qualification_evidence_status": "VERIFIED",
+        "task_id": "fmtlib-fmt-3750",
+        "task_sha256": "ea199d69b636ce51202cc6204339dcc11c4e59c1941f060408757451aad85628",
+        "task_sha256_kind": "task_source_bytes",
+        "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+        "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+        "wall_seconds": 0.04497978699998839
+      }
+    }
+  ],
+  "aggregate": {
+    "full": {
+      "attempts": 2,
+      "oracle_pass": 1,
+      "model_requests": 24,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 283645,
+        "output_tokens": 8000,
+        "reasoning_tokens": 6210
+      }
+    },
+    "no-checks": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "model_requests": 21,
+      "unknown_usage_requests": 2,
+      "tokens": {
+        "input_tokens": 220302,
+        "output_tokens": 3851,
+        "reasoning_tokens": 3228
+      }
+    },
+    "mini": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "model_requests": 15,
+      "unknown_usage_requests": 2,
+      "tokens": {
+        "input_tokens": 183993,
+        "output_tokens": 5717,
+        "reasoning_tokens": 4507
+      }
+    },
+    "codex": {
+      "attempts": 2,
+      "oracle_pass": 0,
+      "model_requests": 16,
+      "unknown_usage_requests": 0,
+      "tokens": {
+        "input_tokens": 419150,
+        "output_tokens": 16906,
+        "reasoning_tokens": 14515
+      }
+    }
+  },
+  "model_requests": 76,
+  "unknown_usage_requests": 4,
+  "source_archives": [
+    {
+      "run_id": 40206574619,
+      "archive": "formal-evidence-40206574619-fmtlib__fmt-3727",
+      "sha256": "2aeea2e1a3d9021250b44bf17c59b4e0009b59474a9edd46bebaec9eb7ed6abd",
+      "files": 817
+    },
+    {
+      "run_id": 40206574619,
+      "archive": "formal-evidence-40206574619-fmtlib__fmt-3750",
+      "sha256": "ec68dd3bb7349564edd47c28c75b8af7b4fbf7f18f146736081c199257c89a52",
+      "files": 801
+    },
+    {
+      "run_id": 40208451903,
+      "archive": "formal-evidence-40208451903-fmtlib__fmt-3727",
+      "sha256": "1503a88ee254e211322ddafb72e43a981aa6b750d4e574e7f861944f8b97c3a7",
+      "files": 250
+    },
+    {
+      "run_id": 40208451903,
+      "archive": "formal-evidence-40208451903-fmtlib__fmt-3750",
+      "sha256": "29a31c5c8310965d2cc80bb4692e596f3f43f6a50f137d5ef0987d4b9c84501f",
+      "files": 280
+    },
+    {
+      "run_id": 40210024582,
+      "archive": "formal-evidence-40210024582-fmtlib__fmt-3750",
+      "sha256": "9e7a85d96341390f31963768ffa1d0b6fe687c03051d618a2dce4ef6f66154c9",
+      "files": 223
+    },
+    {
+      "run_id": 40210024582,
+      "archive": "formal-evidence-40210024582-fmtlib__fmt-3727",
+      "sha256": "e9849a8f05cfc00583ad451133d190d2128b24beb75404c22fca973e3035c9bc",
+      "files": 213
+    }
+  ],
+  "environment_only_attempts": "模型请求为0的安装与准入失败保留在原始Run中，八项记录按首次实际模型调用归属",
+  "calibration": "benchmarks/formal-max-calibration.json"
+}

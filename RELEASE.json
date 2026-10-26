@@ -172,8 +172,9 @@
   "future_luna_defaults": {
     "reasoning_effort": "max",
     "client_request_validation": "passed_offline",
-    "provider_response_calibration": "pending",
-    "evidence": "benchmarks/luna-max-config.json"
+    "provider_response_calibration": "passed",
+    "evidence": "benchmarks/luna-max-config.json",
+    "calibration_evidence": "benchmarks/formal-max-calibration.json"
   },
   "evidence_storage": "summaries_in_git_raw_release_assets",
   "evidence_archive_index": "docs/evidence/archive-index.json",
@@ -191,5 +192,21 @@
         "repropatch-0.3.0rc3.tar.gz": "1148dbce70c502880a0deacf9cf19a58580d89b316700e1589e22767d7ddf80b"
       }
     }
-  ]
+  ],
+  "development_benchmark": {
+    "status": "completed",
+    "reasoning_effort": "max",
+    "execution_source_commit": "9d9e4be7ddcb9573edc5c7540b3e1808713d5744",
+    "implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
+    "formal_results": "benchmarks/actions-scale/formal-results.json",
+    "pilot_results": "benchmarks/actions-scale/formal-pilot-results.json",
+    "report": "docs/ACTIONS_FORMAL.md",
+    "tasks": 21,
+    "attempts": 84,
+    "model_requests": 942,
+    "independent_calibration_requests": 1,
+    "unknown_usage_requests": 7,
+    "ci_run_id": 40212551852,
+    "ci_tests": 614
+  }
 }

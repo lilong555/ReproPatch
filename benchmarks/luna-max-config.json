@@ -34,13 +34,16 @@
     }
   },
   "paid_model_requests": 0,
-  "provider_response_calibration": "待独立预算校准，保存实际供应商响应确认 max",
-  "formal_experiment": "待新批次预注册；当前 v2 的实际配置为 medium",
+  "provider_response_calibration": "PASSED：一次独立供应商请求，实际响应 reasoning.effort=max",
+  "formal_experiment": "21题四臂首次运行已完成；90秒首批与180秒正式19题分别报告",
   "frozen_v2_protocol": "benchmarks/generalization-protocol-v2.json",
   "frozen_v2_protocol_sha256": "6e6660cbe263c8eb3360dd0d9f99a331b13a18581ba9073e9afceb70efc4a4d1",
   "source_files": {
     "scripts/run_benchmark_agent.py": "52499ce9e919d233f20d839eadd8010ce15768b56f7430aa53c0b5d81405be75",
     "scripts/run_codex_benchmark.py": "f8853953fe3983c6754c4b9bd04629b3179b1603da114063c7c437299baf2325",
     "tests/test_codex_benchmark.py": "cf24100d3a1d576af81003edc31d391113c6bd7f90daf7173e1ef84e3dfac074"
-  }
+  },
+  "paid_model_requests_scope": "local_checks：客户端离线请求检查",
+  "provider_calibration_evidence": "formal-max-calibration.json",
+  "formal_results": "actions-scale/formal-results.json"
 }

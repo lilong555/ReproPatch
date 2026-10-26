@@ -2,10 +2,50 @@
   "source_run_id": 40212667694,
   "completed_tasks": [
     "fmtlib__fmt-1171",
-    "fmtlib__fmt-1361"
+    "fmtlib__fmt-1361",
+    "fmtlib__fmt-1390",
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-2310",
+    "fmtlib__fmt-2317",
+    "fmtlib__fmt-2610",
+    "fmtlib__fmt-2940",
+    "fmtlib__fmt-3158",
+    "fmtlib__fmt-3248",
+    "fmtlib__fmt-3260",
+    "fmtlib__fmt-3272",
+    "fmtlib__fmt-3537",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-3732",
+    "fmtlib__fmt-3734"
   ],
-  "run_id": 40216295246,
+  "run_id": 40224074698,
   "code_sha256": "c9e12f8a4c5a452b1f277e7b0be071bd2ccc198b7ff624c7a13f12793f98403b",
   "source_protocol": "formal-max-full-180s-protocol.json",
-  "model_requests": 0
+  "model_requests": 0,
+  "terminal_tasks": [
+    "fmtlib__fmt-1171",
+    "fmtlib__fmt-1361",
+    "fmtlib__fmt-1390",
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-2292",
+    "fmtlib__fmt-2310",
+    "fmtlib__fmt-2317",
+    "fmtlib__fmt-2610",
+    "fmtlib__fmt-2940",
+    "fmtlib__fmt-3158",
+    "fmtlib__fmt-3248",
+    "fmtlib__fmt-3260",
+    "fmtlib__fmt-3272",
+    "fmtlib__fmt-3537",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-3732",
+    "fmtlib__fmt-3734",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-493"
+  ],
+  "infrastructure_failure_tasks": [
+    "fmtlib__fmt-2292",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-493"
+  ]
 }

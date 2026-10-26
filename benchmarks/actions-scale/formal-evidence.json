@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "archive": "ReproPatch_LunaMax_Actions_20261026.tar.gz",
+  "sha256": "55887360023c75eaa6e0d745761c30f8f233cfd2640fbe16bd3e0375ca6cddbe",
+  "size_bytes": 116322170,
+  "files": 320,
+  "manifest_files": 319,
+  "credential_scan_matches": 0,
+  "readback_verified": true,
+  "formal_requests": 942,
+  "unknown_usage_requests": 7,
+  "independent_calibration_requests": 1,
+  "scoring_model_requests": 0,
+  "model_run_id": 40212667694,
+  "oracle_run_ids": [
+    40216295246,
+    40217801367,
+    40224074698
+  ],
+  "source_archives": "formal-results.json#source_archives",
+  "oracle_archives": "formal-results.json#scoring.oracle_archives",
+  "retention": {
+    "actions_days": 14,
+    "local_delivery": "Windows Downloads/ReproPatch_LunaMax_Actions_20261026.tar.gz"
+  },
+  "recompute_command": "python3 recompute_usage.py",
+  "contents": [
+    "21道O3资格证据",
+    "84次首次实际模型尝试及原始失败",
+    "942次请求和账本、候选、工具轨迹",
+    "独立max校准",
+    "三次冷Oracle验收Run",
+    "模型与验收执行源码快照",
+    "614项CI根JUnit与源码清单",
+    "离线请求重算脚本"
+  ]
+}
