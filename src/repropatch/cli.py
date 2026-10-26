@@ -37,6 +37,12 @@ def parser():
     run.add_argument("--pause-after-step", type=int, help="在累计 N 个 turn 后的完整输入边界暂停")
     run.add_argument("--candidate-only", action="store_true", help="冻结候选供外部 Oracle 评分")
     run.add_argument("--compiler-cache", action="store_true", help="自检使用本 Run 独占的 ccache")
+    run.add_argument(
+        "--tool-mode",
+        choices=("legacy", "shell-only"),
+        default="legacy",
+        help="legacy 六工具或持久容器内的单一 Bash 工具",
+    )
     verify = commands.add_parser("verify-patch", help="无需模型的独立补丁验收")
     verify.add_argument("task", type=Path)
     verify.add_argument("--patch", required=True, type=Path)
@@ -242,6 +248,7 @@ def main(argv=None):
                     script_source=source,
                     **({"candidate_only": True} if args.candidate_only else {}),
                     **({"compiler_cache": True} if args.compiler_cache else {}),
+                    **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
                 )
             else:
                 if args.mock_script:
@@ -263,6 +270,7 @@ def main(argv=None):
                     args.output_root,
                     **({"candidate_only": True} if args.candidate_only else {}),
                     **({"compiler_cache": True} if args.compiler_cache else {}),
+                    **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
                     **(
                         {"pause_after_step": args.pause_after_step}
                         if args.pause_after_step is not None

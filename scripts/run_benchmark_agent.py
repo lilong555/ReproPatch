@@ -170,6 +170,15 @@ def export_repropatch_candidate(report, directory, output):
     """按来源优先级选择首个非空补丁，证据引用的校验错误原样传播。"""
     from repropatch.artifacts import EvidenceRef
 
+    if report.get("benchmark", {}).get("tool_mode") == "shell-only" and report.get(
+        "reason_code"
+    ) in {"FORBIDDEN_PATCH", "SOURCE_CHANGED"}:
+        return {
+            **candidate_metadata(b""),
+            "candidate_source": None,
+            "candidate_rejected": report["reason_code"],
+            "recovered_from_unverified_patch": False,
+        }
     reference = (report.get("candidate") or {}).get("patch")
     patch = (
         EvidenceRef(**reference).read(directory, limit=8 * 1024 * 1024)
@@ -298,6 +307,7 @@ def repropatch_agent(args, hooks, task):
             output_root=args.output / "runs",
             candidate_only=getattr(args, "candidate_only", False),
             compiler_cache=getattr(args, "compiler_cache", False),
+            tool_mode=getattr(args, "tool_mode", "legacy"),
         )
         with intermediate_checks(
             harness, enabled=getattr(args, "intermediate_checks", "enabled") == "enabled"
@@ -592,11 +602,17 @@ def main():
         "--compiler-cache", action="store_true", help="ReproPatch 自检使用 Run 级 ccache"
     )
     parser.add_argument("--intermediate-checks", choices=("enabled", "disabled"), default="enabled")
+    parser.add_argument("--tool-mode", choices=("legacy", "shell-only"), default="legacy")
     args = parser.parse_args()
     if args.agent != "repropatch" and (
-        args.candidate_only or args.compiler_cache or args.intermediate_checks != "enabled"
+        args.candidate_only
+        or args.compiler_cache
+        or args.intermediate_checks != "enabled"
+        or args.tool_mode != "legacy"
     ):
         parser.error("候选模式、编译缓存和中途自检开关适用于 ReproPatch")
+    if args.tool_mode == "shell-only" and args.intermediate_checks != "enabled":
+        parser.error("Shell-only 通过 Bash 执行自检，四文件工具消融使用 legacy 模式")
     from repropatch.errors import ReproPatchError
     from repropatch.task import Task
 
@@ -655,6 +671,7 @@ def main():
     result = {
         "schema": "repropatch.benchmark-attempt.v1",
         "intermediate_checks": args.intermediate_checks,
+        "tool_mode": args.tool_mode,
         "agent": args.agent,
         "attempt": args.attempt,
         **attempt_identity(task, args.attempt),

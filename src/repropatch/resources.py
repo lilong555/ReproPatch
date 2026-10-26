@@ -278,6 +278,23 @@ class RunResources:
             for record in self.containers.values()
         )
 
+    def agent_containers_ready(self, repair_name=None):
+        """仅允许指定的修复容器以冻结状态跨越模型请求边界。"""
+        return all(
+            not record["cleanup_error"]
+            and (
+                record["cleanup_confirmed"]
+                or (
+                    name == repair_name
+                    and record.get("kind") == "repair"
+                    and record["active"]
+                    and record.get("paused") is True
+                    and record["profile_verified"]
+                )
+            )
+            for name, record in self.containers.items()
+        )
+
     def cleanup(self, *, retain, passed, paused=False):
         keep = retain == "always" or (retain == "on_failure" and not passed)
         if not self.containers_clean:

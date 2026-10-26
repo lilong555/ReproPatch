@@ -28,7 +28,8 @@ pytestmark = [
 @pytest.fixture
 def docker_task(task):
     raw = task.to_dict()
-    raw["environment"]["image"] = inspect_image("repropatch-cpp:0.1").image_id
+    image = os.environ.get("REPROPATCH_TEST_IMAGE", "repropatch-cpp:0.1")
+    raw["environment"]["image"] = inspect_image(image).image_id
     return Task.from_dict(raw, task.repository.parent)
 
 
@@ -39,7 +40,7 @@ def real_sandbox(tmp_path, source, **kwargs):
     evidence.mkdir(mode=0o700, exist_ok=True)
     return DockerSandbox(
         source,
-        "repropatch-cpp:0.1",
+        os.environ.get("REPROPATCH_TEST_IMAGE", "repropatch-cpp:0.1"),
         log_root=evidence,
         audit_budget=AuditBudget(evidence),
         **kwargs,

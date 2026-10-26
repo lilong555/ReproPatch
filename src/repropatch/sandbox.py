@@ -144,6 +144,15 @@ class DockerSandbox:
         actual = info.get("Config", {}).get("Labels", {}) or {}
         return {**actual, **self.labels}
 
+    def bind_mounts(self):
+        mounts = {"/src": (str(self.source), False)}
+        if self.compiler_cache is not None:
+            path = self.compiler_cache
+            if path.is_symlink() or not path.is_dir() or "," in str(path) or "\n" in str(path):
+                raise ExecutionError("CACHE_PATH: 编译缓存路径不受支持")
+            mounts["/cache"] = (str(path), True)
+        return mounts
+
     def create_argv(self):
         memory = self.resources.memory_mib if self.resources else 768
         pids = self.resources.pids_limit if self.resources else 64
@@ -172,8 +181,6 @@ class DockerSandbox:
             "--log-driver=none",
             "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
             f"--tmpfs=/build:rw,exec,nosuid,nodev,size={build_tmpfs}m,uid=65534,gid=65534,mode=0700",
-            "--mount",
-            f"type=bind,source={self.source},target=/src,readonly",
             "--workdir=/build",
             "--env=HOME=/tmp",
             "--env=TMPDIR=/tmp",
@@ -182,15 +189,15 @@ class DockerSandbox:
             "--env=CMAKE_BUILD_PARALLEL_LEVEL=2",
             "--env=CTEST_PARALLEL_LEVEL=1",
         ]
+        for target, (source, writable) in self.bind_mounts().items():
+            args += [
+                "--mount",
+                f"type=bind,source={source},target={target}" + ("" if writable else ",readonly"),
+            ]
         for name, value in self.labels.items():
             args += ["--label", f"{name}={value}"]
         if self.compiler_cache is not None:
-            path = self.compiler_cache
-            if path.is_symlink() or not path.is_dir() or "," in str(path) or "\n" in str(path):
-                raise ExecutionError("CACHE_PATH: 编译缓存路径不受支持")
             args += [
-                "--mount",
-                f"type=bind,source={path},target=/cache",
                 "--env=CCACHE_DIR=/cache",
                 "--env=CCACHE_MAXSIZE=1G",
                 "--env=CCACHE_COMPILERCHECK=content",
@@ -218,9 +225,7 @@ class DockerSandbox:
             "IpcMode": "none",
         }
         binds = [m for m in info.get("Mounts", []) if m.get("Type") == "bind"]
-        expected_binds = {"/src": (str(self.source), False)}
-        if self.compiler_cache is not None:
-            expected_binds["/cache"] = (str(self.compiler_cache), True)
+        expected_binds = self.bind_mounts()
         if (
             any(host.get(k) != v for k, v in required.items())
             or host.get("CapDrop") != ["ALL"]
@@ -397,11 +402,9 @@ class DockerSandbox:
                 if state.get("State", {}).get("OOMKilled") is True:
                     status = "oom_killed"
                     self.close()
-                elif state.get("State", {}).get("Running") is not True or result.returncode in {
-                    125,
-                    126,
-                    127,
-                }:
+                elif state.get("State", {}).get("Running") is not True or self.exec_start_failed(
+                    argv, result
+                ):
                     status = "infra_error"
                     error = "CONTAINER_EXEC: 命令启动失败或容器状态矛盾"
                     self.close()
@@ -425,6 +428,9 @@ class DockerSandbox:
         if getattr(self, "audit_log", None) is not None:
             self.audit_log.command_finished(result, self.audit_payload)
         return result
+
+    def exec_start_failed(self, argv, result):
+        return result.returncode in {125, 126, 127}
 
     def close(self):
         self.active = False

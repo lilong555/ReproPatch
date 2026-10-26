@@ -18,6 +18,7 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--build", action="store_true", help="先构建固定验收镜像")
+    parser.add_argument("--image", default="repropatch-cpp:0.1", help="验收使用的本地工具链镜像")
     parser.add_argument("--output", type=Path, help="新的证据目录，不覆盖已有目录")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
@@ -33,7 +34,12 @@ def main():
         parser.error(f"无法创建新的证据目录：{exc}")
     runtime = root / ".repropatch/gate-tests" / uuid.uuid4().hex
     runtime.parent.mkdir(parents=True, exist_ok=True)
-    environment = dict(os.environ, REPROPATCH_DOCKER_TESTS="1", PYTEST_ADDOPTS="")
+    environment = dict(
+        os.environ,
+        REPROPATCH_DOCKER_TESTS="1",
+        REPROPATCH_TEST_IMAGE=args.image,
+        PYTEST_ADDOPTS="",
+    )
     summary = {
         "gate": "V-DOCKER",
         "task_format_version": 2,
@@ -41,7 +47,7 @@ def main():
         "python": sys.version.split()[0],
         "platform": platform.platform(),
         "status": "error",
-        "image": "repropatch-cpp:0.1",
+        "image": args.image,
         "image_id": None,
         "commands": [],
     }
@@ -122,7 +128,7 @@ def main():
                 f"--basetemp={runtime}",
                 f"--junitxml={output / 'docker-tests.xml'}",
             ],
-            300,
+            600,
         )
         cases = list(ET.parse(output / "docker-tests.xml").iter("testcase"))
         required = {
@@ -147,11 +153,18 @@ def main():
             "test_sdk_shell_and_budget_real_docker[shell]",
             "test_sdk_shell_and_budget_real_docker[timeout]",
             "test_sdk_shell_and_budget_real_docker[budget]",
+            "test_shell_persistent_build_and_independent_cold_oracle",
+            "test_shell_readonly_paths_network_and_rename_protection",
+            "test_shell_output_limit_stops_container_and_preserves_candidate",
+            "test_shell_model_error_removes_frozen_container",
+            "test_shell_controller_death_cleans_persistent_container[checkpoint]",
+            "test_shell_controller_death_cleans_persistent_container[tool_finished]",
+            "test_shell_cli_example_uses_no_paid_model",
         }
         if not required <= {case.get("name") for case in cases} or any(
             case.find(tag) is not None for case in cases for tag in ("failure", "error", "skipped")
         ):
-            raise RuntimeError("真实 Docker 验收要求二十一项指定场景全部通过，且没有跳过或错误")
+            raise RuntimeError("真实 Docker 验收要求指定场景全部通过，且没有跳过或错误")
         summary.update(status="passed", tests_passed=len(cases))
         exit_code = 0
     except (OSError, RuntimeError, subprocess.TimeoutExpired, ET.ParseError) as exc:

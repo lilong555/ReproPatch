@@ -148,12 +148,13 @@ async def run_agent(harness, workspace) -> AgentResult:
         HarnessPause,
         InfrastructureError,
         OperationDeadline,
+        PatchRejected,
         PolicyError,
     )
     from .models import raw_token_usage
     from .recovery import save_checkpoint
     from .task import canonical_json
-    from .tools import Toolbox, model_evaluation, sdk_tools, sdk_tools_sha256
+    from .tools import Toolbox, model_evaluation, sdk_tools, sdk_tools_sha256, shell_only_tools
     from .verification import StageDeadline
     from .workspace import git_deadline
 
@@ -181,10 +182,12 @@ async def run_agent(harness, workspace) -> AgentResult:
     (harness.directory / "agent/native").mkdir(mode=0o700, exist_ok=True)
 
     def deadline():
+        if harness.shell_stop_reason is not None:
+            raise AgentStop(harness.shell_stop_reason)
         if context.clock.remaining("agent_check") <= 0:
             raise AgentStop("AGENT_DEADLINE")
-        if not harness.resources.containers_clean:
-            raise CleanupUnconfirmed("CLEANUP_UNCONFIRMED: 工具之后的容器未确认删除")
+        if not harness.agent_resources_ready():
+            raise CleanupUnconfirmed("CLEANUP_UNCONFIRMED: 工具之后的执行资源未确认静止")
 
     def save(name, value):
         ref = EvidenceRef.save(
@@ -337,6 +340,8 @@ async def run_agent(harness, workspace) -> AgentResult:
         except OperationDeadline:
             raise AgentStop("AGENT_DEADLINE") from None
         except PolicyError as exc:
+            if isinstance(exc, PatchRejected) and harness.tool_mode == "shell-only":
+                raise
             message = str(exc)
             code = message.split(":", 1)[0] if ":" in message else "INVALID_ARGUMENT"
             code = {"EDIT_FILE_TOO_LARGE": "FILE_TOO_LARGE", "EDIT_NOT_TEXT": "NOT_UTF8"}.get(
@@ -376,10 +381,17 @@ async def run_agent(harness, workspace) -> AgentResult:
         lambda name: harness._agent_check(workspace, name),
         readable=harness.resolved.readable_files,
     )
-    tools = sdk_tools(
-        toolbox,
-        boundary,
-        lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
+    tools = (
+        shell_only_tools(
+            boundary,
+            lambda command, cwd, timeout: harness._agent_bash(workspace, command, cwd, timeout),
+        )
+        if harness.tool_mode == "shell-only"
+        else sdk_tools(
+            toolbox,
+            boundary,
+            lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
+        )
     )
     names = {tool.name for tool in tools}
     tools_sha256 = sdk_tools_sha256(tools)
@@ -396,6 +408,22 @@ async def run_agent(harness, workspace) -> AgentResult:
                     "image_id": harness.resolved.image_id,
                     "budget": asdict(budget),
                     "baseline": baseline,
+                    **(
+                        {
+                            "commands": harness.task.commands.to_dict(),
+                            "shell": {
+                                "source_visibility": "complete_prepared_snapshot",
+                                "source_root": "/src",
+                                "build_root": "/build",
+                                "persistent": True,
+                                "edit_mode": "in_place",
+                                "git_metadata": "host_only",
+                                "compiler_cache": "ccache" if harness.compiler_cache else "off",
+                            },
+                        }
+                        if harness.tool_mode == "shell-only"
+                        else {}
+                    ),
                 }
             ).decode(),
         }

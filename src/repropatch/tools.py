@@ -306,3 +306,20 @@ def sdk_tools(toolbox, boundary, shell):
         return await boundary("run_shell", lambda: shell(command, cwd, timeout_seconds))
 
     return [list_directory, read_file, search_code, edit_file, run_command, run_shell]
+
+
+def shell_only_tools(boundary, shell):
+    """Shell-first 仅注册一个原生异步工具，继续复用整批准入与串行执行。"""
+    from agents import function_tool
+    from pydantic import StrictInt
+
+    @function_tool(failure_error_function=None)
+    async def bash(
+        command: str,
+        cwd: Literal["/src", "/build"] = "/src",
+        timeout_seconds: StrictInt | None = None,
+    ) -> str:
+        """在持久隔离容器执行 Bash；已有 editable 文件支持原位写入，/build 跨命令保留。"""
+        return await boundary("bash", lambda: shell(command, cwd, timeout_seconds))
+
+    return [bash]

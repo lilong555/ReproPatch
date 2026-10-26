@@ -576,6 +576,11 @@ class Worktree:
         updated = text.replace(old, new, 1).encode("utf-8")
         if len(updated) > MAX_EDIT_FILE or b"\0" in updated:
             raise PolicyError("EDIT_FILE_TOO_LARGE: 内容不符合编辑边界")
+        self._replace_file(name, updated, info)
+        return updated != content
+
+    def _replace_file(self, name, updated, info):
+        """使用已校验字节替换文件，同时保留工作树的权限与所有权。"""
         directory = self._parent_descriptor(name)
         temporary = ".repropatch-edit-" + uuid.uuid4().hex
         primary_error = None
@@ -617,7 +622,31 @@ class Worktree:
                 primary_error.add_note(f"临时编辑文件清理失败：{cleanup}")
             finally:
                 os.close(directory)
-        return updated != content
+
+    def import_snapshot(self, source, allowed, protected=()):
+        """在容器静止后先审计整棵树，再接收已有授权文件的字节变化。"""
+        previous = self.assert_current()
+        try:
+            observed = source_manifest(source)
+        except (PolicyError, OSError) as exc:
+            raise PatchRejected("FORBIDDEN_PATCH: 修复源码布局或大小无效") from exc
+        validate_source_changes(source, self.initial_manifest, observed, allowed, protected)
+        previous_files = previous.by_path
+        updates = {}
+        for entry in observed.files:
+            if entry != previous_files[entry.path]:
+                actual, content, _ = _source_file(source, entry.path)
+                if actual != entry:
+                    raise SourceChanged("SOURCE_CHANGED: 修复源码在审计期间变化")
+                updates[entry.path] = content
+        if source_manifest(source) != observed:
+            raise SourceChanged("SOURCE_CHANGED: 修复源码在审计期间变化")
+        for name, content in updates.items():
+            _, info = self.read_file(name)
+            self._replace_file(name, content, info)
+        if self.assert_current() != observed:
+            raise SourceChanged("SOURCE_CHANGED: 同步后源码与修复快照不一致")
+        return observed, tuple(sorted(updates))
 
     def _parent_descriptor(self, name):
         """逐段禁止链接并固定目录 fd，替换不再重新跟随宿主路径。"""
@@ -738,25 +767,9 @@ class Worktree:
             current = self.manifest()
         except PolicyError as exc:
             raise PatchRejected(f"FORBIDDEN_PATCH: {exc}") from exc
-        before = self.initial_manifest.by_path
-        after = current.by_path
-        if before.keys() != after.keys():
-            raise PatchRejected("FORBIDDEN_PATCH: 新增、删除或重命名文件不受支持")
-        changed = []
-        for name, entry in after.items():
-            if entry.git_mode != before[name].git_mode:
-                raise PatchRejected("FORBIDDEN_PATCH: Git mode 变化")
-            if entry.sha256 != before[name].sha256:
-                if not _editable(name, allowed, protected):
-                    raise PatchRejected(f"FORBIDDEN_PATCH: protected 文件变化 {name}")
-                _, content, _ = _source_file(self.path, name)
-                if len(content) > MAX_EDIT_FILE or b"\0" in content:
-                    raise PatchRejected("FORBIDDEN_PATCH: 修改文件不是允许大小内的文本")
-                try:
-                    content.decode("utf-8")
-                except UnicodeError as exc:
-                    raise PatchRejected("FORBIDDEN_PATCH: 修改文件不是 UTF-8") from exc
-                changed.append(name)
+        changed = validate_source_changes(
+            self.path, self.initial_manifest, current, allowed, protected
+        )
         status = git(
             self.path,
             "status",
@@ -816,6 +829,30 @@ def _editable(name, allowed, protected):
         and Path(name).suffix in CPP_SUFFIXES
         and Path(name).name != "CMakeLists.txt"
     )
+
+
+def validate_source_changes(root, initial, current, allowed, protected=()):
+    before, after = initial.by_path, current.by_path
+    if before.keys() != after.keys():
+        raise PatchRejected("FORBIDDEN_PATCH: 文件集合发生变化")
+    changed = []
+    for name, entry in after.items():
+        if entry.git_mode != before[name].git_mode:
+            raise PatchRejected("FORBIDDEN_PATCH: Git mode 变化")
+        if entry.sha256 != before[name].sha256:
+            if not _editable(name, allowed, protected):
+                raise PatchRejected(f"FORBIDDEN_PATCH: protected 文件变化 {name}")
+            actual, content, _ = _source_file(root, name)
+            if actual != entry:
+                raise SourceChanged("SOURCE_CHANGED: 文件在审计期间变化")
+            if len(content) > MAX_EDIT_FILE or b"\0" in content:
+                raise PatchRejected("FORBIDDEN_PATCH: 修改文件须为 1 MiB 内的 UTF-8 文本")
+            try:
+                content.decode("utf-8")
+            except UnicodeError as exc:
+                raise PatchRejected("FORBIDDEN_PATCH: 修改文件须为 UTF-8 文本") from exc
+            changed.append(name)
+    return tuple(sorted(changed))
 
 
 def _preflight_patch(worktree, patch, allowed, protected, *, apply=False):

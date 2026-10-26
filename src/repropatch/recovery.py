@@ -40,8 +40,9 @@ def save_checkpoint(harness, workspace, native, tools_sha256):
     """先持久化不可变文件，再提交引用和关闭片段；失败留下的文件没有恢复效力。"""
     log = harness.log
     row = log.state
-    if row["state"] != "REPAIRING" or not harness.resources.containers_clean:
+    if row["state"] != "REPAIRING" or not harness.agent_resources_ready():
         raise InfrastructureError("CHECKPOINT_UNSAFE: 输入边界仍有未确认资源")
+    harness.assert_repair_idle(workspace)
     harness.resources.assert_owned()
     with git_deadline(harness.context.clock.deadline("agent_check")):
         source, patch = workspace.checkpoint_source(
@@ -532,10 +533,10 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     from importlib.metadata import PackageNotFoundError, version
 
     from . import __version__
-    from .harness import SYSTEM, Harness, implementation_sha256
+    from .harness import Harness, implementation_sha256, instructions_for
     from .models import ResponsesConfig, prepare_sdk, sdk_script_bytes
     from .task import ImageIdentity, Task, resolve_task
-    from .tools import sdk_tools_sha256
+    from .tools import sdk_tools_sha256, shell_only_tools
     from .verification import EvaluationEvidence, RunClock, RunContext, baseline_result
     from .workspace import Worktree
 
@@ -547,6 +548,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     native = _json(
         EvidenceRef(**manifest["native_next_input"]).read(directory, limit=256 * 1024 + 1)
     )
+    tool_mode = config.get("benchmark", {}).get("tool_mode", "legacy")
     try:
         versions = {name: version(name) for name in ("openai-agents", "openai")}
     except PackageNotFoundError:
@@ -556,14 +558,19 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         or config["implementation_sha256"] != implementation_sha256()
         or config["python"] != platform.python_version()
         or config["sdk_versions"] != versions
-        or config["instructions"] != SYSTEM
+        or config["instructions"] != instructions_for(tool_mode)
         or native["instructions"] != config["instructions"]
     ):
         raise InfrastructureError(
             "INPUT_CHANGED: Harness、Python、SDK 或 instructions 身份发生变化"
         )
     prepare_sdk()
-    if manifest["input_fingerprints"]["tools_sha256"] != sdk_tools_sha256():
+    tools_hash = (
+        sdk_tools_sha256(shell_only_tools(None, None))
+        if tool_mode == "shell-only"
+        else sdk_tools_sha256()
+    )
+    if manifest["input_fingerprints"]["tools_sha256"] != tools_hash:
         raise InfrastructureError("INPUT_CHANGED: 工具 schema 发生变化")
     original = EvidenceRef(**frozen["task_original"]).read(directory, limit=128 * 1024)
     task = Task.from_dict(raw["task"], directory, source_bytes=original)
@@ -605,6 +612,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         pause_after_step=pause_after_step,
         candidate_only=config.get("benchmark", {}).get("candidate_only", False),
         compiler_cache=config.get("benchmark", {}).get("compiler_cache", False),
+        tool_mode=tool_mode,
     )
     harness.resources, harness.log, harness.directory = resources, log, directory
     clock = RunClock.restore(
@@ -612,6 +620,17 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     )
     harness._initial_report(clock, snapshot.run_id)
     harness.resolved, harness.resuming, harness.resume_native = resolved, True, native
+    if tool_mode == "shell-only":
+        native["input"].append(
+            {
+                "role": "user",
+                "content": (
+                    "修复环境已从已提交的 Checkpoint 恢复。/src 包含已审计的源码修改；"
+                    "/build 和 /tmp 已清空，编译缓存重新开始。请按需重新配置、构建和创建临时文件。"
+                    "累计请求、工具预算和原始期限继续生效。"
+                ),
+            }
+        )
     harness.instructions = native["instructions"]
     harness.independent = None
     baseline_ref = EvidenceRef(**manifest["baseline"])
