@@ -1,5 +1,17 @@
 # 测试报告
 
+## Shell-first 基线
+
+[GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40275823791)在
+`24bbcea3922d8a01bfd9cc241600fe4821ea8406` 通过 **653 项**：
+**448 Core、166 SDK、39 真实 Docker**，失败、错误与跳过均为 0，Ruff 与格式检查通过。
+镜像在 Actions 内构建，测试镜像 ID 为
+`sha256:dd7e442b17de688a6da1c5607450cc9dcce072b0e071dc4670da7f7d2de92f5c`。
+
+覆盖持久 Bash、跨命令构建复用、合法补丁与独立冷验收、源码权限、输出超限清理、
+暂停恢复和 CLI 确定性示例。付费模型请求为 0。
+执行契约与后续任务见 [Shell-first 规格](SHELL_FIRST.md)，原始 JUnit 和 Run 证据保存在该 CI 的三个 Artifact 中。
+
 ## 冻结模型实验源码
 
 [GitHub CI](https://github.com/lilong555/ReproPatch/actions/runs/40212551852)在 `9d9e4be7ddcb9573edc5c7540b3e1808713d5744` 通过 **614 项**：

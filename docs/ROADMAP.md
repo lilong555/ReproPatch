@@ -7,7 +7,7 @@
 
 | 范围 | 当前状态 | 证据 |
 | --- | --- | --- |
-| 受控修复与独立验收 | 完成；六工具、完整源码清单、Docker 隔离、CTest 逐项裁决 | [架构](ARCHITECTURE.md) |
+| 受控修复与独立验收 | 完成；六工具和持久 Shell、完整源码清单、Docker 隔离、CTest 逐项裁决 | [架构](ARCHITECTURE.md)、[Shell-first](SHELL_FIRST.md) |
 | Checkpoint、有限恢复、只读轨迹 | 完成；SQLite 事务保存状态、预算和事件 | P2-01 至 P2-04 |
 | F2P 自检与回归策略 | 完成；调试优先 reproduce，预算允许继续修复时 verify，最终独立验收 | [v2 结果](../benchmarks/generalization-final-results.md) |
 | 候选来源 | 完成；首个非空来源导出，损坏引用明确报错 | [候选契约](../tests/test_codex_benchmark.py) |
@@ -38,7 +38,7 @@ Actions 工作流、统一冷 Oracle、显式 candidate-only、Run 内 ccache、
 
 | 工作 | 验收标准 |
 | --- | --- |
-| Shell-first 基线 | 持久 Bash、合法补丁导出和独立冷 Oracle；通过现有 Actions 验收，见 [规格](SHELL_FIRST.md) |
+| Shell-first 基线 | 完成；持久 Bash、合法补丁导出和独立冷 Oracle，653 项 Actions 测试通过，见 [规格](SHELL_FIRST.md) |
 | 目标级增量验证 | 持久构建目录中编译相关 target、运行可见定向测试，记录分阶段耗时 |
 | 编译诊断反馈 | GCC/Clang 摘要与完整日志并存，单独比较输入 Token、耗时和修复结果 |
 | 六题开发实验 | 固定模型与预算，比较 Shell-only 和 C++ 快速反馈；独立集覆盖至少两个仓库 |
