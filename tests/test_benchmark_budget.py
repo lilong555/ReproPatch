@@ -87,12 +87,17 @@ def test_local_model_usage_has_separate_ledger_and_request_limit(tmp_path):
         ledger.settle(identity, b'{"usage":{"input_tokens":10,"output_tokens":2}}', 200)
     with pytest.raises(budget.BudgetLimit, match="REQUEST_LIMIT"):
         ledger.reserve("local", b"request")
-    assert ledger.summary() == {
+    summary = ledger.summary()
+    assert {
+        key: summary[key]
+        for key in ("requests", "unknown_usage_requests", "cost_cny", "cost_basis")
+    } == {
         "requests": 12,
         "unknown_usage_requests": 0,
         "cost_cny": None,
         "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量",
     }
+    assert summary["issued_requests"] == 12 and summary["local_rejections"] == 1
     with pytest.raises(budget.BudgetLimit, match="SETTLEMENT_CONFLICT"):
         ledger.settle(identity, b"{}", 200)
     with pytest.raises(sqlite3.OperationalError):

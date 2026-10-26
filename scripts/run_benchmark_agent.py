@@ -24,6 +24,17 @@ from benchmark_budget import (
     validate_task_budget,
 )
 
+from repropatch.context import (
+    SUMMARY_INSTRUCTIONS,
+    ContextLimit,
+    ContextPolicy,
+    ContextState,
+    encoded,
+    fold_tool_output,
+    request_purpose,
+    stop_reason,
+)
+
 
 def provider(args):
     """保留冻结的 DeepSeek 配置，显式选择用户提供的 CPA 对照配置。"""
@@ -59,6 +70,13 @@ def responses_client(args, hooks, *, transport=None):
                 headers.pop("content-length", None)
                 options["headers"] = headers
             return super().build_request(method, url, **options)
+
+        async def send(self, request, **kwargs):
+            try:
+                return await super().send(request, **kwargs)
+            except Exception as error:
+                hooks.abort(request, error)
+                raise
 
     return ConfiguredClient(
         trust_env=provider(args)[3],
@@ -214,6 +232,7 @@ def intermediate_checks(harness, enabled=True):
 
     original_tools = tools_module.sdk_tools
     original_instructions = harness.instructions
+    original_checks = harness.intermediate_checks_enabled
     replacements = (
         (
             "make a minimal correct repair, and run verification.",
@@ -271,12 +290,14 @@ def intermediate_checks(harness, enabled=True):
         ]
 
     harness.instructions = instructions
+    harness.intermediate_checks_enabled = False
     tools_module.sdk_tools = file_tools
     try:
         yield
     finally:
         tools_module.sdk_tools = original_tools
         harness.instructions = original_instructions
+        harness.intermediate_checks_enabled = original_checks
 
 
 def repropatch_agent(args, hooks, task):
@@ -308,6 +329,10 @@ def repropatch_agent(args, hooks, task):
             candidate_only=getattr(args, "candidate_only", False),
             compiler_cache=getattr(args, "compiler_cache", False),
             tool_mode=getattr(args, "tool_mode", "legacy"),
+            context_policy=hooks.ledger.policy
+            if isinstance(hooks.ledger, LocalUsageLedger)
+            else None,
+            context_meter=hooks if isinstance(hooks.ledger, LocalUsageLedger) else None,
         )
         with intermediate_checks(
             harness, enabled=getattr(args, "intermediate_checks", "enabled") == "enabled"
@@ -322,6 +347,13 @@ def repropatch_agent(args, hooks, task):
         "native_status": report["outcome"] or report["state"],
         "native_outcome": report["outcome"],
         "native_reason": report["reason_code"],
+        "agent_stop_reason": report["agent"].get("agent_stop_reason"),
+        "stop_reason": {
+            "MODEL_FINISHED": "COMPLETED",
+            "STEP_BUDGET": "REQUEST_BUDGET_EXHAUSTED",
+            "TOOL_BUDGET": "TOOL_BUDGET_EXHAUSTED",
+        }.get(report["agent"].get("agent_stop_reason"), report["agent"].get("agent_stop_reason")),
+        "context": report.get("context"),
         "native_artifact_dir": str(directory),
         "native_task_sha256": report["provenance"]["task_sha256"],
         "native_image_id": report["provenance"]["image_id"],
@@ -335,6 +367,61 @@ def repropatch_agent(args, hooks, task):
         "model_steps": report["model_steps"],
         "container_deleted": report["cleanup_confirmed"],
     }
+
+
+def response_text(response):
+    if response.get("status") != "completed":
+        raise ContextLimit("COMPACTION_FAILED", detail="摘要响应未完成")
+    if any(item.get("type") not in {"message", "reasoning"} for item in response.get("output", [])):
+        raise ContextLimit("COMPACTION_FAILED", detail="摘要返回执行项")
+    return "\n".join(
+        piece["text"]
+        for item in response.get("output", [])
+        if item.get("type") == "message"
+        for piece in item.get("content", [])
+        if piece.get("type") == "output_text"
+    )
+
+
+class MiniContextAdapter:
+    """固定 DefaultAgent 的上下文适配器；只替换其公开 messages 列表。"""
+
+    def __init__(self, native, hooks, output, parameters, summarize):
+        self.native, self.hooks, self.output = native, hooks, output
+        self.parameters, self.summarize = parameters, summarize
+        self.state = ContextState(hooks.ledger.policy)
+
+    def prepare(self, messages):
+        if not self.state.policy.compaction_enabled:
+            return
+        prepared = self.native._prepare_messages_for_api(messages)
+        body = {**self.parameters, "input": prepared}
+        self.state.estimator = self.hooks.ledger.estimator(self.hooks.attempt)
+        plan = self.state.plan(body)
+        if plan is None:
+            return
+        started = time.monotonic()
+        root = self.output / "context"
+        root.mkdir(exist_ok=True)
+        index = len(self.state.compactions) + 1
+        save(root / f"{index:04d}-original-history.json", messages)
+        try:
+            with request_purpose("compact"):
+                summary = self.summarize(plan["summarize"])
+            replacement = self.state.replace(
+                body,
+                plan,
+                summary,
+                sequence=self.hooks.ledger.summary(self.hooks.attempt)["issued_requests"],
+                duration_seconds=time.monotonic() - started,
+            )
+        except Exception as error:
+            save(root / f"{index:04d}-failure.json", {"cause": stop_reason(error)})
+            if stop_reason(error) in {"REQUEST_BUDGET_EXHAUSTED", "LOCAL_TRANSPORT_LIMIT"}:
+                raise
+            raise ContextLimit("COMPACTION_FAILED") from error
+        messages[:] = replacement
+        save(root / f"{index:04d}-checkpoint.json", self.state.to_dict())
 
 
 def mini_agent(args, hooks, task):
@@ -360,6 +447,7 @@ def mini_agent(args, hooks, task):
     from minisweagent.environments import get_environment
     from minisweagent.exceptions import InterruptAgentFlow, LimitsExceeded
     from minisweagent.models.litellm_response_model import LitellmResponseModel
+    from minisweagent.models.utils.actions_toolcall_response import BASH_TOOL_RESPONSE_API
 
     for name in ("LiteLLM", "litellm", "httpx", "openai"):
         logging.getLogger(name).disabled = True
@@ -396,13 +484,53 @@ def mini_agent(args, hooks, task):
     calls = 0
     started = time.monotonic()
     deadline = started + args.agent_seconds
-    http = httpx.Client(
+
+    class MeteredHTTP(httpx.Client):
+        def send(self, request, **kwargs):
+            try:
+                return super().send(request, **kwargs)
+            except Exception as error:
+                hooks.abort(request, error)
+                raise
+
+    http = MeteredHTTP(
         trust_env=use_proxy,
         follow_redirects=False,
         timeout=task.budget.model_timeout_seconds,
         event_hooks={"request": [hooks.request], "response": [hooks.response]},
     )
     handler = HTTPHandler(client=http, follow_redirects=False)
+    context_adapter = None
+    if isinstance(hooks.ledger, LocalUsageLedger):
+        parameters = {
+            "model": model_name,
+            "max_output_tokens": task.budget.max_output_tokens,
+            "tools": [BASH_TOOL_RESPONSE_API],
+            **reasoning_parameters(args),
+            "stream": False,
+            "store": False,
+        }
+
+        def summarize(items):
+            response = http.post(
+                base_url + "/responses",
+                content=encoded(
+                    {
+                        **parameters,
+                        "tools": [],
+                        "instructions": SUMMARY_INSTRUCTIONS,
+                        "input": [{"role": "user", "content": encoded(items).decode()}],
+                    }
+                ),
+                headers={
+                    "Authorization": "Bearer " + os.environ[provider(args)[2]],
+                    "Content-Type": "application/json",
+                },
+            )
+            response.raise_for_status()
+            return response_text(response.json())
+
+        context_adapter = MiniContextAdapter(native, hooks, args.output, parameters, summarize)
 
     class ModelTransport:
         def __getattr__(self, name):
@@ -411,7 +539,12 @@ def mini_agent(args, hooks, task):
         def query(self, messages):
             nonlocal calls
             prepared = native._prepare_messages_for_api(messages)
-            if len(canonical_json({"input": prepared})) > 256 * 1024:
+            if context_adapter and context_adapter.state.policy.compaction_enabled:
+                context_adapter.prepare(messages)
+            elif (
+                len(canonical_json({"input": prepared}))
+                > getattr(hooks.ledger, "policy", ContextPolicy.legacy()).transport_max_bytes
+            ):
                 raise LimitsExceeded(
                     {
                         "role": "exit",
@@ -421,10 +554,20 @@ def mini_agent(args, hooks, task):
                 )
             try:
                 result = native.query(messages, client=handler)
-            except (BudgetLimit, InterruptAgentFlow):
+            except (ContextLimit, InterruptAgentFlow):
                 raise
             except Exception as error:
-                raise RuntimeError("MODEL_REQUEST_FAILED:" + type(error).__name__) from None
+                cause = error
+                while cause is not None:
+                    if isinstance(cause, ContextLimit):
+                        raise cause from error
+                    cause = cause.__cause__
+                raise ContextLimit(stop_reason(error)) from error
+            if context_adapter and context_adapter.state.compactions:
+                context_adapter.state.compactions[-1].setdefault(
+                    "post_compact_actual_input_tokens",
+                    ((hooks.last_response or {}).get("usage") or {}).get("input_tokens"),
+                )
             actions = result.get("extra", {}).get("actions", [])
             if len(actions) > 8 or calls + len(actions) > task.budget.max_tool_calls:
                 raise LimitsExceeded(
@@ -438,6 +581,8 @@ def mini_agent(args, hooks, task):
             return result
 
     class EnvironmentDeadline:
+        output_count = 0
+
         def __getattr__(self, name):
             return getattr(env, name)
 
@@ -448,6 +593,40 @@ def mini_agent(args, hooks, task):
             result = env.execute(action, timeout=min(task.timeout_seconds, remaining))
             if result.get("exception_info"):
                 raise RuntimeError("TOOL_EXECUTION_UNKNOWN")
+            if context_adapter and context_adapter.state.compactions:
+                context_adapter.state.compactions[-1]["continued_with_tools"] = True
+            if context_adapter and context_adapter.state.policy.compaction_enabled:
+                self.output_count += 1
+                target = f"/build/repropatch-tool-output-{self.output_count:04d}.log"
+
+                def archive(raw):
+                    root = args.output / "tool-outputs"
+                    root.mkdir(exist_ok=True)
+                    (root / f"{self.output_count:04d}.log").write_bytes(raw)
+                    subprocess.run(
+                        [
+                            "docker",
+                            "exec",
+                            "-i",
+                            env.container_id,
+                            "python3",
+                            "-c",
+                            "import pathlib,sys; "
+                            "pathlib.Path(sys.argv[1]).write_bytes(sys.stdin.buffer.read())",
+                            target,
+                        ],
+                        input=raw,
+                        check=True,
+                        capture_output=True,
+                        timeout=30,
+                    )
+                    return target
+
+                result["output"] = fold_tool_output(
+                    result.get("output", ""),
+                    context_adapter.state.policy.tool_output_max_bytes,
+                    archive,
+                )
             return result
 
     deleted = False
@@ -524,6 +703,13 @@ def mini_agent(args, hooks, task):
         result = agent.run(task_input)
     finally:
         http.close()
+        save(
+            args.output / "adapter-metrics.json",
+            {
+                "context": context_adapter.state.to_dict() if context_adapter else None,
+                "tool_calls_admitted": calls,
+            },
+        )
         if env is not None and env.container_id is not None:
             identity = env.container_id
             env.cleanup()
@@ -568,6 +754,13 @@ def mini_agent(args, hooks, task):
         "native_exit_status": result.get("exit_status"),
         "native_status": result.get("exit_status"),
         "native_reason": result.get("exit_status"),
+        "stop_reason": {
+            "Submitted": "COMPLETED",
+            "LimitsExceeded": "REQUEST_BUDGET_EXHAUSTED",
+            "TOOL_BUDGET": "TOOL_BUDGET_EXHAUSTED",
+            "TimeExceeded": "AGENT_DEADLINE",
+        }.get(result.get("exit_status"), result.get("exit_status")),
+        "context": context_adapter.state.to_dict() if context_adapter else None,
         "internal_verification_status": "not_performed",
         "internal_acceptance": None,
         **candidate_metadata(patch),
@@ -624,11 +817,7 @@ def main():
         else:
             check_pricing_date()
             ledger = BudgetLedger(args.ledger)
-        request_cap = (
-            ledger.request_cap(args.attempt)
-            if args.provider == "local-luna"
-            else 12
-        )
+        request_cap = ledger.request_cap(args.attempt) if args.provider == "local-luna" else 12
         validate_task_budget(task, request_cap=request_cap)
         if args.agent == "mini":
             mini_inputs(args, task)
@@ -711,12 +900,16 @@ def main():
     except Exception as error:
         result["native_status"] = "ERROR"
         result["error_type"] = type(error).__name__
-        if isinstance(error, BudgetLimit):
+        result["stop_reason"] = stop_reason(error)
+        if isinstance(error, ContextLimit):
             result["error_code"] = str(error)
         elif isinstance(error, RuntimeError) and str(error).startswith("MODEL_REQUEST_FAILED:"):
             result["error_code"] = str(error)
     finally:
         if args.agent == "mini" and (args.output / "cleanup.json").is_file():
+            metrics = args.output / "adapter-metrics.json"
+            if metrics.is_file():
+                result.update(json.loads(metrics.read_text()))
             cleanup = json.loads((args.output / "cleanup.json").read_text())
             result["container_deleted"] = cleanup["container_deleted"]
             candidate = args.output / "candidate.patch"
@@ -726,6 +919,10 @@ def main():
         result.update(
             duration_seconds=time.monotonic() - started, money=ledger.summary(args.attempt)
         )
+        if isinstance(ledger, LocalUsageLedger):
+            result.update(ledger.summary(args.attempt))
+            result["context_policy"] = ledger.policy.to_dict()
+            result["compaction_count"] = len((result.get("context") or {}).get("compactions", []))
         save(args.output / "result.json", result)
     print(json.dumps(result, ensure_ascii=False))
     return code

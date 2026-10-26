@@ -1,15 +1,15 @@
 name: Formal Luna max benchmark
-run-name: Luna max · ${{ inputs.authorization == '504' && 'Shell-only 21题' || inputs.authorization == '2016' && '四臂对照 21题' || '四臂 19题' }} · ${{ github.ref_name }}
+run-name: Luna max · ${{ inputs.authorization }} requests · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: '2016：21题四臂对照，每臂24次；504：21题 Shell-only；912：历史四臂'
+        description: '12：上下文校准；480：四题五组 Pilot；2520：21题五组；其余为历史协议'
         required: true
         type: choice
-        options: ['912', '504', '2016']
-        default: '912'
+        options: ['12', '480', '2520', '912', '504', '2016']
+        default: '12'
 
 permissions:
   contents: read
@@ -21,12 +21,12 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
+  FORMAL_PROTOCOL: ${{ inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
   calibration:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 50
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
     steps:
@@ -51,11 +51,26 @@ jobs:
           PY
           python -m pip install -c requirements/agent.txt -e '.[agent]'
       - name: Verify frozen supplier max calibration
+        if: inputs.authorization == '912' || inputs.authorization == '504' || inputs.authorization == '2016'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh run download 40199698518 --repo "$GITHUB_REPOSITORY" --name formal-calibration-40199698518 --dir .repropatch/calibration-input
           python scripts/formal_benchmark.py verify-calibration --protocol "$FORMAL_PROTOCOL" --source .repropatch/calibration-input --output .repropatch/calibration
+      - name: Verify unified source, full CI and prior stage evidence
+        if: inputs.authorization == '12' || inputs.authorization == '480' || inputs.authorization == '2520'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/context_campaign.py preflight --protocol "$FORMAL_PROTOCOL" --output .repropatch/context-preflight
+      - name: Calibrate supplier context within twelve requests
+        if: inputs.authorization == '12'
+        env:
+          OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
+        run: >-
+          python -u scripts/calibrate_context.py
+          --protocol "$FORMAL_PROTOCOL"
+          --codex-evidence .repropatch/context-preflight/native/codex
+          --output .repropatch/calibration
       - name: Verify prior attempts and remaining request allocations
         if: inputs.authorization == '912'
         env:
@@ -70,6 +85,7 @@ jobs:
           PY
           python scripts/formal_benchmark.py verify-registry --protocol "$FORMAL_PROTOCOL" --source .repropatch/pilot-input --output .repropatch/calibration/registry-gate
       - name: Freeze task matrix
+        if: inputs.authorization != '12'
         id: plan
         env:
           AUTHORIZED_REQUESTS: ${{ inputs.authorization }}
@@ -92,10 +108,19 @@ jobs:
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && (inputs.authorization == '12' || inputs.authorization == '480' || inputs.authorization == '2520')
+        with:
+          name: context-prerequisites-${{ github.run_id }}
+          path: .repropatch/context-preflight/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
 
   attempts:
     name: ${{ matrix.instance }} / ${{ matrix.arm }}
     needs: calibration
+    if: inputs.authorization != '12'
     runs-on: ubuntu-24.04
     timeout-minutes: 150
     strategy:
@@ -199,7 +224,7 @@ jobs:
 
   aggregate:
     needs: [calibration, attempts]
-    if: always()
+    if: always() && inputs.authorization != '12'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -218,6 +243,12 @@ jobs:
       - run: |
           python scripts/formal_benchmark.py aggregate --protocol "$FORMAL_PROTOCOL" --source .repropatch/summaries --output .repropatch/results
           cat .repropatch/results/results.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Evaluate real compaction Pilot gate
+        if: inputs.authorization == '480'
+        run: >-
+          python scripts/context_campaign.py pilot-gate
+          --protocol "$FORMAL_PROTOCOL" --source .repropatch/results
+          --output .repropatch/results/context-gate.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

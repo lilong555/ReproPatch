@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "report_date": "2026-10-26",
+  "model": "gpt-6-luna",
+  "reasoning_effort_configured": "max",
+  "calibration_evidence": "benchmarks/formal-max-calibration.json",
+  "calibration_requests_in_these_batches": 0,
+  "unique_tasks": 21,
+  "total_attempts": 105,
+  "attempts_per_task_and_arm": 1,
+  "automatic_retries": 0,
+  "request_cap_per_attempt": 24,
+  "formal_request_cap": 2520,
+  "total_model_requests": 1629,
+  "total_unknown_usage_requests": 5,
+  "usage_source": "attempt.usage，采用批次结束时的用量；score.worker_usage 为评分时快照",
+  "status_counts": {
+    "ORACLE_PASSED": 78,
+    "ORACLE_BUILD_FAILED": 9,
+    "INFRASTRUCTURE_FAILED": 6,
+    "ORACLE_TESTS_FAILED": 9,
+    "EMPTY_CANDIDATE": 3
+  },
+  "arm_metrics": [
+    {
+      "arm": "full",
+      "tasks": 21,
+      "oracle_pass": 17,
+      "oracle_pass_rate": 0.8095238095238095,
+      "model_requests": 374,
+      "unknown_usage_requests": 1,
+      "status_counts": {
+        "ORACLE_PASSED": 17,
+        "INFRASTRUCTURE_FAILED": 1,
+        "ORACLE_BUILD_FAILED": 1,
+        "ORACLE_TESTS_FAILED": 2
+      },
+      "passed_attempts_over_12_requests": 13
+    },
+    {
+      "arm": "no-checks",
+      "tasks": 21,
+      "oracle_pass": 17,
+      "oracle_pass_rate": 0.8095238095238095,
+      "model_requests": 375,
+      "unknown_usage_requests": 1,
+      "status_counts": {
+        "ORACLE_BUILD_FAILED": 3,
+        "ORACLE_PASSED": 17,
+        "INFRASTRUCTURE_FAILED": 1
+      },
+      "passed_attempts_over_12_requests": 14
+    },
+    {
+      "arm": "mini",
+      "tasks": 21,
+      "oracle_pass": 16,
+      "oracle_pass_rate": 0.7619047619047619,
+      "model_requests": 278,
+      "unknown_usage_requests": 2,
+      "status_counts": {
+        "ORACLE_PASSED": 16,
+        "INFRASTRUCTURE_FAILED": 2,
+        "ORACLE_TESTS_FAILED": 2,
+        "ORACLE_BUILD_FAILED": 1
+      },
+      "passed_attempts_over_12_requests": 10
+    },
+    {
+      "arm": "shell-only",
+      "tasks": 21,
+      "oracle_pass": 15,
+      "oracle_pass_rate": 0.7142857142857143,
+      "model_requests": 310,
+      "unknown_usage_requests": 1,
+      "status_counts": {
+        "ORACLE_PASSED": 15,
+        "ORACLE_BUILD_FAILED": 2,
+        "INFRASTRUCTURE_FAILED": 1,
+        "ORACLE_TESTS_FAILED": 3
+      },
+      "passed_attempts_over_12_requests": 14
+    },
+    {
+      "arm": "codex",
+      "tasks": 21,
+      "oracle_pass": 13,
+      "oracle_pass_rate": 0.6190476190476191,
+      "model_requests": 292,
+      "unknown_usage_requests": 0,
+      "status_counts": {
+        "ORACLE_PASSED": 13,
+        "ORACLE_BUILD_FAILED": 2,
+        "INFRASTRUCTURE_FAILED": 1,
+        "ORACLE_TESTS_FAILED": 2,
+        "EMPTY_CANDIDATE": 3
+      },
+      "passed_attempts_over_12_requests": 10
+    }
+  ],
+  "pairings": {
+    "full_vs_no-checks": {
+      "both_passed": [
+        "fmtlib__fmt-1390",
+        "fmtlib__fmt-2070",
+        "fmtlib__fmt-2310",
+        "fmtlib__fmt-2317",
+        "fmtlib__fmt-2610",
+        "fmtlib__fmt-2940",
+        "fmtlib__fmt-3248",
+        "fmtlib__fmt-3272",
+        "fmtlib__fmt-3537",
+        "fmtlib__fmt-3713",
+        "fmtlib__fmt-3727",
+        "fmtlib__fmt-3732",
+        "fmtlib__fmt-3734",
+        "fmtlib__fmt-493"
+      ],
+      "full_only_passed": [
+        "fmtlib__fmt-1171",
+        "fmtlib__fmt-2292",
+        "fmtlib__fmt-3750"
+      ],
+      "no-checks_only_passed": [
+        "fmtlib__fmt-3158",
+        "fmtlib__fmt-3260",
+        "fmtlib__fmt-3819"
+      ]
+    },
+    "full_vs_shell-only": {
+      "both_passed": [
+        "fmtlib__fmt-1171",
+        "fmtlib__fmt-1390",
+        "fmtlib__fmt-2070",
+        "fmtlib__fmt-2317",
+        "fmtlib__fmt-2610",
+        "fmtlib__fmt-2940",
+        "fmtlib__fmt-3248",
+        "fmtlib__fmt-3272",
+        "fmtlib__fmt-3537",
+        "fmtlib__fmt-3713",
+        "fmtlib__fmt-3727",
+        "fmtlib__fmt-3734",
+        "fmtlib__fmt-3750",
+        "fmtlib__fmt-493"
+      ],
+      "full_only_passed": [
+        "fmtlib__fmt-2292",
+        "fmtlib__fmt-2310",
+        "fmtlib__fmt-3732"
+      ],
+      "shell-only_only_passed": [
+        "fmtlib__fmt-3260"
+      ]
+    }
+  },
+  "evidence_checks": {
+    "unique_attempt_ids": 105,
+    "expected_attempts_present": true,
+    "same_task_source_sha_prepared_commit_and_image_per_task": true,
+    "accepted_attempts_with_executed_oracle_and_all_f2p_p2p_passed": 78,
+    "scoring_model_requests": 0,
+    "result_archive_sha256_verified": 2
+  },
+  "cost_cny": null,
+  "cost_basis": "金额由供应商账单确认；请求数按本批次最终用量汇总",
+  "sources": [
+    {
+      "run_id": 40278513399,
+      "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40278513399",
+      "source_commit": "3dedb21489f10427638e7483337869bc3ff77e53",
+      "protocol": "benchmarks/comparison-full-24-protocol.json",
+      "protocol_sha256": "6e0a46c4aeccba669dbbed4d3161a51db141b8a9522d427dae249bdd37df7103",
+      "results_file": "comparison-results.json",
+      "results_sha256": "b6c431cf78ee17adb7829611c47a4b68a9ed82d652261b29d83a1149575e763c",
+      "results_archive_sha256": "582e1da33600604fb163a79fccf9d214e11e4a7a18d34c29b261df97c3f830cd"
+    },
+    {
+      "run_id": 40277677079,
+      "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40277677079",
+      "source_commit": "608b39322004f763ed8e3378614c8540339fa514",
+      "protocol": "benchmarks/shell-only-full-protocol.json",
+      "protocol_sha256": "375a2e8f22791371d7b849c06835f7d81dbdd71754afe636adb81a97536babdc",
+      "results_file": "shell-only-results.json",
+      "results_sha256": "121421d71a7a2e3038ac3a3609a491210f523806cd40bfb842874e223815ae08",
+      "results_archive_sha256": "f667d4f90133d9648f54677e646475d551c3782e0bb9d525d639ecdeca6fb34d"
+    }
+  ]
+}
