@@ -103,7 +103,12 @@ jobs:
         if: always()
         with:
           name: context-native-evidence
-          path: .repropatch/ci-evidence/context/
+          path: |
+            .repropatch/ci-evidence/context/mini/
+            .repropatch/ci-evidence/context/codex/*.json
+            .repropatch/ci-evidence/context/codex/*.jsonl
+            .repropatch/ci-evidence/context/codex/*.sqlite3
+            .repropatch/ci-evidence/context/codex/stderr.log
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
