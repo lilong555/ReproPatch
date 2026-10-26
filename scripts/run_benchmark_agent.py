@@ -626,7 +626,7 @@ def main():
             ledger = BudgetLedger(args.ledger)
         request_cap = (
             ledger.request_cap(args.attempt)
-            if args.provider == "local-luna" and args.tool_mode == "shell-only"
+            if args.provider == "local-luna"
             else 12
         )
         validate_task_budget(task, request_cap=request_cap)

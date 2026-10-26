@@ -22,9 +22,30 @@ PROTOCOL = ROOT / "benchmarks/formal-max-protocol.json"
 
 def protocol():
     value = json.loads(PROTOCOL.read_text())
+    if "attempts" not in value:
+        value["attempts"] = [
+            {
+                "attempt_id": f"{value['batch_id']}/{task}/{arm}/first",
+                "instance_id": task,
+                "arm": arm,
+                "request_cap": value["request_cap_per_attempt"],
+            }
+            for task in value["tasks"]
+            for arm in value["arms"]
+        ]
     assert sum(a["request_cap"] for a in value["attempts"]) == value["formal_request_cap"]
     assert os.environ.get("GITHUB_RUN_ATTEMPT", "1") == "1", "重跑使用新的预注册批次"
     return value
+
+
+def execution_matrix(p):
+    """全量对照按任务和实验臂拆分，单个 Job 只占用一次修复时限。"""
+    arms = p["arms"] if p.get("matrix_per_arm") else ["all"]
+    return [
+        {"instance": task, "arm": arm, "suffix": "" if arm == "all" else "-" + arm}
+        for task in p["tasks"]
+        for arm in arms
+    ]
 
 
 def run(command, log):
@@ -328,7 +349,7 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
     return target
 
 
-def prepare(instance, output):
+def prepare(instance, output, arm="all"):
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
     from qualify_cpp_batch import ADAPTER, BUILD_TEST, archive, records, validate_record
@@ -405,7 +426,12 @@ def prepare(instance, output):
     initial = next(Path(baseline["artifact_directory"]).glob("agent/native/0001-input.json"))
     shutil.copyfile(initial, output / "common-input.json")
     mini = ROOT / ".repropatch/mini-source"
-    if any(a["arm"] in {"mini", "codex"} for a in p["attempts"]):
+    if any(
+        a["arm"] in {"mini", "codex"}
+        and a["instance_id"] == instance
+        and arm in {"all", a["arm"]}
+        for a in p["attempts"]
+    ):
         assert git(mini, "rev-parse", "HEAD").decode().strip() == MINI_COMMIT
     evidence = baseline["baseline"]
     seconds = (
@@ -425,10 +451,15 @@ def prepare(instance, output):
     save(output / "prepared.json", plan)
 
 
-def execute(instance, output):
+def execute(instance, output, arm="all"):
     p = protocol()
     settings = json.loads((output / "prepared.json").read_text())
-    attempts = [a for a in p["attempts"] if a["instance_id"] == instance]
+    attempts = [
+        a
+        for a in p["attempts"]
+        if a["instance_id"] == instance and arm in {"all", a["arm"]}
+    ]
+    assert attempts, "任务与实验臂须在批次中注册"
     agent_python = sys.executable
     mini_python = str(ROOT / ".repropatch/mini-env/bin/python")
     summaries = []
@@ -637,6 +668,9 @@ def main():
     )
     parser.add_argument("--protocol", type=Path, default=PROTOCOL)
     parser.add_argument("--instance")
+    parser.add_argument(
+        "--arm", choices=("all", "shell-only", "full", "no-checks", "mini", "codex"), default="all"
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source", type=Path)
     args = parser.parse_args()
@@ -652,9 +686,9 @@ def main():
     elif args.stage == "verify-registry":
         verify_registry(args.source, args.output)
     elif args.stage == "prepare":
-        prepare(args.instance, args.output)
+        prepare(args.instance, args.output, args.arm)
     elif args.stage == "run":
-        execute(args.instance, args.output)
+        execute(args.instance, args.output, args.arm)
     else:
         aggregate(args.source, args.output)
 

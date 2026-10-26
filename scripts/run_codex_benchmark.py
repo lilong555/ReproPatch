@@ -215,12 +215,12 @@ def main():
     )
     args = parser.parse_args()
     task = Task.load(args.task)
-    validate_task_budget(task)
+    ledger = LocalUsageLedger(args.ledger)
+    validate_task_budget(task, request_cap=ledger.request_cap(args.attempt))
     config, common, source = mini_inputs(args, task)
     subprocess.run(
         ["git", "-C", str(source), "diff", "--quiet", "HEAD", "--"], check=True, timeout=30
     )
-    ledger = LocalUsageLedger(args.ledger)
     binary = args.binary.resolve(strict=True)
     code_host = binary.with_name("codex-code-mode-host").resolve(strict=True)
     version = subprocess.check_output([str(binary), "--version"], timeout=10).decode().strip()

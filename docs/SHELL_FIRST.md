@@ -143,6 +143,20 @@ gh workflow run formal-benchmark.yml \
 
 镜像直接从 GHCR 拉取，模型校准复用已冻结证据。本批按 24 请求配置单独报告，历史四臂按原有 12 请求配置保留。
 
+### 全量对照
+
+批次 [`comparison-full-24-20261026`](../benchmarks/comparison-full-24-protocol.json) 包含 Full、关闭自检、mini-SWE-agent、Codex 四类，每类覆盖相同的 21 题。四类均采用 24 次请求、48 次工具调用、180 秒请求超时和相同执行 Task 预算，合计 84 次修复尝试、最多 2016 次请求。
+
+每个“任务 × 实验臂”独占一个 Actions Job，分别归档候选、请求账本、轨迹和冷验收结果。mini 与 Codex 沿用历史固定版本；Full 与关闭自检沿用既有工具及缓存配置。
+
+```bash
+gh workflow run formal-benchmark.yml \
+  --ref feat/shell-first-agent \
+  -f authorization=2016
+```
+
+Shell-only 使用[已启动的独立批次](https://github.com/lilong555/ReproPatch/actions/runs/40277677079)。两批共覆盖五类、105 次修复尝试，总请求上限 2520 次；逐题对照以任务身份、模型配置和 24 请求预算对齐。
+
 ## 下一步实施
 
 ### 目标级增量验证

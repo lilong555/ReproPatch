@@ -1,14 +1,14 @@
 name: Formal Luna max benchmark
-run-name: Luna max · ${{ inputs.authorization == '504' && 'Shell-only 21题' || '四臂 19题' }} · ${{ github.ref_name }}
+run-name: Luna max · ${{ inputs.authorization == '504' && 'Shell-only 21题' || inputs.authorization == '2016' && '四臂对照 21题' || '四臂 19题' }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
     inputs:
       authorization:
-        description: '504：21题 Shell-only，每题24次；912：历史19题四臂，每臂12次'
+        description: '2016：21题四臂对照，每臂24次；504：21题 Shell-only；912：历史四臂'
         required: true
         type: choice
-        options: ['912', '504']
+        options: ['912', '504', '2016']
         default: '912'
 
 permissions:
@@ -21,14 +21,14 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
+  FORMAL_PROTOCOL: ${{ inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
   calibration:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
-      tasks: ${{ steps.plan.outputs.tasks }}
+      matrix: ${{ steps.plan.outputs.matrix }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -75,11 +75,14 @@ jobs:
           AUTHORIZED_REQUESTS: ${{ inputs.authorization }}
         run: |
           python - <<'PY'
-          import json, os
-          p = json.load(open(os.environ['FORMAL_PROTOCOL']))
+          import json, os, pathlib, sys
+          sys.path.insert(0, 'scripts')
+          import formal_benchmark
+          formal_benchmark.PROTOCOL = pathlib.Path(os.environ['FORMAL_PROTOCOL'])
+          p = formal_benchmark.protocol()
           assert p['formal_request_cap'] == int(os.environ['AUTHORIZED_REQUESTS'])
           with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
-              stream.write('tasks=' + json.dumps(p['tasks']) + '\n')
+              stream.write('matrix=' + json.dumps(formal_benchmark.execution_matrix(p)) + '\n')
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -91,6 +94,7 @@ jobs:
           retention-days: 14
 
   attempts:
+    name: ${{ matrix.instance }} / ${{ matrix.arm }}
     needs: calibration
     runs-on: ubuntu-24.04
     timeout-minutes: 150
@@ -98,10 +102,11 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        instance: ${{ fromJSON(needs.calibration.outputs.tasks) }}
+        include: ${{ fromJSON(needs.calibration.outputs.matrix) }}
     env:
       INSTANCE: ${{ matrix.instance }}
-      REPROPATCH_BATCH_ID: formal-${{ github.run_id }}-${{ matrix.instance }}
+      ARM: ${{ matrix.arm }}
+      REPROPATCH_BATCH_ID: formal-${{ github.run_id }}-${{ matrix.instance }}${{ matrix.suffix }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -114,7 +119,7 @@ jobs:
           python -m venv .repropatch/agent-env
           .repropatch/agent-env/bin/python -m pip install -c requirements/agent.txt -e '.[agent]'
       - name: Install legacy comparison frameworks
-        if: inputs.authorization == '912'
+        if: inputs.authorization == '912' || matrix.arm == 'mini' || matrix.arm == 'codex'
         run: |
           git init --template= -q .repropatch/mini-source
           git -C .repropatch/mini-source fetch --depth=1 https://github.com/SWE-agent/mini-swe-agent.git 04d809ceab9df28f9adaed044884180159172930
@@ -140,7 +145,7 @@ jobs:
           import os
           p = json.load(open(os.environ['FORMAL_PROTOCOL']))
           subprocess.run(['docker', 'pull', p['image']], check=True)
-          if 'codex_tarball' not in p:
+          if 'codex_tarball' not in p or os.environ['ARM'] not in ('all', 'codex'):
               raise SystemExit(0)
           data = urllib.request.urlopen(p['codex_tarball'], timeout=120).read()
           assert 'sha512-' + base64.b64encode(hashlib.sha512(data).digest()).decode() == p['codex_tarball_integrity']
@@ -151,11 +156,11 @@ jobs:
           assert hashlib.sha256(binary.with_name('codex-code-mode-host').read_bytes()).hexdigest() == p['code_host_sha256']
           PY
       - name: Reconstruct exact task and common baseline without supplier calls
-        run: .repropatch/agent-env/bin/python scripts/formal_benchmark.py prepare --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --output .repropatch/formal-output
+        run: .repropatch/agent-env/bin/python scripts/formal_benchmark.py prepare --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --arm "$ARM" --output .repropatch/formal-output
       - name: Execute registered attempts and score every candidate
         env:
           OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
-        run: .repropatch/agent-env/bin/python -u scripts/formal_benchmark.py run --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --output .repropatch/formal-output
+        run: .repropatch/agent-env/bin/python -u scripts/formal_benchmark.py run --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --arm "$ARM" --output .repropatch/formal-output
       - name: Preserve raw evidence
         if: always()
         run: |
@@ -164,7 +169,7 @@ jobs:
           root = pathlib.Path('.repropatch/formal-output'); root.mkdir(exist_ok=True)
           if pathlib.Path('.repropatch/formal-preflight').is_dir():
               shutil.copytree('.repropatch/formal-preflight', root / 'preflight')
-          (root / 'runner-status.json').write_text(json.dumps({'job_status': '${{ job.status }}', 'instance': '${{ matrix.instance }}'}))
+          (root / 'runner-status.json').write_text(json.dumps({'job_status': '${{ job.status }}', 'instance': '${{ matrix.instance }}', 'arm': '${{ matrix.arm }}'}))
           for name in ['summary.json', 'protocol.json', 'usage.sqlite3']:
               if (root / name).is_file():
                   target = pathlib.Path('.repropatch/summary'); target.mkdir(exist_ok=True)
@@ -174,7 +179,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: formal-evidence-${{ github.run_id }}-${{ matrix.instance }}
+          name: formal-evidence-${{ github.run_id }}-${{ matrix.instance }}${{ matrix.suffix }}
           path: |
             .repropatch/formal-evidence.tar.gz
             .repropatch/formal-evidence.tar.gz.sha256
@@ -186,7 +191,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: formal-summary-${{ github.run_id }}-${{ matrix.instance }}
+          name: formal-summary-${{ github.run_id }}-${{ matrix.instance }}${{ matrix.suffix }}
           path: .repropatch/summary/
           include-hidden-files: true
           if-no-files-found: warn

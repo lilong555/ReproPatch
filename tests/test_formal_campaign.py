@@ -11,6 +11,69 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from formal_benchmark import ROOT, completed_pilot_gate, completion_gate, pilot_gate, registry_gate
 
 
+def test_comparison_matrix_matches_shell_tasks_and_budget(monkeypatch):
+    import formal_benchmark as campaign
+
+    monkeypatch.setattr(campaign, "PROTOCOL", ROOT / "benchmarks/comparison-full-24-protocol.json")
+    p = campaign.protocol()
+    shell = json.loads((ROOT / "benchmarks/shell-only-full-protocol.json").read_text())
+    matrix = campaign.execution_matrix(p)
+    assert p["tasks"] == shell["tasks"]
+    assert p["execution_budget_override"] == shell["execution_budget_override"]
+    assert len(p["attempts"]) == len(matrix) == 84
+    assert len({a["attempt_id"] for a in p["attempts"]}) == 84
+    assert sum(a["request_cap"] for a in p["attempts"]) == 2016
+    assert {a["arm"] for a in matrix} == {"full", "no-checks", "mini", "codex"}
+    assert len({(a["instance"], a["suffix"]) for a in matrix}) == 84
+    assert len(campaign.execution_matrix(shell)) == 21
+
+
+@pytest.mark.parametrize("arm", ["full", "no-checks", "mini", "codex"])
+def test_matrix_job_executes_only_selected_arm(monkeypatch, tmp_path, arm):
+    import formal_benchmark as campaign
+
+    monkeypatch.setattr(campaign, "PROTOCOL", ROOT / "benchmarks/comparison-full-24-protocol.json")
+    output = tmp_path / "output"
+    output.mkdir()
+    settings = {
+        "task": "task.yaml",
+        "qualification": "result.json",
+        "common_input": "common-input.json",
+        "mini_source": "mini-source",
+        "agent_seconds": 5900,
+    }
+    (output / "prepared.json").write_text(json.dumps(settings))
+    commands, preparations = [], []
+
+    def run(command, log):
+        commands.append(command)
+        if command[1] == "scripts/score_benchmark_attempt.py":
+            target = Path(command[command.index("--output") + 1])
+            target.mkdir()
+            (target / "score.json").write_text(
+                json.dumps({"status": "EMPTY_CANDIDATE", "accepted": False})
+            )
+        return 0
+
+    monkeypatch.setattr(campaign, "run", run)
+    monkeypatch.setattr(
+        campaign.subprocess, "run", lambda command, **kw: preparations.append(command)
+    )
+    campaign.execute("fmtlib__fmt-1171", output, arm)
+    assert len(commands) == 2
+    assert len(preparations) == int(arm in {"mini", "codex"})
+    expected_script = (
+        "scripts/run_codex_benchmark.py" if arm == "codex" else "scripts/run_benchmark_agent.py"
+    )
+    assert commands[0][1] == expected_script
+    result = json.loads((output / "summary.json").read_text())
+    assert len(result["attempts"]) == 1
+    assert result["attempts"][0]["arm"] == arm
+    assert result["attempts"][0]["usage"]["requests"] == 0
+    ledger = campaign.LocalUsageLedger(output / "ledgers" / (arm + ".sqlite3"))
+    assert ledger.request_cap(result["attempts"][0]["attempt_id"]) == 24
+
+
 @pytest.fixture
 def pilot():
     path = ROOT / "benchmarks/formal-max-protocol.json"
