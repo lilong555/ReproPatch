@@ -10,7 +10,7 @@ import pytest
 from repropatch.context import SUMMARY_INSTRUCTIONS, SUMMARY_KEYS, ContextPolicy, encoded
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from context_campaign import ARMS, pilot_gate
+from context_campaign import ARMS, pilot_gate, recovery_gate, validate_protocol
 
 
 def pilot_fixture():
@@ -61,6 +61,56 @@ def test_pilot_gate_uses_mechanism_evidence_and_preserves_oracle_failures():
     gate = pilot_gate(result, protocol, "frozen")
     assert gate["passed"] and gate["issued_requests"] == 480
     assert gate["ranking"] is False
+
+
+def test_recovery_allocation_is_bounded_by_parent_budget():
+    protocol, _ = pilot_fixture()
+    protocol.update(
+        phase="recovery",
+        parent_request_cap=2520,
+        prior_committed_request_upper_bound=100,
+        attempts=[{**entry, "request_cap": 24} for entry in protocol["execution_order"]],
+    )
+    validate_protocol(protocol)
+    protocol["prior_committed_request_upper_bound"] = 2050
+    with pytest.raises(AssertionError):
+        validate_protocol(protocol)
+
+
+@pytest.mark.parametrize("failure", [None, "issued", "started_unknown"])
+def test_recovery_gate_only_admits_verified_zero_request_attempts(tmp_path, failure):
+    rows = [
+        {
+            "attempt_id": "done",
+            "instance_id": "fmt-1",
+            "arm": "full",
+            "usage": {"issued_requests": 7},
+        },
+        {"attempt_id": "queued", "instance_id": "fmt-2", "arm": "codex"},
+    ]
+    jobs = [{"name": "fmt-2 / codex", "steps": []}]
+    if failure == "issued":
+        rows[1]["usage"] = {"issued_requests": 1}
+    if failure == "started_unknown":
+        jobs[0]["steps"] = [{"name": "Execute registered attempts"}]
+    (tmp_path / "results.json").write_text(
+        json.dumps({"protocol_sha256": "parent", "attempts": rows})
+    )
+    protocol = {
+        "parent_protocol_sha256": "parent",
+        "parent_request_cap": 48,
+        "formal_request_cap": 24,
+        "prior_committed_request_upper_bound": 10 if failure == "issued" else 9,
+        "interrupted_attempt_requests": {"interrupted": 2},
+        "attempts": [{"original_attempt_id": "queued", "instance_id": "fmt-2", "arm": "codex"}],
+    }
+    if failure:
+        with pytest.raises(AssertionError):
+            recovery_gate(tmp_path, protocol, jobs, {"interrupted": 2})
+    else:
+        gate = recovery_gate(tmp_path, protocol, jobs, {"interrupted": 2})
+        assert gate["passed"] and gate["remaining_attempts"] == 1
+        assert gate["prior_issued_requests"] == 7 and gate["interrupted_issued_requests"] == 2
 
 
 @pytest.mark.parametrize("defect", ["unknown_usage", "no_codex_tools", "missing_attempt"])

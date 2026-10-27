@@ -71,12 +71,23 @@ def validate_protocol(p):
         return
     assert p["arms"] == list(ARMS)
     assert p["request_cap_per_attempt"] == policy.request_cap == 24
-    expected = {(task, arm) for task in p["tasks"] for arm in ARMS}
+    recovering = p["phase"] == "recovery"
+    expected = (
+        {(a["instance_id"], a["arm"]) for a in p["attempts"]}
+        if recovering
+        else {(task, arm) for task in p["tasks"] for arm in ARMS}
+    )
+    assert expected <= {(task, arm) for task in p["tasks"] for arm in ARMS}
     ordered = [(row["instance_id"], row["arm"]) for row in p["execution_order"]]
     assert len(ordered) == len(expected) and set(ordered) == expected
     assert p["formal_request_cap"] == len(expected) * 24
     assert set(p["task_contracts"]) == set(p["tasks"])
-    assert p["formal_request_cap"] == (480 if p["phase"] == "pilot" else 2520)
+    if recovering:
+        assert p["parent_request_cap"] == 2520
+        assert p["prior_committed_request_upper_bound"] + p["formal_request_cap"] <= 2520
+        assert len(expected) == len(p["attempts"])
+    else:
+        assert p["formal_request_cap"] == (480 if p["phase"] == "pilot" else 2520)
 
 
 def gh_json(*arguments):
@@ -107,8 +118,13 @@ def calibration_gate(source, p):
     frozen = json.loads((source / "protocol.json").read_text())
     assert result["passed"] is True
     assert result["context_policy"] == p["context_policy"] == frozen["context_policy"]
-    for key in ("model", "endpoint", "reasoning_effort", "execution_sha256"):
+    for key in ("model", "endpoint", "reasoning_effort"):
         assert p[key] == frozen[key]
+    assert frozen["execution_sha256"] == p.get(
+        "calibration_execution_sha256", p["execution_sha256"]
+    )
+    for name, digest in p.get("calibration_compatible_files", {}).items():
+        assert sha(ROOT / name) == digest, "CALIBRATION_WIRE_SOURCE_CHANGED"
     usage = LocalUsageLedger(source / "usage.sqlite3").summary()
     assert usage == result["usage"]
     assert usage["issued_requests"] <= 12 and usage["unknown_usage_requests"] == 0
@@ -121,6 +137,46 @@ def calibration_gate(source, p):
     }
     assert all(row["passed"] for row in result["checks"])
     return {"passed": True, "issued_requests": usage["issued_requests"]}
+
+
+def recovery_gate(source, p, jobs, interrupted_usage_counts):
+    """只给零请求任务分配新额度，已发请求和中断占用的额度保持连续。"""
+    result = json.loads((source / "results.json").read_text())
+    assert result["protocol_sha256"] == p["parent_protocol_sha256"]
+    rows = {row["attempt_id"]: row for row in result["attempts"]}
+    jobs_by_name = {job["name"]: job for job in jobs}
+    known_requests = sum(
+        (row.get("usage") or {}).get("issued_requests", 0) for row in rows.values()
+    )
+    reserved = p["interrupted_attempt_requests"]
+    assert all(
+        interrupted_usage_counts.get(identity) == count for identity, count in reserved.items()
+    )
+    assert known_requests + sum(reserved.values()) == p["prior_committed_request_upper_bound"]
+    for attempt in p["attempts"]:
+        original = attempt["original_attempt_id"]
+        assert original not in reserved
+        prior = rows[original]
+        assert (prior["instance_id"], prior["arm"]) == (attempt["instance_id"], attempt["arm"])
+        usage = prior.get("usage")
+        if usage is not None:
+            assert usage["issued_requests"] == 0, "MODEL_ATTEMPT_ALREADY_ISSUED"
+        elif original in interrupted_usage_counts:
+            assert interrupted_usage_counts[original] == 0, "INTERRUPTED_ATTEMPT_ALREADY_ISSUED"
+        else:
+            job = jobs_by_name[prior["instance_id"] + " / " + prior["arm"]]
+            assert not job["steps"], "INTERRUPTED_ATTEMPT_USAGE_UNKNOWN"
+    assert len({a["original_attempt_id"] for a in p["attempts"]}) == len(p["attempts"])
+    assert (
+        known_requests + sum(reserved.values()) + p["formal_request_cap"] <= p["parent_request_cap"]
+    )
+    return {
+        "passed": True,
+        "prior_issued_requests": known_requests,
+        "interrupted_issued_requests": sum(reserved.values()),
+        "remaining_attempts": len(p["attempts"]),
+        "remaining_request_cap": p["formal_request_cap"],
+    }
 
 
 def pilot_gate(result, pilot_protocol, expected_protocol_sha):
@@ -217,6 +273,28 @@ def preflight(protocol_file, output, wait_ci=0):
             assert sha(target / name) == digest, "PRIOR_STAGE_EVIDENCE_CHANGED"
         if requirement["phase"] == "calibration":
             calibration_gate(target, p)
+        elif requirement["phase"] == "registry":
+            from audit_context_history import load_archive, sql_rows
+
+            pages = gh_json(
+                "api",
+                f"repos/{repo}/actions/runs/{requirement['run_id']}/jobs?per_page=100",
+                "--paginate",
+                "--slurp",
+            )
+            jobs = [job for page in pages for job in page["jobs"]]
+            proofs = {}
+            for identity, evidence in p.get("interrupted_usage_evidence", {}).items():
+                directory = target / "interrupted-usage" / evidence["arm"]
+                download(repo, requirement["run_id"], evidence["artifact"], directory)
+                archive = next(directory.glob("*.tar.gz"))
+                files, digest = load_archive(archive)
+                assert digest == evidence["archive_sha256"]
+                proofs[identity] = sql_rows(
+                    files["ledgers/" + evidence["arm"] + ".sqlite3"],
+                    "SELECT COUNT(*) AS count FROM requests",
+                )[0]["count"]
+            save(output / "recovery-gate.json", recovery_gate(target, p, jobs, proofs))
         else:
             result = json.loads((target / "results.json").read_text())
             prior = json.loads((target / "protocol.json").read_text())

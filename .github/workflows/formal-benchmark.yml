@@ -15,6 +15,11 @@ on:
         required: false
         type: boolean
         default: false
+      recovery:
+        description: '依据旧账本补跑尚未发出模型请求的任务'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -26,7 +31,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
+  FORMAL_PROTOCOL: ${{ inputs.recovery && 'benchmarks/context-recovery-protocol.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
   calibration:
@@ -101,7 +106,8 @@ jobs:
           import formal_benchmark
           formal_benchmark.PROTOCOL = pathlib.Path(os.environ['FORMAL_PROTOCOL'])
           p = formal_benchmark.protocol()
-          assert p['formal_request_cap'] == int(os.environ['AUTHORIZED_REQUESTS'])
+          authorized_cap = p['parent_request_cap'] if p.get('phase') == 'recovery' else p['formal_request_cap']
+          assert authorized_cap == int(os.environ['AUTHORIZED_REQUESTS'])
           if p.get('inline_calibration'):
               from context_campaign import calibration_gate
               calibration_gate(pathlib.Path('.repropatch/calibration'), p)

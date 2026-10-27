@@ -18,13 +18,15 @@ import uuid
 from contextlib import AsyncExitStack
 from pathlib import Path
 
-from repropatch.context import (
-    SUMMARY_INSTRUCTIONS,
-    ContextLimit,
-    encoded,
-    proxy_error,
-    stop_reason,
-)
+# 容器仅挂载本脚本；中继入口使用标准库，宿主入口加载计量依赖。
+if __name__ != "__main__" or sys.argv[1:] != ["--relay"]:
+    from repropatch.context import (
+        SUMMARY_INSTRUCTIONS,
+        ContextLimit,
+        encoded,
+        proxy_error,
+        stop_reason,
+    )
 
 COMPACT_MARKER = "You are performing a CONTEXT CHECKPOINT COMPACTION."
 
@@ -369,6 +371,70 @@ def relay():
     http.server.HTTPServer(("127.0.0.1", 8318), Relay).serve_forever()
 
 
+def start_container_relay(name, output, *, timeout=15):
+    """中继独立启动；健康检查贯通回环 HTTP 与宿主 Unix 套接字。"""
+    subprocess.run(
+        [
+            "docker",
+            "exec",
+            "-d",
+            name,
+            "sh",
+            "-c",
+            "exec python3 -I /opt/adapter.py --relay >/build/repropatch-relay.log 2>&1",
+        ],
+        check=True,
+        capture_output=True,
+        timeout=timeout,
+    )
+    probe = (
+        "import json,time,urllib.request\n"
+        f"deadline=time.monotonic()+{timeout - 2!r}\n"
+        "while True:\n"
+        "    try:\n"
+        "        request=urllib.request.Request('http://127.0.0.1:8318/health',data=b'')\n"
+        "        with urllib.request.urlopen(request,timeout=2) as response:\n"
+        "            data=json.load(response)\n"
+        "        assert data == {'transport':'ok'}\n"
+        "        print(json.dumps(data)); break\n"
+        "    except Exception:\n"
+        "        if time.monotonic()>=deadline: raise\n"
+        "        time.sleep(0.1)\n"
+    )
+    timed_out = False
+    try:
+        check = subprocess.run(
+            ["docker", "exec", name, "python3", "-c", probe],
+            capture_output=True,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as error:
+        timed_out = True
+        check = subprocess.CompletedProcess(
+            error.cmd, 124, stdout=error.stdout or b"", stderr=error.stderr or b""
+        )
+    save(
+        output / "relay-readiness.json",
+        {
+            "passed": check.returncode == 0,
+            "returncode": check.returncode,
+            "stdout": check.stdout.decode(errors="replace"),
+            "stderr": check.stderr.decode(errors="replace"),
+            "timeout_seconds": timeout,
+            "timed_out": timed_out,
+            "model_requests": 0,
+        },
+    )
+    if check.returncode:
+        relay_log = subprocess.run(
+            ["docker", "exec", name, "cat", "/build/repropatch-relay.log"],
+            capture_output=True,
+            timeout=5,
+        )
+        (output / "relay-startup.log").write_bytes(relay_log.stdout + relay_log.stderr)
+        raise ContextLimit("RELAY_STARTUP_FAILED", layer="Codex.container_relay")
+
+
 def main():
     import httpx2
     from benchmark_budget import BudgetLimit, LocalUsageLedger, validate_task_budget
@@ -708,14 +774,10 @@ def main():
             cli.extend(["-c", setting + "=" + json.dumps(value)])
         cli.append("-")
         # 模型进程只接触虚拟密钥；真实密钥留在宿主代理进程。
-        relay_probe = "from urllib.request import Request,urlopen; print(urlopen(Request('http://127.0.0.1:8318/health',data=b'')).read().decode())"
-        command = "mkdir -p /build/.codex-home; python3 /opt/adapter.py --relay & " + (
-            "exec python3 -c " + shlex.quote(relay_probe)
-            if args.check_only
-            else "exec " + shlex.join(cli)
+        start_container_relay(name, output)
+        command = "mkdir -p /build/.codex-home; " + (
+            "printf 'MODEL_RELAY_READY\\n'" if args.check_only else "exec " + shlex.join(cli)
         )
-        # 等待回环监听启动，避免首个模型请求与中继启动竞争。
-        command = command.replace(" & exec ", " & sleep 1; exec ")
         with (output / "events.jsonl").open("wb") as out, (output / "stderr.log").open("wb") as err:
             try:
                 process = subprocess.run(
@@ -730,6 +792,12 @@ def main():
                 result["stop_reason"] = "AGENT_TIME_LIMIT"
     except KeyboardInterrupt:
         result.update(producer_status="CANCELLED", stop_reason="USER_CANCELLED")
+    except ContextLimit as error:
+        result.update(
+            producer_status="ENVIRONMENT_ERROR",
+            stop_reason=error.reason,
+            error_type=type(error).__name__,
+        )
     except Exception as error:
         result.update(producer_status="ENVIRONMENT_ERROR", error_type=type(error).__name__)
     finally:
