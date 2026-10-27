@@ -1,0 +1,371 @@
+{
+  "model": "gpt-6-luna",
+  "endpoint": "https://cpa.liyinlong.me/v1",
+  "reasoning_effort": "max",
+  "max_output_tokens": 8192,
+  "max_tool_calls": 48,
+  "max_tools_per_response": 8,
+  "model_timeout_seconds": 180,
+  "execution_budget_override": {
+    "max_steps": 24,
+    "max_tool_calls": 48,
+    "wall_seconds": 7200,
+    "verification_reserve_seconds": 1200
+  },
+  "retries": 0,
+  "image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a",
+  "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+  "qualification_run_id": 40194807297,
+  "qualification_archive_sha256": [
+    "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+    "7413bfd973143bb5ba6b05dce99cd3f847a05176c80304c3ea735c5b4eaaa257"
+  ],
+  "mini_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "codex_binary": ".repropatch/codex/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+  "codex_version": "0.163.0",
+  "codex_sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+  "codex_tarball": "https://registry.npmjs.org/@openai/codex/-/codex-0.163.0-linux-x64.tgz",
+  "codex_tarball_integrity": "sha512-uwRaOsrYogLQhcxAM/GoeWrw0QIWEMRo7c9gM8sKAviVkZQHlu9kRLJ5PkufbV+ABGjyZgIwiFdJ0LCJ0N6e8w==",
+  "code_host_sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+  "framework_dependencies": "requirements/agent.txt + requirements/formal-mini.txt",
+  "scoring": "每臂冻结候选后使用原始提交、官方测试、固定镜像执行独立冷 Oracle",
+  "timing_scope": "与Shell-only同一执行Task预算；外部Agent修复时限扣除共同基线及验收预留",
+  "artifacts_retention_days": 14,
+  "schema_version": 2,
+  "batch_id": "unified-context-continuation-2b-20261027",
+  "phase": "recovery",
+  "paid_calls_authorized": true,
+  "authorization": "用户要求未测完任务继续测完；仅续跑上游故障项，2520次正式请求持续累计",
+  "inline_calibration": false,
+  "calibration_request_cap": 0,
+  "formal_request_cap": 24,
+  "total_request_cap_including_calibration": 24,
+  "request_cap_per_attempt": 24,
+  "probe_context_ceiling_tokens": 384000,
+  "context_policy": {
+    "context_window_tokens": 128000,
+    "compact_trigger_tokens": 48000,
+    "compact_target_tokens": 21600,
+    "max_output_tokens": 8192,
+    "transport_max_bytes": 2097152,
+    "response_max_bytes": 2097152,
+    "request_cap": 24,
+    "context_policy_version": "v1.0-unified-compaction",
+    "tool_growth_tokens": 16000,
+    "estimation_margin_tokens": 8000,
+    "retain_rounds": 2,
+    "tool_output_max_bytes": 24576,
+    "compaction_enabled": true
+  },
+  "context_calibration_status": "passed_in_parent_batch_11_requests",
+  "pilot_policy": "本批直接全量，独立Pilot未调度",
+  "arms": [
+    "full",
+    "no-checks",
+    "shell-only",
+    "mini",
+    "codex"
+  ],
+  "matrix_per_arm": true,
+  "max_parallel": 2,
+  "execution_order_seed": 20261027,
+  "cost_cny": null,
+  "cost_basis": "保存供应商真实Usage，校准与正式修复分账；金额以供应商账单为准",
+  "execution_source_commit": "a6df2b188fbcb237409d4bf599319db057522c2c",
+  "execution_sha256": "177f9b4e09c9b38a82f9114f0eac8258c023abb7acecc01c9dee4b79faf0a601",
+  "implementation_sha256": "abde80ce22be851dddccb70966eee75db2b9be54ed029041dac9f01f1c5fd5de",
+  "ci_run_id": 40515296353,
+  "requires": [
+    {
+      "phase": "calibration",
+      "run_id": 40365677399,
+      "artifact": "formal-calibration-40365677399",
+      "files": {
+        "result.json": "3ebf1ea1d0191c5a6c365245c231b36c8406cf5939db33c6a8b9ef8e22358af9",
+        "protocol.json": "9728016a0f4883d77bcb25636a44a7508d386b1ee142823f92656924624caa0b",
+        "usage.sqlite3": "353b967f64f59efde2e96dddfaa902e017b4d9470cf3810f75ee30dc123e85b6"
+      }
+    }
+  ],
+  "tasks": [
+    "fmtlib__fmt-1171",
+    "fmtlib__fmt-1361",
+    "fmtlib__fmt-1390",
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-2292",
+    "fmtlib__fmt-2310",
+    "fmtlib__fmt-2317",
+    "fmtlib__fmt-2610",
+    "fmtlib__fmt-2940",
+    "fmtlib__fmt-3158",
+    "fmtlib__fmt-3248",
+    "fmtlib__fmt-3260",
+    "fmtlib__fmt-3272",
+    "fmtlib__fmt-3537",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-3727",
+    "fmtlib__fmt-3732",
+    "fmtlib__fmt-3734",
+    "fmtlib__fmt-3750",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-493"
+  ],
+  "task_contracts": {
+    "fmtlib__fmt-1171": {
+      "execution_task_sha256": "821622b12c7a10df388ac464c80928557eb752669c38c1339b1d459981ae65b2",
+      "prepared_commit": "b124ca34b3a4eab7709b8c6fa0e390495ce4a2ac",
+      "historical_archive_sha256": "7696d86e66937f262ab4c4d5cb972fd2ed565cc65fc2cc511328bd7bfe41a62e"
+    },
+    "fmtlib__fmt-1361": {
+      "execution_task_sha256": "76d8f4ec28b6420080396cb4e7ffa4eb3d00e09dd2fbcf2844d610842e4cbf10",
+      "prepared_commit": "b4d5376546b567486b0a171941f74a58f2ffafa8",
+      "historical_archive_sha256": "16ae1d6efe8f349515664b43fbb578ccb6380f3075dfc09b95330ddc2ae9c90d"
+    },
+    "fmtlib__fmt-1390": {
+      "execution_task_sha256": "f25db22c7171135f34e248e35c467d0ff6be8af8b38a7754853f8e2a538c99d9",
+      "prepared_commit": "f990de0620d704ea88d2f628ffb0f23173225742",
+      "historical_archive_sha256": "6096847ae2480b064986f22a787b7fb57251f644cee1a3e729cfb9d58ab743cb"
+    },
+    "fmtlib__fmt-2070": {
+      "execution_task_sha256": "6f7e39d1aabb6b6132c4b4e7cd6f40df42687930b43e1dc8847f9545d48ae533",
+      "prepared_commit": "73e27385b0b7457144e4e894bb24a99fd1b9089c",
+      "historical_archive_sha256": "65ebe0235bae2f998aa272b02e36b475a61462a1653c3e9e54dec036a83acdb7"
+    },
+    "fmtlib__fmt-2292": {
+      "execution_task_sha256": "ac66ac7acbba269427eb30ec8c4467b51365cfe6cdb89d3c4ad00459b7a488d1",
+      "prepared_commit": "a8f51a04083ef9e4a81de5c0c8fcb9a13c2076be",
+      "historical_archive_sha256": "d9e5aff6603937ff738e4bd8eba386e1c6f6215b969fb4eb9d2cface8be04acd"
+    },
+    "fmtlib__fmt-2310": {
+      "execution_task_sha256": "47b039f3c2f1ae1617833d8770fed6a1f46bf458da35d0d365273cee93420bde",
+      "prepared_commit": "e1dd7145fb647df47e039667a8a343e5c95c0b97",
+      "historical_archive_sha256": "985a71d833c167cd11cb2fff660a99d2319e59e4536ecc00141e4f0dec49205b"
+    },
+    "fmtlib__fmt-2317": {
+      "execution_task_sha256": "72891438213c567ef129b2970c5e82f05e99054aa017d048cab33f72296006dd",
+      "prepared_commit": "749b81b56118df1ee261c59be0063ddd497bc087",
+      "historical_archive_sha256": "c2d8d5f052dd3978f1de07f30f028e6febf797ae18b656420a1ec35e1e39b6d6"
+    },
+    "fmtlib__fmt-2610": {
+      "execution_task_sha256": "c8427321daece77c6e54d50654165ed6ef74fd2aea56d137da3353100cd74c57",
+      "prepared_commit": "2d25291ed6dc2e6f9eb6dc9725bf0a3f59956dbf",
+      "historical_archive_sha256": "84e45e30e1d8c2f4342f54206e3c2c4b5298ede94640188e99681802d28eeb68"
+    },
+    "fmtlib__fmt-2940": {
+      "execution_task_sha256": "4be5662210a92930e0e83770cf3a89414ebacf64dab51d03440eeeb7840af60f",
+      "prepared_commit": "11e73853be14cf0994732a60b20f432bb35f1cc8",
+      "historical_archive_sha256": "9078e1066c0d8cffcded62aefc0e2b6c5179ec28ee419f073a3ed105b2444623"
+    },
+    "fmtlib__fmt-3158": {
+      "execution_task_sha256": "9dc47a109f93939ce99d1d86a34f2ab30175c977d48f7ad966382b464efabf7b",
+      "prepared_commit": "22537f693587b349fc8f90cf0b4b81ecb6651722",
+      "historical_archive_sha256": "93950b6f3757e18e287300832f7ab513e9c480ebf55dffe4e3814e600a466df5"
+    },
+    "fmtlib__fmt-3248": {
+      "execution_task_sha256": "3ce2c18032508ced9ab3b698b5089e172fb26632e88a46a7eda69840adc8aef8",
+      "prepared_commit": "ce1f62d5b70ec5ce195e6d602b6fd842b12ffee5",
+      "historical_archive_sha256": "e1f8ce89de35fb9081235255160ea1e61c2f65b106c70b4166baddd591414389"
+    },
+    "fmtlib__fmt-3260": {
+      "execution_task_sha256": "b9e3cf9291d16866060d6fb2640c76823236917066148b077b4358fa7ae1e772",
+      "prepared_commit": "ebe09d4c5b41ab2138aad48520ad4db832f24fbc",
+      "historical_archive_sha256": "758248b1445639f8b62c12a7ecc0bcd956a2a1eef254d1a83021da6de610af9a"
+    },
+    "fmtlib__fmt-3272": {
+      "execution_task_sha256": "e512f07441a00d6c899100d1972066cba3ef565d30dbdee7ba6361fc5e9b29d0",
+      "prepared_commit": "b8d0e68656c771d54a53546c7dfa6775895c4f77",
+      "historical_archive_sha256": "0587da806ae919272f15013984c7090df02770613181dd21eaaec4c7f7371415"
+    },
+    "fmtlib__fmt-3537": {
+      "execution_task_sha256": "22c3b30db6459a1253a8fda95239cc4fced126651d9a34e786a4fd25033b1bfd",
+      "prepared_commit": "0e9bcadff1972224879c5e91bda96e76b255a667",
+      "historical_archive_sha256": "b48946866439da00f37dac1d363ed24b9358edc657da7ed212af09963cc4dd0d"
+    },
+    "fmtlib__fmt-3713": {
+      "execution_task_sha256": "c1acfa5fe67894948e2f5b4bd3d6e8a85c80567ba0d958d8cac34488548a07f0",
+      "prepared_commit": "97636a89940bd5ba0eb2a867310e67ba6e204b14",
+      "historical_archive_sha256": "de1de0a51f46c2e7df70f17a77dbe6e20bbc7e6e9371ce0212ce5ae76185e032"
+    },
+    "fmtlib__fmt-3727": {
+      "execution_task_sha256": "29623ed35572648b5a155e74b4d0e80297128dbf59f3248c769a62dcf1b7a7dd",
+      "prepared_commit": "0f86552159c854ab4e91dfb1fcc2916ac3aa0617",
+      "historical_archive_sha256": "c9e8b0d1215bb84942d8e8c49487eab66a328f296a10013dfab46950752983f3"
+    },
+    "fmtlib__fmt-3732": {
+      "execution_task_sha256": "e2bdb1c810eca83c2ab5622c38a407bd8852d432d57e64aeb3731ee90e42c615",
+      "prepared_commit": "3a5bdaa601d568a01e915d4858baf8ee1d19565b",
+      "historical_archive_sha256": "d1c208404caebf7e2a72d49fc1b2cf00be993afa62dfebab4aeb863573bd6a5c"
+    },
+    "fmtlib__fmt-3734": {
+      "execution_task_sha256": "7337f60cf30fe180b7d19ea2e18650beb2fd460734fb6b1325389c9590294d77",
+      "prepared_commit": "b9309a90cd99c2d60966521f48ab0b1f98199696",
+      "historical_archive_sha256": "107c81a26d7a37c246fe9e28ca41a6e37df09eb20d8f4b5314d013283d3e69e7"
+    },
+    "fmtlib__fmt-3750": {
+      "execution_task_sha256": "debda253f421248c908d169dd1bb27c96193b0a3415fc7a7bb16aa27ef9ea788",
+      "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751",
+      "historical_archive_sha256": "636a7f1e452c1db8b8be4156ad120c76d20ea25aa1f15915c5708e2f246d1fa2"
+    },
+    "fmtlib__fmt-3819": {
+      "execution_task_sha256": "e129606347523086f446d50f319129b0008bc0c57263cd25e76767cd9a0a608d",
+      "prepared_commit": "c41f45b6074c1aef18d5338ebc8c46bbe760386e",
+      "historical_archive_sha256": "2e2fed5c5b990899de00ed02be75833b8435a29ad175d7ccf38dbe30f713ee02"
+    },
+    "fmtlib__fmt-493": {
+      "execution_task_sha256": "154ecd6474f99c4a77e345501262ecd4b8071848b810c55028cb450853b05d32",
+      "prepared_commit": "0c6ba753c9da0c669b6ba08bbddd557c506d7c8a",
+      "historical_archive_sha256": "ebd96cf6846b4585665a89a33b6e9170a7d7e12820650d5656662b3eeb2d9a3e"
+    }
+  },
+  "self_check_policy": {
+    "full": "六工具接口，中途自检开启，Run级ccache开启",
+    "no-checks": "中途自检关闭，Run级ccache配置与Full一致",
+    "mini": "mini-SWE-agent 04d809c + context adapter v1",
+    "codex": "固定Codex CLI原生循环",
+    "shell-only": "单Bash持久修复容器，关闭ccache，复用Run内build目录"
+  },
+  "historical_protocols": [
+    "benchmarks/comparison-full-24-protocol.json",
+    "benchmarks/shell-only-full-protocol.json"
+  ],
+  "execution_order": [
+    {
+      "instance_id": "fmtlib__fmt-2292",
+      "arm": "shell-only"
+    }
+  ],
+  "attempts": [
+    {
+      "attempt_id": "unified-context-continuation-2b-20261027/fmtlib__fmt-2292/shell-only/revalidation-3",
+      "original_attempt_id": "unified-context-continuation-1-20261027/fmtlib__fmt-2292/shell-only/revalidation-2",
+      "instance_id": "fmtlib__fmt-2292",
+      "arm": "shell-only",
+      "source_evidence": {
+        "run_id": 40515732883,
+        "attempt_id": "unified-context-continuation-1-20261027/fmtlib__fmt-2292/shell-only/revalidation-2",
+        "instance_id": "fmtlib__fmt-2292",
+        "arm": "shell-only",
+        "source_row_sha256": "bd94eed086f1bd0e227385859c732dc022aaac6893c3843c9cf35c0e244f0b26",
+        "artifact": "formal-evidence-40515732883-fmtlib__fmt-2292-shell-only",
+        "artifact_id": 12739284378,
+        "artifact_digest": "sha256:611bba0a6c30649a2ed1bed744c4efa649c307b38ffa5af5939fc1437f801b6a",
+        "archive_sha256": "aef32e0bfda352726e792eefcfd71370d6fa6103caf47f9fe4e35a698373893b",
+        "verified_files": 432,
+        "oracle_result": "INFRASTRUCTURE_FAILED",
+        "usage": {
+          "requests": 5,
+          "issued_requests": 5,
+          "attempted_model_steps": 5,
+          "local_rejections": 0,
+          "repair_requests": 5,
+          "compact_requests": 0,
+          "retry_requests": 0,
+          "unknown_usage_requests": 1,
+          "input_tokens": null,
+          "output_tokens": null,
+          "known_input_tokens": 37490,
+          "known_output_tokens": 3985,
+          "cached_input_tokens": 10496,
+          "reasoning_tokens": 3655,
+          "peak_single_input_tokens": 16323,
+          "peak_transport_bytes": 129342,
+          "opaque_state_peak_bytes": 63748,
+          "opaque_state_peak_fraction": 0.4928638802554468,
+          "last_local_stop_reason": null,
+          "cost_cny": null,
+          "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+        },
+        "request_ids": [
+          "a1316fdbe24c44adb45f1e817ff75056",
+          "ad6eeeb2ee6f4a6f8fbf67898e4c39eb",
+          "630f50c1d5fb4624b0ec73ecb96e8467",
+          "301d2604fc92408da040fe39f320b7e0",
+          "f1d633b09db64972a2d2833f9c7a55ce"
+        ],
+        "stop_reason": "MODEL_SERVER_ERROR",
+        "upstream_error": {
+          "request_id": "f1d633b09db64972a2d2833f9c7a55ce",
+          "upstream_http_status": 524,
+          "usage_complete": false
+        },
+        "interrupted": false
+      },
+      "request_cap": 24,
+      "attempt_classification": "upstream_infrastructure_revalidation"
+    }
+  ],
+  "parent_request_cap": 2520,
+  "prior_committed_request_upper_bound": 2050,
+  "parent_run_id": 40515732883,
+  "parent_protocol_sha256": "824e3b5f3870588895f5b984de97ecc95546505e83287ede54c068a923fef803",
+  "supersedes_protocol": "benchmarks/context-revalidation-protocol-continuation-2.json",
+  "supersedes_protocol_sha256": "b6f25958c6bb5b22b782e08a1912836664a9a29e4e748288c75f6c43a9c045e6",
+  "calibration_execution_sha256": "386d17649d7d48e84944a7e4b4b9262057e66267f0e572ae62a3dc1cad1ea0dc",
+  "calibration_compatible_files": {
+    "scripts/benchmark_budget.py": "c8ea0471b4588f5082dec349581d977e39eff4228fd80987ff132f3f20150c64",
+    "scripts/calibrate_context.py": "960059d72e7bb43d42dc569a0f3b62e31143ec70538efea7caaecc2bc96c66ea",
+    "scripts/run_benchmark_agent.py": "15880a8b58d473739f423431e29ed23893993ac3ec30df04f46a166b9cdc70a9"
+  },
+  "carried_issued_requests": 2050,
+  "calibration_context_wire_sha256": "1444fec4d4d1b94b375a8e077f5fbbf43d39fdf3642a1d6c10e271510ce79d7e",
+  "calibration_context_wire_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+  "oracle_request_cap": 0,
+  "revalidation_snapshot": {
+    "results": {
+      "path": "benchmarks/unified-context/continuation-1-results.json",
+      "sha256": "3243e0e89880d4e7435118085589ffeaa1d8340c14f940f94417c140b2a6cb73"
+    },
+    "verification": {
+      "path": "docs/evidence/context-unified-2026-10-27/continuation-1-campaign-verification.json",
+      "sha256": "27b05eb8861f8df811f4157ca10517cbd84979aba9f295c0d22ae76198c8020d"
+    }
+  },
+  "revalidation_result_policy": "首轮结果完整保留；复验结果按独立Attempt记录，固定以本轮一次结果呈现",
+  "interrupted_result_policy": "沿用原始USER_CANCELLED停止状态，独立评分保存候选质量；评分不消耗模型请求",
+  "model_execution_files": {
+    "docker/Dockerfile": "9a082789226536bef9bf2288ed7d77f09bb60244986ca39dff817207c3e3466f",
+    "pyproject.toml": "a0e82611a734e12006a1c5b6bd70fde6e69eae8eb14305bf5be3c070ece8adc7",
+    "requirements/agent.txt": "8c40805f1638a16bef380509249647873915b93b89c1ddd7147af1a5e948a697",
+    "requirements/benchmark-mini.txt": "b8859b87c865a7526811ab610371c0ceb41ce83034f49b1660dfaae36c60d680",
+    "requirements/formal-mini.txt": "16f3762f1c3cd7e770e5a45efb626520acbc5067413a5d7b1ffbb2506ac8429c",
+    "requirements/harbor.txt": "9d77fc439e197a56966cfcfb90f1e3e479809c168cdbf7e0d1a4277433957ed9",
+    "src/repropatch/__init__.py": "0cfeb28145cf0901f99718fee1da018a3206a7e9b032a07e5becf54355293cb4",
+    "src/repropatch/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/repropatch/agent_runtime.py": "f3f932bec66077c40c4099c5cc1b5d4a87079c0af2673293e93c870b6b844a36",
+    "src/repropatch/artifacts.py": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+    "src/repropatch/cli.py": "e303b53d47ed7b4f0ba7b4980d14dbe2ebbb7e18ad70243ae179c513fbc6a6f9",
+    "src/repropatch/context.py": "876e554d80c4435355688770f0a19f4113ee349165f7cfb270ed5911bc288607",
+    "src/repropatch/errors.py": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+    "src/repropatch/events.py": "23116bd62787fc2b9596b6e88735e40e14c0a6f418ce2148e6b6c5bbe436b4f9",
+    "src/repropatch/harness.py": "67dfd5dd5e736e16721488987c959c405f2533a6be7378b40f2a71ad30a6df21",
+    "src/repropatch/models.py": "02092ae40d74f2ff456745fd12d233eb1bf6c4d6237cda57e7f977e0ede1e4bc",
+    "src/repropatch/process.py": "d3ad6c80d26542bf4a9dcd8c01051cf48659031f52590e6fb2ad6d2c7b3d9c84",
+    "src/repropatch/recovery.py": "691ad22fd01f7f042b546ad1340c646cc65180fc99b5a401ab00968c1f22ff32",
+    "src/repropatch/repair_sandbox.py": "cba9decfe83d8d94ad40de6ea1263383982130902a23c5107ba875d3c9ded2a4",
+    "src/repropatch/reports.py": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+    "src/repropatch/resources.py": "25cb0e124685db59ad487656e8c38c280e9fc1d76479c73cde7cd5856e69a25a",
+    "src/repropatch/sandbox.py": "c2693e25f8fd0d433180db6065a18d0f8e1fcf3d53ea2616c28e1a0acee3fcc7",
+    "src/repropatch/task.py": "b7eea501b412edbac73d18bc6658672e9187816e9989352368694973a5ad6e35",
+    "src/repropatch/tools.py": "dc0d0d9c8aa86df2290b538897f3e732b9829d05132bd9885949e5ffc8a90453",
+    "src/repropatch/trace.py": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+    "src/repropatch/verification.py": "9756cafc1b7befbd341599de484ce54e30bbcb936489a4d076e79523ddbda1ce",
+    "src/repropatch/workspace.py": "6d1a507881153d4a8eeac8458d3f59a691b995bb94d0bf0850bbc721f00378fc",
+    "scripts/run_benchmark_agent.py": "15880a8b58d473739f423431e29ed23893993ac3ec30df04f46a166b9cdc70a9",
+    "scripts/run_codex_benchmark.py": "47c1c9c6cfb2def0b94d16641113f6575990493822a1f621eb47bd33d4c6dc0c",
+    "scripts/benchmark_budget.py": "c8ea0471b4588f5082dec349581d977e39eff4228fd80987ff132f3f20150c64",
+    "scripts/formal_benchmark.py": "ac075495c88c85310a09aa5d778077d3d1d485fe2241e9a15b5bb59ed390e5e8",
+    "scripts/score_benchmark_attempt.py": "936e063d74fce49f5b88c649296c63c3620eca19807d3dd822b57b67f23ddde1",
+    "scripts/check_qualified_cpp_candidate.py": "e91602eb0078dd0e97eb0b5e46d39033685f0c6a8e27c2f82863fbb47710f6b7",
+    "scripts/qualify_cpp_batch.py": "2cf2033da9a88682b82cdac9021dfe1cf32969c3c6657cacc86725c239220620",
+    "scripts/prepare_multiswe_task.py": "9f4245b1e1b0fb2be55c17c714f5a607f0f781e6a7894f8abfa9973277d26b37"
+  },
+  "oracle_attempts": [],
+  "zero_request_dispatches": [
+    {
+      "run_id": 40519487472,
+      "stop_reason": "CI_SOURCE_MISMATCH",
+      "issued_requests": 0,
+      "protocol_sha256": "b6f25958c6bb5b22b782e08a1912836664a9a29e4e748288c75f6c43a9c045e6"
+    }
+  ]
+}

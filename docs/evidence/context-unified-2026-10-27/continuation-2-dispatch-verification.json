@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "run_id": 40519487472,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40519487472",
+  "source_commit": "8140ac1bb0746d57abbada6dda0ec31958c03c7e",
+  "protocol_sha256": "b6f25958c6bb5b22b782e08a1912836664a9a29e4e748288c75f6c43a9c045e6",
+  "stop_reason": "CI_SOURCE_MISMATCH",
+  "failed_stage": "calibration/preflight",
+  "issued_requests": 0,
+  "model_jobs": [
+    {
+      "name": "${{ matrix.instance }} / ${{ matrix.arm }}",
+      "status": "skipped"
+    },
+    {
+      "name": "Cold Oracle · ${{ matrix.instance }} / ${{ matrix.arm }}",
+      "status": "skipped"
+    }
+  ],
+  "log_sha256": "e94445332ca90ee5544052710e8f4a50540ed7f16e939622072552712ea25854",
+  "new_model_requests": 0
+}
