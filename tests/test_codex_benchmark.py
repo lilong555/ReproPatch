@@ -9,6 +9,7 @@ import shutil
 import socketserver
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import urllib.error
@@ -206,8 +207,9 @@ def test_relay_readiness_failure_stops_before_cli_and_preserves_evidence(
 @pytest.mark.docker
 def test_real_codex_relay_readiness_without_host_package(adapter, tmp_path):
     image = os.environ.get("REPROPATCH_TEST_IMAGE", "repropatch-cpp:0.1")
-    socket_root = tmp_path / "model"
-    socket_root.mkdir(mode=0o755)
+    # Unix套接字采用短路径，兼容Actions的长工作区和pytest证据目录。
+    socket_root = Path(tempfile.mkdtemp(prefix="repropatch-relay-", dir="/tmp"))
+    socket_root.chmod(0o755)
     socket_path = socket_root / "socket"
     received = []
 
@@ -286,6 +288,7 @@ def test_real_codex_relay_readiness_without_host_package(adapter, tmp_path):
         server.shutdown()
         server.server_close()
         thread.join(timeout=3)
+        shutil.rmtree(socket_root)
 
 
 @pytest.mark.sdk
