@@ -1,9 +1,13 @@
 # ReproPatch 评测
 
-[Luna max 四臂实验](../docs/ACTIONS_FORMAL.md)已完成 21 道新 fmt 缺陷的 84 次首次实际模型运行。
-统一 180 秒模型超时的 19 题中，Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19；mini 三次 HTTP 524 保留。
-19 题共 866 请求；首批两题 90 秒实验另有 76 请求。独立 max 校准另计 1 次。
-[正式逐运行 JSON](actions-scale/formal-results.json)和[首批记录](actions-scale/formal-pilot-results.json)分别保存配置、用量与原始评分。
+[Luna max 五组统一上下文实验](unified-context/results.md)完成 21 题的结果归集。
+19 题完整配对中，Full 17/19、关闭自检组 14/19、Shell-only 17/19、mini 16/19、Codex 16/19；基础设施错误保留。
+21 题原始记录包括 3 次人工中断。正式累计 1,895 请求、10 次用量未知，独立校准 11 次单列。
+[逐次 JSON](unified-context/results.json)、[逐题 CSV](unified-context/attempts.csv)和[归档核验](../docs/evidence/context-unified-2026-10-27/verification.json)
+保存三个源码快照、两个计量故障复验及全部原始请求身份。每次保持 24 请求、48 工具和 180 秒模型总期限。
+
+[历史四臂实验](../docs/ACTIONS_FORMAL.md)保留 21 题、84 次首次运行及其 942 次请求；
+[24 请求历史配置审计](../docs/evidence/context-audit-2026-10-26/audit.json)保留五组 105 次尝试。
 
 ## 历史 medium 对照
 

@@ -196,6 +196,31 @@
   "development_benchmark": {
     "status": "completed",
     "reasoning_effort": "max",
+    "context_policy_version": "v1.0-unified-compaction",
+    "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+    "execution_source_commits": [
+      "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "58bc5e596d6230b94d7e01527596fcd5e929e3e1"
+    ],
+    "implementation_sha256": "abde80ce22be851dddccb70966eee75db2b9be54ed029041dac9f01f1c5fd5de",
+    "formal_results": "benchmarks/unified-context/results.json",
+    "report": "benchmarks/unified-context/results.md",
+    "tasks": 21,
+    "registered_slots": 105,
+    "complete_paired_tasks": 19,
+    "user_cancelled": 3,
+    "model_requests": 1895,
+    "request_cap": 2520,
+    "independent_calibration_requests": 11,
+    "unknown_usage_requests": 10,
+    "ci_run_id": 40462738957,
+    "ci_tests": 708,
+    "verification": "docs/evidence/context-unified-2026-10-27/verification.json"
+  },
+  "historical_development_benchmark": {
+    "status": "completed",
+    "reasoning_effort": "max",
     "execution_source_commit": "9d9e4be7ddcb9573edc5c7540b3e1808713d5744",
     "implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
     "formal_results": "benchmarks/actions-scale/formal-results.json",

@@ -12,7 +12,8 @@
 | F2P 自检与回归策略 | 完成；调试优先 reproduce，预算允许继续修复时 verify，最终独立验收 | [v2 结果](../benchmarks/generalization-final-results.md) |
 | 候选来源 | 完成；首个非空来源导出，损坏引用明确报错 | [候选契约](../tests/test_codex_benchmark.py) |
 | 三框架 v2 对照 | 完成；六次首跑，61/72 次正式请求，另 1 次参数校准 | [冻结协议](../benchmarks/generalization-protocol-v2.json) |
-| Luna 推理配置 | 默认 max；客户端检查、真实供应商校准与 21 题四臂实验完成 | [配置与校准范围](../benchmarks/luna-max-config.json) |
+| Luna 推理配置 | 默认 max；客户端检查、真实供应商校准与五组统一上下文复核完成 | [五组结果](../benchmarks/unified-context/results.md) |
+| 统一上下文与压缩 | 完成；Usage 锚点、拒绝前留证、三执行器摘要与预算连续性 | [上下文合同](CONTEXT_POLICY.md) |
 | 发布交付 | v0.3.0 已发布；514 项测试通过，11 个附件通过公开下载与 SHA-256 核验 | [发布清单](../RELEASE.json) |
 
 v2 以三组实际 medium 配置得到 Full 1/2、mini 0/2、Codex 0/2。
@@ -27,6 +28,11 @@ Actions 工作流、统一冷 Oracle、显式 candidate-only、Run 内 ccache、
 2026-10-24 的 41 条原生资格和本地测量按当时环境保留于[原生报告](BENCHMARK_SCALE_REPORT.md)。
 
 ## 正式模型实验
+
+当前[五组统一上下文复核](../benchmarks/unified-context/results.md)归集 21 题、105 槽及三次人工中断。
+19 题完整配对中，Full 与 Shell-only 各通过 17 题，mini 与 Codex 各通过 16 题，关闭自检组通过 14 题。
+正式累计 1,895/2,520 请求，10 次用量未知，校准 11 次单列；模型总期限保持 180 秒。
+107 份收费尝试归档及 53,040 份文件通过核验，统一上下文冻结实现 CI 通过 708 项。
 
 [Luna max 四臂首跑](ACTIONS_FORMAL.md)已完成 21 道题、84 次模型运行。
 首批两题 90 秒模型超时使用 76 请求；后续 19 题统一 180 秒使用 866 请求。

@@ -1,0 +1,57 @@
+{
+  "schema": "repropatch.unified-context-evidence.v1",
+  "status": "completed",
+  "new_model_requests": 0,
+  "ci_run_id": 40462738957,
+  "ci_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+  "ci_tests": 708,
+  "ci_results": [
+    {
+      "kind": "core",
+      "source": "python-cpp-evidence/results.xml",
+      "sha256": "7bcfabc47f4c75c913445076bf0d29ab5d678bb0142578492c4e5a15e43349d9",
+      "tests": 492,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "kind": "sdk",
+      "source": "sdk-contract-evidence/results.xml",
+      "sha256": "4c493bf055394073d0b7406b52b3c22358883e27514b046708294c99f36ccfac",
+      "tests": 176,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "kind": "docker",
+      "source": "docker-gate-evidence/docker-tests.xml",
+      "sha256": "870132380f00801988ce445c179012f213c56a9711fea0a85992dffaf0c06fd5",
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "results": "benchmarks/unified-context/results.json",
+  "results_sha256": "211a837ad6dc54c4e36555a8aa0bb5c4946c66bd06c059fe334391bfafc2c313",
+  "verification_sha256": "bb364b9081df6c8eb61b949719ffae69fa7997d9b2522af982405581d47e948c",
+  "analysis_script_sha256": "bee5c152211fd65fceb5dcea07ebb4716a11f5f851b0edbce2edc1bf0b91ac03",
+  "registered_slots": 105,
+  "complete_paired_tasks": 19,
+  "paid_attempts": 107,
+  "user_cancelled": 3,
+  "source_run_ids": [
+    40365677399,
+    40448349107,
+    40463987241
+  ],
+  "issued_requests": 1895,
+  "unknown_usage_requests": 10,
+  "calibration_issued_requests": 11,
+  "calibration_unknown_usage_requests": 0,
+  "verified_archives": 107,
+  "verified_files": 53040,
+  "offline_analysis_tests": 9
+}

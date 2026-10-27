@@ -1,5 +1,7 @@
 # 上下文计量与压缩合同
 
+已完成的[五组配置复核](../benchmarks/unified-context/results.md)归集21题、105个槽位。19题完整配对结果、3次人工中断、全部收费尝试与校准分别保存；模型总期限保持180秒。
+
 ReproPatch、mini-SWE-agent 和 Codex CLI 共用版本化上下文策略。`ContextPolicy` 定义 Token 窗口、压缩触发与目标水位、输出预留、物理传输上限和请求额度；冻结实验协议保存完整策略。历史批次使用 `legacy-256k`，统一压缩批次使用 `v1.0-unified-compaction`。
 
 每次输入估算以供应商上次真实 `input_tokens`、被保留响应的 `output_tokens` 及新增明文工具结果为基准。明文增量采用确定性的 UTF-8 字节数除以 3 向上取整；`encrypted_content` 单独统计物理字节，通过历史真实 Usage 归因。历史替换后按保留项和摘要重置，下一次供应商响应重新建立真实 Usage 锚点。
