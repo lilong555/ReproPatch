@@ -1,12 +1,15 @@
 # ReproPatch 评测
 
-[Luna max 五组统一上下文实验](unified-context/completion-results.md)完成 21 题的结果归集及上游故障复验。
-19 题完整配对中，Full 17/19、关闭自检组 15/19、Shell-only 18/19、mini 18/19、Codex 16/19；剩余三项上游 HTTP 524 保留。
-21 题当前评分视图有 91 项通过、11 项候选失败、3 项基础设施错误，两项中断候选冷评分均通过。
-正式累计 1,997 请求、13 次用量未知，独立校准 11 次单列。首轮记录与独立复验保持各自身份。
-[当前 JSON](unified-context/completion-results.json)和[当前逐题 CSV](unified-context/completion-attempts.csv)提供补齐后的评分视图；
-[逐次 JSON](unified-context/results.json)、[逐题 CSV](unified-context/attempts.csv)和[归档核验](../docs/evidence/context-unified-2026-10-27/verification.json)
-保存三个源码快照、两个计量故障复验及全部原始请求身份。每次保持 24 请求、48 工具和 180 秒模型总期限。
+[Luna max 五组统一上下文对照](unified-context/final-results.md)已完成 21 道 fmt 缺陷的全部 105 个冷评分。
+**19 题完整配对**中，外部冷 Oracle 通过数为 **Full 18/19、Shell-only 19/19、mini 18/19、Codex 16/19、关闭自检组 15/19**。
+Full 相对关闭自检组净多通过 3 题，中途自检已知累计 1,725.13 秒；逐题差异和停止状态分别呈现。
+三类执行器均观察到真实压缩后继续执行工具。每次尝试统一 24 请求、48 工具和 180 秒模型总期限。
+
+21 题全部记录有 **93 项通过、12 项候选失败**，待评分和基础设施故障项已补齐。两项中断候选的冷评分通过，原始中断状态保留。
+正式累计 **2,074/2,520 请求**、14 次历史用量未知，校准 11 次单列。
+118 份收费尝试及两份补充冷评分归档已核验，首轮和各次复验分别保存。
+执行源码的[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)通过 **735 项测试**：519 Core、176 SDK、40 真实 Docker，固定 mini/Codex 原生压缩验证通过。
+逐题结果、原始身份见[最终报告](unified-context/final-results.md)与[首轮报告](unified-context/results.md)。
 
 [历史四臂实验](../docs/ACTIONS_FORMAL.md)保留 21 题、84 次首次运行及其 942 次请求；
 [24 请求历史配置审计](../docs/evidence/context-audit-2026-10-26/audit.json)保留五组 105 次尝试。

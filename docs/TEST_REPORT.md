@@ -1,5 +1,11 @@
 # 测试报告
 
+## 最终冷评分交付源码
+
+[GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)在 `a6df2b188fbcb237409d4bf599319db057522c2c` 通过 **735 项**：
+**519 Core、176 SDK、40 真实 Docker**，失败、错误与跳过均为 0。固定 mini/Codex 原生压缩验证通过，模型请求为 0。
+[机器可读 CI](evidence/context-unified-2026-10-27/completion-ci.json)记录三个根 JUnit 的 SHA-256。
+
 ## 结果汇总与交付源码
 
 [GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40500084296)在
