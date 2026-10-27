@@ -41,3 +41,6 @@ python scripts/summarize_context_completion.py \
   --verification ../evidence/verification.json \
   --output ../replay
 ```
+
+补充证据包为 `ReproPatch-unified-context-final-2026-10-27.tar.gz`，26,853,843 字节，保存在现有 Release 草稿。
+[归档清单与远端下载核验](../../docs/evidence/context-unified-2026-10-27/final-archive.json)记录完整 SHA-256；解包后独立重算的最终 JSON 逐字节一致，CSV 行记录一致。

@@ -281,6 +281,16 @@
     "reasoning_effort": "max",
     "model_timeout_seconds": 180,
     "ci_run_id": 40515296353,
-    "ci_tests": 735
+    "ci_tests": 735,
+    "evidence_archive": {
+      "manifest": "docs/evidence/context-unified-2026-10-27/final-archive.json",
+      "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/untagged-f5896be9ba56b536d4f5",
+      "release_status": "draft",
+      "name": "ReproPatch-unified-context-final-2026-10-27.tar.gz",
+      "sha256": "d4a9192b8e67468b87c0d794b90044e6e22aad327c1976d854deeda86454e8ee",
+      "size_bytes": 26853843,
+      "download_verified": true,
+      "independent_replay_verified": true
+    }
   }
 }
