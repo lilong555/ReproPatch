@@ -1,0 +1,102 @@
+{
+  "schema": "repropatch.codex-relay-audit.v1",
+  "source_run_id": 40365677399,
+  "source_run_status": "cancelled",
+  "failure_layer": "Codex.container_relay.startup",
+  "root_cause": "独立容器中继加载宿主repropatch包时退出；回环8318端口未启动",
+  "source_attempts": [
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-1390-codex",
+      "archive_sha256": "cb9e8e71b43c1449efb2056ce061463182f3d49bc0ca4937aa10afdd710f6870",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-2310-codex",
+      "archive_sha256": "bd905729ac7c53cf17940af3ed6a7ecdad2df40431ab3543bf3242c3d95ddfd6",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-2940-codex",
+      "archive_sha256": "d827ab9653e96ccb5a03819ade9d224b194d5246261e4872d41ab12653e8d247",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-3158-codex",
+      "archive_sha256": "c204c456e863175af9ce7eef86efaeaeddc8fc81eb4fa1bc31e0943d8941b272",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-3248-codex",
+      "archive_sha256": "9dc26c2e4864d0680493d0274a5425885e4c9bb2742d6fa9856aa8c14da63bef",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-3260-codex",
+      "archive_sha256": "8394b4cd6c2af5143603eee625a6b76e2bca630d1fb605bb706be4db9912ee92",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-3713-codex",
+      "archive_sha256": "ec27f1620026564e2daa08bb2029e11394fccb2af1012b24403c6cb994d8a28b",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-3727-codex",
+      "archive_sha256": "b7f36fb8547c839b73638bc120d216397f3e44def45a1c144a3ad22747f12bd0",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    },
+    {
+      "artifact": "formal-evidence-40365677399-fmtlib__fmt-3750-codex",
+      "archive_sha256": "36769923ebf72b4e79572b3e647b0fceecb53acd8e96fd5e231af382e9737a90",
+      "issued_requests": 0,
+      "error_files": [
+        "codex/stderr.log"
+      ],
+      "error": "ModuleNotFoundError: No module named repropatch"
+    }
+  ],
+  "retained_completed_paid_attempts": 35,
+  "completed_issued_requests": 620,
+  "retained_interrupted_issued_requests": 20,
+  "retained_interrupted_unknown_usage_requests": 1,
+  "calibration_issued_requests": 11,
+  "calibration_unknown_usage_requests": 0,
+  "recovery_protocol": "benchmarks/context-recovery-protocol.json",
+  "recovery_protocol_sha256": "28ac609efcfde93f3c3307aeb770eee45be0572ceda3f41c00dca6f002938647",
+  "recovery_attempts": 69,
+  "recovery_request_cap": 1656,
+  "combined_formal_request_upper_bound": 2296,
+  "authorized_formal_request_cap": 2520
+}
