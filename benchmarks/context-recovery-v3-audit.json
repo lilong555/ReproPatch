@@ -1,0 +1,97 @@
+{
+  "schema": "repropatch.context-recovery-audit.v1",
+  "batch_id": "unified-compaction-recovery-v3-20261027",
+  "protocol": "benchmarks/context-recovery-protocol-v3.json",
+  "protocol_sha256": "2366da0ee48b2ab8036392e5298186905e9b5d2f99e35e4b62d11dc2a12e515d",
+  "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+  "execution_sha256": "98f65f963697a35ff78734cf2cb7800b3e0d79974c893bfdfb9224d8a04fb1e3",
+  "ci": {
+    "run_id": 40462738957,
+    "conclusion": "success",
+    "jobs": ["context-native", "sdk-contract", "docker-integration", "python-and-cpp"]
+  },
+  "preflight": {
+    "passed": true,
+    "new_model_requests": 0,
+    "checks": ["execution_identity", "full_ci", "native_compaction", "calibration_identity", "archive_sha256", "interrupted_request_counts", "rejected_request_replay", "remaining_budget"]
+  },
+  "request_allocation": {
+    "authorization": 2520,
+    "carried_issued_requests": 640,
+    "parent_summary_issued_requests": 490,
+    "interrupted_requests_missing_from_parent_summary": 24,
+    "prior_issued_requests": 1154,
+    "zero_request_continuations": 41,
+    "estimator_correction_attempts": 2,
+    "new_attempts": 43,
+    "new_request_cap": 1032,
+    "campaign_request_upper_bound": 2186,
+    "calibration_issued_requests": 11,
+    "new_calibration_request_cap": 0,
+    "historical_unknown_usage_requests": 2
+  },
+  "parent_run": {
+    "run_id": 40448349107,
+    "conclusion": "cancelled",
+    "completed_attempt_jobs": 26,
+    "completed_oracle_pass": 21,
+    "completed_oracle_fail": 5,
+    "interruptions": [
+      {
+        "instance_id": "fmtlib__fmt-1171",
+        "arm": "no-checks",
+        "audited_stop_reason": "USER_CANCELLED",
+        "original_stop_reason": "COMPLETED",
+        "original_oracle_result": "FAIL",
+        "issued_requests": 11,
+        "included_in_parent_summary": true,
+        "unknown_usage_requests": 0,
+        "artifact": "formal-evidence-40448349107-fmtlib__fmt-1171-no-checks",
+        "archive_sha256": "5fc10bbd1f30e4afbe8a9674208a9d6909296f3a1e5715a180c3c94066373894"
+      },
+      {
+        "instance_id": "fmtlib__fmt-1171",
+        "arm": "shell-only",
+        "audited_stop_reason": "USER_CANCELLED",
+        "original_oracle_result": "NOT_EXECUTED",
+        "issued_requests": 24,
+        "included_in_parent_summary": false,
+        "unknown_usage_requests": 1,
+        "artifact": "formal-evidence-40448349107-fmtlib__fmt-1171-shell-only",
+        "archive_sha256": "97e45bc33278dbbff8f85d1f67964edbda9162b8429616347b547643b59db396"
+      }
+    ]
+  },
+  "estimator_correction_evidence": [
+    {
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "codex",
+      "previous_issued_requests": 6,
+      "request_sequence": 7,
+      "request_purpose": "repair",
+      "original_stop_reason": "CONTEXT_BUDGET_EXHAUSTED",
+      "old_estimated_input_tokens": 170628,
+      "corrected_estimated_input_tokens": 33268,
+      "corrected_admission": "PASS",
+      "new_model_requests": 0,
+      "request_sha256": "d7bde82d292112bda077722a04d2bcb051ce5cde6701e95e516d03ae96155e36",
+      "artifact": "formal-evidence-40448349107-fmtlib__fmt-3727-codex",
+      "archive_sha256": "1cb2666fbd29cfe38414a1556ebb7b7a057e8127ca85a9202fde85648549e7d4"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3158",
+      "arm": "codex",
+      "previous_issued_requests": 22,
+      "request_sequence": 23,
+      "request_purpose": "compact",
+      "original_stop_reason": "CONTEXT_BUDGET_EXHAUSTED",
+      "old_estimated_input_tokens": 144743,
+      "corrected_estimated_input_tokens": 63072,
+      "corrected_admission": "PASS",
+      "new_model_requests": 0,
+      "request_sha256": "eb09545b65c132499ba9f08a35b249230a7483e3cc966c76f27fa8431f57d2ad",
+      "artifact": "formal-evidence-40448349107-fmtlib__fmt-3158-codex",
+      "archive_sha256": "91f9c03e6e8dc2d36095fc79e7353fbb590e172bf4515523771e71b9419e29eb"
+    }
+  ]
+}
