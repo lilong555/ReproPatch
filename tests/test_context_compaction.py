@@ -17,6 +17,7 @@ from repropatch.context import (
     complete_rounds,
     encoded,
     estimate_plain,
+    fingerprint,
     fold_tool_output,
     proxy_error,
 )
@@ -82,6 +83,113 @@ def test_opaque_state_uses_real_usage_anchor_and_survives_partial_history():
     estimator.reset()
     retained = estimator.estimate(payload(output))
     assert 5000 <= retained["estimated_input_tokens"] < 6000
+
+
+def fragmented_reasoning(count=17):
+    return [
+        {
+            "type": "reasoning",
+            "id": f"r-{index}",
+            "summary": [],
+            "encrypted_content": f"state-{index}-" + "a" * 6000,
+            "content": [{"type": "reasoning_text", "text": "供应商内部推理"}],
+            "metadata": {"provider": "cpa"},
+            "internal_chat_message_metadata_passthrough": {"segment": index},
+        }
+        for index in range(count)
+    ]
+
+
+def cli_items(output):
+    return [
+        {
+            key: value
+            for key, value in item.items()
+            if key not in {"metadata", "internal_chat_message_metadata_passthrough", "content"}
+        }
+        for item in output
+    ]
+
+
+def test_cli_normalized_reasoning_and_custom_call_keep_real_usage_anchor():
+    first = payload()
+    output = fragmented_reasoning() + [
+        {
+            "type": "custom_tool_call",
+            "call_id": "edit",
+            "name": "apply_patch",
+            "input": "补丁",
+            "metadata": {"provider": "cpa"},
+            "internal_chat_message_metadata_passthrough": "opaque",
+        }
+    ]
+    delta = [{"type": "custom_tool_call_output", "call_id": "edit", "output": "已应用补丁"}]
+    estimator = TokenEstimator()
+    estimator.observe(first, response(output, incoming=24654, outgoing=8529, reasoning=7858))
+    body = {**first, "input": first["input"] + cli_items(output) + delta}
+    measured = estimator.estimate(body)
+    assert (
+        measured["estimation_basis"]
+        == "previous_actual_usage_plus_retained_output_plus_plain_delta"
+    )
+    assert measured["estimated_input_tokens"] == 24654 + 8529 + estimate_plain(delta)
+    assert measured["estimated_input_tokens"] < 48000
+    assert not measured["opaque_attribution_unknown"]
+    assert fingerprint(cli_items(output)[-1]) != fingerprint(
+        {**cli_items(output)[-1], "input": "另一补丁"}
+    )
+    assert fingerprint(cli_items(output)[0]) != fingerprint(
+        {**cli_items(output)[0], "encrypted_content": "另一状态"}
+    )
+
+
+def test_partial_history_counts_each_response_reasoning_bound_once_after_restore():
+    estimator = TokenEstimator()
+    first = fragmented_reasoning()
+    second = [{"type": "reasoning", "encrypted_content": "second-state"}]
+    estimator.observe(payload(), response(first, outgoing=8010, reasoning=8000))
+    estimator.observe(payload(), response(second, outgoing=8010, reasoning=8000))
+    estimator = TokenEstimator(**json.loads(encoded(estimator.to_dict())))
+    estimator.reset()
+    retained = cli_items(first) + second
+    body = payload(retained)
+    measured = estimator.estimate(body)
+    head = {key: value for key, value in body.items() if key != "input"}
+    assert (
+        measured["estimated_input_tokens"]
+        == estimate_plain(head) + estimate_plain(retained) + 16000
+    )
+    subset = payload([retained[0]])
+    assert (
+        estimator.estimate(subset)["estimated_input_tokens"]
+        == estimate_plain(head) + estimate_plain(subset["input"]) + 8000
+    )
+    assert not measured["opaque_attribution_unknown"]
+    assert estimator.estimate(
+        payload([{"type": "reasoning", "encrypted_content": "unknown-state"}])
+    )["opaque_attribution_unknown"]
+
+
+def test_normalized_multi_reasoning_compact_request_keeps_ledger_budget(tmp_path):
+    ledger = LocalUsageLedger.create_scoped(
+        tmp_path / "ledger.sqlite3", {"attempt": 24}, context_policy=policy()
+    )
+    first = payload()
+    output = fragmented_reasoning()
+    identity = ledger.reserve("attempt", encoded(first))
+    ledger.settle(
+        identity, encoded(response(output, incoming=2000, outgoing=8010, reasoning=8000)), 200
+    )
+    ledger = LocalUsageLedger(ledger.path)
+    compact = {
+        **first,
+        "input": first["input"] + cli_items(output) + [{"role": "user", "content": "生成摘要"}],
+    }
+    identity = ledger.reserve("attempt", encoded(compact), request_purpose="compact")
+    ledger.settle(identity, encoded(response(incoming=10050, outgoing=100)), 200)
+    usage = ledger.summary()
+    assert usage["issued_requests"] == 2 and usage["compact_requests"] == 1
+    assert usage["local_rejections"] == 0 and usage["unknown_usage_requests"] == 0
 
 
 def test_all_tool_results_must_be_present_before_compaction():

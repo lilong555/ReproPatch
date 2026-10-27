@@ -123,10 +123,25 @@ def opaque_bytes(value):
 def fingerprint(value):
     def normalize(item):
         if isinstance(item, dict):
+            # 加密推理状态按CLI实际保留的字段匹配，供应商透传字段独立留在原始证据中。
+            if item.get("type") == "reasoning" and item.get("encrypted_content"):
+                item = {
+                    key: item[key]
+                    for key in ("type", "summary", "encrypted_content")
+                    if key in item
+                }
             return {
                 k: normalize(v)
                 for k, v in sorted(item.items())
-                if k not in {"id", "status", "extra"} and v is not None
+                if k
+                not in {
+                    "id",
+                    "status",
+                    "extra",
+                    "metadata",
+                    "internal_chat_message_metadata_passthrough",
+                }
+                and v is not None
             }
         if isinstance(item, list):
             return [normalize(v) for v in item]
@@ -176,6 +191,8 @@ class TokenEstimator:
     actual_output_tokens: int | None = None
     header_tokens: int = 0
     opaque_token_bounds: dict[str, int] = field(default_factory=dict)
+    opaque_state_groups: dict[str, str] = field(default_factory=dict)
+    opaque_group_bounds: dict[str, int] = field(default_factory=dict)
 
     def estimate(self, body):
         items = input_items(body)
@@ -201,8 +218,20 @@ class TokenEstimator:
         else:
             tokens = head_tokens + estimate_plain(items)
             hashes = {hashlib.sha256(v.encode()).hexdigest() for v in opaque_states(items)}
+            groups = set()
             for sha in hashes:
+                group = self.opaque_state_groups.get(sha)
+                if group is not None:
+                    groups.add(group)
+                    continue
+                # 旧Checkpoint保留逐项上界，已有预算和已知状态继续有效。
                 bound = self.opaque_token_bounds.get(sha)
+                if bound is None:
+                    unknown = True
+                else:
+                    tokens += bound
+            for group in groups:
+                bound = self.opaque_group_bounds.get(group)
                 if bound is None:
                     unknown = True
                 else:
@@ -230,8 +259,16 @@ class TokenEstimator:
         self.header_tokens = estimate_plain(header(body))
         reasoning = (usage.get("output_tokens_details") or {}).get("reasoning_tokens")
         bound = reasoning if type(reasoning) is int and 0 <= reasoning <= outgoing else outgoing
-        for item in opaque_states(output):
-            self.opaque_token_bounds[hashlib.sha256(item.encode()).hexdigest()] = bound
+        hashes = sorted(
+            {hashlib.sha256(item.encode()).hexdigest() for item in opaque_states(output)}
+        )
+        if hashes:
+            # 同一响应的全部推理片段共享整轮上界，保留任意子集时只累计一次。
+            group = hashlib.sha256(encoded(hashes)).hexdigest()
+            self.opaque_group_bounds[group] = max(bound, self.opaque_group_bounds.get(group, 0))
+            for sha in hashes:
+                self.opaque_token_bounds[sha] = bound
+                self.opaque_state_groups[sha] = group
 
     def reset(self):
         self.anchor_input = []
