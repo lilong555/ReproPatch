@@ -19,6 +19,10 @@ def combine(original, protocol, reruns, cold_scores, verification, protocol_sha=
     )
     proofs = {row["attempt_id"]: row for row in verification["records"]}
     assert len(proofs) == len(verification["records"])
+    source_runs = {
+        row.get("run_id", verification.get("source_run_id")) for row in verification["records"]
+    }
+    assert len(source_runs) == 1 and None not in source_runs
     rows = copy.deepcopy(original["attempts"])
     by_id = {row["attempt_id"]: row for row in rows}
     expected = {a["attempt_id"]: a for a in protocol["attempts"]}
@@ -86,7 +90,7 @@ def combine(original, protocol, reruns, cold_scores, verification, protocol_sha=
         if any(row["oracle_result"] == "INFRASTRUCTURE_FAILED" for row in rows)
         else "completed",
         "new_model_requests": 0,
-        "source_run_id": verification["source_run_id"],
+        "source_run_id": next(iter(source_runs)),
         "first_result_sha256": protocol["revalidation_snapshot"]["results"]["sha256"],
         "protocol_sha256": reruns["protocol_sha256"],
         "prior_oracle_results": original["oracle_results"],
