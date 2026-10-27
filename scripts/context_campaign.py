@@ -212,7 +212,7 @@ def recovery_gate(source, p, jobs, interrupted_usage_counts, correction_proofs=N
         interrupted_usage_counts.get(identity) == count for identity, count in reserved.items()
     )
     for identity, count in interrupted_usage_counts.items():
-        if rows[identity].get("usage") is not None:
+        if rows.get(identity, {}).get("usage") is not None:
             assert rows[identity]["usage"]["issued_requests"] == count
     assert (
         known_requests + sum(reserved.values()) + carried
