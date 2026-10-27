@@ -20,6 +20,11 @@ on:
         required: false
         type: boolean
         default: false
+      revalidation:
+        description: '复验7项上游故障，补齐2项中断候选冷评分；沿用2520次总额度'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -31,7 +36,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
+  FORMAL_PROTOCOL: ${{ inputs.revalidation && 'benchmarks/context-revalidation-protocol.json' || inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
   calibration:
@@ -53,6 +58,11 @@ jobs:
         run: |
           test "$GITHUB_RUN_ATTEMPT" = 1
           if [ "$AUTHORIZED_REQUESTS" = 912 ]; then test "$GITHUB_REF" = refs/heads/main; fi
+          if [ '${{ inputs.revalidation }}' = true ]; then
+            test "$AUTHORIZED_REQUESTS" = 2520
+            test '${{ inputs.inline_calibration }}' != true
+            test '${{ inputs.recovery }}' != true
+          fi
           gh api "repos/$GITHUB_REPOSITORY/actions/workflows/formal-benchmark.yml/runs?event=workflow_dispatch&per_page=100" > /tmp/formal-runs.json
           python - <<'PY'
           import json, os
@@ -236,8 +246,83 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  interrupted-oracle:
+    name: Cold Oracle · ${{ matrix.instance }} / ${{ matrix.arm }}
+    needs: calibration
+    if: inputs.revalidation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - instance: fmtlib__fmt-3158
+            arm: full
+          - instance: fmtlib__fmt-1171
+            arm: shell-only
+    env:
+      INSTANCE: ${{ matrix.instance }}
+      ARM: ${{ matrix.arm }}
+      GH_TOKEN: ${{ github.token }}
+      REPROPATCH_BATCH_ID: checkpoint-oracle-${{ github.run_id }}-${{ matrix.instance }}-${{ matrix.arm }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install fixed SDK and frozen native inputs
+        run: |
+          python -m pip install -c requirements/agent.txt -e '.[agent]'
+          gh run download 40194807297 --repo "$GITHUB_REPOSITORY" --pattern 'evidence-*' --dir .repropatch/qualification-input
+          python scripts/actions_benchmark.py plan --tasks "$INSTANCE" --mode qualify --parallel 1 --batch "checkpoint-input-$GITHUB_RUN_ID-$INSTANCE" --backend docker --optimization O3 --output .repropatch/input-plan.json
+          python scripts/actions_benchmark.py prepare --plan .repropatch/input-plan.json --instances "$INSTANCE" --output .repropatch/inputs
+          python - <<'PY'
+          import json, os, subprocess
+          p = json.load(open(os.environ['FORMAL_PROTOCOL']))
+          subprocess.run(['docker', 'pull', p['image']], check=True)
+          attempt = next(a for a in p['oracle_attempts'] if a['instance_id'] == os.environ['INSTANCE'] and a['arm'] == os.environ['ARM'])
+          evidence = attempt['source_evidence']
+          subprocess.run(['gh', 'run', 'download', str(evidence['run_id']), '--repo', os.environ['GITHUB_REPOSITORY'], '--name', evidence['artifact'], '--dir', '.repropatch/checkpoint-input'], check=True)
+          PY
+      - name: Prepare the same task without supplier calls
+        run: python scripts/formal_benchmark.py prepare --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --arm "$ARM" --output .repropatch/formal-output
+      - name: Score frozen Checkpoint with zero model calls
+        run: >-
+          python scripts/complete_context_campaign.py
+          --protocol "$FORMAL_PROTOCOL" --instance "$INSTANCE" --arm "$ARM"
+          --archive .repropatch/checkpoint-input/formal-evidence.tar.gz
+          --prepared .repropatch/formal-output --output .repropatch/interrupted-score
+      - name: Preserve cold scoring evidence
+        if: always()
+        run: |
+          mkdir -p .repropatch/interrupted-score .repropatch/interrupted-summary
+          cp "$FORMAL_PROTOCOL" .repropatch/interrupted-score/protocol.json
+          if test -f .repropatch/interrupted-score/summary.json; then cp .repropatch/interrupted-score/summary.json .repropatch/interrupted-summary/summary.json; fi
+          python scripts/actions_benchmark.py pack --source .repropatch/interrupted-score --output .repropatch/interrupted-score.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: checkpoint-oracle-evidence-${{ github.run_id }}-${{ matrix.instance }}-${{ matrix.arm }}
+          path: |
+            .repropatch/interrupted-score.tar.gz
+            .repropatch/interrupted-score.tar.gz.sha256
+            .repropatch/interrupted-score.tar.metadata.json
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: checkpoint-oracle-summary-${{ github.run_id }}-${{ matrix.instance }}-${{ matrix.arm }}
+          path: .repropatch/interrupted-summary/
+          include-hidden-files: true
+          retention-days: 14
+
   aggregate:
-    needs: [calibration, attempts]
+    needs: [calibration, attempts, interrupted-oracle]
     if: always() && inputs.authorization != '12'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -257,6 +342,11 @@ jobs:
       - run: |
           python scripts/formal_benchmark.py aggregate --protocol "$FORMAL_PROTOCOL" --source .repropatch/summaries --output .repropatch/results
           cat .repropatch/results/results.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        if: inputs.revalidation
+        with:
+          pattern: checkpoint-oracle-summary-${{ github.run_id }}-*
+          path: .repropatch/results/checkpoint-oracles
       - name: Evaluate real compaction Pilot gate
         if: inputs.authorization == '480'
         run: >-

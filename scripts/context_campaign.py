@@ -396,6 +396,10 @@ def preflight(protocol_file, output, wait_ci=0):
             gate = pilot_gate(result, prior, sha(target / "protocol.json"))
             save(output / "pilot-gate.json", gate)
             assert gate["passed"], "PILOT_CONTEXT_GATE_FAILED"
+    if p.get("revalidation_snapshot"):
+        from complete_context_campaign import preflight as revalidation_preflight
+
+        revalidation_preflight(p, output)
     save(
         output / "gate.json",
         {
