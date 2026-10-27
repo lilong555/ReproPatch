@@ -69,12 +69,14 @@ def fixture(tmp_path, monkeypatch):
         "revalidation_snapshot": {"results": {"sha256": "frozen-first-run"}},
     }
     verification = {
+        "source_run_id": 10,
         "passed": True,
         "failures": [],
         "issued_requests": 2,
         "campaign_issued_requests": 7,
         "records": [
             {
+                "run_id": 10,
                 "attempt_id": "new/full",
                 "source_row_sha256": row_sha(updated),
                 "usage": updated["usage"],
@@ -129,3 +131,43 @@ def test_completion_keeps_failures_and_accumulates_all_paid_usage(tmp_path, monk
         assert result["campaign_paid_attempts"] == 6
         recovered = next(row for row in result["attempts"] if row["arm"] == "shell-only")
         assert recovered["stop_reason"] == "USER_CANCELLED" and recovered["oracle_result"] == "PASS"
+
+
+def test_multiple_revalidations_keep_cumulative_budget(tmp_path, monkeypatch):
+    original, p, reruns, scores, verification = fixture(tmp_path, monkeypatch)
+    first = reruns["attempts"][0]
+    first["oracle_result"] = "INFRASTRUCTURE_FAILED"
+    first["usage"]["unknown_usage_requests"] = 1
+    verification["records"][0]["source_row_sha256"] = row_sha(first)
+    intermediate = summary.combine(original, p, reruns, scores, verification)
+    second = {
+        **first,
+        "attempt_id": "second/full",
+        "original_attempt_id": "new/full",
+        "oracle_result": "PASS",
+        "usage": {"issued_requests": 3, "unknown_usage_requests": 0},
+    }
+    p["attempts"] = [{"attempt_id": "second/full", "original_attempt_id": "new/full"}]
+    p["oracle_attempts"] = []
+    verified = {
+        "source_run_id": 11,
+        "passed": True,
+        "failures": [],
+        "issued_requests": 3,
+        "campaign_issued_requests": 10,
+        "records": [
+            {
+                "attempt_id": "second/full",
+                "run_id": 11,
+                "source_row_sha256": row_sha(second),
+                "usage": second["usage"],
+                "archive_sha256": "second-archive",
+                "request_ids": ["r3", "r4", "r5"],
+            }
+        ],
+    }
+    result = summary.combine(intermediate, p, {**reruns, "attempts": [second]}, [], verified)
+    assert result["campaign_usage"]["issued_requests"] == 10
+    assert result["campaign_usage"]["unknown_usage_requests"] == 2
+    assert result["campaign_paid_attempts"] == 7
+    assert len(result["campaign_paid_history"]) == 7

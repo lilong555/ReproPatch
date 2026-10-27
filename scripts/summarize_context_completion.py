@@ -12,9 +12,11 @@ from context_campaign import save, sha
 from summarize_context_campaign import ARMS, comparison, metrics, row_sha, totals
 
 
-def combine(original, protocol, reruns, cold_scores, verification):
+def combine(original, protocol, reruns, cold_scores, verification, protocol_sha=None):
     assert verification["passed"] and not verification["failures"]
-    assert reruns["protocol_sha256"] == sha(ROOT / "benchmarks/context-revalidation-protocol.json")
+    assert reruns["protocol_sha256"] == (
+        protocol_sha or sha(ROOT / "benchmarks/context-revalidation-protocol.json")
+    )
     proofs = {row["attempt_id"]: row for row in verification["records"]}
     assert len(proofs) == len(verification["records"])
     rows = copy.deepcopy(original["attempts"])
@@ -36,7 +38,9 @@ def combine(original, protocol, reruns, cold_scores, verification):
         assert proof["usage"] == updated["usage"]
         replacement = copy.deepcopy(updated)
         replacement.update(
-            source_run_id=40504279080, archive_sha256=proof["archive_sha256"], first_record=previous
+            source_run_id=proof["run_id"],
+            archive_sha256=proof["archive_sha256"],
+            first_record=previous,
         )
         rows[rows.index(previous)] = replacement
     expected_scores = {a["original_attempt_id"]: a for a in protocol["oracle_attempts"]}
@@ -64,7 +68,8 @@ def combine(original, protocol, reruns, cold_scores, verification):
         identity for proof in proofs.values() for identity in proof.get("request_ids", [])
     ]
     assert len(request_ids) == len(set(request_ids)) == verification["issued_requests"]
-    usage = totals(original["campaign_paid_history"] + reruns["attempts"])
+    paid_history = original["campaign_paid_history"] + reruns["attempts"]
+    usage = totals(paid_history)
     assert (
         usage["issued_requests"]
         == verification["campaign_issued_requests"]
@@ -77,8 +82,11 @@ def combine(original, protocol, reruns, cold_scores, verification):
     paired = [row for row in rows if row["instance_id"] in original["paired_tasks"]]
     return {
         "schema": "repropatch.context-completion.v1",
+        "status": "needs_revalidation"
+        if any(row["oracle_result"] == "INFRASTRUCTURE_FAILED" for row in rows)
+        else "completed",
         "new_model_requests": 0,
-        "source_run_id": 40504279080,
+        "source_run_id": verification["source_run_id"],
         "first_result_sha256": protocol["revalidation_snapshot"]["results"]["sha256"],
         "protocol_sha256": reruns["protocol_sha256"],
         "prior_oracle_results": original["oracle_results"],
@@ -91,6 +99,7 @@ def combine(original, protocol, reruns, cold_scores, verification):
         "revalidation_usage": totals(reruns["attempts"]),
         "campaign_usage": usage,
         "campaign_paid_attempts": original["campaign_paid_attempts"] + len(reruns["attempts"]),
+        "campaign_paid_history": paid_history,
         "paired_tasks": original["paired_tasks"],
         "paired_metrics": {
             arm: metrics([row for row in paired if row["arm"] == arm]) for arm in ARMS
@@ -120,9 +129,9 @@ def report(result):
     lines = [
         "# 上游故障复验与中断候选评分结果",
         "",
-        f"7 次独立复验有 **{counts['PASS']} 项通过、"
+        f"{len(result['revalidation_attempts'])} 次独立复验有 **{counts['PASS']} 项通过、"
         f"{counts['INFRASTRUCTURE_FAILED']} 项上游错误**；"
-        f"中断候选冷评分通过 {cold_pass}/{len(result['checkpoint_scores'])}。",
+        f"本轮中断候选冷评分通过 {cold_pass}/{len(result['checkpoint_scores'])}。",
         f"本轮已发 {result['revalidation_usage']['issued_requests']} 次请求，冷评分模型请求为 0；"
         "实际配置为 Luna `max`、180 秒模型总期限、原 O3 Docker 镜像。",
         "",
@@ -154,11 +163,16 @@ def report(result):
         "",
         f"当前 105 个槽位有 **{current.get('PASS', 0)} 项通过、"
         f"{current.get('FAIL', 0)} 项候选失败、"
-        f"{current.get('INFRASTRUCTURE_FAILED', 0)} 项基础设施错误**，全部已有评分记录。"
+        f"{current.get('INFRASTRUCTURE_FAILED', 0)} 项基础设施错误**。"
+        f"有效冷评分为 {current.get('PASS', 0) + current.get('FAIL', 0)}/105。"
         "三次人工中断状态持续保留，完整尝试配对集采用相同 19 题。",
         "",
-        "三项剩余错误均有原始上游 **HTTP 524** 证据："
-        "Full / fmt-2292、Shell-only / fmt-2292、mini / fmt-1361。",
+        "剩余上游错误："
+        + "；".join(
+            f"{labels[row['arm']]} / {row['instance_id']} "
+            f"HTTP {row['upstream_error']['upstream_http_status']}"
+            for row in result["infrastructure_errors"]
+        ),
         "",
         f"正式累计 **{usage['issued_requests']}/2520 请求**，"
         f"{usage['unknown_usage_requests']} 次用量未知，独立校准 11 次单列。"
@@ -172,7 +186,7 @@ def report(result):
         "[首轮报告](results.md)、[首轮 JSON](results.json)、"
         "[本轮 JSON](completion-results.json)和[当前逐题 CSV](completion-attempts.csv)"
         "分别提供原始事实与复验后的评分视图。",
-        "[Actions 原始批次](https://github.com/lilong555/ReproPatch/actions/runs/40504279080)"
+        f"[Actions 原始批次](https://github.com/lilong555/ReproPatch/actions/runs/{result['source_run_id']})"
         "和[逐归档核验](../../docs/evidence/context-unified-2026-10-27/completion-verification.json)"
         "提供血缘、请求账本、候选 SHA-256 及冷评分证据。",
         "",
@@ -207,7 +221,7 @@ def main():
         for row in json.loads(path.read_text())["attempts"]
     ]
     verification = json.loads(args.verification.read_text())
-    result = combine(original, p, reruns, cold, verification)
+    result = combine(original, p, reruns, cold, verification, sha(args.protocol))
     result["verification_sha256"] = sha(args.verification)
     result["analysis_script_sha256"] = sha(Path(__file__))
     save(args.output / "completion-results.json", result)

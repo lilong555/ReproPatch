@@ -281,6 +281,16 @@
       "analysis_ci_run_id": 40500084296,
       "analysis_ci_tests": 717,
       "index": "docs/evidence/context-unified-2026-10-27/archive.json"
+    },
+    {
+      "archive": "ReproPatch-unified-context-completion-2026-10-27.tar.gz",
+      "release_status": "draft",
+      "url": "https://github.com/lilong555/ReproPatch/releases/tag/untagged-f5896be9ba56b536d4f5",
+      "sha256": "5fe9e80904e3c361f070a58fc823d6792f13aa31d01d754857e234b12db5b394",
+      "size_bytes": 32584143,
+      "files": 586,
+      "verification": "docs/evidence/context-unified-2026-10-27/completion-archive.json",
+      "scope": "7次上游故障复验及两份零模型冷评分原始证据"
     }
   ]
 }

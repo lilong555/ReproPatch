@@ -25,6 +25,11 @@ on:
         required: false
         type: boolean
         default: false
+      revalidation_protocol:
+        description: '独立复验的冻结协议文件'
+        required: false
+        type: string
+        default: 'benchmarks/context-revalidation-protocol.json'
 
 permissions:
   contents: read
@@ -36,7 +41,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src
-  FORMAL_PROTOCOL: ${{ inputs.revalidation && 'benchmarks/context-revalidation-protocol.json' || inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
+  FORMAL_PROTOCOL: ${{ inputs.revalidation && inputs.revalidation_protocol || inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
   calibration:
@@ -44,6 +49,8 @@ jobs:
     timeout-minutes: 60
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
+      oracle_matrix: ${{ steps.plan.outputs.oracle_matrix }}
+      oracle_count: ${{ steps.plan.outputs.oracle_count }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -123,6 +130,9 @@ jobs:
               calibration_gate(pathlib.Path('.repropatch/calibration'), p)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
               stream.write('matrix=' + json.dumps(formal_benchmark.execution_matrix(p)) + '\n')
+              oracles = [{'instance': a['instance_id'], 'arm': a['arm']} for a in p.get('oracle_attempts', [])]
+              stream.write('oracle_matrix=' + json.dumps(oracles) + '\n')
+              stream.write('oracle_count=' + str(len(oracles)) + '\n')
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -249,18 +259,14 @@ jobs:
   interrupted-oracle:
     name: Cold Oracle · ${{ matrix.instance }} / ${{ matrix.arm }}
     needs: calibration
-    if: inputs.revalidation
+    if: inputs.revalidation && needs.calibration.outputs.oracle_count != '0'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
       max-parallel: 2
       matrix:
-        include:
-          - instance: fmtlib__fmt-3158
-            arm: full
-          - instance: fmtlib__fmt-1171
-            arm: shell-only
+        include: ${{ fromJSON(needs.calibration.outputs.oracle_matrix) }}
     env:
       INSTANCE: ${{ matrix.instance }}
       ARM: ${{ matrix.arm }}
@@ -343,7 +349,7 @@ jobs:
           python scripts/formal_benchmark.py aggregate --protocol "$FORMAL_PROTOCOL" --source .repropatch/summaries --output .repropatch/results
           cat .repropatch/results/results.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        if: inputs.revalidation
+        if: inputs.revalidation && needs.calibration.outputs.oracle_count != '0'
         with:
           pattern: checkpoint-oracle-summary-${{ github.run_id }}-*
           path: .repropatch/results/checkpoint-oracles
