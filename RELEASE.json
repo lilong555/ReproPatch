@@ -196,6 +196,35 @@
   "development_benchmark": {
     "status": "completed",
     "reasoning_effort": "max",
+    "context_policy_version": "v1.0-unified-compaction",
+    "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+    "execution_source_commits": [
+      "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "58bc5e596d6230b94d7e01527596fcd5e929e3e1"
+    ],
+    "implementation_sha256": "abde80ce22be851dddccb70966eee75db2b9be54ed029041dac9f01f1c5fd5de",
+    "formal_results": "benchmarks/unified-context/results.json",
+    "report": "benchmarks/unified-context/results.md",
+    "tasks": 21,
+    "registered_slots": 105,
+    "complete_paired_tasks": 19,
+    "user_cancelled": 3,
+    "model_requests": 1895,
+    "request_cap": 2520,
+    "independent_calibration_requests": 11,
+    "unknown_usage_requests": 10,
+    "ci_run_id": 40462738957,
+    "ci_tests": 708,
+    "ci_scope": "冻结模型执行源码",
+    "analysis_ci_run_id": 40500084296,
+    "analysis_ci_tests": 717,
+    "analysis_validation": "docs/evidence/context-unified-2026-10-27/analysis-ci.json",
+    "verification": "docs/evidence/context-unified-2026-10-27/verification.json"
+  },
+  "historical_development_benchmark": {
+    "status": "completed",
+    "reasoning_effort": "max",
     "execution_source_commit": "9d9e4be7ddcb9573edc5c7540b3e1808713d5744",
     "implementation_sha256": "69f5a6b805e1cb5e3d670377e1a45b3053962ea9eeaeb8bbf984433330f85a84",
     "formal_results": "benchmarks/actions-scale/formal-results.json",
@@ -208,5 +237,60 @@
     "unknown_usage_requests": 7,
     "ci_run_id": 40212551852,
     "ci_tests": 614
+  },
+  "development_benchmark_completion": {
+    "status": "completed_with_3_upstream_524",
+    "source_run_id": 40504279080,
+    "protocol": "benchmarks/context-revalidation-protocol.json",
+    "results": "benchmarks/unified-context/completion-results.json",
+    "report": "benchmarks/unified-context/completion-results.md",
+    "verification": "docs/evidence/context-unified-2026-10-27/completion-verification.json",
+    "formal_issued_requests": 1997,
+    "unknown_usage_requests": 13,
+    "request_cap": 2520,
+    "independent_calibration_requests": 11,
+    "revalidation_attempts": 7,
+    "checkpoint_scores": 2,
+    "scoring_model_requests": 0,
+    "oracle_results": {
+      "PASS": 91,
+      "FAIL": 11,
+      "INFRASTRUCTURE_FAILED": 3
+    },
+    "reasoning_effort": "max",
+    "model_timeout_seconds": 180
+  },
+  "development_benchmark_final": {
+    "status": "completed",
+    "source_run_id": 40519869787,
+    "protocol": "benchmarks/context-revalidation-protocol-continuation-2b.json",
+    "results": "benchmarks/unified-context/final-results.json",
+    "report": "benchmarks/unified-context/final-results.md",
+    "verification": "docs/evidence/context-unified-2026-10-27/final-campaign-verification.json",
+    "formal_issued_requests": 2074,
+    "unknown_usage_requests": 14,
+    "request_cap": 2520,
+    "independent_calibration_requests": 11,
+    "paid_attempts": 118,
+    "checkpoint_scores": 2,
+    "scoring_model_requests": 0,
+    "oracle_results": {
+      "PASS": 93,
+      "FAIL": 12
+    },
+    "reasoning_effort": "max",
+    "model_timeout_seconds": 180,
+    "ci_run_id": 40515296353,
+    "ci_tests": 735,
+    "evidence_archive": {
+      "manifest": "docs/evidence/context-unified-2026-10-27/final-archive.json",
+      "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/untagged-f5896be9ba56b536d4f5",
+      "release_status": "draft",
+      "name": "ReproPatch-unified-context-final-2026-10-27.tar.gz",
+      "sha256": "d4a9192b8e67468b87c0d794b90044e6e22aad327c1976d854deeda86454e8ee",
+      "size_bytes": 26853843,
+      "download_verified": true,
+      "independent_replay_verified": true
+    }
   }
 }

@@ -7,6 +7,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from .artifacts import MAX_AUDIT_BYTES, EvidenceRef
+from .context import ContextPolicy, ContextState
 from .errors import InfrastructureError, ReproPatchError
 from .events import _json, read_events
 from .task import canonical_json
@@ -93,6 +94,11 @@ def save_checkpoint(harness, workspace, native, tools_sha256):
         "counters": {key: row[key] for key in ("steps_used", "tool_calls_admitted")},
         "deadline_at": row["deadline_at"],
     }
+    if harness.context_policy.compaction_enabled:
+        manifest["schema_version"] = 2
+        manifest["context_state"] = save(
+            "context-state.json", canonical_json(harness.context_state.to_dict()) + b"\n"
+        )
     reference = save("manifest.json", canonical_json(manifest) + b"\n")
     _sync_directory(target)
     pause = harness.pause_after_step == row["steps_used"]
@@ -138,9 +144,14 @@ def read_checkpoint(directory, snapshot=None, checkpoint_id=None):
             raise ValueError("manifest 路径无效")
         manifest = _json(EvidenceRef(**reference).read(directory, limit=2 * 1024 * 1024))
         if (
-            set(manifest) != MANIFEST_KEYS
+            set(manifest)
+            != (
+                MANIFEST_KEYS | {"context_state"}
+                if manifest.get("schema_version") == 2
+                else MANIFEST_KEYS
+            )
             or type(manifest["schema_version"]) is not int
-            or manifest["schema_version"] != 1
+            or manifest["schema_version"] not in {1, 2}
             or type(manifest["checkpoint_id"]) is not int
             or manifest["checkpoint_id"] != checkpoint_id
             or manifest["boundary"] != "model_input_ready"
@@ -149,8 +160,22 @@ def read_checkpoint(directory, snapshot=None, checkpoint_id=None):
         ):
             raise ValueError("Checkpoint 版本或身份不一致")
         data = {}
+        frozen = _json(snapshot.run["inputs_json"])
+        config = _json(
+            EvidenceRef(**frozen["configuration"]).read(directory, limit=MAX_AUDIT_BYTES)
+        )
+        context_policy = ContextPolicy.from_dict(
+            config.get("context_policy", ContextPolicy.legacy().to_dict())
+        )
+        if manifest["schema_version"] == 2:
+            if manifest["context_state"]["path"] != prefix + "/context-state.json":
+                raise ValueError("上下文状态路径不一致")
+            state = _json(
+                EvidenceRef(**manifest["context_state"]).read(directory, limit=MAX_AUDIT_BYTES)
+            )
+            ContextState.restore(context_policy, state)
         for key, filename, limit in (
-            ("native_next_input", "next-input.json", 256 * 1024 + 1),
+            ("native_next_input", "next-input.json", context_policy.transport_max_bytes + 1),
             ("patch", "patch.diff", 8 * 1024 * 1024),
             ("source_manifest", "source-manifest.json", MAX_AUDIT_BYTES),
         ):
@@ -552,10 +577,20 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     frozen = _json(row["inputs_json"])
     config = _json(EvidenceRef(**frozen["configuration"]).read(directory, limit=MAX_AUDIT_BYTES))
     raw = _json(EvidenceRef(**frozen["task_resolved"]).read(directory, limit=MAX_AUDIT_BYTES))
+    context_policy = ContextPolicy.from_dict(
+        config.get("context_policy", ContextPolicy.legacy().to_dict())
+    )
     native = _json(
-        EvidenceRef(**manifest["native_next_input"]).read(directory, limit=256 * 1024 + 1)
+        EvidenceRef(**manifest["native_next_input"]).read(
+            directory, limit=context_policy.transport_max_bytes + 1
+        )
     )
     tool_mode = config.get("benchmark", {}).get("tool_mode", "legacy")
+    intermediate_checks = config.get("benchmark", {}).get("intermediate_checks", True)
+    # 禁用自检的提示和工具子集由已校验的冻结配置确定。
+    expected_instructions = (
+        instructions_for(tool_mode) if intermediate_checks else config["instructions"]
+    )
     try:
         versions = {name: version(name) for name in ("openai-agents", "openai")}
     except PackageNotFoundError:
@@ -565,17 +600,26 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         or config["implementation_sha256"] != implementation_sha256()
         or config["python"] != platform.python_version()
         or config["sdk_versions"] != versions
-        or config["instructions"] != instructions_for(tool_mode)
+        or config["instructions"] != expected_instructions
         or native["instructions"] != config["instructions"]
     ):
         raise InfrastructureError(
             "INPUT_CHANGED: Harness、Python、SDK 或 instructions 身份发生变化"
         )
     prepare_sdk()
+    from .tools import sdk_tools
+
+    restored_tools = (
+        shell_only_tools(None, None) if tool_mode == "shell-only" else sdk_tools(None, None, None)
+    )
+    if not intermediate_checks:
+        restored_tools = [
+            tool for tool in restored_tools if tool.name not in {"run_command", "run_shell"}
+        ]
     tools_hash = (
-        sdk_tools_sha256(shell_only_tools(None, None))
-        if tool_mode == "shell-only"
-        else sdk_tools_sha256()
+        sdk_tools_sha256()
+        if tool_mode == "legacy" and intermediate_checks
+        else sdk_tools_sha256(restored_tools)
     )
     if manifest["input_fingerprints"]["tools_sha256"] != tools_hash:
         raise InfrastructureError("INPUT_CHANGED: 工具 schema 发生变化")
@@ -620,7 +664,14 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         candidate_only=config.get("benchmark", {}).get("candidate_only", False),
         compiler_cache=config.get("benchmark", {}).get("compiler_cache", False),
         tool_mode=tool_mode,
+        context_policy=context_policy,
+        intermediate_checks=intermediate_checks,
     )
+    if "context_state" in manifest:
+        harness.context_state = ContextState.restore(
+            context_policy,
+            _json(EvidenceRef(**manifest["context_state"]).read(directory, limit=MAX_AUDIT_BYTES)),
+        )
     harness.resources, harness.log, harness.directory = resources, log, directory
     clock = RunClock.restore(
         row["created_at"], row["deadline_at"], task.budget.verification_reserve_seconds

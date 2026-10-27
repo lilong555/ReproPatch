@@ -5,9 +5,15 @@ import hashlib
 import http.server
 import json
 import os
+import shutil
+import socketserver
 import subprocess
+import sys
+import tempfile
 import threading
 import time
+import urllib.error
+import urllib.request
 import uuid
 from dataclasses import replace
 from pathlib import Path
@@ -136,6 +142,153 @@ def test_native_reasoning_configuration(adapter):
         adapter.native_settings("max", 180)["model_providers.benchmark.stream_idle_timeout_ms"]
         == 190000
     )
+
+
+def test_relay_starts_in_isolated_python_without_host_package(adapter, tmp_path):
+    script = tmp_path / "adapter.py"
+    shutil.copyfile(adapter.__file__, script)
+    with (tmp_path / "stderr.log").open("wb") as error:
+        process = subprocess.Popen(
+            [sys.executable, "-I", str(script), "--relay"],
+            cwd=tmp_path,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=error,
+        )
+        try:
+            deadline = time.monotonic() + 5
+            while True:
+                if process.poll() is not None:
+                    pytest.fail((tmp_path / "stderr.log").read_text())
+                try:
+                    with urllib.request.urlopen("http://127.0.0.1:8318/", timeout=0.2):
+                        pytest.fail("中继只接受 POST")
+                except urllib.error.HTTPError as response:
+                    assert response.code == 501
+                    break
+                except urllib.error.URLError:
+                    if time.monotonic() >= deadline:
+                        pytest.fail("独立中继未启动")
+                    time.sleep(0.05)
+        finally:
+            process.terminate()
+            process.wait(timeout=5)
+    assert "ModuleNotFoundError" not in (tmp_path / "stderr.log").read_text()
+
+
+@pytest.mark.parametrize("failure", ["exit", "timeout"])
+def test_relay_readiness_failure_stops_before_cli_and_preserves_evidence(
+    adapter, tmp_path, monkeypatch, failure
+):
+    from repropatch.context import ContextLimit
+
+    commands = []
+
+    def run(command, **kwargs):
+        commands.append(command)
+        if command[2] == "-d":
+            return subprocess.CompletedProcess(command, 0, stdout=b"", stderr=b"")
+        if "cat" in command:
+            return subprocess.CompletedProcess(command, 0, stdout=b"relay error", stderr=b"")
+        if failure == "timeout":
+            raise subprocess.TimeoutExpired(command, kwargs["timeout"])
+        return subprocess.CompletedProcess(command, 1, stdout=b"", stderr=b"ConnectionRefusedError")
+
+    monkeypatch.setattr(adapter.subprocess, "run", run)
+    with pytest.raises(ContextLimit, match="RELAY_STARTUP_FAILED"):
+        adapter.start_container_relay("fixture", tmp_path, timeout=3)
+    readiness = json.loads((tmp_path / "relay-readiness.json").read_text())
+    assert readiness["passed"] is False and readiness["model_requests"] == 0
+    assert readiness["timed_out"] == (failure == "timeout")
+    assert (tmp_path / "relay-startup.log").read_bytes() == b"relay error"
+    assert all("/opt/codex" not in command for command in commands)
+
+
+@pytest.mark.docker
+def test_real_codex_relay_readiness_without_host_package(adapter, tmp_path):
+    image = os.environ.get("REPROPATCH_TEST_IMAGE", "repropatch-cpp:0.1")
+    # Unix套接字采用短路径，兼容Actions的长工作区和pytest证据目录。
+    socket_root = Path(tempfile.mkdtemp(prefix="repropatch-relay-", dir="/tmp"))
+    socket_root.chmod(0o755)
+    socket_path = socket_root / "socket"
+    received = []
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def log_message(self, *_):
+            pass
+
+        def do_POST(self):
+            self.rfile.read(int(self.headers["Content-Length"]))
+            received.append(self.path)
+            data = b'{"transport":"ok"}'
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+    server = socketserver.UnixStreamServer(str(socket_path), Handler)
+    socket_path.chmod(0o666)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    name = "repropatch-codex-relay-test-" + uuid.uuid4().hex[:12]
+    try:
+        subprocess.run(
+            [
+                "docker",
+                "run",
+                "-d",
+                "--name",
+                name,
+                "--network=none",
+                "--read-only",
+                "--user=65534:65534",
+                "--cap-drop=ALL",
+                "--security-opt=no-new-privileges",
+                "--tmpfs=/build:rw,nosuid,uid=65534,gid=65534,mode=0700",
+                "--mount",
+                f"type=bind,source={adapter.__file__},target=/opt/adapter.py,readonly",
+                "--mount",
+                f"type=bind,source={socket_root},target=/model,readonly",
+                image,
+                "sleep",
+                "40",
+            ],
+            check=True,
+            capture_output=True,
+            timeout=15,
+        )
+        absent = subprocess.run(
+            [
+                "docker",
+                "exec",
+                name,
+                "python3",
+                "-I",
+                "-c",
+                "import importlib.util; assert importlib.util.find_spec('repropatch') is None",
+            ],
+            capture_output=True,
+            timeout=5,
+        )
+        assert absent.returncode == 0
+        adapter.start_container_relay(name, tmp_path)
+        readiness = json.loads((tmp_path / "relay-readiness.json").read_text())
+        assert readiness["passed"] is True
+        assert received == ["/health"]
+        # 中继不持有后续 CLI 的标准流，前台进程退出后 docker exec 立即返回。
+        subprocess.run(
+            ["docker", "exec", name, "sh", "-c", "printf 'CLI_FINISHED\\n'"],
+            check=True,
+            capture_output=True,
+            timeout=3,
+        )
+    finally:
+        adapter.stop_container(name)
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=3)
+        shutil.rmtree(socket_root)
 
 
 @pytest.mark.sdk

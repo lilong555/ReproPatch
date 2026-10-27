@@ -1,5 +1,31 @@
 # 测试报告
 
+## 最终冷评分交付源码
+
+[GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)在 `a6df2b188fbcb237409d4bf599319db057522c2c` 通过 **735 项**：
+**519 Core、176 SDK、40 真实 Docker**，失败、错误与跳过均为 0。固定 mini/Codex 原生压缩验证通过，模型请求为 0。
+[机器可读 CI](evidence/context-unified-2026-10-27/completion-ci.json)记录三个根 JUnit 的 SHA-256。
+
+## 结果汇总与交付源码
+
+[GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40500084296)在
+`cbf46957303590baef84b4e3e3cba92d7bbb6068` 通过 **717 项**：
+**501 Core、176 SDK、40 真实 Docker**，失败、错误与跳过均为 0。
+固定 mini/Codex 原生压缩作业通过，模型请求为 0。
+[机器可读结果](evidence/context-unified-2026-10-27/analysis-ci.json)记录三个根 JUnit 的 SHA-256。
+
+## 统一上下文冻结实现
+
+[GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40462738957)在
+`58bc5e596d6230b94d7e01527596fcd5e929e3e1` 通过 **708 项**：
+**492 Core、176 SDK、40 真实 Docker**，失败、错误与跳过均为 0。
+固定 mini 和 Codex 的原生压缩作业通过，付费模型请求为 0。
+核心指纹为 `abde80ce22be851dddccb70966eee75db2b9be54ed029041dac9f01f1c5fd5de`。
+
+[五组实验](../benchmarks/unified-context/results.md)归集 105 个槽位，19 题完整配对。
+107 份收费尝试归档、53,040 份文件、1,895 个唯一请求 ID 的核验通过；校准与正式账本分别保存。
+汇总脚本本地 9 项测试覆盖请求去重、未知用量、取消状态、复验失败保留、评分防篡改、协议一致性和收费尝试承接。
+
 ## Shell-first 基线
 
 [GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40275823791)在
@@ -158,10 +184,10 @@ rc2 的本地范围为 21 项定向回归：初始基线视图 1 项、Agent Run
 
 | 检查 | 结果 | 原始证据 |
 | --- | --- | --- |
-| Ruff 检查与格式 | 通过 | [检查](evidence/p2-04/ruff-check.log)、[格式](evidence/p2-04/ruff-format.log) |
-| 核心测试 | 315 通过 | [日志](evidence/p2-04/core-tests.log)、[JUnit](evidence/p2-04/core-tests.xml) |
-| SDK 契约及自动路径 | 147 通过 | [摘要](evidence/p2-04/sdk-contract/summary.json)、[日志](evidence/p2-04/sdk-contract/tests.log) |
-| 真实 Docker | 21 通过 | [摘要](evidence/p2-04/docker-gate/summary.json)、[JUnit](evidence/p2-04/docker-gate/docker-tests.xml) |
+| Ruff 检查与格式 | 通过 | [制品核验](evidence/p2-04/artifact-checks.json) |
+| 核心测试 | 315 通过 | [原始归档](evidence/archive-index.json) |
+| SDK 契约及自动路径 | 147 通过 | [摘要](evidence/p2-04/sdk-contract/summary.json) |
+| 真实 Docker | 21 通过 | [摘要](evidence/p2-04/docker-gate/summary.json) |
 | 干净核心 wheel | 无模型模块和 SDK 的正确/错误补丁验收通过 | [安装](evidence/p2-04/installation.json)、[路径验收](evidence/p2-04/packaging.json) |
 | 干净 agent wheel | 固定依赖、原生 fake 自动修复、462 项非 Docker 测试通过 | [安装版测试](evidence/p2-04/installed-all/summary.json) |
 | 报告与数据库 | 当前报告核验及重建；历史 64 份 schema v1/v2 报告保持可读且数据库未改写 | [核验](evidence/p2-04/artifact-checks.json) |

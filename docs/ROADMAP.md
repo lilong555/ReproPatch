@@ -12,7 +12,8 @@
 | F2P 自检与回归策略 | 完成；调试优先 reproduce，预算允许继续修复时 verify，最终独立验收 | [v2 结果](../benchmarks/generalization-final-results.md) |
 | 候选来源 | 完成；首个非空来源导出，损坏引用明确报错 | [候选契约](../tests/test_codex_benchmark.py) |
 | 三框架 v2 对照 | 完成；六次首跑，61/72 次正式请求，另 1 次参数校准 | [冻结协议](../benchmarks/generalization-protocol-v2.json) |
-| Luna 推理配置 | 默认 max；客户端检查、真实供应商校准与 21 题四臂实验完成 | [配置与校准范围](../benchmarks/luna-max-config.json) |
+| Luna 推理配置 | 默认 max；客户端检查、真实供应商校准与五组统一上下文复核完成 | [五组结果](../benchmarks/unified-context/results.md) |
+| 统一上下文与压缩 | 完成；Usage 锚点、拒绝前留证、三执行器摘要与预算连续性 | [上下文合同](CONTEXT_POLICY.md) |
 | 发布交付 | v0.3.0 已发布；514 项测试通过，11 个附件通过公开下载与 SHA-256 核验 | [发布清单](../RELEASE.json) |
 
 v2 以三组实际 medium 配置得到 Full 1/2、mini 0/2、Codex 0/2。
@@ -27,6 +28,17 @@ Actions 工作流、统一冷 Oracle、显式 candidate-only、Run 内 ccache、
 2026-10-24 的 41 条原生资格和本地测量按当时环境保留于[原生报告](BENCHMARK_SCALE_REPORT.md)。
 
 ## 正式模型实验
+
+[Luna max 五组统一上下文对照](../benchmarks/unified-context/final-results.md)已完成 21 道 fmt 缺陷的全部 105 个冷评分。
+**19 题完整配对**中，外部冷 Oracle 通过数为 **Full 18/19、Shell-only 19/19、mini 18/19、Codex 16/19、关闭自检组 15/19**。
+Full 相对关闭自检组净多通过 3 题，中途自检已知累计 1,725.13 秒；逐题差异和停止状态分别呈现。
+三类执行器均观察到真实压缩后继续执行工具。每次尝试统一 24 请求、48 工具和 180 秒模型总期限。
+
+21 题全部记录有 **93 项通过、12 项候选失败**，待评分和基础设施故障项已补齐。两项中断候选的冷评分通过，原始中断状态保留。
+正式累计 **2,074/2,520 请求**、14 次历史用量未知，校准 11 次单列。
+118 份收费尝试及两份补充冷评分归档已核验，首轮和各次复验分别保存。
+执行源码的[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)通过 **735 项测试**：519 Core、176 SDK、40 真实 Docker，固定 mini/Codex 原生压缩验证通过。
+逐题结果、原始身份见[最终报告](../benchmarks/unified-context/final-results.md)与[首轮报告](../benchmarks/unified-context/results.md)。
 
 [Luna max 四臂首跑](ACTIONS_FORMAL.md)已完成 21 道题、84 次模型运行。
 首批两题 90 秒模型超时使用 76 请求；后续 19 题统一 180 秒使用 866 请求。

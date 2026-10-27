@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "release_status": "draft",
+  "release_id": 425385871,
+  "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/untagged-f5896be9ba56b536d4f5",
+  "verified_at": "2026-10-27T13:39:59.031994+00:00",
+  "package": {
+    "source_commit": "bba933a8a5793c5446657e36750f5c542bed0ee9",
+    "model_run_id": 40504279080,
+    "model_requests_in_run": 102,
+    "new_model_requests": 0,
+    "revalidation_attempts": 7,
+    "cold_scores": 2,
+    "replay_command": "cd source && python scripts/summarize_context_completion.py --protocol benchmarks/context-revalidation-protocol.json --results ../evidence/results --verification ../evidence/verification.json --output ../replay",
+    "name": "ReproPatch-unified-context-completion-2026-10-27.tar.gz",
+    "size_bytes": 32584143,
+    "sha256": "5fe9e80904e3c361f070a58fc823d6792f13aa31d01d754857e234b12db5b394",
+    "verified_files": 586
+  },
+  "assets": [
+    {
+      "name": "ReproPatch-unified-context-completion-2026-10-27.tar.gz",
+      "asset_id": 681711279,
+      "size_bytes": 32584143,
+      "sha256": "5fe9e80904e3c361f070a58fc823d6792f13aa31d01d754857e234b12db5b394",
+      "api_url": "https://api.github.com/repos/lilong555/ReproPatch/releases/assets/681711279",
+      "download_verified": true
+    },
+    {
+      "name": "ReproPatch-unified-context-completion-2026-10-27.tar.gz.sha256",
+      "asset_id": 681712367,
+      "size_bytes": 122,
+      "sha256": "e0036e8bff8192534054ec1d5eb5b0588301b9ec9fd150d91613af09de37577b",
+      "api_url": "https://api.github.com/repos/lilong555/ReproPatch/releases/assets/681712367",
+      "download_verified": true
+    },
+    {
+      "name": "completion-package.json",
+      "asset_id": 681712494,
+      "size_bytes": 640,
+      "sha256": "cc552cac085c77e4778d9ed0279d6063fbb0b1e8a0b03129e48fafd7eb7ec198",
+      "api_url": "https://api.github.com/repos/lilong555/ReproPatch/releases/assets/681712494",
+      "download_verified": true
+    }
+  ],
+  "new_model_requests": 0,
+  "independent_replay": {
+    "passed": true,
+    "files": {
+      "completion-results.json": "db81396acc7f0b41ae2caaf18f7752bcb0cbf3e9ee7c4a49f00ddc5608e5664e",
+      "completion-results.md": "193f126902dbf944b0c70fabfa481cd63ff7b8b2f05d8a49854123d83e48c834",
+      "completion-attempts.csv": "37de24938d2802a85d6bc9024a00dff7472548363cf37980a9826c689729ff02"
+    },
+    "new_model_requests": 0
+  }
+}

@@ -1,0 +1,106 @@
+instance_id,arm,original_reason,audited_stop_reason,oracle_result,last_success_req_seq,last_success_tokens,first_rejected_bytes,rejection_layer,measurement_object,threshold,rejected_request_sent_upstream,evidence_note
+fmtlib__fmt-1171,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,47216,,,,,,
+fmtlib__fmt-1361,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,FAIL,13,38737,297651,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前12个历史边界一致
+fmtlib__fmt-1390,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,33273,,,,,,
+fmtlib__fmt-2070,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,13,25392,,,,,,
+fmtlib__fmt-2292,shell-only,MODEL_SERVER_ERROR,MODEL_SERVER_ERROR,INFRASTRUCTURE_FAILED,4,11880,,供应商 HTTP / 传输,HTTP 响应与 usage,,True,上游请求 5，HTTP状态=524；原错误=None
+fmtlib__fmt-2310,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,FAIL,16,48879,315389,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前15个历史边界一致
+fmtlib__fmt-2317,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,12,27387,,,,,,
+fmtlib__fmt-2610,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,PASS,19,44560,267914,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前18个历史边界一致
+fmtlib__fmt-2940,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,PASS,15,42152,263991,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前14个历史边界一致
+fmtlib__fmt-3158,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,FAIL,14,44769,303196,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前13个历史边界一致
+fmtlib__fmt-3248,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,14,28753,,,,,,
+fmtlib__fmt-3260,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,17,45027,,,,,,
+fmtlib__fmt-3272,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,13,35387,,,,,,
+fmtlib__fmt-3537,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,15,42595,,,,,,
+fmtlib__fmt-3713,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,24,38452,,,,,,
+fmtlib__fmt-3727,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,PASS,13,37860,266208,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前12个历史边界一致
+fmtlib__fmt-3732,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,FAIL,15,47346,265825,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前14个历史边界一致
+fmtlib__fmt-3734,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,44968,,,,,,
+fmtlib__fmt-3750,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,PASS,13,47851,263326,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前12个历史边界一致
+fmtlib__fmt-3819,shell-only,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,FAIL,15,41031,264569,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前14个历史边界一致
+fmtlib__fmt-493,shell-only,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,34838,,,,,,
+fmtlib__fmt-1171,codex,FINISHED,COMPLETED,PASS,15,40427,,,,,,
+fmtlib__fmt-1171,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,18,30076,,,,,,
+fmtlib__fmt-1171,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,19,44617,263281,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；19个已发送前缀一致
+fmtlib__fmt-1171,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,FAIL,11,15770,,,,,,
+fmtlib__fmt-1361,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,8,35894,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-1361,full,MODEL_SERVER_ERROR,MODEL_SERVER_ERROR,INFRASTRUCTURE_FAILED,14,14740,,供应商 HTTP / 传输,HTTP 响应与 usage,,True,上游请求 15，HTTP状态=524；原错误=None
+fmtlib__fmt-1361,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,19,35587,273392,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；19个已发送前缀一致
+fmtlib__fmt-1361,no-checks,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,FAIL,24,26646,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-1390,codex,FINISHED,COMPLETED,PASS,16,37813,,,,,,
+fmtlib__fmt-1390,full,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,PASS,24,19692,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-1390,mini,Submitted,COMPLETED,PASS,15,31230,,,,,,
+fmtlib__fmt-1390,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,18,19900,,,,,,
+fmtlib__fmt-2070,codex,FINISHED,COMPLETED,PASS,12,39280,,,,,,
+fmtlib__fmt-2070,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,10,14007,,,,,,
+fmtlib__fmt-2070,mini,Submitted,COMPLETED,PASS,11,23290,,,,,,
+fmtlib__fmt-2070,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,10,14582,,,,,,
+fmtlib__fmt-2292,codex,CLI_ERROR,MODEL_TIMEOUT,INFRASTRUCTURE_FAILED,8,32559,,Codex CLI / UnixHTTP relay,等待完整 SSE 的时长（秒）,190,True,CLI等待截止后代理继续读取；最终账本保留供应商结算
+fmtlib__fmt-2292,full,MODEL_ERROR,LOCAL_TRANSPORT_LIMIT,PASS,16,26898,263986,LocalUsageLedger.reserve,完整 HTTP JSON Body,262144,False,正文由归档 SDK 输入和静态参数重建；16 次已发请求逐次重建一致
+fmtlib__fmt-2292,mini,,MODEL_TIMEOUT,INFRASTRUCTURE_FAILED,3,13749,,供应商客户端,模型等待时间或连接状态,180,True,供应商客户端错误与最终账本联合判定
+fmtlib__fmt-2292,no-checks,MODEL_SERVER_ERROR,MODEL_SERVER_ERROR,INFRASTRUCTURE_FAILED,11,17624,,供应商 HTTP / 传输,HTTP 响应与 usage,,True,上游请求 12，HTTP状态=524；原错误=None
+fmtlib__fmt-2310,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,17,44096,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-2310,full,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,PASS,24,21141,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-2310,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,20,35872,284292,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；20个已发送前缀一致
+fmtlib__fmt-2310,no-checks,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,PASS,24,22868,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-2317,codex,FINISHED,COMPLETED,PASS,24,38980,,,,,,
+fmtlib__fmt-2317,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,13,19959,,,,,,
+fmtlib__fmt-2317,mini,Submitted,COMPLETED,PASS,12,19128,,,,,,
+fmtlib__fmt-2317,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,23,22123,,,,,,
+fmtlib__fmt-2610,codex,FINISHED,COMPLETED,PASS,20,36076,,,,,,
+fmtlib__fmt-2610,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,24,23438,,,,,,
+fmtlib__fmt-2610,mini,Submitted,COMPLETED,PASS,18,26005,,,,,,
+fmtlib__fmt-2610,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,19,20755,,,,,,
+fmtlib__fmt-2940,codex,FINISHED,COMPLETED,PASS,17,34871,,,,,,
+fmtlib__fmt-2940,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,18,25828,,,,,,
+fmtlib__fmt-2940,mini,Submitted,COMPLETED,PASS,11,20545,,,,,,
+fmtlib__fmt-2940,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,17,17617,,,,,,
+fmtlib__fmt-3158,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,9,43344,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3158,full,MODEL_ERROR,LOCAL_TRANSPORT_LIMIT,FAIL,20,30368,263166,LocalUsageLedger.reserve,完整 HTTP JSON Body,262144,False,正文由归档 SDK 输入和静态参数重建；20 次已发请求逐次重建一致
+fmtlib__fmt-3158,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,10,39154,285737,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；10个已发送前缀一致
+fmtlib__fmt-3158,no-checks,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,PASS,24,25677,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-3248,codex,FINISHED,COMPLETED,PASS,12,34657,,,,,,
+fmtlib__fmt-3248,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,11,16194,,,,,,
+fmtlib__fmt-3248,mini,Submitted,COMPLETED,PASS,8,17740,,,,,,
+fmtlib__fmt-3248,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,11,15542,,,,,,
+fmtlib__fmt-3260,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,19,40836,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3260,full,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,FAIL,24,22613,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-3260,mini,Submitted,COMPLETED,PASS,13,28120,,,,,,
+fmtlib__fmt-3260,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,20,21707,,,,,,
+fmtlib__fmt-3272,codex,FINISHED,COMPLETED,PASS,15,32544,,,,,,
+fmtlib__fmt-3272,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,10,17181,,,,,,
+fmtlib__fmt-3272,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,16,31437,264996,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；16个已发送前缀一致
+fmtlib__fmt-3272,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,24261,,,,,,
+fmtlib__fmt-3537,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,15,41000,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3537,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,19,25183,,,,,,
+fmtlib__fmt-3537,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,13,42175,264912,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；13个已发送前缀一致
+fmtlib__fmt-3537,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,15,23410,,,,,,
+fmtlib__fmt-3713,codex,FINISHED,COMPLETED,PASS,17,27024,,,,,,
+fmtlib__fmt-3713,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,11,11630,,,,,,
+fmtlib__fmt-3713,mini,Submitted,COMPLETED,PASS,12,19271,,,,,,
+fmtlib__fmt-3713,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,13,15732,,,,,,
+fmtlib__fmt-3727,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,8,31547,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3727,full,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,PASS,18,34495,275387,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前17个历史边界一致
+fmtlib__fmt-3727,mini,Submitted,COMPLETED,PASS,15,29534,,,,,,
+fmtlib__fmt-3727,no-checks,EXTERNAL_ORACLE_REQUIRED,LOCAL_TRANSPORT_LIMIT,PASS,22,32262,272137,agent_runtime.input_filter,"canonical_json({""instructions"": ..., ""input"": ...})",262144,False,由最后响应及全部已归档工具结果重建；前21个历史边界一致
+fmtlib__fmt-3732,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,9,42755,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3732,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,22,29745,,,,,,
+fmtlib__fmt-3732,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,14,48150,270606,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；14个已发送前缀一致
+fmtlib__fmt-3732,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,28020,,,,,,
+fmtlib__fmt-3734,codex,BENCHMARK_REQUEST_LIMIT,REQUEST_BUDGET_EXHAUSTED,PASS,24,40261,,LocalUsageLedger.reserve,累计请求数,24,False,
+fmtlib__fmt-3734,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,16,23867,,,,,,
+fmtlib__fmt-3734,mini,Submitted,COMPLETED,PASS,12,23301,,,,,,
+fmtlib__fmt-3734,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,21,20886,,,,,,
+fmtlib__fmt-3750,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,9,45296,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3750,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,24,34333,,,,,,
+fmtlib__fmt-3750,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,15,39139,266616,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；15个已发送前缀一致
+fmtlib__fmt-3750,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,FAIL,23,31818,,,,,,
+fmtlib__fmt-3819,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,11,35504,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-3819,full,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,FAIL,24,31049,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-3819,mini,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,FAIL,17,36802,269173,ModelTransport.query,"canonical_json({""input"": prepared})",262144,False,按固定mini消息扁平化规则重建；17个已发送前缀一致
+fmtlib__fmt-3819,no-checks,EXTERNAL_ORACLE_REQUIRED,REQUEST_BUDGET_EXHAUSTED,PASS,24,27754,,agent_runtime.input_filter,累计模型步数,24,False,
+fmtlib__fmt-493,codex,CONTEXT_LIMIT,LOCAL_TRANSPORT_LIMIT,PASS,7,33721,,Codex.Model.do_POST,JSON input 数组，ensure_ascii=False，默认分隔符,262144,False,旧入口在保存正文前拒绝；原始正文未归档，已知字节数下界为262145
+fmtlib__fmt-493,full,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,13,24678,,,,,,
+fmtlib__fmt-493,mini,,MODEL_TIMEOUT,INFRASTRUCTURE_FAILED,3,8641,,供应商客户端,模型等待时间或连接状态,180,True,供应商客户端错误与最终账本联合判定
+fmtlib__fmt-493,no-checks,EXTERNAL_ORACLE_REQUIRED,COMPLETED,PASS,12,19724,,,,,,

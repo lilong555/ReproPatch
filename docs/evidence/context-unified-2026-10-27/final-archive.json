@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "release_status": "draft",
+  "release_id": 425385871,
+  "release_url": "https://github.com/lilong555/ReproPatch/releases/tag/untagged-f5896be9ba56b536d4f5",
+  "verified_at": "2026-10-27T14:41:28.112070+00:00",
+  "package": {
+    "source_commit": "1cac6115b203700ab88bde507a01697cd3b07473",
+    "model_run_id": 40519869787,
+    "model_requests_in_run": 24,
+    "campaign_issued_requests": 2074,
+    "new_model_requests": 0,
+    "oracle_results": {
+      "PASS": 93,
+      "FAIL": 12
+    },
+    "prior_evidence_release_url": "https://github.com/lilong555/ReproPatch/releases/tag/untagged-f5896be9ba56b536d4f5",
+    "replay_command": "cd source && python scripts/summarize_context_completion.py --protocol benchmarks/context-revalidation-protocol-continuation-2b.json --results ../evidence/results --verification ../evidence/verification.json --output ../replay",
+    "name": "ReproPatch-unified-context-final-2026-10-27.tar.gz",
+    "size_bytes": 26853843,
+    "sha256": "d4a9192b8e67468b87c0d794b90044e6e22aad327c1976d854deeda86454e8ee",
+    "verified_files": 831
+  },
+  "assets": [
+    {
+      "name": "ReproPatch-unified-context-final-2026-10-27.tar.gz",
+      "asset_id": 681867609,
+      "size_bytes": 26853843,
+      "sha256": "d4a9192b8e67468b87c0d794b90044e6e22aad327c1976d854deeda86454e8ee",
+      "api_url": "https://api.github.com/repos/lilong555/ReproPatch/releases/assets/681867609",
+      "download_verified": true
+    },
+    {
+      "name": "ReproPatch-unified-context-final-2026-10-27.tar.gz.sha256",
+      "asset_id": 681872958,
+      "size_bytes": 117,
+      "sha256": "81ac710ae31db4d9bf986bf4f6b6f17191396a117bcad6cb86838cf3bffb4a93",
+      "api_url": "https://api.github.com/repos/lilong555/ReproPatch/releases/assets/681872958",
+      "download_verified": true
+    },
+    {
+      "name": "final-package.json",
+      "asset_id": 681873220,
+      "size_bytes": 812,
+      "sha256": "18569c3f68cdc4f6a8cd69f686dbc440aa94067a8559daff9f948d7225207667",
+      "api_url": "https://api.github.com/repos/lilong555/ReproPatch/releases/assets/681873220",
+      "download_verified": true
+    }
+  ],
+  "new_model_requests": 0,
+  "independent_replay": {
+    "passed": true,
+    "json_byte_equal": true,
+    "csv_same_rows": true,
+    "model_requests": 0
+  }
+}

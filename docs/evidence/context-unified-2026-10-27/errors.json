@@ -1,0 +1,123 @@
+{
+  "new_model_requests": 0,
+  "attempts": [
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/shell-only/first",
+      "instance_id": "fmtlib__fmt-1361",
+      "arm": "shell-only",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_SERVER_ERROR",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "48c94668bb0f4400b9c438f63f434b19",
+      "upstream_http_status": 502,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "e55468bfab532695258a435fe718b813c5104cc954f44db54d32b12f10677961"
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/mini/first",
+      "instance_id": "fmtlib__fmt-1361",
+      "arm": "mini",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_TIMEOUT",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "9df345fd20e7443c823476dc512f0b4c",
+      "upstream_http_status": 524,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "7e8f361c0c13997b1ddaa1973a714e64bad83daf7a74fa374dde99f656c11f42"
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/full/first",
+      "instance_id": "fmtlib__fmt-2292",
+      "arm": "full",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_SERVER_ERROR",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "0238257e11da4de18536afacedc6303f",
+      "upstream_http_status": 524,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "b5d13764ed83904277dc4253b57ea7a41cd5c675dfcd2d61ebcd5feb1e6fbfbb"
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/no-checks/first",
+      "instance_id": "fmtlib__fmt-2292",
+      "arm": "no-checks",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_SERVER_ERROR",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "d94152de9a254f78ab9230508535b191",
+      "upstream_http_status": 524,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "793e5848cb2efd8c2892f970226f86d0ce7540d696805541a2a566b4e8a8fc8a"
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/shell-only/first",
+      "instance_id": "fmtlib__fmt-2292",
+      "arm": "shell-only",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_SERVER_ERROR",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "44d0295fdf704642a63e0d4c6b4cdd01",
+      "upstream_http_status": 524,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "e13a4d95c8207a5bfcb78679da55bd0f7b5928e61d4c6283378ad85e2f51e1ed"
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3158/codex/first",
+      "instance_id": "fmtlib__fmt-3158",
+      "arm": "codex",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_TIMEOUT",
+      "oracle_result": "FAIL",
+      "request_id": "8af979cf64cd46e59d887ee2d444fdd8",
+      "upstream_http_status": 200,
+      "usage_complete": false,
+      "transport": {
+        "request_id": "8af979cf64cd46e59d887ee2d444fdd8",
+        "http_status": 200,
+        "first_byte_seconds": 2.3866066859999933,
+        "last_byte_seconds": 171.87045773699998,
+        "received_bytes": 240510,
+        "response_completed_seen": false,
+        "usage_complete": false,
+        "error_type": "TimeoutError",
+        "cause_type": "CancelledError",
+        "timeout_phase": "total",
+        "first_byte_timeout_seconds": 180,
+        "idle_timeout_seconds": 180,
+        "total_timeout_seconds": 180
+      },
+      "archive_sha256": "e913692faedd916bffa6dbe4c1147f0afdd66c92d62de26e5001e2980c6a306d"
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/mini/first",
+      "instance_id": "fmtlib__fmt-3727",
+      "arm": "mini",
+      "run_id": 40365677399,
+      "stop_reason": "MODEL_TIMEOUT",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "a4867c62039342b78eabade3910515aa",
+      "upstream_http_status": 524,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "e5eb9c069d6aaab4324acf69389a00c1ef5ae0ddb4f811f5e951a45c5028c9c6"
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/mini/first",
+      "instance_id": "fmtlib__fmt-493",
+      "arm": "mini",
+      "run_id": 40463987241,
+      "stop_reason": "MODEL_TIMEOUT",
+      "oracle_result": "INFRASTRUCTURE_FAILED",
+      "request_id": "0a47fccca6de4de08ea75ca067f107e0",
+      "upstream_http_status": 524,
+      "usage_complete": false,
+      "transport": null,
+      "archive_sha256": "b2059da154fb57d284f9193f59080d7c17aa150c8bef52e53df342476ac8e3a6"
+    }
+  ]
+}

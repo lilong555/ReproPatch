@@ -125,6 +125,8 @@ EVENT_TYPES = {
     "checkpoint_committed",
     "recovery_started",
     "recovery_finished",
+    "context_compacted",
+    "context_compaction_failed",
 }
 ENVELOPE_KEYS = {
     "schema_version",

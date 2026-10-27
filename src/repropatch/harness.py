@@ -138,7 +138,16 @@ class Harness:
         compiler_cache=False,
         tool_mode="legacy",
         repair_sandbox_factory=None,
+        context_policy=None,
+        context_meter=None,
+        intermediate_checks=True,
     ):
+        from .context import ContextPolicy
+
+        self.context_policy = context_policy or ContextPolicy.legacy()
+        self.context_state = None
+        self.context_meter = context_meter
+        self.intermediate_checks_enabled = intermediate_checks
         if (model is None) == (patch_file is None):
             raise ReproPatchError("INPUT_MODE: 只能选择模型修复或外部补丁验收之一")
         if model is None and (candidate_only or compiler_cache):
@@ -752,6 +761,7 @@ class Harness:
                     "engine": self.report["engine"],
                     "instructions": self.instructions if self.model is not None else None,
                     "budget": asdict(self.task.budget),
+                    "context_policy": self.context_policy.to_dict(),
                     "harness_version": __version__,
                     "implementation_sha256": implementation_sha256(),
                     "python": platform.python_version(),
@@ -762,6 +772,7 @@ class Harness:
                         "candidate_only": self.candidate_only,
                         "compiler_cache": self.compiler_cache,
                         "tool_mode": self.tool_mode,
+                        "intermediate_checks": self.intermediate_checks_enabled,
                     },
                 }
             )
@@ -975,6 +986,7 @@ class Harness:
                     steps_used=self.report["model_steps"],
                     tool_calls_used=self.report["tool_calls"],
                 )
+                self.report["agent_stop_reason"] = self.agent_stop_reason
                 try:
                     if candidate is not None:
                         patch = candidate.patch.read(self.directory, limit=8 * 1024 * 1024)

@@ -1,9 +1,18 @@
 # ReproPatch 评测
 
-[Luna max 四臂实验](../docs/ACTIONS_FORMAL.md)已完成 21 道新 fmt 缺陷的 84 次首次实际模型运行。
-统一 180 秒模型超时的 19 题中，Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19；mini 三次 HTTP 524 保留。
-19 题共 866 请求；首批两题 90 秒实验另有 76 请求。独立 max 校准另计 1 次。
-[正式逐运行 JSON](actions-scale/formal-results.json)和[首批记录](actions-scale/formal-pilot-results.json)分别保存配置、用量与原始评分。
+[Luna max 五组统一上下文对照](unified-context/final-results.md)已完成 21 道 fmt 缺陷的全部 105 个冷评分。
+**19 题完整配对**中，外部冷 Oracle 通过数为 **Full 18/19、Shell-only 19/19、mini 18/19、Codex 16/19、关闭自检组 15/19**。
+Full 相对关闭自检组净多通过 3 题，中途自检已知累计 1,725.13 秒；逐题差异和停止状态分别呈现。
+三类执行器均观察到真实压缩后继续执行工具。每次尝试统一 24 请求、48 工具和 180 秒模型总期限。
+
+21 题全部记录有 **93 项通过、12 项候选失败**，待评分和基础设施故障项已补齐。两项中断候选的冷评分通过，原始中断状态保留。
+正式累计 **2,074/2,520 请求**、14 次历史用量未知，校准 11 次单列。
+118 份收费尝试及两份补充冷评分归档已核验，首轮和各次复验分别保存。
+执行源码的[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)通过 **735 项测试**：519 Core、176 SDK、40 真实 Docker，固定 mini/Codex 原生压缩验证通过。
+逐题结果、原始身份见[最终报告](unified-context/final-results.md)与[首轮报告](unified-context/results.md)。
+
+[历史四臂实验](../docs/ACTIONS_FORMAL.md)保留 21 题、84 次首次运行及其 942 次请求；
+[24 请求历史配置审计](../docs/evidence/context-audit-2026-10-26/audit.json)保留五组 105 次尝试。
 
 ## 历史 medium 对照
 

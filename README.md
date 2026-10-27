@@ -24,16 +24,23 @@ flowchart LR
 [评测与复现](benchmarks/README.md) · [发布身份](RELEASE.json) ·
 [CI](https://github.com/lilong555/ReproPatch/actions/workflows/ci.yml)
 
-[Luna max 正式实验](docs/ACTIONS_FORMAL.md)已在 GitHub Actions 完成 21 道新 fmt 缺陷的四臂首跑。
-统一 180 秒模型超时的 **19 题**中，外部冷 Oracle 通过数为 **Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19**，
-mini 的 3 次 HTTP 524 保留为基础设施错误；首批两题的 90 秒结果单列。
-正式实验共 **942/1008 次请求**，未知用量 7 次，独立 max 校准另计 1 次。
-Full 调用 9 次 `reproduce`、7 次 `verify`，自检累计 751.25 秒；本批关闭自检组的成功数较高。
-冻结模型源码通过 **614 项 CI**：431 Core、160 SDK、23 真实 Docker。
+[Luna max 五组统一上下文对照](benchmarks/unified-context/final-results.md)已完成 21 道 fmt 缺陷的全部 105 个冷评分。
+**19 题完整配对**中，外部冷 Oracle 通过数为 **Full 18/19、Shell-only 19/19、mini 18/19、Codex 16/19、关闭自检组 15/19**。
+Full 相对关闭自检组净多通过 3 题，中途自检已知累计 1,725.13 秒；逐题差异和停止状态分别呈现。
+三类执行器均观察到真实压缩后继续执行工具。每次尝试统一 24 请求、48 工具和 180 秒模型总期限。
+
+21 题全部记录有 **93 项通过、12 项候选失败**，待评分和基础设施故障项已补齐。两项中断候选的冷评分通过，原始中断状态保留。
+正式累计 **2,074/2,520 请求**、14 次历史用量未知，校准 11 次单列。
+118 份收费尝试及两份补充冷评分归档已核验，首轮和各次复验分别保存。
+执行源码的[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)通过 **735 项测试**：519 Core、176 SDK、40 真实 Docker，固定 mini/Codex 原生压缩验证通过。
+逐题结果、原始身份见[最终报告](benchmarks/unified-context/final-results.md)与[首轮报告](benchmarks/unified-context/results.md)。
+
+[历史四臂首跑](docs/ACTIONS_FORMAL.md)保留 21 题、942 次正式请求及原始受限配置结果；
+[旧 256 KiB 配置审计](docs/evidence/context-audit-2026-10-26/audit.json)保留此前 105 次尝试的停止原因和冷评分。
 
 [免费云端实验](docs/ACTIONS_RESULTS.md)完成 **21/21 O3 Docker 资格**和构建缓存、1/2/4 Job 对照，模型请求为 0。
 同一真实 C++ 目标的热 ccache 中位耗时为 **0.87 秒**，冷 Ninja 为 **13.27 秒**，重复变体各三个样本。
-[正式逐运行记录](benchmarks/actions-scale/formal-results.json)与[资格证据](benchmarks/actions-scale/cloud-results.json)
+[正式逐运行记录](benchmarks/unified-context/results.json)与[资格证据](benchmarks/actions-scale/cloud-results.json)
 保留任务身份、失败、用量、固定镜像和归档哈希；执行入口见 [Actions 说明](docs/ACTIONS_BENCHMARK.md)。
 
 发布提交 `6e69e58` 通过 **514 项测试**：338 Core、154 SDK、22 真实 Docker。

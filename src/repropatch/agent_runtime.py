@@ -2,8 +2,20 @@
 
 import asyncio
 import inspect
+import time
 from dataclasses import dataclass
 
+from .context import (
+    REQUEST_PURPOSE,
+    SUMMARY_INSTRUCTIONS,
+    ContextLimit,
+    ContextState,
+    admission_reason,
+    encoded,
+    fold_tool_output,
+    request_purpose,
+    stop_reason,
+)
 from .errors import ReproPatchError
 from .models import positive_timeout, prepare_sdk
 
@@ -94,7 +106,13 @@ async def run_sdk(
         raise
     except APITimeoutError:
         raise ReproPatchError("MODEL_REQUEST_TIMEOUT") from None
-    except APIConnectionError:
+    except APIConnectionError as exc:
+        # HTTP hooks 的拒绝可能被客户端包装为连接异常，保留领域原因。
+        cause = exc.__cause__
+        while cause is not None:
+            if isinstance(cause, ContextLimit):
+                raise cause from None
+            cause = cause.__cause__
         raise ReproPatchError("MODEL_CONNECTION_ERROR") from None
     except APIError as exc:
         status = getattr(exc, "status_code", None)
@@ -118,6 +136,14 @@ class AgentStop(ReproPatchError):
     def __init__(self, reason):
         self.reason = reason
         super().__init__(reason)
+
+
+class ContextRebuilt(ReproPatchError):
+    """安全边界退出当前 Runner，由公开入口装入替换后的有效历史。"""
+
+    def __init__(self, items):
+        self.items = items
+        super().__init__("CONTEXT_REBUILT")
 
 
 @dataclass(frozen=True)
@@ -177,6 +203,9 @@ async def run_agent(harness, workspace) -> AgentResult:
     unknown = {key: report["model_steps"] > 0 and report["usage"][key] is None for key in totals}
     pending = []
     next_input = None
+    current_body = None
+    context_state = harness.context_state or ContextState(harness.context_policy)
+    harness.context_state = context_state
     closed = False
     (harness.directory / "agent").mkdir(mode=0o700, exist_ok=True)
     (harness.directory / "agent/native").mkdir(mode=0o700, exist_ok=True)
@@ -200,17 +229,49 @@ async def run_agent(harness, workspace) -> AgentResult:
         return asdict(ref)
 
     async def input_filter(data):
-        nonlocal next_input
+        nonlocal next_input, current_body
         deadline()
         if closed:
             raise AgentStop("AGENT_DEADLINE")
         if report["model_steps"] >= budget.max_steps:
-            raise AgentStop("STEP_BUDGET")
+            raise AgentStop(
+                "REQUEST_BUDGET_EXHAUSTED"
+                if harness.context_policy.compaction_enabled
+                else "STEP_BUDGET"
+            )
         native = {"instructions": data.model_data.instructions, "input": data.model_data.input}
-        if len(canonical_json(native)) > 256 * 1024:
+        if not harness.context_policy.compaction_enabled and (
+            len(canonical_json(native)) > harness.context_policy.transport_max_bytes
+        ):
             raise AgentStop("CONTEXT_LIMIT")
         if pending:
             raise ReproPatchError("CHECKPOINT_UNSAFE: 尚有未执行的准入工具")
+        current_body = {
+            **model_parameters,
+            **native,
+        }
+        meter = harness.context_meter
+        if meter is not None and meter.last_request_body is not None:
+            current_body = {**meter.last_request_body, **native}
+            context_state.estimator = meter.ledger.estimator(meter.attempt)
+        plan = context_state.plan(current_body)
+        if meter is None and plan is None and harness.context_policy.compaction_enabled:
+            measurement = {
+                **context_state.estimator.estimate(current_body),
+                "transport_bytes": len(encoded(current_body)),
+            }
+            reason = admission_reason(harness.context_policy, measurement)
+            if reason:
+                save(
+                    f"{report['model_steps'] + 1:04d}-local-rejection",
+                    {
+                        "body": current_body,
+                        "measurement": measurement,
+                        "stop_reason": reason,
+                        "rejection_layer": "AgentRuntime.unmetered_input",
+                    },
+                )
+                raise ContextLimit(reason)
         manifest, checkpoint_ref, pause = save_checkpoint(harness, workspace, native, tools_sha256)
         report["checkpoint"] = {
             "checkpoint_id": manifest["checkpoint_id"],
@@ -218,6 +279,61 @@ async def run_agent(harness, workspace) -> AgentResult:
         }
         if pause:
             raise HarnessPause("已提交完整输入边界")
+        if plan is not None:
+            before = time.monotonic()
+            summary_input = [{"role": "user", "content": encoded(plan["summarize"]).decode()}]
+
+            async def summary_filter(summary_data):
+                nonlocal next_input, current_body
+                current_body = {
+                    **model_parameters,
+                    "tools": [],
+                    "instructions": SUMMARY_INSTRUCTIONS,
+                    "input": summary_data.model_data.input,
+                }
+                next_input = save(
+                    f"{report['model_steps'] + 1:04d}-input",
+                    {
+                        "instructions": SUMMARY_INSTRUCTIONS,
+                        "input": summary_data.model_data.input,
+                        "request_purpose": "compact",
+                    },
+                )
+                return summary_data.model_data
+
+            try:
+                repair_body = dict(current_body)
+                with request_purpose("compact"):
+                    summary = await run_sdk(
+                        model=harness.model,
+                        input_items=summary_input,
+                        tools=[],
+                        hooks=Hooks(),
+                        input_filter=summary_filter,
+                        instructions=SUMMARY_INSTRUCTIONS,
+                        max_turns=1,
+                        max_output_tokens=budget.max_output_tokens,
+                        model_timeout=budget.model_timeout_seconds,
+                        run_timeout=context.clock.remaining("agent_check"),
+                    )
+                replacement = context_state.replace(
+                    repair_body,
+                    plan,
+                    summary.final_output,
+                    sequence=report["model_steps"],
+                    duration_seconds=time.monotonic() - before,
+                )
+                report["context"] = context_state.to_dict()
+                log.emit("context_compacted", context_state.compactions[-1])
+            except (HarnessPause, InfrastructureError):
+                raise
+            except Exception as exc:
+                reason = stop_reason(exc)
+                if reason in {"REQUEST_BUDGET_EXHAUSTED", "LOCAL_TRANSPORT_LIMIT"}:
+                    raise AgentStop(reason) from exc
+                log.emit("context_compaction_failed", {"cause": reason})
+                raise AgentStop("COMPACTION_FAILED") from exc
+            raise ContextRebuilt(replacement)
         ref = save(f"{report['model_steps'] + 1:04d}-input", native)
         next_input = ref
         return data.model_data
@@ -241,6 +357,7 @@ async def run_agent(harness, workspace) -> AgentResult:
                     "steps_used": step,
                     "usage": usage,
                     "engine": report["engine"],
+                    "request_purpose": REQUEST_PURPOSE.get(),
                 },
                 step_id=step,
             )
@@ -249,13 +366,26 @@ async def run_agent(harness, workspace) -> AgentResult:
 
         async def on_llm_end(self, wrapper, agent, response):
             output = [item.model_dump(mode="json", exclude_none=True) for item in response.output]
-            if len(canonical_json(output)) > 1024 * 1024:
-                raise ReproPatchError("PROTOCOL_ERROR: 原生输出超过 1 MiB")
+            if len(canonical_json(output)) > harness.context_policy.response_max_bytes:
+                raise ReproPatchError("PROTOCOL_ERROR: 原生输出超过传输上限")
             ref = save(
                 f"{report['model_steps']:04d}-output",
-                {"output": output, "raw_usage": response.raw_usage},
+                {
+                    "output": output,
+                    "raw_usage": response.raw_usage,
+                    "request_purpose": REQUEST_PURPOSE.get(),
+                },
             )
             usage = raw_token_usage(response)
+            context_state.estimator.observe(
+                current_body, {"output": output, "usage": response.raw_usage}
+            )
+            if REQUEST_PURPOSE.get() == "repair" and context_state.compactions:
+                compact = context_state.compactions[-1]
+                compact.setdefault(
+                    "post_compact_actual_input_tokens",
+                    (response.raw_usage or {}).get("input_tokens"),
+                )
             for key, value in usage.items():
                 unknown[key] |= value is None
                 totals[key] += value or 0
@@ -272,6 +402,7 @@ async def run_agent(harness, workspace) -> AgentResult:
                     "usage": usage,
                     "synthetic": fake,
                     "cumulative_usage": report["usage"],
+                    "request_purpose": REQUEST_PURPOSE.get(),
                 },
                 step_id=report["model_steps"],
             )
@@ -285,6 +416,8 @@ async def run_agent(harness, workspace) -> AgentResult:
                 if item.type == "function_call":
                     calls.append(item)
             ids = [call.call_id for call in calls]
+            if REQUEST_PURPOSE.get() == "compact" and calls:
+                raise ContextLimit("COMPACTION_FAILED", detail="摘要返回工具调用")
             if (
                 len(calls) > 8
                 or any(not isinstance(cid, str) or not cid for cid in ids)
@@ -372,8 +505,17 @@ async def run_agent(harness, workspace) -> AgentResult:
             },
             **identity,
         )
+        if context_state.compactions:
+            context_state.compactions[-1]["continued_with_tools"] = True
         deadline()
-        return canonical_json(value).decode("utf-8")
+        text = canonical_json(value).decode("utf-8")
+        if harness.context_policy.compaction_enabled:
+            return fold_tool_output(
+                text,
+                harness.context_policy.tool_output_max_bytes,
+                lambda raw: reference.path,
+            )
+        return text
 
     toolbox = Toolbox(
         workspace,
@@ -393,8 +535,24 @@ async def run_agent(harness, workspace) -> AgentResult:
             lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
         )
     )
+    if not harness.intermediate_checks_enabled:
+        tools = [tool for tool in tools if tool.name not in {"run_command", "run_shell"}]
     names = {tool.name for tool in tools}
     tools_sha256 = sdk_tools_sha256(tools)
+    model_parameters = {
+        "model": getattr(harness.model, "model", "offline"),
+        "max_output_tokens": budget.max_output_tokens,
+        "tools": [
+            {
+                "type": "function",
+                "name": tool.name,
+                "description": tool.description,
+                "parameters": tool.params_json_schema,
+                "strict": tool.strict_json_schema,
+            }
+            for tool in tools
+        ],
+    }
     baseline = model_evaluation(harness.baseline.to_dict())
     initial = [
         {
@@ -434,19 +592,24 @@ async def run_agent(harness, workspace) -> AgentResult:
         deadline()
         if report["model_steps"] >= budget.max_steps:
             raise AgentStop("STEP_BUDGET")
-        result = await run_sdk(
-            model=harness.model,
-            input_items=initial,
-            tools=tools,
-            hooks=Hooks(),
-            input_filter=input_filter,
-            instructions=harness.instructions,
-            context=None,
-            max_turns=budget.max_steps - report["model_steps"],
-            max_output_tokens=budget.max_output_tokens,
-            model_timeout=budget.model_timeout_seconds,
-            run_timeout=context.clock.remaining("agent_check"),
-        )
+        while True:
+            try:
+                result = await run_sdk(
+                    model=harness.model,
+                    input_items=initial,
+                    tools=tools,
+                    hooks=Hooks(),
+                    input_filter=input_filter,
+                    instructions=harness.instructions,
+                    context=None,
+                    max_turns=max(1, budget.max_steps - report["model_steps"]),
+                    max_output_tokens=budget.max_output_tokens,
+                    model_timeout=budget.model_timeout_seconds,
+                    run_timeout=context.clock.remaining("agent_check"),
+                )
+                break
+            except ContextRebuilt as rebuild:
+                initial = rebuild.items
         if not isinstance(result.final_output, str) or not result.final_output.strip():
             raise ReproPatchError("PROTOCOL_ERROR: 缺少正常结束文本")
         reference = EvidenceRef.save(
@@ -460,7 +623,13 @@ async def run_agent(harness, workspace) -> AgentResult:
     except HarnessPause:
         raise
     except MaxTurnsExceeded:
-        harness.agent_stop_reason = "STEP_BUDGET"
+        harness.agent_stop_reason = (
+            "REQUEST_BUDGET_EXHAUSTED"
+            if harness.context_policy.compaction_enabled
+            else "STEP_BUDGET"
+        )
+    except ContextLimit as exc:
+        harness.agent_stop_reason = exc.reason
     except (AgentStop, StageDeadline) as exc:
         harness.agent_stop_reason = exc.reason if isinstance(exc, AgentStop) else "AGENT_DEADLINE"
     except asyncio.CancelledError:
@@ -469,13 +638,15 @@ async def run_agent(harness, workspace) -> AgentResult:
     except TimeoutError:
         harness.agent_stop_reason = "AGENT_DEADLINE"
     except ModelTimeoutError:
-        harness.agent_stop_reason = "MODEL_ERROR"
+        harness.agent_stop_reason = "MODEL_TIMEOUT"
         raise ReproPatchError("MODEL_REQUEST_TIMEOUT: 单次模型请求超时") from None
     except (InfrastructureError, OSError):
         raise
     except ReproPatchError as exc:
         harness.agent_stop_reason = (
-            "PROTOCOL_ERROR" if str(exc).startswith("PROTOCOL_ERROR") else "MODEL_ERROR"
+            stop_reason(exc)
+            if harness.context_policy.compaction_enabled
+            else ("PROTOCOL_ERROR" if str(exc).startswith("PROTOCOL_ERROR") else "MODEL_ERROR")
         )
         if str(exc).startswith("MODEL_") and ":" not in str(exc):
             raise ReproPatchError(str(exc) + ": 模型请求失败") from None
@@ -490,6 +661,22 @@ async def run_agent(harness, workspace) -> AgentResult:
         # SDK 可能仍有收尾任务，闭锁会阻止所有后续领域工具进入。
         closed = True
         pending.clear()
+        report["context"] = context_state.to_dict()
+        if harness.context_meter is not None:
+            metered = harness.context_meter.ledger.summary(harness.context_meter.attempt)
+            # 本地拒绝没有上游用量；最终账本校正 SDK 启动钩子的临时未知标记。
+            known = {
+                "input_tokens": metered["known_input_tokens"],
+                "output_tokens": metered["known_output_tokens"],
+                "total_tokens": metered["known_input_tokens"] + metered["known_output_tokens"],
+            }
+            report["usage"].update(
+                known_tokens=known, unknown_turns=metered["unknown_usage_requests"]
+            )
+            report["usage"].update(
+                {k: None if metered["unknown_usage_requests"] else v for k, v in known.items()}
+            )
+            report["request_accounting"] = metered
     return AgentResult(
         harness.agent_stop_reason,
         report.get("model_summary"),

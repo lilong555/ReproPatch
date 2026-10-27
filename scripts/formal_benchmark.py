@@ -16,12 +16,18 @@ from actions_benchmark import save, sha
 from benchmark_budget import LocalUsageLedger
 from prepare_multiswe_task import git
 
+from repropatch.context import ContextPolicy
+
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "benchmarks/formal-max-protocol.json"
 
 
 def protocol():
     value = json.loads(PROTOCOL.read_text())
+    if "context_policy" in value:
+        from context_campaign import validate_protocol
+
+        validate_protocol(value)
     if "attempts" not in value:
         value["attempts"] = [
             {
@@ -41,11 +47,15 @@ def protocol():
 def execution_matrix(p):
     """全量对照按任务和实验臂拆分，单个 Job 只占用一次修复时限。"""
     arms = p["arms"] if p.get("matrix_per_arm") else ["all"]
-    return [
+    matrix = [
         {"instance": task, "arm": arm, "suffix": "" if arm == "all" else "-" + arm}
         for task in p["tasks"]
         for arm in arms
     ]
+    if p.get("execution_order"):
+        by_key = {(row["instance"], row["arm"]): row for row in matrix}
+        return [by_key[(row["instance_id"], row["arm"])] for row in p["execution_order"]]
+    return matrix
 
 
 def run(command, log):
@@ -56,6 +66,8 @@ def run(command, log):
 
 
 def freeze_configuration(output, value):
+    from repropatch.harness import implementation_sha256
+
     save(output / "protocol.json", value)
     save(
         output / "provenance.json",
@@ -66,6 +78,10 @@ def freeze_configuration(output, value):
             "protocol_sha256": sha(PROTOCOL),
             "github_run_id": os.environ.get("GITHUB_RUN_ID"),
             "github_run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+            "implementation_sha256": implementation_sha256(),
+            "context_policy_version": value.get("context_policy", {}).get("context_policy_version"),
+            "frozen_execution_commit": value.get("execution_source_commit"),
+            "execution_sha256": value.get("execution_sha256"),
         },
     )
 
@@ -427,9 +443,7 @@ def prepare(instance, output, arm="all"):
     shutil.copyfile(initial, output / "common-input.json")
     mini = ROOT / ".repropatch/mini-source"
     if any(
-        a["arm"] in {"mini", "codex"}
-        and a["instance_id"] == instance
-        and arm in {"all", a["arm"]}
+        a["arm"] in {"mini", "codex"} and a["instance_id"] == instance and arm in {"all", a["arm"]}
         for a in p["attempts"]
     ):
         assert git(mini, "rev-parse", "HEAD").decode().strip() == MINI_COMMIT
@@ -455,9 +469,7 @@ def execute(instance, output, arm="all"):
     p = protocol()
     settings = json.loads((output / "prepared.json").read_text())
     attempts = [
-        a
-        for a in p["attempts"]
-        if a["instance_id"] == instance and arm in {"all", a["arm"]}
+        a for a in p["attempts"] if a["instance_id"] == instance and arm in {"all", a["arm"]}
     ]
     assert attempts, "任务与实验臂须在批次中注册"
     agent_python = sys.executable
@@ -466,7 +478,13 @@ def execute(instance, output, arm="all"):
     for attempt in attempts:
         arm = attempt["arm"]
         ledger = output / "ledgers" / (arm + ".sqlite3")
-        LocalUsageLedger.create_scoped(ledger, {attempt["attempt_id"]: attempt["request_cap"]})
+        LocalUsageLedger.create_scoped(
+            ledger,
+            {attempt["attempt_id"]: attempt["request_cap"]},
+            context_policy=ContextPolicy.from_dict(p["context_policy"])
+            if "context_policy" in p
+            else None,
+        )
         target = output / arm
         common = [
             "--task",
@@ -589,6 +607,9 @@ def execute(instance, output, arm="all"):
             if score_file.is_file()
             else {"status": "SCORING_ERROR", "accepted": None}
         )
+        worker_path = target / "result.json"
+        worker = json.loads(worker_path.read_text()) if worker_path.is_file() else {}
+        metrics = attempt_metrics(worker, LocalUsageLedger(ledger).summary(), score, target)
         summaries.append(
             {
                 **attempt,
@@ -596,6 +617,7 @@ def execute(instance, output, arm="all"):
                 "score_exit": score_code,
                 "score": score,
                 "usage": LocalUsageLedger(ledger).summary(),
+                **metrics,
             }
         )
         save(
@@ -621,6 +643,47 @@ def execute(instance, output, arm="all"):
         )
 
 
+def attempt_metrics(worker, usage, score, target):
+    context = worker.get("context") or {}
+    compactions = worker.get("compactions", context.get("compactions", []))
+    stop = (
+        worker.get("stop_reason") or worker.get("agent_stop_reason") or worker.get("native_reason")
+    )
+    evaluations = []
+    native_id = worker.get("native_run_id")
+    if native_id:
+        report = target / "runs" / native_id / "report.json"
+        if report.is_file():
+            evaluations = json.loads(report.read_text()).get("evaluations", [])
+    self_check_seconds = sum(
+        (
+            datetime.fromisoformat(item["finished_at"]) - datetime.fromisoformat(item["started_at"])
+        ).total_seconds()
+        for item in evaluations
+        if item.get("evaluation_role") == "agent_check" and item.get("finished_at")
+    )
+    return {
+        "stop_reason": stop or "NOT_EXECUTED",
+        "oracle_result": "PASS"
+        if score.get("accepted") is True
+        else "FAIL"
+        if score.get("accepted") is False
+        else score.get("status"),
+        "metrics": {
+            **usage,
+            "compaction_count": sum(
+                item.get("status", "completed") == "completed" for item in compactions
+            ),
+            "compactions": compactions,
+            "compaction_seconds": sum(item.get("duration_seconds", 0) for item in compactions),
+            "worker_seconds": worker.get("duration_seconds"),
+            "self_check_seconds": self_check_seconds,
+            "cold_oracle_seconds": score.get("wall_seconds"),
+            "tool_calls": worker.get("tool_calls", worker.get("tool_calls_admitted")),
+        },
+    }
+
+
 def aggregate(source, output):
     p = protocol()
     known = {}
@@ -638,13 +701,29 @@ def aggregate(source, output):
         "protocol_sha256": sha(PROTOCOL),
         "attempts": rows,
         "status_counts": dict(Counter(r["score"]["status"] for r in rows)),
+        "context_policy": p.get("context_policy"),
+        "stop_reason_counts": dict(Counter(r.get("stop_reason", "UNKNOWN") for r in rows)),
+        "stop_oracle_matrix": [
+            {"stop_reason": stop, "oracle_result": oracle, "attempts": count}
+            for (stop, oracle), count in Counter(
+                (r.get("stop_reason", "UNKNOWN"), r.get("oracle_result", "UNKNOWN")) for r in rows
+            ).items()
+        ],
     }
     output.mkdir(parents=True, exist_ok=True)
     save(output / "results.json", result)
-    lines = ["# 正式首跑结果", "", "| 任务 | 臂 | Oracle | 状态 |", "| --- | --- | --- | --- |"]
+    (output / "protocol.json").write_bytes(PROTOCOL.read_bytes())
+    lines = [
+        "# Pilot 机制验收" if p.get("phase") == "pilot" else "# 正式首跑结果",
+        "",
+        "| 任务 | 臂 | Oracle | Agent 停止 | 请求 | 压缩请求 | 自检秒 |",
+        "| --- | --- | --- | --- | ---: | ---: | ---: |",
+    ]
     lines += [
-        f"| {r['instance_id']} | {r['arm']} | {r['score'].get('accepted')} | "
-        f"{r['score']['status']} |"
+        f"| {r['instance_id']} | {r['arm']} | {r.get('oracle_result', r['score']['status'])} | "
+        f"{r.get('stop_reason', 'UNKNOWN')} | {r.get('usage', {}).get('requests', 0)} | "
+        f"{r.get('metrics', {}).get('compact_requests', 0)} | "
+        f"{r.get('metrics', {}).get('self_check_seconds', 0):.1f} |"
         for r in rows
     ]
     (output / "results.md").write_text("\n".join(lines) + "\n")
