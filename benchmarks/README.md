@@ -1,8 +1,10 @@
 # ReproPatch 评测
 
-[Luna max 五组统一上下文实验](unified-context/results.md)完成 21 题的结果归集。
-19 题完整配对中，Full 17/19、关闭自检组 14/19、Shell-only 17/19、mini 16/19、Codex 16/19；基础设施错误保留。
-21 题原始记录包括 3 次人工中断。正式累计 1,895 请求、10 次用量未知，独立校准 11 次单列。
+[Luna max 五组统一上下文实验](unified-context/completion-results.md)完成 21 题的结果归集及上游故障复验。
+19 题完整配对中，Full 17/19、关闭自检组 15/19、Shell-only 18/19、mini 18/19、Codex 16/19；剩余三项上游 HTTP 524 保留。
+21 题当前评分视图有 91 项通过、11 项候选失败、3 项基础设施错误，两项中断候选冷评分均通过。
+正式累计 1,997 请求、13 次用量未知，独立校准 11 次单列。首轮记录与独立复验保持各自身份。
+[当前 JSON](unified-context/completion-results.json)和[当前逐题 CSV](unified-context/completion-attempts.csv)提供补齐后的评分视图；
 [逐次 JSON](unified-context/results.json)、[逐题 CSV](unified-context/attempts.csv)和[归档核验](../docs/evidence/context-unified-2026-10-27/verification.json)
 保存三个源码快照、两个计量故障复验及全部原始请求身份。每次保持 24 请求、48 工具和 180 秒模型总期限。
 
