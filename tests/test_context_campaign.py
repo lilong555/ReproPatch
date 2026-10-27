@@ -1,7 +1,9 @@
 """校准额度和阶段门禁通过固定响应验证。"""
 
 import asyncio
+import hashlib
 import json
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -111,6 +113,101 @@ def test_recovery_gate_only_admits_verified_zero_request_attempts(tmp_path, fail
         gate = recovery_gate(tmp_path, protocol, jobs, {"interrupted": 2})
         assert gate["passed"] and gate["remaining_attempts"] == 1
         assert gate["prior_issued_requests"] == 7 and gate["interrupted_issued_requests"] == 2
+
+
+def test_recovery_preflight_preserves_execution_identity_after_interrupted_proofs(
+    tmp_path, monkeypatch
+):
+    import audit_context_history
+    import context_campaign as campaign
+
+    rows = [
+        {"attempt_id": "full-old", "instance_id": "fmt-1", "arm": "full"},
+        {"attempt_id": "codex-old", "instance_id": "fmt-1", "arm": "codex"},
+    ]
+    registry = {"results.json": encoded({"protocol_sha256": "parent", "attempts": rows})}
+    p = {
+        "phase": "recovery",
+        "model": "gpt-6-luna",
+        "endpoint": "https://cpa.liyinlong.me/v1",
+        "reasoning_effort": "max",
+        "retries": 0,
+        "context_policy": ContextPolicy().to_dict(),
+        "arms": list(ARMS),
+        "tasks": ["fmt-1"],
+        "task_contracts": {"fmt-1": {}},
+        "execution_order": [{"instance_id": "fmt-1", "arm": "codex"}],
+        "attempts": [{"original_attempt_id": "codex-old", "instance_id": "fmt-1", "arm": "codex"}],
+        "request_cap_per_attempt": 24,
+        "formal_request_cap": 24,
+        "parent_request_cap": 2520,
+        "prior_committed_request_upper_bound": 20,
+        "parent_protocol_sha256": "parent",
+        "interrupted_attempt_requests": {"full-old": 20},
+        "interrupted_usage_evidence": {
+            arm + "-old": {"arm": arm, "artifact": arm, "archive_sha256": arm}
+            for arm in ("full", "codex")
+        },
+        "execution_sha256": "source",
+        "execution_source_commit": "commit",
+        "ci_run_id": 1,
+        "requires": [
+            {
+                "phase": "registry",
+                "run_id": 2,
+                "artifact": "registry",
+                "files": {
+                    name: hashlib.sha256(data).hexdigest() for name, data in registry.items()
+                },
+            }
+        ],
+    }
+    databases = {}
+    for arm, count in (("full", 20), ("codex", 0)):
+        connection = sqlite3.connect(":memory:")
+        connection.execute("CREATE TABLE requests (id INTEGER)")
+        connection.executemany("INSERT INTO requests VALUES (?)", [(n,) for n in range(count)])
+        databases["ledgers/" + arm + ".sqlite3"] = connection.serialize()
+        connection.close()
+
+    def download(repo, run_id, artifact, destination):
+        destination.mkdir(parents=True)
+        if artifact == "context-native-evidence":
+            for engine in ("mini", "codex"):
+                campaign.save(
+                    destination / engine / "result.json", {"passed": True, "paid_model_requests": 0}
+                )
+        elif artifact == "registry":
+            for name, data in registry.items():
+                (destination / name).write_bytes(data)
+        else:
+            (destination / "evidence.tar.gz").write_text(artifact)
+
+    def gh_json(*args):
+        if "--slurp" in args:
+            return [{"jobs": []}]
+        return {
+            "id": 1,
+            "head_sha": "commit",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "ci",
+        }
+
+    monkeypatch.setattr(campaign, "execution_identity", lambda: {"sha256": "source"})
+    monkeypatch.setattr(campaign, "download", download)
+    monkeypatch.setattr(campaign, "gh_json", gh_json)
+    monkeypatch.setattr(
+        audit_context_history, "load_archive", lambda path: (databases, path.read_text())
+    )
+    protocol_file = tmp_path / "protocol.json"
+    protocol_file.write_bytes(encoded(p))
+    output = tmp_path / "preflight"
+    campaign.preflight(protocol_file, output)
+    assert json.loads((output / "gate.json").read_text())["execution_sha256"] == "source"
+    gate = json.loads((output / "recovery-gate.json").read_text())
+    assert gate["passed"] and gate["interrupted_issued_requests"] == 20
+    assert gate["remaining_attempts"] == 1 and gate["remaining_request_cap"] == 24
 
 
 @pytest.mark.parametrize("defect", ["unknown_usage", "no_codex_tools", "missing_attempt"])

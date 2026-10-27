@@ -284,13 +284,13 @@ def preflight(protocol_file, output, wait_ci=0):
             )
             jobs = [job for page in pages for job in page["jobs"]]
             proofs = {}
-            for identity, evidence in p.get("interrupted_usage_evidence", {}).items():
+            for original_attempt_id, evidence in p.get("interrupted_usage_evidence", {}).items():
                 directory = target / "interrupted-usage" / evidence["arm"]
                 download(repo, requirement["run_id"], evidence["artifact"], directory)
                 archive = next(directory.glob("*.tar.gz"))
                 files, digest = load_archive(archive)
                 assert digest == evidence["archive_sha256"]
-                proofs[identity] = sql_rows(
+                proofs[original_attempt_id] = sql_rows(
                     files["ledgers/" + evidence["arm"] + ".sqlite3"],
                     "SELECT COUNT(*) AS count FROM requests",
                 )[0]["count"]
