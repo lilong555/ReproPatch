@@ -131,6 +131,8 @@ def test_revalidation_requires_upstream_failure_in_original_ledger(monkeypatch, 
 @pytest.mark.parametrize("tampered", [False, True])
 def test_checkpoint_candidate_uses_frozen_patch_and_original_task(tampered):
     patch = b"saved patch"
+    task = b"original task"
+    task_sha = hashlib.sha256(task).hexdigest()
     digest = hashlib.sha256(patch).hexdigest()
     attempt = {
         "checkpoint_patch": "checkpoints/20/patch.diff",
@@ -145,9 +147,15 @@ def test_checkpoint_candidate_uses_frozen_patch_and_original_task(tampered):
     files = {
         "checkpoints/20/patch.diff": b"changed patch" if tampered else patch,
         "checkpoints/20/manifest.json": json.dumps(manifest).encode(),
+        "task.original.yaml": task,
+        "task.resolved.json": json.dumps(
+            {"task_sha256": "task", "task_source_sha256": task_sha}
+        ).encode(),
     }
     protocol = {
-        "task_contracts": {"fmt-1": {"execution_task_sha256": "task", "prepared_commit": "commit"}},
+        "task_contracts": {
+            "fmt-1": {"execution_task_sha256": task_sha, "prepared_commit": "commit"}
+        },
         "image_id": "image",
     }
     if tampered:

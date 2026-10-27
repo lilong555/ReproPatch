@@ -97,8 +97,12 @@ def checkpoint_candidate(files, attempt, protocol):
     assert len(patch) == manifest["patch"]["size_bytes"]
     contract = protocol["task_contracts"][attempt["instance_id"]]
     fingerprints = manifest["input_fingerprints"]
+    run_prefix = path.split("checkpoints/", 1)[0]
+    resolved = json.loads(files[run_prefix + "task.resolved.json"])
+    source_sha = hashlib.sha256(files[run_prefix + "task.original.yaml"]).hexdigest()
     assert manifest["boundary"] == "model_input_ready"
-    assert fingerprints["task_sha256"] == contract["execution_task_sha256"]
+    assert source_sha == resolved["task_source_sha256"] == contract["execution_task_sha256"]
+    assert fingerprints["task_sha256"] == resolved["task_sha256"]
     assert fingerprints["base_commit"] == contract["prepared_commit"]
     assert fingerprints["image_id"] == protocol["image_id"]
     return patch
