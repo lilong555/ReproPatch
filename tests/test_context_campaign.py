@@ -12,7 +12,13 @@ import pytest
 from repropatch.context import SUMMARY_INSTRUCTIONS, SUMMARY_KEYS, ContextPolicy, encoded
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from context_campaign import ARMS, pilot_gate, recovery_gate, validate_protocol
+from context_campaign import (
+    ARMS,
+    context_wire_identity,
+    pilot_gate,
+    recovery_gate,
+    validate_protocol,
+)
 
 
 def pilot_fixture():
@@ -208,6 +214,72 @@ def test_recovery_preflight_preserves_execution_identity_after_interrupted_proof
     gate = json.loads((output / "recovery-gate.json").read_text())
     assert gate["passed"] and gate["interrupted_issued_requests"] == 20
     assert gate["remaining_attempts"] == 1 and gate["remaining_request_cap"] == 24
+
+
+@pytest.mark.parametrize(
+    "failure", [None, "missing_proof", "wrong_count", "wrong_stop", "wrong_carried"]
+)
+def test_estimator_correction_requires_replay_and_counts_all_prior_requests(tmp_path, failure):
+    row = {
+        "attempt_id": "rejected",
+        "instance_id": "fmt-1",
+        "arm": "codex",
+        "stop_reason": "CONTEXT_BUDGET_EXHAUSTED",
+        "usage": {"issued_requests": 6},
+    }
+    (tmp_path / "results.json").write_text(
+        json.dumps({"protocol_sha256": "parent", "attempts": [row]})
+    )
+    (tmp_path / "protocol.json").write_text(
+        json.dumps({"prior_committed_request_upper_bound": 640, "parent_request_cap": 2520})
+    )
+    p = {
+        "parent_protocol_sha256": "parent",
+        "parent_request_cap": 2520,
+        "formal_request_cap": 24,
+        "carried_issued_requests": 640,
+        "prior_committed_request_upper_bound": 646,
+        "interrupted_attempt_requests": {},
+        "attempts": [{"original_attempt_id": "rejected", "instance_id": "fmt-1", "arm": "codex"}],
+        "estimator_corrections": {
+            "rejected": {"previous_issued_requests": 6, "request_sha256": "request"}
+        },
+    }
+    proof = {
+        "passed": True,
+        "issued_requests": 6,
+        "request_sha256": "request",
+        "original_stop_reason": "CONTEXT_BUDGET_EXHAUSTED",
+        "new_model_requests": 0,
+    }
+    proofs = {"rejected": proof}
+    if failure == "missing_proof":
+        proofs = {}
+    elif failure == "wrong_count":
+        proof["issued_requests"] = 5
+    elif failure == "wrong_stop":
+        proof["original_stop_reason"] = "REQUEST_BUDGET_EXHAUSTED"
+    elif failure == "wrong_carried":
+        p["carried_issued_requests"] = 639
+    if failure:
+        with pytest.raises(AssertionError):
+            recovery_gate(tmp_path, p, [], {}, proofs)
+    else:
+        gate = recovery_gate(tmp_path, p, [], {}, proofs)
+        assert gate["passed"] and gate["carried_issued_requests"] == 640
+        assert gate["prior_issued_requests"] == 6 and gate["estimator_correction_attempts"] == 1
+
+
+def test_context_wire_identity_tracks_serializer_and_summary_contract():
+    source = (
+        "class TokenEstimator:\n    bound=1\n\n"
+        "def fingerprint(value):\n    return value\n\n"
+        "def encoded(value):\n    return str(value)\n"
+    )
+    corrected = source.replace("bound=1", "bound=2").replace("return value", "return (value,)")
+    assert context_wire_identity(source) == context_wire_identity(corrected)
+    changed_wire = source.replace("return str(value)", "return bytes(value)")
+    assert context_wire_identity(source) != context_wire_identity(changed_wire)
 
 
 @pytest.mark.parametrize("defect", ["unknown_usage", "no_codex_tools", "missing_attempt"])

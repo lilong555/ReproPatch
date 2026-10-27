@@ -1,6 +1,7 @@
 """统一上下文批次的源码身份、CI、校准及 Pilot 门禁。"""
 
 import argparse
+import ast
 import hashlib
 import json
 import os
@@ -11,7 +12,7 @@ from pathlib import Path
 
 from benchmark_budget import LocalUsageLedger
 
-from repropatch.context import ContextPolicy, encoded
+from repropatch.context import ContextPolicy, TokenEstimator, admission_reason, encoded
 
 ROOT = Path(__file__).resolve().parents[1]
 EXECUTION_PATHS = (
@@ -125,6 +126,11 @@ def calibration_gate(source, p):
     )
     for name, digest in p.get("calibration_compatible_files", {}).items():
         assert sha(ROOT / name) == digest, "CALIBRATION_WIRE_SOURCE_CHANGED"
+    if p.get("calibration_context_wire_sha256"):
+        assert p["calibration_context_wire_source_commit"] == frozen["execution_source_commit"]
+        assert context_wire_identity() == p["calibration_context_wire_sha256"], (
+            "CALIBRATION_CONTEXT_WIRE_CHANGED"
+        )
     usage = LocalUsageLedger(source / "usage.sqlite3").summary()
     assert usage == result["usage"]
     assert usage["issued_requests"] <= 12 and usage["unknown_usage_requests"] == 0
@@ -139,8 +145,56 @@ def calibration_gate(source, p):
     return {"passed": True, "issued_requests": usage["issued_requests"]}
 
 
-def recovery_gate(source, p, jobs, interrupted_usage_counts):
-    """只给零请求任务分配新额度，已发请求和中断占用的额度保持连续。"""
+def context_wire_identity(source=None):
+    """摘要、序列化和策略合同拥有独立身份，计量修正通过原始请求重放验收。"""
+    tree = ast.parse(source or (ROOT / "src/repropatch/context.py").read_text())
+    nodes = [
+        ast.dump(node, include_attributes=False)
+        for node in tree.body
+        if getattr(node, "name", None) not in {"fingerprint", "TokenEstimator"}
+    ]
+    return hashlib.sha256(encoded(nodes)).hexdigest()
+
+
+def replay_context_rejection(archive, policy, expected):
+    """原始请求和Usage完整重放，复验额度只授予已确认的本地计量拒绝。"""
+    from audit_context_history import load_archive, sql_rows
+
+    files, digest = load_archive(archive)
+    assert digest == expected["archive_sha256"]
+    database = files["ledgers/" + expected["arm"] + ".sqlite3"]
+    requests = sql_rows(
+        database, "SELECT id,payload FROM pre_send WHERE issued=1 ORDER BY sequence"
+    )
+    assert len(requests) == expected["previous_issued_requests"]
+    estimator = TokenEstimator()
+    for row in requests:
+        response = files[expected["arm"] + "/http-native/" + row["id"] + "-response.json"]
+        estimator.observe(json.loads(row["payload"]), json.loads(response))
+    rejected = sql_rows(
+        database,
+        "SELECT sequence,payload,telemetry FROM pre_send WHERE issued=0 ORDER BY sequence LIMIT 1",
+    )[0]
+    old = json.loads(rejected["telemetry"])
+    assert old["stop_reason"] == "CONTEXT_BUDGET_EXHAUSTED"
+    assert rejected["sequence"] == expected["request_sequence"]
+    assert old["request_sha256"] == expected["request_sha256"]
+    corrected = {**old, **estimator.estimate(json.loads(rejected["payload"]))}
+    assert admission_reason(ContextPolicy.from_dict(policy), corrected) is None
+    assert corrected["estimated_input_tokens"] < old["estimated_input_tokens"]
+    return {
+        "passed": True,
+        "issued_requests": len(requests),
+        "request_sha256": old["request_sha256"],
+        "original_stop_reason": old["stop_reason"],
+        "old_estimated_tokens": old["estimated_input_tokens"],
+        "corrected_estimated_tokens": corrected["estimated_input_tokens"],
+        "new_model_requests": 0,
+    }
+
+
+def recovery_gate(source, p, jobs, interrupted_usage_counts, correction_proofs=None):
+    """零请求续跑与计量故障复验分别登记，历次已发请求和中断额度持续累计。"""
     result = json.loads((source / "results.json").read_text())
     assert result["protocol_sha256"] == p["parent_protocol_sha256"]
     rows = {row["attempt_id"]: row for row in result["attempts"]}
@@ -149,10 +203,22 @@ def recovery_gate(source, p, jobs, interrupted_usage_counts):
         (row.get("usage") or {}).get("issued_requests", 0) for row in rows.values()
     )
     reserved = p["interrupted_attempt_requests"]
+    carried = p.get("carried_issued_requests", 0)
+    if carried:
+        previous = json.loads((source / "protocol.json").read_text())
+        assert carried == previous["prior_committed_request_upper_bound"]
+        assert p["parent_request_cap"] == previous["parent_request_cap"]
     assert all(
         interrupted_usage_counts.get(identity) == count for identity, count in reserved.items()
     )
-    assert known_requests + sum(reserved.values()) == p["prior_committed_request_upper_bound"]
+    for identity, count in interrupted_usage_counts.items():
+        if rows[identity].get("usage") is not None:
+            assert rows[identity]["usage"]["issued_requests"] == count
+    assert (
+        known_requests + sum(reserved.values()) + carried
+        == p["prior_committed_request_upper_bound"]
+    )
+    correction_proofs = correction_proofs or {}
     for attempt in p["attempts"]:
         original = attempt["original_attempt_id"]
         assert original not in reserved
@@ -160,7 +226,22 @@ def recovery_gate(source, p, jobs, interrupted_usage_counts):
         assert (prior["instance_id"], prior["arm"]) == (attempt["instance_id"], attempt["arm"])
         usage = prior.get("usage")
         if usage is not None:
-            assert usage["issued_requests"] == 0, "MODEL_ATTEMPT_ALREADY_ISSUED"
+            if usage["issued_requests"]:
+                correction = p.get("estimator_corrections", {}).get(original)
+                proof = correction_proofs.get(original)
+                assert correction and proof and proof["passed"], "MODEL_ATTEMPT_ALREADY_ISSUED"
+                assert (
+                    prior["stop_reason"]
+                    == proof["original_stop_reason"]
+                    == "CONTEXT_BUDGET_EXHAUSTED"
+                )
+                assert (
+                    usage["issued_requests"]
+                    == proof["issued_requests"]
+                    == correction["previous_issued_requests"]
+                )
+                assert proof["request_sha256"] == correction["request_sha256"]
+                assert proof["new_model_requests"] == 0
         elif original in interrupted_usage_counts:
             assert interrupted_usage_counts[original] == 0, "INTERRUPTED_ATTEMPT_ALREADY_ISSUED"
         else:
@@ -168,14 +249,17 @@ def recovery_gate(source, p, jobs, interrupted_usage_counts):
             assert not job["steps"], "INTERRUPTED_ATTEMPT_USAGE_UNKNOWN"
     assert len({a["original_attempt_id"] for a in p["attempts"]}) == len(p["attempts"])
     assert (
-        known_requests + sum(reserved.values()) + p["formal_request_cap"] <= p["parent_request_cap"]
+        known_requests + sum(reserved.values()) + carried + p["formal_request_cap"]
+        <= p["parent_request_cap"]
     )
     return {
         "passed": True,
         "prior_issued_requests": known_requests,
+        "carried_issued_requests": carried,
         "interrupted_issued_requests": sum(reserved.values()),
         "remaining_attempts": len(p["attempts"]),
         "remaining_request_cap": p["formal_request_cap"],
+        "estimator_correction_attempts": len(correction_proofs),
     }
 
 
@@ -294,7 +378,16 @@ def preflight(protocol_file, output, wait_ci=0):
                     files["ledgers/" + evidence["arm"] + ".sqlite3"],
                     "SELECT COUNT(*) AS count FROM requests",
                 )[0]["count"]
-            save(output / "recovery-gate.json", recovery_gate(target, p, jobs, proofs))
+            corrections = {}
+            for original_attempt_id, evidence in p.get("estimator_corrections", {}).items():
+                directory = target / "estimator-corrections" / original_attempt_id.replace("/", "_")
+                download(repo, requirement["run_id"], evidence["artifact"], directory)
+                archive = next(directory.glob("*.tar.gz"))
+                corrections[original_attempt_id] = replay_context_rejection(
+                    archive, p["context_policy"], evidence
+                )
+            save(output / "estimator-correction-gate.json", corrections)
+            save(output / "recovery-gate.json", recovery_gate(target, p, jobs, proofs, corrections))
         else:
             result = json.loads((target / "results.json").read_text())
             prior = json.loads((target / "protocol.json").read_text())
