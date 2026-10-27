@@ -71,10 +71,10 @@
   "execution_order_seed": 20261027,
   "cost_cny": null,
   "cost_basis": "保存供应商真实Usage，校准与正式修复分账；金额以供应商账单为准",
-  "execution_source_commit": "f77bc598248f41c8a550e0f855b402369ed71b67",
-  "execution_sha256": "74d8383f121d936666ddf788f4269c5ef610aa6a340a62f35ae1c49989b6b541",
+  "execution_source_commit": "4e2905631fc0cec2312b0acf4151f73cfd495a99",
+  "execution_sha256": "068f231bca0489f25b573b669add65e0d23482687c389a7aaacd31f968f61564",
   "implementation_sha256": "0ba451da19716b704c85443fa512607090e7f163709585a7748d6609de26ebe3",
-  "ci_run_id": 40446207751,
+  "ci_run_id": 40447258969,
   "requires": [
     {
       "phase": "calibration",
