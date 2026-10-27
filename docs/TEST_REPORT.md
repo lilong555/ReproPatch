@@ -1,5 +1,13 @@
 # 测试报告
 
+## 结果汇总与交付源码
+
+[GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40500084296)在
+`cbf46957303590baef84b4e3e3cba92d7bbb6068` 通过 **717 项**：
+**501 Core、176 SDK、40 真实 Docker**，失败、错误与跳过均为 0。
+固定 mini/Codex 原生压缩作业通过，模型请求为 0。
+[机器可读结果](evidence/context-unified-2026-10-27/analysis-ci.json)记录三个根 JUnit 的 SHA-256。
+
 ## 统一上下文冻结实现
 
 [GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40462738957)在

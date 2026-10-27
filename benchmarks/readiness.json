@@ -329,8 +329,8 @@
   "in_progress_experiments": [],
   "optional_dev_runs": 0,
   "candidate_production_adopted": false,
-  "qualification": "generalization-qualification.json",
-  "evidence": "generalization-evidence.json",
+  "qualification": "actions-scale/cloud-results.json",
+  "evidence": "../docs/evidence/context-unified-2026-10-27/verification.json",
   "validation": "../docs/evidence/context-unified-2026-10-27/summary.json",
   "tests": {
     "core": 492,
@@ -341,6 +341,9 @@
     "errors": 0,
     "skipped": 0
   },
+  "tests_scope": "冻结模型执行源码的完整CI",
+  "analysis_validation": "../docs/evidence/context-unified-2026-10-27/analysis-ci.json",
+  "analysis_ci_tests": 717,
   "historical_results": {
     "contract-results": "contract-results.json",
     "cross-framework-results": "cross-framework-results.json",

@@ -216,6 +216,10 @@
     "unknown_usage_requests": 10,
     "ci_run_id": 40462738957,
     "ci_tests": 708,
+    "ci_scope": "冻结模型执行源码",
+    "analysis_ci_run_id": 40500084296,
+    "analysis_ci_tests": 717,
+    "analysis_validation": "docs/evidence/context-unified-2026-10-27/analysis-ci.json",
     "verification": "docs/evidence/context-unified-2026-10-27/verification.json"
   },
   "historical_development_benchmark": {

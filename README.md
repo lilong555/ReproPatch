@@ -33,6 +33,7 @@ Full 相对关闭自检组净多通过 3 题，中途自检累计 1,605.84 秒�
 107 份收费尝试归档、53,040 份文件和 1,895 个唯一请求 ID 已完成 SHA-256 核验。
 冻结实现通过 **708 项 CI**：492 Core、176 SDK、40 真实 Docker，并通过固定 mini/Codex 原生压缩测试。
 逐题结果、原始身份与零模型重算命令见[报告](benchmarks/unified-context/results.md)。
+结果汇总与交付源码的[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40500084296)通过 **717 项测试**。
 
 [历史四臂首跑](docs/ACTIONS_FORMAL.md)保留 21 题、942 次正式请求及原始受限配置结果；
 [旧 256 KiB 配置审计](docs/evidence/context-audit-2026-10-26/audit.json)保留此前 105 次尝试的停止原因和冷评分。
