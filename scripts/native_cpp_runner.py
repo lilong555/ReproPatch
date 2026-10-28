@@ -2,6 +2,7 @@
 
 import argparse
 import ast
+import hashlib
 import json
 import os
 import re
@@ -233,7 +234,50 @@ def execute(argv, cwd, report, *, env=None):
     print(data, end="", flush=True)
     if result.returncode in {125, 126, 127} or result.returncode < 0:
         raise RuntimeError("NATIVE_PROCESS_INFRASTRUCTURE_ERROR")
+    if result.returncode and re.search(
+        r"(?m)^(?:OSError|PermissionError): \[Errno (?:13|30)\]", data
+    ):
+        raise RuntimeError("NATIVE_FILESYSTEM_INFRASTRUCTURE_ERROR")
     return result.returncode, data
+
+
+def prepare_ctest_runtime(contract, source, build, reports):
+    """Catch2 的原始审批脚本在构建目录内使用同字节输入副本。"""
+    if contract.get("configuration", {}).get("repository") != "catchorg/Catch2":
+        return
+    script = source / "tools/scripts/approvalTests.py"
+    if not script.exists():
+        return
+    fixtures = build / "repropatch-fixtures"
+    for relative in ("tools/scripts", "tests/SelfTest/Baselines"):
+        shutil.copytree(source / relative, fixtures / relative, dirs_exist_ok=True)
+    copied = fixtures / script.relative_to(source)
+    changes = []
+    for path in sorted(build.rglob("CTestTestfile.cmake")):
+        original = path.read_text()
+        updated = original.replace(str(script), str(copied))
+        if updated != original:
+            path.write_text(updated)
+            changes.append(path.relative_to(build).as_posix())
+    if changes:
+        (reports / "ctest-runtime-commands.json").write_text(
+            json.dumps(
+                {
+                    "original_script": str(script),
+                    "executed_script": str(copied),
+                    "generated_test_files": changes,
+                    "input_files": {
+                        path.relative_to(fixtures).as_posix(): hashlib.sha256(
+                            path.read_bytes()
+                        ).hexdigest()
+                        for path in sorted(fixtures.rglob("*"))
+                        if path.is_file()
+                    },
+                },
+                indent=2,
+            )
+            + "\n"
+        )
 
 
 def native_suite(contract, source, build, selected=None):
@@ -242,6 +286,7 @@ def native_suite(contract, source, build, selected=None):
     reports = build / "repropatch-reports"
     reports.mkdir(exist_ok=True)
     if mode == "ctest":
+        prepare_ctest_runtime(contract, source, build, reports)
         xml = reports / "ctest.xml"
         command = [
             "ctest",

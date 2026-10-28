@@ -196,6 +196,67 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     assert list(source.iterdir()) == []
 
 
+@pytest.mark.integration
+@pytest.mark.parametrize("actual", ["expected", "wrong"])
+def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, actual):
+    import subprocess
+
+    if shutil.which("cmake") is None or shutil.which("ctest") is None:
+        pytest.skip("需要 CMake 与 CTest")
+    source = tmp_path / "source"
+    build = tmp_path / "build"
+    scripts = source / "tools/scripts"
+    baselines = source / "tests/SelfTest/Baselines"
+    scripts.mkdir(parents=True)
+    baselines.mkdir(parents=True)
+    (baselines / "expected.approved.txt").write_text("expected")
+    (scripts / "scriptCommon.py").write_text(
+        "from pathlib import Path\ncatchPath = Path(__file__).resolve().parents[2]\n"
+    )
+    script = scripts / "approvalTests.py"
+    script.write_text(
+        "import sys\nfrom scriptCommon import catchPath\n"
+        "root = catchPath / 'tests/SelfTest/Baselines'\n"
+        "(root / 'actual.tmp').write_text(sys.argv[1])\n"
+        "sys.exit(0 if (root / 'expected.approved.txt').read_text() == sys.argv[1] else 1)\n"
+    )
+    (source / "CMakeLists.txt").write_text(
+        "cmake_minimum_required(VERSION 3.22)\nproject(fixture NONE)\nenable_testing()\n"
+        f'add_test(NAME ApprovalTests COMMAND "{sys.executable}" "{script}" "{actual}")\n'
+        "set_tests_properties(ApprovalTests PROPERTIES TIMEOUT 5)\n"
+    )
+    originals = {
+        str(path.relative_to(source)): path.read_bytes()
+        for path in source.rglob("*")
+        if path.is_file()
+    }
+    subprocess.run(["cmake", "-S", str(source), "-B", str(build)], check=True, capture_output=True)
+    contract = {"mode": "ctest", "configuration": {"repository": "catchorg/Catch2"}}
+    expected = {"ApprovalTests": "pass" if actual == "expected" else "fail"}
+    assert runner.native_suite(contract, source, build) == expected
+    assert runner.native_suite(contract, source, build, selected=["ApprovalTests"]) == expected
+    assert {
+        str(path.relative_to(source)): path.read_bytes()
+        for path in source.rglob("*")
+        if path.is_file()
+    } == originals
+    copied = build / "repropatch-fixtures/tools/scripts/approvalTests.py"
+    assert copied.read_bytes() == script.read_bytes()
+    assert (build / "repropatch-fixtures/tests/SelfTest/Baselines/actual.tmp").read_text() == actual
+    trace = json.loads((build / "repropatch-reports/ctest-runtime-commands.json").read_text())
+    assert trace["original_script"] == str(script)
+    assert trace["executed_script"] == str(copied)
+
+
+def test_native_filesystem_failure_is_infrastructure_error(tmp_path):
+    with pytest.raises(RuntimeError, match="NATIVE_FILESYSTEM_INFRASTRUCTURE_ERROR"):
+        runner.execute(
+            [sys.executable, "-c", "raise OSError(30, 'Read-only file system')"],
+            tmp_path,
+            tmp_path / "failure.log",
+        )
+
+
 def test_git_submodule_options_keep_url_identity(tmp_path):
     import time
 

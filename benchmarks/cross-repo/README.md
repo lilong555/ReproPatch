@@ -21,7 +21,7 @@ Azure SSH 路由使用独立本地端口和固定转发目标。请求时间线�
 
 `calibrate` 阶段执行十二次公网与 SSH 配对请求。开发、正式、重复和基础设施复验阶段分别加载独立冻结协议，核验完整 CI、网络校准、资格归档和源码指纹，再认领各 Attempt 的请求额度。统计报告包含逐题配对差异、精确 McNemar 检验、Holm 校正和逐仓库宏平均；六题重复实验独立汇总。
 
-已冻结的工具链通过 `cross_image` 输入复用相同 digest。资格检查为 Ninja 的原生进程压力测试保留 4,096 PID 额度；编译并行仍为两个线程。原生测试输入副本、动态库和生成文件使用独立构建目录。
+已冻结的工具链通过 `cross_image` 输入复用相同 digest。资格检查为 Ninja 的原生进程压力测试保留 4,096 PID 额度；编译并行仍为两个线程。原生测试输入副本、动态库和生成文件使用独立构建目录。Catch2 的原始审批脚本与基准文件复制到构建目录执行，生成的 CTest 命令映射和输入 SHA 随测试报告保存。
 
 [实验配置](campaign.json) · [候选索引](candidate-index.json) · [历史曝光快照](history-snapshot.json) · [Azure 控制验证](network-control.json)
 

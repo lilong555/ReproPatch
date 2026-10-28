@@ -53,6 +53,7 @@ class NativeExecutor(Executor):
                 for marker in (
                     "REPROPATCH_NATIVE_NOT_EXECUTED",
                     "NATIVE_PROCESS_INFRASTRUCTURE_ERROR",
+                    "NATIVE_FILESYSTEM_INFRASTRUCTURE_ERROR",
                     "NATIVE_JUNIT_MISSING",
                     "NATIVE_CTEST_NOT_EXECUTED",
                 )
