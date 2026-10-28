@@ -280,6 +280,15 @@ def prepare_ctest_runtime(contract, source, build, reports):
         )
 
 
+def copy_native_inputs(source, destination):
+    """保留原生符号链接和文件内容，为独立测试副本开启属主写权限。"""
+    shutil.copytree(source, destination, symlinks=True)
+    for path in [destination, *destination.rglob("*")]:
+        if not path.is_symlink():
+            mode = path.stat().st_mode | 0o200
+            path.chmod(mode | 0o100 if path.is_dir() else mode)
+
+
 def native_suite(contract, source, build, selected=None):
     """冷 Oracle 执行完整原生套件；F2P 工具执行原生目标或原生筛选器。"""
     mode = contract["mode"]
@@ -414,11 +423,11 @@ def native_suite(contract, source, build, selected=None):
             if entry.name == ".git" or target.exists() or target.is_symlink():
                 continue
             if entry.is_dir() and entry.name in {"test", "data"}:
-                shutil.copytree(entry, target)
+                copy_native_inputs(entry, target)
             else:
                 target.symlink_to(entry, target_is_directory=entry.is_dir())
         xml = reports / "duckdb.xml"
-        command = [str(build / "test/unittest")]
+        command = [str(build / "test/unittest"), "--test-dir", str(fixtures)]
         if selected:
             command += [",".join(canonical_case(mode, name) for name in selected)]
         command += ["--reporter", "junit", "--out", str(xml)]
@@ -434,13 +443,24 @@ def native_suite(contract, source, build, selected=None):
         print(log, flush=True)
         return parser_results(contract["parser"], log)
     if mode == "slang":
+        # 原生编译回归的 .actual 和临时输出沿用相对路径，写入测试输入副本。
+        fixtures = build / "repropatch-fixtures/slang"
+        fixtures.mkdir(parents=True, exist_ok=True)
+        for entry in source.iterdir():
+            target = fixtures / entry.name
+            if entry.name == ".git" or target.exists() or target.is_symlink():
+                continue
+            if entry.is_dir() and entry.name == "tests":
+                copy_native_inputs(entry, target)
+            else:
+                target.symlink_to(entry, target_is_directory=entry.is_dir())
         command = [str(build / "Release/bin/slang-test"), *contract["test_arguments"]]
         if selected:
             prefixes = sorted({re.sub(r"\s+\([^)]*\)$", "", name) for name in selected})
             if len(prefixes) != 1:
                 raise ValueError("SLANG_TARGET_FILTER_REVIEW_REQUIRED")
             command += [prefixes[0]]
-        _, log = execute(command, source, reports / "slang.log")
+        _, log = execute(command, fixtures, reports / "slang.log")
         return parser_results(contract["parser"], log)
     raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
 

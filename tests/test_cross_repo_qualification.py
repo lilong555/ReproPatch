@@ -176,10 +176,15 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     source.mkdir()
     (source / "test").mkdir()
     (source / "test/input.txt").write_text("固定原生输入")
+    (source / "data").mkdir()
+    (source / "data/missing-link").symlink_to("missing-directory/input.txt")
+    (source / "data/cycle").symlink_to(".")
     (build / "test").mkdir(parents=True)
     executable = build / "test/unittest"
     executable.write_text(
         "#!/usr/bin/env python3\nimport os, sys\nfrom pathlib import Path\n"
+        f"os.chdir({str(source)!r})\n"
+        'os.chdir(sys.argv[sys.argv.index("--test-dir") + 1])\n'
         'directory = Path("duckdb_unittest_tempdir")\n'
         "directory.mkdir(parents=True)\n"
         '(directory / "runtime.txt").write_text("generated")\n'
@@ -200,6 +205,104 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     ).read_text() == "generated"
     assert (build / "repropatch-fixtures/duckdb/test/generated.txt").exists()
     assert not (source / "test/generated.txt").exists()
+    assert (build / "repropatch-fixtures/duckdb/data/missing-link").is_symlink()
+    assert (build / "repropatch-fixtures/duckdb/data/cycle").readlink() == Path(".")
+
+
+@pytest.mark.integration
+def test_slang_generator_keeps_temporary_headers_in_build_tree(tmp_path, monkeypatch):
+    import subprocess
+
+    if any(shutil.which(tool) is None for tool in ("cmake", "ninja", "c++")):
+        pytest.skip("需要 CMake、Ninja 与 C++ 编译器")
+    adapter = importlib.import_module("cpp_native_adapter")
+    source, build = tmp_path / "source", tmp_path / "build"
+    inputs = source / "source/slang"
+    module = source / "source/slang-core-module"
+    inputs.mkdir(parents=True)
+    module.mkdir()
+    template = inputs / "core.meta.slang"
+    template.write_text("constexpr int value = 1;\n")
+    (source / "generator.cpp").write_text(
+        "#include <filesystem>\n#include <fstream>\n#include <iterator>\n"
+        "int main(int argc, char** argv) {\n"
+        "std::filesystem::path input(argv[1]), output(argv[argc-1]);\n"
+        "std::ifstream stream(input);\n"
+        "std::string text((std::istreambuf_iterator<char>(stream)), {});\n"
+        'std::ofstream temporary(input.string() + ".temp.h");\n'
+        "if (!temporary) return 3; temporary << text;\n"
+        "std::filesystem::create_directories(output);\n"
+        'std::ofstream(output / (input.filename().string() + ".h")) << text;\n'
+        "return 0; }\n"
+    )
+    (source / "CMakeLists.txt").write_text(
+        "cmake_minimum_required(VERSION 3.20)\nproject(slang CXX)\n"
+        "add_executable(slang-generate generator.cpp)\n"
+        "add_subdirectory(source/slang-core-module)\n"
+    )
+    (module / "CMakeLists.txt").write_text(
+        'set(core_module_meta_source_dir "${slang_SOURCE_DIR}/source/slang")\n'
+        'file(GLOB inputs "${core_module_meta_source_dir}/*.meta.slang")\n'
+        'set(output "${CMAKE_CURRENT_BINARY_DIR}/output/core.meta.slang.h")\n'
+        "add_custom_command(OUTPUT ${output}\n"
+        " COMMAND slang-generate ${inputs} --target-directory ${CMAKE_CURRENT_BINARY_DIR}/output\n"
+        " DEPENDS slang-generate ${inputs})\n"
+        "add_custom_target(generate ALL DEPENDS ${output})\n"
+    )
+    monkeypatch.setattr(adapter, "materialize", lambda *args, **kwargs: [])
+    adapter.prepare_source_dependencies(
+        {"org": "shader-slang", "repo": "slang"}, source, tmp_path / "pool", deadline=0
+    )
+    subprocess.run(
+        ["cmake", "-S", str(source), "-B", str(build), "-G", "Ninja"],
+        check=True,
+        capture_output=True,
+    )
+    inputs.chmod(0o555)
+    try:
+        subprocess.run(["cmake", "--build", str(build)], check=True, capture_output=True)
+    finally:
+        inputs.chmod(0o755)
+    assert (
+        build / "source/slang-core-module/output/core.meta.slang.h"
+    ).read_bytes() == template.read_bytes()
+    assert (
+        build / "source/slang-core-module/repropatch-meta-input/core.meta.slang.temp.h"
+    ).is_file()
+    assert list(inputs.iterdir()) == [template]
+
+
+def test_slang_native_outputs_keep_original_test_inputs(tmp_path):
+    source, build = tmp_path / "source", tmp_path / "build"
+    tests = source / "tests"
+    tests.mkdir(parents=True)
+    original = tests / "case.slang"
+    original.write_text("固定输入")
+    executable = build / "Release/bin/slang-test"
+    executable.parent.mkdir(parents=True)
+    executable.write_text(
+        "#!/usr/bin/env python3\nfrom pathlib import Path\n"
+        'assert Path("tests/case.slang").read_text() == "固定输入"\n'
+        'Path("tests/case.slang.actual").write_text("原生反馈")\n'
+        'print("tests/case.slang PASS")\n'
+    )
+    executable.chmod(0o755)
+    tests.chmod(0o555)
+    try:
+        observed = runner.native_suite(
+            {
+                "mode": "slang",
+                "test_arguments": [],
+                "parser": 'def parser(log):\n return {"tests/case.slang": "pass"}\n',
+            },
+            source,
+            build,
+        )
+    finally:
+        tests.chmod(0o755)
+    assert observed == {"tests/case.slang": "pass"}
+    assert (build / "repropatch-fixtures/slang/tests/case.slang.actual").read_text() == "原生反馈"
+    assert list(tests.iterdir()) == [original]
 
 
 @pytest.mark.integration

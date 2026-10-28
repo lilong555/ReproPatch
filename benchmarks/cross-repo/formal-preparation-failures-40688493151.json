@@ -1,0 +1,185 @@
+{
+  "schema": "repropatch.cross-repository-preparation-failures.v1",
+  "run_id": 40688493151,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40688493151",
+  "source_commit": "308c1fb24186af71f3e3904ad225deb18b9bd9ca",
+  "model_requests": 0,
+  "qualified": 0,
+  "failed": 13,
+  "cancelled": 17,
+  "tasks": [
+    {
+      "instance_id": "duckdb__duckdb-23280",
+      "job_id": 122817372881,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-24318",
+      "job_id": 122817372946,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23637",
+      "job_id": 122817373000,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "shader-slang__slang-10682",
+      "job_id": 122817373008,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-24181",
+      "job_id": 122817373010,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23569",
+      "job_id": 122817373011,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23491",
+      "job_id": 122817373027,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23634",
+      "job_id": 122817373028,
+      "status": "failure"
+    },
+    {
+      "instance_id": "shader-slang__slang-10663",
+      "job_id": 122817373046,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "duckdb__duckdb-24105",
+      "job_id": 122817373072,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23615",
+      "job_id": 122817373089,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-24211",
+      "job_id": 122817373100,
+      "status": "failure"
+    },
+    {
+      "instance_id": "shader-slang__slang-10856",
+      "job_id": 122817373117,
+      "status": "failure"
+    },
+    {
+      "instance_id": "shader-slang__slang-10768",
+      "job_id": 122817373130,
+      "status": "failure"
+    },
+    {
+      "instance_id": "duckdb__duckdb-24011",
+      "job_id": 122817373145,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23604",
+      "job_id": 122817373177,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "shader-slang__slang-10697",
+      "job_id": 122817373268,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "duckdb__duckdb-23413",
+      "job_id": 122817373288,
+      "status": "failure"
+    },
+    {
+      "instance_id": "shader-slang__slang-7815",
+      "job_id": 122817376235,
+      "status": "failure"
+    },
+    {
+      "instance_id": "shader-slang__slang-7523",
+      "job_id": 122817376262,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "stephenberry__glaze-2731",
+      "job_id": 122817376565,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "pocoproject__poco-5270",
+      "job_id": 122817376660,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "job_id": 122817376748,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "luau-lang__luau-2506",
+      "job_id": 122817376772,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "pocoproject__poco-5265",
+      "job_id": 122817376895,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "nlohmann__json-3037",
+      "job_id": 122817376935,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "nlohmann__json-3008",
+      "job_id": 122817377120,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "nlohmann__json-2963",
+      "job_id": 122817377343,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2128",
+      "job_id": 122817379074,
+      "status": "cancelled"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2288",
+      "job_id": 122817379237,
+      "status": "cancelled"
+    }
+  ],
+  "diagnostics": [
+    {
+      "instance_id": "duckdb__duckdb-24105",
+      "status": "BASELINE_TEST_INFRASTRUCTURE_FAILED",
+      "cause": "测试输入复制解引用悬空链接；原生入口将工作目录设为只读源码目录",
+      "result_sha256": "010996314c258925580d5e03bde57ee1427bb9b9fe369ad88eed91b495841571",
+      "artifact": "cross-evidence-40688493151-duckdb__duckdb-24105"
+    },
+    {
+      "instance_id": "shader-slang__slang-10856",
+      "status": "BASELINE_BUILD_FAILED",
+      "cause": "原生代码生成器在源码输入旁写入临时头文件",
+      "result_sha256": "c809a0beb82e840fe0bc2f8f7d268159f2f0d10f7d95472e6abdbcc787aa2d9a",
+      "artifact": "cross-evidence-40688493151-shader-slang__slang-10856"
+    },
+    {
+      "instance_id": "shader-slang__slang-7815",
+      "status": "BASELINE_CONFIGURE_FAILED",
+      "cause": "连字符形式的 Vulkan FetchContent 名称触发离线环境下载",
+      "result_sha256": "9966a26e44025a4517c86c0340d0189239409465cb9aa18e1f4fcfc774384993",
+      "artifact": "cross-evidence-40688493151-shader-slang__slang-7815"
+    }
+  ]
+}

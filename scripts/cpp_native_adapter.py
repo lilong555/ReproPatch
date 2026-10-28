@@ -51,6 +51,7 @@ OPTIONS = {
         "-DSLANG_SLANG_LLVM_FLAVOR=FETCH_BINARY",
         "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/libslang-llvm.so",
         "-DFETCHCONTENT_SOURCE_DIR_VULKAN_HEADERS=/src/external/repropatch-vulkan-headers",
+        "-DFETCHCONTENT_SOURCE_DIR_VULKAN-HEADERS=/src/external/repropatch-vulkan-headers",
     ],
     "nlohmann/json": [
         "-DJSON_BuildTests=ON",
@@ -128,6 +129,22 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
         adapt(source)
         return []
     if repository == "shader-slang/slang":
+        # 生成器在输入文件旁写临时头文件，原生 CMake 使用构建树内的同字节副本。
+        module = source / "source/slang-core-module/CMakeLists.txt"
+        if module.exists():
+            content = module.read_text()
+            marker = 'set(core_module_meta_source_dir "${slang_SOURCE_DIR}/source/slang")'
+            if content.count(marker) != 1:
+                raise ValueError("SLANG_META_GENERATOR_LAYOUT_REVIEW_REQUIRED")
+            replacement = (
+                "set(core_module_meta_source_dir "
+                '"${CMAKE_CURRENT_BINARY_DIR}/repropatch-meta-input")\n'
+                'file(MAKE_DIRECTORY "${core_module_meta_source_dir}")\n'
+                "file(GLOB repropatch_meta_inputs "
+                '"${slang_SOURCE_DIR}/source/slang/*.meta.slang")\n'
+                'file(COPY ${repropatch_meta_inputs} DESTINATION "${core_module_meta_source_dir}")'
+            )
+            module.write_text(content.replace(marker, replacement))
         # Vulkan 原生头文件固定到官方 v1.4.318，离线配置直接使用源码副本。
         location = "external/repropatch-vulkan-headers"
         commit = "b39ab380a44b6c8df462c34e976ea9ce2d2c336b"

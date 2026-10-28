@@ -66,13 +66,17 @@ JSON 与 Catch2 的构建沿用 GCC 11；Catch2 的审批报告采用源码相�
 | nlohmann/json | 3 |
 | Catch2 | 2 |
 
-Catch2-2128 复用相同镜像下已完成的三十四项原生冷验收，登记小写任务标签，保存原始结果和归档身份。其余任务执行一次基线与一次参考修复冷验收；JSON 保留单头文件 F2P 检查。DuckDB 在构建目录的可写输入副本中运行原生测试；Slang 使用固定到官方 v1.4.318 的 Vulkan 头文件。
+Catch2-2128 复用相同镜像下已完成的三十四项原生冷验收，登记小写任务标签，保存原始结果和归档身份。其余任务执行一次基线与一次参考修复冷验收；JSON 保留单头文件 F2P 检查。DuckDB 保留测试数据中的符号链接，通过原生 `--test-dir` 指定构建目录中的可写输入副本。Slang 的代码生成输入和 `.actual` 测试输出位于构建目录，Vulkan 头文件固定到官方 v1.4.318，两种原生 FetchContent 名称均采用相同离线副本。
 
 ```bash
-instances=$(python -c 'import json; print(",".join(json.load(open("benchmarks/cross-repo/formal-preparation.json"))["instances"]))')
+instances=$(python -c 'import json; print(",".join(json.load(open("benchmarks/cross-repo/formal-preparation.json"))["qualification_order"]))')
 image=$(python -c 'import json; print(json.load(open("benchmarks/cross-repo/formal-preparation.json"))["image"])')
 gh workflow run formal-benchmark.yml \
   --ref feat/cross-repository-benchmark \
   -f authorization=12 -f cross_stage=qualify \
   -f cross_instances="$instances" -f cross_image="$image"
 ```
+
+[资格记录](formal-preparation-failures-40688493151.json)保存三十项原始任务状态：十三项环境失败、十七项取消，新增模型请求为零。DuckDB 的失败日志包含悬空链接复制错误和只读工作目录错误；Slang 的失败日志包含源码旁临时头文件写入失败及旧版 Vulkan 依赖名称引发的离线下载。原始日志、固定源码和完整阶段记录保存在对应 Actions Artifact。
+
+[续跑清单](formal-preparation-continuation.json)采用相同三十题、原镜像和原生完整冷 Oracle。首轮八个 Job 覆盖六个新仓库，并优先执行可复用资格和较轻任务；其余任务按仓库交替排队。

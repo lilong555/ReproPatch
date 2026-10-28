@@ -70,5 +70,37 @@
       "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
       "native_tests": 34
     }
-  }
+  },
+  "qualification_order": [
+    "catchorg__Catch2-2128",
+    "open-source-parsers__jsoncpp-1693",
+    "duckdb__duckdb-24105",
+    "shader-slang__slang-10856",
+    "stephenberry__glaze-2731",
+    "luau-lang__luau-2506",
+    "pocoproject__poco-5265",
+    "nlohmann__json-3037",
+    "duckdb__duckdb-24181",
+    "shader-slang__slang-10768",
+    "pocoproject__poco-5270",
+    "nlohmann__json-3008",
+    "catchorg__Catch2-2288",
+    "duckdb__duckdb-23280",
+    "shader-slang__slang-10682",
+    "nlohmann__json-2963",
+    "duckdb__duckdb-23491",
+    "shader-slang__slang-10663",
+    "duckdb__duckdb-23634",
+    "shader-slang__slang-10697",
+    "duckdb__duckdb-24211",
+    "shader-slang__slang-7815",
+    "duckdb__duckdb-23569",
+    "shader-slang__slang-7523",
+    "duckdb__duckdb-23413",
+    "duckdb__duckdb-23615",
+    "duckdb__duckdb-23604",
+    "duckdb__duckdb-23637",
+    "duckdb__duckdb-24318",
+    "duckdb__duckdb-24011"
+  ]
 }
