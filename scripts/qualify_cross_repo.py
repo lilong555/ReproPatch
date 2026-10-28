@@ -502,6 +502,8 @@ def main():
         "scripts/qualify_cpp_batch.py",
         "scripts/prepare_multiswe_task.py",
         "scripts/prepare_simdjson_task.py",
+        "scripts/prepare_json_task.py",
+        "scripts/check_json_candidate.py",
         "scripts/prepare_fmt_task.py",
         "scripts/screen_multiswe.py",
         "src/repropatch/task.py",

@@ -42,6 +42,8 @@ OPTIONS = {
         "-DSLANG_ENABLE_EXAMPLES=OFF",
         "-DSLANG_ENABLE_CUDA=OFF",
         "-DSLANG_ENABLE_OPTIX=OFF",
+        "-DSLANG_RHI_ENABLE_CUDA=OFF",
+        "-DSLANG_RHI_ENABLE_OPTIX=OFF",
         "-DSLANG_ENABLE_DXIL=OFF",
         "-DSLANG_EXCLUDE_DAWN=ON",
         "-DSLANG_SLANG_LLVM_FLAVOR=FETCH_BINARY",
@@ -73,14 +75,16 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
     repo = record["org"] + "/" + record["repo"]
     if repo not in OPTIONS:
         raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
-    if repo == "nlohmann/json" and cxx == "clang++-19" and cc == "clang-19":
+    if repo in {"nlohmann/json", "catchorg/Catch2"} and cxx == "clang++-19" and cc == "clang-19":
         # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
         cxx, cc = "g++-11", "gcc-11"
     compiler_options = []
     if cxx.startswith("clang"):
         if repo == "stephenberry/glaze":
             # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
-            compiler_options = ["-DCMAKE_CXX_FLAGS=-stdlib=libc++"]
+            compiler_options = [
+                "-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"
+            ]
         elif repo == "catchorg/Catch2":
             compiler_options = ["-DCMAKE_CXX_FLAGS=-Wno-error=deprecated-literal-operator"]
     return {
@@ -112,7 +116,13 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
 
 def prepare_source_dependencies(record, source, pool, *, deadline):
     """源码快照携带固定离线输入，原生测试的运行产物使用构建目录。"""
-    if record["org"] + "/" + record["repo"] != "simdjson/simdjson":
+    repository = record["org"] + "/" + record["repo"]
+    if repository == "nlohmann/json":
+        from prepare_json_task import adapt
+
+        adapt(source)
+        return []
+    if repository != "simdjson/simdjson":
         return []
     from prepare_simdjson_task import adapt_environment, adapt_individual_ctest
 

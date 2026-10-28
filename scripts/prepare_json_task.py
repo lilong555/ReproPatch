@@ -14,6 +14,7 @@ from repropatch.task import Task
 
 BUILD_ADAPTER = """# 在同一测试目录配置原生工程，随后执行原生构建并传播退出状态。
 execute_process(COMMAND "${CMAKE_COMMAND}" -G "${GENERATOR}"
+  "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
   "-DCMAKE_CXX_COMPILER=${CXX}"
   "-Dnlohmann_json_DIR=${JSON_DIR}"
   "-Dnlohmann_json_source=${SOURCE_DIR}"
@@ -80,6 +81,13 @@ def adapt(source):
     for name in folders:
         path = source / "tests" / name / "CMakeLists.txt"
         value = path.read_text()
+        compiler_option = "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+        if value.count(compiler_option) != 1:
+            raise ValueError("JSON_BUILD_COMPILER_LAYOUT")
+        value = value.replace(
+            compiler_option,
+            compiler_option + "\n    -DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+        )
         needle = "COMMAND ${CMAKE_COMMAND} --build ."
         if value.count(needle) != 1:
             raise ValueError("JSON_BUILD_FIXTURE_LAYOUT")
