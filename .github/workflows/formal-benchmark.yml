@@ -57,7 +57,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: formal-luna-max-${{ inputs.authorization }}
+  group: ${{ inputs.cross_stage == 'qualify' && format('cpp-qualification-{0}', github.run_id) || format('formal-luna-max-{0}', inputs.authorization) }}
   cancel-in-progress: false
 
 env:

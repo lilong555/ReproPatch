@@ -116,6 +116,8 @@ def main():
     extract_verified(
         archive_directory / "cross-evidence.tar.gz", args.output, entry["archive_sha256"]
     )
+    # 原归档清单保留为来源证据，新批次生成独立的打包清单。
+    (args.output / "archive-manifest.json").rename(args.output / "source-archive-manifest.json")
     records = {row["instance_id"]: row for row in load_records(args.dataset)}
     result = register(
         args.output / args.instance, records[args.instance], args.image_id, entry["archive_sha256"]
