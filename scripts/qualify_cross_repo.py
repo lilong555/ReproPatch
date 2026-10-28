@@ -260,6 +260,7 @@ def qualify(record, args):
     result = {
         "schema_version": 2,
         "adapter": "native-cpp-v1",
+        "qualification_policy": "baseline-native-v1",
         "model_requests": 0,
         "attempt_id": uuid.uuid4().hex,
         "batch_id": os.environ.get("REPROPATCH_BATCH_ID", args.output.name),
@@ -351,15 +352,6 @@ def qualify(record, args):
         result["prepared_commit"] = (
             git(source, "rev-parse", "HEAD", deadline=executor.deadline).decode().strip()
         )
-        fixed = control / "reference-source"
-        archive(source, result["prepared_commit"], fixed, deadline=executor.deadline)
-        git(fixed, "init", "--template=", "-q", ".", deadline=executor.deadline)
-        git(fixed, "apply", str(control / "reference.patch"), deadline=executor.deadline)
-        result["phases"]["reference"] = executor.suite(fixed, "reference", required)
-        executor.release_build("reference")
-        if result["phases"]["reference"]["status"] != "PASSED":
-            result["status"] = "REFERENCE_" + result["phases"]["reference"]["status"]
-            return result
         native = control / "native-source"
         archive(source, result["upstream_snapshot_commit"], native, deadline=executor.deadline)
         git(native, "init", "--template=", "-q", ".", deadline=executor.deadline)
@@ -375,26 +367,6 @@ def qualify(record, args):
         if result["phases"]["native_oracle"]["status"] != "PASSED":
             result["status"] = "NATIVE_ORACLE_" + result["phases"]["native_oracle"]["status"]
             return result
-        if omitted:
-            full_source = control / "full-reference-source"
-            archive(
-                source, result["upstream_snapshot_commit"], full_source, deadline=executor.deadline
-            )
-            git(full_source, "init", "--template=", "-q", ".", deadline=executor.deadline)
-            git(full_source, "apply", str(control / "test.patch"), deadline=executor.deadline)
-            git(
-                full_source,
-                "apply",
-                str(control / "reference-full.patch"),
-                deadline=executor.deadline,
-            )
-            shutil.copytree(source / "repropatch-native", full_source / "repropatch-native")
-            full_result = executor.native_oracle(full_source, "full-reference", contract)
-            result["phases"]["full_reference"] = full_result
-            executor.release_build("full-reference")
-            if full_result["status"] != "PASSED":
-                result["status"] = "FULL_REFERENCE_" + full_result["status"]
-                return result
         result["native_oracle"] = {
             "adapter_used": False,
             "cold_build": True,
@@ -461,9 +433,7 @@ def qualify(record, args):
         )
         errors = []
         for path in [
-            directory / "control/reference-source",
             directory / "control/native-source",
-            directory / "control/full-reference-source",
             *([executor.build_root] if executor else []),
         ]:
             if path.exists():

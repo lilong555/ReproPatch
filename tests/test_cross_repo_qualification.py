@@ -17,7 +17,10 @@ runner = importlib.import_module("native_cpp_runner")
 
 
 @pytest.mark.integration
-def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, monkeypatch):
+@pytest.mark.parametrize("reference_value", [1, 2])
+def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(
+    tmp_path, monkeypatch, reference_value
+):
     if any(shutil.which(tool) is None for tool in ("cmake", "ninja", "c++")):
         pytest.skip("需要 CMake、Ninja 和 C++ 编译器")
     upstream = tmp_path / "upstream"
@@ -61,9 +64,11 @@ def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, 
     )
     test_patch = qualification.git(upstream, "diff", "--", "tests/").decode()
     qualification.git(upstream, "restore", "tests/")
-    (upstream / "include/glaze/value.hpp").write_text("constexpr int value = 1;\n")
-    patch = qualification.git(upstream, "diff", "--", "include/").decode()
-    qualification.git(upstream, "restore", "include/")
+    (upstream / "include/glaze/value.hpp").write_text(f"constexpr int value = {reference_value};\n")
+    cmake = upstream / "CMakeLists.txt"
+    cmake.write_text(cmake.read_text() + "# 官方修复的构建注释\n")
+    patch = qualification.git(upstream, "diff").decode()
+    qualification.git(upstream, "restore", "include/", "CMakeLists.txt")
 
     def materialize(repo, commit, source, pool, deadline):
         qualification.archive(upstream, commit, source, deadline=deadline)
@@ -95,6 +100,18 @@ def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, 
     )
     result = qualification.qualify(record, args)
     directory = args.output / record["instance_id"]
+    assert result["qualification_policy"] == "baseline-native-v1"
+    assert result["omitted_reference_paths"] == ["CMakeLists.txt"]
+    assert set(result["phases"]) == {"baseline", "native_oracle"}
+    assert [row["phase"] for row in result["commands"] if row["stage"] == "build"] == [
+        "baseline",
+        "native-oracle",
+    ]
+    if reference_value == 2:
+        assert result["status"] == "NATIVE_ORACLE_BUILD_FAILED"
+        assert result["cleanup"]["status"] == "SUCCEEDED"
+        assert not (directory / "prepared.bundle").exists()
+        return
     assert result["status"] == "HOST_QUALIFIED", json.dumps(result, ensure_ascii=False)
     assert result["f2p"] == ["regression"] and result["p2p"] == ["control"]
     assert result["phases"]["baseline"]["tests"] == {"control": "passed", "regression": "failed"}
@@ -112,6 +129,24 @@ def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, 
     assert not (directory / "control/reference-source").exists()
     assert not (directory / "repository/tests/runtime-note.txt").exists()
     assert not (directory / "repository/bin").exists()
+    evidence = importlib.import_module("verify_qualification_evidence")
+    required = evidence.required_task_artifacts(result)
+    assert (
+        evidence.verify_tree(
+            directory, json.loads((directory / "manifest.json").read_text()), required
+        )
+        == []
+    )
+    legacy_required = evidence.required_task_artifacts(
+        {key: value for key, value in result.items() if key != "qualification_policy"}
+    )
+    assert "reference-results.xml" in legacy_required
+    assert "reference-results.xml" not in required
+    assert evidence.verify_tree(
+        directory,
+        json.loads((directory / "manifest.json").read_text()),
+        required | {"reference-results.xml"},
+    )
     candidate = importlib.import_module("check_native_cpp_candidate")
     monkeypatch.setattr(candidate, "load_records", lambda directory: [record])
     verdict = candidate.check(

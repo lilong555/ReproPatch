@@ -40,7 +40,12 @@ def required_task_artifacts(result):
                 "native-oracle-native-results.json",
             }
         )
-        for phase in ("baseline", "reference"):
+        phases = (
+            ("baseline",)
+            if result.get("qualification_policy") == "baseline-native-v1"
+            else ("baseline", "reference")
+        )
+        for phase in phases:
             required.update({f"{phase}-inventory.json", f"{phase}-results.xml"})
             required.update(
                 f"logs/{phase}-{stage}.log"

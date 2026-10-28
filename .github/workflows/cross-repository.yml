@@ -140,7 +140,7 @@ jobs:
           path: .repropatch/
       - name: 拉取固定工具链
         run: docker pull "$IMAGE"
-      - name: 基线与参考修复的完整 O3 Docker 资格检查
+      - name: O3 基线检查与参考补丁冷验收
         run: >-
           python -u scripts/qualify_cross_repo.py
           --dataset .repropatch/cross-inputs --repository .repropatch/cross-git
