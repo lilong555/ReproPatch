@@ -1,0 +1,27 @@
+{
+  "phase": "development",
+  "run_id": 40683207108,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40683207108",
+  "source_run_id": 40676427777,
+  "scoring_model_requests": 0,
+  "attempts": [
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/mini/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "mini",
+      "oracle_status": "ORACLE_PASSED",
+      "accepted": true,
+      "issued_model_requests": 23,
+      "artifact": "cross-rescore-40683207108-nlohmann__json-3514-mini"
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/no-checks/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "no-checks",
+      "oracle_status": "ORACLE_PASSED",
+      "accepted": true,
+      "issued_model_requests": 22,
+      "artifact": "cross-rescore-40683207108-nlohmann__json-3514-no-checks"
+    }
+  ]
+}

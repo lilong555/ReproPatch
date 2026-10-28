@@ -48,3 +48,5 @@ JSON 与 Catch2 的构建沿用 GCC 11；Catch2 的审批报告采用源码相�
 [开发准备记录](https://github.com/lilong555/ReproPatch/actions/runs/40660958386)包含 10 项 JSON 文本可读范围错误与 10 项取消记录。jsoncpp-Codex 在取消前已认领额度，因源码导出字节差异终止；[账本摘要](development-preparation-failures.json)记录 0 次模型请求和完整归档身份。[开发协议](development-protocol.json)保留该批次的二十项登记。[Catch2 原生验收记录](docker-batch-40659068642.json)保存全部 34 项冷测试通过结果及任务标签注册错误。
 
 [开发 v3 协议](development-protocol-v3.json)在[续跑批次](https://github.com/lilong555/ReproPatch/actions/runs/40683926397)执行十八项尝试，保留 json-3514 的 mini 与关闭自检两项模型结果，共 45 次已发送请求。[独立冷评分](https://github.com/lilong555/ReproPatch/actions/runs/40683207108)复用这两项冻结候选。CPA 请求并发上限为三，零模型冷评分并发上限为八。执行源码通过[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40683082554)，四题的文本权限解析与源码字节导出检查全部通过。可读范围包含 UTF-8 源码、测试代码和配置，二进制输入与 simdjson 离线语料完整保留在原生测试目录。
+
+[已完成的开发冷评分](development-scores-40683207108.json)中，json-3514 的 mini 与关闭自检组均通过完整原生 Oracle。模型修复分别使用 23 次和 22 次请求，独立评分新增模型请求为零。其余十八项由续跑批次执行并统一汇总。

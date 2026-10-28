@@ -17,6 +17,7 @@
     "infrastructure_revalidation": 72
   },
   "retained_issued_requests": 45,
+  "retained_oracle_passed": 2,
   "prior_run_id": 40676427777,
   "prior_rescore_run_id": 40683207108,
   "prior_attempts": "development-prior-attempts.json",
