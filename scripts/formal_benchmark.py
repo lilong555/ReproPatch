@@ -20,11 +20,16 @@ from repropatch.context import ContextPolicy
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "benchmarks/formal-max-protocol.json"
+ATTEMPT_ID = None
 
 
 def protocol():
     value = json.loads(PROTOCOL.read_text())
-    if "context_policy" in value:
+    if value.get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+        from cross_repo_campaign import validate_protocol
+
+        validate_protocol(value)
+    elif "context_policy" in value:
         from context_campaign import validate_protocol
 
         validate_protocol(value)
@@ -366,6 +371,10 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
 
 
 def prepare(instance, output, arm="all"):
+    if protocol().get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+        from cross_repo_campaign import prepare
+
+        return prepare(instance, output, arm, protocol())
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
     from qualify_cpp_batch import ADAPTER, BUILD_TEST, archive, records, validate_record
@@ -469,9 +478,14 @@ def execute(instance, output, arm="all"):
     p = protocol()
     settings = json.loads((output / "prepared.json").read_text())
     attempts = [
-        a for a in p["attempts"] if a["instance_id"] == instance and arm in {"all", a["arm"]}
+        a
+        for a in p["attempts"]
+        if a["instance_id"] == instance
+        and arm in {"all", a["arm"]}
+        and (ATTEMPT_ID is None or a["attempt_id"] == ATTEMPT_ID)
     ]
     assert attempts, "任务与实验臂须在批次中注册"
+    assert len({a["arm"] for a in attempts}) == len(attempts), "重复实验通过独立 Attempt ID 调度"
     agent_python = sys.executable
     mini_python = str(ROOT / ".repropatch/mini-env/bin/python")
     summaries = []
@@ -498,6 +512,8 @@ def execute(instance, output, arm="all"):
             "--reasoning-effort",
             "max",
         ]
+        if p.get("cpa_route"):
+            common += ["--cpa-route", p["cpa_route"]]
         if arm == "shell-only":
             command = [
                 agent_python,
@@ -583,9 +599,11 @@ def execute(instance, output, arm="all"):
                 "--qualification",
                 settings["qualification"],
                 "--dataset",
-                str(ROOT / ".repropatch/inputs/dataset"),
+                settings.get("dataset", str(ROOT / ".repropatch/inputs/dataset")),
                 "--repository",
-                str(ROOT / ".repropatch/inputs/fmt"),
+                settings.get("repository", str(ROOT / ".repropatch/inputs/fmt")),
+                "--timeout",
+                str(p.get("oracle_timeout_seconds", 900)),
                 "--output",
                 str(output / (arm + "-score")),
             ],
@@ -730,7 +748,7 @@ def aggregate(source, output):
 
 
 def main():
-    global PROTOCOL
+    global PROTOCOL, ATTEMPT_ID
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "stage",
@@ -747,6 +765,7 @@ def main():
     )
     parser.add_argument("--protocol", type=Path, default=PROTOCOL)
     parser.add_argument("--instance")
+    parser.add_argument("--attempt-id")
     parser.add_argument(
         "--arm", choices=("all", "shell-only", "full", "no-checks", "mini", "codex"), default="all"
     )
@@ -754,6 +773,7 @@ def main():
     parser.add_argument("--source", type=Path)
     args = parser.parse_args()
     PROTOCOL = args.protocol.resolve(strict=True)
+    ATTEMPT_ID = args.attempt_id
     if args.stage == "calibrate":
         calibrate(args.output)
     elif args.stage == "verify-calibration":

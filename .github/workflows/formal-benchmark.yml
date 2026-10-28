@@ -4,6 +4,17 @@ run-name: Luna max · ${{ inputs.authorization }} requests · ${{ github.ref_nam
 on:
   workflow_dispatch:
     inputs:
+      cross_stage:
+        description: '跨仓库执行阶段；legacy 使用已有实验协议'
+        required: false
+        type: choice
+        options: ['legacy', 'qualify']
+        default: 'legacy'
+      cross_instances:
+        description: '跨仓库资格实例，逗号分隔'
+        required: false
+        type: string
+        default: 'open-source-parsers__jsoncpp-1696,ninja-build__ninja-2749,stephenberry__glaze-2611'
       authorization:
         description: '12：上下文校准；480：四题五组 Pilot；2520：21题五组；其余为历史协议'
         required: true
@@ -44,7 +55,19 @@ env:
   FORMAL_PROTOCOL: ${{ inputs.revalidation && inputs.revalidation_protocol || inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
+  cross-repository:
+    if: inputs.cross_stage == 'qualify'
+    uses: ./.github/workflows/cross-repository.yml
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+    with:
+      stage: ${{ inputs.cross_stage }}
+      instances: ${{ inputs.cross_instances }}
+    secrets: inherit
   calibration:
+    if: inputs.cross_stage != 'qualify'
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     outputs:
@@ -329,7 +352,7 @@ jobs:
 
   aggregate:
     needs: [calibration, attempts, interrupted-oracle]
-    if: always() && inputs.authorization != '12'
+    if: always() && inputs.cross_stage != 'qualify' && inputs.authorization != '12'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

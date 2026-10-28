@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import time
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
@@ -16,6 +17,7 @@ from repropatch.context import (
     admission_reason,
     encoded,
 )
+from repropatch.cpa import cpa_route
 
 NANO_PER_CNY = 1_000_000_000
 POLICY = {
@@ -193,12 +195,14 @@ class BudgetLedger:
 
 
 class BudgetHooks:
-    def __init__(self, ledger, attempt, trace_root, *, local_luna=False):
+    def __init__(self, ledger, attempt, trace_root, *, local_luna=False, route="public"):
         self.ledger = ledger
         self.attempt = attempt
         self.trace_root = Path(trace_root)
         self.trace_root.mkdir(parents=True, exist_ok=False, mode=0o700)
         self.local_luna = local_luna
+        self.route = cpa_route(route)
+        self.transport_times = {}
         self.last_request_body = None
         self.last_response = None
 
@@ -232,7 +236,7 @@ class BudgetHooks:
             check_pricing_date()
         url = request.url
         endpoint_matches = (
-            url.scheme == "https" and url.host == "cpa.liyinlong.me" and url.port in (None, 443)
+            self.route.accepts(url)
             if self.local_luna
             else url.scheme == "https"
             and url.host == "api.deepseek.com"
@@ -283,12 +287,23 @@ class BudgetHooks:
             else self.ledger.reserve(self.attempt, payload)
         )
         request.extensions["benchmark_request_id"] = identity
+        if not hasattr(request, "headers"):
+            request.headers = {}
+        request.headers["X-Request-ID"] = identity
+        self.transport_times[identity] = {
+            "request_id": identity,
+            "attempt_id": self.attempt,
+            "started_at": datetime.now(UTC).isoformat(),
+            "started_monotonic": time.monotonic(),
+            "route": self.route.to_dict() if self.local_luna else None,
+        }
         self.last_request_body = body
         if not isinstance(self.ledger, LocalUsageLedger):
             self._save(identity + "-request.json", payload)
 
     def response(self, response):
         identity = response.request.extensions["benchmark_request_id"]
+        self.record_headers(identity, response)
         content = response.read()
         self.finish(identity, content, response.status_code)
 
@@ -299,6 +314,25 @@ class BudgetHooks:
             self.last_response = json.loads(content)
         except ValueError:
             self.last_response = None
+        timing = self.transport_times.pop(identity, {})
+        started = timing.pop("started_monotonic", time.monotonic())
+        timing.update(
+            completed_at=datetime.now(UTC).isoformat(),
+            wall_seconds=time.monotonic() - started,
+            http_status=status_code,
+            received_bytes=len(content),
+            supplier_started_at=None,
+            supplier_started_at_evidence="CPA 供应商阶段日志单独关联",
+        )
+        self._save(identity + "-transport.json", encoded(timing))
+
+    def record_headers(self, identity, response):
+        timing = self.transport_times[identity]
+        timing.update(
+            response_headers_at=datetime.now(UTC).isoformat(),
+            response_headers_seconds=time.monotonic() - timing["started_monotonic"],
+            cpa_request_id=response.headers.get("X-Request-ID"),
+        )
 
     def abort(self, request, error):
         """HTTP 连接失败也关闭已发请求；真实用量保持未知。"""
@@ -311,6 +345,7 @@ class BudgetHooks:
 
     async def async_response(self, response):
         identity = response.request.extensions["benchmark_request_id"]
+        self.record_headers(identity, response)
         content = await response.aread()
         self.finish(identity, content, response.status_code)
 

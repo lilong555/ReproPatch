@@ -1,0 +1,156 @@
+name: Cross repository C++ benchmark
+
+on:
+  workflow_call:
+    inputs:
+      stage:
+        type: string
+        required: true
+      instances:
+        type: string
+        required: true
+    secrets:
+      CPA_API_KEY:
+        required: false
+
+permissions:
+  contents: read
+  actions: read
+  packages: write
+
+jobs:
+  toolchain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+      image_id: ${{ steps.image.outputs.image_id }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: 固定零模型资格批次
+        id: plan
+        env:
+          STAGE: ${{ inputs.stage }}
+          INSTANCES: ${{ inputs.instances }}
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$STAGE" = qualify
+          python -m pip install -e . -r requirements/cpp-sources.txt
+          python scripts/cpp_sources.py --output .repropatch/cross-inputs --index .repropatch/candidate-index.json
+          python - <<'PY'
+          import json, os, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from cpp_sources import load_records
+          from cpp_native_adapter import OPTIONS
+          ids = os.environ['INSTANCES'].split(',')
+          records = {r['instance_id']: r for r in load_records(Path('.repropatch/cross-inputs'))}
+          assert len(ids) <= 35 and len(set(ids)) == len(ids)
+          assert all(i in records and records[i]['org'] + '/' + records[i]['repo'] in OPTIONS for i in ids)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('matrix=' + json.dumps({'instance': ids}) + '\n')
+          PY
+      - name: 准备离线依赖
+        run: python scripts/prepare_cpp_toolchain.py --output .repropatch/cross-tools --pool .repropatch/cross-git
+      - name: 构建并冻结共享工具链
+        id: image
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          image="ghcr.io/${GITHUB_REPOSITORY,,}-cross-cpp:run-$GITHUB_RUN_ID"
+          docker build -f docker/cross-repository.Dockerfile -t "$image" .
+          docker push "$image"
+          digest=$(docker image inspect "$image" --format '{{index .RepoDigests 0}}')
+          identity=$(docker image inspect "$image" --format '{{.Id}}')
+          mkdir -p .repropatch/cross-environment
+          IMAGE="$digest" IMAGE_ID="$identity" python - <<'PY'
+          import json, os, pathlib, subprocess
+          metadata = {'image': os.environ['IMAGE'], 'image_id': os.environ['IMAGE_ID'], 'execution_commit': os.environ['GITHUB_SHA'], 'run_id': os.environ['GITHUB_RUN_ID'], 'model_requests': 0}
+          pathlib.Path('.repropatch/cross-environment/image.json').write_text(json.dumps(metadata, indent=2) + '\n')
+          PY
+          echo "image=$digest" >> "$GITHUB_OUTPUT"
+          echo "image_id=$identity" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cross-inputs-${{ github.run_id }}
+          path: |
+            .repropatch/cross-inputs/
+            .repropatch/cross-environment/
+          include-hidden-files: true
+          retention-days: 14
+
+  qualification:
+    needs: toolchain
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.toolchain.outputs.matrix) }}
+    env:
+      INSTANCE: ${{ matrix.instance }}
+      IMAGE: ${{ needs.toolchain.outputs.image }}
+      IMAGE_ID: ${{ needs.toolchain.outputs.image_id }}
+      REPROPATCH_BATCH_ID: cross-${{ github.run_id }}-${{ matrix.instance }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cross-inputs-${{ github.run_id }}
+          path: .repropatch/
+      - name: 拉取固定工具链
+        run: docker pull "$IMAGE"
+      - name: 基线与参考修复的完整 O3 Docker 资格检查
+        run: >-
+          python -u scripts/qualify_cross_repo.py
+          --dataset .repropatch/cross-inputs --repository .repropatch/cross-git
+          --instances "$INSTANCE" --backend docker --image "$IMAGE_ID"
+          --output .repropatch/cross-qualification
+      - name: 核验原始证据
+        if: always()
+        run: |
+          if test -f .repropatch/cross-qualification/batch-summary.json; then
+            python scripts/verify_qualification_evidence.py --batch .repropatch/cross-qualification --output .repropatch/cross-audit
+          fi
+      - name: 打包全部阶段记录
+        if: always()
+        run: |
+          mkdir -p .repropatch/cross-qualification
+          python scripts/actions_benchmark.py pack --source .repropatch/cross-qualification --output .repropatch/cross-evidence.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cross-evidence-${{ github.run_id }}-${{ matrix.instance }}
+          path: |
+            .repropatch/cross-evidence.tar.gz
+            .repropatch/cross-evidence.tar.gz.sha256
+            .repropatch/cross-evidence.tar.metadata.json
+            .repropatch/cross-audit/
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 14
+      - name: 下载后核验归档 SHA
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "cross-evidence-$GITHUB_RUN_ID-$INSTANCE" --dir .repropatch/roundtrip
+          python - <<'PY'
+          import hashlib, pathlib
+          local = pathlib.Path('.repropatch/cross-evidence.tar.gz')
+          remote = pathlib.Path('.repropatch/roundtrip/cross-evidence.tar.gz')
+          assert hashlib.file_digest(local.open('rb'), 'sha256').digest() == hashlib.file_digest(remote.open('rb'), 'sha256').digest()
+          PY
