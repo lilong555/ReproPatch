@@ -37,6 +37,8 @@ Azure SSH 路由使用独立本地端口和固定转发目标。请求时间线�
 ghcr.io/lilong555/repropatch-cross-cpp@sha256:411933ec8b67292c28c03b30c576c42bbed15eeca33ff06d553733b1a351e447
 ```
 
-JSON 的嵌套构建沿用 GCC 11；Glaze 的 Clang 构建采用 libc++；Slang LLVM 后端来自经 SHA256 核验的官方 2026.5.2 附件。simdjson 的数据与 cxxopts 固定到提交，随准备源码归档。
+JSON 与 Catch2 的构建沿用 GCC 11；Glaze 的 Clang 构建采用 libc++；Slang LLVM 后端来自经 SHA256 核验的官方 2026.5.2 附件。simdjson 的数据与 cxxopts 固定到提交，随准备源码归档。
 
 正式冻结要求四道开发题的二十次冷评分完整、三十道正式题的缺陷语义与历史曝光审查完整，覆盖至少五个新仓库，按开发结果采用 18/8/4 或 24/4/2 的难度配额。六道重复题随正式协议预登记。基础设施复验使用独立 Attempt ID，全批次上限为二十次。
+
+[simdjson-1896 的资格记录](docker-batch-40647543474.json)包含一条 F2P `ondemand_misc_tests` 与 92 条 P2P；C++ 参考修复通过全部 93 条原生用例。该任务绑定上述共享工具链。

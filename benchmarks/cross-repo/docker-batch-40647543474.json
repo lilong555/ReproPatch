@@ -1,0 +1,141 @@
+{
+  "schema": "repropatch.cross-repository-qualification.v1",
+  "run_id": 40647543474,
+  "source_commit": "9648ca379d86c2414af7b2bbff5ba9d6578baf7c",
+  "model_requests": 0,
+  "downloaded_task_records": 6,
+  "registered_tasks": 8,
+  "tasks": [
+    {
+      "instance_id": "catchorg__Catch2-2128",
+      "status": "BASELINE_BUILD_FAILED",
+      "native_test_count": 34,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40647543474-catchorg__Catch2-2128",
+      "archive_sha256": "f91e6c418474f2851e895db1b617c5ffbd7d3c6d88e2355a3a15325a1b4c4323"
+    },
+    {
+      "instance_id": "nlohmann__json-3463",
+      "status": "REFERENCE_TESTS_FAILED",
+      "native_test_count": 79,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "cmake_fetch_content2_build",
+            "cmake_fetch_content2_configure",
+            "cmake_fetch_content_build",
+            "cmake_fetch_content_configure",
+            "test-bjdata_cpp11"
+          ]
+        },
+        "reference": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "cmake_fetch_content2_build",
+            "cmake_fetch_content2_configure",
+            "cmake_fetch_content_build",
+            "cmake_fetch_content_configure"
+          ]
+        }
+      },
+      "artifact": "cross-evidence-40647543474-nlohmann__json-3463",
+      "archive_sha256": "23a8a6a8c0dd6804c3ca1aa9eaaa5970e77641a2c4cb0a9e6b78eaaee6f2f054"
+    },
+    {
+      "instance_id": "nlohmann__json-3514",
+      "status": "REFERENCE_TESTS_FAILED",
+      "native_test_count": 81,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "cmake_fetch_content2_build",
+            "cmake_fetch_content2_configure",
+            "cmake_fetch_content_build",
+            "cmake_fetch_content_configure",
+            "test-bjdata_cpp11"
+          ]
+        },
+        "reference": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "cmake_fetch_content2_build",
+            "cmake_fetch_content2_configure",
+            "cmake_fetch_content_build",
+            "cmake_fetch_content_configure"
+          ]
+        }
+      },
+      "artifact": "cross-evidence-40647543474-nlohmann__json-3514",
+      "archive_sha256": "80559ec40523d3a93c5618ea2295836ac63a0987d08edb4b303f58e82bd7da49"
+    },
+    {
+      "instance_id": "shader-slang__slang-10856",
+      "status": "BASELINE_CONFIGURE_FAILED",
+      "native_test_count": 4456,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "CONFIGURE_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40647543474-shader-slang__slang-10856",
+      "archive_sha256": "2b1da7e5ab22de530c409a29fd226822c2fbb38c14ee2c36e2fb7fa890c02d33"
+    },
+    {
+      "instance_id": "simdjson__simdjson-1896",
+      "status": "QUALIFIED",
+      "native_test_count": 93,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "ondemand_misc_tests"
+          ]
+        },
+        "reference": {
+          "status": "PASSED",
+          "failed_nodes": []
+        },
+        "native_oracle": {
+          "status": "PASSED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40647543474-simdjson__simdjson-1896",
+      "archive_sha256": "e58266ce512f486c7e6170383a76a240f6c04015dff96ccd8fc076361514f9f9"
+    },
+    {
+      "instance_id": "stephenberry__glaze-2611",
+      "status": "BASELINE_BUILD_FAILED",
+      "native_test_count": 89,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40647543474-stephenberry__glaze-2611",
+      "archive_sha256": "01e8e648a19dfa44ecf7cfc8cfeb12000ccf7e24b3247caf8b954e3b80d931b9"
+    }
+  ],
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40647543474"
+}
