@@ -1,0 +1,116 @@
+{
+  "schema": "repropatch.cross-repository-qualification.v1",
+  "run_id": 40646271797,
+  "source_commit": "bd5a224c26997429161da8cd1f4d36a3e97105a3",
+  "model_requests": 0,
+  "tasks": [
+    {
+      "instance_id": "catchorg__Catch2-2128",
+      "status": "BASELINE_BUILD_FAILED",
+      "model_requests": 0,
+      "native_test_count": 34,
+      "image_id": "sha256:319b9eaa59a0717bbac2c5f13cf2be92f6955ad3baf5dfe3feea81bae8856f84",
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40646271797-catchorg__Catch2-2128",
+      "archive_sha256": "1adc559176c0490904b4fad921bc0c0093a944e2dbea7a83f048850abedd0fbc"
+    },
+    {
+      "instance_id": "duckdb__duckdb-24105",
+      "status": "BASELINE_BUILD_FAILED",
+      "model_requests": 0,
+      "native_test_count": 6087,
+      "image_id": "sha256:319b9eaa59a0717bbac2c5f13cf2be92f6955ad3baf5dfe3feea81bae8856f84",
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40646271797-duckdb__duckdb-24105",
+      "archive_sha256": "58b0b78060110e4a114babe4baa9fb1bc7b15a036c0e3539cc69ba954d73fad5"
+    },
+    {
+      "instance_id": "luau-lang__luau-2506",
+      "status": "BASELINE_TESTS_FAILED",
+      "model_requests": 0,
+      "native_test_count": 5411,
+      "image_id": "sha256:319b9eaa59a0717bbac2c5f13cf2be92f6955ad3baf5dfe3feea81bae8856f84",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "native-f2p-001",
+            "native-p2p"
+          ]
+        }
+      },
+      "artifact": "cross-evidence-40646271797-luau-lang__luau-2506",
+      "archive_sha256": "6547f8b8f3ca2ed985bce410eda8cc07b88af4b838ca717ef05bbf8ef5c71c4c"
+    },
+    {
+      "instance_id": "nlohmann__json-3463",
+      "status": "BASELINE_BUILD_FAILED",
+      "model_requests": 0,
+      "native_test_count": 79,
+      "image_id": "sha256:319b9eaa59a0717bbac2c5f13cf2be92f6955ad3baf5dfe3feea81bae8856f84",
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40646271797-nlohmann__json-3463",
+      "archive_sha256": "236f659573f22dc9e7997e212c0ac52eeb7e95253f66af848ee2926fba99d2a7"
+    },
+    {
+      "instance_id": "nlohmann__json-3514",
+      "status": "BASELINE_BUILD_FAILED",
+      "model_requests": 0,
+      "native_test_count": 81,
+      "image_id": "sha256:319b9eaa59a0717bbac2c5f13cf2be92f6955ad3baf5dfe3feea81bae8856f84",
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40646271797-nlohmann__json-3514",
+      "archive_sha256": "2c99057de734f4030d9a89325b1819fcc1a7969fa4c8dbcd8a56846ef637873d"
+    },
+    {
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "status": "QUALIFIED",
+      "model_requests": 0,
+      "native_test_count": 293,
+      "image_id": "sha256:319b9eaa59a0717bbac2c5f13cf2be92f6955ad3baf5dfe3feea81bae8856f84",
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "failed_nodes": [
+            "native-f2p-001"
+          ]
+        },
+        "reference": {
+          "status": "PASSED",
+          "failed_nodes": []
+        },
+        "native_oracle": {
+          "status": "PASSED",
+          "failed_nodes": []
+        },
+        "full_reference": {
+          "status": "PASSED",
+          "failed_nodes": []
+        }
+      },
+      "artifact": "cross-evidence-40646271797-open-source-parsers__jsoncpp-1693",
+      "archive_sha256": "e4a550640b5a8feb4bb779e88c9f5d2e54902668a316730fe13b5d02eaa0d612"
+    }
+  ],
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40646271797"
+}
