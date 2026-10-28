@@ -1,7 +1,7 @@
 {
   "schema": "repropatch.cross-repository-campaign.v1",
   "batch_id": "cross-repository-20261028",
-  "status": "QUALIFICATION",
+  "status": "DEVELOPMENT_FROZEN",
   "model": "gpt-6-luna",
   "reasoning_effort": "max",
   "model_timeout_seconds": 180,
@@ -10,8 +10,18 @@
   "max_tools_per_response": 8,
   "max_parallel": 2,
   "optimization": "O3",
-  "arms": ["full", "no-checks", "shell-only", "mini", "codex"],
-  "sample_limits": {"development": 4, "formal": 30, "total_new_tasks": 34},
+  "arms": [
+    "full",
+    "no-checks",
+    "shell-only",
+    "mini",
+    "codex"
+  ],
+  "sample_limits": {
+    "development": 4,
+    "formal": 30,
+    "total_new_tasks": 34
+  },
   "request_allocation": {
     "calibration": 12,
     "development": 480,
@@ -21,8 +31,10 @@
     "total": 5292
   },
   "development_queue": [
-    "nlohmann__json-3514", "nlohmann__json-3463",
-    "catchorg__Catch2-2128", "simdjson__simdjson-1896"
+    "nlohmann__json-3514",
+    "nlohmann__json-3463",
+    "open-source-parsers__jsoncpp-1696",
+    "simdjson__simdjson-1896"
   ],
   "qualification_smoke": [
     "open-source-parsers__jsoncpp-1696",
@@ -32,16 +44,35 @@
   "formal_repository_targets": {
     "new_repository_tasks": 25,
     "existing_repository_new_tasks": 5,
-    "primary": ["duckdb/duckdb", "shader-slang/slang", "stephenberry/glaze", "luau-lang/luau", "open-source-parsers/jsoncpp"],
-    "reserves": ["pocoproject/poco", "ninja-build/ninja", "dragonflydb/dragonfly", "catchorg/Catch2"]
+    "primary": [
+      "duckdb/duckdb",
+      "shader-slang/slang",
+      "stephenberry/glaze",
+      "luau-lang/luau",
+      "open-source-parsers/jsoncpp"
+    ],
+    "reserves": [
+      "pocoproject/poco",
+      "ninja-build/ninja",
+      "dragonflydb/dragonfly",
+      "catchorg/Catch2"
+    ]
   },
   "selection": {
     "historical_tasks": "复用已完成历史证据",
     "unexposed": "逐条核对项目内历史请求记录",
     "semantic_duplicates": "按仓库、Issue 与基线提交归并",
     "qualification": "声明 F2P 真实失败、P2P 通过、C++ 参考修复与完整原生冷 Oracle 通过",
-    "difficulty": {"complex": 18, "medium": 8, "compile_control": 4},
-    "development_all_pass_difficulty": {"complex": 24, "medium": 4, "compile_control": 2},
+    "difficulty": {
+      "complex": 18,
+      "medium": 8,
+      "compile_control": 4
+    },
+    "development_all_pass_difficulty": {
+      "complex": 24,
+      "medium": 4,
+      "compile_control": 2
+    },
     "formal_freeze": "开发阶段结束后冻结任务、镜像、源码、协议与六题重复集合",
     "order_seed": 20261028
   },
@@ -70,10 +101,33 @@
     "compaction_enabled": true
   },
   "analysis": {
-    "primary_pairs": [["full", "shell-only"], ["full", "no-checks"]],
+    "primary_pairs": [
+      [
+        "full",
+        "shell-only"
+      ],
+      [
+        "full",
+        "no-checks"
+      ]
+    ],
     "paired_test": "exact McNemar",
     "multiple_comparison": "Holm",
-    "report_groups": ["逐题首跑", "逐仓库宏平均", "新仓库子集", "六题重复", "独立基础设施复验"],
-    "resources": ["issued_requests", "input_tokens", "output_tokens", "compaction", "worker_seconds", "self_check_seconds", "cold_oracle_seconds"]
+    "report_groups": [
+      "逐题首跑",
+      "逐仓库宏平均",
+      "新仓库子集",
+      "六题重复",
+      "独立基础设施复验"
+    ],
+    "resources": [
+      "issued_requests",
+      "input_tokens",
+      "output_tokens",
+      "compaction",
+      "worker_seconds",
+      "self_check_seconds",
+      "cold_oracle_seconds"
+    ]
   }
 }

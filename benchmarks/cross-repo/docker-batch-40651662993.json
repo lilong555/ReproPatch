@@ -1,0 +1,121 @@
+{
+  "schema": "repropatch.cross-repository-qualification-summary.v1",
+  "run_id": 40651662993,
+  "source_commit": "121cf7356a0ca9b8037935598b8fb8423115faf8",
+  "model_requests": 0,
+  "registered_tasks": 5,
+  "downloaded_task_records": 5,
+  "qualified": 2,
+  "tasks": [
+    {
+      "instance_id": "catchorg__Catch2-2128",
+      "status": "REFERENCE_TESTS_FAILED",
+      "native_test_count": 34,
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "passed": 1,
+          "failed": 33
+        },
+        "reference": {
+          "status": "TESTS_FAILED",
+          "passed": 33,
+          "failed": 1
+        }
+      },
+      "artifact": "cross-evidence-40651662993-catchorg__Catch2-2128",
+      "archive_sha256": "0c7ee6616a4f99e2cfd61dbeb82653ce8ec2d428327d5345c6873fb9094f544f",
+      "result_sha256": "afc9ba55f9b1b7ecba4105a8ccc091c1ba441ed207b5380fdcf2aa5a8fc3e65b"
+    },
+    {
+      "instance_id": "nlohmann__json-3463",
+      "status": "QUALIFIED",
+      "native_test_count": 79,
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "passed": 78,
+          "failed": 1
+        },
+        "reference": {
+          "status": "PASSED",
+          "passed": 79,
+          "failed": 0
+        },
+        "native_oracle": {
+          "status": "PASSED",
+          "passed": 79,
+          "failed": 0
+        },
+        "single_header": {
+          "status": "PASSED",
+          "passed": 1,
+          "failed": 0
+        }
+      },
+      "artifact": "cross-evidence-40651662993-nlohmann__json-3463",
+      "archive_sha256": "8980e9d608c289fd88bfbf6657837ebd5a975577b1488bf6e06b619c5f861a76",
+      "result_sha256": "efcd586d11ef9650738d54558ec938e8cd9453f1a128cf61d48b388efbf60e18"
+    },
+    {
+      "instance_id": "nlohmann__json-3514",
+      "status": "QUALIFIED",
+      "native_test_count": 81,
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "passed": 80,
+          "failed": 1
+        },
+        "reference": {
+          "status": "PASSED",
+          "passed": 81,
+          "failed": 0
+        },
+        "native_oracle": {
+          "status": "PASSED",
+          "passed": 81,
+          "failed": 0
+        },
+        "single_header": {
+          "status": "PASSED",
+          "passed": 1,
+          "failed": 0
+        }
+      },
+      "artifact": "cross-evidence-40651662993-nlohmann__json-3514",
+      "archive_sha256": "3ecc4dacc44b81b85e9b0d5cd17d37ca1e0f108955ce8a6ba2798c8b7edea8f0",
+      "result_sha256": "b5d91b8bdfe39908cbdc1201ba48bf4252c19bfeaeb35b32d4789503957a2b8e"
+    },
+    {
+      "instance_id": "shader-slang__slang-10856",
+      "status": "BASELINE_CONFIGURE_FAILED",
+      "native_test_count": 4456,
+      "phases": {
+        "baseline": {
+          "status": "CONFIGURE_FAILED",
+          "passed": 0,
+          "failed": 0
+        }
+      },
+      "artifact": "cross-evidence-40651662993-shader-slang__slang-10856",
+      "archive_sha256": "cab501e44f5f3515b483e1bd8057f280e5f5af06de0fd4d88e472a0c8bc636b4",
+      "result_sha256": "32dbec4115f6fb95f398f7081e3d6b6f2f6320995fea053625dec39be4b61a97"
+    },
+    {
+      "instance_id": "stephenberry__glaze-2611",
+      "status": "BASELINE_BUILD_FAILED",
+      "native_test_count": 89,
+      "phases": {
+        "baseline": {
+          "status": "BUILD_FAILED",
+          "passed": 0,
+          "failed": 0
+        }
+      },
+      "artifact": "cross-evidence-40651662993-stephenberry__glaze-2611",
+      "archive_sha256": "e0233fe2261b51a08250c5e3632e7d260ec7145ef0fdebc1e8e289cbc7e08310",
+      "result_sha256": "a3aa7b1edbfdf7a0930a4763af38b5abcf7c5526db8de11a6f83cb42834c0d75"
+    }
+  ]
+}

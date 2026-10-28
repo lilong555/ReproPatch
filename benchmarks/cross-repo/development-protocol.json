@@ -1,0 +1,386 @@
+{
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "model_timeout_seconds": 180,
+  "request_cap_per_attempt": 24,
+  "max_tool_calls": 48,
+  "max_tools_per_response": 8,
+  "max_parallel": 2,
+  "arms": [
+    "full",
+    "no-checks",
+    "shell-only",
+    "mini",
+    "codex"
+  ],
+  "context_policy": {
+    "context_window_tokens": 128000,
+    "compact_trigger_tokens": 48000,
+    "compact_target_tokens": 21600,
+    "max_output_tokens": 8192,
+    "transport_max_bytes": 2097152,
+    "response_max_bytes": 2097152,
+    "request_cap": 24,
+    "context_policy_version": "v1.0-unified-compaction",
+    "tool_growth_tokens": 16000,
+    "estimation_margin_tokens": 8000,
+    "retain_rounds": 2,
+    "tool_output_max_bytes": 24576,
+    "compaction_enabled": true
+  },
+  "mini_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "codex_binary": ".repropatch/codex/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+  "codex_version": "0.163.0",
+  "codex_sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+  "codex_tarball": "https://registry.npmjs.org/@openai/codex/-/codex-0.163.0-linux-x64.tgz",
+  "codex_tarball_integrity": "sha512-uwRaOsrYogLQhcxAM/GoeWrw0QIWEMRo7c9gM8sKAviVkZQHlu9kRLJ5PkufbV+ABGjyZgIwiFdJ0LCJ0N6e8w==",
+  "code_host_sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+  "campaign_schema": "repropatch.cross-repository-campaign.v1",
+  "batch_id": "cross-repository-20261028-development",
+  "phase": "development",
+  "tasks": [
+    "nlohmann__json-3514",
+    "nlohmann__json-3463",
+    "open-source-parsers__jsoncpp-1696",
+    "simdjson__simdjson-1896"
+  ],
+  "attempts": [
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/no-checks/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/mini/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/shell-only/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/full/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/codex/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/no-checks/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/codex/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/shell-only/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/mini/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/full/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/codex/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/mini/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/no-checks/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/full/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/shell-only/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/mini/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/full/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/shell-only/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/no-checks/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/codex/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "codex",
+      "request_cap": 24
+    }
+  ],
+  "formal_request_cap": 480,
+  "qualification_contracts": {
+    "nlohmann__json-3514": {
+      "qualification_sha256": "b5d91b8bdfe39908cbdc1201ba48bf4252c19bfeaeb35b32d4789503957a2b8e",
+      "task_sha256": "1480cbaf682e7ab6fb308ae390b9bf1b8b5313294adc353652d81da72dd22a1e",
+      "manifest_sha256": "c0b8628babcbd56ae2fd422a8d0cc4f613ca648816dcd6bbbc19d35c24bc7dfa",
+      "bundle_sha256": "62490c38df5953ff6a22b2d1fb0e6dcd1f206fb9021b46c3e5f91cdaffd3a236",
+      "prepared_commit": "cc4bf67228190e9355427c90181cc0c0861c2f8e",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 81
+    },
+    "nlohmann__json-3463": {
+      "qualification_sha256": "efcd586d11ef9650738d54558ec938e8cd9453f1a128cf61d48b388efbf60e18",
+      "task_sha256": "aa809625678cf7839b450c2828bb30d6326fca9022145b9d6e777491bdc6abd1",
+      "manifest_sha256": "0cdd99638ecec01ef08b9144fb4cbf68ea89b0f3ae1a9ecc88809bb73f32c72f",
+      "bundle_sha256": "644520fd040b706d659f4aa87fd1628378ac917a10a30a2bd7c3ef9d2f89abc6",
+      "prepared_commit": "4e24ef00e5ca8c6f8cecf3cd35a531df92eca226",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 79
+    },
+    "open-source-parsers__jsoncpp-1696": {
+      "qualification_sha256": "010e479ca8580264a313400a51d9c9819c1be61e45a22bf4d38d0a6e6fbc6a7a",
+      "task_sha256": "7e51f3b69ea757f46969623d93bfc7a302c3ceffa32b43bdb6e4e0122a49d8fd",
+      "manifest_sha256": "d95c317002ac19689645b37482e8207e2450b440fddcbb4063b90f8c630235d2",
+      "bundle_sha256": "a22b632452b849a1a9e3413cd9b198c37ee7a4148540030819c546a0a6d18367",
+      "prepared_commit": "9f55234d0ce8b1f3e1999c9c9b663edac9e35342",
+      "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
+      "native_tests": 295
+    },
+    "simdjson__simdjson-1896": {
+      "qualification_sha256": "2a0b5a83877acfed9b861dd4aa79d09761dc2283c1e244ec5a045926c70676d9",
+      "task_sha256": "aa7cb269ea226133cbb0725f987d5517454c8718fbcba63c1df3c392b9592f87",
+      "manifest_sha256": "3dc4c028d38506d5b0e02c5bae34c246400243a14018f3b2c0d0be1c38fe3923",
+      "bundle_sha256": "9f092a1bb3ea01ca468e910641e4bfe089ce5926c8ee2a76fb85c439db664b63",
+      "prepared_commit": "4366bf188f1c1b0d0c0971bc467280ab244ea4b6",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 93
+    }
+  },
+  "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:411933ec8b67292c28c03b30c576c42bbed15eeca33ff06d553733b1a351e447",
+  "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+  "qualification_run_ids": [
+    40647543474,
+    40651662993
+  ],
+  "qualification_archives": [
+    {
+      "run_id": 40647543474,
+      "artifact": "cross-evidence-40647543474-open-source-parsers__jsoncpp-1696",
+      "sha256": "64d9c837ea0d7c18a2b8c61c6ce721bc1a8184ae709fb228fa0fecd5a88947bb",
+      "instances": [
+        "open-source-parsers__jsoncpp-1696"
+      ]
+    },
+    {
+      "run_id": 40651662993,
+      "artifact": "cross-evidence-40651662993-nlohmann__json-3463",
+      "sha256": "8980e9d608c289fd88bfbf6657837ebd5a975577b1488bf6e06b619c5f861a76",
+      "instances": [
+        "nlohmann__json-3463"
+      ]
+    },
+    {
+      "run_id": 40647543474,
+      "artifact": "cross-evidence-40647543474-simdjson__simdjson-1896",
+      "sha256": "e58266ce512f486c7e6170383a76a240f6c04015dff96ccd8fc076361514f9f9",
+      "instances": [
+        "simdjson__simdjson-1896"
+      ]
+    },
+    {
+      "run_id": 40651662993,
+      "artifact": "cross-evidence-40651662993-nlohmann__json-3514",
+      "sha256": "3ecc4dacc44b81b85e9b0d5cd17d37ca1e0f108955ce8a6ba2798c8b7edea8f0",
+      "instances": [
+        "nlohmann__json-3514"
+      ]
+    }
+  ],
+  "network_calibration": {
+    "run_id": 40646051506,
+    "artifact": "cross-network-calibration-40646051506",
+    "sha256": "081e8ae385c0c10041efea18d1cc7cfd3baecaf36e7a486f65271620f32eb1fe"
+  },
+  "ci_run_id": 40658987273,
+  "execution_source_commit": "b050a787042b5d6b67f85b75601dd57a2c498b90",
+  "execution_sha256": "9aa1ee26f8286fc5243128814d908fbc959eb1eb4dcf5ada6ce5e65b95dd4ccf",
+  "paid_calls_authorized": true,
+  "cpa_route": "azure-ssh",
+  "retries": 0,
+  "oracle_timeout_seconds": 3600,
+  "matrix_per_arm": true,
+  "execution_order": [
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/no-checks/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/mini/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/shell-only/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/full/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3514/codex/first",
+      "instance_id": "nlohmann__json-3514",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/no-checks/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/codex/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/shell-only/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/mini/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/nlohmann__json-3463/full/first",
+      "instance_id": "nlohmann__json-3463",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/codex/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/mini/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/no-checks/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/full/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/shell-only/first",
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/mini/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/full/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/shell-only/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/no-checks/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-development/simdjson__simdjson-1896/codex/first",
+      "instance_id": "simdjson__simdjson-1896",
+      "arm": "codex",
+      "request_cap": 24
+    }
+  ],
+  "selection_seed": 20261028,
+  "max_output_tokens": 8192,
+  "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存"
+}

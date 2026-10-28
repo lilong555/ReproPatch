@@ -3,7 +3,7 @@
   "run_id": 40647543474,
   "source_commit": "9648ca379d86c2414af7b2bbff5ba9d6578baf7c",
   "model_requests": 0,
-  "downloaded_task_records": 6,
+  "downloaded_task_records": 7,
   "registered_tasks": 8,
   "tasks": [
     {
@@ -135,6 +135,38 @@
       },
       "artifact": "cross-evidence-40647543474-stephenberry__glaze-2611",
       "archive_sha256": "01e8e648a19dfa44ecf7cfc8cfeb12000ccf7e24b3247caf8b954e3b80d931b9"
+    },
+    {
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "status": "QUALIFIED",
+      "native_test_count": 295,
+      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+      "f2p": [
+        "native-f2p-001"
+      ],
+      "p2p": [
+        "native-p2p"
+      ],
+      "phases": {
+        "baseline": {
+          "status": "TESTS_FAILED",
+          "failed_tests": [
+            "native-f2p-001"
+          ]
+        },
+        "reference": {
+          "status": "PASSED",
+          "failed_tests": []
+        },
+        "native_oracle": {
+          "status": "PASSED",
+          "failed_tests": []
+        }
+      },
+      "artifact": "cross-evidence-40647543474-open-source-parsers__jsoncpp-1696",
+      "archive_sha256": "64d9c837ea0d7c18a2b8c61c6ce721bc1a8184ae709fb228fa0fecd5a88947bb",
+      "result_sha256": "010e479ca8580264a313400a51d9c9819c1be61e45a22bf4d38d0a6e6fbc6a7a",
+      "model_requests": 0
     }
   ],
   "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40647543474"
