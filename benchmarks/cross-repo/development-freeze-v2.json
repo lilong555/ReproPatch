@@ -1,6 +1,6 @@
 {
   "phase": "development",
-  "status": "FROZEN",
+  "status": "DISPATCHED",
   "protocol": "development-protocol-v2.json",
   "protocol_sha256": "aec3ec3226dd02eedfb951bdafa6e42b74e3423cb51f1ed398d1794d948a8f85",
   "source_commit": "0b73a25c1af2d6524fa21510b1becd6af8a3cfe9",
@@ -17,5 +17,7 @@
   "network_calibration_requests": 12,
   "previous_run_id": 40660958386,
   "previous_protocol_sha256": "bfbe023caa4c8d4a9769f5d0fdd9cb132662f3e8e7a328c57aa6f3f313ca104f",
-  "preparation_failures": "development-preparation-failures.json"
+  "preparation_failures": "development-preparation-failures.json",
+  "run_id": 40676427777,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40676427777"
 }
