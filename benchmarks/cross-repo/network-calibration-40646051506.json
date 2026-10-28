@@ -1,0 +1,52 @@
+{
+  "schema": "repropatch.cross-network-calibration.v1",
+  "request_cap": 12,
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "model_timeout_seconds": 180,
+  "route": "azure-ssh",
+  "usage": {
+    "requests": 12,
+    "issued_requests": 12,
+    "attempted_model_steps": 12,
+    "local_rejections": 0,
+    "repair_requests": 12,
+    "compact_requests": 0,
+    "retry_requests": 0,
+    "unknown_usage_requests": 0,
+    "input_tokens": 3756,
+    "output_tokens": 354,
+    "known_input_tokens": 3756,
+    "known_output_tokens": 354,
+    "cached_input_tokens": 0,
+    "reasoning_tokens": 270,
+    "peak_single_input_tokens": 313,
+    "peak_transport_bytes": 191,
+    "opaque_state_peak_bytes": 0,
+    "opaque_state_peak_fraction": 0.0,
+    "last_local_stop_reason": null,
+    "cost_cny": null,
+    "cost_basis": "用户提供的本机模型额度；供应商账单未知，单独记录用量"
+  },
+  "status": "PASSED",
+  "run_id": 40646051506,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40646051506",
+  "source_commit": "bd5a224c26997429161da8cd1f4d36a3e97105a3",
+  "report_sha256": "081e8ae385c0c10041efea18d1cc7cfd3baecaf36e7a486f65271620f32eb1fe",
+  "routes": {
+    "public": {
+      "requests": 6,
+      "passed": 6,
+      "median_first_byte_seconds": 1.1957092094999098,
+      "median_wall_seconds": 2.150642780499993,
+      "max_wall_seconds": 2.6305914429999575
+    },
+    "azure-ssh": {
+      "requests": 6,
+      "passed": 6,
+      "median_first_byte_seconds": 1.0491229089999479,
+      "median_wall_seconds": 2.3421318564999183,
+      "max_wall_seconds": 2.612000174000059
+    }
+  }
+}

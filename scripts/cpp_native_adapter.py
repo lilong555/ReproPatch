@@ -1,6 +1,5 @@
 """项目原生构建合同、受保护 CTest 分组和离线源码准备。"""
 
-import configparser
 import hashlib
 import re
 import shutil
@@ -43,7 +42,9 @@ OPTIONS = {
         "-DSLANG_ENABLE_CUDA=OFF",
         "-DSLANG_ENABLE_OPTIX=OFF",
         "-DSLANG_ENABLE_DXIL=OFF",
-        "-DSLANG_SLANG_LLVM_FLAVOR=DISABLE",
+        "-DSLANG_EXCLUDE_DAWN=ON",
+        "-DSLANG_SLANG_LLVM_FLAVOR=FETCH_BINARY",
+        "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/libslang-llvm.so",
     ],
     "nlohmann/json": [
         "-DJSON_BuildTests=ON",
@@ -71,6 +72,16 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
     repo = record["org"] + "/" + record["repo"]
     if repo not in OPTIONS:
         raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
+    if repo == "nlohmann/json" and cxx == "clang++-19" and cc == "clang-19":
+        # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
+        cxx, cc = "g++-11", "gcc-11"
+    compiler_options = []
+    if cxx.startswith("clang"):
+        if repo == "stephenberry/glaze":
+            # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
+            compiler_options = ["-DCMAKE_CXX_FLAGS=-stdlib=libc++"]
+        elif repo == "catchorg/Catch2":
+            compiler_options = ["-DCMAKE_CXX_FLAGS=-Wno-error=deprecated-literal-operator"]
     return {
         "repository": repo,
         "mode": MODES.get(repo, "ctest"),
@@ -88,6 +99,7 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
             f"-DCMAKE_C_COMPILER={cc}",
             f"-DCMAKE_CXX_FLAGS_RELEASE=-{optimization} -DNDEBUG",
             f"-DCMAKE_C_FLAGS_RELEASE=-{optimization} -DNDEBUG",
+            *compiler_options,
             *OPTIONS[repo],
         ],
         "memory_mib": 8192,
@@ -95,6 +107,32 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "build_jobs": 2,
         "pids_limit": 4096 if repo == "ninja-build/ninja" else 256,
     }
+
+
+def prepare_source_dependencies(record, source, pool, *, deadline):
+    """源码快照携带固定离线输入，原生测试的运行产物使用构建目录。"""
+    if record["org"] + "/" + record["repo"] != "simdjson/simdjson":
+        return []
+    from prepare_simdjson_task import adapt_environment, adapt_individual_ctest
+
+    dependencies = []
+    for name, repo, commit in (
+        ("simdjson-data", "simdjson/simdjson-data", "a5b13babe65c1bba7186b41b43d4cbdc20a5c470"),
+        ("cxxopts", "jarro2783/cxxopts", "794c975287355de48158d9a80ed502d26b20a472"),
+    ):
+        location = "dependencies/.cache/" + name
+        children = materialize(repo, commit, source / location, pool, deadline=deadline)
+        dependencies.append(
+            {
+                "path": location,
+                "url": "https://github.com/" + repo,
+                "commit": commit,
+                "dependencies": children,
+            }
+        )
+    adapt_environment(source)
+    adapt_individual_ctest(source)
+    return dependencies
 
 
 def make_contract(record, configuration):
@@ -157,9 +195,10 @@ def materialize(repo, commit, source, pool, *, deadline):
     parsed = urlsplit(repo if repo.startswith("https:") else "https://github.com/" + repo + ".git")
     if (
         parsed.scheme != "https"
-        or parsed.hostname != "github.com"
+        or parsed.netloc != "github.com"
         or parsed.query
         or parsed.username
+        or not re.fullmatch(r"/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?", parsed.path)
     ):
         raise ValueError("CPP_DEPENDENCY_ENDPOINT_REJECTED")
     if not re.fullmatch(r"[a-f0-9]{40}", commit):
@@ -182,10 +221,9 @@ def materialize(repo, commit, source, pool, *, deadline):
     dependencies = []
     modules = source / ".gitmodules"
     if modules.exists():
-        config = configparser.ConfigParser()
-        config.read(modules)
-        for section in config.sections():
-            path, url = config[section]["path"], config[section]["url"]
+        config = git_submodules(repository, modules, deadline=deadline)
+        for section in config.values():
+            path, url = section["path"], section["url"]
             if Path(path).is_absolute() or ".." in Path(path).parts:
                 raise ValueError("CPP_SUBMODULE_PATH_REJECTED")
             entry = (
@@ -201,6 +239,33 @@ def materialize(repo, commit, source, pool, *, deadline):
                 {"path": path, "url": url, "commit": entry[2], "dependencies": child}
             )
     return dependencies
+
+
+def git_submodules(repository, modules, *, deadline):
+    """由 Git 解析子模块配置，保持缩进、附加选项与 URL 的原始语义。"""
+    output = git(
+        repository,
+        "config",
+        "--no-includes",
+        "--file",
+        str(modules.resolve()),
+        "--null",
+        "--list",
+        deadline=deadline,
+    ).decode()
+    config = {}
+    for entry in output.split("\0"):
+        if not entry:
+            continue
+        key, value = entry.split("\n", 1)
+        section, field = key.rsplit(".", 1)
+        if section.startswith("submodule.") and field in {"path", "url"}:
+            if field in config.setdefault(section, {}):
+                raise ValueError("CPP_SUBMODULE_CONFIGURATION_DUPLICATED")
+            config[section][field] = value
+    if any(set(section) != {"path", "url"} for section in config.values()):
+        raise ValueError("CPP_SUBMODULE_CONFIGURATION_INCOMPLETE")
+    return config
 
 
 def wrapper(source, contract):

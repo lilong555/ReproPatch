@@ -135,6 +135,60 @@ def test_parser_rejects_process_and_filesystem_code():
         runner.review_parser("def parser(log):\n return open(log).read()\n")
 
 
+def test_git_submodule_options_keep_url_identity(tmp_path):
+    import time
+
+    from cpp_native_adapter import git_submodules
+
+    qualification.git(tmp_path, "init", "--template=", "-q", ".")
+    modules = tmp_path / ".gitmodules"
+    modules.write_text(
+        '[submodule "external/miniz"]\n'
+        "\tpath = external/miniz\n"
+        "\turl = https://github.com/richgel999/miniz\n"
+        "  ignore = untracked\n"
+        '[submodule "external/other"]\n'
+        "  path = external/other\n"
+        "\turl = https://github.com/example/other.git\n"
+    )
+    parsed = git_submodules(tmp_path, modules, deadline=time.monotonic() + 5)
+    assert parsed["submodule.external/miniz"] == {
+        "path": "external/miniz",
+        "url": "https://github.com/richgel999/miniz",
+    }
+    modules.write_text(modules.read_text() + "url = https://github.com/example/duplicate\n")
+    with pytest.raises(ValueError, match="CONFIGURATION_DUPLICATED"):
+        git_submodules(tmp_path, modules, deadline=time.monotonic() + 5)
+
+
+def test_slang_backend_uses_verified_archive_and_only_backend_library(tmp_path, monkeypatch):
+    import hashlib
+    import zipfile
+
+    import prepare_cpp_toolchain as toolchain
+
+    pool = tmp_path / "pool"
+    output = tmp_path / "tools"
+    pool.mkdir()
+    output.mkdir()
+    archive = pool / "slang-2026.5.2-linux-x86_64.zip"
+    with zipfile.ZipFile(archive, "w") as data:
+        data.writestr("lib/libslang-llvm.so", b"fixed-llvm-backend")
+        data.writestr("bin/slangc", b"upstream-compiler")
+    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+    monkeypatch.setattr(toolchain, "SLANG_LLVM_ARCHIVE_SHA256", digest)
+    identity = toolchain.prepare_slang_llvm(output, pool)
+    assert sorted(p.name for p in output.iterdir()) == ["libslang-llvm.so"]
+    assert identity["archive_sha256"] == digest
+    assert (
+        identity["files"]["libslang-llvm.so"]["sha256"]
+        == hashlib.sha256(b"fixed-llvm-backend").hexdigest()
+    )
+    archive.write_bytes(archive.read_bytes() + b"changed")
+    with pytest.raises(ValueError, match="SOURCE_SHA256_MISMATCH"):
+        toolchain.prepare_slang_llvm(output, pool)
+
+
 def test_jsoncpp_interleaved_stream_requires_explicit_case_result():
     code = (
         "def parser(log):\n import re\n return {m[1]: 'pass' if m[2] == 'OK' else 'fail' "

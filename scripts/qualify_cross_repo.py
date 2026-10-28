@@ -19,6 +19,7 @@ from cpp_native_adapter import (
     group_states,
     make_contract,
     materialize,
+    prepare_source_dependencies,
     recipe,
     source_manifest,
     wrapper,
@@ -287,6 +288,9 @@ def qualify(record, args):
             args.repository,
             deadline=executor.deadline,
         )
+        result["dependencies"].extend(
+            prepare_source_dependencies(record, source, args.repository, deadline=executor.deadline)
+        )
         git(source, "init", "--template=", "-q", ".", deadline=executor.deadline)
         git(source, "add", "-f", ".", deadline=executor.deadline)
         git(source, "commit", "-qm", "固定上游源码与离线依赖", deadline=executor.deadline)
@@ -497,6 +501,8 @@ def main():
         "scripts/cpp_sources.py",
         "scripts/qualify_cpp_batch.py",
         "scripts/prepare_multiswe_task.py",
+        "scripts/prepare_simdjson_task.py",
+        "scripts/prepare_fmt_task.py",
         "scripts/screen_multiswe.py",
         "src/repropatch/task.py",
     ):
