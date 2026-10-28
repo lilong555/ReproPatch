@@ -6,7 +6,14 @@ import json
 import tarfile
 from pathlib import Path
 
-from cross_repo_campaign import execution_fingerprint, execution_order, validate_protocol
+from cpp_sources import build_index, encoded, history_index
+from cross_repo_campaign import (
+    development_selection,
+    execution_fingerprint,
+    execution_order,
+    selection_review,
+    validate_protocol,
+)
 from qualify_cpp_batch import save, sha
 from verify_qualification_evidence import required_task_artifacts, verify_tree
 
@@ -25,6 +32,30 @@ def freeze(args):
         raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
     identities = {}
     selected = args.instances.split(",")
+    gate = None
+    history = history_index() if args.phase == "formal" else None
+    existing = [
+        "catchorg/Catch2",
+        "fmtlib/fmt",
+        "nlohmann/json",
+        "simdjson/simdjson",
+        "zeux/pugixml",
+        "leethomason/tinyxml2",
+    ]
+    if args.phase == "formal":
+        if not args.development_results or not args.development_run or not args.selection_review:
+            raise ValueError("CROSS_DEVELOPMENT_SELECTION_GATE_REQUIRED")
+        development = development_selection(
+            json.loads(args.development_results.read_text()), campaign["development_queue"]
+        )
+        development.update(
+            results_sha256=sha(args.development_results),
+            run_id=args.development_run,
+            artifact=f"cross-results-{args.development_run}",
+        )
+        review = json.loads(args.selection_review.read_text())
+        quota = selection_review(review, selected, development, existing)
+        gate = {"development": development, "review": review, **quota}
     for instance in selected:
         directory = args.qualification / instance
         q = json.loads((directory / "result.json").read_text())
@@ -37,6 +68,14 @@ def freeze(args):
         )
         if issues:
             raise ValueError("CROSS_QUALIFICATION_EVIDENCE_INCOMPLETE")
+        if gate:
+            record = json.loads((directory / "control/record.json").read_text())
+            exposure = build_index([record], history)["candidates"][0]
+            if exposure["historical_model_evidence"]:
+                raise ValueError("CROSS_FORMAL_HISTORICAL_EXPOSURE")
+            reviewed = gate["review"][instance]
+            if reviewed.get("record_sha256") != hashlib.sha256(encoded(record)).hexdigest():
+                raise ValueError("CROSS_FORMAL_REVIEW_RECORD_MISMATCH")
         identities[instance] = {
             "qualification_sha256": sha(directory / "result.json"),
             "task_sha256": sha(directory / "task.yaml"),
@@ -133,6 +172,21 @@ def freeze(args):
         "max_output_tokens": 8192,
         "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存",
     }
+    if gate:
+        value.update(
+            selection_gate=gate,
+            existing_repositories=existing,
+            repeat_tasks=(args.repeat_instances or "").split(","),
+        )
+    if args.phase == "repeat":
+        if not args.formal_protocol:
+            raise ValueError("CROSS_FORMAL_PROTOCOL_REQUIRED")
+        formal = json.loads(args.formal_protocol.read_text())
+        validate_protocol(formal)
+        if set(selected) != set(formal["repeat_tasks"]) or args.image_id != formal["image_id"]:
+            raise ValueError("CROSS_REPEAT_PREREGISTRATION_MISMATCH")
+        value["formal_protocol_sha256"] = sha(args.formal_protocol)
+        value["formal_repeat_tasks"] = formal["repeat_tasks"]
     validate_protocol(value)
     if args.output.exists():
         raise ValueError("CROSS_FROZEN_PROTOCOL_ALREADY_EXISTS")
@@ -154,6 +208,11 @@ def main():
     parser.add_argument("--ci-run", type=int, required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--development-results", type=Path)
+    parser.add_argument("--development-run", type=int)
+    parser.add_argument("--selection-review", type=Path)
+    parser.add_argument("--repeat-instances")
+    parser.add_argument("--formal-protocol", type=Path)
     value = freeze(parser.parse_args())
     print(
         json.dumps(

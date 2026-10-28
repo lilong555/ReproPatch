@@ -21,6 +21,77 @@ ROOT = Path(__file__).resolve().parents[1]
 ARMS = ["full", "no-checks", "shell-only", "mini", "codex"]
 
 
+def development_selection(results, expected_tasks):
+    """四道开发题的五组冷评分完整后，确定预登记的难度配额。"""
+    rows = results.get("attempts", [])
+    expected = {(task, arm) for task in expected_tasks for arm in ARMS}
+    pairs = [(row.get("instance_id"), row.get("arm")) for row in rows]
+    if (
+        len(expected_tasks) != 4
+        or len(rows) != 20
+        or set(pairs) != expected
+        or len(set(pairs)) != 20
+    ):
+        raise ValueError("CROSS_DEVELOPMENT_RESULTS_INCOMPLETE")
+    if any(
+        type(row.get("score", {}).get("accepted")) is not bool
+        or row.get("score", {}).get("classification") == "infrastructure"
+        for row in rows
+    ):
+        raise ValueError("CROSS_DEVELOPMENT_ORACLE_PENDING")
+    all_pass = all(row["score"]["accepted"] for row in rows)
+    return {
+        "tasks": list(expected_tasks),
+        "scored_attempts": 20,
+        "all_pass": all_pass,
+        "difficulty_counts": {"complex": 24, "medium": 4, "compile_control": 2}
+        if all_pass
+        else {"complex": 18, "medium": 8, "compile_control": 4},
+    }
+
+
+def selection_review(review, selected, development, existing_repositories):
+    """正式样本同时满足新仓库配额、缺陷语义、去重与难度分层。"""
+    if (
+        len(selected) != 30
+        or set(review) != set(selected)
+        or set(selected) & set(development["tasks"])
+    ):
+        raise ValueError("CROSS_FORMAL_SELECTION_REGISTRY_INVALID")
+    difficulties = {"complex": 0, "medium": 0, "compile_control": 0}
+    issue_keys, repositories = set(), {}
+    new_tasks = 0
+    for task in selected:
+        row = review[task]
+        repository = task.rsplit("-", 1)[0].replace("__", "/")
+        if (
+            row.get("repository") != repository
+            or row.get("semantic_kind") != "defect"
+            or row.get("historical_model_exposure") != "UNEXPOSED"
+            or not row.get("rationale", "").strip()
+            or not row.get("issue_key")
+            or row.get("difficulty") not in difficulties
+        ):
+            raise ValueError("CROSS_FORMAL_SEMANTIC_REVIEW_REQUIRED")
+        identity = (repository, row["issue_key"])
+        if identity in issue_keys:
+            raise ValueError("CROSS_FORMAL_SEMANTIC_DUPLICATE")
+        issue_keys.add(identity)
+        difficulties[row["difficulty"]] += 1
+        repositories[repository] = repositories.get(repository, 0) + 1
+        new_tasks += repository not in existing_repositories
+    if difficulties != development["difficulty_counts"] or new_tasks != 25:
+        raise ValueError("CROSS_FORMAL_SELECTION_QUOTA_MISMATCH")
+    if len(set(repositories) - set(existing_repositories)) < 5:
+        raise ValueError("CROSS_FORMAL_REPOSITORY_COVERAGE_REQUIRED")
+    return {
+        "difficulty_counts": difficulties,
+        "repository_counts": repositories,
+        "new_repository_tasks": new_tasks,
+        "existing_repository_new_tasks": 30 - new_tasks,
+    }
+
+
 def execution_fingerprint():
     """执行代码、固定依赖与工作流共同构成冻结身份。"""
     paths = [
@@ -91,6 +162,18 @@ def validate_protocol(p):
         raise ValueError("CROSS_EXECUTION_SOURCE_CHANGED")
     if not p.get("network_calibration", {}).get("sha256"):
         raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
+    if p["phase"] == "formal":
+        gate = p.get("selection_gate", {})
+        development = gate.get("development", {})
+        if development.get("scored_attempts") != 20 or not development.get("results_sha256"):
+            raise ValueError("CROSS_DEVELOPMENT_SELECTION_GATE_REQUIRED")
+        selection_review(gate.get("review", {}), ids, development, p["existing_repositories"])
+        if len(set(p.get("repeat_tasks", []))) != 6 or not set(p["repeat_tasks"]) <= set(ids):
+            raise ValueError("CROSS_REPEAT_PREREGISTRATION_REQUIRED")
+    if p["phase"] == "repeat" and (
+        not p.get("formal_protocol_sha256") or set(p.get("formal_repeat_tasks", [])) != set(ids)
+    ):
+        raise ValueError("CROSS_REPEAT_PREREGISTRATION_MISMATCH")
 
 
 def execution_order(tasks, *, seed=20261028, replicate="first", batch="cross-repository-20261028"):
