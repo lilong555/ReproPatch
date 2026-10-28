@@ -7,6 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from cross_repo_inputs import extract_verified
+from check_native_cpp_candidate import restore_repository
 from qualify_cpp_batch import save, sha
 from score_benchmark_attempt import score
 
@@ -68,6 +69,9 @@ def rescore(args):
             destination / "cross-evidence.tar.gz", output / "qualification", archive["sha256"]
         )
         qualification = output / "qualification" / args.instance / "result.json"
+    source = qualification.parent / "repository"
+    if not source.exists():
+        restore_repository(qualification.parent, json.loads(qualification.read_text()), source)
     subprocess.run(["docker", "pull", protocol["image"]], check=True)
     identity = subprocess.check_output(
         [
@@ -131,6 +135,7 @@ def rescore(args):
         ),
         flush=True,
     )
+    return verdict
 
 
 def main():
@@ -142,7 +147,8 @@ def main():
     parser.add_argument("--source-run", type=int, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--summary", type=Path, required=True)
-    rescore(parser.parse_args())
+    verdict = rescore(parser.parse_args())
+    raise SystemExit(0 if type(verdict.get("accepted")) is bool else 1)
 
 
 if __name__ == "__main__":

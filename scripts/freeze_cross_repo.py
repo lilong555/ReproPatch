@@ -175,6 +175,7 @@ def freeze(args):
         "tasks": selected,
         "attempts": attempts,
         "prior_attempts": prior_attempts,
+        "prior_rescore_run_id": args.prior_rescore_run,
         "preparation_failures": preparation_failures,
         "formal_request_cap": len(attempts) * 24,
         "qualification_contracts": identities,
@@ -246,6 +247,7 @@ def main():
     parser.add_argument("--preparation-failures", type=Path)
     parser.add_argument("--prior-attempts", type=Path)
     parser.add_argument("--max-parallel", type=int, choices=(2, 3))
+    parser.add_argument("--prior-rescore-run", type=int)
     value = freeze(parser.parse_args())
     print(
         json.dumps(

@@ -472,6 +472,23 @@ jobs:
         with:
           pattern: cross-summary-${{ github.run_id }}-*
           path: .repropatch/cross-summaries
+      - name: 合并已有候选的独立冷评分
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONFIG: ${{ inputs.protocol }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          p = json.loads(Path(os.environ['CONFIG']).read_text())
+          previous = p.get('prior_attempts', [])
+          if previous:
+              run = p['prior_rescore_run_id']
+              assert type(run) is int
+              for row in previous:
+                  name = f"cross-rescore-{run}-{row['instance_id']}-{row['arm']}"
+                  subprocess.run(['gh', 'run', 'download', str(run), '--repo', os.environ['GITHUB_REPOSITORY'], '--name', name, '--dir', '.repropatch/cross-summaries/' + name], check=True)
+          PY
       - run: >-
           python scripts/formal_benchmark.py aggregate --protocol '${{ inputs.protocol }}'
           --source .repropatch/cross-summaries --output .repropatch/cross-results
