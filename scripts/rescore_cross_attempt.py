@@ -6,8 +6,8 @@ import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 
-from cross_repo_inputs import extract_verified
 from check_native_cpp_candidate import restore_repository
+from cross_repo_inputs import extract_verified
 from qualify_cpp_batch import save, sha
 from score_benchmark_attempt import score
 
