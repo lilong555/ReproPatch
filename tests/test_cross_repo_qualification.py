@@ -136,6 +136,31 @@ def test_parser_rejects_process_and_filesystem_code():
         runner.review_parser("def parser(log):\n return open(log).read()\n")
 
 
+def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
+    source = tmp_path / "source"
+    build = tmp_path / "build"
+    source.mkdir()
+    (build / "test").mkdir(parents=True)
+    executable = build / "test/unittest"
+    executable.write_text(
+        "#!/usr/bin/env python3\nimport os, sys\nfrom pathlib import Path\n"
+        'directory = Path(os.environ["TEMP_DIR_BASE"])\n'
+        "directory.mkdir(parents=True)\n"
+        '(directory / "runtime.txt").write_text("generated")\n'
+        'Path(sys.argv[sys.argv.index("--out") + 1]).write_text('
+        "'<testsuites><testsuite><testcase name=\"control\"/></testsuite></testsuites>')\n"
+    )
+    executable.chmod(0o755)
+    contract = {
+        "mode": "duckdb",
+        "parser": "def parser(log):\n import xml.etree.ElementTree as ET\n"
+        " return {case.attrib['name']: 'pass' for case in ET.fromstring(log).iter('testcase')}\n",
+    }
+    assert runner.native_suite(contract, source, build) == {"control": "pass"}
+    assert (build / "duckdb_unittest_tempdir/runtime.txt").read_text() == "generated"
+    assert list(source.iterdir()) == []
+
+
 def test_git_submodule_options_keep_url_identity(tmp_path):
     import time
 

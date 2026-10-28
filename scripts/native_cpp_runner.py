@@ -369,7 +369,7 @@ def native_suite(contract, source, build, selected=None):
         environment = {
             **os.environ,
             "DUCKDB_INSTALL_LIB": str(build / "src/libduckdb.so"),
-            "DUCKDB_TEST_DIRECTORY": str(build / "duckdb_unittest_tempdir"),
+            "TEMP_DIR_BASE": str(build / "duckdb_unittest_tempdir"),
         }
         _, _ = execute(command, source, reports / "duckdb.log", env=environment)
         if not xml.exists():

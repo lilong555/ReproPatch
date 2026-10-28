@@ -48,7 +48,15 @@ class NativeExecutor(Executor):
         try:
             result = super().suite(source, phase, required, selected)
             xml = self.directory / (phase + "-results.xml")
-            if xml.exists() and "REPROPATCH_NATIVE_NOT_EXECUTED" in xml.read_text():
+            if xml.exists() and any(
+                marker in xml.read_text()
+                for marker in (
+                    "REPROPATCH_NATIVE_NOT_EXECUTED",
+                    "NATIVE_PROCESS_INFRASTRUCTURE_ERROR",
+                    "NATIVE_JUNIT_MISSING",
+                    "NATIVE_CTEST_NOT_EXECUTED",
+                )
+            ):
                 result["status"] = "TEST_INFRASTRUCTURE_FAILED"
             return result
         finally:
