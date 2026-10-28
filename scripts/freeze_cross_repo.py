@@ -1,0 +1,148 @@
+"""从完整 Docker 资格证据生成独立阶段协议与预登记执行顺序。"""
+
+import argparse
+import json
+import tarfile
+from pathlib import Path
+
+from cross_repo_campaign import execution_fingerprint, execution_order, validate_protocol
+from qualify_cpp_batch import save, sha
+from verify_qualification_evidence import required_task_artifacts, verify_tree
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def freeze(args):
+    campaign = json.loads((ROOT / "benchmarks/cross-repo/campaign.json").read_text())
+    identities = {}
+    selected = args.instances.split(",")
+    for instance in selected:
+        directory = args.qualification / instance
+        q = json.loads((directory / "result.json").read_text())
+        if q["status"] != "QUALIFIED" or q["backend"] != "docker" or q["image_id"] != args.image_id:
+            raise ValueError("CROSS_QUALIFICATION_IMAGE_MISMATCH")
+        issues = verify_tree(
+            directory,
+            json.loads((directory / "manifest.json").read_text()),
+            required_task_artifacts(q),
+        )
+        if issues:
+            raise ValueError("CROSS_QUALIFICATION_EVIDENCE_INCOMPLETE")
+        identities[instance] = {
+            "qualification_sha256": sha(directory / "result.json"),
+            "task_sha256": sha(directory / "task.yaml"),
+            "manifest_sha256": sha(directory / "manifest.json"),
+            "bundle_sha256": sha(directory / "prepared.bundle"),
+            "prepared_commit": q["prepared_commit"],
+            "dataset_revision": q["dataset_revision"],
+            "native_tests": q["native_test_count"],
+        }
+    batch = campaign["batch_id"] + "-" + args.phase
+    attempts = execution_order(
+        selected, batch=batch, replicate="repeat" if args.phase == "repeat" else "first"
+    )
+    pinned = json.loads((ROOT / "benchmarks/context-formal-protocol.json").read_text())
+    archives = []
+    for path in args.archives.rglob("cross-evidence.tar.gz"):
+        with tarfile.open(path) as data:
+            instances = [
+                json.load(data.extractfile(name))["instance_id"]
+                for name in data.getnames()
+                if name.endswith("/result.json")
+            ]
+        if not set(instances) & set(selected):
+            continue
+        artifact = path.parent.name
+        run = int(artifact.removeprefix("cross-evidence-").split("-", 1)[0])
+        if run not in args.qualification_run:
+            raise ValueError("CROSS_QUALIFICATION_RUN_MISMATCH")
+        archives.append(
+            {"run_id": run, "artifact": artifact, "sha256": sha(path), "instances": instances}
+        )
+    if set(selected) - {i for a in archives for i in a["instances"]}:
+        raise ValueError("CROSS_QUALIFICATION_ARCHIVE_MISSING")
+    value = {
+        **{
+            key: campaign[key]
+            for key in (
+                "model",
+                "reasoning_effort",
+                "model_timeout_seconds",
+                "request_cap_per_attempt",
+                "max_tool_calls",
+                "max_tools_per_response",
+                "max_parallel",
+                "arms",
+                "context_policy",
+            )
+        },
+        **{
+            key: pinned[key]
+            for key in (
+                "mini_commit",
+                "codex_binary",
+                "codex_version",
+                "codex_sha256",
+                "codex_tarball",
+                "codex_tarball_integrity",
+                "code_host_sha256",
+            )
+        },
+        "campaign_schema": campaign["schema"],
+        "batch_id": batch,
+        "phase": args.phase,
+        "tasks": selected,
+        "attempts": attempts,
+        "formal_request_cap": len(attempts) * 24,
+        "qualification_contracts": identities,
+        "image": args.image,
+        "image_id": args.image_id,
+        "qualification_run_ids": args.qualification_run,
+        "qualification_archives": archives,
+        "ci_run_id": args.ci_run,
+        "execution_source_commit": args.source_commit,
+        "execution_sha256": execution_fingerprint(),
+        "paid_calls_authorized": True,
+        "cpa_route": "azure-ssh",
+        "retries": 0,
+        "oracle_timeout_seconds": 3600,
+        "matrix_per_arm": True,
+        "execution_order": attempts,
+        "selection_seed": 20261028,
+        "max_output_tokens": 8192,
+        "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存",
+    }
+    validate_protocol(value)
+    if args.output.exists():
+        raise ValueError("CROSS_FROZEN_PROTOCOL_ALREADY_EXISTS")
+    save(args.output, value)
+    return value
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--phase", choices=("development", "formal", "repeat"), required=True)
+    parser.add_argument("--instances", required=True)
+    parser.add_argument("--qualification", type=Path, required=True)
+    parser.add_argument("--archives", type=Path, required=True)
+    parser.add_argument("--qualification-run", type=int, action="append", required=True)
+    parser.add_argument("--image", required=True)
+    parser.add_argument("--image-id", required=True)
+    parser.add_argument("--ci-run", type=int, required=True)
+    parser.add_argument("--source-commit", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    value = freeze(parser.parse_args())
+    print(
+        json.dumps(
+            {
+                "phase": value["phase"],
+                "tasks": len(value["tasks"]),
+                "attempts": len(value["attempts"]),
+                "request_cap": value["formal_request_cap"],
+            }
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

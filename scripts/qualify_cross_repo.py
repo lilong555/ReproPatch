@@ -37,6 +37,7 @@ class NativeExecutor(Executor):
         super().__init__(backend, image, directory, deadline, 2)
         self.configuration = configuration
         self.memory_mib = configuration["memory_mib"]
+        self.pids_limit = configuration.get("pids_limit", 256)
         self.configure = [*configuration["configure"], "-DREPROPATCH_NATIVE_WRAPPER=ON"]
         self.phase_timeout = 1800
 
@@ -175,7 +176,7 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
             "cpu_limit": 2.0,
             "memory_mib": configuration["memory_mib"],
             "build_tmpfs_mib": configuration["build_tmpfs_mib"],
-            "pids_limit": 256,
+            "pids_limit": configuration.get("pids_limit", 256),
         },
         "bug": {
             "description": description
@@ -490,6 +491,7 @@ def main():
         "scripts/qualify_cross_repo.py",
         "scripts/cpp_native_adapter.py",
         "scripts/native_cpp_runner.py",
+        "scripts/native_cpp_runtime.cmake",
         "scripts/cpp_sources.py",
         "scripts/qualify_cpp_batch.py",
         "scripts/prepare_multiswe_task.py",

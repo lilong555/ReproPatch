@@ -1,0 +1,55 @@
+{
+  "schema": "repropatch.cross-repository-qualification.v1",
+  "run_id": 40641060241,
+  "source_commit": "8c83bd58ccdcea3158668cf29bb7e801b722bbcd",
+  "model_requests": 0,
+  "tasks": [
+    {
+      "instance_id": "ninja-build__ninja-2749",
+      "status": "BASELINE_TEST_INFRASTRUCTURE_FAILED",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "TEST_INFRASTRUCTURE_FAILED",
+          "tests": {
+            "native-f2p-001": "failed",
+            "native-f2p-002": "failed",
+            "native-p2p": "failed"
+          }
+        }
+      },
+      "archive_sha256": "bdef8e106396fb793143c89be2194f06fb7f4374955224fb0981abddcf34ca08",
+      "artifact": "cross-evidence-40641060241-ninja-build__ninja-2749"
+    },
+    {
+      "instance_id": "open-source-parsers__jsoncpp-1696",
+      "status": "BASELINE_TEST_INFRASTRUCTURE_FAILED",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "TEST_INFRASTRUCTURE_FAILED",
+          "tests": {
+            "native-f2p-001": "failed",
+            "native-p2p": "failed"
+          }
+        }
+      },
+      "archive_sha256": "eb6b124e0d5eff6f0c7fea04a9ea90b5deb24895eedf543e7ce54f576babf70c",
+      "artifact": "cross-evidence-40641060241-open-source-parsers__jsoncpp-1696"
+    },
+    {
+      "instance_id": "stephenberry__glaze-2611",
+      "status": "BASELINE_CONFIGURE_FAILED",
+      "model_requests": 0,
+      "phases": {
+        "baseline": {
+          "status": "CONFIGURE_FAILED",
+          "tests": {}
+        }
+      },
+      "archive_sha256": "ac74142a20e82084475750bfedafa56d33160f69e68fabe89278dae1aa7d5708",
+      "artifact": "cross-evidence-40641060241-stephenberry__glaze-2611"
+    }
+  ],
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40641060241"
+}

@@ -5,6 +5,7 @@ import ast
 import json
 import os
 import re
+import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -275,19 +276,37 @@ def native_suite(contract, source, build, selected=None):
         _, log = execute(command, build, reports / "jsoncpp.log")
         return jsoncpp_results(contract["parser"], log)
     if mode == "jsoncpp":
-        _, log = execute(
-            [
-                "ctest",
-                "--test-dir",
-                str(build),
-                "--verbose",
-                "--output-on-failure",
-                "--no-tests=error",
-            ],
-            build,
-            reports / "jsoncpp.log",
+        inventory = subprocess.run(
+            ["ctest", "--test-dir", str(build), "--show-only=json-v1"],
+            capture_output=True,
+            text=True,
+            check=True,
         )
-        return jsoncpp_results(contract["parser"], log)
+        tests = json.loads(inventory.stdout)["tests"]
+        fixtures = build / "repropatch-fixtures/test"
+        shutil.copytree(source / "test", fixtures, dirs_exist_ok=True)
+        output, commands = [], []
+        for index, test in enumerate(tests, 1):
+            command = []
+            for argument in test["command"]:
+                path = Path(argument)
+                if (
+                    path.is_absolute()
+                    and path.resolve().is_relative_to((source / "test").resolve())
+                    and path.is_dir()
+                ):
+                    argument = str(
+                        fixtures / path.resolve().relative_to((source / "test").resolve())
+                    )
+                command.append(argument)
+            code, log = execute(command, fixtures, reports / f"jsoncpp-{index}.log")
+            output.append(f"Start {index}: {test['name']}\n")
+            output.extend(f"{index}: {line}\n" for line in log.splitlines())
+            status = "Passed" if code == 0 else "Failed"
+            output.append(f"{index}/{len(tests)} Test #{index}: {test['name']} ... {status}\n")
+            commands.append({"original": test["command"], "executed": command, "exit_code": code})
+        (reports / "jsoncpp-commands.json").write_text(json.dumps(commands, indent=2) + "\n")
+        return jsoncpp_results(contract["parser"], "".join(output))
     if mode == "ninja":
         report = reports / "gtest.json"
         command = [str(build / "ninja_test"), "--gtest_output=json:" + str(report)]

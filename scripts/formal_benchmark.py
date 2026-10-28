@@ -787,7 +787,17 @@ def main():
     elif args.stage == "prepare":
         prepare(args.instance, args.output, args.arm)
     elif args.stage == "run":
-        execute(args.instance, args.output, args.arm)
+        p = protocol()
+        if p.get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+            from cpa_session import CPASession
+
+            if not args.attempt_id:
+                raise ValueError("CROSS_EXPLICIT_ATTEMPT_ID_REQUIRED")
+            with CPASession(args.output / "cpa-session") as session:
+                session.claim(args.attempt_id, p["phase"])
+                execute(args.instance, args.output, args.arm)
+        else:
+            execute(args.instance, args.output, args.arm)
     else:
         aggregate(args.source, args.output)
 

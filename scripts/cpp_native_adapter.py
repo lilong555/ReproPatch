@@ -25,6 +25,8 @@ OPTIONS = {
         "-Dglaze_ENABLE_SANITIZERS=OFF",
         "-Dglaze_USE_BUNDLED_ASIO=OFF",
         "-DFETCHCONTENT_SOURCE_DIR_UT=/opt/cpp-deps/ut",
+        "-DFETCHCONTENT_SOURCE_DIR_YAML_TEST_SUITE=/opt/cpp-deps/yaml-test-suite",
+        "-DCMAKE_PROJECT_INCLUDE=/src/repropatch-native/runtime.cmake",
     ],
     "luau-lang/luau": ["-DLUAU_BUILD_TESTS=ON", "-DLUAU_BUILD_CLI=ON"],
     "duckdb/duckdb": [
@@ -91,6 +93,7 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "memory_mib": 8192,
         "build_tmpfs_mib": 4096,
         "build_jobs": 2,
+        "pids_limit": 4096 if repo == "ninja-build/ninja" else 256,
     }
 
 
@@ -205,6 +208,7 @@ def wrapper(source, contract):
     protected = source / "repropatch-native"
     protected.mkdir(exist_ok=True)
     shutil.copyfile(ROOT / "scripts/native_cpp_runner.py", protected / "runner.py")
+    shutil.copyfile(ROOT / "scripts/native_cpp_runtime.cmake", protected / "runtime.cmake")
     save(protected / "contract.json", contract)
     cmake = source / "CMakeLists.txt"
     original = cmake.read_text()
@@ -225,7 +229,12 @@ def wrapper(source, contract):
         if arg not in {"-S", "/src", "-B", "/build"}
     ]
     formatted = "\n".join(
-        '  "' + arg.replace("\\", "\\\\").replace('"', '\\"') + '"' for arg in arguments
+        '  "'
+        + arg.replace("/src/", "${CMAKE_CURRENT_SOURCE_DIR}/")
+        .replace("\\", "\\\\")
+        .replace('"', '\\"')
+        + '"'
+        for arg in arguments
     )
     lines = [
         "enable_testing()",

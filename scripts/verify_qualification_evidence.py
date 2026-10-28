@@ -142,7 +142,12 @@ def audit(
         summary = batch / "batch-summary.json"
         batch_record["summary_status"] = "PRESENT" if summary.is_file() else "MISSING"
         summary_states = (
-            {r["instance_id"]: r["status"] for r in json.loads(summary.read_text())["results"]}
+            {
+                r["instance_id"]: r["status"]
+                for r in json.loads(summary.read_text()).get(
+                    "results", json.loads(summary.read_text()).get("tasks", [])
+                )
+            }
             if summary.exists()
             else {}
         )

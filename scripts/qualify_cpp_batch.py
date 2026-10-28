@@ -174,6 +174,7 @@ class Executor:
     def __init__(self, backend, image, directory, deadline, build_jobs, optimization="O3"):
         self.backend, self.image, self.directory = backend, image, directory
         self.memory_mib = 4096
+        self.pids_limit = 256
         self.deadline, self.build_jobs = deadline, build_jobs
         self.configure = [*CONFIGURE, f"-DCMAKE_CXX_FLAGS_RELEASE=-{optimization} -DNDEBUG"]
         # Use executable local scratch; copy diagnostics to evidence.
@@ -221,7 +222,7 @@ class Executor:
                 f"--cpus={self.build_jobs}",
                 f"--memory={self.memory_mib}m",
                 f"--memory-swap={self.memory_mib}m",
-                "--pids-limit=256",
+                f"--pids-limit={self.pids_limit}",
                 "--ulimit=core=0:0",
                 "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
                 "--mount",

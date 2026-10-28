@@ -22,7 +22,21 @@ TTL = 1200
 def watched_reload(expected):
     """核验绑定文件和 CPA 文件监听器的配置加载事件。"""
     started = datetime.now(UTC).isoformat()
-    return {"expected_retry": expected, "watch_started_at": started}
+    log = Path(
+        subprocess.check_output(
+            ["docker", "inspect", "--format", "{{.LogPath}}", "cli-proxy-api"],
+            text=True,
+            timeout=10,
+        ).strip()
+    )
+    if not log.is_absolute() or not log.is_file():
+        raise RuntimeError("CPA_CONFIG_LOG_IDENTITY_MISSING")
+    return {
+        "expected_retry": expected,
+        "watch_started_at": started,
+        "log_path": str(log),
+        "log_offset": log.stat().st_size,
+    }
 
 
 def confirm_reload(probe):
@@ -30,20 +44,9 @@ def confirm_reload(probe):
     if probe is None:
         return None
     for _ in range(20):
-        result = subprocess.run(
-            [
-                "docker",
-                "logs",
-                "--since",
-                probe["watch_started_at"],
-                "--tail",
-                "300",
-                "cli-proxy-api",
-            ],
-            capture_output=True,
-            timeout=10,
-        )
-        lines = (result.stdout + result.stderr).decode(errors="replace").lower()
+        with Path(probe["log_path"]).open("rb") as stream:
+            stream.seek(probe["log_offset"])
+            lines = stream.read(512 * 1024).decode(errors="replace").lower()
         markers = (
             "server config updated",
             "config file changed",

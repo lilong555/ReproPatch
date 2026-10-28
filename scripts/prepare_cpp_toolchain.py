@@ -11,6 +11,7 @@ DEPENDENCIES = {
     "ut": ("openalgz/ut", "a69c7866d6e1af01d14aab81cf790b9b210cabe2"),
     "json-test-data": ("nlohmann/json_test_data", "a015e5be2d5dfffcf98d00d9df39c9285efc7887"),
     "simdjson-data": ("simdjson/simdjson-data", "a5b13babe65c1bba7186b41b43d4cbdc20a5c470"),
+    "yaml-test-suite": ("yaml/yaml-test-suite", "6ad3d2c62885d82fc349026c136ef560838fdf3d"),
 }
 
 

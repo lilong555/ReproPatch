@@ -8,18 +8,23 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify']
+        options: ['legacy', 'qualify', 'development', 'formal', 'repeat']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'
         required: false
         type: string
         default: 'open-source-parsers__jsoncpp-1696,ninja-build__ninja-2749,stephenberry__glaze-2611'
+      cross_protocol:
+        description: '跨仓库冻结阶段协议文件'
+        required: false
+        type: string
+        default: 'benchmarks/cross-repo/development-protocol.json'
       authorization:
         description: '12：上下文校准；480：四题五组 Pilot；2520：21题五组；其余为历史协议'
         required: true
         type: choice
-        options: ['12', '480', '2520', '912', '504', '2016']
+        options: ['12', '480', '3600', '720', '2520', '912', '504', '2016']
         default: '12'
       inline_calibration:
         description: '全量批次内先执行上下文校准，通过后自动启动105次修复'
@@ -56,7 +61,7 @@ env:
 
 jobs:
   cross-repository:
-    if: inputs.cross_stage == 'qualify'
+    if: inputs.cross_stage != 'legacy' && inputs.cross_stage != ''
     uses: ./.github/workflows/cross-repository.yml
     permissions:
       contents: read
@@ -65,9 +70,10 @@ jobs:
     with:
       stage: ${{ inputs.cross_stage }}
       instances: ${{ inputs.cross_instances }}
+      protocol: ${{ inputs.cross_protocol }}
     secrets: inherit
   calibration:
-    if: inputs.cross_stage != 'qualify'
+    if: inputs.cross_stage == 'legacy' || inputs.cross_stage == ''
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     outputs:
@@ -352,7 +358,7 @@ jobs:
 
   aggregate:
     needs: [calibration, attempts, interrupted-oracle]
-    if: always() && inputs.cross_stage != 'qualify' && inputs.authorization != '12'
+    if: always() && (inputs.cross_stage == 'legacy' || inputs.cross_stage == '') && inputs.authorization != '12'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

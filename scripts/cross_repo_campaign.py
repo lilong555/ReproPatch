@@ -1,5 +1,6 @@
 """冻结跨仓库执行协议，恢复资格源码并生成五组统一初始诊断。"""
 
+import hashlib
 import json
 import os
 import random
@@ -18,6 +19,31 @@ from repropatch.task import IMAGE_ID, Task
 
 ROOT = Path(__file__).resolve().parents[1]
 ARMS = ["full", "no-checks", "shell-only", "mini", "codex"]
+
+
+def execution_fingerprint():
+    """执行代码、固定依赖与工作流共同构成冻结身份。"""
+    paths = [
+        *ROOT.glob("src/repropatch/*.py"),
+        *ROOT.glob("scripts/*.py"),
+        ROOT / "scripts/native_cpp_runtime.cmake",
+    ]
+    paths += [
+        ROOT / name
+        for name in (
+            "requirements/agent.txt",
+            "requirements/formal-mini.txt",
+            ".github/workflows/cross-repository.yml",
+            ".github/workflows/formal-benchmark.yml",
+            "docker/cross-repository.Dockerfile",
+        )
+    ]
+    digest = hashlib.sha256()
+    for path in sorted(paths):
+        digest.update(
+            path.relative_to(ROOT).as_posix().encode() + b"\0" + path.read_bytes() + b"\0"
+        )
+    return digest.hexdigest()
 
 
 def validate_protocol(p):
@@ -55,6 +81,8 @@ def validate_protocol(p):
     ContextPolicy.from_dict(p["context_policy"])
     if set(p["qualification_contracts"]) != set(ids):
         raise ValueError("CROSS_QUALIFICATION_REGISTRY_INCOMPLETE")
+    if p.get("execution_sha256") != execution_fingerprint():
+        raise ValueError("CROSS_EXECUTION_SOURCE_CHANGED")
 
 
 def execution_order(tasks, *, seed=20261028, replicate="first", batch="cross-repository-20261028"):
