@@ -174,13 +174,17 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     source = tmp_path / "source"
     build = tmp_path / "build"
     source.mkdir()
+    (source / "test").mkdir()
+    (source / "test/input.txt").write_text("固定原生输入")
     (build / "test").mkdir(parents=True)
     executable = build / "test/unittest"
     executable.write_text(
         "#!/usr/bin/env python3\nimport os, sys\nfrom pathlib import Path\n"
-        'directory = Path(os.environ["TEMP_DIR_BASE"])\n'
+        'directory = Path("duckdb_unittest_tempdir")\n'
         "directory.mkdir(parents=True)\n"
         '(directory / "runtime.txt").write_text("generated")\n'
+        'assert Path("test/input.txt").read_text() == "固定原生输入"\n'
+        'Path("test/generated.txt").write_text("generated")\n'
         'Path(sys.argv[sys.argv.index("--out") + 1]).write_text('
         "'<testsuites><testsuite><testcase name=\"control\"/></testsuite></testsuites>')\n"
     )
@@ -191,8 +195,11 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
         " return {case.attrib['name']: 'pass' for case in ET.fromstring(log).iter('testcase')}\n",
     }
     assert runner.native_suite(contract, source, build) == {"control": "pass"}
-    assert (build / "duckdb_unittest_tempdir/runtime.txt").read_text() == "generated"
-    assert list(source.iterdir()) == []
+    assert (
+        build / "repropatch-fixtures/duckdb/duckdb_unittest_tempdir/runtime.txt"
+    ).read_text() == "generated"
+    assert (build / "repropatch-fixtures/duckdb/test/generated.txt").exists()
+    assert not (source / "test/generated.txt").exists()
 
 
 @pytest.mark.integration

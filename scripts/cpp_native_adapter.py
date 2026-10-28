@@ -50,6 +50,7 @@ OPTIONS = {
         "-DSLANG_EXCLUDE_DAWN=ON",
         "-DSLANG_SLANG_LLVM_FLAVOR=FETCH_BINARY",
         "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/libslang-llvm.so",
+        "-DFETCHCONTENT_SOURCE_DIR_VULKAN_HEADERS=/src/external/repropatch-vulkan-headers",
     ],
     "nlohmann/json": [
         "-DJSON_BuildTests=ON",
@@ -126,6 +127,20 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
 
         adapt(source)
         return []
+    if repository == "shader-slang/slang":
+        # Vulkan 原生头文件固定到官方 v1.4.318，离线配置直接使用源码副本。
+        location = "external/repropatch-vulkan-headers"
+        commit = "b39ab380a44b6c8df462c34e976ea9ce2d2c336b"
+        repo = "KhronosGroup/Vulkan-Headers"
+        children = materialize(repo, commit, source / location, pool, deadline=deadline)
+        return [
+            {
+                "path": location,
+                "url": "https://github.com/" + repo,
+                "commit": commit,
+                "dependencies": children,
+            }
+        ]
     if repository != "simdjson/simdjson":
         return []
     from prepare_simdjson_task import adapt_environment, adapt_individual_ctest

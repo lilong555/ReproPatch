@@ -15,7 +15,7 @@ gh workflow run formal-benchmark.yml \
   -f cross_instances=open-source-parsers__jsoncpp-1696,ninja-build__ninja-2749,stephenberry__glaze-2611
 ```
 
-并发上限为两个 Job。每个原生冷阶段时限为三十分钟，任务资格时限为九十分钟。Actions 保存失败、取消、源码身份、日志、用例结果和归档 SHA，并下载上传后的证据核验内容。
+零模型资格准备并发上限为八个 Job，CPA 模型请求并发上限为三。每个原生冷阶段时限为三十分钟，任务资格时限为九十分钟。Actions 保存失败、取消、源码身份、日志、用例结果和归档 SHA，并下载上传后的证据核验内容。
 
 Azure SSH 路由使用独立本地端口和固定转发目标。请求时间线记录客户端请求身份及首末字节时间，CPA 重试租约在失联二十分钟后恢复共享配置。
 
@@ -50,3 +50,29 @@ JSON 与 Catch2 的构建沿用 GCC 11；Catch2 的审批报告采用源码相�
 [开发 v3 协议](development-protocol-v3.json)在[续跑批次](https://github.com/lilong555/ReproPatch/actions/runs/40683926397)执行十八项尝试，保留 json-3514 的 mini 与关闭自检两项模型结果，共 45 次已发送请求。[独立冷评分](https://github.com/lilong555/ReproPatch/actions/runs/40683207108)复用这两项冻结候选。CPA 请求并发上限为三，零模型冷评分并发上限为八。执行源码通过[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40683082554)，四题的文本权限解析与源码字节导出检查全部通过。可读范围包含 UTF-8 源码、测试代码和配置，二进制输入与 simdjson 离线语料完整保留在原生测试目录。
 
 [已完成的开发冷评分](development-scores-40683207108.json)中，json-3514 的 mini 与关闭自检组均通过完整原生 Oracle。模型修复分别使用 23 次和 22 次请求，独立评分新增模型请求为零。其余十八项由续跑批次执行并统一汇总。
+
+## 三十题正式准备
+
+[准备清单](formal-preparation.json)登记三十道任务，覆盖八个仓库，其中二十五道来自六个新仓库，五道来自已有仓库的新缺陷。[逐题审查](formal-selection-review.json)记录 Issue、生产 C++ 修复、难度依据、固定数据身份和历史曝光状态。源码与环境准备同开发实验并行执行。
+
+| 仓库 | 正式准备题数 |
+| --- | ---: |
+| DuckDB | 13 |
+| Slang | 7 |
+| Glaze | 1 |
+| jsoncpp | 1 |
+| Poco | 2 |
+| Luau | 1 |
+| nlohmann/json | 3 |
+| Catch2 | 2 |
+
+Catch2-2128 复用相同镜像下已完成的三十四项原生冷验收，登记小写任务标签，保存原始结果和归档身份。其余任务执行一次基线与一次参考修复冷验收；JSON 保留单头文件 F2P 检查。DuckDB 在构建目录的可写输入副本中运行原生测试；Slang 使用固定到官方 v1.4.318 的 Vulkan 头文件。
+
+```bash
+instances=$(python -c 'import json; print(",".join(json.load(open("benchmarks/cross-repo/formal-preparation.json"))["instances"]))')
+image=$(python -c 'import json; print(json.load(open("benchmarks/cross-repo/formal-preparation.json"))["image"])')
+gh workflow run formal-benchmark.yml \
+  --ref feat/cross-repository-benchmark \
+  -f authorization=12 -f cross_stage=qualify \
+  -f cross_instances="$instances" -f cross_image="$image"
+```

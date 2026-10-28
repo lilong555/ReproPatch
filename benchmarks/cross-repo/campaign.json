@@ -8,7 +8,7 @@
   "request_cap_per_attempt": 24,
   "max_tool_calls": 48,
   "max_tools_per_response": 8,
-  "max_parallel": 2,
+  "max_parallel": 3,
   "optimization": "O3",
   "arms": [
     "full",

@@ -406,6 +406,17 @@ def native_suite(contract, source, build, selected=None):
             print(output[-1], flush=True)
         return parser_results(contract["parser"], "\n".join(output))
     if mode == "duckdb":
+        # 原生测试沿用源码相对路径，临时文件和可写测试输入放入构建树。
+        fixtures = build / "repropatch-fixtures/duckdb"
+        fixtures.mkdir(parents=True, exist_ok=True)
+        for entry in source.iterdir():
+            target = fixtures / entry.name
+            if entry.name == ".git" or target.exists() or target.is_symlink():
+                continue
+            if entry.is_dir() and entry.name in {"test", "data"}:
+                shutil.copytree(entry, target)
+            else:
+                target.symlink_to(entry, target_is_directory=entry.is_dir())
         xml = reports / "duckdb.xml"
         command = [str(build / "test/unittest")]
         if selected:
@@ -416,7 +427,7 @@ def native_suite(contract, source, build, selected=None):
             "DUCKDB_INSTALL_LIB": str(build / "src/libduckdb.so"),
             "TEMP_DIR_BASE": str(build / "duckdb_unittest_tempdir"),
         }
-        _, _ = execute(command, source, reports / "duckdb.log", env=environment)
+        _, _ = execute(command, fixtures, reports / "duckdb.log", env=environment)
         if not xml.exists():
             raise RuntimeError("NATIVE_JUNIT_MISSING")
         log = xml.read_text()

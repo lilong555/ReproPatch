@@ -198,7 +198,7 @@ jobs:
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 8
       matrix: ${{ fromJSON(needs.toolchain.outputs.matrix) }}
     env:
       INSTANCE: ${{ matrix.instance }}
@@ -219,7 +219,17 @@ jobs:
           path: .repropatch/
       - name: 拉取固定工具链
         run: docker pull "$IMAGE"
+      - name: 复用同环境原生验收并登记任务
+        id: reuse
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python scripts/reuse_native_qualification.py
+          --plan benchmarks/cross-repo/formal-preparation.json
+          --dataset .repropatch/cross-inputs --instance "$INSTANCE"
+          --image-id "$IMAGE_ID" --output .repropatch/cross-qualification
       - name: O3 基线检查与参考补丁冷验收
+        if: steps.reuse.outputs.reused != 'true'
         run: >-
           python -u scripts/qualify_cross_repo.py
           --dataset .repropatch/cross-inputs --repository .repropatch/cross-git
