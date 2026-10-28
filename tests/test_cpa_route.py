@@ -1,5 +1,6 @@
 """固定 SSH 路由、重试恢复和请求身份的离线验证。"""
 
+import asyncio
 import importlib
 import sys
 from pathlib import Path
@@ -88,3 +89,54 @@ def test_remote_attempt_claim_preserves_global_allocation(tmp_path):
     with pytest.raises(ValueError, match="BUDGET_EXHAUSTED"):
         manager.rpc({**request, "attempt_id": "dev/task/extra"})
     assert manager.retry() == 2
+
+
+@pytest.mark.sdk
+def test_network_calibration_uses_twelve_claims_and_records_supplier_usage(tmp_path, monkeypatch):
+    calibration = importlib.import_module("calibrate_cross_network")
+    from types import SimpleNamespace
+
+    from repropatch.context import encoded
+
+    claims = []
+
+    class Session:
+        def __init__(self, *_):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            pass
+
+        def claim(self, attempt, phase, cap):
+            claims.append((attempt, phase, cap))
+
+    async def stream(client, url, payload, headers, trace, identity, ledger, **timeouts):
+        import json
+
+        body = json.loads(payload)
+        assert body["reasoning"]["effort"] == "max"
+        assert timeouts["total_timeout"] == 180
+        completed = {"usage": {"input_tokens": 20, "output_tokens": 4}}
+        ledger.settle(identity, encoded(completed), 200)
+        return 200, b"", "text/event-stream", completed
+
+    monkeypatch.setattr(calibration, "CPASession", Session)
+    monkeypatch.setattr(calibration, "read_model_stream_async", stream)
+    monkeypatch.setenv("OPENAI_API_KEY", "offline-fixture")
+    args = SimpleNamespace(
+        campaign=Path(__file__).resolve().parents[1] / "benchmarks/cross-repo/campaign.json",
+        output=tmp_path / "calibration",
+    )
+    assert asyncio.run(calibration.calibrate(args))
+    import json
+
+    result = json.loads((args.output / "calibration.json").read_text())
+    assert len(claims) == 12 and len({c[0] for c in claims}) == 12
+    assert all(c[1:] == ("calibration", 1) for c in claims)
+    assert result["usage"]["issued_requests"] == 12
+    assert result["usage"]["input_tokens"] == 240
+    assert result["usage"]["output_tokens"] == 48
+    assert result["status"] == "PASSED"

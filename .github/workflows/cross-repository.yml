@@ -13,6 +13,10 @@ on:
         type: string
         required: false
         default: 'benchmarks/cross-repo/development-protocol.json'
+      image:
+        type: string
+        required: false
+        default: ''
     secrets:
       CPA_API_KEY:
         required: false
@@ -68,16 +72,27 @@ jobs:
               stream.write('matrix=' + json.dumps({'instance': ids}) + '\n')
           PY
       - name: 准备离线依赖
+        if: inputs.image == ''
         run: python scripts/prepare_cpp_toolchain.py --output .repropatch/cross-tools --pool .repropatch/cross-git
       - name: 构建并冻结共享工具链
         id: image
         env:
           GH_TOKEN: ${{ github.token }}
+          FROZEN_IMAGE: ${{ inputs.image }}
         run: |
-          echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
-          image="ghcr.io/${GITHUB_REPOSITORY,,}-cross-cpp:run-$GITHUB_RUN_ID"
-          docker build -f docker/cross-repository.Dockerfile -t "$image" .
-          docker push "$image"
+          if test -n "$FROZEN_IMAGE"; then
+            python - <<'PY'
+          import os, re
+          assert re.fullmatch(r'ghcr\.io/lilong555/repropatch-cross-cpp@sha256:[a-f0-9]{64}', os.environ['FROZEN_IMAGE'])
+          PY
+            image="$FROZEN_IMAGE"
+            docker pull "$image"
+          else
+            echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+            image="ghcr.io/${GITHUB_REPOSITORY,,}-cross-cpp:run-$GITHUB_RUN_ID"
+            docker build -f docker/cross-repository.Dockerfile -t "$image" .
+            docker push "$image"
+          fi
           digest=$(docker image inspect "$image" --format '{{index .RepoDigests 0}}')
           identity=$(docker image inspect "$image" --format '{{.Id}}')
           mkdir -p .repropatch/cross-environment
@@ -201,6 +216,14 @@ jobs:
           subprocess.run(['git', 'merge-base', '--is-ancestor', p['execution_source_commit'], os.environ['GITHUB_SHA']], check=True)
           ci = json.loads(subprocess.check_output(['gh', 'api', f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{p['ci_run_id']}"]))
           assert ci['conclusion'] == 'success' and ci['head_sha'] == p['execution_source_commit'] and ci['name'] == 'CI'
+          calibration = p['network_calibration']
+          directory = Path('.repropatch/network-calibration')
+          subprocess.run(['gh', 'run', 'download', str(calibration['run_id']), '--repo', os.environ['GITHUB_REPOSITORY'], '--name', calibration['artifact'], '--dir', str(directory)], check=True)
+          import hashlib
+          report = directory / 'calibration.json'
+          assert hashlib.sha256(report.read_bytes()).hexdigest() == calibration['sha256']
+          data = json.loads(report.read_text())
+          assert data['status'] == 'PASSED' and data['usage']['issued_requests'] == 12 and data['reasoning_effort'] == 'max'
           with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
               stream.write('matrix=' + json.dumps({'include': p['attempts']}) + '\n')
           PY
@@ -273,6 +296,7 @@ jobs:
           include-hidden-files: true
           compression-level: 0
           retention-days: 14
+
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -280,6 +304,54 @@ jobs:
           path: .repropatch/cross-summary/
           include-hidden-files: true
           if-no-files-found: warn
+          retention-days: 14
+
+  network-calibration:
+    if: inputs.stage == 'calibrate'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CPA_JOB_MEMBER: calibration
+      CPA_SSH_KEY_FILE: ${{ github.workspace }}/.repropatch/ssh/identity
+      CPA_SSH_KNOWN_HOSTS_FILE: ${{ github.workspace }}/.repropatch/ssh/known_hosts
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: 核验完整 CI 与固定 SDK
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --branch "$GITHUB_REF_NAME" --limit 20 --json headSha,conclusion > /tmp/cross-ci.json
+          python - <<'PY'
+          import json, os
+          assert any(r['headSha'] == os.environ['GITHUB_SHA'] and r['conclusion'] == 'success' for r in json.load(open('/tmp/cross-ci.json')))
+          PY
+          python -m pip install -c requirements/agent.txt -e '.[agent]'
+      - name: 安装专用 SSH 身份
+        env:
+          SSH_KEY: ${{ secrets.CPA_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.CPA_SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p .repropatch/ssh
+          chmod 700 .repropatch/ssh
+          printf '%s\n' "$SSH_KEY" > "$CPA_SSH_KEY_FILE"
+          printf '%s\n' "$KNOWN_HOSTS" > "$CPA_SSH_KNOWN_HOSTS_FILE"
+          chmod 600 "$CPA_SSH_KEY_FILE" "$CPA_SSH_KNOWN_HOSTS_FILE"
+      - name: 十二次请求校准公网与 SSH 路由
+        env:
+          OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
+          CPA_LEASE_TOKEN: ${{ secrets.CPA_LEASE_TOKEN }}
+        run: python -u scripts/calibrate_cross_network.py --output .repropatch/cross-network-calibration
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cross-network-calibration-${{ github.run_id }}
+          path: .repropatch/cross-network-calibration/
+          include-hidden-files: true
           retention-days: 14
 
   paid-results:
@@ -302,6 +374,10 @@ jobs:
       - run: >-
           python scripts/formal_benchmark.py aggregate --protocol '${{ inputs.protocol }}'
           --source .repropatch/cross-summaries --output .repropatch/cross-results
+      - name: 汇总配对差异与仓库宏平均
+        run: >-
+          python scripts/analyze_cross_repo.py --results .repropatch/cross-results/results.json
+          --output .repropatch/cross-results/analysis
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

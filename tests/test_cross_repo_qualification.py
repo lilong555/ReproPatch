@@ -27,13 +27,26 @@ def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, 
     (upstream / "tests/regression.cpp").write_text(
         '#include "glaze/value.hpp"\nint main() { return value != 0; }\n'
     )
-    (upstream / "tests/control.cpp").write_text("int main() { return 0; }\n")
+    (upstream / "tests/control-data.txt").write_text("fixture-input")
+    (upstream / "tests/control.cpp").write_text(
+        "#include <fstream>\n#include <string>\nint main() {\n"
+        'std::ifstream input(GLZ_TEST_DIRECTORY "/control-data.txt");\n'
+        "std::string value; input >> value;\n"
+        'std::ofstream(GLZ_TEST_DIRECTORY "/runtime-note.txt") << value;\n'
+        'return value == "fixture-input" ? 0 : 1; }\n'
+    )
+    (upstream / "tests/library.cpp").write_text("int fixture_library() { return 0; }\n")
     (upstream / "CMakeLists.txt").write_text(
         "cmake_minimum_required(VERSION 3.22)\nproject(fixture LANGUAGES CXX)\n"
         "enable_testing()\n"
         "add_executable(regression tests/regression.cpp)\n"
         "target_include_directories(regression PRIVATE include)\n"
         "add_executable(control tests/control.cpp)\n"
+        "target_compile_definitions(control PRIVATE "
+        'GLZ_TEST_DIRECTORY="${CMAKE_SOURCE_DIR}/tests")\n'
+        "add_library(fixture_lib SHARED tests/library.cpp)\n"
+        "set_target_properties(fixture_lib PROPERTIES "
+        'LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")\n'
         "add_test(NAME regression COMMAND regression)\n"
         "add_test(NAME control COMMAND control)\n"
     )
@@ -96,6 +109,8 @@ def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, 
     assert "value = 0" in (directory / "repository/include/glaze/value.hpp").read_text()
     assert result["cleanup"]["status"] == "SUCCEEDED"
     assert not (directory / "control/reference-source").exists()
+    assert not (directory / "repository/tests/runtime-note.txt").exists()
+    assert not (directory / "repository/bin").exists()
     candidate = importlib.import_module("check_native_cpp_candidate")
     monkeypatch.setattr(candidate, "load_records", lambda directory: [record])
     verdict = candidate.check(
@@ -141,6 +156,17 @@ def test_case_aliases_are_unique_and_keep_actual_inventory_names():
     assert runner.match_case_names(["SelfTest"], {"selftest": "pass"}) == {"SelfTest": "selftest"}
     with pytest.raises(ValueError, match="AMBIGUOUS"):
         runner.match_case_names(["SelfTest"], {"selftest": "pass", "SELFTEST": "pass"})
+
+
+def test_ninja_report_alias_keeps_the_failing_observation():
+    actual = runner.normalize_results(
+        "ninja",
+        {
+            "jobserver.Class.test_pipe": "pass",
+            "jobserver.Class.test_pipe.test_pipe": "fail",
+        },
+    )
+    assert actual == {"jobserver.Class.test_pipe": "fail"}
 
 
 def test_opaque_case_prefix_aliases_are_reversible_and_keep_paths():

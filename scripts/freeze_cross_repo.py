@@ -1,6 +1,7 @@
 """从完整 Docker 资格证据生成独立阶段协议与预登记执行顺序。"""
 
 import argparse
+import hashlib
 import json
 import tarfile
 from pathlib import Path
@@ -14,6 +15,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def freeze(args):
     campaign = json.loads((ROOT / "benchmarks/cross-repo/campaign.json").read_text())
+    calibration = json.loads(args.calibration.read_text())
+    if (
+        calibration.get("schema") != "repropatch.cross-network-calibration.v1"
+        or calibration.get("status") != "PASSED"
+        or calibration.get("usage", {}).get("issued_requests") != 12
+        or calibration.get("reasoning_effort") != "max"
+    ):
+        raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
     identities = {}
     selected = args.instances.split(",")
     for instance in selected:
@@ -45,11 +54,18 @@ def freeze(args):
     archives = []
     for path in args.archives.rglob("cross-evidence.tar.gz"):
         with tarfile.open(path) as data:
-            instances = [
-                json.load(data.extractfile(name))["instance_id"]
-                for name in data.getnames()
-                if name.endswith("/result.json")
-            ]
+            instances = []
+            for name in data.getnames():
+                if not name.endswith("/result.json"):
+                    continue
+                content = data.extractfile(name).read()
+                instance = json.loads(content)["instance_id"]
+                if (
+                    instance in identities
+                    and hashlib.sha256(content).hexdigest()
+                    == identities[instance]["qualification_sha256"]
+                ):
+                    instances.append(instance)
         if not set(instances) & set(selected):
             continue
         artifact = path.parent.name
@@ -99,6 +115,11 @@ def freeze(args):
         "image_id": args.image_id,
         "qualification_run_ids": args.qualification_run,
         "qualification_archives": archives,
+        "network_calibration": {
+            "run_id": args.calibration_run,
+            "artifact": f"cross-network-calibration-{args.calibration_run}",
+            "sha256": sha(args.calibration),
+        },
         "ci_run_id": args.ci_run,
         "execution_source_commit": args.source_commit,
         "execution_sha256": execution_fingerprint(),
@@ -125,6 +146,8 @@ def main():
     parser.add_argument("--instances", required=True)
     parser.add_argument("--qualification", type=Path, required=True)
     parser.add_argument("--archives", type=Path, required=True)
+    parser.add_argument("--calibration", type=Path, required=True)
+    parser.add_argument("--calibration-run", type=int, required=True)
     parser.add_argument("--qualification-run", type=int, action="append", required=True)
     parser.add_argument("--image", required=True)
     parser.add_argument("--image-id", required=True)

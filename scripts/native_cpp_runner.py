@@ -80,6 +80,10 @@ def jsoncpp_results(code, log):
 
 def canonical_case(mode, name):
     name = name.replace("/build/native/", "./build/").replace("/src/", "/testbed/")
+    if mode == "ninja":
+        parts = name.split(".")
+        if len(parts) > 1 and parts[-1] == parts[-2]:
+            name = ".".join(parts[:-1])
     if mode == "duckdb":
         match = re.search(r"(?:^|[:.])(?:/testbed/)?(test/.+)$", name)
         if match:
@@ -110,7 +114,8 @@ def normalize_results(mode, results):
     for name, state in results.items():
         key = canonical_case(mode, name)
         if key in normalized and normalized[key] != state:
-            raise ValueError("NATIVE_CASE_IDENTITY_CONFLICT")
+            rank = {"pass": 0, "skip": 1, "fail": 2}
+            state = max((normalized[key], state), key=rank.get)
         normalized[key] = state
     return normalized
 

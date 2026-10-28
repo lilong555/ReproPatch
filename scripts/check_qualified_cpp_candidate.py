@@ -65,7 +65,7 @@ def candidate_paths(source, patch_file, deadline=None, editable=None):
                 if editable is not None
                 else not name.startswith(("include/", "src/", "fmt/"))
             )
-            or path.suffix not in {".h", ".hpp", ".cc", ".cpp"}
+            or (editable is None and path.suffix not in {".h", ".hpp", ".cc", ".cpp"})
             or ".." in path.parts
             or not (source / path).is_file()
             or (source / path).is_symlink()

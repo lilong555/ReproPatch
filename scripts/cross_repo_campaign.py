@@ -74,6 +74,12 @@ def validate_protocol(p):
         raise ValueError("CROSS_FORMAL_REGISTRY_INCOMPLETE")
     if p["phase"] == "development" and (len(ids) != 4 or len(attempts) != 20):
         raise ValueError("CROSS_DEVELOPMENT_REGISTRY_INCOMPLETE")
+    if p["phase"] == "repeat" and (len(ids) != 6 or len(attempts) != 30):
+        raise ValueError("CROSS_REPEAT_REGISTRY_INCOMPLETE")
+    if p["phase"] != "infrastructure-revalidation" and {
+        (a["instance_id"], a["arm"]) for a in attempts
+    } != {(task, arm) for task in ids for arm in ARMS}:
+        raise ValueError("CROSS_TASK_ARM_REGISTRY_INCOMPLETE")
     if not IMAGE_ID.fullmatch(p["image_id"]) or "@sha256:" not in p["image"]:
         raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
     if p["cpa_route"] != "azure-ssh" or p["retries"] != 0 or not p["paid_calls_authorized"]:
@@ -83,6 +89,8 @@ def validate_protocol(p):
         raise ValueError("CROSS_QUALIFICATION_REGISTRY_INCOMPLETE")
     if p.get("execution_sha256") != execution_fingerprint():
         raise ValueError("CROSS_EXECUTION_SOURCE_CHANGED")
+    if not p.get("network_calibration", {}).get("sha256"):
+        raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
 
 
 def execution_order(tasks, *, seed=20261028, replicate="first", batch="cross-repository-20261028"):

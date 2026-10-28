@@ -129,8 +129,10 @@ class NativeExecutor(Executor):
                 return {"status": "TEST_EXECUTION_FAILED", "tests": {}}
             native = json.loads(result_file.read_text())
             save(self.directory / (phase + "-native-results.json"), native)
-            if native["missing"] or native["additional_failures"]:
+            if native["missing"]:
                 return {"status": "TEST_RESULT_IDENTITY_MISMATCH", **native}
+            if native["additional_failures"]:
+                return {"status": "TESTS_FAILED", **native}
             if tested["exit_code"] not in {0, 1}:
                 return {"status": "TEST_EXECUTION_FAILED", **native}
             states = group_states(contract, native["tests"])

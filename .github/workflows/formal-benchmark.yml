@@ -8,7 +8,7 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify', 'development', 'formal', 'repeat']
+        options: ['legacy', 'qualify', 'calibrate', 'development', 'formal', 'repeat']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'
@@ -20,6 +20,11 @@ on:
         required: false
         type: string
         default: 'benchmarks/cross-repo/development-protocol.json'
+      cross_image:
+        description: '复用已冻结的跨仓库 GHCR digest；留空构建工具链'
+        required: false
+        type: string
+        default: ''
       authorization:
         description: '12：上下文校准；480：四题五组 Pilot；2520：21题五组；其余为历史协议'
         required: true
@@ -71,6 +76,7 @@ jobs:
       stage: ${{ inputs.cross_stage }}
       instances: ${{ inputs.cross_instances }}
       protocol: ${{ inputs.cross_protocol }}
+      image: ${{ inputs.cross_image }}
     secrets: inherit
   calibration:
     if: inputs.cross_stage == 'legacy' || inputs.cross_stage == ''

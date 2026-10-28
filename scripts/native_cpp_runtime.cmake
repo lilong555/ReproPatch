@@ -2,13 +2,21 @@
 function(repropatch_runtime_directory directory)
   get_property(targets DIRECTORY "${directory}" PROPERTY BUILDSYSTEM_TARGETS)
   foreach(target IN LISTS targets)
+    foreach(kind RUNTIME LIBRARY ARCHIVE)
+      get_target_property(output "${target}" "${kind}_OUTPUT_DIRECTORY")
+      if(output AND output MATCHES "^${CMAKE_SOURCE_DIR}/")
+        string(REPLACE "${CMAKE_SOURCE_DIR}/" "${CMAKE_BINARY_DIR}/repropatch-fixtures/"
+          output "${output}")
+        set_property(TARGET "${target}" PROPERTY "${kind}_OUTPUT_DIRECTORY" "${output}")
+      endif()
+    endforeach()
     get_target_property(definitions "${target}" COMPILE_DEFINITIONS)
     if(definitions)
       set(updated "")
       foreach(definition IN LISTS definitions)
         if(definition MATCHES "^GLZ_TEST_DIRECTORY=")
-          string(REPLACE "${CMAKE_SOURCE_DIR}/tests"
-            "${CMAKE_BINARY_DIR}/repropatch-fixtures/tests" definition "${definition}")
+          string(REPLACE "${CMAKE_SOURCE_DIR}/"
+            "${CMAKE_BINARY_DIR}/repropatch-fixtures/" definition "${definition}")
         endif()
         list(APPEND updated "${definition}")
       endforeach()
