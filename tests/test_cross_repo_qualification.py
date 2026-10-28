@@ -201,28 +201,35 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
 def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, actual):
     import subprocess
 
-    if shutil.which("cmake") is None or shutil.which("ctest") is None:
-        pytest.skip("需要 CMake 与 CTest")
+    if any(shutil.which(tool) is None for tool in ("cmake", "ctest", "c++")):
+        pytest.skip("需要 CMake、CTest 与 C++ 编译器")
     source = tmp_path / "source"
     build = tmp_path / "build"
     scripts = source / "tools/scripts"
     baselines = source / "tests/SelfTest/Baselines"
     scripts.mkdir(parents=True)
     baselines.mkdir(parents=True)
-    (baselines / "expected.approved.txt").write_text("expected")
+    (baselines / "expected.approved.txt").write_text("expected tests/SelfTest/fixture.cpp")
+    (source / "tests/SelfTest/fixture.cpp").write_text(
+        "#include <iostream>\nint main(int, char** argv) { "
+        'std::cout << argv[1] << " " << __FILE__; }\n'
+    )
     (scripts / "scriptCommon.py").write_text(
         "from pathlib import Path\ncatchPath = Path(__file__).resolve().parents[2]\n"
     )
     script = scripts / "approvalTests.py"
     script.write_text(
-        "import sys\nfrom scriptCommon import catchPath\n"
+        "import subprocess, sys\nfrom scriptCommon import catchPath\n"
         "root = catchPath / 'tests/SelfTest/Baselines'\n"
-        "(root / 'actual.tmp').write_text(sys.argv[1])\n"
-        "sys.exit(0 if (root / 'expected.approved.txt').read_text() == sys.argv[1] else 1)\n"
+        "actual = subprocess.check_output(sys.argv[1:], text=True)\n"
+        "(root / 'actual.tmp').write_text(actual)\n"
+        "sys.exit(0 if (root / 'expected.approved.txt').read_text() == actual else 1)\n"
     )
     (source / "CMakeLists.txt").write_text(
-        "cmake_minimum_required(VERSION 3.22)\nproject(fixture NONE)\nenable_testing()\n"
-        f'add_test(NAME ApprovalTests COMMAND "{sys.executable}" "{script}" "{actual}")\n'
+        "cmake_minimum_required(VERSION 3.22)\nproject(fixture LANGUAGES CXX)\nenable_testing()\n"
+        "add_executable(SelfTest tests/SelfTest/fixture.cpp)\n"
+        f'add_test(NAME ApprovalTests COMMAND "{sys.executable}" "{script}" '
+        f'$<TARGET_FILE:SelfTest> "{actual}")\n'
         "set_tests_properties(ApprovalTests PROPERTIES TIMEOUT 5)\n"
     )
     originals = {
@@ -230,7 +237,13 @@ def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, 
         for path in source.rglob("*")
         if path.is_file()
     }
-    subprocess.run(["cmake", "-S", str(source), "-B", str(build)], check=True, capture_output=True)
+    flags = qualification.recipe({"org": "catchorg", "repo": "Catch2"})["configure"]
+    flags = next(arg for arg in flags if arg.startswith("-DCMAKE_CXX_FLAGS="))
+    flags = flags.replace("/src/", str(source) + "/")
+    subprocess.run(
+        ["cmake", "-S", str(source), "-B", str(build), flags], check=True, capture_output=True
+    )
+    subprocess.run(["cmake", "--build", str(build)], check=True, capture_output=True)
     contract = {"mode": "ctest", "configuration": {"repository": "catchorg/Catch2"}}
     expected = {"ApprovalTests": "pass" if actual == "expected" else "fail"}
     assert runner.native_suite(contract, source, build) == expected
@@ -242,7 +255,9 @@ def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, 
     } == originals
     copied = build / "repropatch-fixtures/tools/scripts/approvalTests.py"
     assert copied.read_bytes() == script.read_bytes()
-    assert (build / "repropatch-fixtures/tests/SelfTest/Baselines/actual.tmp").read_text() == actual
+    assert (
+        build / "repropatch-fixtures/tests/SelfTest/Baselines/actual.tmp"
+    ).read_text() == actual + " tests/SelfTest/fixture.cpp"
     trace = json.loads((build / "repropatch-reports/ctest-runtime-commands.json").read_text())
     assert trace["original_script"] == str(script)
     assert trace["executed_script"] == str(copied)

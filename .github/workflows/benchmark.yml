@@ -1,18 +1,6 @@
 name: C++ benchmark qualification
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/benchmark.yml'
-      - 'scripts/actions_benchmark.py'
-      - 'scripts/qualify_cpp_batch.py'
-      - 'scripts/verify_qualification_evidence.py'
-      - 'scripts/profile_cpp_build.py'
-      - 'scripts/profile_cpp_concurrency.py'
-      - 'scripts/benchmark_resources.py'
-      - 'scripts/check_qualified_cpp_candidate.py'
-      - 'scripts/score_benchmark_attempt.py'
-      - 'docker/Dockerfile'
   workflow_dispatch:
     inputs:
       mode:
@@ -71,7 +59,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: cpp-benchmark-${{ github.event.pull_request.number || github.run_id }}
+  group: cpp-benchmark-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -95,7 +83,7 @@ jobs:
           MODE: ${{ inputs.mode || 'qualify' }}
           TASKS: ${{ inputs.task_set || 'smoke' }}
           PARALLEL: ${{ inputs.parallel_jobs || '2' }}
-          BATCH: ${{ inputs.batch_id || 'pr-smoke' }}
+          BATCH: ${{ inputs.batch_id || 'cpp-smoke' }}
           MODEL: ${{ inputs.model || 'gpt-6-luna' }}
           FRAMEWORKS: ${{ inputs.frameworks || 'repropatch,repropatch-no-checks,mini,codex' }}
           REQUESTS: ${{ inputs.requests_per_attempt || 12 }}

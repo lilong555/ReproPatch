@@ -79,14 +79,15 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
         cxx, cc = "g++-11", "gcc-11"
     compiler_options = []
-    if cxx.startswith("clang"):
-        if repo == "stephenberry/glaze":
-            # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
-            compiler_options = [
-                "-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"
-            ]
-        elif repo == "catchorg/Catch2":
-            compiler_options = ["-DCMAKE_CXX_FLAGS=-Wno-error=deprecated-literal-operator"]
+    if repo == "catchorg/Catch2":
+        # 审批报告沿用源码相对路径，输入副本的位置保持独立。
+        flags = "-fmacro-prefix-map=/src/="
+        if cxx.startswith("clang"):
+            flags += " -Wno-error=deprecated-literal-operator"
+        compiler_options = ["-DCMAKE_CXX_FLAGS=" + flags]
+    elif cxx.startswith("clang") and repo == "stephenberry/glaze":
+        # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
+        compiler_options = ["-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"]
     return {
         "repository": repo,
         "mode": MODES.get(repo, "ctest"),

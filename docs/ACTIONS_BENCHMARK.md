@@ -9,7 +9,7 @@ GitHub Actions 提供零模型 C++ 资格检查、固定共享工具链、构建
 
 | 入口 | 实际行为 |
 | --- | --- |
-| `.github/workflows/benchmark.yml` | 手动资格检查、真实 fmt 构建性能试验、零消费正式实验计划；相关 PR 自动执行两题免费 smoke |
+| `.github/workflows/benchmark.yml` | 手动资格检查、真实 fmt 构建性能试验、零消费正式实验计划 |
 | `.github/workflows/toolchain.yml` | 手动构建共享工具链并发布 GHCR digest，保存镜像身份与工具版本 |
 | `scripts/qualify_cpp_batch.py` | 固定数据集与源码，动态判断基线 F2P/P2P，参考补丁定向验证，独立冷构建原生全套 Oracle |
 | `scripts/verify_qualification_evidence.py` | 核对每份原始证据与冻结清单；原件不变，合格执行与完整证据分别记录 |
@@ -26,7 +26,7 @@ GitHub Actions 提供零模型 C++ 资格检查、固定共享工具链、构建
 
 ## Actions 使用
 
-工作流位于默认分支 `main`，相关 PR 自动运行两题无模型 smoke。
+工作流位于默认分支 `main`，通过手动入口运行指定任务。代码提交执行常规 CI，已有合格任务复用冻结记录。
 手动运行使用 Actions 页面或以下命令：
 
 ```bash
@@ -77,7 +77,7 @@ Checkout 结束后移除 Git 凭据；运行环境使用固定官方 Action SHA�
 `ghcr.io/lilong555/repropatch-benchmark@sha256:...` 和对应 image ID。
 批量实验传入 `toolchain_image` 后，各 Job 按同一 digest 拉取镜像，汇总时核对镜像回执与任务 image ID。
 工具链发布与拉取分别保存身份和计时，注册表凭据在步骤结束后移除。
-PR smoke 默认每个 Job 本地构建镜像，记录各自不可变 image ID；手动配对实验使用固定共享 digest。
+手动 smoke 默认每个 Job 本地构建镜像，记录各自不可变 image ID；配对实验使用固定共享 digest。
 
 ```bash
 gh workflow run toolchain.yml --ref main
