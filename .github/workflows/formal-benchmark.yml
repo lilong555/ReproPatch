@@ -1,5 +1,5 @@
 name: Formal Luna max benchmark
-run-name: ${{ inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation']
+        options: ['legacy', 'qualify', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'

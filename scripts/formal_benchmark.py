@@ -724,8 +724,11 @@ def aggregate(source, output):
                 raise ValueError("DUPLICATE_FORMAL_ATTEMPT")
             known[row["attempt_id"]] = row
     rows = [
-        known.get(a["attempt_id"], {**a, "score": {"status": "NOT_EXECUTED", "accepted": None}})
-        for a in p["attempts"]
+        known.get(
+            a["attempt_id"],
+            a if "score" in a else {**a, "score": {"status": "NOT_EXECUTED", "accepted": None}},
+        )
+        for a in [*p["attempts"], *p.get("prior_attempts", [])]
     ]
     result = {
         "protocol_sha256": sha(PROTOCOL),

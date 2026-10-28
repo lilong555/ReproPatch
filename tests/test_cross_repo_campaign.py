@@ -135,3 +135,27 @@ def test_claimed_zero_request_preparation_uses_separate_revalidation_allocation(
     evidence["issued_requests"] = 1
     with pytest.raises(ValueError, match="REVALIDATION_EVIDENCE_REQUIRED"):
         campaign.allocation_phase(protocol, attempt)
+    evidence["classification"] = "cancelled"
+    attempt["attempt_id"] = original + "/infrastructure-revalidation"
+    assert campaign.allocation_phase(protocol, attempt) == "infrastructure-revalidation"
+
+
+def test_cpa_parallel_limit_and_retained_development_attempts(monkeypatch):
+    import json
+
+    path = (
+        Path(__file__).resolve().parents[1] / "benchmarks/cross-repo/development-protocol-v2.json"
+    )
+    protocol = json.loads(path.read_text())
+    monkeypatch.setattr(campaign, "execution_fingerprint", lambda: protocol["execution_sha256"])
+    protocol["max_parallel"] = 3
+    previous = protocol["attempts"][:2]
+    protocol["attempts"] = protocol["attempts"][2:]
+    protocol["prior_attempts"] = [
+        {**row, "source_run_id": 123, "source_artifact_sha256": "a" * 64} for row in previous
+    ]
+    protocol["formal_request_cap"] = sum(a["request_cap"] for a in protocol["attempts"])
+    campaign.validate_protocol(protocol)
+    protocol["max_parallel"] = 4
+    with pytest.raises(ValueError, match="BUDGET_CONFIGURATION_MISMATCH"):
+        campaign.validate_protocol(protocol)

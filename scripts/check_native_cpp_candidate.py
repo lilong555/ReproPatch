@@ -6,7 +6,7 @@ import subprocess
 import time
 
 from cpp_native_adapter import source_manifest
-from cpp_sources import load_records
+from cpp_sources import MULTISWE_REVISION, load_records
 from qualify_cpp_batch import CANCELLED, archive, git, save, sha
 from qualify_cross_repo import NativeExecutor, manifest
 
@@ -74,7 +74,7 @@ def check(args):
         )
         if (
             record["base"]["sha"] != q["upstream_commit"]
-            or record.get("dataset_revision") != q["dataset_revision"]
+            or record.get("dataset_revision", MULTISWE_REVISION) != q["dataset_revision"]
         ):
             raise ValueError("QUALIFICATION_DATASET_MISMATCH")
         task = Task.load(directory / "task.yaml") if q["backend"] == "docker" else None

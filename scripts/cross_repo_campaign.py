@@ -122,7 +122,11 @@ def validate_protocol(p):
     """正式请求只使用完整冻结的跨仓库合同。"""
     if p["arms"] != ARMS or p["reasoning_effort"] != "max" or p["model_timeout_seconds"] != 180:
         raise ValueError("CROSS_FRAMEWORK_CONFIGURATION_MISMATCH")
-    if p["request_cap_per_attempt"] != 24 or p["max_tool_calls"] != 48 or p["max_parallel"] != 2:
+    if (
+        p["request_cap_per_attempt"] != 24
+        or p["max_tool_calls"] != 48
+        or p["max_parallel"] not in {2, 3}
+    ):
         raise ValueError("CROSS_BUDGET_CONFIGURATION_MISMATCH")
     if p["phase"] not in {"development", "formal", "repeat", "infrastructure-revalidation"}:
         raise ValueError("CROSS_PHASE_INVALID")
@@ -144,12 +148,27 @@ def validate_protocol(p):
         raise ValueError("CROSS_ATTEMPT_IDENTITY_INVALID")
     if p["phase"] == "formal" and (len(ids) != 30 or len(attempts) != 150):
         raise ValueError("CROSS_FORMAL_REGISTRY_INCOMPLETE")
-    if p["phase"] == "development" and (len(ids) != 4 or len(attempts) != 20):
+    prior = p.get("prior_attempts", [])
+    registered = [*attempts, *prior]
+    if prior and (
+        p["phase"] != "development"
+        or len({a["attempt_id"] for a in registered}) != len(registered)
+        or any(not a.get("source_run_id") or not a.get("source_artifact_sha256") for a in prior)
+        or any(
+            a.get("request_cap") != 24
+            or a.get("instance_id") not in ids
+            or a.get("arm") not in ARMS
+            for a in prior
+        )
+        or sum(a["request_cap"] for a in registered) > caps["development"]
+    ):
+        raise ValueError("CROSS_PRIOR_ATTEMPT_EVIDENCE_REQUIRED")
+    if p["phase"] == "development" and (len(ids) != 4 or len(registered) != 20):
         raise ValueError("CROSS_DEVELOPMENT_REGISTRY_INCOMPLETE")
     if p["phase"] == "repeat" and (len(ids) != 6 or len(attempts) != 30):
         raise ValueError("CROSS_REPEAT_REGISTRY_INCOMPLETE")
     if p["phase"] != "infrastructure-revalidation" and {
-        (a["instance_id"], a["arm"]) for a in attempts
+        (a["instance_id"], a["arm"]) for a in registered
     } != {(task, arm) for task in ids for arm in ARMS}:
         raise ValueError("CROSS_TASK_ARM_REGISTRY_INCOMPLETE")
     for attempt in attempts:
@@ -180,7 +199,7 @@ def validate_protocol(p):
 
 
 def allocation_phase(protocol, attempt):
-    """准备阶段已认领的零请求任务使用独立基础设施复验额度。"""
+    """准备失败和中断任务使用独立基础设施复验额度。"""
     phase = attempt.get("allocation_phase", protocol["phase"])
     if phase == protocol["phase"]:
         return phase
@@ -189,13 +208,20 @@ def allocation_phase(protocol, attempt):
         protocol["phase"] != "development"
         or phase != "infrastructure-revalidation"
         or not evidence
-        or evidence.get("classification") != "infrastructure"
-        or evidence.get("issued_requests") != 0
+        or evidence.get("classification") not in {"infrastructure", "cancelled"}
+        or type(evidence.get("issued_requests")) is not int
+        or not 0 <= evidence["issued_requests"] <= 24
         or evidence.get("claim_status") != "CLAIMED"
         or not evidence.get("run_id")
         or not evidence.get("artifact_sha256")
         or any(evidence.get(key) != attempt[key] for key in ("instance_id", "arm"))
-        or attempt["attempt_id"] != attempt["original_attempt_id"] + "/preparation-revalidation"
+        or attempt["attempt_id"]
+        != attempt["original_attempt_id"]
+        + (
+            "/preparation-revalidation"
+            if evidence["issued_requests"] == 0
+            else "/infrastructure-revalidation"
+        )
     ):
         raise ValueError("CROSS_PREPARATION_REVALIDATION_EVIDENCE_REQUIRED")
     return phase

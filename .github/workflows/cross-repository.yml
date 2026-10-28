@@ -33,6 +33,85 @@ permissions:
   packages: write
 
 jobs:
+  rescore-plan:
+    if: inputs.stage == 'rescore'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      source_run: ${{ steps.plan.outputs.source_run }}
+      source_protocol: ${{ steps.plan.outputs.source_protocol }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - id: plan
+        env:
+          CONFIG: ${{ inputs.protocol }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = json.loads(Path(os.environ['CONFIG']).read_text())
+          assert p['model_requests'] == 0 and type(p['source_run_id']) is int
+          source = json.loads(Path(p['source_protocol']).read_text())
+          known = {(a['instance_id'], a['arm']) for a in source['attempts']}
+          assert all((a['instance_id'], a['arm']) in known for a in p['attempts'])
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('matrix=' + json.dumps({'include': p['attempts']}) + '\n')
+              stream.write('source_run=' + str(p['source_run_id']) + '\n')
+              stream.write('source_protocol=' + p['source_protocol'] + '\n')
+          PY
+
+  rescore-attempt:
+    needs: rescore-plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.rescore-plan.outputs.matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      INSTANCE: ${{ matrix.instance_id }}
+      ARM: ${{ matrix.arm }}
+      SOURCE_RUN: ${{ needs.rescore-plan.outputs.source_run }}
+      SOURCE_PROTOCOL: ${{ needs.rescore-plan.outputs.source_protocol }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ needs.rescore-plan.outputs.source_run }}
+          name: cross-attempt-${{ needs.rescore-plan.outputs.source_run }}-${{ matrix.instance_id }}-${{ matrix.arm }}
+          path: .repropatch/rescore-input
+      - name: 冻结候选冷评分
+        run: >-
+          python -u scripts/rescore_cross_attempt.py --archive .repropatch/rescore-input/cross-attempt.tar.gz
+          --protocol "$SOURCE_PROTOCOL" --instance "$INSTANCE" --arm "$ARM" --source-run "$SOURCE_RUN"
+          --output .repropatch/rescore --summary .repropatch/rescore-summary
+      - name: 保存冷评分证据
+        if: always()
+        run: >-
+          python scripts/actions_benchmark.py pack --source .repropatch/rescore
+          --output .repropatch/rescore.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cross-rescore-${{ github.run_id }}-${{ matrix.instance_id }}-${{ matrix.arm }}
+          path: |
+            .repropatch/rescore.tar.gz
+            .repropatch/rescore.tar.gz.sha256
+            .repropatch/rescore-summary/
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 14
+
   toolchain:
     if: inputs.stage == 'qualify'
     runs-on: ubuntu-24.04
@@ -188,6 +267,7 @@ jobs:
     timeout-minutes: 15
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
+      parallel: ${{ steps.plan.outputs.parallel }}
     env:
       GH_TOKEN: ${{ github.token }}
       CROSS_PROTOCOL: ${{ inputs.protocol }}
@@ -235,6 +315,7 @@ jobs:
               assert decision['difficulty_counts'] == gate['difficulty_counts'] and decision['all_pass'] == gate['all_pass']
           with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
               stream.write('matrix=' + json.dumps({'include': p['attempts']}) + '\n')
+              stream.write('parallel=' + str(p['max_parallel']) + '\n')
           PY
 
   paid-attempt:
@@ -243,7 +324,7 @@ jobs:
     timeout-minutes: 240
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: ${{ fromJSON(needs.paid-plan.outputs.parallel) }}
       matrix: ${{ fromJSON(needs.paid-plan.outputs.matrix) }}
     env:
       GH_TOKEN: ${{ github.token }}

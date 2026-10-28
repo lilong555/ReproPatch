@@ -89,6 +89,11 @@ def freeze(args):
     attempts = execution_order(
         selected, batch=batch, replicate="repeat" if args.phase == "repeat" else "first"
     )
+    prior_attempts = json.loads(args.prior_attempts.read_text()) if args.prior_attempts else []
+    prior_ids = {a["attempt_id"] for a in prior_attempts}
+    if prior_ids - {a["attempt_id"] for a in attempts}:
+        raise ValueError("CROSS_PRIOR_ATTEMPT_REGISTRY_INVALID")
+    attempts = [a for a in attempts if a["attempt_id"] not in prior_ids]
     preparation_failures = (
         json.loads(args.preparation_failures.read_text()) if args.preparation_failures else {}
     )
@@ -100,9 +105,14 @@ def freeze(args):
         for attempt in attempts:
             original_id = attempt["attempt_id"]
             if original_id in preparation_failures:
+                suffix = (
+                    "/preparation-revalidation"
+                    if preparation_failures[original_id]["issued_requests"] == 0
+                    else "/infrastructure-revalidation"
+                )
                 attempt.update(
                     original_attempt_id=original_id,
-                    attempt_id=original_id + "/preparation-revalidation",
+                    attempt_id=original_id + suffix,
                     allocation_phase="infrastructure-revalidation",
                 )
     pinned = json.loads((ROOT / "benchmarks/context-formal-protocol.json").read_text())
@@ -164,6 +174,7 @@ def freeze(args):
         "phase": args.phase,
         "tasks": selected,
         "attempts": attempts,
+        "prior_attempts": prior_attempts,
         "preparation_failures": preparation_failures,
         "formal_request_cap": len(attempts) * 24,
         "qualification_contracts": identities,
@@ -189,6 +200,8 @@ def freeze(args):
         "max_output_tokens": 8192,
         "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存",
     }
+    if args.max_parallel:
+        value["max_parallel"] = args.max_parallel
     if gate:
         value.update(
             selection_gate=gate,
@@ -231,6 +244,8 @@ def main():
     parser.add_argument("--repeat-instances")
     parser.add_argument("--formal-protocol", type=Path)
     parser.add_argument("--preparation-failures", type=Path)
+    parser.add_argument("--prior-attempts", type=Path)
+    parser.add_argument("--max-parallel", type=int, choices=(2, 3))
     value = freeze(parser.parse_args())
     print(
         json.dumps(
