@@ -2,6 +2,7 @@ FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
     clang-19 g++-11 g++-14 gcc g++ libc++-19-dev libc++abi-19-dev cmake ninja-build ccache python3 bash ripgrep ca-certificates \
     pkg-config re2c bison flex libgtest-dev libssl-dev libboost-all-dev libasio-dev libeigen3-dev \
+    libx11-dev libclang-rt-19-dev \
     && rm -rf /var/lib/apt/lists/*
 COPY .repropatch/cross-tools/ut /opt/cpp-deps/ut
 COPY .repropatch/cross-tools/json-test-data /opt/json-test-data
