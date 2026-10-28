@@ -185,7 +185,7 @@ def score(args):
             or identity["task_sha256"] != qualification["task_file_sha256"]
             or identity["prepared_commit"] != qualification["prepared_commit"]
             or identity["image_id"] != qualification["image_id"]
-            or identity["task_id"] != qualification["instance_id"].replace("__", "-")
+            or identity["task_id"] != qualification["instance_id"].replace("__", "-").lower()
             or worker.get("native_image_id") not in {None, qualification["image_id"]}
             or digest(args.worker_result.parent / "task.original.yaml") != identity["task_sha256"]
         ):

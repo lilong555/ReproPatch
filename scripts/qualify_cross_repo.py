@@ -22,6 +22,7 @@ from cpp_native_adapter import (
     prepare_source_dependencies,
     recipe,
     source_manifest,
+    text_readable_paths,
     wrapper,
 )
 from cpp_sources import MULTISWE_REVISION, load_records, production_reference
@@ -178,7 +179,7 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
     ).strip()
     raw = {
         "version": 2,
-        "id": record["instance_id"].replace("__", "-"),
+        "id": record["instance_id"].replace("__", "-").lower(),
         "repository": {
             "path": str(source),
             "commit": git(source, "rev-parse", "HEAD").decode().strip(),
@@ -215,8 +216,15 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         },
         "files": {
             "editable": editable,
-            "readable": sorted(
-                {name for name in [*PRODUCTION_AREAS[repo], *protected] if (source / name).exists()}
+            "readable": text_readable_paths(
+                source,
+                sorted(
+                    {
+                        name
+                        for name in [*PRODUCTION_AREAS[repo], *protected]
+                        if (source / name).exists()
+                    }
+                ),
             ),
         },
         "budget": {

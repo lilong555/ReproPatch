@@ -44,3 +44,5 @@ JSON 与 Catch2 的构建沿用 GCC 11；Catch2 的审批报告采用源码相�
 [simdjson-1896 的资格记录](docker-batch-40647543474.json)包含一条 F2P `ondemand_misc_tests` 与 92 条 P2P；C++ 参考修复通过全部 93 条原生用例。该任务绑定上述共享工具链。
 
 [JSON 资格记录](docker-batch-40651662993.json)包含 json-3514 的 81 条原生用例与 json-3463 的 79 条原生用例，两题均通过完整冷 Oracle 和单头文件 F2P 检查。同批次的 Catch2、Slang、Glaze 资格失败记录完整保留。
+
+[开发准备记录](https://github.com/lilong555/ReproPatch/actions/runs/40660958386)包含 10 项 JSON 文本可读范围错误与 10 项取消记录。jsoncpp-Codex 在取消前已认领额度，因源码导出字节差异终止；[账本摘要](development-preparation-failures.json)记录 0 次模型请求和完整归档身份。[开发协议](development-protocol.json)保留该批次的二十项登记。[Catch2 原生验收记录](docker-batch-40659068642.json)保存全部 34 项冷测试通过结果及任务标签注册错误。

@@ -109,3 +109,29 @@ def test_infrastructure_revalidation_keeps_original_attempt_and_budget(monkeypat
     row["score"]["classification"] = "candidate"
     with pytest.raises(ValueError, match="INFRASTRUCTURE_EVIDENCE_REQUIRED"):
         recovery.revalidation(source, {"attempts": [row]}, [original["attempt_id"]])
+
+
+def test_claimed_zero_request_preparation_uses_separate_revalidation_allocation():
+    original = "batch/repo__project-1/codex/first"
+    attempt = {
+        "attempt_id": original + "/preparation-revalidation",
+        "original_attempt_id": original,
+        "instance_id": "repo__project-1",
+        "arm": "codex",
+        "allocation_phase": "infrastructure-revalidation",
+    }
+    evidence = {
+        "classification": "infrastructure",
+        "issued_requests": 0,
+        "claim_status": "CLAIMED",
+        "run_id": 123,
+        "artifact_sha256": "a" * 64,
+        "instance_id": attempt["instance_id"],
+        "arm": attempt["arm"],
+    }
+    protocol = {"phase": "development", "preparation_failures": {original: evidence}}
+    assert campaign.allocation_phase(protocol, attempt) == "infrastructure-revalidation"
+    assert campaign.allocation_phase(protocol, {"attempt_id": "untouched"}) == "development"
+    evidence["issued_requests"] = 1
+    with pytest.raises(ValueError, match="REVALIDATION_EVIDENCE_REQUIRED"):
+        campaign.allocation_phase(protocol, attempt)

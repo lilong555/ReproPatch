@@ -89,6 +89,22 @@ def freeze(args):
     attempts = execution_order(
         selected, batch=batch, replicate="repeat" if args.phase == "repeat" else "first"
     )
+    preparation_failures = (
+        json.loads(args.preparation_failures.read_text()) if args.preparation_failures else {}
+    )
+    if preparation_failures:
+        if args.phase != "development" or set(preparation_failures) - {
+            a["attempt_id"] for a in attempts
+        }:
+            raise ValueError("CROSS_PREPARATION_REVALIDATION_REGISTRY_INVALID")
+        for attempt in attempts:
+            original_id = attempt["attempt_id"]
+            if original_id in preparation_failures:
+                attempt.update(
+                    original_attempt_id=original_id,
+                    attempt_id=original_id + "/preparation-revalidation",
+                    allocation_phase="infrastructure-revalidation",
+                )
     pinned = json.loads((ROOT / "benchmarks/context-formal-protocol.json").read_text())
     archives = []
     for path in args.archives.rglob("cross-evidence.tar.gz"):
@@ -148,6 +164,7 @@ def freeze(args):
         "phase": args.phase,
         "tasks": selected,
         "attempts": attempts,
+        "preparation_failures": preparation_failures,
         "formal_request_cap": len(attempts) * 24,
         "qualification_contracts": identities,
         "image": args.image,
@@ -213,6 +230,7 @@ def main():
     parser.add_argument("--selection-review", type=Path)
     parser.add_argument("--repeat-instances")
     parser.add_argument("--formal-protocol", type=Path)
+    parser.add_argument("--preparation-failures", type=Path)
     value = freeze(parser.parse_args())
     print(
         json.dumps(

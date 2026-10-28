@@ -11,6 +11,8 @@ from native_cpp_runner import canonical_case, review_parser
 from qualify_cpp_batch import archive, git, save
 from screen_multiswe import patch_paths
 
+from repropatch.workspace import git_blob, git_tree
+
 ROOT = Path(__file__).resolve().parents[1]
 OPTIONS = {
     "open-source-parsers/jsoncpp": [
@@ -69,6 +71,7 @@ MODES = {
     "shader-slang/slang": "slang",
     "luau-lang/luau": "luau",
 }
+NATIVE_TEST_DATA = ("dependencies/.cache/simdjson-data/",)
 
 
 def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
@@ -370,6 +373,49 @@ def editable_files(record, source):
             and production_path(record, path.relative_to(source).as_posix())
         }
     )
+
+
+def text_readable_paths(source, prefixes, revision="HEAD"):
+    """文本工具读取 UTF-8 源码，原生测试保留完整的离线语料。"""
+    tracked = {entry.path: entry.oid for entry in git_tree(source, revision)}
+    readable = set()
+
+    def compact(names, prefix, selected):
+        if not selected:
+            return set()
+        if len(names) == len(selected):
+            return {prefix}
+        groups = {}
+        for name in names:
+            slash = name.find("/", len(prefix))
+            child = name[: slash + 1] if slash >= 0 else name
+            groups.setdefault(child, set()).add(name)
+        return {
+            path
+            for child, members in groups.items()
+            for path in compact(members, child, members & selected)
+        }
+
+    for prefix in prefixes:
+        names = [
+            name
+            for name in tracked
+            if (name.startswith(prefix) if prefix.endswith("/") else name == prefix)
+        ]
+        selected = set()
+        for name in names:
+            if name.startswith(NATIVE_TEST_DATA):
+                continue
+            content = git_blob(source, tracked[name])
+            if b"\x00" in content:
+                continue
+            try:
+                content.decode("utf-8")
+            except UnicodeError:
+                continue
+            selected.add(name)
+        readable.update(compact(names, prefix, selected))
+    return sorted(readable)
 
 
 def group_states(contract, native):

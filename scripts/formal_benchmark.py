@@ -328,7 +328,9 @@ def verify_registry(source, output):
     save(output / "prior-attempts.json", {"attempts": rows})
 
 
-def prepare_execution_contract(directory, target, model_timeout_seconds, budget_overrides=None):
+def prepare_execution_contract(
+    directory, target, model_timeout_seconds, budget_overrides=None, *, readable_paths=None
+):
     """原生资格证据保持原件，执行 Task 单独记录预算与父证据身份。"""
     from repropatch.task import Task
 
@@ -337,7 +339,13 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
     original = Task.load(directory / "task.yaml")
     overrides = {**(budget_overrides or {}), "model_timeout_seconds": model_timeout_seconds}
     raw = original.to_dict()
-    if all(raw["budget"].get(key) == value for key, value in overrides.items()):
+    readable_changed = (
+        readable_paths is not None and list(readable_paths) != raw["files"]["readable"]
+    )
+    if (
+        all(raw["budget"].get(key) == value for key, value in overrides.items())
+        and not readable_changed
+    ):
         return directory
     if original.budget.model_timeout_seconds != model_timeout_seconds:
         assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
@@ -349,6 +357,8 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
     ):
         shutil.copyfile(directory / original_name, target / parent_name)
     raw["budget"].update(overrides)
+    if readable_changed:
+        raw["files"]["readable"] = list(readable_paths)
     task = Task.from_dict(raw, target)
     (target / "task.yaml").write_bytes(task.source_bytes)
     parent = directory / "result.json"
@@ -360,6 +370,8 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
         native_qualification_manifest_sha256=sha(directory / "manifest.json"),
         execution_budget_override=overrides,
     )
+    if readable_changed:
+        result["execution_readable_policy"] = "utf8-text-v1"
     save(target / "result.json", result)
     manifest = {
         str(file.relative_to(target)): {"size": file.stat().st_size, "sha256": sha(file)}
@@ -794,7 +806,10 @@ def main():
             if not args.attempt_id:
                 raise ValueError("CROSS_EXPLICIT_ATTEMPT_ID_REQUIRED")
             with CPASession(args.output / "cpa-session") as session:
-                session.claim(args.attempt_id, p["phase"])
+                from cross_repo_campaign import allocation_phase
+
+                attempt = next(a for a in p["attempts"] if a["attempt_id"] == args.attempt_id)
+                session.claim(args.attempt_id, allocation_phase(p, attempt))
                 execute(args.instance, args.output, args.arm)
         else:
             execute(args.instance, args.output, args.arm)

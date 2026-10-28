@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 from check_native_cpp_candidate import restore_repository
+from cpp_native_adapter import text_readable_paths
 from cpp_sources import load_records
 from qualify_cpp_batch import save, sha
 from verify_qualification_evidence import required_task_artifacts, verify_tree
@@ -151,6 +152,8 @@ def validate_protocol(p):
         (a["instance_id"], a["arm"]) for a in attempts
     } != {(task, arm) for task in ids for arm in ARMS}:
         raise ValueError("CROSS_TASK_ARM_REGISTRY_INCOMPLETE")
+    for attempt in attempts:
+        allocation_phase(p, attempt)
     if not IMAGE_ID.fullmatch(p["image_id"]) or "@sha256:" not in p["image"]:
         raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
     if p["cpa_route"] != "azure-ssh" or p["retries"] != 0 or not p["paid_calls_authorized"]:
@@ -176,6 +179,28 @@ def validate_protocol(p):
         raise ValueError("CROSS_REPEAT_PREREGISTRATION_MISMATCH")
 
 
+def allocation_phase(protocol, attempt):
+    """准备阶段已认领的零请求任务使用独立基础设施复验额度。"""
+    phase = attempt.get("allocation_phase", protocol["phase"])
+    if phase == protocol["phase"]:
+        return phase
+    evidence = protocol.get("preparation_failures", {}).get(attempt.get("original_attempt_id"))
+    if (
+        protocol["phase"] != "development"
+        or phase != "infrastructure-revalidation"
+        or not evidence
+        or evidence.get("classification") != "infrastructure"
+        or evidence.get("issued_requests") != 0
+        or evidence.get("claim_status") != "CLAIMED"
+        or not evidence.get("run_id")
+        or not evidence.get("artifact_sha256")
+        or any(evidence.get(key) != attempt[key] for key in ("instance_id", "arm"))
+        or attempt["attempt_id"] != attempt["original_attempt_id"] + "/preparation-revalidation"
+    ):
+        raise ValueError("CROSS_PREPARATION_REVALIDATION_EVIDENCE_REQUIRED")
+    return phase
+
+
 def execution_order(tasks, *, seed=20261028, replicate="first", batch="cross-repository-20261028"):
     generator = random.Random(seed)
     rows = []
@@ -196,7 +221,7 @@ def execution_order(tasks, *, seed=20261028, replicate="first", batch="cross-rep
 
 def prepare(instance, output, arm, p):
     from agents.testing import ScriptedModel, assistant_message
-    from formal_benchmark import freeze_configuration
+    from formal_benchmark import freeze_configuration, prepare_execution_contract
     from prepare_mini_environment import MINI_COMMIT
 
     from repropatch.harness import Harness
@@ -231,6 +256,25 @@ def prepare(instance, output, arm, p):
     )
     if issues:
         raise ValueError("CROSS_QUALIFICATION_EVIDENCE_INCOMPLETE")
+    original_task_sha = sha(directory / "task.yaml")
+    readable = text_readable_paths(task.repository, task.readable_paths, task.revision)
+    directory = prepare_execution_contract(
+        directory,
+        output / "execution-contract",
+        p["model_timeout_seconds"],
+        readable_paths=readable,
+    )
+    execution_task = directory / "task.yaml"
+    task = Task.load(execution_task)
+    save(
+        output / "execution-task-provenance.json",
+        {
+            "qualification_task_sha256": original_task_sha,
+            "execution_task_sha256": sha(execution_task),
+            "readable_policy": "utf8-text-v1",
+            "prepared_commit": task.revision,
+        },
+    )
     image = subprocess.check_output(
         ["docker", "image", "inspect", "--format", "{{.Id}}", p["image"]], text=True
     ).strip()
@@ -241,7 +285,10 @@ def prepare(instance, output, arm, p):
     if record["base"]["sha"] != q["upstream_commit"]:
         raise ValueError("CROSS_DATASET_IDENTITY_MISMATCH")
     baseline = Harness(
-        task, ScriptedModel([[assistant_message("固定基线输入。")]]), output / "baseline-runs"
+        task,
+        ScriptedModel([[assistant_message("固定基线输入。")]]),
+        output / "baseline-runs",
+        context_policy=ContextPolicy.from_dict(p["context_policy"]),
     ).run()
     if not baseline["reproduced"] or not baseline["cleanup_confirmed"]:
         raise ValueError("CROSS_EXECUTION_BASELINE_FAILED")
@@ -263,7 +310,7 @@ def prepare(instance, output, arm, p):
         output / "prepared.json",
         {
             "instance_id": instance,
-            "task": str(directory / "task.yaml"),
+            "task": str(execution_task),
             "qualification": str(directory / "result.json"),
             "common_input": str(output / "common-input.json"),
             "mini_source": str(mini),
