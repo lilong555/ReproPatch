@@ -39,6 +39,7 @@ def test_compile_regression_keeps_p2p_and_passes_original_cold_oracle(tmp_path, 
     (upstream / "CMakeLists.txt").write_text(
         "cmake_minimum_required(VERSION 3.22)\nproject(fixture LANGUAGES CXX)\n"
         "enable_testing()\n"
+        "add_custom_target(clangd_cache ALL COMMAND ${CMAKE_COMMAND} -E false)\n"
         "add_executable(regression tests/regression.cpp)\n"
         "target_include_directories(regression PRIVATE include)\n"
         "add_executable(control tests/control.cpp)\n"

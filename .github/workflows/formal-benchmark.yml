@@ -1,5 +1,5 @@
 name: Formal Luna max benchmark
-run-name: Luna max · ${{ inputs.authorization }} requests · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:

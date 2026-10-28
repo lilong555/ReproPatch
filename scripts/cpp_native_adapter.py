@@ -35,6 +35,7 @@ OPTIONS = {
         "-DCMAKE_CXX_STANDARD=17",
         "-DENABLE_EXTENSION_AUTOINSTALL=OFF",
         "-DENABLE_EXTENSION_AUTOLOADING=OFF",
+        "-DCMAKE_PROJECT_INCLUDE=/src/repropatch-native/runtime.cmake",
     ],
     "shader-slang/slang": [
         "-DSLANG_ENABLE_TESTS=ON",
