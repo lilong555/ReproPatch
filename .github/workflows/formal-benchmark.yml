@@ -8,7 +8,7 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
+        options: ['legacy', 'qualify', 'inspect-native', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'

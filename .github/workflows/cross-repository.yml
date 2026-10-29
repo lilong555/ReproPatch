@@ -33,6 +33,47 @@ permissions:
   packages: write
 
 jobs:
+  inspect-native:
+    if: inputs.stage == 'inspect-native'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OFFICIAL_IMAGE: ${{ inputs.image }}
+    steps:
+      - name: 读取官方任务环境与构建依赖
+        run: |
+          python - <<'PY'
+          import os, re
+          assert re.fullmatch(r'starryzhang/sweb\.eval\.x86_64\.[a-zA-Z0-9_.-]+@sha256:[a-f0-9]{64}', os.environ['OFFICIAL_IMAGE'])
+          PY
+          mkdir -p native-environment
+          docker pull "$OFFICIAL_IMAGE"
+          docker image inspect "$OFFICIAL_IMAGE" > native-environment/image.json
+          docker run --rm --network none --entrypoint python3 "$OFFICIAL_IMAGE" -c '
+          import json, os, pathlib, subprocess
+          root = pathlib.Path("/testbed")
+          result = {"model_requests": 0, "files": {}, "tools": {}}
+          for directory, dirs, files in os.walk(root):
+              dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
+              for name in files:
+                  p = pathlib.Path(directory) / name
+                  if name == "CMakeCache.txt":
+                      result["files"][str(p)] = p.read_text(errors="replace")
+                  elif name in ("gfx.slang", "slang.slang") or name.startswith(("libslang-llvm", "libdxcompiler", "libdxil")):
+                      result["files"][str(p)] = {"bytes": p.stat().st_size}
+          for tool in ("gcc", "g++", "clang", "cmake", "ninja", "gdb"):
+              p = subprocess.run([tool, "--version"], capture_output=True, text=True) if __import__("shutil").which(tool) else None
+              result["tools"][tool] = p.stdout.splitlines()[:1] if p else None
+          print(json.dumps(result, indent=2))
+          ' > native-environment/inspection.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: native-environment-${{ github.run_id }}
+          path: native-environment/
+          if-no-files-found: error
+          retention-days: 14
+
   freeze:
     if: inputs.stage == 'freeze'
     runs-on: ubuntu-24.04
