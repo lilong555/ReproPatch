@@ -268,16 +268,6 @@
     "record_sha256": "24126911f4d3466fe3fe050d32bdd188747771ea9fa72654ee435bd94d6f5e8b",
     "qualification_status": "QUALIFIED"
   },
-  "nlohmann__json-2019": {
-    "repository": "nlohmann/json",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "1982",
-    "difficulty": "medium",
-    "rationale": "json_pointer.contains 在数组路径中错误限制后续对象键。",
-    "record_sha256": "0d6fb9e7869dd6a0490b9ec7bac23cc19243e226370789ba76f19f85241feff7",
-    "qualification_status": "PENDING"
-  },
   "nlohmann__json-3564": {
     "repository": "nlohmann/json",
     "semantic_kind": "defect",
@@ -296,6 +286,16 @@
     "difficulty": "complex",
     "rationale": "ordered_json数组的范围删除在模板实例化时编译失败，涉及有序映射迭代器、const键重建与删除区间维护。",
     "record_sha256": "474576e64f19c8c51cb3d72170558421a5905bb63d22f8b5cdf3d80caddd9443",
+    "qualification_status": "QUALIFIED"
+  },
+  "nlohmann__json-3605": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1682",
+    "difficulty": "complex",
+    "rationale": "全局用户定义字面量在多个隔离命名空间内包含JSON头文件时发生冲突，涉及公开字面量命名空间、兼容宏与双头文件入口。",
+    "record_sha256": "60c640d9bf4211f8c3b133227287ee0dcc43d644bd0077118e75c00f6440296b",
     "qualification_status": "PENDING"
   }
 }

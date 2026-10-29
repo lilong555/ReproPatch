@@ -1,0 +1,28 @@
+{
+  "model_requests": 0,
+  "source_commit": "864664eb38e01499d37a099b41c11552c7d021d1",
+  "batch_key": "batch-05",
+  "instances": [
+    "nlohmann__json-3109"
+  ],
+  "repeat_instances": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "ci_run": 40837596169,
+  "calibration_run": 40646051506,
+  "development_run": 40683926397,
+  "qualification_sources": [
+    {
+      "instance_id": "nlohmann__json-3109",
+      "run_id": 40836845649,
+      "artifact": "cross-evidence-40836845649-nlohmann__json-3109",
+      "archive_sha256": "ceb1a443c35e8a9bb13ef481c3545a0b5616e030d80d4669ff3a3aa3b2ecb5c2",
+      "source_job_id": 123323862796
+    }
+  ]
+}
