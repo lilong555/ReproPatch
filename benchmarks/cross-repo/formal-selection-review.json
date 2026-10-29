@@ -7,7 +7,7 @@
     "difficulty": "medium",
     "rationale": "默认构造迭代器在比较时触发断言，涉及迭代器状态与比较语义。",
     "record_sha256": "c6cc5a454e9d3aa6a30498c412aa3238f5e79dc0c22fa38a514c4d5f7d5315cc",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3543": {
     "repository": "nlohmann/json",
@@ -47,7 +47,7 @@
     "difficulty": "medium",
     "rationale": "迭代器后置自增改变 const 属性，破坏标准迭代器概念要求。",
     "record_sha256": "7ed526146b45d26fbe49e93138cdc606ceb23516bffad108eadf0363034e82db",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "stephenberry__glaze-2611": {
     "repository": "stephenberry/glaze",
@@ -68,7 +68,7 @@
     "difficulty": "complex",
     "rationale": "泛型类型转换的兼容性回归，涉及构造判定、SFINAE 与序列化重载。",
     "record_sha256": "fe95287305a491ccb8bfb0ddbf5de1b0ed665f1b9576b3738e89dacecf8dd589",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2332": {
     "repository": "nlohmann/json",
@@ -78,7 +78,7 @@
     "difficulty": "medium",
     "rationale": "连续注释行导致解析失败，需要处理词法状态转换。",
     "record_sha256": "a1112b7599683b51b4f2cecd3c661261a414c174588a933545936e89949f69b9",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2319": {
     "repository": "nlohmann/json",
@@ -88,7 +88,7 @@
     "difficulty": "complex",
     "rationale": "ordered_json 的 update 与 pair 容器转换失效，涉及映射容器接口和插入语义。",
     "record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "shader-slang__slang-10856": {
     "repository": "shader-slang/slang",
@@ -235,7 +235,7 @@
     "difficulty": "medium",
     "rationale": "对象键访问按 JSON Pointer 解释带斜杠的键，与接口约定冲突。",
     "record_sha256": "941a845898e32a9aee09b73ac918f1672b6512911d6fcdcdaa464d12bc38346e",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2866": {
     "repository": "nlohmann/json",
@@ -255,7 +255,7 @@
     "difficulty": "complex",
     "rationale": "value<size_t> 的重载消歧回归，涉及 json_pointer 与类型特征约束。",
     "record_sha256": "69e5f4fb9f360c939f47fa19786e1e123ac6924bcb41f2d1afccf50c76d68187",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3664": {
     "repository": "nlohmann/json",
@@ -265,7 +265,7 @@
     "difficulty": "medium",
     "rationale": "json_pointer 与字符串比较的接口回归，涉及比较运算符与隐式转换。",
     "record_sha256": "98174eb365fd3ece77a681fbeef750473823e4433843f214ddeaadfdfb6321fa",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2352": {
     "repository": "nlohmann/json",
@@ -275,7 +275,7 @@
     "difficulty": "complex",
     "rationale": "泛型构造检测访问私有类型成员，导致普通查找表达式编译失败。",
     "record_sha256": "24126911f4d3466fe3fe050d32bdd188747771ea9fa72654ee435bd94d6f5e8b",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2019": {
     "repository": "nlohmann/json",
@@ -295,6 +295,6 @@
     "difficulty": "complex",
     "rationale": "ordered_json 遗漏已有异构字符串键支持，需要协调类型特征、顺序映射与元素访问。",
     "record_sha256": "90feabff8cf33dff23eefe2319564f315657e799e6c213c612bfb355590da3fd",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   }
 }

@@ -86,12 +86,18 @@ class NativeExecutor(Executor):
             "-DCMAKE_C_COMPILER_LAUNCHER=",
         ]
         try:
+            if selected:
+                query = build / ".cmake/api/v1/query"
+                query.mkdir(parents=True, exist_ok=True)
+                (query / "codemodel-v2").touch()
             configured = self.run(configure, source, build, phase, "configure")
             if configured["exit_code"]:
                 return {"status": "CONFIGURE_FAILED", "tests": {}}
             command = ["cmake", "--build", "/build", "--parallel", str(self.build_jobs)]
             if selected:
-                command += ["--target", *selected]
+                from native_cpp_runner import selected_build_targets
+
+                command += ["--target", *selected_build_targets(build, selected)]
             built = self.run(command, source, build, phase, "build")
             if built["exit_code"]:
                 return {"status": "BUILD_FAILED", "tests": {}}

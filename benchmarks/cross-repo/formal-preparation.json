@@ -27,7 +27,7 @@
     "complex": 17,
     "compile_control": 2
   },
-  "selection_review_sha256": "e8fda7ebffa8a51606fb506115eef584a1e38414073f78b07d549c2a38af8ccb",
+  "selection_review_sha256": "ae7c6b14dcfeee4121c87c6095d4db4a8e2c384281ca45a85e0bad9b1da3fe6d",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -111,7 +111,9 @@
     40825871574,
     40827519515,
     40828677570,
-    40829252883
+    40829252883,
+    40832297438,
+    40833909499
   ],
   "discarded_candidates": [
     {
@@ -875,6 +877,49 @@
       "qualification_wall_seconds": 841.484403335,
       "source_job_id": 123288967774,
       "result_sha256": "cd2a228e15cfbe06ce4324c71534e1fc1f88ffb445e17cbd97fd7665098288ae"
+    },
+    {
+      "instance_id": "simdjson__simdjson-644",
+      "run_id": 40831998932,
+      "artifact": "cross-evidence-40831998932-simdjson__simdjson-644",
+      "archive_sha256": "507e47d581d01c349aedb7332ac6fb239e3c426db369b00a3b8642a644d740e6",
+      "source_job_id": 123308353346
+    },
+    {
+      "instance_id": "nlohmann__json-3663",
+      "run_id": 40831034510,
+      "artifact": "cross-evidence-40831034510-nlohmann__json-3663",
+      "archive_sha256": "ddf22ff7c23d2951d4b58abead84296b511f12a116a4dca77ce667b6d81871bc",
+      "source_job_id": 123305328270
+    },
+    {
+      "instance_id": "nlohmann__json-3664",
+      "run_id": 40831034510,
+      "artifact": "cross-evidence-40831034510-nlohmann__json-3664",
+      "archive_sha256": "dcdee4cf15a529dd40bd881cd8e19d6df2b65b3fc2e4b4c4e490c9a497a0e408",
+      "source_job_id": 123305328295
+    },
+    {
+      "instance_id": "nlohmann__json-3073",
+      "run_id": 40833345375,
+      "artifact": "cross-evidence-40833345375-nlohmann__json-3073",
+      "archive_sha256": "0230add3a31593c9f2e2c7ddbc0d5a2f3d093aed4e616eacc9abcf22c847be5a",
+      "source_job_id": 123312339668,
+      "native_tests_reused_from_run": 40824500614
+    },
+    {
+      "instance_id": "nlohmann__json-3564",
+      "run_id": 40832297438,
+      "artifact": "cross-evidence-40832297438-nlohmann__json-3564",
+      "archive_sha256": "af183c722bb8eb2b61f472bcd9f43d3af4447e4efac045f3e0db16047f288df5",
+      "source_job_id": 123309332796
+    },
+    {
+      "instance_id": "nlohmann__json-2352",
+      "run_id": 40833909499,
+      "artifact": "cross-evidence-40833909499-nlohmann__json-2352",
+      "archive_sha256": "170de10d4c5b2cdfc78a0ec220293d69970fc882b19147e99829530f0cd4b955",
+      "source_job_id": 123314475159
     }
   ],
   "task_environments": {
@@ -937,6 +982,21 @@
       "attempts": 20,
       "request_cap": 480,
       "run_id": 40830019426
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-03.json",
+      "sha256": "01c807b5ada19b5b3689b05aed8b2301149ce7ffd3f805a758f43deb0e50c6f4",
+      "tasks": [
+        "simdjson__simdjson-644",
+        "nlohmann__json-3663",
+        "nlohmann__json-3664",
+        "nlohmann__json-3073"
+      ],
+      "freeze_run_id": 40834980542,
+      "status": "SUBMITTED",
+      "attempts": 20,
+      "request_cap": 480,
+      "run_id": 40835967384
     }
   ],
   "repeat_instances": [

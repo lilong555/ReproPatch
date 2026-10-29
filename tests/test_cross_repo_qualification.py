@@ -17,6 +17,33 @@ sources = importlib.import_module("cpp_sources")
 runner = importlib.import_module("native_cpp_runner")
 
 
+@pytest.mark.integration
+def test_selected_oracle_maps_ctest_name_to_native_build_target(tmp_path):
+    if any(shutil.which(tool) is None for tool in ("cmake", "ninja", "c++")):
+        pytest.skip("需要 CMake、Ninja 和 C++ 编译器")
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "main.cpp").write_text("int main() { return 0; }\n")
+    (source / "CMakeLists.txt").write_text(
+        "cmake_minimum_required(VERSION 3.22)\nproject(fixture LANGUAGES CXX)\n"
+        "enable_testing()\nadd_executable(test-pointer main.cpp)\n"
+        "add_test(NAME test-pointer_all COMMAND test-pointer)\n"
+        "add_custom_target(unrelated ALL COMMAND ${CMAKE_COMMAND} -E false)\n"
+    )
+    configuration = {
+        "memory_mib": 1024,
+        "configure": ["cmake", "-G", "Ninja", "-S", "/src", "-B", "/build"],
+    }
+    executor = qualification.NativeExecutor(
+        "native", None, tmp_path, time.monotonic() + 30, configuration
+    )
+    try:
+        result = executor.native_oracle(source, "selected", {}, selected=["test-pointer_all"])
+        assert result == {"status": "PASSED", "tests": {"test-pointer_all": "passed"}}
+    finally:
+        shutil.rmtree(executor.build_root)
+
+
 def test_truncated_ctest_xml_keeps_native_oom_classification(tmp_path, monkeypatch):
     # CTest 的 XML 输出会截断长套件日志，完整命令日志保留 SIGKILL 与 OOM 证据。
     (tmp_path / "baseline-results.xml").write_text("<testsuite>truncated output</testsuite>")
