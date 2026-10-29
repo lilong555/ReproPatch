@@ -31,13 +31,14 @@ from qualify_cpp_batch import CANCELLED, CTEST, Executor, archive, git, save, sh
 
 from repropatch.errors import ReproPatchError
 from repropatch.task import IMAGE_ID, Task
+from repropatch.workspace import git_tree
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class NativeExecutor(Executor):
     def __init__(self, backend, image, directory, deadline, configuration):
-        super().__init__(backend, image, directory, deadline, 2)
+        super().__init__(backend, image, directory, deadline, configuration.get("build_jobs", 2))
         self.configuration = configuration
         self.memory_mib = configuration["memory_mib"]
         self.pids_limit = configuration.get("pids_limit", 256)
@@ -85,12 +86,18 @@ class NativeExecutor(Executor):
             "-DCMAKE_C_COMPILER_LAUNCHER=",
         ]
         try:
+            if selected:
+                query = build / ".cmake/api/v1/query"
+                query.mkdir(parents=True, exist_ok=True)
+                (query / "codemodel-v2").touch()
             configured = self.run(configure, source, build, phase, "configure")
             if configured["exit_code"]:
                 return {"status": "CONFIGURE_FAILED", "tests": {}}
-            command = ["cmake", "--build", "/build", "--parallel", "2"]
+            command = ["cmake", "--build", "/build", "--parallel", str(self.build_jobs)]
             if selected:
-                command += ["--target", *selected]
+                from native_cpp_runner import selected_build_targets
+
+                command += ["--target", *selected_build_targets(build, selected)]
             built = self.run(command, source, build, phase, "build")
             if built["exit_code"]:
                 return {"status": "BUILD_FAILED", "tests": {}}
@@ -186,6 +193,14 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         (issue.get("title") or "") + "\n" + (issue.get("body") or "")
         for issue in record["resolved_issues"]
     ).strip()
+    encoded_description = description.encode("utf-8")
+    if len(encoded_description) > 30 * 1024:
+        # 保留问题开头与日志结尾，完整原文随 control/record.json 归档。
+        description = (
+            encoded_description[: 26 * 1024].decode("utf-8", errors="ignore")
+            + "\n\n[中间日志已折叠；完整问题原文见资格证据 control/record.json]\n\n"
+            + encoded_description[-3 * 1024 :].decode("utf-8", errors="ignore")
+        )
     raw = {
         "version": 2,
         "id": record["instance_id"].replace("__", "-").lower(),
@@ -195,7 +210,7 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         },
         "environment": {
             "image": image,
-            "cpu_limit": 2.0,
+            "cpu_limit": float(configuration.get("build_jobs", 2)),
             "memory_mib": configuration["memory_mib"],
             "build_tmpfs_mib": configuration["build_tmpfs_mib"],
             "pids_limit": configuration.get("pids_limit", 256),
@@ -208,7 +223,13 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         },
         "commands": {
             "configure": [*configuration["configure"], "-DREPROPATCH_NATIVE_WRAPPER=ON"],
-            "build": ["cmake", "--build", "/build", "--parallel", "2"],
+            "build": [
+                "cmake",
+                "--build",
+                "/build",
+                "--parallel",
+                str(configuration.get("build_jobs", 2)),
+            ],
             "reproduce": list(CTEST),
             "verify": list(CTEST),
         },
@@ -333,6 +354,8 @@ def qualify(record, args):
         result["upstream_snapshot_commit"] = (
             git(source, "rev-parse", "HEAD", deadline=executor.deadline).decode().strip()
         )
+        # 在冷构建前确认源码满足工作树的文件类型与体积约束。
+        git_tree(source, result["upstream_snapshot_commit"])
         save(control / "upstream-source-manifest.json", source_manifest(source))
         git(source, "apply", str(control / "test.patch"), deadline=executor.deadline)
         contract = make_contract(record, configuration)
@@ -569,6 +592,30 @@ def main():
             ),
             flush=True,
         )
+        if result["status"] not in {"QUALIFIED", "HOST_QUALIFIED"}:
+            errors = {}
+            for log in sorted((args.output / instance / "logs").glob("*.log")):
+                lines = [
+                    line
+                    for line in log.read_text(errors="replace").splitlines()
+                    if re.search(r"error:|fatal error|CMake Error", line, re.IGNORECASE)
+                ]
+                if lines:
+                    errors[log.name] = lines[:12]
+            print(
+                json.dumps(
+                    {
+                        "instance_id": instance,
+                        "diagnostic": result.get("diagnostic"),
+                        "phase_statuses": {
+                            key: value["status"] for key, value in result["phases"].items()
+                        },
+                        "compiler_errors": errors,
+                    },
+                    ensure_ascii=False,
+                ),
+                flush=True,
+            )
     return 0 if all(row["status"] in {"QUALIFIED", "HOST_QUALIFIED"} for row in results) else 1
 
 

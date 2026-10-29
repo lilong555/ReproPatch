@@ -185,6 +185,32 @@ def generated_ctest_commands(build, missing):
     return recovered
 
 
+def selected_build_targets(build, selected):
+    """按 CTest 命令和 CMake 产物映射目标，保留测试名与二进制名的区别。"""
+    replies = build / ".cmake/api/v1/reply"
+    indexes = sorted(replies.glob("index-*.json"))
+    if not indexes:
+        raise ValueError("NATIVE_CMAKE_FILE_API_MISSING")
+    index = json.loads(indexes[-1].read_text())
+    model = json.loads((replies / index["reply"]["codemodel-v2"]["jsonFile"]).read_text())
+    binaries = {}
+    for entry in model["configurations"][0]["targets"]:
+        target = json.loads((replies / entry["jsonFile"]).read_text())
+        if target["type"] == "EXECUTABLE":
+            for artifact in target.get("artifacts", []):
+                binaries[Path(artifact["path"]).name] = target["name"]
+    commands = generated_ctest_commands(build, set(selected))
+    targets = set()
+    for name in selected:
+        matched = {
+            binaries[Path(arg).name] for arg in commands.get(name, []) if Path(arg).name in binaries
+        }
+        if len(matched) != 1:
+            raise ValueError("NATIVE_CTEST_COMMAND_AMBIGUOUS: " + name)
+        targets.update(matched)
+    return sorted(targets)
+
+
 def prepare_native(contract, source, build):
     """通过 CMake File API 识别官方新增测试所属目标，构建延迟到对应 CTest 节点。"""
     replies = build / ".cmake/api/v1/reply"
@@ -673,7 +699,15 @@ def run_group(contract, source, build, group):
     targets = group_targets(contract, build, selected)
     if targets:
         code, output = execute(
-            ["cmake", "--build", str(build), "--target", *targets, "--parallel", "2"],
+            [
+                "cmake",
+                "--build",
+                str(build),
+                "--target",
+                *targets,
+                "--parallel",
+                str(contract.get("configuration", {}).get("build_jobs", 2)),
+            ],
             build,
             build / "repropatch-reports" / (group.replace("/", "_") + "-build.log"),
         )

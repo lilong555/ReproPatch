@@ -165,11 +165,22 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "nlohmann__json-1555",
         "nlohmann__json-2319",
         "nlohmann__json-2332",
+        "nlohmann__json-2019",
+        "nlohmann__json-2352",
     }:
         # 旧测试框架的信号栈使用静态 SIGSTKSZ；进程信号交由 CTest 记录。
         compiler_options = [
             "-DCMAKE_CXX_FLAGS=-DCATCH_CONFIG_NO_POSIX_SIGNALS -DDOCTEST_CONFIG_NO_POSIX_SIGNALS"
         ]
+        if record["instance_id"] in {
+            "nlohmann__json-1303",
+            "nlohmann__json-1343",
+            "nlohmann__json-1446",
+            "nlohmann__json-1555",
+        }:
+            # C++20 allocator 接口兼容旧测试的继承写法，UTF-8 字面量沿用 char 类型。
+            options.append("-DCMAKE_CXX_STANDARD=20")
+            compiler_options[0] += " -fno-char8_t"
     elif cxx.startswith("clang") and repo == "stephenberry/glaze":
         # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
         # 系统 Asio 使用 make_exception_ptr，却未直接包含 <exception>。
@@ -203,12 +214,12 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "memory_mib": 14336
         if record.get("instance_id") == "duckdb__duckdb-23422"
         else 12288
-        if repo == "duckdb/duckdb"
+        if repo in {"duckdb/duckdb", "shader-slang/slang"}
         else 8192,
         "build_tmpfs_mib": 4096,
         # Slang 原生临时文件固定写入 /tmp，主机可调用模块需要执行权限。
         "tmp_executable": repo == "shader-slang/slang",
-        "build_jobs": 2,
+        "build_jobs": 4 if repo == "shader-slang/slang" else 2,
         # DuckDB 原生并发 DROP 回归同时创建 300 个线程，256 会中断测试进程。
         "pids_limit": 4096 if repo in {"ninja-build/ninja", "duckdb/duckdb"} else 256,
         # 冷编译与完整原生套件共享阶段期限；DuckDB 的 O3 编译可耗时约 25 分钟。
@@ -282,6 +293,11 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
         return []
     if record.get("instance_id") == "simdjson__simdjson-644":
         # 此版本的六个原生测试直接使用仓库内数据。
+        # JSON 对照库仅保留编译接口，独立项目的测试与性能数据位于其发行仓库。
+        for relative in ("dependencies/json/test", "dependencies/json/benchmarks"):
+            path = source / relative
+            if path.exists():
+                shutil.rmtree(path)
         return []
     from prepare_simdjson_task import adapt_environment, adapt_individual_ctest
 
@@ -613,7 +629,9 @@ def wrapper(source, contract):
         '  message(FATAL_ERROR "REPROPATCH_NATIVE_DEFER_CONFIGURATION_FAILED: ${status}")',
         "endif()",
         "add_custom_target(native-build ALL COMMAND ${CMAKE_COMMAND} "
-        "--build ${CMAKE_CURRENT_BINARY_DIR}/native --parallel 2)",
+        "--build ${CMAKE_CURRENT_BINARY_DIR}/native --parallel "
+        + str(contract["configuration"].get("build_jobs", 2))
+        + ")",
     ]
     for group in contract["groups"]:
         escaped = group.replace("\\", "\\\\").replace('"', '\\"')
