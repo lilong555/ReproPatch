@@ -12,7 +12,7 @@ from yaml.events import AliasEvent
 
 from .errors import ReproPatchError
 
-MAX_TASK_BYTES = 128 * 1024
+MAX_TASK_BYTES = 512 * 1024
 CTEST_TEMPLATE = ("ctest", "--test-dir", "/build", "--output-on-failure", "--no-tests=error")
 OID = re.compile(r"(?:[a-f0-9]{40}|[a-f0-9]{64})\Z")
 IMAGE_ID = re.compile(r"sha256:[a-f0-9]{64}\Z")
@@ -132,6 +132,7 @@ class Environment:
     memory_mib: int = 2048
     pids_limit: int = 128
     build_tmpfs_mib: int = 1024
+    tmp_executable: bool = False
 
 
 @dataclass(frozen=True)
@@ -206,7 +207,7 @@ class Task:
         with path.open("rb") as stream:
             source = stream.read(MAX_TASK_BYTES + 1)
         if len(source) > MAX_TASK_BYTES:
-            fail("task", "清单超过 128 KiB")
+            fail("task", f"清单超过 {MAX_TASK_BYTES // 1024} KiB")
         try:
             raw = yaml.load(source.decode("utf-8"), Loader=UniqueLoader)
             return cls.from_dict(raw, path.resolve().parent, source_bytes=source)
@@ -274,6 +275,8 @@ class Task:
         values["cpu_limit"] = float(cpu)
         for key in ("memory_mib", "pids_limit", "build_tmpfs_mib"):
             positive(values[key], f"environment.{key}")
+        if type(values["tmp_executable"]) is not bool:
+            fail("environment.tmp_executable", "期望布尔值")
         if values["build_tmpfs_mib"] >= values["memory_mib"]:
             fail("environment.build_tmpfs_mib", "必须小于 memory_mib")
         bug = mapping(raw["bug"], "bug", ("description",))

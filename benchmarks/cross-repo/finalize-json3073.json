@@ -1,0 +1,11 @@
+{
+  "model_requests": 0,
+  "sources": [
+    {
+      "run_id": 40824500614,
+      "instance_id": "nlohmann__json-3073",
+      "archive_sha256": "7e83d50c0ad34eb4ddeb84c558373bc2934d4921a431af36adabe9dc439d0d84",
+      "finalize_task": true
+    }
+  ]
+}

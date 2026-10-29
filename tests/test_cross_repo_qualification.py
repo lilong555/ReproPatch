@@ -4,6 +4,7 @@ import importlib
 import json
 import shutil
 import sys
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -14,6 +15,109 @@ sys.path.insert(0, str(SCRIPTS))
 qualification = importlib.import_module("qualify_cross_repo")
 sources = importlib.import_module("cpp_sources")
 runner = importlib.import_module("native_cpp_runner")
+
+
+def test_catch2_preparation_applies_only_official_test_expectations(tmp_path):
+    qualification.git(tmp_path, "init", "--template=", "-q", ".")
+    source = tmp_path / "source"
+    baseline = source / "projects/SelfTest/Baselines/result.approved.txt"
+    baseline.parent.mkdir(parents=True)
+    baseline.write_text("old\n")
+    header = source / "include/catch.hpp"
+    header.parent.mkdir()
+    header.write_text("bug\n")
+    record = {
+        "instance_id": "catchorg__Catch2-1608",
+        "org": "catchorg",
+        "repo": "Catch2",
+        "fix_patch": (
+            "diff --git a/include/catch.hpp b/include/catch.hpp\n"
+            "--- a/include/catch.hpp\n+++ b/include/catch.hpp\n@@ -1 +1 @@\n-bug\n+fix\n"
+            "diff --git a/projects/SelfTest/Baselines/result.approved.txt "
+            "b/projects/SelfTest/Baselines/result.approved.txt\n"
+            "--- a/projects/SelfTest/Baselines/result.approved.txt\n"
+            "+++ b/projects/SelfTest/Baselines/result.approved.txt\n"
+            "@@ -1 +1 @@\n-old\n+expected\n"
+        ),
+    }
+    result = qualification.prepare_source_dependencies(
+        record, source, tmp_path / "pool", deadline=time.monotonic() + 30
+    )
+    assert baseline.read_text() == "expected\n"
+    assert header.read_text() == "bug\n"
+    assert result[0]["paths"] == ["projects/SelfTest/Baselines/result.approved.txt"]
+
+
+def test_reference_keeps_production_changes_and_omits_document_rename():
+    record = {
+        "org": "nlohmann",
+        "repo": "json",
+        "fix_patch": (
+            "diff --git a/docs/old.md b/docs/new.md\n"
+            "similarity index 100%\nrename from docs/old.md\nrename to docs/new.md\n"
+            "diff --git a/include/json.hpp b/include/json.hpp\n"
+            "--- a/include/json.hpp\n+++ b/include/json.hpp\n@@ -1 +1 @@\n-old\n+new\n"
+        ),
+    }
+    reference, omitted = sources.production_reference(record)
+    assert omitted == ["docs/old.md"]
+    assert reference.startswith("diff --git a/include/json.hpp b/include/json.hpp\n")
+    record["fix_patch"] = record["fix_patch"].replace("docs/new.md", "include/new.hpp")
+    with pytest.raises(ValueError, match="CPP_REFERENCE_TREE_REVIEW_REQUIRED"):
+        sources.production_reference(record)
+
+
+@pytest.mark.integration
+def test_selected_oracle_maps_ctest_name_to_native_build_target(tmp_path):
+    if any(shutil.which(tool) is None for tool in ("cmake", "ninja", "c++")):
+        pytest.skip("需要 CMake、Ninja 和 C++ 编译器")
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "main.cpp").write_text("int main() { return 0; }\n")
+    (source / "CMakeLists.txt").write_text(
+        "cmake_minimum_required(VERSION 3.22)\nproject(fixture LANGUAGES CXX)\n"
+        "enable_testing()\nadd_executable(test-pointer main.cpp)\n"
+        "add_test(NAME test-pointer_all COMMAND test-pointer)\n"
+        "add_custom_target(unrelated ALL COMMAND ${CMAKE_COMMAND} -E false)\n"
+    )
+    configuration = {
+        "memory_mib": 1024,
+        "configure": ["cmake", "-G", "Ninja", "-S", "/src", "-B", "/build"],
+    }
+    executor = qualification.NativeExecutor(
+        "native", None, tmp_path, time.monotonic() + 30, configuration
+    )
+    try:
+        result = executor.native_oracle(source, "selected", {}, selected=["test-pointer_all"])
+        assert result == {"status": "PASSED", "tests": {"test-pointer_all": "passed"}}
+    finally:
+        shutil.rmtree(executor.build_root)
+
+
+def test_truncated_ctest_xml_keeps_native_oom_classification(tmp_path, monkeypatch):
+    # CTest 的 XML 输出会截断长套件日志，完整命令日志保留 SIGKILL 与 OOM 证据。
+    (tmp_path / "baseline-results.xml").write_text("<testsuite>truncated output</testsuite>")
+    (tmp_path / "logs").mkdir()
+    (tmp_path / "logs/baseline-ctest.log").write_text(
+        'REPROPATCH_NATIVE_PROCESS_RESULT: {"exit_code": -9, "signal": "SIGKILL", '
+        '"resource_event_delta": {"memory.events": {"oom_kill": 1}}}\n'
+        "RuntimeError: NATIVE_PROCESS_INFRASTRUCTURE_ERROR: exit_code=-9, signal=SIGKILL\n"
+    )
+    monkeypatch.setattr(
+        qualification.Executor,
+        "suite",
+        lambda *args: {"status": "TESTS_FAILED", "tests": {"native-p2p": "failed"}},
+    )
+    executor = qualification.NativeExecutor(
+        "native",
+        None,
+        tmp_path,
+        time.monotonic() + 30,
+        {"memory_mib": 12288, "configure": []},
+    )
+    assert executor.suite(tmp_path, "baseline", ["native-p2p"])["status"] == (
+        "TEST_INFRASTRUCTURE_FAILED"
+    )
 
 
 @pytest.mark.integration
@@ -225,6 +329,7 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     executable.chmod(0o755)
     contract = {
         "mode": "duckdb",
+        "test_arguments": ["*"],
         "parser": "def parser(log):\n import xml.etree.ElementTree as ET\n"
         " return {case.attrib['name']: 'pass' for case in ET.fromstring(log).iter('testcase')}\n",
     }
@@ -336,36 +441,44 @@ def test_slang_native_outputs_keep_original_test_inputs(tmp_path):
 
 @pytest.mark.integration
 @pytest.mark.parametrize("actual", ["expected", "wrong"])
-def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, actual):
+@pytest.mark.parametrize(
+    "test_root,script_root",
+    [("tests", "tools/scripts"), ("projects", "tools/scripts"), ("projects", "scripts")],
+)
+def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(
+    tmp_path, actual, test_root, script_root
+):
     import subprocess
 
     if any(shutil.which(tool) is None for tool in ("cmake", "ctest", "c++")):
         pytest.skip("需要 CMake、CTest 与 C++ 编译器")
     source = tmp_path / "source"
     build = tmp_path / "build"
-    scripts = source / "tools/scripts"
-    baselines = source / "tests/SelfTest/Baselines"
+    scripts = source / script_root
+    selftest = f"{test_root}/SelfTest"
+    baselines = source / selftest / "Baselines"
     scripts.mkdir(parents=True)
     baselines.mkdir(parents=True)
-    (baselines / "expected.approved.txt").write_text("expected tests/SelfTest/fixture.cpp")
-    (source / "tests/SelfTest/fixture.cpp").write_text(
+    (baselines / "expected.approved.txt").write_text(f"expected {selftest}/fixture.cpp")
+    (source / selftest / "fixture.cpp").write_text(
         "#include <iostream>\nint main(int, char** argv) { "
         'std::cout << argv[1] << " " << __FILE__; }\n'
     )
+    parent_index = len(Path(script_root).parts)
     (scripts / "scriptCommon.py").write_text(
-        "from pathlib import Path\ncatchPath = Path(__file__).resolve().parents[2]\n"
+        f"from pathlib import Path\ncatchPath = Path(__file__).resolve().parents[{parent_index}]\n"
     )
     script = scripts / "approvalTests.py"
     script.write_text(
         "import subprocess, sys\nfrom scriptCommon import catchPath\n"
-        "root = catchPath / 'tests/SelfTest/Baselines'\n"
+        f"root = catchPath / '{selftest}/Baselines'\n"
         "actual = subprocess.check_output(sys.argv[1:], text=True)\n"
         "(root / 'actual.tmp').write_text(actual)\n"
         "sys.exit(0 if (root / 'expected.approved.txt').read_text() == actual else 1)\n"
     )
     (source / "CMakeLists.txt").write_text(
         "cmake_minimum_required(VERSION 3.22)\nproject(fixture LANGUAGES CXX)\nenable_testing()\n"
-        "add_executable(SelfTest tests/SelfTest/fixture.cpp)\n"
+        f"add_executable(SelfTest {selftest}/fixture.cpp)\n"
         f'add_test(NAME ApprovalTests COMMAND "{sys.executable}" "{script}" '
         f'$<TARGET_FILE:SelfTest> "{actual}")\n'
         "set_tests_properties(ApprovalTests PROPERTIES TIMEOUT 5)\n"
@@ -391,11 +504,11 @@ def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, 
         for path in source.rglob("*")
         if path.is_file()
     } == originals
-    copied = build / "repropatch-fixtures/tools/scripts/approvalTests.py"
+    copied = build / "repropatch-fixtures" / script_root / "approvalTests.py"
     assert copied.read_bytes() == script.read_bytes()
     assert (
-        build / "repropatch-fixtures/tests/SelfTest/Baselines/actual.tmp"
-    ).read_text() == actual + " tests/SelfTest/fixture.cpp"
+        build / "repropatch-fixtures" / selftest / "Baselines/actual.tmp"
+    ).read_text() == actual + f" {selftest}/fixture.cpp"
     trace = json.loads((build / "repropatch-reports/ctest-runtime-commands.json").read_text())
     assert trace["original_script"] == str(script)
     assert trace["executed_script"] == str(copied)

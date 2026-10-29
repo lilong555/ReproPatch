@@ -89,10 +89,11 @@
       "dataset": "SWE-bench-Live/MultiLang",
       "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
       "historical_model_evidence": [],
-      "qualification_status": "STATIC_SCOPE_REJECTED",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "scope_status": "NO_PRODUCTION_CPP_REPAIR",
-      "semantic_identity": "30d2cb75b64cf6a892ef1fe3efb7c565224d211970b245455fabb2437aa2ca65"
+      "semantic_identity": "30d2cb75b64cf6a892ef1fe3efb7c565224d211970b245455fabb2437aa2ca65",
+      "qualification_run_id": 40816901774
     },
     {
       "instance_id": "shader-slang__slang-7864",
@@ -1082,10 +1083,11 @@
       "dataset": "SWE-bench-Live/MultiLang",
       "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
       "historical_model_evidence": [],
-      "qualification_status": "STATIC_SCOPE_REJECTED",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "scope_status": "NO_PRODUCTION_CPP_REPAIR",
-      "semantic_identity": "3609f494822e12f3ac8a2d5e59ddf8ef0e04b2725bf4deb020175ef56b9b9bd3"
+      "semantic_identity": "3609f494822e12f3ac8a2d5e59ddf8ef0e04b2725bf4deb020175ef56b9b9bd3",
+      "qualification_run_id": 40816901774
     },
     {
       "instance_id": "shader-slang__slang-10678",
@@ -1639,7 +1641,9 @@
       "production_reference_sha256": "dd085ee8a9fef7024d70c38751af749e0d48488b57fa89923f0a282071c42f74",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "0a3ae0170ed0e73a9686011d2ba79cbb2d02e3a35b63142c9c6f3697a008d01b"
+      "semantic_identity": "0a3ae0170ed0e73a9686011d2ba79cbb2d02e3a35b63142c9c6f3697a008d01b",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-1446"
     },
     {
       "instance_id": "duckdb__duckdb-23604",
@@ -1663,7 +1667,9 @@
       "production_reference_sha256": "da2f9c5cc4bb14bd21e808e84e11f5d80f477b33d626789fdb8a2d33abe10f5f",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "e21a8096e2ba3ebfe2e8234da412754023596d09172109b218518bee151bb369"
+      "semantic_identity": "e21a8096e2ba3ebfe2e8234da412754023596d09172109b218518bee151bb369",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-2319"
     },
     {
       "instance_id": "root-project__root-22854",
@@ -1980,7 +1986,9 @@
       "production_reference_sha256": "5c26a247a5c9cd297ea9269f861f9cba05130ef3d98ae73eab25cc1f1b8aee66",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "ff1b453ed9fc98f4de96d9d6d80dca705d0db475a66a9113f45113ace2777419"
+      "semantic_identity": "ff1b453ed9fc98f4de96d9d6d80dca705d0db475a66a9113f45113ace2777419",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-4512"
     },
     {
       "instance_id": "duckdb__duckdb-24100",
@@ -2030,7 +2038,9 @@
       "production_reference_sha256": "778e076f18321c9094748da1e856cec6ee39236cdb7636773813fbd0ba9f003b",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "f12b46d1663ca421eaafdee479cb9ae75ec7807930dfa840ed257d7ee0e4b765"
+      "semantic_identity": "f12b46d1663ca421eaafdee479cb9ae75ec7807930dfa840ed257d7ee0e4b765",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-3523"
     },
     {
       "instance_id": "duckdb__duckdb-23422",
@@ -2054,7 +2064,9 @@
       "production_reference_sha256": "015cc9845edf0f38627201c48f7f5fe5640d207dc35f2f96c9b2e3e8d35f8bff",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "2d9e2872276a02740a17936f60ad7088f17074a5d6c0b098a5bb1414f0d52607"
+      "semantic_identity": "2d9e2872276a02740a17936f60ad7088f17074a5d6c0b098a5bb1414f0d52607",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "simdjson__simdjson-644"
     },
     {
       "instance_id": "duckdb__duckdb-24181",
@@ -2079,7 +2091,9 @@
       "production_reference_sha256": "18d9703dc118d97d794592e4efe235949b7917fd6c76bbe0daed1630cf39d5a5",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "ce536da160e339748cb89c1795228e0ab12588e8f2a9aed98ac91f7bfeaa6b50"
+      "semantic_identity": "ce536da160e339748cb89c1795228e0ab12588e8f2a9aed98ac91f7bfeaa6b50",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-3543"
     },
     {
       "instance_id": "duckdb__duckdb-24074",
@@ -2174,7 +2188,9 @@
       "production_reference_sha256": "69755944e633f996ee5c60a3c875183bcc94432192591e2cc59c8318eb183906",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "4dcdca93347ca9c7ed52f329ec1cbe441223c5048db98ebad784643092867728"
+      "semantic_identity": "4dcdca93347ca9c7ed52f329ec1cbe441223c5048db98ebad784643092867728",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-3446"
     },
     {
       "instance_id": "ml-explore__mlx-3604",
@@ -2242,7 +2258,9 @@
       "production_reference_sha256": "b25e521adf2add10893c22fa7a88a5af4ccf7ef0a355c193d095b7a85c945793",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "d66da9ac6db57439c14341e79410d9deab690665cf245de239abadac8b541e6d"
+      "semantic_identity": "d66da9ac6db57439c14341e79410d9deab690665cf245de239abadac8b541e6d",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-1555"
     },
     {
       "instance_id": "FastLED__FastLED-3781",
@@ -2309,7 +2327,9 @@
       "production_reference_sha256": "57288def63c655d89f3d4069136fe977eb1802bd11adf72d138bf6568b740c56",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "3478a6df99907ec1c983bcc2e7f9a6148b870629718eb022f05e147dcabed0a9"
+      "semantic_identity": "3478a6df99907ec1c983bcc2e7f9a6148b870629718eb022f05e147dcabed0a9",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-3332"
     },
     {
       "instance_id": "duckdb__duckdb-24318",
@@ -2334,7 +2354,9 @@
       "production_reference_sha256": "b0fa6336955a230a8b12701ccfffaa032fcce9b180c92a96f9679992cbfd1f77",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "c11537ec5f60c885ce12ae712f385658e90ab5e0a686902caf7423019b033372"
+      "semantic_identity": "c11537ec5f60c885ce12ae712f385658e90ab5e0a686902caf7423019b033372",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-1343"
     },
     {
       "instance_id": "dragonflydb__dragonfly-7422",
@@ -2658,7 +2680,7 @@
       "dataset": "SWE-bench-Live/MultiLang",
       "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/glaze/json/skip.hpp"
@@ -2666,7 +2688,8 @@
       "production_reference_sha256": "ba8c43a7d1091cb088d68c039800c01bd1a825080505b5fc2f464326401b39d7",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "5c9f89ccfe938c90f56d4ba85d0980e84755cb47496f64288f41dc57f4bf283a"
+      "semantic_identity": "5c9f89ccfe938c90f56d4ba85d0980e84755cb47496f64288f41dc57f4bf283a",
+      "qualification_run_id": 40820305740
     },
     {
       "instance_id": "BYVoid__OpenCC-1289",
@@ -2830,7 +2853,7 @@
       "dataset": "SWE-bench-Live/MultiLang",
       "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/json/version.h",
@@ -2843,7 +2866,8 @@
         "meson.build"
       ],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "3d577eb31655598bcc594c67cbb243e848a493c35f08a15373c1905b0328be3f"
+      "semantic_identity": "3d577eb31655598bcc594c67cbb243e848a493c35f08a15373c1905b0328be3f",
+      "qualification_run_id": 40813177622
     },
     {
       "instance_id": "kvcache-ai__Mooncake-2964",
@@ -3016,7 +3040,9 @@
       "production_reference_sha256": "d4d5d7d7a492eb0d0ac7462f9bb83afc08218c9741374acaae4c453d56b0c245",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "1b6e5e59485e2367fada591a86c5f9f608b1281a09a2e9a37330cf200382b3c8"
+      "semantic_identity": "1b6e5e59485e2367fada591a86c5f9f608b1281a09a2e9a37330cf200382b3c8",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-3073"
     },
     {
       "instance_id": "duckdb__duckdb-24101",
@@ -3065,7 +3091,9 @@
       "production_reference_sha256": "fa54fadbe5023626b5e27005f7d1b2959c27b85978bf1f75b03f8548c799cd9b",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "fcf1a346b3cfae88acbeedd8997a8a20db64b138e0bad9a395bd4f41fe9d8c5f"
+      "semantic_identity": "fcf1a346b3cfae88acbeedd8997a8a20db64b138e0bad9a395bd4f41fe9d8c5f",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-2332"
     },
     {
       "instance_id": "carbon-language__carbon-lang-7359",
@@ -3108,7 +3136,9 @@
       "production_reference_sha256": "a57f7d744fc4cc23a02ed2cc6adaebbccff178109419c7c0781b7d11ab2093d4",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "bfc42725dfe725ffb02047e54778ab69b070afa87a927982fa9e5b897215542c"
+      "semantic_identity": "bfc42725dfe725ffb02047e54778ab69b070afa87a927982fa9e5b897215542c",
+      "selection_status": "EXCLUDED_RESOURCE",
+      "replacement_instance": "nlohmann__json-1303"
     },
     {
       "instance_id": "BYVoid__OpenCC-1326",
@@ -3306,7 +3336,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "src/catch2/internal/catch_decomposer.hpp"
@@ -3314,7 +3344,8 @@
       "production_reference_sha256": "56ba2744559a1bc6c86766f8d7afe47e26cb803568eecf7906fb6108bbd3feb2",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "620c40917f78ab4ea5f2e1bf02b25843d2eb48a7dca41930811627b39e173c56"
+      "semantic_identity": "620c40917f78ab4ea5f2e1bf02b25843d2eb48a7dca41930811627b39e173c56",
+      "qualification_run_id": 40813177622
     },
     {
       "instance_id": "catchorg__Catch2-1616",
@@ -12591,7 +12622,8 @@
         "README.md"
       ],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "0fa71cc4891d4727852995ea82ce11a78b60b36aceda2f7b149b9a51fd7c7558"
+      "semantic_identity": "0fa71cc4891d4727852995ea82ce11a78b60b36aceda2f7b149b9a51fd7c7558",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-3664",
@@ -12758,7 +12790,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/input/binary_reader.hpp",
@@ -12767,7 +12799,9 @@
       "production_reference_sha256": "55abe14e4c7bc2730dc6decc56843e6ed2c0238c6b25334baf6cdfb23823674e",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "9749baa40ccb7392cb4f896863f9fcb0f1a3ed64f273e207af150a00f5d45381"
+      "semantic_identity": "9749baa40ccb7392cb4f896863f9fcb0f1a3ed64f273e207af150a00f5d45381",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING",
+      "qualification_run_id": 40824500614
     },
     {
       "instance_id": "nlohmann__json-3523",
@@ -12783,7 +12817,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/input/binary_reader.hpp",
@@ -12793,7 +12827,9 @@
       "production_reference_sha256": "e0ba5dc6a16a021eb6fb4aa08a9a0aa527b0237735266e52039f523a9e3705a4",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "5df8ed8a2ec0e9aaae149f74f1d3224b18a801115dc59778da37a72bd7702623"
+      "semantic_identity": "5df8ed8a2ec0e9aaae149f74f1d3224b18a801115dc59778da37a72bd7702623",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING",
+      "qualification_run_id": 40824500614
     },
     {
       "instance_id": "nlohmann__json-3514",
@@ -12859,7 +12895,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/conversions/from_json.hpp",
@@ -12894,7 +12930,9 @@
         "docs/mkdocs/mkdocs.yml"
       ],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "46c6b94cd0733cee8f109863bfb244c18d68973fb7f612b56907f4e96a5526f8"
+      "semantic_identity": "46c6b94cd0733cee8f109863bfb244c18d68973fb7f612b56907f4e96a5526f8",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING",
+      "qualification_run_id": 40824500614
     },
     {
       "instance_id": "nlohmann__json-3415",
@@ -12940,7 +12978,8 @@
       "production_reference_sha256": "10dd72862f88dc9c97d0d70cb2a46457fcd540c757b4d629d2eb6f7d0fbcd070",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "3d2ed5dac8bce718c818108578a4983996f5ba6f3d59b32be200a412ac5dec77"
+      "semantic_identity": "3d2ed5dac8bce718c818108578a4983996f5ba6f3d59b32be200a412ac5dec77",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-3109",
@@ -12992,7 +13031,8 @@
       "production_reference_sha256": "7539e4460aaa274a856b5e666186f3b60f3e91f0a59859e3aae24d5abc289a9e",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "99e032bee355b642b616b095283f9d06da7b9caa1ac266184d1fe4e919f7f231"
+      "semantic_identity": "99e032bee355b642b616b095283f9d06da7b9caa1ac266184d1fe4e919f7f231",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-3037",
@@ -13008,7 +13048,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/json.hpp",
@@ -13017,7 +13057,8 @@
       "production_reference_sha256": "5178cfb06cb296241e97a30a342822deece482bfa713fa0f6d732b475810b02b",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "d4ee56b509bfdaca001571951b90710c66a9490b1568d476b8a094c348047d27"
+      "semantic_identity": "d4ee56b509bfdaca001571951b90710c66a9490b1568d476b8a094c348047d27",
+      "qualification_run_id": 40813177622
     },
     {
       "instance_id": "nlohmann__json-3008",
@@ -13033,7 +13074,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/json.hpp",
@@ -13042,7 +13083,8 @@
       "production_reference_sha256": "c0e9216ba8ce8ec98b3dcd48a1d1bd0a8c639eb1ae46e81a665ba018a0595f0e",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "d8fff37df77558c5d3674f44ac4497870aeb9918cb0695e12e7653ab1fae7018"
+      "semantic_identity": "d8fff37df77558c5d3674f44ac4497870aeb9918cb0695e12e7653ab1fae7018",
+      "qualification_run_id": 40811143058
     },
     {
       "instance_id": "nlohmann__json-2989",
@@ -13083,7 +13125,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/meta/type_traits.hpp",
@@ -13093,7 +13135,8 @@
       "production_reference_sha256": "ac41b00c9278f97416cc12b2db1a6842933a6977c11bc96d50688c4e1ba4ea4b",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "e90ca8066083faa9b86abf1fceb979ea501fd4a7f0b9c7e7b800064b64af3c64"
+      "semantic_identity": "e90ca8066083faa9b86abf1fceb979ea501fd4a7f0b9c7e7b800064b64af3c64",
+      "qualification_run_id": 40813177622
     },
     {
       "instance_id": "nlohmann__json-2866",
@@ -13109,7 +13152,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/json.hpp",
@@ -13118,7 +13161,8 @@
       "production_reference_sha256": "db320a43a816da7d4cc402ca6bdbd23c5ccbb4d1f8f0f5f4533eb08167af0f5c",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "0831201d5cd3fe6b8be9e8db84542e888933d3089c81723db8570b2166e57d08"
+      "semantic_identity": "0831201d5cd3fe6b8be9e8db84542e888933d3089c81723db8570b2166e57d08",
+      "qualification_run_id": 40811421175
     },
     {
       "instance_id": "nlohmann__json-2576",
@@ -13195,7 +13239,8 @@
       "production_reference_sha256": "2afe8019952b61bec1f344edc502f1f7962f91a3052514d32b540a1a21d26863",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "31c5f8b34650f7fed1e8e7fed3b6347864c96cb7e0ebad875d3f1af6be891aab"
+      "semantic_identity": "31c5f8b34650f7fed1e8e7fed3b6347864c96cb7e0ebad875d3f1af6be891aab",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-2319",
@@ -13220,7 +13265,8 @@
       "production_reference_sha256": "b7a8be6cfed2795b06498757cff9dc2c090f2dbb074e01065894970b3876d530",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "443a65158b8b74b3d4405c0e7ba37b708dce5a4915e785243b497a40cfa5df19"
+      "semantic_identity": "443a65158b8b74b3d4405c0e7ba37b708dce5a4915e785243b497a40cfa5df19",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-2297",
@@ -13483,7 +13529,8 @@
       "production_reference_sha256": "6a8d7abb7742e83ae528e0113ff59654b774bb7a13aca151b2682fbec857e6ea",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "7f033b1e7d930e53f77eeff6b106376d1227d787f9d1b0a81461a04b42d1742e"
+      "semantic_identity": "7f033b1e7d930e53f77eeff6b106376d1227d787f9d1b0a81461a04b42d1742e",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-1446",
@@ -13508,7 +13555,8 @@
       "production_reference_sha256": "3bf4140ff9a2dcff4dedcd87290e68f3eda07a6aee450f8c847de1c973b74144",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "7936795798443af11084aa3e9f22468b29388e2aad1c44061367652cd1f0ab0e"
+      "semantic_identity": "7936795798443af11084aa3e9f22468b29388e2aad1c44061367652cd1f0ab0e",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-1343",
@@ -13533,7 +13581,8 @@
       "production_reference_sha256": "7f41db92438707f1946c2205b82ff3707805e4d512a03a7c82f5412454710ec1",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "f0b9e0a61b0a81e1d1b5c3d3e50fadb2c41f5eea46af900f9b070d2066d162de"
+      "semantic_identity": "f0b9e0a61b0a81e1d1b5c3d3e50fadb2c41f5eea46af900f9b070d2066d162de",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-1323",
@@ -13612,7 +13661,8 @@
       "production_reference_sha256": "cbd7aa7435bd12532ef0bb5320ba36e08058d657e1a9a160616d3b127ec01943",
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "b0eaba134e029c325ae0e18c96e214d51f8a1563e0defc68c38ee541aa96d288"
+      "semantic_identity": "b0eaba134e029c325ae0e18c96e214d51f8a1563e0defc68c38ee541aa96d288",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "nlohmann__json-1301",
@@ -14351,7 +14401,8 @@
         "doc/basics.md"
       ],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
-      "semantic_identity": "05c50cbe2b3b3a31c5967871d9d335a311443a28573dcd5cfe290df0f21b60b4"
+      "semantic_identity": "05c50cbe2b3b3a31c5967871d9d335a311443a28573dcd5cfe290df0f21b60b4",
+      "selection_status": "SELECTED_QUALIFICATION_PENDING"
     },
     {
       "instance_id": "simdjson__simdjson-559",

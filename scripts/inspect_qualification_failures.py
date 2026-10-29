@@ -1,0 +1,132 @@
+"""从 Actions 原始归档提取资格失败诊断，模型请求数为零。"""
+
+import argparse
+import concurrent.futures
+import hashlib
+import json
+import os
+import re
+import subprocess
+import tarfile
+from pathlib import Path
+
+import yaml
+
+
+def inspect(entry, output):
+    run, instance = entry["run_id"], entry["instance_id"]
+    if type(run) is not int or not re.fullmatch(r"[\w.-]+__[\w.-]+-\d+", instance):
+        raise ValueError("QUALIFICATION_SOURCE_INVALID")
+    name = f"cross-evidence-{run}-{instance}"
+    directory = output / name
+    subprocess.run(
+        [
+            "gh",
+            "run",
+            "download",
+            str(run),
+            "--repo",
+            os.environ["GITHUB_REPOSITORY"],
+            "--name",
+            name,
+            "--dir",
+            str(directory),
+        ],
+        check=True,
+        timeout=600,
+    )
+    path = directory / "cross-evidence.tar.gz"
+    digest = hashlib.file_digest(path.open("rb"), "sha256").hexdigest()
+    if path.with_suffix(".gz.sha256").read_text().split()[0] != digest:
+        raise ValueError("ARCHIVE_CHECKSUM_MISMATCH")
+    if entry.get("finalize_task"):
+        from finalize_qualification_task import finalize
+
+        finalize(entry, path, output / "finalized")
+    logs = {}
+    task_layout = None
+    with tarfile.open(path) as archive:
+        result = json.load(archive.extractfile(instance + "/result.json"))
+        for member in archive.getmembers():
+            if not member.isfile() or not member.name.startswith(instance + "/"):
+                continue
+            if member.name == instance + "/task.yaml":
+                content = archive.extractfile(member).read()
+                task = yaml.safe_load(content)
+                task_layout = {
+                    "yaml_bytes": len(content),
+                    "compact_json_bytes": len(
+                        json.dumps(task, ensure_ascii=False, separators=(",", ":")).encode()
+                    ),
+                    "section_bytes": {
+                        key: len(yaml.safe_dump(value, allow_unicode=True).encode())
+                        for key, value in task.items()
+                    },
+                }
+            if member.name.endswith((".log", "native-results.json")):
+                content = archive.extractfile(member).read().decode(errors="replace")
+                lines = content.splitlines()
+                errors = [
+                    line
+                    for line in lines
+                    if re.search(
+                        r"error:|fatal error|FAILED|failed|CMake Error|not found|Permission denied",
+                        line,
+                        re.IGNORECASE,
+                    )
+                ]
+                focus = next(
+                    (
+                        index
+                        for index, line in enumerate(lines)
+                        if "gfx-smoke.slang (cpu)] ERROR:" in line
+                    ),
+                    None,
+                )
+                logs[member.name] = {
+                    "errors": errors[:35],
+                    "tail": "\n".join(lines[-35:])[-12000:],
+                    "failure_context": "\n".join(lines[max(0, focus - 5) : focus + 70])[:20000]
+                    if focus is not None
+                    else None,
+                }
+    return {
+        "source": entry,
+        "archive_sha256": digest,
+        "result": result,
+        "task_layout": task_layout,
+        "logs": logs,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--request", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    request = json.loads(args.request.read_text())
+    if (
+        request.get("model_requests") != 0
+        or not 1 <= len(request["sources"]) <= 30
+        or sum(bool(entry.get("finalize_task")) for entry in request["sources"]) > 1
+    ):
+        raise ValueError("ZERO_REQUEST_DIAGNOSTIC_REQUIRED")
+    args.output.mkdir(parents=True, exist_ok=False)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+        reports = list(pool.map(lambda entry: inspect(entry, args.output), request["sources"]))
+    result = {"model_requests": 0, "reports": reports}
+    (args.output / "diagnostics.json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n"
+    )
+    for report in reports:
+        record = report["result"]
+        print(
+            json.dumps(
+                {key: record.get(key) for key in ("instance_id", "status", "diagnostic")},
+                ensure_ascii=False,
+            )
+        )
+
+
+if __name__ == "__main__":
+    main()

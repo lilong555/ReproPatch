@@ -50,6 +50,10 @@ def revalidation(source, results, selected):
     value["qualification_contracts"] = {
         task: source["qualification_contracts"][task] for task in value["tasks"]
     }
+    if "task_environments" in source:
+        value["task_environments"] = {
+            task: source["task_environments"][task] for task in value["tasks"]
+        }
     validate_protocol(value)
     return value
 

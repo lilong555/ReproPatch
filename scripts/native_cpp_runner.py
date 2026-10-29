@@ -6,8 +6,11 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import shutil
+import signal
 import subprocess
+import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -79,6 +82,22 @@ def jsoncpp_results(code, log):
     return parser_results(code, log + "\n" + "\n".join(completed))
 
 
+def slang_results(code, log):
+    """补齐冻结解析器遗漏的上游终态行，失败结果始终优先。"""
+    results = parser_results(code, log)
+    rank = {"pass": 0, "skip": 1, "fail": 2}
+    # Slang TestReporter 的完整终态行；pending retry 和诊断正文不属于终态。
+    duration = r"(?:[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?(?:ns|us|ms|s))?"
+    pattern = r"^(passed|failed|ignored) test: '([^'\r\n]+)'[ \t]*" + duration + r"[ \t]*$"
+    for match in re.finditer(pattern, log, re.MULTILINE | re.IGNORECASE):
+        state = {"passed": "pass", "failed": "fail", "ignored": "skip"}[match[1].lower()]
+        name = match[2]
+        previous = results.get(name)
+        if previous is None or rank[state] > rank[previous]:
+            results[name] = state
+    return results
+
+
 def canonical_case(mode, name):
     name = name.replace("/build/native/", "./build/").replace("/src/", "/testbed/")
     if mode == "ninja":
@@ -141,6 +160,57 @@ def match_case_names(expected, observed):
     return aliases
 
 
+def generated_ctest_commands(build, missing):
+    """CTest 在二进制尚未生成时省略 command；从生成文件恢复原始参数。"""
+    recovered = {}
+    # CMake 生成的 add_test 使用单行、带引号的参数；测试名也可能是 bracket argument。
+    declaration = re.compile(
+        r"add_test\((?:\[(?P<equals>=*)\[(?P<bracket>.*?)\](?P=equals)\]"
+        r'|(?P<quoted>"(?:\\.|[^"\\])*")|(?P<bare>[^\s()]+))\s+(?P<argv>.*)\)'
+    )
+    for path in sorted(build.rglob("CTestTestfile.cmake")):
+        for line in path.read_text().splitlines():
+            match = declaration.fullmatch(line.strip())
+            if not match:
+                continue
+            name = match["bracket"] or match["bare"]
+            if name is None:
+                name = shlex.split(match["quoted"])[0]
+            if name not in missing:
+                continue
+            command = shlex.split(match["argv"])
+            if name in recovered and recovered[name] != command:
+                raise ValueError("NATIVE_CTEST_COMMAND_AMBIGUOUS")
+            recovered[name] = command
+    return recovered
+
+
+def selected_build_targets(build, selected):
+    """按 CTest 命令和 CMake 产物映射目标，保留测试名与二进制名的区别。"""
+    replies = build / ".cmake/api/v1/reply"
+    indexes = sorted(replies.glob("index-*.json"))
+    if not indexes:
+        raise ValueError("NATIVE_CMAKE_FILE_API_MISSING")
+    index = json.loads(indexes[-1].read_text())
+    model = json.loads((replies / index["reply"]["codemodel-v2"]["jsonFile"]).read_text())
+    binaries = {}
+    for entry in model["configurations"][0]["targets"]:
+        target = json.loads((replies / entry["jsonFile"]).read_text())
+        if target["type"] == "EXECUTABLE":
+            for artifact in target.get("artifacts", []):
+                binaries[Path(artifact["path"]).name] = target["name"]
+    commands = generated_ctest_commands(build, set(selected))
+    targets = set()
+    for name in selected:
+        matched = {
+            binaries[Path(arg).name] for arg in commands.get(name, []) if Path(arg).name in binaries
+        }
+        if len(matched) != 1:
+            raise ValueError("NATIVE_CTEST_COMMAND_AMBIGUOUS: " + name)
+        targets.update(matched)
+    return sorted(targets)
+
+
 def prepare_native(contract, source, build):
     """通过 CMake File API 识别官方新增测试所属目标，构建延迟到对应 CTest 节点。"""
     replies = build / ".cmake/api/v1/reply"
@@ -171,6 +241,9 @@ def prepare_native(contract, source, build):
     )
     inventory = json.loads(result.stdout)
     commands = {test["name"]: test.get("command", []) for test in inventory["tests"]}
+    commands.update(
+        generated_ctest_commands(build, {name for name, argv in commands.items() if not argv})
+    )
     (build / "repropatch-deferred.cmake").write_text(
         "\n".join(
             f"set_property(TARGET {target} PROPERTY EXCLUDE_FROM_ALL TRUE)"
@@ -223,18 +296,71 @@ def group_targets(contract, build, selected):
     return sorted(targets & set(metadata["deferred_targets"]))
 
 
+def process_resources():
+    """读取容器公开的计数器，区分 OOM、进程上限与测试自身失败。"""
+    result = {}
+    for name in ("memory.events", "pids.events", "memory.peak", "memory.max"):
+        try:
+            value = (Path("/sys/fs/cgroup") / name).read_text().strip()
+            if name.endswith(".events"):
+                result[name] = {
+                    key: int(count) for key, count in (line.split() for line in value.splitlines())
+                }
+            elif value.isdigit():
+                result[name] = int(value)
+        except (OSError, ValueError):
+            continue
+    return result
+
+
 def execute(argv, cwd, report, *, env=None):
     """所有命令采用参数数组，完整标准输出与标准错误写入阶段证据。"""
     report.parent.mkdir(parents=True, exist_ok=True)
+    resources_before = process_resources()
+    started = time.monotonic()
     with report.open("wb") as stream:
         environment = {**os.environ, **(env or {}), "PYTHONUNBUFFERED": "1"}
         result = subprocess.run(
             argv, cwd=cwd, env=environment, stdout=stream, stderr=subprocess.STDOUT
         )
+    resources_after = process_resources()
+    process_result = {
+        "argv": argv,
+        "cwd": str(cwd),
+        "exit_code": result.returncode,
+        "wall_seconds": time.monotonic() - started,
+        "signal": signal.Signals(-result.returncode).name if result.returncode < 0 else None,
+        "resources_before": resources_before,
+        "resources_after": resources_after,
+        "resource_event_delta": {
+            name: {
+                key: count - resources_before.get(name, {}).get(key, count)
+                for key, count in counters.items()
+            }
+            for name, counters in resources_after.items()
+            if name.endswith(".events")
+        },
+    }
+    report.with_suffix(".execution.json").write_text(json.dumps(process_result, indent=2) + "\n")
     data = report.read_text(errors="replace")
     print(data, end="", flush=True)
+    resource_limit_hit = any(
+        count > 0
+        for name, counters in process_result["resource_event_delta"].items()
+        for key, count in counters.items()
+        if (name == "memory.events" and key in {"oom", "oom_kill"})
+        or (name == "pids.events" and key == "max")
+    )
+    if resource_limit_hit and result.returncode >= 0:
+        # 子进程也可能捕获资源错误后正常返回非零值，不能随构建树清理丢掉证据。
+        print("REPROPATCH_NATIVE_PROCESS_RESULT: " + json.dumps(process_result), flush=True)
     if result.returncode in {125, 126, 127} or result.returncode < 0:
-        raise RuntimeError("NATIVE_PROCESS_INFRASTRUCTURE_ERROR")
+        # 构建树随后会被清理，异常状态也必须进入外层归档日志。
+        print("REPROPATCH_NATIVE_PROCESS_RESULT: " + json.dumps(process_result), flush=True)
+        raise RuntimeError(
+            "NATIVE_PROCESS_INFRASTRUCTURE_ERROR: "
+            f"exit_code={result.returncode}, signal={process_result['signal']}"
+        )
     if result.returncode and re.search(
         r"(?m)^(?:OSError|PermissionError): \[Errno (?:13|30)\]", data
     ):
@@ -246,11 +372,23 @@ def prepare_ctest_runtime(contract, source, build, reports):
     """Catch2 的原始审批脚本在构建目录内使用同字节输入副本。"""
     if contract.get("configuration", {}).get("repository") != "catchorg/Catch2":
         return
-    script = source / "tools/scripts/approvalTests.py"
-    if not script.exists():
+    script = next(
+        (
+            source / name
+            for name in ("tools/scripts/approvalTests.py", "scripts/approvalTests.py")
+            if (source / name).is_file()
+        ),
+        None,
+    )
+    if script is None:
         return
     fixtures = build / "repropatch-fixtures"
-    for relative in ("tools/scripts", "tests/SelfTest/Baselines"):
+    baselines = (
+        "tests/SelfTest/Baselines"
+        if (source / "tests/SelfTest/Baselines").is_dir()
+        else "projects/SelfTest/Baselines"
+    )
+    for relative in (script.parent.relative_to(source).as_posix(), baselines):
         shutil.copytree(source / relative, fixtures / relative, dirs_exist_ok=True)
     copied = fixtures / script.relative_to(source)
     changes = []
@@ -290,12 +428,59 @@ def copy_native_inputs(source, destination):
             path.chmod(mode | 0o100 if path.is_dir() else mode)
 
 
+def prepare_glslang_runtime(source, build, reports):
+    """上游 runtests 在 Test 内生成 SPIR-V，保留全部输入并在构建目录执行。"""
+    original = source / "Test"
+    if not (original / "runtests").is_file():
+        return
+    fixtures = build / "repropatch-fixtures/Test"
+    if not fixtures.exists():
+        fixtures.parent.mkdir(parents=True, exist_ok=True)
+        copy_native_inputs(original, fixtures)
+    directory_property = re.compile(
+        r'(\bWORKING_DIRECTORY\s+")' + re.escape(str(original)) + r'/?(")'
+    )
+    changes = []
+    for path in sorted(build.rglob("CTestTestfile.cmake")):
+        content = path.read_text()
+        updated = directory_property.sub(lambda match: match[1] + str(fixtures) + match[2], content)
+        if updated != content:
+            path.write_text(updated)
+            changes.append(path.relative_to(build).as_posix())
+    trace = reports / "glslang-runtime-inputs.json"
+    if not trace.exists():
+        trace.write_text(
+            json.dumps(
+                {
+                    "original_directory": str(original),
+                    "executed_directory": str(fixtures),
+                    "generated_test_files": changes,
+                    "input_files": {
+                        path.relative_to(original).as_posix(): hashlib.sha256(
+                            path.read_bytes()
+                        ).hexdigest()
+                        for path in sorted(original.rglob("*"))
+                        if path.is_file()
+                    },
+                    "input_symlinks": {
+                        path.relative_to(original).as_posix(): str(path.readlink())
+                        for path in sorted(original.rglob("*"))
+                        if path.is_symlink()
+                    },
+                },
+                indent=2,
+            )
+            + "\n"
+        )
+
+
 def native_suite(contract, source, build, selected=None):
     """冷 Oracle 执行完整原生套件；F2P 工具执行原生目标或原生筛选器。"""
     mode = contract["mode"]
     reports = build / "repropatch-reports"
     reports.mkdir(exist_ok=True)
     if mode == "glslang":
+        prepare_glslang_runtime(source, build, reports)
         # GoogleTest 个案身份由冻结解析器裁决，CTest 报告保留原生套件退出状态。
         xml = reports / "ctest.xml"
         command = [
@@ -463,8 +648,8 @@ def native_suite(contract, source, build, selected=None):
         if selected:
             command += [",".join(canonical_case(mode, name) for name in selected)]
         else:
-            # 数据集原生命令显式选择全部用例，包括 Catch 隐藏标签。
-            command += ["*"]
+            # 默认集合与显式全选均来自冻结的原始执行合同。
+            command += contract["test_arguments"]
         command += ["--reporter", "junit", "--out", str(xml)]
         environment = {
             **os.environ,
@@ -478,6 +663,27 @@ def native_suite(contract, source, build, selected=None):
         print(log, flush=True)
         return parser_results(contract["parser"], log)
     if mode == "slang":
+        # Slang 从可执行文件向上查找 prelude/include；独立构建树不在源码树内。
+        # 将原字节输入暴露在原生构建根目录，保留 CMake 已生成的版本头与对象文件。
+        for name in ("prelude", "include"):
+            inputs = source / name
+            if not inputs.is_dir():
+                continue
+            destination = build / name
+            destination.mkdir(exist_ok=True)
+            for entry in inputs.iterdir():
+                target = destination / entry.name
+                if not target.exists() and not target.is_symlink():
+                    target.symlink_to(entry, target_is_directory=entry.is_dir())
+        # 上游将两个运行时模块放在 slangc 旁，定向构建沿用同一输入布局。
+        for name in ("gfx.slang", "slang.slang"):
+            origin = source / "tools/gfx" / name
+            target = build / "Release/bin" / name
+            # 原生全量构建可能生成依赖源码内构建布局的相对链接。
+            if target.is_symlink() and not target.exists():
+                target.unlink()
+            if origin.is_file() and not target.exists() and not target.is_symlink():
+                target.symlink_to(origin)
         # 原生编译回归的 .actual 和临时输出沿用相对路径，写入测试输入副本。
         fixtures = build / "repropatch-fixtures/slang"
         fixtures.mkdir(parents=True, exist_ok=True)
@@ -495,8 +701,11 @@ def native_suite(contract, source, build, selected=None):
             if len(prefixes) != 1:
                 raise ValueError("SLANG_TARGET_FILTER_REVIEW_REQUIRED")
             command += [prefixes[0]]
-        _, log = execute(command, fixtures, reports / "slang.log")
-        return parser_results(contract["parser"], log)
+        environment = None
+        if compiler_directory := contract.get("runtime_compiler_directory"):
+            environment = {"PATH": compiler_directory + os.pathsep + os.environ.get("PATH", "")}
+        _, log = execute(command, fixtures, reports / "slang.log", env=environment)
+        return slang_results(contract["parser"], log)
     raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
 
 
@@ -505,7 +714,15 @@ def run_group(contract, source, build, group):
     targets = group_targets(contract, build, selected)
     if targets:
         code, output = execute(
-            ["cmake", "--build", str(build), "--target", *targets, "--parallel", "2"],
+            [
+                "cmake",
+                "--build",
+                str(build),
+                "--target",
+                *targets,
+                "--parallel",
+                str(contract.get("configuration", {}).get("build_jobs", 2)),
+            ],
             build,
             build / "repropatch-reports" / (group.replace("/", "_") + "-build.log"),
         )

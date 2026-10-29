@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import random
+import re
 import shutil
 import subprocess
 from datetime import datetime
@@ -20,6 +21,13 @@ from repropatch.task import IMAGE_ID, Task
 
 ROOT = Path(__file__).resolve().parents[1]
 ARMS = ["full", "no-checks", "shell-only", "mini", "codex"]
+
+
+def task_environment(protocol, instance):
+    """按题目选择冻结环境，五个实验臂共享同一映射。"""
+    if "task_environments" in protocol:
+        return protocol["task_environments"][instance]
+    return {"image": protocol["image"], "image_id": protocol["image_id"]}
 
 
 def development_selection(results, expected_tasks):
@@ -51,7 +59,9 @@ def development_selection(results, expected_tasks):
     }
 
 
-def selection_review(review, selected, development, existing_repositories):
+def selection_review(
+    review, selected, development, existing_repositories, *, new_repository_tasks=25
+):
     """正式样本同时满足新仓库配额、缺陷语义、去重与难度分层。"""
     if (
         len(selected) != 30
@@ -81,7 +91,12 @@ def selection_review(review, selected, development, existing_repositories):
         difficulties[row["difficulty"]] += 1
         repositories[repository] = repositories.get(repository, 0) + 1
         new_tasks += repository not in existing_repositories
-    if difficulties != development["difficulty_counts"] or new_tasks != 25:
+    if (
+        type(new_repository_tasks) is not int
+        or not 5 <= new_repository_tasks <= 30
+        or difficulties != development["difficulty_counts"]
+        or new_tasks != new_repository_tasks
+    ):
         raise ValueError("CROSS_FORMAL_SELECTION_QUOTA_MISMATCH")
     if len(set(repositories) - set(existing_repositories)) < 5:
         raise ValueError("CROSS_FORMAL_REPOSITORY_COVERAGE_REQUIRED")
@@ -131,7 +146,7 @@ def validate_protocol(p):
     if p["phase"] not in {"development", "formal", "repeat", "infrastructure-revalidation"}:
         raise ValueError("CROSS_PHASE_INVALID")
     ids = p["tasks"]
-    if len(set(ids)) != len(ids) or len(ids) > 30:
+    if not ids or len(set(ids)) != len(ids) or len(ids) > 30:
         raise ValueError("CROSS_TASK_REGISTRY_INVALID")
     caps = {"development": 480, "formal": 3600, "repeat": 720, "infrastructure-revalidation": 480}
     attempts = p["attempts"]
@@ -146,7 +161,7 @@ def validate_protocol(p):
         for a in attempts
     ):
         raise ValueError("CROSS_ATTEMPT_IDENTITY_INVALID")
-    if p["phase"] == "formal" and (len(ids) != 30 or len(attempts) != 150):
+    if p["phase"] == "formal" and len(attempts) != len(ids) * len(ARMS):
         raise ValueError("CROSS_FORMAL_REGISTRY_INCOMPLETE")
     prior = p.get("prior_attempts", [])
     registered = [*attempts, *prior]
@@ -173,8 +188,14 @@ def validate_protocol(p):
         raise ValueError("CROSS_TASK_ARM_REGISTRY_INCOMPLETE")
     for attempt in attempts:
         allocation_phase(p, attempt)
-    if not IMAGE_ID.fullmatch(p["image_id"]) or "@sha256:" not in p["image"]:
-        raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
+    if "task_environments" in p and set(p["task_environments"]) != set(ids):
+        raise ValueError("CROSS_TASK_ENVIRONMENT_REGISTRY_MISMATCH")
+    for instance in ids:
+        environment = task_environment(p, instance)
+        if not IMAGE_ID.fullmatch(environment["image_id"]) or not re.fullmatch(
+            r"[A-Za-z0-9._:/-]+@sha256:[a-f0-9]{64}", environment["image"]
+        ):
+            raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
     if p["cpa_route"] != "azure-ssh" or p["retries"] != 0 or not p["paid_calls_authorized"]:
         raise ValueError("CROSS_NETWORK_POLICY_MISMATCH")
     ContextPolicy.from_dict(p["context_policy"])
@@ -189,9 +210,44 @@ def validate_protocol(p):
         development = gate.get("development", {})
         if development.get("scored_attempts") != 20 or not development.get("results_sha256"):
             raise ValueError("CROSS_DEVELOPMENT_SELECTION_GATE_REQUIRED")
-        selection_review(gate.get("review", {}), ids, development, p["existing_repositories"])
-        if len(set(p.get("repeat_tasks", []))) != 6 or not set(p["repeat_tasks"]) <= set(ids):
+        campaign_tasks = gate.get("campaign_tasks", ids)
+        if not set(ids) <= set(campaign_tasks):
+            raise ValueError("CROSS_FORMAL_SELECTION_REGISTRY_INVALID")
+        selection_review(
+            gate.get("review", {}),
+            campaign_tasks,
+            development,
+            p["existing_repositories"],
+            new_repository_tasks=gate.get("new_repository_tasks", 25),
+        )
+        if len(set(p.get("repeat_tasks", []))) != 6 or not set(p["repeat_tasks"]) <= set(
+            campaign_tasks
+        ):
             raise ValueError("CROSS_REPEAT_PREREGISTRATION_REQUIRED")
+        incremental = p.get("incremental_submission")
+        if len(ids) < 30 and not incremental:
+            raise ValueError("CROSS_INCREMENTAL_REGISTRY_REQUIRED")
+        if incremental:
+            if incremental.get("campaign_request_cap") != 3600:
+                raise ValueError("CROSS_INCREMENTAL_BUDGET_INVALID")
+            allocated = set(ids)
+            for previous in incremental.get("prior_batches", []):
+                tasks = previous["tasks"]
+                if (
+                    not tasks
+                    or len(set(tasks)) != len(tasks)
+                    or set(tasks) & allocated
+                    or not set(tasks) <= set(campaign_tasks)
+                    or not re.fullmatch(r"[0-9a-f]{64}", previous.get("sha256", ""))
+                ):
+                    raise ValueError("CROSS_INCREMENTAL_TASK_OVERLAP")
+                allocated.update(tasks)
+            if any(
+                a["attempt_id"]
+                != f"{incremental['campaign_batch_id']}/{a['instance_id']}/{a['arm']}/first"
+                for a in attempts
+            ):
+                raise ValueError("CROSS_INCREMENTAL_ATTEMPT_ID_CHANGED")
     if p["phase"] == "repeat" and (
         not p.get("formal_protocol_sha256") or set(p.get("formal_repeat_tasks", [])) != set(ids)
     ):
@@ -270,7 +326,8 @@ def prepare(instance, output, arm, p):
     ):
         if sha(directory / file) != identity[field]:
             raise ValueError("CROSS_QUALIFICATION_CONTRACT_MISMATCH")
-    if q["status"] != "QUALIFIED" or q["image_id"] != p["image_id"]:
+    environment = task_environment(p, instance)
+    if q["status"] != "QUALIFIED" or q["image_id"] != environment["image_id"]:
         raise ValueError("CROSS_TASK_IMAGE_MISMATCH")
     task = Task.load(directory / "task.yaml")
     if task.revision != identity["prepared_commit"]:
@@ -302,9 +359,9 @@ def prepare(instance, output, arm, p):
         },
     )
     image = subprocess.check_output(
-        ["docker", "image", "inspect", "--format", "{{.Id}}", p["image"]], text=True
+        ["docker", "image", "inspect", "--format", "{{.Id}}", environment["image"]], text=True
     ).strip()
-    if image != p["image_id"]:
+    if image != environment["image_id"]:
         raise ValueError("CROSS_IMAGE_IDENTITY_MISMATCH")
     dataset = ROOT / ".repropatch/cross-inputs"
     record = next(r for r in load_records(dataset) if r["instance_id"] == instance)

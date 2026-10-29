@@ -20,6 +20,19 @@ from .errors import ReproPatchError
 from .models import positive_timeout, prepare_sdk
 
 
+def model_file_scope(resolved, policy, *, shell_only=False):
+    """初始提示压缩大型只读目录清单，工具逐路径使用完整冻结权限。"""
+    readable = sorted(resolved.readable_files)
+    if len(encoded(readable)) > policy.tool_output_max_bytes:
+        readable = {
+            "file_count": len(readable),
+            "roots": sorted({path.split("/", 1)[0] for path in readable}),
+            "discovery_tool": "bash" if shell_only else "list_directory",
+            "source_root": "/src" if shell_only else ".",
+        }
+    return {"editable": sorted(resolved.editable_files), "readable": readable}
+
+
 async def run_sdk(
     *,
     model,
@@ -560,8 +573,11 @@ async def run_agent(harness, workspace) -> AgentResult:
             "content": canonical_json(
                 {
                     "task": harness.task.prompt,
-                    "editable": sorted(harness.resolved.editable_files),
-                    "readable": sorted(harness.resolved.readable_files),
+                    **model_file_scope(
+                        harness.resolved,
+                        harness.context_policy,
+                        shell_only=harness.tool_mode == "shell-only",
+                    ),
                     "base_commit": harness.resolved.base_commit,
                     "image_id": harness.resolved.image_id,
                     "budget": asdict(budget),

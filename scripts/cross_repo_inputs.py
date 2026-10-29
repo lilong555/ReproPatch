@@ -11,7 +11,7 @@ import tarfile
 import urllib.request
 from pathlib import Path
 
-from cross_repo_campaign import validate_protocol
+from cross_repo_campaign import task_environment, validate_protocol
 from qualify_cpp_batch import sha
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,7 +80,7 @@ def main():
         ],
         check=True,
     )
-    subprocess.run(["docker", "pull", p["image"]], check=True)
+    subprocess.run(["docker", "pull", task_environment(p, args.instance)["image"]], check=True)
     mini = ROOT / ".repropatch/mini-source"
     subprocess.run(["git", "init", "--template=", "-q", str(mini)], check=True)
     subprocess.run(

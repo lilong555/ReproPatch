@@ -1,0 +1,94 @@
+{
+  "schema": "repropatch.candidate-qualification-repair.v1",
+  "stage": "qualify",
+  "model_requests": 0,
+  "round": 1,
+  "purpose": "并行验证待完成候选，复用同镜像的完整资格证据，汇总30题准入结果",
+  "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+  "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
+  "instances": [
+    "duckdb__duckdb-24105",
+    "duckdb__duckdb-24181",
+    "duckdb__duckdb-23280",
+    "duckdb__duckdb-23491",
+    "duckdb__duckdb-23634",
+    "stephenberry__glaze-2611",
+    "duckdb__duckdb-23569",
+    "duckdb__duckdb-23413",
+    "duckdb__duckdb-23615",
+    "duckdb__duckdb-23604",
+    "duckdb__duckdb-23637",
+    "duckdb__duckdb-24318",
+    "duckdb__duckdb-24011",
+    "shader-slang__slang-10856",
+    "shader-slang__slang-10768",
+    "shader-slang__slang-10738",
+    "shader-slang__slang-10663",
+    "shader-slang__slang-10697",
+    "shader-slang__slang-7815",
+    "shader-slang__slang-10664",
+    "open-source-parsers__jsoncpp-1693",
+    "nlohmann__json-3037",
+    "nlohmann__json-3008",
+    "nlohmann__json-2963",
+    "catchorg__Catch2-2128",
+    "KhronosGroup__glslang-4006",
+    "rui314__mold-1546",
+    "actor-framework__actor-framework-2300",
+    "duckdb__duckdb-23422",
+    "nlohmann__json-2866"
+  ],
+  "default_scope": "formal",
+  "pilot_instances": [
+    "duckdb__duckdb-23280",
+    "duckdb__duckdb-23491",
+    "duckdb__duckdb-23413",
+    "shader-slang__slang-10856",
+    "shader-slang__slang-10738",
+    "shader-slang__slang-10664",
+    "stephenberry__glaze-2611",
+    "actor-framework__actor-framework-2300",
+    "rui314__mold-1546",
+    "KhronosGroup__glslang-4006"
+  ],
+  "reserve_instances": [],
+  "promotion_policy": "完整 Docker 基线 F2P/P2P 与独立冷 Oracle 通过后冻结正式协议；补位题须完成选题登记与资格验收",
+  "reusable_qualifications": {
+    "nlohmann__json-3008": {
+      "run_id": 40811143058,
+      "artifact": "cross-evidence-40811143058-nlohmann__json-3008",
+      "archive_sha256": "20e7628b13a6168ca69acc5e3b7eb9b7bd7f035688b344ed2bda86e54680e396",
+      "result_sha256": "fa9782d453f13436e29bed9de51381bb289be0442f9f30cc4f16e97e27fda255"
+    },
+    "nlohmann__json-2866": {
+      "run_id": 40811421175,
+      "artifact": "cross-evidence-40811421175-nlohmann__json-2866",
+      "archive_sha256": "2d56ae6be2638bc659ad837d3cee78fc1ec22b15cc5ea07b0d83634af9ca87e7",
+      "result_sha256": "4cab43ec050cd1b4311f26615f620d3fd62253877bada7df29af328c926bb8b8"
+    },
+    "open-source-parsers__jsoncpp-1693": {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-open-source-parsers__jsoncpp-1693",
+      "archive_sha256": "4200154d9b12ba417ac6b57a4f5909174c351223d008a893c98c08f81a61acbb",
+      "result_sha256": "9b008a54454b8b9011672046cec1db6816b809d536de893c98142039d10cecd3"
+    },
+    "catchorg__Catch2-2128": {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-catchorg__Catch2-2128",
+      "archive_sha256": "2935943d417a0ce10e5c37cadd93ab51db1a3adb4d8a7d7775fb838213b7d2b6",
+      "result_sha256": "2e34912b6126b7a125cfe5afd024b81b5bdc85dda5ffc7fc58febad267c3205d"
+    },
+    "nlohmann__json-3037": {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-nlohmann__json-3037",
+      "archive_sha256": "fdb2f7558e68e16a99b1f323cfbf4f0c37c3d34c5c552fffba29e599361aaf0e",
+      "result_sha256": "c8d89369d30728c0f9c21e7f67a6d228236855e362b0552ed9a06cd1ed52298e"
+    },
+    "nlohmann__json-2963": {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-nlohmann__json-2963",
+      "archive_sha256": "5a493380cb5a9d4a1a1ed0f0db366f977a0796666397132eb10baf875f744288",
+      "result_sha256": "39a50ac75aa5ef94edb83747fca696e86876a095fd6ebd08bc315a50d015c187"
+    }
+  }
+}

@@ -7,6 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from check_native_cpp_candidate import restore_repository
+from cross_repo_campaign import task_environment
 from cross_repo_inputs import extract_verified
 from qualify_cpp_batch import save, sha
 from score_benchmark_attempt import score
@@ -72,7 +73,8 @@ def rescore(args):
     source = qualification.parent / "repository"
     if not source.exists():
         restore_repository(qualification.parent, json.loads(qualification.read_text()), source)
-    subprocess.run(["docker", "pull", protocol["image"]], check=True)
+    environment = task_environment(protocol, args.instance)
+    subprocess.run(["docker", "pull", environment["image"]], check=True)
     identity = subprocess.check_output(
         [
             "docker",
@@ -80,11 +82,11 @@ def rescore(args):
             "inspect",
             "--format",
             "{{.Id}}",
-            protocol["image"],
+            environment["image"],
         ],
         text=True,
     ).strip()
-    if identity != protocol["image_id"]:
+    if identity != environment["image_id"]:
         raise ValueError("CROSS_RESCORE_IMAGE_IDENTITY_MISMATCH")
     verdict = score(
         SimpleNamespace(

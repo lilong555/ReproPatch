@@ -81,6 +81,24 @@ def test_formal_selection_requires_cross_repo_quotas_and_distinct_defects():
     }
     selection = campaign.selection_review(review, ids, development, ["old/repo"])
     assert selection["new_repository_tasks"] == 25
+    # 资源筛选后的配额来自冻结登记，默认配额与仓库覆盖门槛继续生效。
+    existing = ["old/repo", "new0/repo"]
+    with pytest.raises(ValueError, match="QUOTA_MISMATCH"):
+        campaign.selection_review(review, ids, development, existing)
+    with pytest.raises(ValueError, match="COVERAGE_REQUIRED"):
+        campaign.selection_review(review, ids, development, existing, new_repository_tasks=20)
+    selected = ids[:-1] + ["new5__repo-99"]
+    adjusted = {task: row for task, row in review.items() if task != ids[-1]}
+    adjusted[selected[-1]] = {
+        **review[ids[-1]],
+        "repository": "new5/repo",
+        "issue_key": "99",
+    }
+    selection = campaign.selection_review(
+        adjusted, selected, development, existing, new_repository_tasks=21
+    )
+    assert selection["new_repository_tasks"] == 21
+    assert selection["existing_repository_new_tasks"] == 9
     review[ids[5]]["issue_key"] = review[ids[0]]["issue_key"]
     with pytest.raises(ValueError, match="SEMANTIC_DUPLICATE"):
         campaign.selection_review(review, ids, development, ["old/repo"])
@@ -158,4 +176,102 @@ def test_cpa_parallel_limit_and_retained_development_attempts(monkeypatch):
     campaign.validate_protocol(protocol)
     protocol["max_parallel"] = 4
     with pytest.raises(ValueError, match="BUDGET_CONFIGURATION_MISMATCH"):
+        campaign.validate_protocol(protocol)
+
+
+def test_five_arms_share_task_environment_with_distinct_repository_images(monkeypatch):
+    import json
+
+    path = (
+        Path(__file__).resolve().parents[1] / "benchmarks/cross-repo/development-protocol-v2.json"
+    )
+    protocol = json.loads(path.read_text())
+    monkeypatch.setattr(campaign, "execution_fingerprint", lambda: protocol["execution_sha256"])
+    protocol["task_environments"] = {
+        task: {
+            "image": f"ghcr.io/example/project@sha256:{index + 1:064x}",
+            "image_id": f"sha256:{index + 10:064x}",
+        }
+        for index, task in enumerate(protocol["tasks"])
+    }
+    campaign.validate_protocol(protocol)
+    for attempt in protocol["attempts"]:
+        assert (
+            campaign.task_environment(protocol, attempt["instance_id"])
+            == (protocol["task_environments"][attempt["instance_id"]])
+        )
+    first = protocol["tasks"][0]
+    protocol["task_environments"].pop(first)
+    with pytest.raises(ValueError, match="TASK_ENVIRONMENT_REGISTRY_MISMATCH"):
+        campaign.validate_protocol(protocol)
+
+
+@pytest.mark.parametrize("defect", [None, "overlap", "missing_arm", "identity", "quota"])
+def test_incremental_formal_retains_campaign_review_and_unique_allocations(monkeypatch, defect):
+    import json
+
+    root = Path(__file__).resolve().parents[1]
+    protocol = json.loads((root / "benchmarks/cross-repo/development-protocol-v2.json").read_text())
+    registry = json.loads((root / "benchmarks/cross-repo/formal-preparation.json").read_text())
+    review = json.loads((root / "benchmarks/cross-repo/formal-selection-review.json").read_text())
+    tasks = registry["instances"][:3]
+    batch = "cross-repository-20261028-formal"
+    protocol.update(
+        phase="formal",
+        tasks=tasks,
+        attempts=campaign.execution_order(tasks, batch=batch),
+        formal_request_cap=len(tasks) * 120,
+        prior_attempts=[],
+        qualification_contracts={task: {} for task in tasks},
+        repeat_tasks=registry["instances"][-6:],
+        existing_repositories=[
+            "catchorg/Catch2",
+            "fmtlib/fmt",
+            "nlohmann/json",
+            "simdjson/simdjson",
+            "zeux/pugixml",
+            "leethomason/tinyxml2",
+        ],
+        selection_gate={
+            "review": review,
+            "campaign_tasks": registry["instances"],
+            "new_repository_tasks": registry["new_repository_tasks"],
+            "development": {
+                "tasks": [
+                    "nlohmann__json-3514",
+                    "nlohmann__json-3463",
+                    "open-source-parsers__jsoncpp-1696",
+                    "simdjson__simdjson-1896",
+                ],
+                "scored_attempts": 20,
+                "results_sha256": "a" * 64,
+                "difficulty_counts": registry["difficulty_counts"],
+            },
+        },
+        incremental_submission={
+            "campaign_batch_id": batch,
+            "campaign_request_cap": 3600,
+            "prior_batches": [
+                {
+                    "protocol": "batch-01.json",
+                    "sha256": "b" * 64,
+                    "tasks": registry["instances"][3:6],
+                }
+            ],
+        },
+    )
+    monkeypatch.setattr(campaign, "execution_fingerprint", lambda: protocol["execution_sha256"])
+    if defect == "overlap":
+        protocol["incremental_submission"]["prior_batches"][0]["tasks"] = tasks
+    elif defect == "missing_arm":
+        protocol["attempts"].pop()
+        protocol["formal_request_cap"] -= 24
+    elif defect == "identity":
+        protocol["attempts"][0]["attempt_id"] += "-retry"
+    elif defect == "quota":
+        protocol["selection_gate"]["new_repository_tasks"] = 25
+    if defect:
+        with pytest.raises(ValueError, match="CROSS_"):
+            campaign.validate_protocol(protocol)
+    else:
         campaign.validate_protocol(protocol)

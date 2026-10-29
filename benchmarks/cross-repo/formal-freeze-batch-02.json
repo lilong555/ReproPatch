@@ -1,0 +1,56 @@
+{
+  "model_requests": 0,
+  "source_commit": "9d5be6633f196bb207fa06a324db43dbd413753b",
+  "batch_key": "batch-02",
+  "instances": [
+    "nlohmann__json-2319",
+    "nlohmann__json-2332",
+    "nlohmann__json-4512",
+    "nlohmann__json-3332"
+  ],
+  "repeat_instances": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "ci_run": 40828488779,
+  "calibration_run": 40646051506,
+  "development_run": 40683926397,
+  "qualification_sources": [
+    {
+      "instance_id": "nlohmann__json-2319",
+      "run_id": 40825590280,
+      "artifact": "cross-evidence-40825590280-nlohmann__json-2319",
+      "archive_sha256": "6d4c306e435fec843e26e1d4c0fce0d62a01bfd9e38dde31c35d187baae8805d",
+      "qualification_wall_seconds": 503.68326509999997,
+      "source_job_id": 123288038261
+    },
+    {
+      "instance_id": "nlohmann__json-2332",
+      "run_id": 40825590280,
+      "artifact": "cross-evidence-40825590280-nlohmann__json-2332",
+      "archive_sha256": "92c3c92341537bf55860701a89b0ac15c7923982f702222ef69f842be5e16a91",
+      "qualification_wall_seconds": 734.887067291,
+      "source_job_id": 123288038273
+    },
+    {
+      "instance_id": "nlohmann__json-4512",
+      "run_id": 40824500614,
+      "artifact": "cross-evidence-40824500614-nlohmann__json-4512",
+      "archive_sha256": "916c6bf05e7e891ab4056d09bf272c9f867b52a97b575d204b036c2e202c64e2",
+      "qualification_wall_seconds": 1066.81716521,
+      "source_job_id": 123284539655
+    },
+    {
+      "instance_id": "nlohmann__json-3332",
+      "run_id": 40825871574,
+      "artifact": "cross-evidence-40825871574-nlohmann__json-3332",
+      "archive_sha256": "3de4e3a0a29bfe947aac40f3687049fc7c3de33528d73e1902dbd985f029459a",
+      "qualification_wall_seconds": 841.484403335,
+      "source_job_id": 123288967774
+    }
+  ]
+}

@@ -3,11 +3,13 @@
 import hashlib
 import json
 import re
+import shlex
 import shutil
+import tempfile
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from cpp_sources import CPP_SUFFIXES, PRODUCTION_AREAS, production_path
+from cpp_sources import CPP_SUFFIXES, PRODUCTION_AREAS, patch_sections, production_path
 from native_cpp_runner import canonical_case, review_parser
 from qualify_cpp_batch import archive, git, save
 from screen_multiswe import patch_paths
@@ -16,6 +18,7 @@ from repropatch.workspace import git_blob, git_tree
 
 ROOT = Path(__file__).resolve().parents[1]
 OPTIONS = {
+    "fmtlib/fmt": ["-DFMT_DOC=OFF", "-DFMT_TEST=ON"],
     "open-source-parsers/jsoncpp": [
         "-DJSONCPP_WITH_TESTS=ON",
         "-DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF",
@@ -26,7 +29,7 @@ OPTIONS = {
     "rui314/mold": ["-DBUILD_TESTING=ON", "-DMOLD_ENABLE_QEMU_TESTS=OFF"],
     "actor-framework/actor-framework": [
         "-DCAF_ENABLE_TESTING=ON",
-        "-DCAF_ENABLE_EXAMPLES=OFF",
+        "-DCAF_ENABLE_EXAMPLES=ON",
         "-DCAF_ENABLE_RUNTIME_CHECKS=ON",
     ],
     "stephenberry/glaze": [
@@ -85,23 +88,111 @@ MODES = {
 NATIVE_TEST_DATA = ("dependencies/.cache/simdjson-data/",)
 
 
+def initialize_snapshot_git(destination, repository, commit, *, deadline=None):
+    """为冷验收源码提供真实的固定 HEAD，保持工作区字节不变。"""
+    git(destination, "init", "--template=", "-q", ".", deadline=deadline)
+    git(
+        destination,
+        "fetch",
+        "--no-tags",
+        str(repository.resolve()),
+        commit,
+        deadline=deadline,
+    )
+    git(destination, "update-ref", "--no-deref", "HEAD", commit, deadline=deadline)
+
+
 def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
     repo = record["org"] + "/" + record["repo"]
     if repo not in OPTIONS:
         raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
+    options = list(OPTIONS[repo])
+    runtime = {}
+    if record.get("instance_id") == "simdjson__simdjson-644":
+        options.append("-DENABLE_FUZZING=OFF")
+    if record.get("instance_id") == "duckdb__duckdb-23422":
+        # 官方任务采用 GCC 13 与 C++23；完整套件预留 14 GiB 容器内存。
+        if cxx == "clang++-19" and cc == "clang-19":
+            cxx, cc = "g++-13", "gcc-13"
+        options = [option for option in options if not option.startswith("-DCMAKE_CXX_STANDARD=")]
+        options.append("-DCMAKE_CXX_STANDARD=23")
+    if record.get("instance_id") in {
+        "shader-slang__slang-10738",
+        "shader-slang__slang-10697",
+        "shader-slang__slang-10768",
+        "shader-slang__slang-10664",
+        "shader-slang__slang-10856",
+        "shader-slang__slang-7815",
+        "shader-slang__slang-10663",
+    }:
+        # 按官方环境记录选择编译器、LLVM 后端与实际可用的 DXC。
+        instance = record["instance_id"]
+        legacy = instance in {"shader-slang__slang-10856", "shader-slang__slang-7815"}
+        has_dxc = instance not in {"shader-slang__slang-7815", "shader-slang__slang-10663"}
+        llvm = "slang-7815" if instance == "shader-slang__slang-7815" else "slang-10738"
+        if cxx == "clang++-19" and cc == "clang-19":
+            cxx, cc = ("g++-11", "gcc-11") if legacy else ("g++-13", "gcc-13")
+        replaced = ("-DSLANG_ENABLE_DXIL=", "-DSLANG_SLANG_LLVM_BINARY_URL=")
+        options = [option for option in options if not option.startswith(replaced)]
+        options += [
+            "-DCMAKE_CXX_FLAGS=-pipe",
+            "-DSLANG_ENABLE_DXIL=" + ("ON" if has_dxc else "OFF"),
+            "-DSLANG_ENABLE_XLIB=OFF",
+            f"-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/{llvm}/libslang-llvm.so",
+        ]
+        if instance != "shader-slang__slang-7815":
+            options.append("-DCMAKE_CXX_STANDARD=23")
+        if has_dxc:
+            options.append("-DFETCHCONTENT_SOURCE_DIR_DXC=/opt/cpp-deps/slang-10738/dxc")
+        runtime["runtime_compiler_directory"] = (
+            "/usr/lib/llvm-14/bin" if legacy else "/usr/lib/llvm-18/bin"
+        )
     if repo in {"nlohmann/json", "catchorg/Catch2"} and cxx == "clang++-19" and cc == "clang-19":
         # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
         cxx, cc = "g++-11", "gcc-11"
+    if repo == "stephenberry/glaze" and cxx == "clang++-19" and cc == "clang-19":
+        # 官方清单包含两个仅在 GNU 编译器下注册的安装测试。
+        cxx, cc = "g++-14", "gcc-14"
     compiler_options = []
     if repo == "catchorg/Catch2":
         # 审批报告沿用源码相对路径，输入副本的位置保持独立。
         flags = "-fmacro-prefix-map=/src/="
         if cxx.startswith("clang"):
             flags += " -Wno-error=deprecated-literal-operator"
+        if record.get("instance_id") == "catchorg__Catch2-1608":
+            flags += " -DCATCH_CONFIG_NO_POSIX_SIGNALS"
         compiler_options = ["-DCMAKE_CXX_FLAGS=" + flags]
+    elif record.get("instance_id") in {
+        "nlohmann__json-1303",
+        "nlohmann__json-1343",
+        "nlohmann__json-1446",
+        "nlohmann__json-1555",
+        "nlohmann__json-2319",
+        "nlohmann__json-2332",
+        "nlohmann__json-2019",
+        "nlohmann__json-2352",
+    }:
+        # 旧测试框架的信号栈使用静态 SIGSTKSZ；进程信号交由 CTest 记录。
+        compiler_options = [
+            "-DCMAKE_CXX_FLAGS=-DCATCH_CONFIG_NO_POSIX_SIGNALS -DDOCTEST_CONFIG_NO_POSIX_SIGNALS"
+        ]
+        if record["instance_id"] in {
+            "nlohmann__json-1303",
+            "nlohmann__json-1343",
+            "nlohmann__json-1446",
+            "nlohmann__json-1555",
+        }:
+            # C++20 allocator 接口兼容旧测试的继承写法，UTF-8 字面量沿用 char 类型。
+            options.append("-DCMAKE_CXX_STANDARD=20")
+            compiler_options[0] += " -fno-char8_t"
     elif cxx.startswith("clang") and repo == "stephenberry/glaze":
         # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
-        compiler_options = ["-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"]
+        # 系统 Asio 使用 make_exception_ptr，却未直接包含 <exception>。
+        # 同一构建合同为基线和参考冷验收补齐声明，不修改上游源码或测试。
+        compiler_options = [
+            "-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"
+            " -include exception"
+        ]
     return {
         "repository": repo,
         "mode": MODES.get(repo, "ctest"),
@@ -120,18 +211,53 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
             f"-DCMAKE_CXX_FLAGS_RELEASE=-{optimization} -DNDEBUG",
             f"-DCMAKE_C_FLAGS_RELEASE=-{optimization} -DNDEBUG",
             *compiler_options,
-            *OPTIONS[repo],
+            *options,
         ],
-        "memory_mib": 8192,
+        **runtime,
+        # 原生 gzip 回归单次写入超过 4 GiB；CSV 缓冲增长需要额外峰值空间。
+        "memory_mib": 14336
+        if record.get("instance_id") == "duckdb__duckdb-23422"
+        else 12288
+        if repo in {"duckdb/duckdb", "shader-slang/slang"}
+        else 8192,
         "build_tmpfs_mib": 4096,
-        "build_jobs": 2,
-        "pids_limit": 4096 if repo == "ninja-build/ninja" else 256,
+        # Slang 原生临时文件固定写入 /tmp，主机可调用模块需要执行权限。
+        "tmp_executable": repo == "shader-slang/slang",
+        "build_jobs": 4 if repo == "shader-slang/slang" else 2,
+        # DuckDB 原生并发 DROP 回归同时创建 300 个线程，256 会中断测试进程。
+        "pids_limit": 4096 if repo in {"ninja-build/ninja", "duckdb/duckdb"} else 256,
+        # 冷编译与完整原生套件共享阶段期限；DuckDB 的 O3 编译可耗时约 25 分钟。
+        "phase_timeout_seconds": 3600 if repo == "duckdb/duckdb" else 1800,
+        "qualification_timeout_seconds": 9000 if repo == "duckdb/duckdb" else 5400,
     }
 
 
 def prepare_source_dependencies(record, source, pool, *, deadline):
     """源码快照携带固定离线输入，原生测试的运行产物使用构建目录。"""
     repository = record["org"] + "/" + record["repo"]
+    if record.get("instance_id") == "catchorg__Catch2-1608":
+        # 官方提交将审批期望值放在修复补丁中；这些文件属于受保护的测试输入。
+        sections = [
+            (name, section)
+            for name, section in patch_sections(record["fix_patch"])
+            if re.fullmatch(r"projects/SelfTest/Baselines/[^/]+\.approved\.txt", name)
+        ]
+        if not sections:
+            raise ValueError("CATCH_APPROVAL_EXPECTATIONS_REQUIRED")
+        patch = "".join(section for _, section in sections)
+        # 固定独立 Git 根目录，确保补丁路径相对于本题源码解析。
+        git(source, "init", "--template=", "-q", ".", deadline=deadline)
+        with tempfile.TemporaryDirectory(prefix="repropatch-approvals-") as temporary:
+            path = Path(temporary) / "expectations.patch"
+            path.write_text(patch)
+            git(source, "apply", str(path), deadline=deadline)
+        return [
+            {
+                "kind": "official_test_expectations",
+                "paths": [name for name, _ in sections],
+                "patch_sha256": hashlib.sha256(patch.encode()).hexdigest(),
+            }
+        ]
     if repository == "KhronosGroup/glslang":
         # 官方 known_good 清单固定全部源码依赖，GoogleTest 标签解析到固定提交。
         dependencies = []
@@ -192,6 +318,14 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
         ]
     if repository != "simdjson/simdjson":
         return []
+    if record.get("instance_id") == "simdjson__simdjson-644":
+        # 此版本的六个原生测试直接使用仓库内数据。
+        # JSON 对照库仅保留编译接口，独立项目的测试与性能数据位于其发行仓库。
+        for relative in ("dependencies/json/test", "dependencies/json/benchmarks"):
+            path = source / relative
+            if path.exists():
+                shutil.rmtree(path)
+        return []
     from prepare_simdjson_task import adapt_environment, adapt_individual_ctest
 
     dependencies = []
@@ -212,6 +346,122 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
     adapt_environment(source)
     adapt_individual_ctest(source)
     return dependencies
+
+
+def duckdb_test_arguments(record):
+    """只读取数据集命令的原生筛选器，保留显式全选与默认集合的区别。"""
+    for command in record.get("native_test_commands", []):
+        lexer = shlex.shlex(command, posix=True, punctuation_chars=";&|")
+        lexer.whitespace_split = True
+        tokens = list(lexer)
+        for index, token in enumerate(tokens):
+            if Path(token).name != "unittest":
+                continue
+            arguments = []
+            for argument in tokens[index + 1 :]:
+                if argument in {";", "&&", "||", "|", "&"}:
+                    break
+                arguments.append(argument)
+            if "--list-tests" in arguments:
+                continue
+            selectors = []
+            position = 0
+            while position < len(arguments):
+                argument = arguments[position]
+                if argument in {"--reporter", "--out", "--durations", "--use-colour"}:
+                    position += 2
+                elif argument.startswith("--out="):
+                    position += 1
+                elif argument == "*":
+                    selectors.append(argument)
+                    position += 1
+                else:
+                    raise ValueError("DUCKDB_NATIVE_ARGUMENTS_REVIEW_REQUIRED")
+            if selectors not in ([], ["*"]):
+                raise ValueError("DUCKDB_NATIVE_ARGUMENTS_REVIEW_REQUIRED")
+            return selectors
+    raise ValueError("DUCKDB_NATIVE_COMMAND_MISSING")
+
+
+def slang_test_arguments(record):
+    """只提取数据集冻结的原生 argv；目录准备、重定向与 tee 由运行器接管。"""
+    commands = record.get("native_test_commands", [])
+    if len(commands) != 1:
+        raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    lexer = shlex.shlex(commands[0], posix=True, punctuation_chars=";&|<>")
+    lexer.whitespace_split = True
+    tokens = list(lexer)
+    executables = {
+        "./build/Release/bin/slang-test",
+        "build/Release/bin/slang-test",
+        "/testbed/build/Release/bin/slang-test",
+    }
+    positions = [index for index, token in enumerate(tokens) if token in executables]
+    if len(positions) != 1 or any("$" in token or "`" in token for token in tokens):
+        raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    position = positions[0]
+    prefix = tokens[:position]
+    while prefix:
+        boundary = next((i for i, token in enumerate(prefix) if token in {";", "&&"}), None)
+        if boundary is None or prefix[:boundary] not in (
+            ["cd", "/testbed"],
+            ["mkdir", "-p", "reports"],
+            ["mkdir", "-p", "/testbed/reports"],
+        ):
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+        prefix = prefix[boundary + 1 :]
+    remaining = tokens[position + 1 :]
+    end = next(
+        (
+            index
+            for index, token in enumerate(remaining)
+            if token in {";", "&&", "|", ">", "2"}
+            and (token != "2" or remaining[index + 1 : index + 2] == [">&"])
+        ),
+        len(remaining),
+    )
+    arguments, suffix = remaining[:end], remaining[end:]
+    if suffix[:3] == ["2", ">&", "1"]:
+        suffix = suffix[3:]
+    if suffix:
+        if suffix[0] == ">" and len(suffix) == 2:
+            output = suffix[1]
+        elif suffix[:2] == ["|", "tee"] and len(suffix) == 3:
+            output = suffix[2]
+        else:
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+        if not re.fullmatch(r"(?:/testbed/)?(?:reports/)?[A-Za-z0-9._-]+", output):
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    flags = {
+        "-xunit",
+        "-use-test-server",
+        "-skip-reference-image-generation",
+        "-show-adapter-info",
+        "-skip-api-detection",
+    }
+    operands = {
+        "-server-count",
+        "-category",
+        "-expected-failure-list",
+        "-enable-debug-layers",
+        "-api",
+        "-exclude",
+        "-exclude-prefix",
+    }
+    index = 0
+    while index < len(arguments):
+        flag = arguments[index]
+        index += 1
+        if flag == "-v":
+            if arguments[index : index + 1] in (["verbose"], ["info"], ["failure"]):
+                index += 1
+        elif flag in operands:
+            if index == len(arguments) or arguments[index].startswith("-"):
+                raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+            index += 1
+        elif flag not in flags:
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    return arguments
 
 
 def make_contract(record, configuration):
@@ -250,8 +500,15 @@ def make_contract(record, configuration):
         "official_test_paths": patch_paths(record["test_patch"])[0],
     }
     if mode == "slang":
-        # 原生数据集使用直接执行与 xUnit 输出，冻结解析器读取相同格式。
-        contract["test_arguments"] = ["-xunit", "-v"]
+        # 保留各实例的输出格式、测试服务器和官方预期失败列表。
+        contract["test_arguments"] = slang_test_arguments(record)
+        contract["log_stream_policy"] = "slang-terminal-records-v1"
+        # 镜像已有 Clang 19；Slang 的下游探测器按 clang++/clang 名称查找。
+        contract["runtime_compiler_directory"] = configuration.get(
+            "runtime_compiler_directory", "/usr/lib/llvm-19/bin"
+        )
+    elif mode == "duckdb":
+        contract["test_arguments"] = duckdb_test_arguments(record)
     normalized = [canonical_case(mode, name) for name in required]
     if len(set(normalized)) != len(normalized):
         raise ValueError("NATIVE_TEST_ALIAS_CONFLICT")
@@ -399,7 +656,9 @@ def wrapper(source, contract):
         '  message(FATAL_ERROR "REPROPATCH_NATIVE_DEFER_CONFIGURATION_FAILED: ${status}")',
         "endif()",
         "add_custom_target(native-build ALL COMMAND ${CMAKE_COMMAND} "
-        "--build ${CMAKE_CURRENT_BINARY_DIR}/native --parallel 2)",
+        "--build ${CMAKE_CURRENT_BINARY_DIR}/native --parallel "
+        + str(contract["configuration"].get("build_jobs", 2))
+        + ")",
     ]
     for group in contract["groups"]:
         escaped = group.replace("\\", "\\\\").replace('"', '\\"')

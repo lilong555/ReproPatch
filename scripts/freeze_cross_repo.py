@@ -12,6 +12,7 @@ from cross_repo_campaign import (
     execution_fingerprint,
     execution_order,
     selection_review,
+    task_environment,
     validate_protocol,
 )
 from qualify_cpp_batch import save, sha
@@ -32,6 +33,23 @@ def freeze(args):
         raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
     identities = {}
     selected = args.instances.split(",")
+    environments = {}
+    if getattr(args, "task_environments", None):
+        environments = json.loads(args.task_environments.read_text())
+        if set(environments) != set(selected):
+            raise ValueError("CROSS_TASK_ENVIRONMENT_REGISTRY_MISMATCH")
+    elif args.phase == "formal":
+        preparation = json.loads(
+            (ROOT / "benchmarks/cross-repo/formal-preparation.json").read_text()
+        )
+        environments = preparation.get("task_environments", {})
+    elif args.phase == "repeat" and args.formal_protocol:
+        formal = json.loads(args.formal_protocol.read_text())
+        environments = {instance: task_environment(formal, instance) for instance in selected}
+    environments = {
+        instance: environments.get(instance, {"image": args.image, "image_id": args.image_id})
+        for instance in selected
+    }
     gate = None
     history = history_index() if args.phase == "formal" else None
     existing = [
@@ -57,20 +75,38 @@ def freeze(args):
         preparation = json.loads(
             (ROOT / "benchmarks/cross-repo/formal-preparation.json").read_text()
         )
+        new_repository_tasks = 25
         if preparation.get("difficulty_policy") == "qualification-feasible-cross-repository-v1":
-            if set(preparation["instances"]) != set(selected) or preparation[
+            if not set(selected) <= set(preparation["instances"]) or preparation[
                 "selection_review_sha256"
             ] != sha(args.selection_review):
                 raise ValueError("CROSS_FORMAL_PREPARATION_REGISTRY_MISMATCH")
             development["recommended_difficulty_counts"] = development["difficulty_counts"]
             development["difficulty_counts"] = preparation["difficulty_counts"]
             development["difficulty_policy"] = preparation["difficulty_policy"]
-        quota = selection_review(review, selected, development, existing)
-        gate = {"development": development, "review": review, **quota}
+            if preparation.get("selection_policy") == "resource-feasible-cross-repository-v1":
+                new_repository_tasks = preparation["new_repository_tasks"]
+        quota = selection_review(
+            review,
+            preparation["instances"],
+            development,
+            existing,
+            new_repository_tasks=new_repository_tasks,
+        )
+        gate = {
+            "development": development,
+            "review": review,
+            "campaign_tasks": preparation["instances"],
+            **quota,
+        }
     for instance in selected:
         directory = args.qualification / instance
         q = json.loads((directory / "result.json").read_text())
-        if q["status"] != "QUALIFIED" or q["backend"] != "docker" or q["image_id"] != args.image_id:
+        if (
+            q["status"] != "QUALIFIED"
+            or q["backend"] != "docker"
+            or q["image_id"] != environments[instance]["image_id"]
+        ):
             raise ValueError("CROSS_QUALIFICATION_IMAGE_MISMATCH")
         issues = verify_tree(
             directory,
@@ -96,9 +132,11 @@ def freeze(args):
             "dataset_revision": q["dataset_revision"],
             "native_tests": q["native_test_count"],
         }
-    batch = campaign["batch_id"] + "-" + args.phase
+    attempt_batch = campaign["batch_id"] + "-" + args.phase
+    batch_key = getattr(args, "batch_key", None)
+    batch = attempt_batch + ("-" + batch_key if batch_key else "")
     attempts = execution_order(
-        selected, batch=batch, replicate="repeat" if args.phase == "repeat" else "first"
+        selected, batch=attempt_batch, replicate="repeat" if args.phase == "repeat" else "first"
     )
     prior_attempts = json.loads(args.prior_attempts.read_text()) if args.prior_attempts else []
     prior_ids = {a["attempt_id"] for a in prior_attempts}
@@ -192,6 +230,8 @@ def freeze(args):
         "qualification_contracts": identities,
         "image": args.image,
         "image_id": args.image_id,
+        "environment_policy": "per-task-native-v1",
+        "task_environments": environments,
         "qualification_run_ids": args.qualification_run,
         "qualification_archives": archives,
         "network_calibration": {
@@ -215,17 +255,36 @@ def freeze(args):
     if args.max_parallel:
         value["max_parallel"] = args.max_parallel
     if gate:
+        prior_batches = []
+        for entry in getattr(args, "prior_batches", []):
+            path = ROOT / entry["protocol"]
+            previous = json.loads(path.read_text())
+            if (
+                sha(path) != entry["sha256"]
+                or previous["phase"] != "formal"
+                or previous["tasks"] != entry["tasks"]
+                or previous["repeat_tasks"] != (args.repeat_instances or "").split(",")
+            ):
+                raise ValueError("CROSS_PRIOR_BATCH_EVIDENCE_MISMATCH")
+            prior_batches.append({key: entry[key] for key in ("protocol", "sha256", "tasks")})
         value.update(
             selection_gate=gate,
             existing_repositories=existing,
             repeat_tasks=(args.repeat_instances or "").split(","),
+            incremental_submission={
+                "campaign_batch_id": attempt_batch,
+                "campaign_request_cap": 3600,
+                "prior_batches": prior_batches,
+            },
         )
     if args.phase == "repeat":
         if not args.formal_protocol:
             raise ValueError("CROSS_FORMAL_PROTOCOL_REQUIRED")
         formal = json.loads(args.formal_protocol.read_text())
         validate_protocol(formal)
-        if set(selected) != set(formal["repeat_tasks"]) or args.image_id != formal["image_id"]:
+        if set(selected) != set(formal["repeat_tasks"]) or any(
+            environments[instance] != task_environment(formal, instance) for instance in selected
+        ):
             raise ValueError("CROSS_REPEAT_PREREGISTRATION_MISMATCH")
         value["formal_protocol_sha256"] = sha(args.formal_protocol)
         value["formal_repeat_tasks"] = formal["repeat_tasks"]
@@ -247,6 +306,7 @@ def main():
     parser.add_argument("--qualification-run", type=int, action="append", required=True)
     parser.add_argument("--image", required=True)
     parser.add_argument("--image-id", required=True)
+    parser.add_argument("--task-environments", type=Path)
     parser.add_argument("--ci-run", type=int, required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--output", type=Path, required=True)
