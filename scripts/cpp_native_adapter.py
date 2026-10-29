@@ -119,21 +119,32 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "shader-slang__slang-10697",
         "shader-slang__slang-10768",
         "shader-slang__slang-10664",
+        "shader-slang__slang-10856",
+        "shader-slang__slang-7815",
+        "shader-slang__slang-10663",
     }:
-        # 官方镜像固定 GCC 13、C++23、LLVM 2026.8 与 DXC。
+        # 按官方环境记录选择编译器、LLVM 后端与实际可用的 DXC。
+        instance = record["instance_id"]
+        legacy = instance in {"shader-slang__slang-10856", "shader-slang__slang-7815"}
+        has_dxc = instance not in {"shader-slang__slang-7815", "shader-slang__slang-10663"}
+        llvm = "slang-7815" if instance == "shader-slang__slang-7815" else "slang-10738"
         if cxx == "clang++-19" and cc == "clang-19":
-            cxx, cc = "g++-13", "gcc-13"
+            cxx, cc = ("g++-11", "gcc-11") if legacy else ("g++-13", "gcc-13")
         replaced = ("-DSLANG_ENABLE_DXIL=", "-DSLANG_SLANG_LLVM_BINARY_URL=")
         options = [option for option in options if not option.startswith(replaced)]
         options += [
-            "-DCMAKE_CXX_STANDARD=23",
             "-DCMAKE_CXX_FLAGS=-pipe",
-            "-DSLANG_ENABLE_DXIL=ON",
+            "-DSLANG_ENABLE_DXIL=" + ("ON" if has_dxc else "OFF"),
             "-DSLANG_ENABLE_XLIB=OFF",
-            "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/slang-10738/libslang-llvm.so",
-            "-DFETCHCONTENT_SOURCE_DIR_DXC=/opt/cpp-deps/slang-10738/dxc",
+            f"-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/{llvm}/libslang-llvm.so",
         ]
-        runtime["runtime_compiler_directory"] = "/usr/lib/llvm-18/bin"
+        if instance != "shader-slang__slang-7815":
+            options.append("-DCMAKE_CXX_STANDARD=23")
+        if has_dxc:
+            options.append("-DFETCHCONTENT_SOURCE_DIR_DXC=/opt/cpp-deps/slang-10738/dxc")
+        runtime["runtime_compiler_directory"] = (
+            "/usr/lib/llvm-14/bin" if legacy else "/usr/lib/llvm-18/bin"
+        )
     if repo in {"nlohmann/json", "catchorg/Catch2"} and cxx == "clang++-19" and cc == "clang-19":
         # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
         cxx, cc = "g++-11", "gcc-11"

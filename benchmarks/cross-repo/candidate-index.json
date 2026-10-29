@@ -12790,7 +12790,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/input/binary_reader.hpp",
@@ -12800,7 +12800,8 @@
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
       "semantic_identity": "9749baa40ccb7392cb4f896863f9fcb0f1a3ed64f273e207af150a00f5d45381",
-      "selection_status": "SELECTED_QUALIFICATION_PENDING"
+      "selection_status": "SELECTED_QUALIFICATION_PENDING",
+      "qualification_run_id": 40824500614
     },
     {
       "instance_id": "nlohmann__json-3523",
@@ -12816,7 +12817,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/input/binary_reader.hpp",
@@ -12827,7 +12828,8 @@
       "omitted_reference_paths": [],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
       "semantic_identity": "5df8ed8a2ec0e9aaae149f74f1d3224b18a801115dc59778da37a72bd7702623",
-      "selection_status": "SELECTED_QUALIFICATION_PENDING"
+      "selection_status": "SELECTED_QUALIFICATION_PENDING",
+      "qualification_run_id": 40824500614
     },
     {
       "instance_id": "nlohmann__json-3514",
@@ -12893,7 +12895,7 @@
       "dataset": "ByteDance-Seed/Multi-SWE-bench",
       "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
       "historical_model_evidence": [],
-      "qualification_status": "PENDING",
+      "qualification_status": "QUALIFIED",
       "model_requests": 0,
       "production_cpp_paths": [
         "include/nlohmann/detail/conversions/from_json.hpp",
@@ -12929,7 +12931,8 @@
       ],
       "scope_status": "CPP_REFERENCE_REQUIRES_DYNAMIC_CONFIRMATION",
       "semantic_identity": "46c6b94cd0733cee8f109863bfb244c18d68973fb7f612b56907f4e96a5526f8",
-      "selection_status": "SELECTED_QUALIFICATION_PENDING"
+      "selection_status": "SELECTED_QUALIFICATION_PENDING",
+      "qualification_run_id": 40824500614
     },
     {
       "instance_id": "nlohmann__json-3415",

@@ -17,7 +17,7 @@
     "difficulty": "medium",
     "rationale": "BJData 非法输入触发数组状态断言，涉及二进制解析边界。",
     "record_sha256": "a21c202b9322b653200b9990e64905e48e7fe5ccb32e973786fd585ec68a5084",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3523": {
     "repository": "nlohmann/json",
@@ -27,7 +27,7 @@
     "difficulty": "complex",
     "rationale": "BJData 往返转换错误，涉及数组维度、长度及数值类型处理。",
     "record_sha256": "edc63a7eee2176b32d2ef9adacb599bd418c8560ee2b1cd773ff7cf9ae7c3612",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3446": {
     "repository": "nlohmann/json",
@@ -37,7 +37,7 @@
     "difficulty": "complex",
     "rationale": "NaN 比较与浮点语义不一致，涉及比较运算、丢弃值与多种模板接口。",
     "record_sha256": "bb05739d018d06b8a2f5421f34807caa4df280f1d4555128913f2cc076cc952f",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3332": {
     "repository": "nlohmann/json",

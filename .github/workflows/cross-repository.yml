@@ -224,7 +224,7 @@ jobs:
               stream.write('matrix=' + json.dumps({'instance': ids}) + '\n')
           PY
       - name: 准备离线依赖
-        if: inputs.image == '' && inputs.instances != 'rui314__mold-1546' && inputs.instances != 'shader-slang__slang-10738'
+        if: inputs.image == '' && inputs.instances != 'rui314__mold-1546' && inputs.instances != 'shader-slang__slang-10738' && !contains(inputs.instances, 'shader-slang__slang-7815')
         run: python scripts/prepare_cpp_toolchain.py --output .repropatch/cross-tools --pool .repropatch/cross-git
       - name: 构建并冻结任务工具链
         id: image
@@ -247,6 +247,8 @@ jobs:
               docker build -f docker/mold.Dockerfile -t "$image" .
             elif test "$INSTANCES" = shader-slang__slang-10738; then
               docker build -f docker/slang-10738.Dockerfile -t "$image" .
+            elif [[ ",$INSTANCES," == *",shader-slang__slang-7815,"* ]]; then
+              docker build -f docker/slang-compat.Dockerfile -t "$image" .
             else
               docker build -f docker/cross-repository.Dockerfile -t "$image" .
             fi
