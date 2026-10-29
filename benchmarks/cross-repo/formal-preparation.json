@@ -10,12 +10,12 @@
   "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
   "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
-  "new_repository_tasks": 11,
-  "existing_repository_new_tasks": 19,
+  "new_repository_tasks": 10,
+  "existing_repository_new_tasks": 20,
   "repository_counts": {
-    "nlohmann/json": 17,
+    "nlohmann/json": 18,
     "stephenberry/glaze": 1,
-    "shader-slang/slang": 7,
+    "shader-slang/slang": 6,
     "open-source-parsers/jsoncpp": 1,
     "catchorg/Catch2": 1,
     "KhronosGroup/glslang": 1,
@@ -24,10 +24,10 @@
   },
   "difficulty_counts": {
     "medium": 11,
-    "complex": 17,
-    "compile_control": 2
+    "complex": 18,
+    "compile_control": 1
   },
-  "selection_review_sha256": "ae7c6b14dcfeee4121c87c6095d4db4a8e2c384281ca45a85e0bad9b1da3fe6d",
+  "selection_review_sha256": "6a3a1907c8ef5364fd59c9a783b5f7e425b7c089ab66613e57841fe452c0194f",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -47,7 +47,7 @@
     "shader-slang__slang-10738",
     "shader-slang__slang-10663",
     "shader-slang__slang-10697",
-    "shader-slang__slang-7815",
+    "nlohmann__json-3109",
     "shader-slang__slang-10664",
     "open-source-parsers__jsoncpp-1693",
     "nlohmann__json-3037",
@@ -81,7 +81,7 @@
     "shader-slang__slang-10738",
     "shader-slang__slang-10663",
     "shader-slang__slang-10697",
-    "shader-slang__slang-7815",
+    "nlohmann__json-3109",
     "shader-slang__slang-10664",
     "open-source-parsers__jsoncpp-1693",
     "nlohmann__json-3037",
@@ -531,6 +531,27 @@
         "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
         "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
       }
+    },
+    {
+      "instance_id": "shader-slang__slang-7815",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "两核冷构建耗时1069.85秒，原生套件还依赖cpu-hello-world示例程序与测试变体筛选适配；采用构建较轻的有序JSON范围删除缺陷。",
+      "source_runs": [
+        40828677570
+      ],
+      "source_job_id": 123298000104,
+      "observed_qualification_status": "BASELINE_TEST_INFRASTRUCTURE_FAILED",
+      "replacement_instance": "nlohmann__json-3109",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "7783",
+        "difficulty": "compile_control",
+        "rationale": "枚举数组索引编译失败，验证类型检查和隐式转换。",
+        "record_sha256": "6515e35b6c696cc756b61940682df0466542964e3ecef043a8c1c95f10bc0c34"
+      }
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -754,6 +775,15 @@
       "reason": "原生资格耗时 2221.86 秒，源码符号链接还需额外适配；本批采用构建开销较小的缺陷。",
       "replacement_record_sha256": "90feabff8cf33dff23eefe2319564f315657e799e6c213c612bfb355590da3fd",
       "replacement_base_commit": "954b10ad3baa5d92bb9cd5bb93c7258433cd2bb2"
+    },
+    {
+      "previous_instance": "shader-slang__slang-7815",
+      "replacement_instance": "nlohmann__json-3109",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "两核冷构建耗时1069.85秒，原生套件还依赖cpu-hello-world示例程序与测试变体筛选适配；采用构建较轻的有序JSON范围删除缺陷。",
+      "replacement_record_sha256": "474576e64f19c8c51cb3d72170558421a5905bb63d22f8b5cdf3d80caddd9443",
+      "replacement_base_commit": "7440786b813534b567f6f6b87afb2aa19f97cc89"
     }
   ],
   "selection_policy": "resource-feasible-cross-repository-v1",
