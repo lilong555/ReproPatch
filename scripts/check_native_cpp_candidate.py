@@ -1,5 +1,6 @@
 """在固定原生源码上应用授权候选，执行完整冷 Oracle 与分发头文件验证。"""
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -11,6 +12,28 @@ from qualify_cpp_batch import CANCELLED, archive, git, save, sha
 from qualify_cross_repo import NativeExecutor, manifest
 
 from repropatch.task import Task
+
+
+def restore_manifest_bytes(source, expected):
+    """按已冻结的字节哈希恢复 Git 文本规范化涉及的换行符。"""
+    observed = source_manifest(source)
+    if set(observed) != set(expected):
+        raise ValueError("SOURCE_MANIFEST_PATH_MISMATCH")
+    for name, identity in expected.items():
+        if observed[name] == identity:
+            continue
+        path = source / name
+        raw = path.read_bytes()
+        lf = raw.replace(b"\r\n", b"\n")
+        for candidate in (lf, lf.replace(b"\n", b"\r\n")):
+            if (
+                len(candidate) == identity["size"]
+                and hashlib.sha256(candidate).hexdigest() == (identity["sha256"])
+            ):
+                path.write_bytes(candidate)
+                break
+        else:
+            raise ValueError("SOURCE_MANIFEST_CONTENT_MISMATCH")
 
 
 def restore_repository(directory, qualification, destination):
@@ -31,11 +54,14 @@ def restore_repository(directory, qualification, destination):
     snapshot = destination.parent / (destination.name + "-snapshot")
     try:
         archive(destination, qualification["upstream_snapshot_commit"], snapshot)
+        restore_manifest_bytes(snapshot, expected)
         if source_manifest(snapshot) != expected:
             raise ValueError("UPSTREAM_SOURCE_MANIFEST_MISMATCH")
     finally:
         if snapshot.exists():
             shutil.rmtree(snapshot)
+    prepared = json.loads((directory / "control/prepared-source-manifest.json").read_text())
+    restore_manifest_bytes(destination, prepared)
     return destination
 
 
@@ -102,6 +128,9 @@ def check(args):
         )
         changed = candidate_paths(prepared, output / "candidate.patch", editable=editable)
         archive(prepared, q["upstream_snapshot_commit"], native)
+        restore_manifest_bytes(
+            native, json.loads((directory / "control/upstream-source-manifest.json").read_text())
+        )
         git(native, "init", "--template=", "-q", ".")
         if (
             sha(directory / "control/test.patch") != q["test_patch_sha256"]

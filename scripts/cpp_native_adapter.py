@@ -92,6 +92,12 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
     options = list(OPTIONS[repo])
     runtime = {}
+    if record.get("instance_id") == "duckdb__duckdb-23422":
+        # 官方任务采用 GCC 13 与 C++23；完整套件预留 14 GiB 容器内存。
+        if cxx == "clang++-19" and cc == "clang-19":
+            cxx, cc = "g++-13", "gcc-13"
+        options = [option for option in options if not option.startswith("-DCMAKE_CXX_STANDARD=")]
+        options.append("-DCMAKE_CXX_STANDARD=23")
     if record.get("instance_id") == "shader-slang__slang-10738":
         # 官方镜像固定 GCC 13、C++23、LLVM 2026.8 与 DXC。
         if cxx == "clang++-19" and cc == "clang-19":
@@ -149,7 +155,11 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         ],
         **runtime,
         # 原生 gzip 回归单次写入超过 4 GiB；CSV 缓冲增长需要额外峰值空间。
-        "memory_mib": 12288 if repo == "duckdb/duckdb" else 8192,
+        "memory_mib": 14336
+        if record.get("instance_id") == "duckdb__duckdb-23422"
+        else 12288
+        if repo == "duckdb/duckdb"
+        else 8192,
         "build_tmpfs_mib": 4096,
         "build_jobs": 2,
         # DuckDB 原生并发 DROP 回归同时创建 300 个线程，256 会中断测试进程。
