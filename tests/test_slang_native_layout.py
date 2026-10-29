@@ -183,9 +183,10 @@ def test_slang_finds_prelude_from_executable_in_separate_build_tree(tmp_path, re
     assert actual.read_text() == "runtime output"
 
 
-def test_slang_10738_uses_recorded_official_backends():
+@pytest.mark.parametrize("number", [10738, 10697, 10768, 10664])
+def test_slang_uses_recorded_official_backends(number):
     configuration = adapter.recipe(
-        {"org": "shader-slang", "repo": "slang", "instance_id": "shader-slang__slang-10738"}
+        {"org": "shader-slang", "repo": "slang", "instance_id": f"shader-slang__slang-{number}"}
     )
     flags = configuration["configure"]
     assert "-DCMAKE_CXX_COMPILER=g++-13" in flags

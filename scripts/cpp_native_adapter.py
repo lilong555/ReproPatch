@@ -98,7 +98,12 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
             cxx, cc = "g++-13", "gcc-13"
         options = [option for option in options if not option.startswith("-DCMAKE_CXX_STANDARD=")]
         options.append("-DCMAKE_CXX_STANDARD=23")
-    if record.get("instance_id") == "shader-slang__slang-10738":
+    if record.get("instance_id") in {
+        "shader-slang__slang-10738",
+        "shader-slang__slang-10697",
+        "shader-slang__slang-10768",
+        "shader-slang__slang-10664",
+    }:
         # 官方镜像固定 GCC 13、C++23、LLVM 2026.8 与 DXC。
         if cxx == "clang++-19" and cc == "clang-19":
             cxx, cc = "g++-13", "gcc-13"
