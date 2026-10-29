@@ -3,6 +3,7 @@
 import hashlib
 import json
 import re
+import shlex
 import shutil
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -26,7 +27,7 @@ OPTIONS = {
     "rui314/mold": ["-DBUILD_TESTING=ON", "-DMOLD_ENABLE_QEMU_TESTS=OFF"],
     "actor-framework/actor-framework": [
         "-DCAF_ENABLE_TESTING=ON",
-        "-DCAF_ENABLE_EXAMPLES=OFF",
+        "-DCAF_ENABLE_EXAMPLES=ON",
         "-DCAF_ENABLE_RUNTIME_CHECKS=ON",
     ],
     "stephenberry/glaze": [
@@ -101,7 +102,12 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         compiler_options = ["-DCMAKE_CXX_FLAGS=" + flags]
     elif cxx.startswith("clang") and repo == "stephenberry/glaze":
         # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
-        compiler_options = ["-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"]
+        # 系统 Asio 使用 make_exception_ptr，却未直接包含 <exception>。
+        # 同一构建合同为基线和参考冷验收补齐声明，不修改上游源码或测试。
+        compiler_options = [
+            "-DCMAKE_CXX_FLAGS=-stdlib=libc++ -DASIO_DISABLE_STD_NESTED_EXCEPTION"
+            " -include exception"
+        ]
     return {
         "repository": repo,
         "mode": MODES.get(repo, "ctest"),
@@ -122,10 +128,15 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
             *compiler_options,
             *OPTIONS[repo],
         ],
-        "memory_mib": 8192,
+        # 原生 gzip 回归单次写入超过 4 GiB；CSV 缓冲增长需要额外峰值空间。
+        "memory_mib": 12288 if repo == "duckdb/duckdb" else 8192,
         "build_tmpfs_mib": 4096,
         "build_jobs": 2,
-        "pids_limit": 4096 if repo == "ninja-build/ninja" else 256,
+        # DuckDB 原生并发 DROP 回归同时创建 300 个线程，256 会中断测试进程。
+        "pids_limit": 4096 if repo in {"ninja-build/ninja", "duckdb/duckdb"} else 256,
+        # 冷编译与完整原生套件共享阶段期限；DuckDB 的 O3 编译可耗时约 25 分钟。
+        "phase_timeout_seconds": 3600 if repo == "duckdb/duckdb" else 1800,
+        "qualification_timeout_seconds": 9000 if repo == "duckdb/duckdb" else 5400,
     }
 
 
@@ -214,6 +225,122 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
     return dependencies
 
 
+def duckdb_test_arguments(record):
+    """只读取数据集命令的原生筛选器，保留显式全选与默认集合的区别。"""
+    for command in record.get("native_test_commands", []):
+        lexer = shlex.shlex(command, posix=True, punctuation_chars=";&|")
+        lexer.whitespace_split = True
+        tokens = list(lexer)
+        for index, token in enumerate(tokens):
+            if Path(token).name != "unittest":
+                continue
+            arguments = []
+            for argument in tokens[index + 1 :]:
+                if argument in {";", "&&", "||", "|", "&"}:
+                    break
+                arguments.append(argument)
+            if "--list-tests" in arguments:
+                continue
+            selectors = []
+            position = 0
+            while position < len(arguments):
+                argument = arguments[position]
+                if argument in {"--reporter", "--out", "--durations", "--use-colour"}:
+                    position += 2
+                elif argument.startswith("--out="):
+                    position += 1
+                elif argument == "*":
+                    selectors.append(argument)
+                    position += 1
+                else:
+                    raise ValueError("DUCKDB_NATIVE_ARGUMENTS_REVIEW_REQUIRED")
+            if selectors not in ([], ["*"]):
+                raise ValueError("DUCKDB_NATIVE_ARGUMENTS_REVIEW_REQUIRED")
+            return selectors
+    raise ValueError("DUCKDB_NATIVE_COMMAND_MISSING")
+
+
+def slang_test_arguments(record):
+    """只提取数据集冻结的原生 argv；目录准备、重定向与 tee 由运行器接管。"""
+    commands = record.get("native_test_commands", [])
+    if len(commands) != 1:
+        raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    lexer = shlex.shlex(commands[0], posix=True, punctuation_chars=";&|<>")
+    lexer.whitespace_split = True
+    tokens = list(lexer)
+    executables = {
+        "./build/Release/bin/slang-test",
+        "build/Release/bin/slang-test",
+        "/testbed/build/Release/bin/slang-test",
+    }
+    positions = [index for index, token in enumerate(tokens) if token in executables]
+    if len(positions) != 1 or any("$" in token or "`" in token for token in tokens):
+        raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    position = positions[0]
+    prefix = tokens[:position]
+    while prefix:
+        boundary = next((i for i, token in enumerate(prefix) if token in {";", "&&"}), None)
+        if boundary is None or prefix[:boundary] not in (
+            ["cd", "/testbed"],
+            ["mkdir", "-p", "reports"],
+            ["mkdir", "-p", "/testbed/reports"],
+        ):
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+        prefix = prefix[boundary + 1 :]
+    remaining = tokens[position + 1 :]
+    end = next(
+        (
+            index
+            for index, token in enumerate(remaining)
+            if token in {";", "&&", "|", ">", "2"}
+            and (token != "2" or remaining[index + 1 : index + 2] == [">&"])
+        ),
+        len(remaining),
+    )
+    arguments, suffix = remaining[:end], remaining[end:]
+    if suffix[:3] == ["2", ">&", "1"]:
+        suffix = suffix[3:]
+    if suffix:
+        if suffix[0] == ">" and len(suffix) == 2:
+            output = suffix[1]
+        elif suffix[:2] == ["|", "tee"] and len(suffix) == 3:
+            output = suffix[2]
+        else:
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+        if not re.fullmatch(r"(?:/testbed/)?(?:reports/)?[A-Za-z0-9._-]+", output):
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    flags = {
+        "-xunit",
+        "-use-test-server",
+        "-skip-reference-image-generation",
+        "-show-adapter-info",
+        "-skip-api-detection",
+    }
+    operands = {
+        "-server-count",
+        "-category",
+        "-expected-failure-list",
+        "-enable-debug-layers",
+        "-api",
+        "-exclude",
+        "-exclude-prefix",
+    }
+    index = 0
+    while index < len(arguments):
+        flag = arguments[index]
+        index += 1
+        if flag == "-v":
+            if arguments[index : index + 1] in (["verbose"], ["info"], ["failure"]):
+                index += 1
+        elif flag in operands:
+            if index == len(arguments) or arguments[index].startswith("-"):
+                raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+            index += 1
+        elif flag not in flags:
+            raise ValueError("SLANG_NATIVE_COMMAND_REVIEW_REQUIRED")
+    return arguments
+
+
 def make_contract(record, configuration):
     required = sorted(record["fix_patch_result"]["passed_tests"])
     if not required or len(required) != len(set(required)):
@@ -250,8 +377,13 @@ def make_contract(record, configuration):
         "official_test_paths": patch_paths(record["test_patch"])[0],
     }
     if mode == "slang":
-        # 原生数据集使用直接执行与 xUnit 输出，冻结解析器读取相同格式。
-        contract["test_arguments"] = ["-xunit", "-v"]
+        # 保留各实例的输出格式、测试服务器和官方预期失败列表。
+        contract["test_arguments"] = slang_test_arguments(record)
+        contract["log_stream_policy"] = "slang-terminal-records-v1"
+        # 镜像已有 Clang 19；Slang 的下游探测器按 clang++/clang 名称查找。
+        contract["runtime_compiler_directory"] = "/usr/lib/llvm-19/bin"
+    elif mode == "duckdb":
+        contract["test_arguments"] = duckdb_test_arguments(record)
     normalized = [canonical_case(mode, name) for name in required]
     if len(set(normalized)) != len(normalized):
         raise ValueError("NATIVE_TEST_ALIAS_CONFLICT")

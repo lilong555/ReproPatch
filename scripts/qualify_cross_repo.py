@@ -41,7 +41,7 @@ class NativeExecutor(Executor):
         self.memory_mib = configuration["memory_mib"]
         self.pids_limit = configuration.get("pids_limit", 256)
         self.configure = [*configuration["configure"], "-DREPROPATCH_NATIVE_WRAPPER=ON"]
-        self.phase_timeout = 1800
+        self.phase_timeout = configuration.get("phase_timeout_seconds", 1800)
 
     def suite(self, source, phase, required, selected=None):
         previous = self.deadline
@@ -290,8 +290,16 @@ def qualify(record, args):
     try:
         reference, omitted = production_reference(record)
         configuration = recipe(record, cxx=args.cxx, cc=args.cc)
+        task_timeout = (
+            args.task_timeout
+            if args.task_timeout is not None
+            else configuration.get("qualification_timeout_seconds", 5400)
+        )
+        if task_timeout <= 0:
+            raise ValueError("QUALIFICATION_TIMEOUT_MUST_BE_POSITIVE")
+        result["qualification_timeout_seconds"] = task_timeout
         executor = NativeExecutor(
-            args.backend, args.image, directory, started + args.task_timeout, configuration
+            args.backend, args.image, directory, started + task_timeout, configuration
         )
         control = directory / "control"
         control.mkdir()
@@ -458,6 +466,13 @@ def qualify(record, args):
         manifest(directory)
 
 
+def positive_seconds(value):
+    seconds = int(value)
+    if seconds <= 0:
+        raise argparse.ArgumentTypeError("资格期限必须是正整数秒")
+    return seconds
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, required=True)
@@ -468,7 +483,7 @@ def main():
     parser.add_argument("--image")
     parser.add_argument("--cxx", default="clang++-19")
     parser.add_argument("--cc", default="clang-19")
-    parser.add_argument("--task-timeout", type=int, default=5400)
+    parser.add_argument("--task-timeout", type=positive_seconds, default=None)
     args = parser.parse_args()
     if args.backend == "docker" and not IMAGE_ID.fullmatch(args.image or ""):
         parser.error("Docker 资格使用固定 image ID")

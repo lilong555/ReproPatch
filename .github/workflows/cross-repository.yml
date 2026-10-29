@@ -165,7 +165,7 @@ jobs:
           assert re.fullmatch(r'ghcr\.io/lilong555/repropatch-cross-cpp@sha256:[a-f0-9]{64}', os.environ['FROZEN_IMAGE'])
           PY
             image="$FROZEN_IMAGE"
-            docker pull "$image"
+            python scripts/pull_cpp_image.py --image "$image" --output .repropatch/cross-environment/image-pull.json
           else
             echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
             image="ghcr.io/${GITHUB_REPOSITORY,,}-cross-cpp:run-$GITHUB_RUN_ID"
@@ -183,6 +183,7 @@ jobs:
           echo "image=$digest" >> "$GITHUB_OUTPUT"
           echo "image_id=$identity" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
         with:
           name: cross-inputs-${{ github.run_id }}
           path: |
@@ -195,7 +196,7 @@ jobs:
     if: inputs.stage == 'qualify'
     needs: toolchain
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 180
     strategy:
       fail-fast: false
       max-parallel: 30
@@ -218,7 +219,9 @@ jobs:
           name: cross-inputs-${{ github.run_id }}
           path: .repropatch/
       - name: 拉取固定工具链
-        run: docker pull "$IMAGE"
+        run: >-
+          python scripts/pull_cpp_image.py --image "$IMAGE"
+          --output .repropatch/cross-infrastructure/image-pull.json --instance "$INSTANCE"
       - name: 复用同环境原生验收并登记任务
         id: reuse
         env:
@@ -245,6 +248,9 @@ jobs:
         if: always()
         run: |
           mkdir -p .repropatch/cross-qualification
+          if test -f .repropatch/cross-infrastructure/image-pull.json; then
+            cp .repropatch/cross-infrastructure/image-pull.json .repropatch/cross-qualification/image-pull.json
+          fi
           python scripts/actions_benchmark.py pack --source .repropatch/cross-qualification --output .repropatch/cross-evidence.tar.gz
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

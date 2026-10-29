@@ -209,6 +209,8 @@ class Executor:
                 "docker",
                 "run",
                 "--rm",
+                # 与实验 worker 一致，回收原生测试提前退出后留下的子进程。
+                "--init",
                 "--pull=never",
                 "--name",
                 container,

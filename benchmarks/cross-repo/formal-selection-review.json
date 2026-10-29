@@ -44,14 +44,16 @@
     "rationale": "字符串总长度统计错误，影响字典压缩分析与统计写入。",
     "record_sha256": "d4bca520fa2a28d8401b7db169fb56d5a9badfa7b125e6ad06d9eb7527cbeb20"
   },
-  "duckdb__duckdb-24211": {
-    "repository": "duckdb/duckdb",
+  "stephenberry__glaze-2611": {
+    "repository": "stephenberry/glaze",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "24210",
+    "issue_key": "2609",
     "difficulty": "complex",
-    "rationale": "结构体字段重命名后默认值失效，涉及目录元数据与字段身份。",
-    "record_sha256": "8a2ca119486ae632ecc95ed15aa6ca5e64bdf67bf7183687209b378a40c09a66"
+    "rationale": "输入流解析在跳过未知字段时未补充缓冲区，错误返回 unexpected_end，涉及流式缓冲与 JSON 值跳过逻辑；一项 F2P 与 88 项 P2P、完整 C++ 参考修复及原生合同已静态复核，补齐 Asio 所需声明后仍须通过 Docker 基线与独立冷 Oracle 资格验收。",
+    "record_sha256": "488ce11a488a9bcd44d3b0048e100d2c83e463b1b0437b80822d4a898d5b1193",
+    "qualification_status": "PENDING",
+    "replaces": "duckdb__duckdb-24211"
   },
   "duckdb__duckdb-23569": {
     "repository": "duckdb/duckdb",
@@ -134,14 +136,16 @@
     "rationale": "接口类型的 RWByteAddressBuffer Load/Store 引发编译器内部错误。",
     "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13"
   },
-  "shader-slang__slang-10682": {
+  "shader-slang__slang-10738": {
     "repository": "shader-slang/slang",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10293",
+    "issue_key": "10263",
     "difficulty": "complex",
-    "rationale": "接口类型的显式泛型专门化崩溃，涉及多个 IR 专门化阶段。",
-    "record_sha256": "30110e691cef9f81f565b614abcc3a690dba3c8f107ffb9215f438457349effb"
+    "rationale": "无约束泛型及关联类型专门化的诊断缺陷，涉及 IR 类型流专门化；四项 F2P 聚焦同一官方变更测试的变体，等待 Docker 基线与独立冷 Oracle 资格验收。",
+    "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
+    "qualification_status": "PENDING",
+    "replaces": "shader-slang__slang-10682"
   },
   "shader-slang__slang-10663": {
     "repository": "shader-slang/slang",
@@ -170,14 +174,16 @@
     "rationale": "枚举数组索引编译失败，验证类型检查和隐式转换。",
     "record_sha256": "6515e35b6c696cc756b61940682df0466542964e3ecef043a8c1c95f10bc0c34"
   },
-  "shader-slang__slang-7523": {
+  "shader-slang__slang-10664": {
     "repository": "shader-slang/slang",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "7522",
-    "difficulty": "compile_control",
-    "rationale": "多泛型参数的模板类型 alignOf 编译失败，验证对齐信息生成。",
-    "record_sha256": "54e01695cb255f913c6a50d44d4a4c29bffa836d3d22ee758718111b44c60ecf"
+    "issue_key": "10616",
+    "difficulty": "medium",
+    "rationale": "BOM 解码后的源码内容长度计算错误，涉及源码缓冲与位置管理；单项 F2P 聚焦官方新增单元测试，C++ 参考修复完整，等待 Docker 基线与独立冷 Oracle 资格验收。",
+    "record_sha256": "1b30612fcbb34549d55404c7996431ba3484f17db547a779af8379a89b84342c",
+    "qualification_status": "PENDING",
+    "replaces": "shader-slang__slang-7523"
   },
   "open-source-parsers__jsoncpp-1693": {
     "repository": "open-source-parsers/jsoncpp",

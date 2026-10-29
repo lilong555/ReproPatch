@@ -13,7 +13,8 @@
   "new_repository_tasks": 25,
   "existing_repository_new_tasks": 5,
   "repository_counts": {
-    "duckdb/duckdb": 14,
+    "duckdb/duckdb": 13,
+    "stephenberry/glaze": 1,
     "shader-slang/slang": 7,
     "open-source-parsers/jsoncpp": 1,
     "nlohmann/json": 4,
@@ -24,17 +25,17 @@
   },
   "difficulty_counts": {
     "complex": 19,
-    "medium": 8,
-    "compile_control": 3
+    "medium": 9,
+    "compile_control": 2
   },
-  "selection_review_sha256": "882a8e73c27d5d3d2522e2df03167cc0eb7de142a274d86dc8d84d63d88bd066",
+  "selection_review_sha256": "2cbd2ce54568473de4dca371873aee49d0b07da834739e815c49d99b1f91421f",
   "instances": [
     "duckdb__duckdb-24105",
     "duckdb__duckdb-24181",
     "duckdb__duckdb-23280",
     "duckdb__duckdb-23491",
     "duckdb__duckdb-23634",
-    "duckdb__duckdb-24211",
+    "stephenberry__glaze-2611",
     "duckdb__duckdb-23569",
     "duckdb__duckdb-23413",
     "duckdb__duckdb-23615",
@@ -44,11 +45,11 @@
     "duckdb__duckdb-24011",
     "shader-slang__slang-10856",
     "shader-slang__slang-10768",
-    "shader-slang__slang-10682",
+    "shader-slang__slang-10738",
     "shader-slang__slang-10663",
     "shader-slang__slang-10697",
     "shader-slang__slang-7815",
-    "shader-slang__slang-7523",
+    "shader-slang__slang-10664",
     "open-source-parsers__jsoncpp-1693",
     "nlohmann__json-3037",
     "nlohmann__json-3008",
@@ -68,7 +69,7 @@
     "duckdb__duckdb-23280",
     "duckdb__duckdb-23491",
     "duckdb__duckdb-23634",
-    "duckdb__duckdb-24211",
+    "stephenberry__glaze-2611",
     "duckdb__duckdb-23569",
     "duckdb__duckdb-23413",
     "duckdb__duckdb-23615",
@@ -78,11 +79,11 @@
     "duckdb__duckdb-24011",
     "shader-slang__slang-10856",
     "shader-slang__slang-10768",
-    "shader-slang__slang-10682",
+    "shader-slang__slang-10738",
     "shader-slang__slang-10663",
     "shader-slang__slang-10697",
     "shader-slang__slang-7815",
-    "shader-slang__slang-7523",
+    "shader-slang__slang-10664",
     "open-source-parsers__jsoncpp-1693",
     "nlohmann__json-3037",
     "nlohmann__json-3008",
@@ -140,7 +141,91 @@
         40811421175
       ],
       "model_requests": 0
+    },
+    {
+      "instance_id": "shader-slang__slang-7523",
+      "status": "DISCARDED",
+      "reason": "C++ 生产补丁筛选遗漏 source/slang/core.meta.slang 中的实际 intrinsic 修复，而保留的 C++ 修改删除了旧 meta 源仍生成的宏；当前 C++ 修复范围无法完整表达官方参考修复。",
+      "replacement_instance": "shader-slang__slang-10664",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "duckdb__duckdb-24211",
+      "status": "DISCARDED",
+      "reason": "原资格作业在 P2P 阶段因 TASK_DEADLINE 结束，但此前已完成的 native-f2p-003（test/sql/settings/enable_caching_operators.test_slow）在基线通过；声明的三项 F2P 未全部失败，不能作为当前实验的有效 F2P/P2P 分割，替换为流式解析缺陷 Glaze-2611。",
+      "replacement_instance": "stephenberry__glaze-2611",
+      "model_requests": 0,
+      "source_run_id": 40811143058,
+      "source_job_id": 123241768839,
+      "source_job_url": "https://github.com/lilong555/ReproPatch/actions/runs/40811143058/job/123241768839",
+      "observed_qualification_status": "TIMED_OUT",
+      "observed_baseline_test": {
+        "ctest_node": "native-f2p-003",
+        "native_test": "test/sql/settings/enable_caching_operators.test_slow",
+        "declared_role": "F2P",
+        "observed_state": "passed"
+      }
     }
   ],
-  "difficulty_policy": "qualification-feasible-cross-repository-v1"
+  "difficulty_policy": "qualification-feasible-cross-repository-v1",
+  "deferred_candidates": [
+    {
+      "instance_id": "shader-slang__slang-10682",
+      "status": "DEFERRED",
+      "reason": "声明 F2P 覆盖范围较广，本轮优先采用回归集合更聚焦的 Slang-10738；原题保留为范围复核候选，本次替换未将其判定为动态资格失败或无效题。",
+      "replacement_instance": "shader-slang__slang-10738",
+      "declared_f2p_count": 1661,
+      "model_requests": 0
+    },
+    {
+      "instance_id": "duckdb__duckdb-22152",
+      "status": "DEFERRED",
+      "reason": "静态合同复核发现冻结解析器导入 os 并通过 open 读取 reports/junit.xml，不满足仅解析给定日志的纯解析器策略（NATIVE_PARSER_IMPORT_REJECTED）；未执行动态资格验收，保留为解析器兼容性复核候选。",
+      "review_stage": "STATIC_NATIVE_PARSER_REVIEW",
+      "record_sha256": "6cd988a01376d7a735dc3303b5afd1aacd9ca8fa02bd68e898c00a25b144c7d5",
+      "model_requests": 0
+    }
+  ],
+  "candidate_replacements": [
+    {
+      "previous_instance": "shader-slang__slang-7523",
+      "replacement_instance": "shader-slang__slang-10664",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "C++ 生产补丁筛选遗漏 source/slang/core.meta.slang 中的实际 intrinsic 修复，而保留的 C++ 修改删除了旧 meta 源仍生成的宏；当前 C++ 修复范围无法完整表达官方参考修复。",
+      "replacement_record_sha256": "1b30612fcbb34549d55404c7996431ba3484f17db547a779af8379a89b84342c",
+      "replacement_base_commit": "c44f0a2c4d0931fa61f081375218bcd1ed3e1e5a",
+      "required_gate": "声明 F2P 在基线失败、全部 P2P 通过，完整 C++ 参考补丁经独立原生冷 Oracle 通过后才可进入正式实验。"
+    },
+    {
+      "previous_instance": "shader-slang__slang-10682",
+      "replacement_instance": "shader-slang__slang-10738",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "声明 F2P 覆盖范围较广，本轮优先采用回归集合更聚焦的 Slang-10738；原题保留为范围复核候选，本次替换未将其判定为动态资格失败或无效题。",
+      "replacement_record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
+      "replacement_base_commit": "b23633e7926872fef357859cf5095a7fcd40a544",
+      "required_gate": "声明 F2P 在基线失败、全部 P2P 通过，完整 C++ 参考补丁经独立原生冷 Oracle 通过后才可进入正式实验。"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-24211",
+      "replacement_instance": "stephenberry__glaze-2611",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原资格作业在 P2P 阶段因 TASK_DEADLINE 结束，但此前已完成的 native-f2p-003（test/sql/settings/enable_caching_operators.test_slow）在基线通过；声明的三项 F2P 未全部失败，不能作为当前实验的有效 F2P/P2P 分割，替换为流式解析缺陷 Glaze-2611。",
+      "replacement_record_sha256": "488ce11a488a9bcd44d3b0048e100d2c83e463b1b0437b80822d4a898d5b1193",
+      "replacement_base_commit": "d4f8acfec8f8d869fae6ec3d08aa788573feb3f5",
+      "source_run_id": 40811143058,
+      "source_job_id": 123241768839,
+      "source_job_url": "https://github.com/lilong555/ReproPatch/actions/runs/40811143058/job/123241768839",
+      "observed_qualification_status": "TIMED_OUT",
+      "observed_baseline_test": {
+        "ctest_node": "native-f2p-003",
+        "native_test": "test/sql/settings/enable_caching_operators.test_slow",
+        "declared_role": "F2P",
+        "observed_state": "passed"
+      },
+      "required_gate": "声明 F2P 在基线失败、全部 P2P 通过，完整 C++ 参考补丁经独立原生冷 Oracle 通过后才可进入正式实验。"
+    }
+  ]
 }

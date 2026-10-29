@@ -1,0 +1,165 @@
+name: Candidate repair qualification
+run-name: 候选资格 · 零模型请求 · ${{ github.ref_name }}
+
+on:
+  push:
+    branches: [fix/candidate-qualification-20261029]
+    paths:
+      - '.github/workflows/candidate-qualification.yml'
+      - 'benchmarks/cross-repo/qualification-repair.json'
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: '执行定向资格检查或完整候选集'
+        type: choice
+        options: [pilot, formal]
+        default: formal
+
+permissions:
+  contents: read
+  actions: read
+  packages: write
+
+concurrency:
+  group: candidate-repair-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      instances: ${{ steps.plan.outputs.instances }}
+      image: ${{ steps.plan.outputs.image }}
+      effective_plan: ${{ steps.plan.outputs.effective_plan }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: 核对零模型请求资格计划
+        id: plan
+        env:
+          REQUESTED_SCOPE: ${{ inputs.scope }}
+        run: |
+          python - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          plan = json.loads(Path('benchmarks/cross-repo/qualification-repair.json').read_text())
+          assert plan['model_requests'] == 0
+          assert plan['stage'] == 'qualify'
+          scope = os.environ.get('REQUESTED_SCOPE') or plan['default_scope']
+          assert scope in {'pilot', 'formal'}
+          instances = plan['pilot_instances'] if scope == 'pilot' else plan['instances']
+          assert 0 < len(instances) <= 35 and len(set(instances)) == len(instances)
+          assert all(re.fullmatch(r'[A-Za-z0-9_.-]+__[A-Za-z0-9_.-]+-[0-9]+', i) for i in instances)
+          assert re.fullmatch(r'ghcr\.io/lilong555/repropatch-cross-cpp@sha256:[a-f0-9]{64}', plan['image'])
+          registry = json.loads(Path('benchmarks/cross-repo/formal-preparation.json').read_text())
+          assert plan['instances'] == registry['instances']
+          assert plan['image'] == registry['image'] and plan['image_id'] == registry['image_id']
+          plan = {**plan, 'scope': scope, 'instances': instances}
+          reused = plan.get('reusable_qualifications', {})
+          assert set(reused) <= set(registry['instances'])
+          for instance, entry in reused.items():
+              assert type(entry['run_id']) is int and entry['run_id'] > 0
+              assert entry['artifact'] == f"cross-evidence-{entry['run_id']}-{instance}"
+              assert re.fullmatch(r'[a-f0-9]{64}', entry['archive_sha256'])
+              assert re.fullmatch(r'[a-f0-9]{64}', entry['result_sha256'])
+          pending = [instance for instance in instances if instance not in reused]
+          assert pending
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('instances=' + ','.join(pending) + '\n')
+              stream.write('image=' + plan['image'] + '\n')
+              stream.write('effective_plan=' + json.dumps(plan, separators=(',', ':')) + '\n')
+          PY
+      - name: 记录运行器资源
+        run: |
+          free -m
+          df -h / /tmp
+          nproc
+
+  qualification:
+    needs: plan
+    uses: ./.github/workflows/cross-repository.yml
+    with:
+      stage: qualify
+      instances: ${{ needs.plan.outputs.instances }}
+      image: ${{ needs.plan.outputs.image }}
+
+  report:
+    if: always() && needs.plan.result == 'success'
+    needs: [plan, qualification]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        id: download_qualification
+        with:
+          pattern: cross-evidence-${{ github.run_id }}-*
+          path: .repropatch/repair-artifacts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        id: download_environment
+        if: always()
+        with:
+          pattern: cross-inputs-${{ github.run_id }}
+          path: .repropatch/repair-artifacts
+      - name: 获取已通过题目的固定资格证据
+        id: reused
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EFFECTIVE_PLAN: ${{ needs.plan.outputs.effective_plan }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          plan = json.loads(os.environ['EFFECTIVE_PLAN'])
+          for instance, entry in plan.get('reusable_qualifications', {}).items():
+              if instance not in plan['instances']:
+                  continue
+              destination = Path('.repropatch/repair-artifacts') / entry['artifact']
+              subprocess.run([
+                  'gh', 'run', 'download', str(entry['run_id']),
+                  '--repo', os.environ['GITHUB_REPOSITORY'],
+                  '--name', entry['artifact'], '--dir', str(destination),
+              ], check=True)
+              with (destination / 'cross-evidence.tar.gz').open('rb') as stream:
+                  assert hashlib.file_digest(stream, 'sha256').hexdigest() == entry['archive_sha256']
+          PY
+      - name: 核验完整证据与候选资格
+        if: always()
+        env:
+          PYTHONPATH: scripts:src
+          EFFECTIVE_PLAN: ${{ needs.plan.outputs.effective_plan }}
+          QUALIFICATION_DOWNLOAD_STATUS: ${{ steps.download_qualification.outcome }}
+          ENVIRONMENT_DOWNLOAD_STATUS: ${{ steps.download_environment.outcome }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          plan = json.loads(os.environ['EFFECTIVE_PLAN'])
+          destination = Path('.repropatch/repair-plan.json')
+          destination.parent.mkdir(parents=True, exist_ok=True)
+          destination.write_text(json.dumps(plan) + '\n')
+          PY
+          python scripts/summarize_candidate_qualification.py \
+            --plan .repropatch/repair-plan.json \
+            --artifacts .repropatch/repair-artifacts \
+            --output .repropatch/repair-report \
+            --download-status "$QUALIFICATION_DOWNLOAD_STATUS" \
+            --environment-download-status "$ENVIRONMENT_DOWNLOAD_STATUS"
+      - name: 发布资格汇总
+        if: always()
+        run: cat .repropatch/repair-report/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: candidate-eligibility-${{ github.run_id }}
+          path: .repropatch/repair-report/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

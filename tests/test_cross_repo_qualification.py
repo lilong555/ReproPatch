@@ -225,6 +225,7 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     executable.chmod(0o755)
     contract = {
         "mode": "duckdb",
+        "test_arguments": ["*"],
         "parser": "def parser(log):\n import xml.etree.ElementTree as ET\n"
         " return {case.attrib['name']: 'pass' for case in ET.fromstring(log).iter('testcase')}\n",
     }
