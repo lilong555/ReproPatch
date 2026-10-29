@@ -54,31 +54,34 @@ def adapt(source):
         ('LABELS "all" FIXTURES_REQUIRED TEST_DATA', 'LABELS "all" FIXTURES_REQUIRED ""'),
         ('LABELS "valgrind" FIXTURES_REQUIRED TEST_DATA', 'LABELS "valgrind" FIXTURES_REQUIRED ""'),
     ):
-        if value.count(old) != 1:
+        if value.count(old) > 1:
             raise ValueError("JSON_DATA_FIXTURE_LAYOUT")
         value = value.replace(old, new)
+    if "FIXTURES_REQUIRED TEST_DATA" in value or "FIXTURES_SETUP TEST_DATA" in value:
+        raise ValueError("JSON_DATA_FIXTURE_LAYOUT")
     needle = "    if (JSON_FastTests)\n"
-    if value.count(needle) != 1:
-        raise ValueError("JSON_DIAGNOSTICS_TEST_LAYOUT")
-    target = "test_target" if modern else "testcase"
-    diagnostic = "test-diagnostics_cpp11" if modern else "test-diagnostics"
-    value = value.replace(
-        needle,
-        """    if (@TARGET@ STREQUAL "@DIAGNOSTIC@")
+    if (source / tests / "src/unit-diagnostics.cpp").is_file():
+        if value.count(needle) != 1:
+            raise ValueError("JSON_DIAGNOSTICS_TEST_LAYOUT")
+        target = "test_target" if modern else "testcase"
+        diagnostic = "test-diagnostics_cpp11" if modern else "test-diagnostics"
+        value = value.replace(
+            needle,
+            """    if (@TARGET@ STREQUAL "@DIAGNOSTIC@")
         add_test(NAME ${@TARGET@} COMMAND ${CMAKE_COMMAND}
             "-DTEST_BINARY=$<TARGET_FILE:${@TARGET@}>"
             "-DSOURCE_DIR=${CMAKE_SOURCE_DIR}"
             -P "${PROJECT_SOURCE_DIR}/@TESTS@/repropatch-diagnostics.cmake")
     elseif (JSON_FastTests)
 """.replace("@TARGET@", target)
-        .replace("@DIAGNOSTIC@", diagnostic)
-        .replace("@TESTS@", tests),
-    )
-    if not modern:
-        # 诊断回归依赖标准断言；优化级别 O3 保持生效。
-        value += "\ntarget_compile_options(test-diagnostics PRIVATE -UNDEBUG)\n"
+            .replace("@DIAGNOSTIC@", diagnostic)
+            .replace("@TESTS@", tests),
+        )
+        if not modern:
+            # 诊断回归依赖标准断言；优化级别 O3 保持生效。
+            value += "\ntarget_compile_options(test-diagnostics PRIVATE -UNDEBUG)\n"
+        (source / tests / "repropatch-diagnostics.cmake").write_text(DIAGNOSTICS_ADAPTER)
     cmake.write_text(value)
-    (source / tests / "repropatch-diagnostics.cmake").write_text(DIAGNOSTICS_ADAPTER)
     folders = (
         "cmake_import",
         "cmake_import_minver",
@@ -89,11 +92,18 @@ def adapt(source):
     )
     for name in folders:
         path = source / tests / name / "CMakeLists.txt"
-        # 旧版原生工程只有一个 FetchContent 测试目录。
-        if name == "cmake_fetch_content2" and not modern and not path.exists():
+        # 原生版本按各自目录提供 CMake 集成测试。
+        if not path.exists():
+            if f"add_subdirectory({name})" in (source / tests / "CMakeLists.txt").read_text():
+                raise ValueError("JSON_BUILD_FIXTURE_LAYOUT")
             continue
         value = path.read_text()
         compiler_option = "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+        if compiler_option not in value:
+            generator = '-G "${CMAKE_GENERATOR}"'
+            if value.count(generator) != 1:
+                raise ValueError("JSON_BUILD_COMPILER_LAYOUT")
+            value = value.replace(generator, generator + "\n    " + compiler_option)
         if value.count(compiler_option) != 1:
             raise ValueError("JSON_BUILD_COMPILER_LAYOUT")
         value = value.replace(

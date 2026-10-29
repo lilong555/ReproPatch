@@ -145,6 +145,18 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         if cxx.startswith("clang"):
             flags += " -Wno-error=deprecated-literal-operator"
         compiler_options = ["-DCMAKE_CXX_FLAGS=" + flags]
+    elif record.get("instance_id") in {
+        "nlohmann__json-1303",
+        "nlohmann__json-1343",
+        "nlohmann__json-1446",
+        "nlohmann__json-1555",
+        "nlohmann__json-2319",
+        "nlohmann__json-2332",
+    }:
+        # 旧测试框架的信号栈使用静态 SIGSTKSZ；进程信号交由 CTest 记录。
+        compiler_options = [
+            "-DCMAKE_CXX_FLAGS=-DCATCH_CONFIG_NO_POSIX_SIGNALS -DDOCTEST_CONFIG_NO_POSIX_SIGNALS"
+        ]
     elif cxx.startswith("clang") and repo == "stephenberry/glaze":
         # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
         # 系统 Asio 使用 make_exception_ptr，却未直接包含 <exception>。

@@ -105,7 +105,9 @@
     40820305740,
     40820556504,
     40822271118,
-    40823077354
+    40823077354,
+    40824304805,
+    40824500614
   ],
   "discarded_candidates": [
     {
@@ -665,5 +667,27 @@
       "archive_sha256": "fefe81ad0d65b3b3827dd71a05068c2852c8767c43301e70c3fd6ef161b7e862",
       "result_sha256": "1dd7362138d38a8aaf7ed172e0bb2bb53f0e0db2f0fd3f07470b32b51a0bad45"
     }
-  ]
+  ],
+  "task_environments": {
+    "rui314__mold-1546": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:9d569c9918287c602fb481c620726a1e827d1678d3d2995a73f30abdd18ca810",
+      "image_id": "sha256:ed5a1a8f655b61180c848f8d82c86d791f678fddc66970475d0b7b5fc561dc0d"
+    },
+    "shader-slang__slang-10738": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:7131796ef11523e09332f798cb50e5ce7a723d8da9d1e99a0927a83337588f4b",
+      "image_id": "sha256:d621325f331c4624100e5e435883739201725ee4d5bca12eb96a4550d30cb66e"
+    },
+    "shader-slang__slang-10697": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:7131796ef11523e09332f798cb50e5ce7a723d8da9d1e99a0927a83337588f4b",
+      "image_id": "sha256:d621325f331c4624100e5e435883739201725ee4d5bca12eb96a4550d30cb66e"
+    },
+    "shader-slang__slang-10768": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:7131796ef11523e09332f798cb50e5ce7a723d8da9d1e99a0927a83337588f4b",
+      "image_id": "sha256:d621325f331c4624100e5e435883739201725ee4d5bca12eb96a4550d30cb66e"
+    },
+    "shader-slang__slang-10664": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:7131796ef11523e09332f798cb50e5ce7a723d8da9d1e99a0927a83337588f4b",
+      "image_id": "sha256:d621325f331c4624100e5e435883739201725ee4d5bca12eb96a4550d30cb66e"
+    }
+  }
 }
