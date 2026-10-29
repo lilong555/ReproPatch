@@ -139,7 +139,7 @@ def production_path(record, name):
         and path.suffix in CPP_SUFFIXES
         and not set(path.parts)
         & {"test", "tests", "testsuite", "sample", "samples", "benchmark", "benchmarks", "fuzzer"}
-        and not re.search(r"(?:_test|_unittest|_bench)\.[^.]+$", name)
+        and not re.search(r"(?:_test|_unittest|_bench|\.test)\.[^.]+$", name)
     )
 
 

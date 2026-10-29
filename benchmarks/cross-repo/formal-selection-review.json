@@ -251,15 +251,6 @@
     "rationale": "异步 actor shell 退出后继续接收消息，涉及生命周期与回调重入",
     "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84"
   },
-  "ninja-build__ninja-2749": {
-    "repository": "ninja-build/ninja",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "2641",
-    "difficulty": "complex",
-    "rationale": "动态依赖输出与 depfile 输入关联遗漏，涉及构建图状态传播",
-    "record_sha256": "3cd50c4c290928658b3a7a8af9035e551633a49531ed679423c82367f3185f5f"
-  },
   "nlohmann__json-2866": {
     "repository": "nlohmann/json",
     "semantic_kind": "defect",
@@ -268,5 +259,14 @@
     "difficulty": "complex",
     "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
     "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0"
+  },
+  "duckdb__duckdb-23422": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23370",
+    "difficulty": "medium",
+    "rationale": "正则替换字符串的非法反向引用与转义验证缺失，产生错误输出",
+    "record_sha256": "8fb2c2f995fc946f46bbc8610e49e1b4f9d1783d329815650093ea27a8028dd2"
   }
 }

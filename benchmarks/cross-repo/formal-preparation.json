@@ -13,22 +13,21 @@
   "new_repository_tasks": 25,
   "existing_repository_new_tasks": 5,
   "repository_counts": {
-    "duckdb/duckdb": 13,
+    "duckdb/duckdb": 14,
     "shader-slang/slang": 7,
     "open-source-parsers/jsoncpp": 1,
     "nlohmann/json": 4,
     "catchorg/Catch2": 1,
     "KhronosGroup/glslang": 1,
     "rui314/mold": 1,
-    "actor-framework/actor-framework": 1,
-    "ninja-build/ninja": 1
+    "actor-framework/actor-framework": 1
   },
   "difficulty_counts": {
-    "complex": 20,
-    "medium": 7,
+    "complex": 19,
+    "medium": 8,
     "compile_control": 3
   },
-  "selection_review_sha256": "d902875af987d1d6eea90fb0f2f48b1eaaf2f78ad53655ace955fd00889d0e46",
+  "selection_review_sha256": "882a8e73c27d5d3d2522e2df03167cc0eb7de142a274d86dc8d84d63d88bd066",
   "instances": [
     "duckdb__duckdb-24105",
     "duckdb__duckdb-24181",
@@ -58,7 +57,7 @@
     "KhronosGroup__glslang-4006",
     "rui314__mold-1546",
     "actor-framework__actor-framework-2300",
-    "ninja-build__ninja-2749",
+    "duckdb__duckdb-23422",
     "nlohmann__json-2866"
   ],
   "development_run_id": 40683926397,
@@ -92,12 +91,13 @@
     "KhronosGroup__glslang-4006",
     "rui314__mold-1546",
     "actor-framework__actor-framework-2300",
-    "ninja-build__ninja-2749",
+    "duckdb__duckdb-23422",
     "nlohmann__json-2866"
   ],
   "qualification_runs": [
     40811143058,
-    40811421175
+    40811421175,
+    40812460785
   ],
   "discarded_candidates": [
     {
@@ -128,6 +128,16 @@
       "instance_id": "stephenberry__glaze-2731",
       "status": "DISCARDED",
       "reason": "beve_test 基线挂起，阶段 1800 秒期限耗尽",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "ninja-build__ninja-2749",
+      "status": "DISCARDED",
+      "reason": "两次独立冷 Oracle 的 POSIX pipe jobserver 时序断言均失败：3 != 4",
+      "source_runs": [
+        40644753581,
+        40811421175
+      ],
       "model_requests": 0
     }
   ],
