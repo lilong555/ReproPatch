@@ -165,6 +165,8 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "nlohmann__json-1555",
         "nlohmann__json-2319",
         "nlohmann__json-2332",
+        "nlohmann__json-2019",
+        "nlohmann__json-2352",
     }:
         # 旧测试框架的信号栈使用静态 SIGSTKSZ；进程信号交由 CTest 记录。
         compiler_options = [

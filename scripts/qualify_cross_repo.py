@@ -577,6 +577,30 @@ def main():
             ),
             flush=True,
         )
+        if result["status"] not in {"QUALIFIED", "HOST_QUALIFIED"}:
+            errors = {}
+            for log in sorted((args.output / instance / "logs").glob("*.log")):
+                lines = [
+                    line
+                    for line in log.read_text(errors="replace").splitlines()
+                    if re.search(r"error:|fatal error|CMake Error", line, re.IGNORECASE)
+                ]
+                if lines:
+                    errors[log.name] = lines[:12]
+            print(
+                json.dumps(
+                    {
+                        "instance_id": instance,
+                        "diagnostic": result.get("diagnostic"),
+                        "phase_statuses": {
+                            key: value["status"] for key, value in result["phases"].items()
+                        },
+                        "compiler_errors": errors,
+                    },
+                    ensure_ascii=False,
+                ),
+                flush=True,
+            )
     return 0 if all(row["status"] in {"QUALIFIED", "HOST_QUALIFIED"} for row in results) else 1
 
 
