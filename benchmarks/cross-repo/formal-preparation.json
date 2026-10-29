@@ -62,7 +62,7 @@
     "nlohmann__json-2866"
   ],
   "development_run_id": 40683926397,
-  "formal_freeze": "完整 Docker 资格与开发冷评分齐备后冻结独立正式协议",
+  "formal_freeze": "已合格题按独立五臂协议增量冻结，资格作业与正式实验并行推进。",
   "qualification_order": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -712,5 +712,13 @@
       "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:7131796ef11523e09332f798cb50e5ce7a723d8da9d1e99a0927a83337588f4b",
       "image_id": "sha256:d621325f331c4624100e5e435883739201725ee4d5bca12eb96a4550d30cb66e"
     }
-  }
+  },
+  "repeat_instances": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ]
 }
