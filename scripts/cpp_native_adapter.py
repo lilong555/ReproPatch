@@ -5,10 +5,11 @@ import json
 import re
 import shlex
 import shutil
+import tempfile
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from cpp_sources import CPP_SUFFIXES, PRODUCTION_AREAS, production_path
+from cpp_sources import CPP_SUFFIXES, PRODUCTION_AREAS, patch_sections, production_path
 from native_cpp_runner import canonical_case, review_parser
 from qualify_cpp_batch import archive, git, save
 from screen_multiswe import patch_paths
@@ -157,6 +158,8 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         flags = "-fmacro-prefix-map=/src/="
         if cxx.startswith("clang"):
             flags += " -Wno-error=deprecated-literal-operator"
+        if record.get("instance_id") == "catchorg__Catch2-1608":
+            flags += " -DCATCH_CONFIG_NO_POSIX_SIGNALS"
         compiler_options = ["-DCMAKE_CXX_FLAGS=" + flags]
     elif record.get("instance_id") in {
         "nlohmann__json-1303",
@@ -231,6 +234,27 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
 def prepare_source_dependencies(record, source, pool, *, deadline):
     """源码快照携带固定离线输入，原生测试的运行产物使用构建目录。"""
     repository = record["org"] + "/" + record["repo"]
+    if record.get("instance_id") == "catchorg__Catch2-1608":
+        # 官方提交将审批期望值放在修复补丁中；这些文件属于受保护的测试输入。
+        sections = [
+            (name, section)
+            for name, section in patch_sections(record["fix_patch"])
+            if re.fullmatch(r"projects/SelfTest/Baselines/[^/]+\.approved\.txt", name)
+        ]
+        if not sections:
+            raise ValueError("CATCH_APPROVAL_EXPECTATIONS_REQUIRED")
+        patch = "".join(section for _, section in sections)
+        with tempfile.TemporaryDirectory(prefix="repropatch-approvals-") as temporary:
+            path = Path(temporary) / "expectations.patch"
+            path.write_text(patch)
+            git(source, "apply", str(path), deadline=deadline)
+        return [
+            {
+                "kind": "official_test_expectations",
+                "paths": [name for name, _ in sections],
+                "patch_sha256": hashlib.sha256(patch.encode()).hexdigest(),
+            }
+        ]
     if repository == "KhronosGroup/glslang":
         # 官方 known_good 清单固定全部源码依赖，GoogleTest 标签解析到固定提交。
         dependencies = []

@@ -181,6 +181,7 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         "test/",
         "tests/",
         "testsuite/",
+        "projects/SelfTest/",
         "cmake/",
         "external/",
         "extern/",

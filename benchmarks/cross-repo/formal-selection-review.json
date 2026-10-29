@@ -106,7 +106,8 @@
     "issue_key": "10376",
     "difficulty": "complex",
     "rationale": "接口类型的 RWByteAddressBuffer Load/Store 引发编译器内部错误。",
-    "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13"
+    "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13",
+    "qualification_status": "QUALIFIED"
   },
   "shader-slang__slang-10738": {
     "repository": "shader-slang/slang",
@@ -118,15 +119,6 @@
     "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
     "qualification_status": "PENDING",
     "replaces": "shader-slang__slang-10682"
-  },
-  "shader-slang__slang-10663": {
-    "repository": "shader-slang/slang",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10605",
-    "difficulty": "complex",
-    "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
-    "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
   },
   "shader-slang__slang-10664": {
     "repository": "shader-slang/slang",
@@ -297,6 +289,16 @@
     "difficulty": "compile_control",
     "rationale": "json_pointer向标准输出流写入的既有代码编译失败，涉及模板参数推导、字符串转换和输出运算符重载。",
     "record_sha256": "7dfb1fa52d1a8db68ed7ff4685c1f2ef2848267f3c6ec2c78ec7f3d7aa192fd6",
+    "qualification_status": "PENDING"
+  },
+  "catchorg__Catch2-1608": {
+    "repository": "catchorg/Catch2",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1607",
+    "difficulty": "medium",
+    "rationale": "CAPTURE处理包含逗号的字符串时错误拆分表达式，引发析构断言；涉及引号、转义与逗号分隔状态。",
+    "record_sha256": "db6619542cd42c3930652c8a8545cf6ddbf1f5bc2c9e072b0d49ad695363c9f8",
     "qualification_status": "PENDING"
   }
 }

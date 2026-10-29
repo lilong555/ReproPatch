@@ -376,7 +376,12 @@ def prepare_ctest_runtime(contract, source, build, reports):
     if not script.exists():
         return
     fixtures = build / "repropatch-fixtures"
-    for relative in ("tools/scripts", "tests/SelfTest/Baselines"):
+    baselines = (
+        "tests/SelfTest/Baselines"
+        if (source / "tests/SelfTest/Baselines").is_dir()
+        else "projects/SelfTest/Baselines"
+    )
+    for relative in ("tools/scripts", baselines):
         shutil.copytree(source / relative, fixtures / relative, dirs_exist_ok=True)
     copied = fixtures / script.relative_to(source)
     changes = []
