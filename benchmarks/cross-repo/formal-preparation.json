@@ -1343,6 +1343,20 @@
       "attempts": 10,
       "request_cap": 240,
       "run_id": 40846468787
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-08.json",
+      "sha256": "d77dfa532eaa482a8ed25bde0109de6b76025771d49cdb56e3a74b9be326818f",
+      "tasks": [
+        "catchorg__Catch2-1608",
+        "fmtlib__fmt-3824",
+        "fmtlib__fmt-3555",
+        "fmtlib__fmt-3569"
+      ],
+      "freeze_run_id": 40852743239,
+      "status": "FROZEN",
+      "attempts": 20,
+      "request_cap": 480
     }
   ],
   "repeat_instances": [
