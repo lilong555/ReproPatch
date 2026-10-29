@@ -1,7 +1,7 @@
 {
   "schema": "repropatch.cross-repository-preparation.v1",
   "batch_id": "cross-repository-formal-preparation-20261028",
-  "status": "QUALIFICATION_IN_PROGRESS",
+  "status": "FORMAL_AND_QUALIFICATION_IN_PROGRESS",
   "model_requests": 0,
   "qualification_policy": "baseline-native-v1",
   "model_request_max_parallel": 3,
@@ -62,7 +62,7 @@
     "nlohmann__json-2866"
   ],
   "development_run_id": 40683926397,
-  "formal_freeze": "完整 Docker 资格与开发冷评分齐备后冻结独立正式协议",
+  "formal_freeze": "已合格题按独立五臂协议增量冻结，资格作业与正式实验并行推进。",
   "qualification_order": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -109,7 +109,10 @@
     40824304805,
     40824500614,
     40825590280,
-    40825871574
+    40825871574,
+    40827519515,
+    40828677570,
+    40829252883
   ],
   "discarded_candidates": [
     {
@@ -689,6 +692,42 @@
       "artifact": "cross-evidence-40824500614-nlohmann__json-3446",
       "archive_sha256": "40664280f9396f75227eaf0131422c2f4d6e71830009e7c42b53fa790055cb25",
       "result_sha256": "22ec9125b9f50b7c9722fbf77114c6ef13182fba605af905cfb3f0a1bfb28f60"
+    },
+    {
+      "instance_id": "nlohmann__json-2319",
+      "run_id": 40825590280,
+      "artifact": "cross-evidence-40825590280-nlohmann__json-2319",
+      "archive_sha256": "6d4c306e435fec843e26e1d4c0fce0d62a01bfd9e38dde31c35d187baae8805d",
+      "qualification_wall_seconds": 503.68326509999997,
+      "source_job_id": 123288038261,
+      "result_sha256": "646b3c1447613d35a70eb3321ebf8d45bf726b5b4c395143c6d279566a09fcb7"
+    },
+    {
+      "instance_id": "nlohmann__json-2332",
+      "run_id": 40825590280,
+      "artifact": "cross-evidence-40825590280-nlohmann__json-2332",
+      "archive_sha256": "92c3c92341537bf55860701a89b0ac15c7923982f702222ef69f842be5e16a91",
+      "qualification_wall_seconds": 734.887067291,
+      "source_job_id": 123288038273,
+      "result_sha256": "be93cfc143d7e6d6a55fb194151ddbe0ea3e5f564200d0dce827f81552187e52"
+    },
+    {
+      "instance_id": "nlohmann__json-4512",
+      "run_id": 40824500614,
+      "artifact": "cross-evidence-40824500614-nlohmann__json-4512",
+      "archive_sha256": "916c6bf05e7e891ab4056d09bf272c9f867b52a97b575d204b036c2e202c64e2",
+      "qualification_wall_seconds": 1066.81716521,
+      "source_job_id": 123284539655,
+      "result_sha256": "9d80abd3a58fe8a7d16f2c51f51c7b6642653ec916d58b7ab6f5c590f3ece1b0"
+    },
+    {
+      "instance_id": "nlohmann__json-3332",
+      "run_id": 40825871574,
+      "artifact": "cross-evidence-40825871574-nlohmann__json-3332",
+      "archive_sha256": "3de4e3a0a29bfe947aac40f3687049fc7c3de33528d73e1902dbd985f029459a",
+      "qualification_wall_seconds": 841.484403335,
+      "source_job_id": 123288967774,
+      "result_sha256": "cd2a228e15cfbe06ce4324c71534e1fc1f88ffb445e17cbd97fd7665098288ae"
     }
   ],
   "task_environments": {
@@ -712,5 +751,54 @@
       "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:7131796ef11523e09332f798cb50e5ce7a723d8da9d1e99a0927a83337588f4b",
       "image_id": "sha256:d621325f331c4624100e5e435883739201725ee4d5bca12eb96a4550d30cb66e"
     }
-  }
+  },
+  "formal_batches": [
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-01.json",
+      "sha256": "6f142bffeebb8cefb352f0d661d6294fc8717f5375eb2698dc3d97fd267f2f73",
+      "tasks": [
+        "nlohmann__json-3008",
+        "nlohmann__json-2866",
+        "open-source-parsers__jsoncpp-1693",
+        "catchorg__Catch2-2128",
+        "nlohmann__json-3037",
+        "nlohmann__json-2963",
+        "actor-framework__actor-framework-2300",
+        "KhronosGroup__glslang-4006",
+        "stephenberry__glaze-2611",
+        "nlohmann__json-3543",
+        "nlohmann__json-3523",
+        "nlohmann__json-3446"
+      ],
+      "freeze_run_id": 40828952317,
+      "status": "SUBMITTED",
+      "attempts": 60,
+      "request_cap": 1440,
+      "run_id": 40829334700
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-02.json",
+      "sha256": "bf12230d0e342f8c3ecc2208e4b66ed1316056af0732002d6f3f7f1ca7a7a14e",
+      "tasks": [
+        "nlohmann__json-2319",
+        "nlohmann__json-2332",
+        "nlohmann__json-4512",
+        "nlohmann__json-3332"
+      ],
+      "freeze_run_id": 40829404319,
+      "status": "SUBMITTED",
+      "attempts": 20,
+      "request_cap": 480,
+      "run_id": 40830019426
+    }
+  ],
+  "repeat_instances": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "formal_execution_branch": "experiment/cross-formal-batch-01"
 }

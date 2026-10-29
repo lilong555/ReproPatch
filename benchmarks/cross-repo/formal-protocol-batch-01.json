@@ -1,0 +1,1464 @@
+{
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "model_timeout_seconds": 180,
+  "request_cap_per_attempt": 24,
+  "max_tool_calls": 48,
+  "max_tools_per_response": 8,
+  "max_parallel": 3,
+  "arms": [
+    "full",
+    "no-checks",
+    "shell-only",
+    "mini",
+    "codex"
+  ],
+  "context_policy": {
+    "context_window_tokens": 128000,
+    "compact_trigger_tokens": 48000,
+    "compact_target_tokens": 21600,
+    "max_output_tokens": 8192,
+    "transport_max_bytes": 2097152,
+    "response_max_bytes": 2097152,
+    "request_cap": 24,
+    "context_policy_version": "v1.0-unified-compaction",
+    "tool_growth_tokens": 16000,
+    "estimation_margin_tokens": 8000,
+    "retain_rounds": 2,
+    "tool_output_max_bytes": 24576,
+    "compaction_enabled": true
+  },
+  "mini_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "codex_binary": ".repropatch/codex/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+  "codex_version": "0.163.0",
+  "codex_sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+  "codex_tarball": "https://registry.npmjs.org/@openai/codex/-/codex-0.163.0-linux-x64.tgz",
+  "codex_tarball_integrity": "sha512-uwRaOsrYogLQhcxAM/GoeWrw0QIWEMRo7c9gM8sKAviVkZQHlu9kRLJ5PkufbV+ABGjyZgIwiFdJ0LCJ0N6e8w==",
+  "code_host_sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+  "campaign_schema": "repropatch.cross-repository-campaign.v1",
+  "batch_id": "cross-repository-20261028-formal-batch-01",
+  "phase": "formal",
+  "tasks": [
+    "nlohmann__json-3008",
+    "nlohmann__json-2866",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "nlohmann__json-3037",
+    "nlohmann__json-2963",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611",
+    "nlohmann__json-3543",
+    "nlohmann__json-3523",
+    "nlohmann__json-3446"
+  ],
+  "attempts": [
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/no-checks/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/mini/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/shell-only/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/full/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/codex/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/no-checks/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/codex/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/shell-only/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/mini/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/full/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/codex/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/mini/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/no-checks/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/full/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/shell-only/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/mini/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/full/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/shell-only/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/no-checks/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/codex/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/shell-only/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/no-checks/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/mini/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/full/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/codex/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/no-checks/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/full/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/codex/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/shell-only/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/mini/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/codex/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/shell-only/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/full/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/mini/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/no-checks/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/shell-only/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/no-checks/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/mini/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/codex/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/full/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/no-checks/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/mini/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/codex/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/shell-only/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/full/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/codex/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/full/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/shell-only/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/mini/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/no-checks/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/codex/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/shell-only/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/full/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/mini/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/no-checks/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/full/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/no-checks/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/codex/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/mini/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/shell-only/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "shell-only",
+      "request_cap": 24
+    }
+  ],
+  "prior_attempts": [],
+  "prior_rescore_run_id": null,
+  "preparation_failures": {},
+  "formal_request_cap": 1440,
+  "qualification_contracts": {
+    "nlohmann__json-3008": {
+      "qualification_sha256": "fa9782d453f13436e29bed9de51381bb289be0442f9f30cc4f16e97e27fda255",
+      "task_sha256": "ad812d4445b015e0d88f82bd0172c61a3d62b85de57109d35acc9e899ce6193a",
+      "manifest_sha256": "86add943e103f1a22b8a3fb3a5cb4ef794e8b0e428168d2ab0f614e31163535c",
+      "bundle_sha256": "bc335f2d9bdf809fc0a9b102e499da123e34b5a7555057df3a758a24e9141e1f",
+      "prepared_commit": "55971a2e4879fef08f4a4e4d6ce394671c4fb7e6",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 67
+    },
+    "nlohmann__json-2866": {
+      "qualification_sha256": "4cab43ec050cd1b4311f26615f620d3fd62253877bada7df29af328c926bb8b8",
+      "task_sha256": "cc687085d96c75ccee35b428bcfae1562c4451dfc41424a9972b85b80e7f6845",
+      "manifest_sha256": "2c2052abda6cb7dca00f3bbd9a93d9bbf14b1f485e0da398f48a390f1957f943",
+      "bundle_sha256": "c479119e8a68f8a3227ed578d90bad60adcc02faba41c3481507ef697efed902",
+      "prepared_commit": "6d1130678eaf68c6b19707f2c38662f527418f8a",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 61
+    },
+    "open-source-parsers__jsoncpp-1693": {
+      "qualification_sha256": "9b008a54454b8b9011672046cec1db6816b809d536de893c98142039d10cecd3",
+      "task_sha256": "dcd73ef6e8ec92c57d0a72e65f16199026b1932ab1056c818826574f1efc3461",
+      "manifest_sha256": "5d2a52061a9e04dfb8ae294e0d5259a48296bd82ebe151ce302de19f37e54084",
+      "bundle_sha256": "544ad4a564f068c4f6941c7159f577d4720bd6cb932953421869cba6ad7dc468",
+      "prepared_commit": "3e2ad559af2ae44b7c1d4cd879ba83a279225ba1",
+      "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
+      "native_tests": 293
+    },
+    "catchorg__Catch2-2128": {
+      "qualification_sha256": "2e34912b6126b7a125cfe5afd024b81b5bdc85dda5ffc7fc58febad267c3205d",
+      "task_sha256": "611d61a0d6160942b2e4ec776d0989bac03cc3527a9a14694f3e232d730ca011",
+      "manifest_sha256": "bfee5209ef064746924a9e8845c4526f7c351143bf4f59cb7cab740a3bebe9e5",
+      "bundle_sha256": "2b7b91ce17cc8c918093f1cd3e20ea045b9f62c665c5a33e3f464f5039b49b60",
+      "prepared_commit": "dd6668816e0695bad49f7aa69d0d5ffe114218e9",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 34
+    },
+    "nlohmann__json-3037": {
+      "qualification_sha256": "c8d89369d30728c0f9c21e7f67a6d228236855e362b0552ed9a06cd1ed52298e",
+      "task_sha256": "6531419d30011dedb67b57816b7bb60e420b700a11ddf5512e98323055d56301",
+      "manifest_sha256": "9b5f235a706a6cbbfb7b102aa534918fb990a225b430e8e58d0a9300a536f974",
+      "bundle_sha256": "e44372906c2f666c8537bec1a18a9efdd13dd110b1f1f510262695f7e0245422",
+      "prepared_commit": "1f70b263760a942a4f58cbc2d6495d22257ad95c",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 67
+    },
+    "nlohmann__json-2963": {
+      "qualification_sha256": "39a50ac75aa5ef94edb83747fca696e86876a095fd6ebd08bc315a50d015c187",
+      "task_sha256": "67050dc82fdf5806f325c99f01c54955bff2c19e29a417778cedc8d89364ff1c",
+      "manifest_sha256": "e26a60c98c4c8cb0a34d9704a785bc8f0a8db300e2bfe5944671c0fe3011d1e6",
+      "bundle_sha256": "a66647cb503564b6c28c3378ba0fc423b6e63b8db8e31bab20726ca78bb70944",
+      "prepared_commit": "5f08eaceff77dc17436ca42d29778149c72c90e7",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 67
+    },
+    "actor-framework__actor-framework-2300": {
+      "qualification_sha256": "4f0dd0089515936435d6df4f23ac13dc644e29722bb88a210644d63471b24076",
+      "task_sha256": "843ecacaaeb8923d505057f9337e799f9c1ceccdec4323379ff6ff5be71e752b",
+      "manifest_sha256": "44737fb864f8dd122411bb6837598272b4558cb5df72c1660bc454dae0f2c11b",
+      "bundle_sha256": "9689b06f6d51d506c2d13539b57f6034a57de6206330a9cd74961283a146114e",
+      "prepared_commit": "b4b24b6fec51ed0b166006dae72daf7971392238",
+      "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
+      "native_tests": 240
+    },
+    "KhronosGroup__glslang-4006": {
+      "qualification_sha256": "b961e884ba37841f1cae34b71478f017ea473b68cc21e6e772054e2acd026607",
+      "task_sha256": "bd9d85d79e61e23f3ebb7e23e4311e065da73c41871688ed44780a8461630de7",
+      "manifest_sha256": "bc559eafda4445a021e6fc18c2200205f10428b88d9729b85b469cd28eb03e89",
+      "bundle_sha256": "77b62ca64127c98303e9470c230e6c55ca1511ca0fb08ee0acfc7ad92083a9b4",
+      "prepared_commit": "83b01ca0a75e2b2d8101bdb309e519d234e4a2ad",
+      "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
+      "native_tests": 1801
+    },
+    "stephenberry__glaze-2611": {
+      "qualification_sha256": "1dd7362138d38a8aaf7ed172e0bb2bb53f0e0db2f0fd3f07470b32b51a0bad45",
+      "task_sha256": "3e9c1ee7d751b1a3db4f4ebc70a19a12434db229c7e19f5e1ea1edf941935c2e",
+      "manifest_sha256": "9560c6567966b3a7d13deeca23dd2be48b48b23525de93342957f1fde0b07458",
+      "bundle_sha256": "0f5abbe83614b6f33a5132527809685b31953179f942d1612f55a3d42e4b66f8",
+      "prepared_commit": "eeb929b6cba5a4e49f39737d905c62f5d45fa84c",
+      "dataset_revision": "3638632e8153a10ca422c1022bed79023084b5c9",
+      "native_tests": 89
+    },
+    "nlohmann__json-3543": {
+      "qualification_sha256": "852aafc031f8354199a9b478f1a88b3da8cc83a9a642df2c8131bc41d75baf87",
+      "task_sha256": "f28764ae4492adef258292af860aafc594f2a421a49d7effc892da31408c270d",
+      "manifest_sha256": "e2f6dbe5fb3fc21d218e496810887b66fe889cc1347cca6d574348d25120a5f3",
+      "bundle_sha256": "fe2009b25239cd256ffda9999c3252e0a131acec362e676ff3edf6e7342c8505",
+      "prepared_commit": "1a05be34c6f840c1b5d60d87dbafb9cd2368d59a",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 81
+    },
+    "nlohmann__json-3523": {
+      "qualification_sha256": "d7b30bf440600ef7756fceb16fd5feb42121936ede4bd941888c6f9308cd5bd1",
+      "task_sha256": "d088e905665d9aec35cf28738edb549de52cb1bd5392910284e556da076508a0",
+      "manifest_sha256": "e626705556b66fa9e8dc996297348c4d689a3913f4311bde0406d19da30e5ce7",
+      "bundle_sha256": "09e1d7d61a3befbededbe1afc399d560926660c26384fb0b91216adbe93dac1d",
+      "prepared_commit": "6a5f174c4af1bcd46588d978785cf802d7b9e394",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 81
+    },
+    "nlohmann__json-3446": {
+      "qualification_sha256": "22ec9125b9f50b7c9722fbf77114c6ef13182fba605af905cfb3f0a1bfb28f60",
+      "task_sha256": "711d168e1eb2395b2dd3aa3e6cf0cff6182da1fff07f7795be363b45100687bf",
+      "manifest_sha256": "37cb5a38911210de30496cd21dda51729fdff87b41c9e83a816d7f2db4cc492a",
+      "bundle_sha256": "31a4d816776f06b8c4188d79f2f7f3285aa5c746786efd81c3b82297a46cec48",
+      "prepared_commit": "a832da78faf8a12601853db3a1a34d8844b68d87",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 81
+    }
+  },
+  "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+  "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
+  "environment_policy": "per-task-native-v1",
+  "task_environments": {
+    "nlohmann__json-3008": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-2866": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "open-source-parsers__jsoncpp-1693": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "catchorg__Catch2-2128": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-3037": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-2963": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "actor-framework__actor-framework-2300": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "KhronosGroup__glslang-4006": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "stephenberry__glaze-2611": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-3543": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-3523": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-3446": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    }
+  },
+  "qualification_run_ids": [
+    40811143058,
+    40811421175,
+    40813177622,
+    40816901774,
+    40820305740,
+    40824500614
+  ],
+  "qualification_archives": [
+    {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-nlohmann__json-2963",
+      "sha256": "5a493380cb5a9d4a1a1ed0f0db366f977a0796666397132eb10baf875f744288",
+      "instances": [
+        "nlohmann__json-2963"
+      ]
+    },
+    {
+      "run_id": 40824500614,
+      "artifact": "cross-evidence-40824500614-nlohmann__json-3543",
+      "sha256": "6604bbd240826a9246ba265a940263f9e82ea1aa16ad7702252fec4b2eb81624",
+      "instances": [
+        "nlohmann__json-3543"
+      ]
+    },
+    {
+      "run_id": 40816901774,
+      "artifact": "cross-evidence-40816901774-actor-framework__actor-framework-2300",
+      "sha256": "d356289255cfa9a4fd8ca8363d393f28fac4d1c371b92e2483044fcc1a4f85c5",
+      "instances": [
+        "actor-framework__actor-framework-2300"
+      ]
+    },
+    {
+      "run_id": 40824500614,
+      "artifact": "cross-evidence-40824500614-nlohmann__json-3523",
+      "sha256": "43eab1ba81ecb1800528bea3c86c74b380d9916326bf4547e9abf860c13dd2a6",
+      "instances": [
+        "nlohmann__json-3523"
+      ]
+    },
+    {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-catchorg__Catch2-2128",
+      "sha256": "2935943d417a0ce10e5c37cadd93ab51db1a3adb4d8a7d7775fb838213b7d2b6",
+      "instances": [
+        "catchorg__Catch2-2128"
+      ]
+    },
+    {
+      "run_id": 40820305740,
+      "artifact": "cross-evidence-40820305740-stephenberry__glaze-2611",
+      "sha256": "fefe81ad0d65b3b3827dd71a05068c2852c8767c43301e70c3fd6ef161b7e862",
+      "instances": [
+        "stephenberry__glaze-2611"
+      ]
+    },
+    {
+      "run_id": 40824500614,
+      "artifact": "cross-evidence-40824500614-nlohmann__json-3446",
+      "sha256": "40664280f9396f75227eaf0131422c2f4d6e71830009e7c42b53fa790055cb25",
+      "instances": [
+        "nlohmann__json-3446"
+      ]
+    },
+    {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-nlohmann__json-3037",
+      "sha256": "fdb2f7558e68e16a99b1f323cfbf4f0c37c3d34c5c552fffba29e599361aaf0e",
+      "instances": [
+        "nlohmann__json-3037"
+      ]
+    },
+    {
+      "run_id": 40816901774,
+      "artifact": "cross-evidence-40816901774-KhronosGroup__glslang-4006",
+      "sha256": "1d2531314effddc58453448a18839ec1ea2c07f30e4a39c8b29551c3cee2c979",
+      "instances": [
+        "KhronosGroup__glslang-4006"
+      ]
+    },
+    {
+      "run_id": 40811143058,
+      "artifact": "cross-evidence-40811143058-nlohmann__json-3008",
+      "sha256": "20e7628b13a6168ca69acc5e3b7eb9b7bd7f035688b344ed2bda86e54680e396",
+      "instances": [
+        "nlohmann__json-3008"
+      ]
+    },
+    {
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-open-source-parsers__jsoncpp-1693",
+      "sha256": "4200154d9b12ba417ac6b57a4f5909174c351223d008a893c98c08f81a61acbb",
+      "instances": [
+        "open-source-parsers__jsoncpp-1693"
+      ]
+    },
+    {
+      "run_id": 40811421175,
+      "artifact": "cross-evidence-40811421175-nlohmann__json-2866",
+      "sha256": "2d56ae6be2638bc659ad837d3cee78fc1ec22b15cc5ea07b0d83634af9ca87e7",
+      "instances": [
+        "nlohmann__json-2866"
+      ]
+    }
+  ],
+  "network_calibration": {
+    "run_id": 40646051506,
+    "artifact": "cross-network-calibration-40646051506",
+    "sha256": "081e8ae385c0c10041efea18d1cc7cfd3baecaf36e7a486f65271620f32eb1fe"
+  },
+  "ci_run_id": 40828488779,
+  "execution_source_commit": "9d5be6633f196bb207fa06a324db43dbd413753b",
+  "execution_sha256": "0d23461f04b9dc595c4875a4a71bd13d86a1db5ce84d68cd04c7654a1a7ec995",
+  "paid_calls_authorized": true,
+  "cpa_route": "azure-ssh",
+  "retries": 0,
+  "oracle_timeout_seconds": 3600,
+  "matrix_per_arm": true,
+  "execution_order": [
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/no-checks/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/mini/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/shell-only/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/full/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3008/codex/first",
+      "instance_id": "nlohmann__json-3008",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/no-checks/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/codex/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/shell-only/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/mini/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2866/full/first",
+      "instance_id": "nlohmann__json-2866",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/codex/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/mini/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/no-checks/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/full/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/open-source-parsers__jsoncpp-1693/shell-only/first",
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/mini/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/full/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/shell-only/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/no-checks/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/catchorg__Catch2-2128/codex/first",
+      "instance_id": "catchorg__Catch2-2128",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/shell-only/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/no-checks/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/mini/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/full/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3037/codex/first",
+      "instance_id": "nlohmann__json-3037",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/no-checks/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/full/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/codex/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/shell-only/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2963/mini/first",
+      "instance_id": "nlohmann__json-2963",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/codex/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/shell-only/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/full/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/mini/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/actor-framework__actor-framework-2300/no-checks/first",
+      "instance_id": "actor-framework__actor-framework-2300",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/shell-only/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/no-checks/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/mini/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/codex/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/KhronosGroup__glslang-4006/full/first",
+      "instance_id": "KhronosGroup__glslang-4006",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/no-checks/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/mini/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/codex/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/shell-only/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/stephenberry__glaze-2611/full/first",
+      "instance_id": "stephenberry__glaze-2611",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/codex/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/full/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/shell-only/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/mini/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3543/no-checks/first",
+      "instance_id": "nlohmann__json-3543",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/codex/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/shell-only/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/full/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/mini/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3523/no-checks/first",
+      "instance_id": "nlohmann__json-3523",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/full/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/no-checks/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/codex/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/mini/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3446/shell-only/first",
+      "instance_id": "nlohmann__json-3446",
+      "arm": "shell-only",
+      "request_cap": 24
+    }
+  ],
+  "selection_seed": 20261028,
+  "max_output_tokens": 8192,
+  "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存",
+  "selection_gate": {
+    "development": {
+      "tasks": [
+        "nlohmann__json-3514",
+        "nlohmann__json-3463",
+        "open-source-parsers__jsoncpp-1696",
+        "simdjson__simdjson-1896"
+      ],
+      "scored_attempts": 20,
+      "all_pass": true,
+      "difficulty_counts": {
+        "medium": 12,
+        "complex": 16,
+        "compile_control": 2
+      },
+      "results_sha256": "599cfbc4bd7877a481164fd8b520ae4354982f4433825f9ab41c8ce381986ce2",
+      "run_id": 40683926397,
+      "artifact": "cross-results-40683926397",
+      "recommended_difficulty_counts": {
+        "complex": 24,
+        "medium": 4,
+        "compile_control": 2
+      },
+      "difficulty_policy": "qualification-feasible-cross-repository-v1"
+    },
+    "review": {
+      "nlohmann__json-4512": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "4493",
+        "difficulty": "medium",
+        "rationale": "默认构造迭代器在比较时触发断言，涉及迭代器状态与比较语义。",
+        "record_sha256": "c6cc5a454e9d3aa6a30498c412aa3238f5e79dc0c22fa38a514c4d5f7d5315cc",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-3543": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3541",
+        "difficulty": "medium",
+        "rationale": "BJData 非法输入触发数组状态断言，涉及二进制解析边界。",
+        "record_sha256": "a21c202b9322b653200b9990e64905e48e7fe5ccb32e973786fd585ec68a5084",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3523": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3519",
+        "difficulty": "complex",
+        "rationale": "BJData 往返转换错误，涉及数组维度、长度及数值类型处理。",
+        "record_sha256": "edc63a7eee2176b32d2ef9adacb599bd418c8560ee2b1cd773ff7cf9ae7c3612",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3446": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3409",
+        "difficulty": "complex",
+        "rationale": "NaN 比较与浮点语义不一致，涉及比较运算、丢弃值与多种模板接口。",
+        "record_sha256": "bb05739d018d06b8a2f5421f34807caa4df280f1d4555128913f2cc076cc952f",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3332": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3331",
+        "difficulty": "medium",
+        "rationale": "迭代器后置自增改变 const 属性，破坏标准迭代器概念要求。",
+        "record_sha256": "7ed526146b45d26fbe49e93138cdc606ceb23516bffad108eadf0363034e82db",
+        "qualification_status": "PENDING"
+      },
+      "stephenberry__glaze-2611": {
+        "repository": "stephenberry/glaze",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2609",
+        "difficulty": "complex",
+        "rationale": "输入流解析在跳过未知字段时未补充缓冲区，错误返回 unexpected_end，涉及流式缓冲与 JSON 值跳过逻辑；一项 F2P 与 88 项 P2P、完整 C++ 参考修复及原生合同已静态复核，补齐 Asio 所需声明后仍须通过 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "488ce11a488a9bcd44d3b0048e100d2c83e463b1b0437b80822d4a898d5b1193",
+        "qualification_status": "QUALIFIED",
+        "replaces": "duckdb__duckdb-24211"
+      },
+      "nlohmann__json-3073": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3070",
+        "difficulty": "complex",
+        "rationale": "泛型类型转换的兼容性回归，涉及构造判定、SFINAE 与序列化重载。",
+        "record_sha256": "fe95287305a491ccb8bfb0ddbf5de1b0ed665f1b9576b3738e89dacecf8dd589",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-2332": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2330",
+        "difficulty": "medium",
+        "rationale": "连续注释行导致解析失败，需要处理词法状态转换。",
+        "record_sha256": "a1112b7599683b51b4f2cecd3c661261a414c174588a933545936e89949f69b9",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1446": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1445",
+        "difficulty": "medium",
+        "rationale": "连续无效 UTF-8 字符导致序列化缓冲越界。",
+        "record_sha256": "53bd594d70bde9da87190a2e287163bfe5fb714246f3d66db6686ab58a6db0e2",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-2319": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2315",
+        "difficulty": "complex",
+        "rationale": "ordered_json 的 update 与 pair 容器转换失效，涉及映射容器接口和插入语义。",
+        "record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1555": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1511",
+        "difficulty": "complex",
+        "rationale": "反序列化向已有容器追加元素，涉及通用容器转换与异常安全。",
+        "record_sha256": "82d9bf8ca3fb884c935af75bba76047709cb02af271304bacf53877d47aacda1",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1343": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1340",
+        "difficulty": "medium",
+        "rationale": "流解析到达末尾后丢失 EOF 状态，需要协调 streambuf 与 istream 标志。",
+        "record_sha256": "04e5be39c46c395301937e52f72ee3033fd83c65ce5454539557e6935609bf62",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1303": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1288",
+        "difficulty": "complex",
+        "rationale": "UBJSON 读取边界与错误定位缺陷，涉及多个二进制格式的解析状态及诊断。",
+        "record_sha256": "1a3a7ddb31cc33727cf0fb0c98c798d5fd57be4df3219cb6b0a905885c5fd462",
+        "qualification_status": "PENDING"
+      },
+      "shader-slang__slang-10856": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10261",
+        "difficulty": "complex",
+        "rationale": "入口参数内的接口字段引发编译器崩溃，涉及 IR 类型流专门化。",
+        "record_sha256": "554770972e7325ef6fcd9fcaea650e05016ad57bec34a2642b2882c26004fa2d"
+      },
+      "shader-slang__slang-10768": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10376",
+        "difficulty": "complex",
+        "rationale": "接口类型的 RWByteAddressBuffer Load/Store 引发编译器内部错误。",
+        "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13"
+      },
+      "shader-slang__slang-10738": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10263",
+        "difficulty": "complex",
+        "rationale": "无约束泛型及关联类型专门化的诊断缺陷，涉及 IR 类型流专门化；四项 F2P 聚焦同一官方变更测试的变体，等待 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
+        "qualification_status": "PENDING",
+        "replaces": "shader-slang__slang-10682"
+      },
+      "shader-slang__slang-10663": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10605",
+        "difficulty": "complex",
+        "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
+        "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
+      },
+      "shader-slang__slang-10697": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10244",
+        "difficulty": "complex",
+        "rationale": "接口类型经属性或下标引用修改时崩溃，涉及访问器声明检查。",
+        "record_sha256": "8730e59b5acbc3b2f4997ab1415df98123802f4408cec393cdb67f07bbb71d26"
+      },
+      "shader-slang__slang-7815": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "7783",
+        "difficulty": "compile_control",
+        "rationale": "枚举数组索引编译失败，验证类型检查和隐式转换。",
+        "record_sha256": "6515e35b6c696cc756b61940682df0466542964e3ecef043a8c1c95f10bc0c34"
+      },
+      "shader-slang__slang-10664": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10616",
+        "difficulty": "medium",
+        "rationale": "BOM 解码后的源码内容长度计算错误，涉及源码缓冲与位置管理；单项 F2P 聚焦官方新增单元测试，C++ 参考修复完整，等待 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "1b30612fcbb34549d55404c7996431ba3484f17db547a779af8379a89b84342c",
+        "qualification_status": "PENDING",
+        "replaces": "shader-slang__slang-7523"
+      },
+      "open-source-parsers__jsoncpp-1693": {
+        "repository": "open-source-parsers/jsoncpp",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1611",
+        "difficulty": "medium",
+        "rationale": "数组越界赋值和迭代暴露错误间隙值，验证数组填充与迭代合同。",
+        "record_sha256": "4819349e0bd95fe2e0195997a1dead39fcbb446dacacb27cdc4041475547c884",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3037": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3032",
+        "difficulty": "medium",
+        "rationale": "数组下标插入遗漏父指针，JSON_DIAGNOSTICS 触发断言。",
+        "record_sha256": "f6a6267f1224a9661139671deb9e566f8f645baa870d16e22599bcb7ba28302e",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3008": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3007",
+        "difficulty": "medium",
+        "rationale": "update 插入元素后父指针遗漏，破坏 JSON_DIAGNOSTICS 不变量。",
+        "record_sha256": "08cd86545d1584b47063ac04756f9f0c994a9c1de01d55161f90074b4b20a949",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-2963": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2962",
+        "difficulty": "complex",
+        "rationale": "ordered_json 修改导致诊断断言，涉及有序容器移动与父指针维护。",
+        "record_sha256": "951c1a26def96105f9651095e144cdef4b6a3213a38c44d95054cb71696ccd72",
+        "qualification_status": "QUALIFIED"
+      },
+      "catchorg__Catch2-2128": {
+        "repository": "catchorg/Catch2",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2121",
+        "difficulty": "compile_control",
+        "rationale": "用户自定义相等运算符导致表达式分解编译失败。",
+        "record_sha256": "594b3d06d23e25a2fc6eaab3564e2bcebaeb569b34078cefe9b50213cbe530d4",
+        "qualification_status": "QUALIFIED"
+      },
+      "KhronosGroup__glslang-4006": {
+        "repository": "KhronosGroup/glslang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3948",
+        "difficulty": "complex",
+        "rationale": "SPIR-V 小整数数组索引需要无符号扩展，涉及类型与指令语义",
+        "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf",
+        "qualification_status": "QUALIFIED"
+      },
+      "rui314__mold-1546": {
+        "repository": "rui314/mold",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1545",
+        "difficulty": "medium",
+        "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
+        "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
+      },
+      "actor-framework__actor-framework-2300": {
+        "repository": "actor-framework/actor-framework",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2299",
+        "difficulty": "complex",
+        "rationale": "异步 actor shell 退出后继续接收消息，涉及生命周期与回调重入",
+        "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84",
+        "qualification_status": "QUALIFIED"
+      },
+      "simdjson__simdjson-644": {
+        "repository": "simdjson/simdjson",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "630",
+        "difficulty": "medium",
+        "rationale": "对象键访问按 JSON Pointer 解释带斜杠的键，与接口约定冲突。",
+        "record_sha256": "941a845898e32a9aee09b73ac918f1672b6512911d6fcdcdaa464d12bc38346e",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-2866": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2838",
+        "difficulty": "complex",
+        "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
+        "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0",
+        "qualification_status": "QUALIFIED"
+      }
+    },
+    "campaign_tasks": [
+      "nlohmann__json-4512",
+      "nlohmann__json-3543",
+      "nlohmann__json-3523",
+      "nlohmann__json-3446",
+      "nlohmann__json-3332",
+      "stephenberry__glaze-2611",
+      "nlohmann__json-3073",
+      "nlohmann__json-2332",
+      "nlohmann__json-1446",
+      "nlohmann__json-2319",
+      "nlohmann__json-1555",
+      "nlohmann__json-1343",
+      "nlohmann__json-1303",
+      "shader-slang__slang-10856",
+      "shader-slang__slang-10768",
+      "shader-slang__slang-10738",
+      "shader-slang__slang-10663",
+      "shader-slang__slang-10697",
+      "shader-slang__slang-7815",
+      "shader-slang__slang-10664",
+      "open-source-parsers__jsoncpp-1693",
+      "nlohmann__json-3037",
+      "nlohmann__json-3008",
+      "nlohmann__json-2963",
+      "catchorg__Catch2-2128",
+      "KhronosGroup__glslang-4006",
+      "rui314__mold-1546",
+      "actor-framework__actor-framework-2300",
+      "simdjson__simdjson-644",
+      "nlohmann__json-2866"
+    ],
+    "difficulty_counts": {
+      "complex": 16,
+      "medium": 12,
+      "compile_control": 2
+    },
+    "repository_counts": {
+      "nlohmann/json": 16,
+      "stephenberry/glaze": 1,
+      "shader-slang/slang": 7,
+      "open-source-parsers/jsoncpp": 1,
+      "catchorg/Catch2": 1,
+      "KhronosGroup/glslang": 1,
+      "rui314/mold": 1,
+      "actor-framework/actor-framework": 1,
+      "simdjson/simdjson": 1
+    },
+    "new_repository_tasks": 12,
+    "existing_repository_new_tasks": 18
+  },
+  "existing_repositories": [
+    "catchorg/Catch2",
+    "fmtlib/fmt",
+    "nlohmann/json",
+    "simdjson/simdjson",
+    "zeux/pugixml",
+    "leethomason/tinyxml2"
+  ],
+  "repeat_tasks": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "incremental_submission": {
+    "campaign_batch_id": "cross-repository-20261028-formal",
+    "campaign_request_cap": 3600,
+    "prior_batches": []
+  }
+}

@@ -1,0 +1,824 @@
+{
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "model_timeout_seconds": 180,
+  "request_cap_per_attempt": 24,
+  "max_tool_calls": 48,
+  "max_tools_per_response": 8,
+  "max_parallel": 3,
+  "arms": [
+    "full",
+    "no-checks",
+    "shell-only",
+    "mini",
+    "codex"
+  ],
+  "context_policy": {
+    "context_window_tokens": 128000,
+    "compact_trigger_tokens": 48000,
+    "compact_target_tokens": 21600,
+    "max_output_tokens": 8192,
+    "transport_max_bytes": 2097152,
+    "response_max_bytes": 2097152,
+    "request_cap": 24,
+    "context_policy_version": "v1.0-unified-compaction",
+    "tool_growth_tokens": 16000,
+    "estimation_margin_tokens": 8000,
+    "retain_rounds": 2,
+    "tool_output_max_bytes": 24576,
+    "compaction_enabled": true
+  },
+  "mini_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "codex_binary": ".repropatch/codex/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+  "codex_version": "0.163.0",
+  "codex_sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+  "codex_tarball": "https://registry.npmjs.org/@openai/codex/-/codex-0.163.0-linux-x64.tgz",
+  "codex_tarball_integrity": "sha512-uwRaOsrYogLQhcxAM/GoeWrw0QIWEMRo7c9gM8sKAviVkZQHlu9kRLJ5PkufbV+ABGjyZgIwiFdJ0LCJ0N6e8w==",
+  "code_host_sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+  "campaign_schema": "repropatch.cross-repository-campaign.v1",
+  "batch_id": "cross-repository-20261028-formal-batch-02",
+  "phase": "formal",
+  "tasks": [
+    "nlohmann__json-2319",
+    "nlohmann__json-2332",
+    "nlohmann__json-4512",
+    "nlohmann__json-3332"
+  ],
+  "attempts": [
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/no-checks/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/mini/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/shell-only/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/full/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/codex/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/no-checks/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/codex/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/shell-only/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/mini/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/full/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/codex/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/mini/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/no-checks/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/full/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/shell-only/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/mini/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/full/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/shell-only/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/no-checks/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/codex/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "codex",
+      "request_cap": 24
+    }
+  ],
+  "prior_attempts": [],
+  "prior_rescore_run_id": null,
+  "preparation_failures": {},
+  "formal_request_cap": 480,
+  "qualification_contracts": {
+    "nlohmann__json-2319": {
+      "qualification_sha256": "646b3c1447613d35a70eb3321ebf8d45bf726b5b4c395143c6d279566a09fcb7",
+      "task_sha256": "7d35941500e54e921b81e9a244f46c4264d02375fe36dcedc58917ce45f27433",
+      "manifest_sha256": "4f388d1f6ef18365abb20a11f686dfc462d0c7a62afb134c3ee5a409a7d58b2a",
+      "bundle_sha256": "837249efbcb02bf8052f9f2ac55c5b26458eade7bcb131666f333d69db33f454",
+      "prepared_commit": "f3edb774e20ad70d9e10d9fb6634686c451a60fa",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 60
+    },
+    "nlohmann__json-2332": {
+      "qualification_sha256": "be93cfc143d7e6d6a55fb194151ddbe0ea3e5f564200d0dce827f81552187e52",
+      "task_sha256": "7bcfebb2d4ceb751016adac64ddc1b52a95811a860b16c598d7493e3b9cec29e",
+      "manifest_sha256": "14f89054367c73b63c06a72ed3868e5c3b301c556afd5eb3ef5b2ec33b684ac1",
+      "bundle_sha256": "35af6af53d3da16a6907e9cece36afeb40291345ffb959a6d8e4c9cf025b6460",
+      "prepared_commit": "5fb1dea77d8ba332dc9a6211acb6bfbc75f0d9c3",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 60
+    },
+    "nlohmann__json-4512": {
+      "qualification_sha256": "9d80abd3a58fe8a7d16f2c51f51c7b6642653ec916d58b7ab6f5c590f3ece1b0",
+      "task_sha256": "963ef560fdae5498d45d1314558bac009cae4334968ca0d13325d302a9918907",
+      "manifest_sha256": "052a45b260d18889d5a46cc3eb1a434239fff6437d734e83322b7f1e646cb25a",
+      "bundle_sha256": "74bc8794f85554700ed5b9c44527ad3b58eadc41898af3bed553bb5e3df72f1e",
+      "prepared_commit": "ecbb032bf77730ef2c2dcf88e4f2d5b62f758bf6",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 98
+    },
+    "nlohmann__json-3332": {
+      "qualification_sha256": "cd2a228e15cfbe06ce4324c71534e1fc1f88ffb445e17cbd97fd7665098288ae",
+      "task_sha256": "d87271453967d5ec8c03e3657d38e875641309f9447093798e26739cbd3aa648",
+      "manifest_sha256": "c0ca3d8e1142eb87f520e263fe0e2716fc4dec4928eecfcab4d2ecc970cfcbd2",
+      "bundle_sha256": "01e812d15e9a78f4b5dc47e2c85fd971e4a4638dd64d96886c025d0e52b07085",
+      "prepared_commit": "03db182451f955b8094f6fa047fb8a96d4e7f87d",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 71
+    }
+  },
+  "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+  "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
+  "environment_policy": "per-task-native-v1",
+  "task_environments": {
+    "nlohmann__json-2319": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-2332": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-4512": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    },
+    "nlohmann__json-3332": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    }
+  },
+  "qualification_run_ids": [
+    40824500614,
+    40825590280,
+    40825871574
+  ],
+  "qualification_archives": [
+    {
+      "run_id": 40824500614,
+      "artifact": "cross-evidence-40824500614-nlohmann__json-4512",
+      "sha256": "916c6bf05e7e891ab4056d09bf272c9f867b52a97b575d204b036c2e202c64e2",
+      "instances": [
+        "nlohmann__json-4512"
+      ]
+    },
+    {
+      "run_id": 40825871574,
+      "artifact": "cross-evidence-40825871574-nlohmann__json-3332",
+      "sha256": "3de4e3a0a29bfe947aac40f3687049fc7c3de33528d73e1902dbd985f029459a",
+      "instances": [
+        "nlohmann__json-3332"
+      ]
+    },
+    {
+      "run_id": 40825590280,
+      "artifact": "cross-evidence-40825590280-nlohmann__json-2332",
+      "sha256": "92c3c92341537bf55860701a89b0ac15c7923982f702222ef69f842be5e16a91",
+      "instances": [
+        "nlohmann__json-2332"
+      ]
+    },
+    {
+      "run_id": 40825590280,
+      "artifact": "cross-evidence-40825590280-nlohmann__json-2319",
+      "sha256": "6d4c306e435fec843e26e1d4c0fce0d62a01bfd9e38dde31c35d187baae8805d",
+      "instances": [
+        "nlohmann__json-2319"
+      ]
+    }
+  ],
+  "network_calibration": {
+    "run_id": 40646051506,
+    "artifact": "cross-network-calibration-40646051506",
+    "sha256": "081e8ae385c0c10041efea18d1cc7cfd3baecaf36e7a486f65271620f32eb1fe"
+  },
+  "ci_run_id": 40828488779,
+  "execution_source_commit": "9d5be6633f196bb207fa06a324db43dbd413753b",
+  "execution_sha256": "0d23461f04b9dc595c4875a4a71bd13d86a1db5ce84d68cd04c7654a1a7ec995",
+  "paid_calls_authorized": true,
+  "cpa_route": "azure-ssh",
+  "retries": 0,
+  "oracle_timeout_seconds": 3600,
+  "matrix_per_arm": true,
+  "execution_order": [
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/no-checks/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/mini/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/shell-only/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/full/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2319/codex/first",
+      "instance_id": "nlohmann__json-2319",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/no-checks/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/codex/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/shell-only/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/mini/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-2332/full/first",
+      "instance_id": "nlohmann__json-2332",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/codex/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "codex",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/mini/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/no-checks/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/full/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-4512/shell-only/first",
+      "instance_id": "nlohmann__json-4512",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/mini/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "mini",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/full/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "full",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/shell-only/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "shell-only",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/no-checks/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "no-checks",
+      "request_cap": 24
+    },
+    {
+      "attempt_id": "cross-repository-20261028-formal/nlohmann__json-3332/codex/first",
+      "instance_id": "nlohmann__json-3332",
+      "arm": "codex",
+      "request_cap": 24
+    }
+  ],
+  "selection_seed": 20261028,
+  "max_output_tokens": 8192,
+  "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存",
+  "selection_gate": {
+    "development": {
+      "tasks": [
+        "nlohmann__json-3514",
+        "nlohmann__json-3463",
+        "open-source-parsers__jsoncpp-1696",
+        "simdjson__simdjson-1896"
+      ],
+      "scored_attempts": 20,
+      "all_pass": true,
+      "difficulty_counts": {
+        "medium": 12,
+        "complex": 16,
+        "compile_control": 2
+      },
+      "results_sha256": "599cfbc4bd7877a481164fd8b520ae4354982f4433825f9ab41c8ce381986ce2",
+      "run_id": 40683926397,
+      "artifact": "cross-results-40683926397",
+      "recommended_difficulty_counts": {
+        "complex": 24,
+        "medium": 4,
+        "compile_control": 2
+      },
+      "difficulty_policy": "qualification-feasible-cross-repository-v1"
+    },
+    "review": {
+      "nlohmann__json-4512": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "4493",
+        "difficulty": "medium",
+        "rationale": "默认构造迭代器在比较时触发断言，涉及迭代器状态与比较语义。",
+        "record_sha256": "c6cc5a454e9d3aa6a30498c412aa3238f5e79dc0c22fa38a514c4d5f7d5315cc",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-3543": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3541",
+        "difficulty": "medium",
+        "rationale": "BJData 非法输入触发数组状态断言，涉及二进制解析边界。",
+        "record_sha256": "a21c202b9322b653200b9990e64905e48e7fe5ccb32e973786fd585ec68a5084",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3523": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3519",
+        "difficulty": "complex",
+        "rationale": "BJData 往返转换错误，涉及数组维度、长度及数值类型处理。",
+        "record_sha256": "edc63a7eee2176b32d2ef9adacb599bd418c8560ee2b1cd773ff7cf9ae7c3612",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3446": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3409",
+        "difficulty": "complex",
+        "rationale": "NaN 比较与浮点语义不一致，涉及比较运算、丢弃值与多种模板接口。",
+        "record_sha256": "bb05739d018d06b8a2f5421f34807caa4df280f1d4555128913f2cc076cc952f",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3332": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3331",
+        "difficulty": "medium",
+        "rationale": "迭代器后置自增改变 const 属性，破坏标准迭代器概念要求。",
+        "record_sha256": "7ed526146b45d26fbe49e93138cdc606ceb23516bffad108eadf0363034e82db",
+        "qualification_status": "PENDING"
+      },
+      "stephenberry__glaze-2611": {
+        "repository": "stephenberry/glaze",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2609",
+        "difficulty": "complex",
+        "rationale": "输入流解析在跳过未知字段时未补充缓冲区，错误返回 unexpected_end，涉及流式缓冲与 JSON 值跳过逻辑；一项 F2P 与 88 项 P2P、完整 C++ 参考修复及原生合同已静态复核，补齐 Asio 所需声明后仍须通过 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "488ce11a488a9bcd44d3b0048e100d2c83e463b1b0437b80822d4a898d5b1193",
+        "qualification_status": "QUALIFIED",
+        "replaces": "duckdb__duckdb-24211"
+      },
+      "nlohmann__json-3073": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3070",
+        "difficulty": "complex",
+        "rationale": "泛型类型转换的兼容性回归，涉及构造判定、SFINAE 与序列化重载。",
+        "record_sha256": "fe95287305a491ccb8bfb0ddbf5de1b0ed665f1b9576b3738e89dacecf8dd589",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-2332": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2330",
+        "difficulty": "medium",
+        "rationale": "连续注释行导致解析失败，需要处理词法状态转换。",
+        "record_sha256": "a1112b7599683b51b4f2cecd3c661261a414c174588a933545936e89949f69b9",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1446": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1445",
+        "difficulty": "medium",
+        "rationale": "连续无效 UTF-8 字符导致序列化缓冲越界。",
+        "record_sha256": "53bd594d70bde9da87190a2e287163bfe5fb714246f3d66db6686ab58a6db0e2",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-2319": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2315",
+        "difficulty": "complex",
+        "rationale": "ordered_json 的 update 与 pair 容器转换失效，涉及映射容器接口和插入语义。",
+        "record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1555": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1511",
+        "difficulty": "complex",
+        "rationale": "反序列化向已有容器追加元素，涉及通用容器转换与异常安全。",
+        "record_sha256": "82d9bf8ca3fb884c935af75bba76047709cb02af271304bacf53877d47aacda1",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1343": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1340",
+        "difficulty": "medium",
+        "rationale": "流解析到达末尾后丢失 EOF 状态，需要协调 streambuf 与 istream 标志。",
+        "record_sha256": "04e5be39c46c395301937e52f72ee3033fd83c65ce5454539557e6935609bf62",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-1303": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1288",
+        "difficulty": "complex",
+        "rationale": "UBJSON 读取边界与错误定位缺陷，涉及多个二进制格式的解析状态及诊断。",
+        "record_sha256": "1a3a7ddb31cc33727cf0fb0c98c798d5fd57be4df3219cb6b0a905885c5fd462",
+        "qualification_status": "PENDING"
+      },
+      "shader-slang__slang-10856": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10261",
+        "difficulty": "complex",
+        "rationale": "入口参数内的接口字段引发编译器崩溃，涉及 IR 类型流专门化。",
+        "record_sha256": "554770972e7325ef6fcd9fcaea650e05016ad57bec34a2642b2882c26004fa2d"
+      },
+      "shader-slang__slang-10768": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10376",
+        "difficulty": "complex",
+        "rationale": "接口类型的 RWByteAddressBuffer Load/Store 引发编译器内部错误。",
+        "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13"
+      },
+      "shader-slang__slang-10738": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10263",
+        "difficulty": "complex",
+        "rationale": "无约束泛型及关联类型专门化的诊断缺陷，涉及 IR 类型流专门化；四项 F2P 聚焦同一官方变更测试的变体，等待 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
+        "qualification_status": "PENDING",
+        "replaces": "shader-slang__slang-10682"
+      },
+      "shader-slang__slang-10663": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10605",
+        "difficulty": "complex",
+        "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
+        "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
+      },
+      "shader-slang__slang-10697": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10244",
+        "difficulty": "complex",
+        "rationale": "接口类型经属性或下标引用修改时崩溃，涉及访问器声明检查。",
+        "record_sha256": "8730e59b5acbc3b2f4997ab1415df98123802f4408cec393cdb67f07bbb71d26"
+      },
+      "shader-slang__slang-7815": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "7783",
+        "difficulty": "compile_control",
+        "rationale": "枚举数组索引编译失败，验证类型检查和隐式转换。",
+        "record_sha256": "6515e35b6c696cc756b61940682df0466542964e3ecef043a8c1c95f10bc0c34"
+      },
+      "shader-slang__slang-10664": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10616",
+        "difficulty": "medium",
+        "rationale": "BOM 解码后的源码内容长度计算错误，涉及源码缓冲与位置管理；单项 F2P 聚焦官方新增单元测试，C++ 参考修复完整，等待 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "1b30612fcbb34549d55404c7996431ba3484f17db547a779af8379a89b84342c",
+        "qualification_status": "PENDING",
+        "replaces": "shader-slang__slang-7523"
+      },
+      "open-source-parsers__jsoncpp-1693": {
+        "repository": "open-source-parsers/jsoncpp",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1611",
+        "difficulty": "medium",
+        "rationale": "数组越界赋值和迭代暴露错误间隙值，验证数组填充与迭代合同。",
+        "record_sha256": "4819349e0bd95fe2e0195997a1dead39fcbb446dacacb27cdc4041475547c884",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3037": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3032",
+        "difficulty": "medium",
+        "rationale": "数组下标插入遗漏父指针，JSON_DIAGNOSTICS 触发断言。",
+        "record_sha256": "f6a6267f1224a9661139671deb9e566f8f645baa870d16e22599bcb7ba28302e",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-3008": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3007",
+        "difficulty": "medium",
+        "rationale": "update 插入元素后父指针遗漏，破坏 JSON_DIAGNOSTICS 不变量。",
+        "record_sha256": "08cd86545d1584b47063ac04756f9f0c994a9c1de01d55161f90074b4b20a949",
+        "qualification_status": "QUALIFIED"
+      },
+      "nlohmann__json-2963": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2962",
+        "difficulty": "complex",
+        "rationale": "ordered_json 修改导致诊断断言，涉及有序容器移动与父指针维护。",
+        "record_sha256": "951c1a26def96105f9651095e144cdef4b6a3213a38c44d95054cb71696ccd72",
+        "qualification_status": "QUALIFIED"
+      },
+      "catchorg__Catch2-2128": {
+        "repository": "catchorg/Catch2",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2121",
+        "difficulty": "compile_control",
+        "rationale": "用户自定义相等运算符导致表达式分解编译失败。",
+        "record_sha256": "594b3d06d23e25a2fc6eaab3564e2bcebaeb569b34078cefe9b50213cbe530d4",
+        "qualification_status": "QUALIFIED"
+      },
+      "KhronosGroup__glslang-4006": {
+        "repository": "KhronosGroup/glslang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "3948",
+        "difficulty": "complex",
+        "rationale": "SPIR-V 小整数数组索引需要无符号扩展，涉及类型与指令语义",
+        "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf",
+        "qualification_status": "QUALIFIED"
+      },
+      "rui314__mold-1546": {
+        "repository": "rui314/mold",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1545",
+        "difficulty": "medium",
+        "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
+        "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
+      },
+      "actor-framework__actor-framework-2300": {
+        "repository": "actor-framework/actor-framework",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2299",
+        "difficulty": "complex",
+        "rationale": "异步 actor shell 退出后继续接收消息，涉及生命周期与回调重入",
+        "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84",
+        "qualification_status": "QUALIFIED"
+      },
+      "simdjson__simdjson-644": {
+        "repository": "simdjson/simdjson",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "630",
+        "difficulty": "medium",
+        "rationale": "对象键访问按 JSON Pointer 解释带斜杠的键，与接口约定冲突。",
+        "record_sha256": "941a845898e32a9aee09b73ac918f1672b6512911d6fcdcdaa464d12bc38346e",
+        "qualification_status": "PENDING"
+      },
+      "nlohmann__json-2866": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "2838",
+        "difficulty": "complex",
+        "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
+        "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0",
+        "qualification_status": "QUALIFIED"
+      }
+    },
+    "campaign_tasks": [
+      "nlohmann__json-4512",
+      "nlohmann__json-3543",
+      "nlohmann__json-3523",
+      "nlohmann__json-3446",
+      "nlohmann__json-3332",
+      "stephenberry__glaze-2611",
+      "nlohmann__json-3073",
+      "nlohmann__json-2332",
+      "nlohmann__json-1446",
+      "nlohmann__json-2319",
+      "nlohmann__json-1555",
+      "nlohmann__json-1343",
+      "nlohmann__json-1303",
+      "shader-slang__slang-10856",
+      "shader-slang__slang-10768",
+      "shader-slang__slang-10738",
+      "shader-slang__slang-10663",
+      "shader-slang__slang-10697",
+      "shader-slang__slang-7815",
+      "shader-slang__slang-10664",
+      "open-source-parsers__jsoncpp-1693",
+      "nlohmann__json-3037",
+      "nlohmann__json-3008",
+      "nlohmann__json-2963",
+      "catchorg__Catch2-2128",
+      "KhronosGroup__glslang-4006",
+      "rui314__mold-1546",
+      "actor-framework__actor-framework-2300",
+      "simdjson__simdjson-644",
+      "nlohmann__json-2866"
+    ],
+    "difficulty_counts": {
+      "complex": 16,
+      "medium": 12,
+      "compile_control": 2
+    },
+    "repository_counts": {
+      "nlohmann/json": 16,
+      "stephenberry/glaze": 1,
+      "shader-slang/slang": 7,
+      "open-source-parsers/jsoncpp": 1,
+      "catchorg/Catch2": 1,
+      "KhronosGroup/glslang": 1,
+      "rui314/mold": 1,
+      "actor-framework/actor-framework": 1,
+      "simdjson/simdjson": 1
+    },
+    "new_repository_tasks": 12,
+    "existing_repository_new_tasks": 18
+  },
+  "existing_repositories": [
+    "catchorg/Catch2",
+    "fmtlib/fmt",
+    "nlohmann/json",
+    "simdjson/simdjson",
+    "zeux/pugixml",
+    "leethomason/tinyxml2"
+  ],
+  "repeat_tasks": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "incremental_submission": {
+    "campaign_batch_id": "cross-repository-20261028-formal",
+    "campaign_request_cap": 3600,
+    "prior_batches": [
+      {
+        "protocol": "benchmarks/cross-repo/formal-protocol-batch-01.json",
+        "sha256": "6f142bffeebb8cefb352f0d661d6294fc8717f5375eb2698dc3d97fd267f2f73",
+        "tasks": [
+          "nlohmann__json-3008",
+          "nlohmann__json-2866",
+          "open-source-parsers__jsoncpp-1693",
+          "catchorg__Catch2-2128",
+          "nlohmann__json-3037",
+          "nlohmann__json-2963",
+          "actor-framework__actor-framework-2300",
+          "KhronosGroup__glslang-4006",
+          "stephenberry__glaze-2611",
+          "nlohmann__json-3543",
+          "nlohmann__json-3523",
+          "nlohmann__json-3446"
+        ]
+      }
+    ]
+  }
+}
