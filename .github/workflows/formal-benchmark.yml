@@ -1,5 +1,5 @@
 name: Formal Luna max benchmark
-run-name: ${{ inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'inspect-evidence' && '资格证据读取 · 0 模型请求' || inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify', 'inspect-native', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
+        options: ['legacy', 'qualify', 'inspect-native', 'inspect-evidence', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'
@@ -57,7 +57,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ${{ (inputs.cross_stage == 'qualify' || inputs.cross_stage == 'inspect-native' || inputs.cross_stage == 'freeze' || inputs.cross_stage == 'rescore') && format('cpp-environment-{0}', github.run_id) || (inputs.cross_stage != 'legacy' && inputs.cross_stage != '') && 'cross-cpa-model-3' || format('formal-luna-max-{0}', inputs.authorization) }}
+  group: ${{ (inputs.cross_stage == 'qualify' || inputs.cross_stage == 'inspect-native' || inputs.cross_stage == 'inspect-evidence' || inputs.cross_stage == 'freeze' || inputs.cross_stage == 'rescore') && format('cpp-environment-{0}', github.run_id) || (inputs.cross_stage != 'legacy' && inputs.cross_stage != '') && 'cross-cpa-model-3' || format('formal-luna-max-{0}', inputs.authorization) }}
   cancel-in-progress: false
 
 env:
