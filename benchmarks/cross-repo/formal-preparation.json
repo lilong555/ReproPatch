@@ -696,7 +696,8 @@
       "artifact": "cross-evidence-40825590280-nlohmann__json-2319",
       "archive_sha256": "6d4c306e435fec843e26e1d4c0fce0d62a01bfd9e38dde31c35d187baae8805d",
       "qualification_wall_seconds": 503.68326509999997,
-      "source_job_id": 123288038261
+      "source_job_id": 123288038261,
+      "result_sha256": "646b3c1447613d35a70eb3321ebf8d45bf726b5b4c395143c6d279566a09fcb7"
     },
     {
       "instance_id": "nlohmann__json-2332",
@@ -704,7 +705,8 @@
       "artifact": "cross-evidence-40825590280-nlohmann__json-2332",
       "archive_sha256": "92c3c92341537bf55860701a89b0ac15c7923982f702222ef69f842be5e16a91",
       "qualification_wall_seconds": 734.887067291,
-      "source_job_id": 123288038273
+      "source_job_id": 123288038273,
+      "result_sha256": "be93cfc143d7e6d6a55fb194151ddbe0ea3e5f564200d0dce827f81552187e52"
     },
     {
       "instance_id": "nlohmann__json-4512",
@@ -712,7 +714,8 @@
       "artifact": "cross-evidence-40824500614-nlohmann__json-4512",
       "archive_sha256": "916c6bf05e7e891ab4056d09bf272c9f867b52a97b575d204b036c2e202c64e2",
       "qualification_wall_seconds": 1066.81716521,
-      "source_job_id": 123284539655
+      "source_job_id": 123284539655,
+      "result_sha256": "9d80abd3a58fe8a7d16f2c51f51c7b6642653ec916d58b7ab6f5c590f3ece1b0"
     },
     {
       "instance_id": "nlohmann__json-3332",
@@ -720,7 +723,8 @@
       "artifact": "cross-evidence-40825871574-nlohmann__json-3332",
       "archive_sha256": "3de4e3a0a29bfe947aac40f3687049fc7c3de33528d73e1902dbd985f029459a",
       "qualification_wall_seconds": 841.484403335,
-      "source_job_id": 123288967774
+      "source_job_id": 123288967774,
+      "result_sha256": "cd2a228e15cfbe06ce4324c71534e1fc1f88ffb445e17cbd97fd7665098288ae"
     }
   ],
   "task_environments": {
@@ -772,9 +776,24 @@
         "nlohmann__json-3446"
       ],
       "freeze_run_id": 40828952317,
-      "status": "FROZEN",
+      "status": "SUBMITTED",
       "attempts": 60,
-      "request_cap": 1440
+      "request_cap": 1440,
+      "run_id": 40829334700
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-02.json",
+      "sha256": "bf12230d0e342f8c3ecc2208e4b66ed1316056af0732002d6f3f7f1ca7a7a14e",
+      "tasks": [
+        "nlohmann__json-2319",
+        "nlohmann__json-2332",
+        "nlohmann__json-4512",
+        "nlohmann__json-3332"
+      ],
+      "freeze_run_id": 40829404319,
+      "status": "FROZEN",
+      "attempts": 20,
+      "request_cap": 480
     }
   ]
 }
