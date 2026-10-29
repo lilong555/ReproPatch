@@ -1,0 +1,36 @@
+{
+  "model_requests": 0,
+  "source_commit": "b93e17db65e51e30f29458c3ed98407539e83302",
+  "batch_key": "batch-07",
+  "instances": [
+    "shader-slang__slang-10768",
+    "nlohmann__json-3601"
+  ],
+  "repeat_instances": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "ci_run": 40841056278,
+  "calibration_run": 40646051506,
+  "development_run": 40683926397,
+  "qualification_sources": [
+    {
+      "instance_id": "shader-slang__slang-10768",
+      "run_id": 40838879031,
+      "artifact": "cross-evidence-40838879031-shader-slang__slang-10768",
+      "archive_sha256": "a426bf1d8a4e0d9159efdd38b5dbcbb642c74f34a9af5001f69c90de659c1ac0",
+      "native_tests_reused_from_run": 40827519515
+    },
+    {
+      "instance_id": "nlohmann__json-3601",
+      "run_id": 40839544176,
+      "artifact": "cross-evidence-40839544176-nlohmann__json-3601",
+      "source_job_id": 123332622957,
+      "archive_sha256": "b7cb94d1256e8811df3cf6070cc26eedb612c92e4dbc3647f0eedbca14942324"
+    }
+  ]
+}

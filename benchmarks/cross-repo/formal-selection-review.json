@@ -120,15 +120,6 @@
     "qualification_status": "PENDING",
     "replaces": "shader-slang__slang-10682"
   },
-  "shader-slang__slang-10663": {
-    "repository": "shader-slang/slang",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10605",
-    "difficulty": "complex",
-    "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
-    "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
-  },
   "shader-slang__slang-10664": {
     "repository": "shader-slang/slang",
     "semantic_kind": "defect",
@@ -298,6 +289,16 @@
     "difficulty": "compile_control",
     "rationale": "json_pointer向标准输出流写入的既有代码编译失败，涉及模板参数推导、字符串转换和输出运算符重载。",
     "record_sha256": "7dfb1fa52d1a8db68ed7ff4685c1f2ef2848267f3c6ec2c78ec7f3d7aa192fd6",
+    "qualification_status": "QUALIFIED"
+  },
+  "catchorg__Catch2-1608": {
+    "repository": "catchorg/Catch2",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1607",
+    "difficulty": "medium",
+    "rationale": "CAPTURE处理包含逗号的字符串时错误拆分表达式，引发析构断言；涉及引号、转义与逗号分隔状态。",
+    "record_sha256": "db6619542cd42c3930652c8a8545cf6ddbf1f5bc2c9e072b0d49ad695363c9f8",
     "qualification_status": "PENDING"
   }
 }
