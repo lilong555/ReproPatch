@@ -286,7 +286,7 @@
     "difficulty": "complex",
     "rationale": "ordered_json数组的范围删除在模板实例化时编译失败，涉及有序映射迭代器、const键重建与删除区间维护。",
     "record_sha256": "474576e64f19c8c51cb3d72170558421a5905bb63d22f8b5cdf3d80caddd9443",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3605": {
     "repository": "nlohmann/json",
