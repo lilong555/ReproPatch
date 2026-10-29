@@ -6,7 +6,7 @@ import shutil
 import subprocess
 import time
 
-from cpp_native_adapter import source_manifest
+from cpp_native_adapter import initialize_snapshot_git, source_manifest
 from cpp_sources import MULTISWE_REVISION, load_records
 from qualify_cpp_batch import CANCELLED, archive, git, save, sha
 from qualify_cross_repo import NativeExecutor, manifest
@@ -131,7 +131,7 @@ def check(args):
         restore_manifest_bytes(
             native, json.loads((directory / "control/upstream-source-manifest.json").read_text())
         )
-        git(native, "init", "--template=", "-q", ".")
+        initialize_snapshot_git(native, prepared, q["upstream_snapshot_commit"])
         if (
             sha(directory / "control/test.patch") != q["test_patch_sha256"]
             or (directory / "control/test.patch").read_text() != record["test_patch"]

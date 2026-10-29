@@ -35,6 +35,13 @@ def test_bundle_replay_preserves_original_crlf_and_rejects_content_changes(tmp_p
     destination = tmp_path / "restored"
     native.restore_repository(evidence, qualification, destination)
     assert native.source_manifest(destination) == native.source_manifest(source)
+    cold = tmp_path / "cold"
+    native.archive(destination, original, cold)
+    before = native.source_manifest(cold)
+    native.initialize_snapshot_git(cold, destination, original)
+    assert (cold / ".git/HEAD").read_text().strip() == original
+    assert native.git(cold, "rev-parse", "HEAD").decode().strip() == original
+    assert native.source_manifest(cold) == before
     expected = native.source_manifest(destination)
     (destination / "value.cpp").write_text("int value() { return 2; }\n")
     with pytest.raises(ValueError, match="CONTENT_MISMATCH"):

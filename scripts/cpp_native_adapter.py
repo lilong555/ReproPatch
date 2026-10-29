@@ -86,6 +86,20 @@ MODES = {
 NATIVE_TEST_DATA = ("dependencies/.cache/simdjson-data/",)
 
 
+def initialize_snapshot_git(destination, repository, commit, *, deadline=None):
+    """为冷验收源码提供真实的固定 HEAD，保持工作区字节不变。"""
+    git(destination, "init", "--template=", "-q", ".", deadline=deadline)
+    git(
+        destination,
+        "fetch",
+        "--no-tags",
+        str(repository.resolve()),
+        commit,
+        deadline=deadline,
+    )
+    git(destination, "update-ref", "--no-deref", "HEAD", commit, deadline=deadline)
+
+
 def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
     repo = record["org"] + "/" + record["repo"]
     if repo not in OPTIONS:

@@ -17,6 +17,7 @@ from cpp_native_adapter import (
     PRODUCTION_AREAS,
     editable_files,
     group_states,
+    initialize_snapshot_git,
     make_contract,
     materialize,
     prepare_source_dependencies,
@@ -378,7 +379,9 @@ def qualify(record, args):
         )
         native = control / "native-source"
         archive(source, result["upstream_snapshot_commit"], native, deadline=executor.deadline)
-        git(native, "init", "--template=", "-q", ".", deadline=executor.deadline)
+        initialize_snapshot_git(
+            native, source, result["upstream_snapshot_commit"], deadline=executor.deadline
+        )
         git(native, "apply", str(control / "test.patch"), deadline=executor.deadline)
         git(native, "apply", str(control / "reference.patch"), deadline=executor.deadline)
         shutil.copytree(
