@@ -170,6 +170,15 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         compiler_options = [
             "-DCMAKE_CXX_FLAGS=-DCATCH_CONFIG_NO_POSIX_SIGNALS -DDOCTEST_CONFIG_NO_POSIX_SIGNALS"
         ]
+        if record["instance_id"] in {
+            "nlohmann__json-1303",
+            "nlohmann__json-1343",
+            "nlohmann__json-1446",
+            "nlohmann__json-1555",
+        }:
+            # C++20 allocator 接口兼容旧测试的继承写法，UTF-8 字面量沿用 char 类型。
+            options.append("-DCMAKE_CXX_STANDARD=20")
+            compiler_options[0] += " -fno-char8_t"
     elif cxx.startswith("clang") and repo == "stephenberry/glaze":
         # 上游 Clang 构建采用 libc++，避免跨标准库的模板兼容性差异。
         # 系统 Asio 使用 make_exception_ptr，却未直接包含 <exception>。
