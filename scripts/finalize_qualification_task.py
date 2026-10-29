@@ -76,6 +76,9 @@ def finalize(entry, archive, output):
         result.pop(key, None)
     save(directory / "result.json", result)
     manifest(directory)
+    summary = output / "batch-summary.json"
+    summary.rename(output / "source-batch-summary.json")
+    save(summary, {"schema_version": 2, "model_requests": 0, "tasks": [result]})
     implementations = {}
     for name in ("qualify_cross_repo.py", "finalize_qualification_task.py"):
         target = output / "finalization-code" / name
@@ -104,4 +107,5 @@ def finalize(entry, archive, output):
     )
     with Path(os.environ["GITHUB_OUTPUT"]).open("a") as stream:
         stream.write("finalized_instance=" + instance + "\n")
+    print(json.dumps({"instance_id": instance, "status": "QUALIFIED", "model_requests": 0}))
     return result
