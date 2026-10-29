@@ -28,7 +28,7 @@
     "complex": 15,
     "compile_control": 3
   },
-  "selection_review_sha256": "401c7654381e54596f76250421886996570160b9b2a0d987baa84b4cc79f64da",
+  "selection_review_sha256": "5b908889e5a5914c2be7b108258ca8cdb7c7356b06ae990b2b3cfe4c7d02fd10",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -679,12 +679,12 @@
     {
       "instance_id": "shader-slang__slang-10738",
       "status": "EXCLUDED_RESOURCE",
-      "reason": "四核资格作业运行超过55分钟，按资源取舍结束本轮重验。",
+      "reason": "四核资格检查耗时3240.04秒，冷Oracle仍有gfx模块查找失败。",
       "source_runs": [
         40843134481
       ],
       "source_job_id": 123344659914,
-      "observed_qualification_status": "CANCEL_REQUESTED_RESOURCE",
+      "observed_qualification_status": "NATIVE_ORACLE_TESTS_FAILED",
       "replacement_instance": "fmtlib__fmt-3569",
       "model_requests": 0,
       "semantic_review": {
@@ -697,7 +697,8 @@
         "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
         "qualification_status": "PENDING",
         "replaces": "shader-slang__slang-10682"
-      }
+      },
+      "cancel_request_status": "ALREADY_COMPLETED"
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -981,7 +982,7 @@
       "replacement_instance": "fmtlib__fmt-3569",
       "status": "QUALIFICATION_PENDING",
       "model_requests": 0,
-      "reason": "四核资格作业运行超过55分钟，按资源取舍结束本轮重验。",
+      "reason": "四核资格检查耗时3240.04秒，冷Oracle仍有gfx模块查找失败。",
       "replacement_record_sha256": "7a67b506335e4cd0bbde31da170065e912c659b68b0380f5350c3b253f69230c",
       "replacement_base_commit": "8a4bec5cf53387356738a06ba0cf4fdf086241ae"
     }
@@ -1178,6 +1179,20 @@
       "artifact": "cross-evidence-40839544176-nlohmann__json-3601",
       "source_job_id": 123332622957,
       "archive_sha256": "b7cb94d1256e8811df3cf6070cc26eedb612c92e4dbc3647f0eedbca14942324"
+    },
+    {
+      "instance_id": "catchorg__Catch2-1608",
+      "run_id": 40849741023,
+      "artifact": "cross-evidence-40849741023-catchorg__Catch2-1608",
+      "source_job_id": 123366428658,
+      "archive_sha256": "4f25ee2c02e8eaef96dc1a3c113c3cf21f704627a7b21ee0dbf408527f8b6190"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3824",
+      "run_id": 40849741023,
+      "artifact": "cross-evidence-40849741023-fmtlib__fmt-3824",
+      "source_job_id": 123366428649,
+      "archive_sha256": "b287861b7703219528b05de966983cd18d5acaa2d28ee49215fde33c0a7b7ae2"
     }
   ],
   "task_environments": {
