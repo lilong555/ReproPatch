@@ -59,6 +59,7 @@ permissions:
 concurrency:
   group: ${{ (inputs.cross_stage == 'qualify' || inputs.cross_stage == 'inspect-native' || inputs.cross_stage == 'inspect-evidence' || inputs.cross_stage == 'freeze' || inputs.cross_stage == 'rescore') && format('cpp-environment-{0}', github.run_id) || (inputs.cross_stage != 'legacy' && inputs.cross_stage != '') && 'cross-cpa-model-3' || format('formal-luna-max-{0}', inputs.authorization) }}
   cancel-in-progress: false
+  queue: max
 
 env:
   PYTHONPATH: ${{ github.workspace }}/src

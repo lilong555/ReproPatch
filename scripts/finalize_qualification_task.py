@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def finalize(entry, archive, output):
+    archive, output = archive.resolve(), output.resolve()
     instance = entry["instance_id"]
     extract_verified(archive, output, entry["archive_sha256"])
     directory = output / instance
