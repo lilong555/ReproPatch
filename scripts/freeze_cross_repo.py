@@ -77,7 +77,7 @@ def freeze(args):
         )
         new_repository_tasks = 25
         if preparation.get("difficulty_policy") == "qualification-feasible-cross-repository-v1":
-            if set(preparation["instances"]) != set(selected) or preparation[
+            if not set(selected) <= set(preparation["instances"]) or preparation[
                 "selection_review_sha256"
             ] != sha(args.selection_review):
                 raise ValueError("CROSS_FORMAL_PREPARATION_REGISTRY_MISMATCH")
@@ -87,9 +87,18 @@ def freeze(args):
             if preparation.get("selection_policy") == "resource-feasible-cross-repository-v1":
                 new_repository_tasks = preparation["new_repository_tasks"]
         quota = selection_review(
-            review, selected, development, existing, new_repository_tasks=new_repository_tasks
+            review,
+            preparation["instances"],
+            development,
+            existing,
+            new_repository_tasks=new_repository_tasks,
         )
-        gate = {"development": development, "review": review, **quota}
+        gate = {
+            "development": development,
+            "review": review,
+            "campaign_tasks": preparation["instances"],
+            **quota,
+        }
     for instance in selected:
         directory = args.qualification / instance
         q = json.loads((directory / "result.json").read_text())
@@ -123,9 +132,11 @@ def freeze(args):
             "dataset_revision": q["dataset_revision"],
             "native_tests": q["native_test_count"],
         }
-    batch = campaign["batch_id"] + "-" + args.phase
+    attempt_batch = campaign["batch_id"] + "-" + args.phase
+    batch_key = getattr(args, "batch_key", None)
+    batch = attempt_batch + ("-" + batch_key if batch_key else "")
     attempts = execution_order(
-        selected, batch=batch, replicate="repeat" if args.phase == "repeat" else "first"
+        selected, batch=attempt_batch, replicate="repeat" if args.phase == "repeat" else "first"
     )
     prior_attempts = json.loads(args.prior_attempts.read_text()) if args.prior_attempts else []
     prior_ids = {a["attempt_id"] for a in prior_attempts}
@@ -244,10 +255,27 @@ def freeze(args):
     if args.max_parallel:
         value["max_parallel"] = args.max_parallel
     if gate:
+        prior_batches = []
+        for entry in getattr(args, "prior_batches", []):
+            path = ROOT / entry["protocol"]
+            previous = json.loads(path.read_text())
+            if (
+                sha(path) != entry["sha256"]
+                or previous["phase"] != "formal"
+                or previous["tasks"] != entry["tasks"]
+                or previous["repeat_tasks"] != (args.repeat_instances or "").split(",")
+            ):
+                raise ValueError("CROSS_PRIOR_BATCH_EVIDENCE_MISMATCH")
+            prior_batches.append({key: entry[key] for key in ("protocol", "sha256", "tasks")})
         value.update(
             selection_gate=gate,
             existing_repositories=existing,
             repeat_tasks=(args.repeat_instances or "").split(","),
+            incremental_submission={
+                "campaign_batch_id": attempt_batch,
+                "campaign_request_cap": 3600,
+                "prior_batches": prior_batches,
+            },
         )
     if args.phase == "repeat":
         if not args.formal_protocol:

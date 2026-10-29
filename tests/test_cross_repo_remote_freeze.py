@@ -1,4 +1,4 @@
-"""云端冻结保持完整三十题范围、零模型调用和固定归档身份。"""
+"""云端按已合格题冻结五臂批次，保留全局清单与归档身份。"""
 
 import importlib
 import sys
@@ -44,6 +44,27 @@ def test_freeze_requires_every_registered_source(defect):
         value["qualification_sources"][0]["artifact"] = "different-artifact"
     elif defect == "hash":
         value["qualification_sources"][0]["archive_sha256"] = ""
+    if defect:
+        with pytest.raises(ValueError, match="REQUIRED"):
+            remote.validate_request(value, registry)
+    else:
+        remote.validate_request(value, registry)
+
+
+@pytest.mark.parametrize("defect", [None, "missing", "duplicate", "outside", "empty"])
+def test_incremental_freeze_requires_exact_subset_evidence(defect):
+    value, registry = request()
+    value["instances"] = registry["instances"][:3]
+    value["batch_key"] = "batch-01"
+    value["qualification_sources"] = value["qualification_sources"][:3]
+    if defect == "missing":
+        value["qualification_sources"].pop()
+    elif defect == "duplicate":
+        value["instances"][1] = value["instances"][0]
+    elif defect == "outside":
+        value["instances"][0] = "other__repo-1"
+    elif defect == "empty":
+        value["instances"] = []
     if defect:
         with pytest.raises(ValueError, match="REQUIRED"):
             remote.validate_request(value, registry)

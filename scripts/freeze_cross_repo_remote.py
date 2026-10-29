@@ -21,17 +21,24 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def validate_request(request, registry):
     sources = request.get("qualification_sources", [])
-    selected = registry["instances"]
+    selected = request.get("instances", registry["instances"])
     if (
         request.get("model_requests") != 0
-        or len(selected) != 30
-        or len(sources) != 30
+        or len(registry["instances"]) != 30
+        or not selected
+        or len(set(selected)) != len(selected)
+        or not set(selected) <= set(registry["instances"])
+        or len(sources) != len(selected)
         or {row["instance_id"] for row in sources} != set(selected)
         or len(set(request.get("repeat_instances", []))) != 6
-        or not set(request["repeat_instances"]) <= set(selected)
+        or not set(request["repeat_instances"]) <= set(registry["instances"])
         or not re.fullmatch(r"[0-9a-f]{40}", request.get("source_commit", ""))
     ):
         raise ValueError("COMPLETE_ZERO_REQUEST_FREEZE_REQUIRED")
+    if "instances" in request and not re.fullmatch(
+        r"[a-z0-9-]{1,60}", request.get("batch_key", "")
+    ):
+        raise ValueError("INCREMENTAL_BATCH_ID_REQUIRED")
     for row in sources:
         run = row["run_id"]
         if (
@@ -133,7 +140,9 @@ def run(request_path, output):
     value = freeze(
         SimpleNamespace(
             phase="formal",
-            instances=",".join(registry["instances"]),
+            instances=",".join(request.get("instances", registry["instances"])),
+            batch_key=request.get("batch_key"),
+            prior_batches=registry.get("formal_batches", []),
             qualification=output / "qualification",
             archives=output / "archives",
             calibration=calibration / "calibration.json",

@@ -146,7 +146,7 @@ def validate_protocol(p):
     if p["phase"] not in {"development", "formal", "repeat", "infrastructure-revalidation"}:
         raise ValueError("CROSS_PHASE_INVALID")
     ids = p["tasks"]
-    if len(set(ids)) != len(ids) or len(ids) > 30:
+    if not ids or len(set(ids)) != len(ids) or len(ids) > 30:
         raise ValueError("CROSS_TASK_REGISTRY_INVALID")
     caps = {"development": 480, "formal": 3600, "repeat": 720, "infrastructure-revalidation": 480}
     attempts = p["attempts"]
@@ -161,7 +161,7 @@ def validate_protocol(p):
         for a in attempts
     ):
         raise ValueError("CROSS_ATTEMPT_IDENTITY_INVALID")
-    if p["phase"] == "formal" and (len(ids) != 30 or len(attempts) != 150):
+    if p["phase"] == "formal" and len(attempts) != len(ids) * len(ARMS):
         raise ValueError("CROSS_FORMAL_REGISTRY_INCOMPLETE")
     prior = p.get("prior_attempts", [])
     registered = [*attempts, *prior]
@@ -210,9 +210,44 @@ def validate_protocol(p):
         development = gate.get("development", {})
         if development.get("scored_attempts") != 20 or not development.get("results_sha256"):
             raise ValueError("CROSS_DEVELOPMENT_SELECTION_GATE_REQUIRED")
-        selection_review(gate.get("review", {}), ids, development, p["existing_repositories"])
-        if len(set(p.get("repeat_tasks", []))) != 6 or not set(p["repeat_tasks"]) <= set(ids):
+        campaign_tasks = gate.get("campaign_tasks", ids)
+        if not set(ids) <= set(campaign_tasks):
+            raise ValueError("CROSS_FORMAL_SELECTION_REGISTRY_INVALID")
+        selection_review(
+            gate.get("review", {}),
+            campaign_tasks,
+            development,
+            p["existing_repositories"],
+            new_repository_tasks=gate.get("new_repository_tasks", 25),
+        )
+        if len(set(p.get("repeat_tasks", []))) != 6 or not set(p["repeat_tasks"]) <= set(
+            campaign_tasks
+        ):
             raise ValueError("CROSS_REPEAT_PREREGISTRATION_REQUIRED")
+        incremental = p.get("incremental_submission")
+        if len(ids) < 30 and not incremental:
+            raise ValueError("CROSS_INCREMENTAL_REGISTRY_REQUIRED")
+        if incremental:
+            if incremental.get("campaign_request_cap") != 3600:
+                raise ValueError("CROSS_INCREMENTAL_BUDGET_INVALID")
+            allocated = set(ids)
+            for previous in incremental.get("prior_batches", []):
+                tasks = previous["tasks"]
+                if (
+                    not tasks
+                    or len(set(tasks)) != len(tasks)
+                    or set(tasks) & allocated
+                    or not set(tasks) <= set(campaign_tasks)
+                    or not re.fullmatch(r"[0-9a-f]{64}", previous.get("sha256", ""))
+                ):
+                    raise ValueError("CROSS_INCREMENTAL_TASK_OVERLAP")
+                allocated.update(tasks)
+            if any(
+                a["attempt_id"]
+                != f"{incremental['campaign_batch_id']}/{a['instance_id']}/{a['arm']}/first"
+                for a in attempts
+            ):
+                raise ValueError("CROSS_INCREMENTAL_ATTEMPT_ID_CHANGED")
     if p["phase"] == "repeat" and (
         not p.get("formal_protocol_sha256") or set(p.get("formal_repeat_tasks", [])) != set(ids)
     ):
