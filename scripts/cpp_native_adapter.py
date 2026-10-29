@@ -18,6 +18,7 @@ from repropatch.workspace import git_blob, git_tree
 
 ROOT = Path(__file__).resolve().parents[1]
 OPTIONS = {
+    "fmtlib/fmt": ["-DFMT_DOC=OFF", "-DFMT_TEST=ON"],
     "open-source-parsers/jsoncpp": [
         "-DJSONCPP_WITH_TESTS=ON",
         "-DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF",
@@ -244,6 +245,8 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
         if not sections:
             raise ValueError("CATCH_APPROVAL_EXPECTATIONS_REQUIRED")
         patch = "".join(section for _, section in sections)
+        # 固定独立 Git 根目录，确保补丁路径相对于本题源码解析。
+        git(source, "init", "--template=", "-q", ".", deadline=deadline)
         with tempfile.TemporaryDirectory(prefix="repropatch-approvals-") as temporary:
             path = Path(temporary) / "expectations.patch"
             path.write_text(patch)

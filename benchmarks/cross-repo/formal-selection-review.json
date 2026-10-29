@@ -90,15 +90,6 @@
     "record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
     "qualification_status": "QUALIFIED"
   },
-  "shader-slang__slang-10856": {
-    "repository": "shader-slang/slang",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10261",
-    "difficulty": "complex",
-    "rationale": "入口参数内的接口字段引发编译器崩溃，涉及 IR 类型流专门化。",
-    "record_sha256": "554770972e7325ef6fcd9fcaea650e05016ad57bec34a2642b2882c26004fa2d"
-  },
   "shader-slang__slang-10768": {
     "repository": "shader-slang/slang",
     "semantic_kind": "defect",
@@ -300,5 +291,16 @@
     "rationale": "CAPTURE处理包含逗号的字符串时错误拆分表达式，引发析构断言；涉及引号、转义与逗号分隔状态。",
     "record_sha256": "db6619542cd42c3930652c8a8545cf6ddbf1f5bc2c9e072b0d49ad695363c9f8",
     "qualification_status": "PENDING"
+  },
+  "fmtlib__fmt-3824": {
+    "repository": "fmtlib/fmt",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3813",
+    "difficulty": "medium",
+    "rationale": "fmt::join未使用ADL查找begin/end，导致自定义范围输出包含额外元素；官方回归验证范围端点和输出内容。",
+    "record_sha256": "4be5118bf8aa124237133a713c8adb69c47518728b91153a87634f94d68832d5",
+    "qualification_status": "PENDING",
+    "replaces": "shader-slang__slang-10856"
   }
 }

@@ -18,6 +18,7 @@ runner = importlib.import_module("native_cpp_runner")
 
 
 def test_catch2_preparation_applies_only_official_test_expectations(tmp_path):
+    qualification.git(tmp_path, "init", "--template=", "-q", ".")
     source = tmp_path / "source"
     baseline = source / "projects/SelfTest/Baselines/result.approved.txt"
     baseline.parent.mkdir(parents=True)
