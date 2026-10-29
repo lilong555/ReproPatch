@@ -1,0 +1,36 @@
+{
+  "model_requests": 0,
+  "source_commit": "c5183575fc41e6912833bee73d107454906bfd84",
+  "batch_key": "batch-08",
+  "instances": [
+    "catchorg__Catch2-1608",
+    "fmtlib__fmt-3824"
+  ],
+  "repeat_instances": [
+    "nlohmann__json-3543",
+    "open-source-parsers__jsoncpp-1693",
+    "catchorg__Catch2-2128",
+    "actor-framework__actor-framework-2300",
+    "KhronosGroup__glslang-4006",
+    "stephenberry__glaze-2611"
+  ],
+  "ci_run": 40850772991,
+  "calibration_run": 40646051506,
+  "development_run": 40683926397,
+  "qualification_sources": [
+    {
+      "instance_id": "catchorg__Catch2-1608",
+      "run_id": 40849741023,
+      "artifact": "cross-evidence-40849741023-catchorg__Catch2-1608",
+      "source_job_id": 123366428658,
+      "archive_sha256": "4f25ee2c02e8eaef96dc1a3c113c3cf21f704627a7b21ee0dbf408527f8b6190"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3824",
+      "run_id": 40849741023,
+      "artifact": "cross-evidence-40849741023-fmtlib__fmt-3824",
+      "source_job_id": 123366428649,
+      "archive_sha256": "b287861b7703219528b05de966983cd18d5acaa2d28ee49215fde33c0a7b7ae2"
+    }
+  ]
+}

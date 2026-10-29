@@ -100,28 +100,6 @@
     "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13",
     "qualification_status": "QUALIFIED"
   },
-  "shader-slang__slang-10738": {
-    "repository": "shader-slang/slang",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10263",
-    "difficulty": "complex",
-    "rationale": "无约束泛型及关联类型专门化的诊断缺陷，涉及 IR 类型流专门化；四项 F2P 聚焦同一官方变更测试的变体，等待 Docker 基线与独立冷 Oracle 资格验收。",
-    "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
-    "qualification_status": "PENDING",
-    "replaces": "shader-slang__slang-10682"
-  },
-  "shader-slang__slang-10664": {
-    "repository": "shader-slang/slang",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10616",
-    "difficulty": "medium",
-    "rationale": "BOM 解码后的源码内容长度计算错误，涉及源码缓冲与位置管理；单项 F2P 聚焦官方新增单元测试，C++ 参考修复完整，等待 Docker 基线与独立冷 Oracle 资格验收。",
-    "record_sha256": "1b30612fcbb34549d55404c7996431ba3484f17db547a779af8379a89b84342c",
-    "qualification_status": "PENDING",
-    "replaces": "shader-slang__slang-7523"
-  },
   "open-source-parsers__jsoncpp-1693": {
     "repository": "open-source-parsers/jsoncpp",
     "semantic_kind": "defect",
@@ -290,7 +268,7 @@
     "difficulty": "medium",
     "rationale": "CAPTURE处理包含逗号的字符串时错误拆分表达式，引发析构断言；涉及引号、转义与逗号分隔状态。",
     "record_sha256": "db6619542cd42c3930652c8a8545cf6ddbf1f5bc2c9e072b0d49ad695363c9f8",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "fmtlib__fmt-3824": {
     "repository": "fmtlib/fmt",
@@ -300,7 +278,29 @@
     "difficulty": "medium",
     "rationale": "fmt::join未使用ADL查找begin/end，导致自定义范围输出包含额外元素；官方回归验证范围端点和输出内容。",
     "record_sha256": "4be5118bf8aa124237133a713c8adb69c47518728b91153a87634f94d68832d5",
-    "qualification_status": "PENDING",
+    "qualification_status": "QUALIFIED",
     "replaces": "shader-slang__slang-10856"
+  },
+  "fmtlib__fmt-3555": {
+    "repository": "fmtlib/fmt",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3545",
+    "difficulty": "medium",
+    "rationale": "fmt::to_string未沿用format_as转换，涉及枚举、字符串视图和自定义结构体的格式化分派。",
+    "record_sha256": "6b510bc41d2f217b7a5125d4549a258999ee654b45b2159e1010fe3b17085cfe",
+    "qualification_status": "PENDING",
+    "replaces": "shader-slang__slang-10664"
+  },
+  "fmtlib__fmt-3569": {
+    "repository": "fmtlib/fmt",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3567",
+    "difficulty": "compile_control",
+    "rationale": "std::vector<bool>元素使用代理引用，格式化接口需要正确处理代理类型与布尔值。",
+    "record_sha256": "7a67b506335e4cd0bbde31da170065e912c659b68b0380f5350c3b253f69230c",
+    "qualification_status": "PENDING",
+    "replaces": "shader-slang__slang-10738"
   }
 }
