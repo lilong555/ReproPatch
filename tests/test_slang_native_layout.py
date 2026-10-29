@@ -123,6 +123,9 @@ def test_slang_finds_prelude_from_executable_in_separate_build_tree(tmp_path, re
     (source / "prelude").mkdir(parents=True)
     (source / "include").mkdir()
     (source / "tests").mkdir()
+    (source / "tools/gfx").mkdir(parents=True)
+    (source / "tools/gfx/gfx.slang").write_text("fixed gfx module\n")
+    (source / "tools/gfx/slang.slang").write_text("fixed slang module\n")
     prelude = source / "prelude/slang-cpp-prelude.h"
     prelude.write_text("fixed prelude bytes\n")
     (source / "include/slang.h").write_text("fixed public header bytes\n")
@@ -141,6 +144,8 @@ def test_slang_finds_prelude_from_executable_in_separate_build_tree(tmp_path, re
         "#!/usr/bin/env python3\n"
         "from pathlib import Path\n"
         "import os, sys\n"
+        "assert (Path(sys.argv[0]).parent / 'gfx.slang').read_text() == 'fixed gfx module\\n'\n"
+        "assert (Path(sys.argv[0]).parent / 'slang.slang').read_text() == 'fixed slang module\\n'\n"
         "# 上游 TestToolUtil::getRootPath 从可执行文件目录逐层向上查找。\n"
         "for root in Path(sys.argv[0]).resolve().parents:\n"
         "    header = root / 'prelude/slang-cpp-prelude.h'\n"
@@ -176,3 +181,16 @@ def test_slang_finds_prelude_from_executable_in_separate_build_tree(tmp_path, re
     assert after == before
     actual = build / "repropatch-fixtures/slang/tests/case.slang.actual"
     assert actual.read_text() == "runtime output"
+
+
+def test_slang_10738_uses_recorded_official_backends():
+    configuration = adapter.recipe(
+        {"org": "shader-slang", "repo": "slang", "instance_id": "shader-slang__slang-10738"}
+    )
+    flags = configuration["configure"]
+    assert "-DCMAKE_CXX_COMPILER=g++-13" in flags
+    assert "-DCMAKE_CXX_STANDARD=23" in flags
+    assert "-DSLANG_ENABLE_DXIL=ON" in flags
+    assert "-DSLANG_ENABLE_DXIL=OFF" not in flags
+    assert "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/slang-10738/libslang-llvm.so" in flags
+    assert configuration["runtime_compiler_directory"] == "/usr/lib/llvm-18/bin"

@@ -90,6 +90,22 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
     repo = record["org"] + "/" + record["repo"]
     if repo not in OPTIONS:
         raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
+    options = list(OPTIONS[repo])
+    runtime = {}
+    if record.get("instance_id") == "shader-slang__slang-10738":
+        # 官方镜像固定 GCC 13、C++23、LLVM 2026.8 与 DXC。
+        if cxx == "clang++-19" and cc == "clang-19":
+            cxx, cc = "g++-13", "gcc-13"
+        replaced = ("-DSLANG_ENABLE_DXIL=", "-DSLANG_SLANG_LLVM_BINARY_URL=")
+        options = [option for option in options if not option.startswith(replaced)]
+        options += [
+            "-DCMAKE_CXX_STANDARD=23",
+            "-DSLANG_ENABLE_DXIL=ON",
+            "-DSLANG_ENABLE_XLIB=OFF",
+            "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/slang-10738/libslang-llvm.so",
+            "-DFETCHCONTENT_SOURCE_DIR_DXC=/opt/cpp-deps/slang-10738/dxc",
+        ]
+        runtime["runtime_compiler_directory"] = "/usr/lib/llvm-18/bin"
     if repo in {"nlohmann/json", "catchorg/Catch2"} and cxx == "clang++-19" and cc == "clang-19":
         # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
         cxx, cc = "g++-11", "gcc-11"
@@ -129,8 +145,9 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
             f"-DCMAKE_CXX_FLAGS_RELEASE=-{optimization} -DNDEBUG",
             f"-DCMAKE_C_FLAGS_RELEASE=-{optimization} -DNDEBUG",
             *compiler_options,
-            *OPTIONS[repo],
+            *options,
         ],
+        **runtime,
         # 原生 gzip 回归单次写入超过 4 GiB；CSV 缓冲增长需要额外峰值空间。
         "memory_mib": 12288 if repo == "duckdb/duckdb" else 8192,
         "build_tmpfs_mib": 4096,
@@ -384,7 +401,9 @@ def make_contract(record, configuration):
         contract["test_arguments"] = slang_test_arguments(record)
         contract["log_stream_policy"] = "slang-terminal-records-v1"
         # 镜像已有 Clang 19；Slang 的下游探测器按 clang++/clang 名称查找。
-        contract["runtime_compiler_directory"] = "/usr/lib/llvm-19/bin"
+        contract["runtime_compiler_directory"] = configuration.get(
+            "runtime_compiler_directory", "/usr/lib/llvm-19/bin"
+        )
     elif mode == "duckdb":
         contract["test_arguments"] = duckdb_test_arguments(record)
     normalized = [canonical_case(mode, name) for name in required]

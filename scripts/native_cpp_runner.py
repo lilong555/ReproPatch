@@ -637,6 +637,12 @@ def native_suite(contract, source, build, selected=None):
                 target = destination / entry.name
                 if not target.exists() and not target.is_symlink():
                     target.symlink_to(entry, target_is_directory=entry.is_dir())
+        # 上游将两个运行时模块放在 slangc 旁，定向构建沿用同一输入布局。
+        for name in ("gfx.slang", "slang.slang"):
+            origin = source / "tools/gfx" / name
+            target = build / "Release/bin" / name
+            if origin.is_file() and not target.exists() and not target.is_symlink():
+                target.symlink_to(origin)
         # 原生编译回归的 .actual 和临时输出沿用相对路径，写入测试输入副本。
         fixtures = build / "repropatch-fixtures/slang"
         fixtures.mkdir(parents=True, exist_ok=True)
