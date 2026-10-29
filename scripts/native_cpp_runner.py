@@ -430,6 +430,9 @@ def native_suite(contract, source, build, selected=None):
         command = [str(build / "test/unittest"), "--test-dir", str(fixtures)]
         if selected:
             command += [",".join(canonical_case(mode, name) for name in selected)]
+        else:
+            # 数据集原生命令显式选择全部用例，包括 Catch 隐藏标签。
+            command += ["*"]
         command += ["--reporter", "junit", "--out", str(xml)]
         environment = {
             **os.environ,

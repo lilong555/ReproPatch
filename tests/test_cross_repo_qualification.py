@@ -185,6 +185,7 @@ def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
         "#!/usr/bin/env python3\nimport os, sys\nfrom pathlib import Path\n"
         f"os.chdir({str(source)!r})\n"
         'os.chdir(sys.argv[sys.argv.index("--test-dir") + 1])\n'
+        'assert "*" in sys.argv\n'
         'directory = Path("duckdb_unittest_tempdir")\n'
         "directory.mkdir(parents=True)\n"
         '(directory / "runtime.txt").write_text("generated")\n'

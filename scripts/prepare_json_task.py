@@ -42,7 +42,9 @@ endif()
 
 def adapt(source):
     """镜像已含固定数据；每个构建节点显式执行自己的配置依赖。"""
-    cmake = source / "cmake/test.cmake"
+    modern = (source / "cmake/test.cmake").is_file()
+    tests = "tests" if modern else "test"
+    cmake = source / ("cmake/test.cmake" if modern else "test/CMakeLists.txt")
     value = cmake.read_text()
     for old, new in (
         (
@@ -58,18 +60,25 @@ def adapt(source):
     needle = "    if (JSON_FastTests)\n"
     if value.count(needle) != 1:
         raise ValueError("JSON_DIAGNOSTICS_TEST_LAYOUT")
+    target = "test_target" if modern else "testcase"
+    diagnostic = "test-diagnostics_cpp11" if modern else "test-diagnostics"
     value = value.replace(
         needle,
-        """    if (test_target STREQUAL "test-diagnostics_cpp11")
-        add_test(NAME ${test_target} COMMAND ${CMAKE_COMMAND}
-            "-DTEST_BINARY=$<TARGET_FILE:${test_target}>"
+        """    if (@TARGET@ STREQUAL "@DIAGNOSTIC@")
+        add_test(NAME ${@TARGET@} COMMAND ${CMAKE_COMMAND}
+            "-DTEST_BINARY=$<TARGET_FILE:${@TARGET@}>"
             "-DSOURCE_DIR=${CMAKE_SOURCE_DIR}"
-            -P "${PROJECT_SOURCE_DIR}/tests/repropatch-diagnostics.cmake")
+            -P "${PROJECT_SOURCE_DIR}/@TESTS@/repropatch-diagnostics.cmake")
     elseif (JSON_FastTests)
-""",
+""".replace("@TARGET@", target)
+        .replace("@DIAGNOSTIC@", diagnostic)
+        .replace("@TESTS@", tests),
     )
+    if not modern:
+        # 诊断回归依赖标准断言；优化级别 O3 保持生效。
+        value += "\ntarget_compile_options(test-diagnostics PRIVATE -UNDEBUG)\n"
     cmake.write_text(value)
-    (source / "tests/repropatch-diagnostics.cmake").write_text(DIAGNOSTICS_ADAPTER)
+    (source / tests / "repropatch-diagnostics.cmake").write_text(DIAGNOSTICS_ADAPTER)
     folders = (
         "cmake_import",
         "cmake_import_minver",
@@ -79,7 +88,10 @@ def adapt(source):
         "cmake_target_include_directories",
     )
     for name in folders:
-        path = source / "tests" / name / "CMakeLists.txt"
+        path = source / tests / name / "CMakeLists.txt"
+        # 旧版原生工程只有一个 FetchContent 测试目录。
+        if name == "cmake_fetch_content2" and not modern and not path.exists():
+            continue
         value = path.read_text()
         compiler_option = "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
         if value.count(compiler_option) != 1:
@@ -100,7 +112,7 @@ def adapt(source):
     "-DSOURCE_DIR=${PROJECT_SOURCE_DIR}"
     "-DCXX=${CMAKE_CXX_COMPILER}"
     "-DGENERATOR=${CMAKE_GENERATOR}"
-    -P "${PROJECT_SOURCE_DIR}/tests/repropatch-cmake-build.cmake"''',
+    -P "${PROJECT_SOURCE_DIR}/@TESTS@/repropatch-cmake-build.cmake"'''.replace("@TESTS@", tests),
         )
         if name.startswith("cmake_fetch_content"):
             needle = "-Dnlohmann_json_source=${PROJECT_SOURCE_DIR}"
@@ -115,7 +127,7 @@ def adapt(source):
                 raise ValueError("JSON_CMAKE_FIXTURE_LAYOUT")
             value = value.replace(needle, prop + ' ""')
         path.write_text(value)
-    (source / "tests/repropatch-cmake-build.cmake").write_text(BUILD_ADAPTER)
+    (source / tests / "repropatch-cmake-build.cmake").write_text(BUILD_ADAPTER)
 
 
 def main():
