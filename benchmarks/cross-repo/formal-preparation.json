@@ -27,7 +27,7 @@
     "complex": 18,
     "compile_control": 2
   },
-  "selection_review_sha256": "c0f70be74e6832878eeda2533edd7a7012613aa0c0fd638752f9a6394ec6a11e",
+  "selection_review_sha256": "3c7b4be0ebe9c7ea93abb84ee00147f1850652171acbb017438cbb8925ed9393",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -1018,6 +1018,13 @@
       "artifact": "cross-evidence-40836845649-nlohmann__json-3109",
       "archive_sha256": "ceb1a443c35e8a9bb13ef481c3545a0b5616e030d80d4669ff3a3aa3b2ecb5c2",
       "source_job_id": 123323862796
+    },
+    {
+      "instance_id": "nlohmann__json-3605",
+      "run_id": 40837402807,
+      "artifact": "cross-evidence-40837402807-nlohmann__json-3605",
+      "source_job_id": 123325685077,
+      "archive_sha256": "0d7eeb3c8dd77a1d2a49239d6df4b2ef8399ab909fbe0bf59db196fecea29ac4"
     }
   ],
   "task_environments": {
@@ -1116,6 +1123,18 @@
       "attempts": 10,
       "request_cap": 240,
       "run_id": 40836518588
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-05.json",
+      "sha256": "650298df6ee031f9d7d1e1e06469f1e32e2844333bcc312aceb00486913716cb",
+      "tasks": [
+        "nlohmann__json-3109"
+      ],
+      "freeze_run_id": 40839190074,
+      "status": "SUBMITTED",
+      "attempts": 5,
+      "request_cap": 120,
+      "run_id": 40839687510
     }
   ],
   "repeat_instances": [

@@ -287,7 +287,7 @@
     "difficulty": "complex",
     "rationale": "全局用户定义字面量在多个隔离命名空间内包含JSON头文件时发生冲突，涉及公开字面量命名空间、兼容宏与双头文件入口。",
     "record_sha256": "60c640d9bf4211f8c3b133227287ee0dcc43d644bd0077118e75c00f6440296b",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3601": {
     "repository": "nlohmann/json",
