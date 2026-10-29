@@ -57,6 +57,9 @@ class NativeExecutor(Executor):
                     "NATIVE_FILESYSTEM_INFRASTRUCTURE_ERROR",
                     "NATIVE_JUNIT_MISSING",
                     "NATIVE_CTEST_NOT_EXECUTED",
+                    "NATIVE_CTEST_IDENTITY_MISSING",
+                    "NATIVE_CMAKE_FILE_API_MISSING",
+                    "NATIVE_CTEST_COMMAND_AMBIGUOUS",
                 )
             ):
                 result["status"] = "TEST_INFRASTRUCTURE_FAILED"

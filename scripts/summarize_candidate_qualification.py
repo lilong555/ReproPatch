@@ -207,7 +207,8 @@ def inspect_verified_archive(path, image_id, actual, temporary):
                     errors.append("MISSING_REQUIRED_EVIDENCE:" + relative)
             if result.get("model_requests") != 0:
                 errors.append("MODEL_REQUESTS_NOT_ZERO")
-            if result.get("backend") != "docker" or result.get("image_id") != image_id:
+            expected_image = image_id[instance] if isinstance(image_id, dict) else image_id
+            if result.get("backend") != "docker" or result.get("image_id") != expected_image:
                 errors.append("DOCKER_IMAGE_MISMATCH")
             if result.get("status") == "QUALIFIED":
                 for relative, key in (
@@ -254,7 +255,13 @@ def summarize(plan, artifacts, *, download_status="success", environment_downloa
             archive_errors.append({"archive": kind, "error": "ARTIFACT_DOWNLOAD_" + status.upper()})
     for archive in sorted(artifacts.glob("*/cross-evidence.tar.gz")):
         try:
-            rows = inspect_archive(archive, plan["image_id"])
+            expected_images = {
+                instance: plan.get("task_environments", {}).get(
+                    instance, {"image_id": plan["image_id"]}
+                )["image_id"]
+                for instance in selected
+            }
+            rows = inspect_archive(archive, expected_images)
         except (
             ValueError,
             KeyError,
@@ -321,6 +328,7 @@ def summarize(plan, artifacts, *, download_status="success", environment_downloa
         "execution_commit": os.environ.get("GITHUB_SHA"),
         "image": plan["image"],
         "image_id": plan["image_id"],
+        "task_environments": plan.get("task_environments", {}),
         "requested": len(selected),
         "qualified": len(qualified),
         "qualified_instances": qualified,

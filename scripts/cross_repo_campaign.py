@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import random
+import re
 import shutil
 import subprocess
 from datetime import datetime
@@ -20,6 +21,13 @@ from repropatch.task import IMAGE_ID, Task
 
 ROOT = Path(__file__).resolve().parents[1]
 ARMS = ["full", "no-checks", "shell-only", "mini", "codex"]
+
+
+def task_environment(protocol, instance):
+    """按题目选择冻结环境，五个实验臂共享同一映射。"""
+    if "task_environments" in protocol:
+        return protocol["task_environments"][instance]
+    return {"image": protocol["image"], "image_id": protocol["image_id"]}
 
 
 def development_selection(results, expected_tasks):
@@ -173,8 +181,14 @@ def validate_protocol(p):
         raise ValueError("CROSS_TASK_ARM_REGISTRY_INCOMPLETE")
     for attempt in attempts:
         allocation_phase(p, attempt)
-    if not IMAGE_ID.fullmatch(p["image_id"]) or "@sha256:" not in p["image"]:
-        raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
+    if "task_environments" in p and set(p["task_environments"]) != set(ids):
+        raise ValueError("CROSS_TASK_ENVIRONMENT_REGISTRY_MISMATCH")
+    for instance in ids:
+        environment = task_environment(p, instance)
+        if not IMAGE_ID.fullmatch(environment["image_id"]) or not re.fullmatch(
+            r"[A-Za-z0-9._:/-]+@sha256:[a-f0-9]{64}", environment["image"]
+        ):
+            raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
     if p["cpa_route"] != "azure-ssh" or p["retries"] != 0 or not p["paid_calls_authorized"]:
         raise ValueError("CROSS_NETWORK_POLICY_MISMATCH")
     ContextPolicy.from_dict(p["context_policy"])
@@ -270,7 +284,8 @@ def prepare(instance, output, arm, p):
     ):
         if sha(directory / file) != identity[field]:
             raise ValueError("CROSS_QUALIFICATION_CONTRACT_MISMATCH")
-    if q["status"] != "QUALIFIED" or q["image_id"] != p["image_id"]:
+    environment = task_environment(p, instance)
+    if q["status"] != "QUALIFIED" or q["image_id"] != environment["image_id"]:
         raise ValueError("CROSS_TASK_IMAGE_MISMATCH")
     task = Task.load(directory / "task.yaml")
     if task.revision != identity["prepared_commit"]:
@@ -302,9 +317,9 @@ def prepare(instance, output, arm, p):
         },
     )
     image = subprocess.check_output(
-        ["docker", "image", "inspect", "--format", "{{.Id}}", p["image"]], text=True
+        ["docker", "image", "inspect", "--format", "{{.Id}}", environment["image"]], text=True
     ).strip()
-    if image != p["image_id"]:
+    if image != environment["image_id"]:
         raise ValueError("CROSS_IMAGE_IDENTITY_MISMATCH")
     dataset = ROOT / ".repropatch/cross-inputs"
     record = next(r for r in load_records(dataset) if r["instance_id"] == instance)

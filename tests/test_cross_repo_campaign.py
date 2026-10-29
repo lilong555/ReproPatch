@@ -159,3 +159,30 @@ def test_cpa_parallel_limit_and_retained_development_attempts(monkeypatch):
     protocol["max_parallel"] = 4
     with pytest.raises(ValueError, match="BUDGET_CONFIGURATION_MISMATCH"):
         campaign.validate_protocol(protocol)
+
+
+def test_five_arms_share_task_environment_with_distinct_repository_images(monkeypatch):
+    import json
+
+    path = (
+        Path(__file__).resolve().parents[1] / "benchmarks/cross-repo/development-protocol-v2.json"
+    )
+    protocol = json.loads(path.read_text())
+    monkeypatch.setattr(campaign, "execution_fingerprint", lambda: protocol["execution_sha256"])
+    protocol["task_environments"] = {
+        task: {
+            "image": f"ghcr.io/example/project@sha256:{index + 1:064x}",
+            "image_id": f"sha256:{index + 10:064x}",
+        }
+        for index, task in enumerate(protocol["tasks"])
+    }
+    campaign.validate_protocol(protocol)
+    for attempt in protocol["attempts"]:
+        assert (
+            campaign.task_environment(protocol, attempt["instance_id"])
+            == (protocol["task_environments"][attempt["instance_id"]])
+        )
+    first = protocol["tasks"][0]
+    protocol["task_environments"].pop(first)
+    with pytest.raises(ValueError, match="TASK_ENVIRONMENT_REGISTRY_MISMATCH"):
+        campaign.validate_protocol(protocol)

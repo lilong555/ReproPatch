@@ -93,6 +93,9 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
     if repo in {"nlohmann/json", "catchorg/Catch2"} and cxx == "clang++-19" and cc == "clang-19":
         # 固定历史测试的编译器，嵌套 CMake 用例沿用同一标准库。
         cxx, cc = "g++-11", "gcc-11"
+    if repo == "stephenberry/glaze" and cxx == "clang++-19" and cc == "clang-19":
+        # 官方清单包含两个仅在 GNU 编译器下注册的安装测试。
+        cxx, cc = "g++-14", "gcc-14"
     compiler_options = []
     if repo == "catchorg/Catch2":
         # 审批报告沿用源码相对路径，输入副本的位置保持独立。

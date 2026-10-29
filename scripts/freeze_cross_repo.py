@@ -12,6 +12,7 @@ from cross_repo_campaign import (
     execution_fingerprint,
     execution_order,
     selection_review,
+    task_environment,
     validate_protocol,
 )
 from qualify_cpp_batch import save, sha
@@ -32,6 +33,23 @@ def freeze(args):
         raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
     identities = {}
     selected = args.instances.split(",")
+    environments = {}
+    if getattr(args, "task_environments", None):
+        environments = json.loads(args.task_environments.read_text())
+        if set(environments) != set(selected):
+            raise ValueError("CROSS_TASK_ENVIRONMENT_REGISTRY_MISMATCH")
+    elif args.phase == "formal":
+        preparation = json.loads(
+            (ROOT / "benchmarks/cross-repo/formal-preparation.json").read_text()
+        )
+        environments = preparation.get("task_environments", {})
+    elif args.phase == "repeat" and args.formal_protocol:
+        formal = json.loads(args.formal_protocol.read_text())
+        environments = {instance: task_environment(formal, instance) for instance in selected}
+    environments = {
+        instance: environments.get(instance, {"image": args.image, "image_id": args.image_id})
+        for instance in selected
+    }
     gate = None
     history = history_index() if args.phase == "formal" else None
     existing = [
@@ -70,7 +88,11 @@ def freeze(args):
     for instance in selected:
         directory = args.qualification / instance
         q = json.loads((directory / "result.json").read_text())
-        if q["status"] != "QUALIFIED" or q["backend"] != "docker" or q["image_id"] != args.image_id:
+        if (
+            q["status"] != "QUALIFIED"
+            or q["backend"] != "docker"
+            or q["image_id"] != environments[instance]["image_id"]
+        ):
             raise ValueError("CROSS_QUALIFICATION_IMAGE_MISMATCH")
         issues = verify_tree(
             directory,
@@ -192,6 +214,8 @@ def freeze(args):
         "qualification_contracts": identities,
         "image": args.image,
         "image_id": args.image_id,
+        "environment_policy": "per-task-native-v1",
+        "task_environments": environments,
         "qualification_run_ids": args.qualification_run,
         "qualification_archives": archives,
         "network_calibration": {
@@ -225,7 +249,9 @@ def freeze(args):
             raise ValueError("CROSS_FORMAL_PROTOCOL_REQUIRED")
         formal = json.loads(args.formal_protocol.read_text())
         validate_protocol(formal)
-        if set(selected) != set(formal["repeat_tasks"]) or args.image_id != formal["image_id"]:
+        if set(selected) != set(formal["repeat_tasks"]) or any(
+            environments[instance] != task_environment(formal, instance) for instance in selected
+        ):
             raise ValueError("CROSS_REPEAT_PREREGISTRATION_MISMATCH")
         value["formal_protocol_sha256"] = sha(args.formal_protocol)
         value["formal_repeat_tasks"] = formal["repeat_tasks"]
@@ -247,6 +273,7 @@ def main():
     parser.add_argument("--qualification-run", type=int, action="append", required=True)
     parser.add_argument("--image", required=True)
     parser.add_argument("--image-id", required=True)
+    parser.add_argument("--task-environments", type=Path)
     parser.add_argument("--ci-run", type=int, required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--output", type=Path, required=True)
