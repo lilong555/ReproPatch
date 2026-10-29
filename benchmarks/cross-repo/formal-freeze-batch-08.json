@@ -4,7 +4,9 @@
   "batch_key": "batch-08",
   "instances": [
     "catchorg__Catch2-1608",
-    "fmtlib__fmt-3824"
+    "fmtlib__fmt-3824",
+    "fmtlib__fmt-3555",
+    "fmtlib__fmt-3569"
   ],
   "repeat_instances": [
     "nlohmann__json-3543",
@@ -31,6 +33,20 @@
       "artifact": "cross-evidence-40849741023-fmtlib__fmt-3824",
       "source_job_id": 123366428649,
       "archive_sha256": "b287861b7703219528b05de966983cd18d5acaa2d28ee49215fde33c0a7b7ae2"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3555",
+      "run_id": 40851153655,
+      "artifact": "cross-evidence-40851153655-fmtlib__fmt-3555",
+      "source_job_id": 123371046221,
+      "archive_sha256": "2f441e16502fce1c931098c676bb4d4aa174751345af9741d1cd50da94f52161"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3569",
+      "run_id": 40851153655,
+      "artifact": "cross-evidence-40851153655-fmtlib__fmt-3569",
+      "source_job_id": 123371046297,
+      "archive_sha256": "19d2a04b1b4feb83c75d77733c39b800f6f733a686b85fce649df3649b09a99f"
     }
   ]
 }

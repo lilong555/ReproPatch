@@ -289,7 +289,7 @@
     "difficulty": "medium",
     "rationale": "fmt::to_string未沿用format_as转换，涉及枚举、字符串视图和自定义结构体的格式化分派。",
     "record_sha256": "6b510bc41d2f217b7a5125d4549a258999ee654b45b2159e1010fe3b17085cfe",
-    "qualification_status": "PENDING",
+    "qualification_status": "QUALIFIED",
     "replaces": "shader-slang__slang-10664"
   },
   "fmtlib__fmt-3569": {
@@ -300,7 +300,7 @@
     "difficulty": "compile_control",
     "rationale": "std::vector<bool>元素使用代理引用，格式化接口需要正确处理代理类型与布尔值。",
     "record_sha256": "7a67b506335e4cd0bbde31da170065e912c659b68b0380f5350c3b253f69230c",
-    "qualification_status": "PENDING",
+    "qualification_status": "QUALIFIED",
     "replaces": "shader-slang__slang-10738"
   }
 }

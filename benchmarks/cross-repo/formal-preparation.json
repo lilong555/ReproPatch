@@ -1,7 +1,7 @@
 {
   "schema": "repropatch.cross-repository-preparation.v1",
   "batch_id": "cross-repository-formal-preparation-20261028",
-  "status": "FORMAL_AND_QUALIFICATION_IN_PROGRESS",
+  "status": "QUALIFIED_FORMAL_SUBMISSION_IN_PROGRESS",
   "model_requests": 0,
   "qualification_policy": "baseline-native-v1",
   "model_request_max_parallel": 3,
@@ -28,7 +28,7 @@
     "complex": 15,
     "compile_control": 3
   },
-  "selection_review_sha256": "5b908889e5a5914c2be7b108258ca8cdb7c7356b06ae990b2b3cfe4c7d02fd10",
+  "selection_review_sha256": "95c4c44c4593f9db7843efb8a944837827f90c6c2c696ab9f52d8f87057bfdb1",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -127,7 +127,8 @@
     40843134481,
     40844783303,
     40847057145,
-    40849741023
+    40849741023,
+    40851153655
   ],
   "discarded_candidates": [
     {
@@ -1193,6 +1194,20 @@
       "artifact": "cross-evidence-40849741023-fmtlib__fmt-3824",
       "source_job_id": 123366428649,
       "archive_sha256": "b287861b7703219528b05de966983cd18d5acaa2d28ee49215fde33c0a7b7ae2"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3555",
+      "run_id": 40851153655,
+      "artifact": "cross-evidence-40851153655-fmtlib__fmt-3555",
+      "source_job_id": 123371046221,
+      "archive_sha256": "2f441e16502fce1c931098c676bb4d4aa174751345af9741d1cd50da94f52161"
+    },
+    {
+      "instance_id": "fmtlib__fmt-3569",
+      "run_id": 40851153655,
+      "artifact": "cross-evidence-40851153655-fmtlib__fmt-3569",
+      "source_job_id": 123371046297,
+      "archive_sha256": "19d2a04b1b4feb83c75d77733c39b800f6f733a686b85fce649df3649b09a99f"
     }
   ],
   "task_environments": {
