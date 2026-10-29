@@ -218,19 +218,8 @@ def make_contract(record, configuration):
         "official_test_paths": patch_paths(record["test_patch"])[0],
     }
     if mode == "slang":
-        contract["test_arguments"] = [
-            "-use-test-server",
-            "-server-count",
-            "2",
-            "-category",
-            "full",
-            "-expected-failure-list",
-            "tests/expected-failure-github.txt",
-            "-expected-failure-list",
-            "tests/expected-failure-no-gpu.txt",
-            "-skip-reference-image-generation",
-            "-v",
-        ]
+        # 原生数据集使用直接执行与 xUnit 输出，冻结解析器读取相同格式。
+        contract["test_arguments"] = ["-xunit", "-v"]
     normalized = [canonical_case(mode, name) for name in required]
     if len(set(normalized)) != len(normalized):
         raise ValueError("NATIVE_TEST_ALIAS_CONFLICT")
