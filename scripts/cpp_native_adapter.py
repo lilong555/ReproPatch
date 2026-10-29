@@ -106,6 +106,8 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         raise ValueError("NATIVE_REPOSITORY_ADAPTER_REQUIRED")
     options = list(OPTIONS[repo])
     runtime = {}
+    if record.get("instance_id") == "simdjson__simdjson-644":
+        options.append("-DENABLE_FUZZING=OFF")
     if record.get("instance_id") == "duckdb__duckdb-23422":
         # 官方任务采用 GCC 13 与 C++23；完整套件预留 14 GiB 容器内存。
         if cxx == "clang++-19" and cc == "clang-19":
@@ -264,6 +266,9 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
             }
         ]
     if repository != "simdjson/simdjson":
+        return []
+    if record.get("instance_id") == "simdjson__simdjson-644":
+        # 此版本的六个原生测试直接使用仓库内数据。
         return []
     from prepare_simdjson_task import adapt_environment, adapt_individual_ctest
 

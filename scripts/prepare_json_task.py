@@ -54,12 +54,11 @@ def adapt(source):
         ('LABELS "all" FIXTURES_REQUIRED TEST_DATA', 'LABELS "all" FIXTURES_REQUIRED ""'),
         ('LABELS "valgrind" FIXTURES_REQUIRED TEST_DATA', 'LABELS "valgrind" FIXTURES_REQUIRED ""'),
     ):
-        if value.count(old) > 1:
-            raise ValueError("JSON_DATA_FIXTURE_LAYOUT")
+        # 部分版本分别为 C++11 与 C++17 注册相同的数据依赖。
         value = value.replace(old, new)
     if "FIXTURES_REQUIRED TEST_DATA" in value or "FIXTURES_SETUP TEST_DATA" in value:
         raise ValueError("JSON_DATA_FIXTURE_LAYOUT")
-    needle = "    if (JSON_FastTests)\n"
+    needle = "\n    if (JSON_FastTests)\n"
     if (source / tests / "src/unit-diagnostics.cpp").is_file():
         if value.count(needle) != 1:
             raise ValueError("JSON_DIAGNOSTICS_TEST_LAYOUT")
@@ -67,7 +66,8 @@ def adapt(source):
         diagnostic = "test-diagnostics_cpp11" if modern else "test-diagnostics"
         value = value.replace(
             needle,
-            """    if (@TARGET@ STREQUAL "@DIAGNOSTIC@")
+            """
+    if (@TARGET@ STREQUAL "@DIAGNOSTIC@")
         add_test(NAME ${@TARGET@} COMMAND ${CMAKE_COMMAND}
             "-DTEST_BINARY=$<TARGET_FILE:${@TARGET@}>"
             "-DSOURCE_DIR=${CMAKE_SOURCE_DIR}"
