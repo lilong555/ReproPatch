@@ -10,39 +10,39 @@
   "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
   "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
-  "new_repository_tasks": 25,
-  "existing_repository_new_tasks": 5,
+  "new_repository_tasks": 12,
+  "existing_repository_new_tasks": 18,
   "repository_counts": {
-    "duckdb/duckdb": 13,
+    "nlohmann/json": 16,
     "stephenberry/glaze": 1,
     "shader-slang/slang": 7,
     "open-source-parsers/jsoncpp": 1,
-    "nlohmann/json": 4,
     "catchorg/Catch2": 1,
     "KhronosGroup/glslang": 1,
     "rui314/mold": 1,
-    "actor-framework/actor-framework": 1
+    "actor-framework/actor-framework": 1,
+    "simdjson/simdjson": 1
   },
   "difficulty_counts": {
-    "complex": 19,
-    "medium": 9,
+    "medium": 12,
+    "complex": 16,
     "compile_control": 2
   },
-  "selection_review_sha256": "2cbd2ce54568473de4dca371873aee49d0b07da834739e815c49d99b1f91421f",
+  "selection_review_sha256": "f82566969acc96e253130fe462ea277ed3ba5f09e4d1c75f510b2152923fb0ea",
   "instances": [
-    "duckdb__duckdb-24105",
-    "duckdb__duckdb-24181",
-    "duckdb__duckdb-23280",
-    "duckdb__duckdb-23491",
-    "duckdb__duckdb-23634",
+    "nlohmann__json-4512",
+    "nlohmann__json-3543",
+    "nlohmann__json-3523",
+    "nlohmann__json-3446",
+    "nlohmann__json-3332",
     "stephenberry__glaze-2611",
-    "duckdb__duckdb-23569",
-    "duckdb__duckdb-23413",
-    "duckdb__duckdb-23615",
-    "duckdb__duckdb-23604",
-    "duckdb__duckdb-23637",
-    "duckdb__duckdb-24318",
-    "duckdb__duckdb-24011",
+    "nlohmann__json-3073",
+    "nlohmann__json-2332",
+    "nlohmann__json-1446",
+    "nlohmann__json-2319",
+    "nlohmann__json-1555",
+    "nlohmann__json-1343",
+    "nlohmann__json-1303",
     "shader-slang__slang-10856",
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
@@ -58,25 +58,25 @@
     "KhronosGroup__glslang-4006",
     "rui314__mold-1546",
     "actor-framework__actor-framework-2300",
-    "duckdb__duckdb-23422",
+    "simdjson__simdjson-644",
     "nlohmann__json-2866"
   ],
   "development_run_id": 40683926397,
   "formal_freeze": "完整 Docker 资格与开发冷评分齐备后冻结独立正式协议",
   "qualification_order": [
-    "duckdb__duckdb-24105",
-    "duckdb__duckdb-24181",
-    "duckdb__duckdb-23280",
-    "duckdb__duckdb-23491",
-    "duckdb__duckdb-23634",
+    "nlohmann__json-4512",
+    "nlohmann__json-3543",
+    "nlohmann__json-3523",
+    "nlohmann__json-3446",
+    "nlohmann__json-3332",
     "stephenberry__glaze-2611",
-    "duckdb__duckdb-23569",
-    "duckdb__duckdb-23413",
-    "duckdb__duckdb-23615",
-    "duckdb__duckdb-23604",
-    "duckdb__duckdb-23637",
-    "duckdb__duckdb-24318",
-    "duckdb__duckdb-24011",
+    "nlohmann__json-3073",
+    "nlohmann__json-2332",
+    "nlohmann__json-1446",
+    "nlohmann__json-2319",
+    "nlohmann__json-1555",
+    "nlohmann__json-1343",
+    "nlohmann__json-1303",
     "shader-slang__slang-10856",
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
@@ -92,14 +92,20 @@
     "KhronosGroup__glslang-4006",
     "rui314__mold-1546",
     "actor-framework__actor-framework-2300",
-    "duckdb__duckdb-23422",
+    "simdjson__simdjson-644",
     "nlohmann__json-2866"
   ],
   "qualification_runs": [
     40811143058,
     40811421175,
     40812460785,
-    40812920106
+    40812920106,
+    40813177622,
+    40816901774,
+    40820305740,
+    40820556504,
+    40822271118,
+    40823077354
   ],
   "discarded_candidates": [
     {
@@ -165,6 +171,255 @@
         "declared_role": "F2P",
         "observed_state": "passed"
       }
+    },
+    {
+      "instance_id": "duckdb__duckdb-24105",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-4512",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "24103",
+        "difficulty": "complex",
+        "rationale": "只读数据库的 WAL 重放写入索引块，需要定位恢复、存储与索引持久化路径。",
+        "record_sha256": "b7f4854cc31b9081a7c00e637bb92c10de1d4bab74d487d5d9e1aa455de36a07"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-24181",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-3543",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "24180",
+        "difficulty": "complex",
+        "rationale": "NULL 相关更新产生错误查询结果，涉及列存储更新与有效性信息。",
+        "record_sha256": "b21bdcb5a368b7d2c346c0a2e54f7912b83be64b636d182c3bd8674968a92aac"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23280",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-3523",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23274",
+        "difficulty": "complex",
+        "rationale": "含 VARIANT 字段的 STRUCT 插入失败，需要协调嵌套类型与转换路径。",
+        "record_sha256": "9baff3be1c144610b74668c85a6a8a7b6fda317654ae0dd1e3dcd8d2f7c2a812"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23491",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-3446",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23448",
+        "difficulty": "complex",
+        "rationale": "带 DISTINCT 和 ORDER BY 的窗口 LIST 聚合返回错误结果。",
+        "record_sha256": "6420f8dbd50d9b316155eb8c605808e0481361a2f6c23bc430b104a115315117"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23634",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-3332",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23633",
+        "difficulty": "complex",
+        "rationale": "字符串总长度统计错误，影响字典压缩分析与统计写入。",
+        "record_sha256": "d4bca520fa2a28d8401b7db169fb56d5a9badfa7b125e6ad06d9eb7527cbeb20"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23569",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-3073",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23443",
+        "difficulty": "complex",
+        "rationale": "继承的命名窗口解析失败，需要恢复窗口作用域与引用关系。",
+        "record_sha256": "b81e88bfae72f1b83300b228e2d9823cb984d87fab24d709cc49eb61c58a82b7"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23413",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-2332",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23367",
+        "difficulty": "complex",
+        "rationale": "公共子表达式优化合并易变函数调用，改变聚合和窗口结果。",
+        "record_sha256": "e7f472f2bf6781d2b52e3e821f8ac1b3a3aeeeb0e7cd227654fcb4f56bf4b50b"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23615",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-1446",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23614",
+        "difficulty": "complex",
+        "rationale": "length 的统计传播导致行组裁剪错误，涉及表达式与优化器统计。",
+        "record_sha256": "d6206b7dd95108ca3934e5b8b5b21c626e555c713eb4b7315b3e07427a470a47"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23604",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-2319",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23603",
+        "difficulty": "complex",
+        "rationale": "前缀查询的行组裁剪错误，需要协调过滤转换和字符串范围。",
+        "record_sha256": "9a01c13bf0fa26671a00993aaa730daa4ad8cbfcba1ce72248237223567386a1"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23637",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-1555",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23589",
+        "difficulty": "medium",
+        "rationale": "反向 ROWS 窗口的 COUNT 返回负数，需要修复窗口边界计数。",
+        "record_sha256": "ec382ccb18b75f4cabeb571005f8b3f7184d9e313b274b681d9fce3678f40745"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-24318",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-1343",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "24309",
+        "difficulty": "medium",
+        "rationale": "Hive 分区字符串 NULL 在往返转换后变为 SQL NULL。",
+        "record_sha256": "3034569de76bbe88d44446447370dc3061fe45d4a988a2cf0dea1daf3a9eca4f"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-24011",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774
+      ],
+      "replacement_instance": "nlohmann__json-1303",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "24010",
+        "difficulty": "medium",
+        "rationale": "BETWEEN 相等边界的 Parquet 行组裁剪错误。",
+        "record_sha256": "29c28a49b7f8e61835c7e96b7b50d688846578ccd9e34b4ac320af505798d82e"
+      }
+    },
+    {
+      "instance_id": "duckdb__duckdb-23422",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "O3 冷构建与原生测试资源开销较高，本批采用较轻的跨仓库候选。",
+      "source_runs": [
+        40816901774,
+        40822271118
+      ],
+      "replacement_instance": "simdjson__simdjson-644",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "duckdb/duckdb",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "23370",
+        "difficulty": "medium",
+        "rationale": "正则替换字符串的非法反向引用与转义验证缺失，产生错误输出",
+        "record_sha256": "8fb2c2f995fc946f46bbc8610e49e1b4f9d1783d329815650093ea27a8028dd2"
+      },
+      "last_run_conclusion": "cancelled"
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -226,6 +481,189 @@
         "observed_state": "passed"
       },
       "required_gate": "声明 F2P 在基线失败、全部 P2P 通过，完整 C++ 参考补丁经独立原生冷 Oracle 通过后才可进入正式实验。"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-24105",
+      "replacement_instance": "nlohmann__json-4512",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "c6cc5a454e9d3aa6a30498c412aa3238f5e79dc0c22fa38a514c4d5f7d5315cc",
+      "replacement_base_commit": "ee32bfc1c263900d5c31cf8a8c5429048719e42a"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-24181",
+      "replacement_instance": "nlohmann__json-3543",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "a21c202b9322b653200b9990e64905e48e7fe5ccb32e973786fd585ec68a5084",
+      "replacement_base_commit": "f6acdbec2c99670cf932d83cd797f08662e0b564"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23280",
+      "replacement_instance": "nlohmann__json-3523",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "edc63a7eee2176b32d2ef9adacb599bd418c8560ee2b1cd773ff7cf9ae7c3612",
+      "replacement_base_commit": "b6d00d18974358ab1d55dcc3379d0ee3052deb4e"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23491",
+      "replacement_instance": "nlohmann__json-3446",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "bb05739d018d06b8a2f5421f34807caa4df280f1d4555128913f2cc076cc952f",
+      "replacement_base_commit": "ede66678580596028bcd6e18871a35a54bac01d7"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23634",
+      "replacement_instance": "nlohmann__json-3332",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "7ed526146b45d26fbe49e93138cdc606ceb23516bffad108eadf0363034e82db",
+      "replacement_base_commit": "d8a63291cbe50411a2c513d06f3ae7c8c1a43c33"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23569",
+      "replacement_instance": "nlohmann__json-3073",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "fe95287305a491ccb8bfb0ddbf5de1b0ed665f1b9576b3738e89dacecf8dd589",
+      "replacement_base_commit": "4b1cb9eee129632abc4fa684688691568e26c9e9"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23413",
+      "replacement_instance": "nlohmann__json-2332",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "a1112b7599683b51b4f2cecd3c661261a414c174588a933545936e89949f69b9",
+      "replacement_base_commit": "1da931730a73365a5a817c8571d36c9ef024dd57"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23615",
+      "replacement_instance": "nlohmann__json-1446",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "53bd594d70bde9da87190a2e287163bfe5fb714246f3d66db6686ab58a6db0e2",
+      "replacement_base_commit": "dffae1082f01c083bc762ff21f57d7a8546f8c82"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23604",
+      "replacement_instance": "nlohmann__json-2319",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
+      "replacement_base_commit": "1b8efed06f04a0b2ff612d55263c0496b527c00d"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23637",
+      "replacement_instance": "nlohmann__json-1555",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "82d9bf8ca3fb884c935af75bba76047709cb02af271304bacf53877d47aacda1",
+      "replacement_base_commit": "b21c04c93893bb8e277eaff9d54cfe28bc6ca131"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-24318",
+      "replacement_instance": "nlohmann__json-1343",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "04e5be39c46c395301937e52f72ee3033fd83c65ce5454539557e6935609bf62",
+      "replacement_base_commit": "d2e6e1bf5852d9c8f2470c7c99eb6e600bb79138"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-24011",
+      "replacement_instance": "nlohmann__json-1303",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "1a3a7ddb31cc33727cf0fb0c98c798d5fd57be4df3219cb6b0a905885c5fd462",
+      "replacement_base_commit": "dd672939a0dcbe50afafb91c430a882aff4bcf20"
+    },
+    {
+      "previous_instance": "duckdb__duckdb-23422",
+      "replacement_instance": "simdjson__simdjson-644",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "资源可行性筛选",
+      "replacement_record_sha256": "941a845898e32a9aee09b73ac918f1672b6512911d6fcdcdaa464d12bc38346e",
+      "replacement_base_commit": "d4f4608dab2c70ceed233b818e1563581bc415a7"
+    }
+  ],
+  "selection_policy": "resource-feasible-cross-repository-v1",
+  "qualified_sources": [
+    {
+      "instance_id": "nlohmann__json-3008",
+      "run_id": 40811143058,
+      "artifact": "cross-evidence-40811143058-nlohmann__json-3008",
+      "archive_sha256": "20e7628b13a6168ca69acc5e3b7eb9b7bd7f035688b344ed2bda86e54680e396",
+      "result_sha256": "fa9782d453f13436e29bed9de51381bb289be0442f9f30cc4f16e97e27fda255"
+    },
+    {
+      "instance_id": "nlohmann__json-2866",
+      "run_id": 40811421175,
+      "artifact": "cross-evidence-40811421175-nlohmann__json-2866",
+      "archive_sha256": "2d56ae6be2638bc659ad837d3cee78fc1ec22b15cc5ea07b0d83634af9ca87e7",
+      "result_sha256": "4cab43ec050cd1b4311f26615f620d3fd62253877bada7df29af328c926bb8b8"
+    },
+    {
+      "instance_id": "open-source-parsers__jsoncpp-1693",
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-open-source-parsers__jsoncpp-1693",
+      "archive_sha256": "4200154d9b12ba417ac6b57a4f5909174c351223d008a893c98c08f81a61acbb",
+      "result_sha256": "9b008a54454b8b9011672046cec1db6816b809d536de893c98142039d10cecd3"
+    },
+    {
+      "instance_id": "catchorg__Catch2-2128",
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-catchorg__Catch2-2128",
+      "archive_sha256": "2935943d417a0ce10e5c37cadd93ab51db1a3adb4d8a7d7775fb838213b7d2b6",
+      "result_sha256": "2e34912b6126b7a125cfe5afd024b81b5bdc85dda5ffc7fc58febad267c3205d"
+    },
+    {
+      "instance_id": "nlohmann__json-3037",
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-nlohmann__json-3037",
+      "archive_sha256": "fdb2f7558e68e16a99b1f323cfbf4f0c37c3d34c5c552fffba29e599361aaf0e",
+      "result_sha256": "c8d89369d30728c0f9c21e7f67a6d228236855e362b0552ed9a06cd1ed52298e"
+    },
+    {
+      "instance_id": "nlohmann__json-2963",
+      "run_id": 40813177622,
+      "artifact": "cross-evidence-40813177622-nlohmann__json-2963",
+      "archive_sha256": "5a493380cb5a9d4a1a1ed0f0db366f977a0796666397132eb10baf875f744288",
+      "result_sha256": "39a50ac75aa5ef94edb83747fca696e86876a095fd6ebd08bc315a50d015c187"
+    },
+    {
+      "instance_id": "actor-framework__actor-framework-2300",
+      "run_id": 40816901774,
+      "artifact": "cross-evidence-40816901774-actor-framework__actor-framework-2300",
+      "archive_sha256": "d356289255cfa9a4fd8ca8363d393f28fac4d1c371b92e2483044fcc1a4f85c5",
+      "result_sha256": "4f0dd0089515936435d6df4f23ac13dc644e29722bb88a210644d63471b24076"
+    },
+    {
+      "instance_id": "KhronosGroup__glslang-4006",
+      "run_id": 40816901774,
+      "artifact": "cross-evidence-40816901774-KhronosGroup__glslang-4006",
+      "archive_sha256": "1d2531314effddc58453448a18839ec1ea2c07f30e4a39c8b29551c3cee2c979",
+      "result_sha256": "b961e884ba37841f1cae34b71478f017ea473b68cc21e6e772054e2acd026607"
+    },
+    {
+      "instance_id": "stephenberry__glaze-2611",
+      "run_id": 40820305740,
+      "artifact": "cross-evidence-40820305740-stephenberry__glaze-2611",
+      "archive_sha256": "fefe81ad0d65b3b3827dd71a05068c2852c8767c43301e70c3fd6ef161b7e862",
+      "result_sha256": "1dd7362138d38a8aaf7ed172e0bb2bb53f0e0db2f0fd3f07470b32b51a0bad45"
     }
   ]
 }

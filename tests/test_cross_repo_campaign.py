@@ -81,6 +81,24 @@ def test_formal_selection_requires_cross_repo_quotas_and_distinct_defects():
     }
     selection = campaign.selection_review(review, ids, development, ["old/repo"])
     assert selection["new_repository_tasks"] == 25
+    # 资源筛选后的配额来自冻结登记，默认配额与仓库覆盖门槛继续生效。
+    existing = ["old/repo", "new0/repo"]
+    with pytest.raises(ValueError, match="QUOTA_MISMATCH"):
+        campaign.selection_review(review, ids, development, existing)
+    with pytest.raises(ValueError, match="COVERAGE_REQUIRED"):
+        campaign.selection_review(review, ids, development, existing, new_repository_tasks=20)
+    selected = ids[:-1] + ["new5__repo-99"]
+    adjusted = {task: row for task, row in review.items() if task != ids[-1]}
+    adjusted[selected[-1]] = {
+        **review[ids[-1]],
+        "repository": "new5/repo",
+        "issue_key": "99",
+    }
+    selection = campaign.selection_review(
+        adjusted, selected, development, existing, new_repository_tasks=21
+    )
+    assert selection["new_repository_tasks"] == 21
+    assert selection["existing_repository_new_tasks"] == 9
     review[ids[5]]["issue_key"] = review[ids[0]]["issue_key"]
     with pytest.raises(ValueError, match="SEMANTIC_DUPLICATE"):
         campaign.selection_review(review, ids, development, ["old/repo"])

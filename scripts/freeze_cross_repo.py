@@ -75,6 +75,7 @@ def freeze(args):
         preparation = json.loads(
             (ROOT / "benchmarks/cross-repo/formal-preparation.json").read_text()
         )
+        new_repository_tasks = 25
         if preparation.get("difficulty_policy") == "qualification-feasible-cross-repository-v1":
             if set(preparation["instances"]) != set(selected) or preparation[
                 "selection_review_sha256"
@@ -83,7 +84,11 @@ def freeze(args):
             development["recommended_difficulty_counts"] = development["difficulty_counts"]
             development["difficulty_counts"] = preparation["difficulty_counts"]
             development["difficulty_policy"] = preparation["difficulty_policy"]
-        quota = selection_review(review, selected, development, existing)
+            if preparation.get("selection_policy") == "resource-feasible-cross-repository-v1":
+                new_repository_tasks = preparation["new_repository_tasks"]
+        quota = selection_review(
+            review, selected, development, existing, new_repository_tasks=new_repository_tasks
+        )
         gate = {"development": development, "review": review, **quota}
     for instance in selected:
         directory = args.qualification / instance

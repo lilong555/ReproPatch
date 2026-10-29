@@ -1,48 +1,53 @@
 {
-  "duckdb__duckdb-24105": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-4512": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "24103",
-    "difficulty": "complex",
-    "rationale": "只读数据库的 WAL 重放写入索引块，需要定位恢复、存储与索引持久化路径。",
-    "record_sha256": "b7f4854cc31b9081a7c00e637bb92c10de1d4bab74d487d5d9e1aa455de36a07"
+    "issue_key": "4493",
+    "difficulty": "medium",
+    "rationale": "默认构造迭代器在比较时触发断言，涉及迭代器状态与比较语义。",
+    "record_sha256": "c6cc5a454e9d3aa6a30498c412aa3238f5e79dc0c22fa38a514c4d5f7d5315cc",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-24181": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-3543": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "24180",
-    "difficulty": "complex",
-    "rationale": "NULL 相关更新产生错误查询结果，涉及列存储更新与有效性信息。",
-    "record_sha256": "b21bdcb5a368b7d2c346c0a2e54f7912b83be64b636d182c3bd8674968a92aac"
+    "issue_key": "3541",
+    "difficulty": "medium",
+    "rationale": "BJData 非法输入触发数组状态断言，涉及二进制解析边界。",
+    "record_sha256": "a21c202b9322b653200b9990e64905e48e7fe5ccb32e973786fd585ec68a5084",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-23280": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-3523": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23274",
+    "issue_key": "3519",
     "difficulty": "complex",
-    "rationale": "含 VARIANT 字段的 STRUCT 插入失败，需要协调嵌套类型与转换路径。",
-    "record_sha256": "9baff3be1c144610b74668c85a6a8a7b6fda317654ae0dd1e3dcd8d2f7c2a812"
+    "rationale": "BJData 往返转换错误，涉及数组维度、长度及数值类型处理。",
+    "record_sha256": "edc63a7eee2176b32d2ef9adacb599bd418c8560ee2b1cd773ff7cf9ae7c3612",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-23491": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-3446": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23448",
+    "issue_key": "3409",
     "difficulty": "complex",
-    "rationale": "带 DISTINCT 和 ORDER BY 的窗口 LIST 聚合返回错误结果。",
-    "record_sha256": "6420f8dbd50d9b316155eb8c605808e0481361a2f6c23bc430b104a115315117"
+    "rationale": "NaN 比较与浮点语义不一致，涉及比较运算、丢弃值与多种模板接口。",
+    "record_sha256": "bb05739d018d06b8a2f5421f34807caa4df280f1d4555128913f2cc076cc952f",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-23634": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-3332": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23633",
-    "difficulty": "complex",
-    "rationale": "字符串总长度统计错误，影响字典压缩分析与统计写入。",
-    "record_sha256": "d4bca520fa2a28d8401b7db169fb56d5a9badfa7b125e6ad06d9eb7527cbeb20"
+    "issue_key": "3331",
+    "difficulty": "medium",
+    "rationale": "迭代器后置自增改变 const 属性，破坏标准迭代器概念要求。",
+    "record_sha256": "7ed526146b45d26fbe49e93138cdc606ceb23516bffad108eadf0363034e82db",
+    "qualification_status": "PENDING"
   },
   "stephenberry__glaze-2611": {
     "repository": "stephenberry/glaze",
@@ -52,71 +57,78 @@
     "difficulty": "complex",
     "rationale": "输入流解析在跳过未知字段时未补充缓冲区，错误返回 unexpected_end，涉及流式缓冲与 JSON 值跳过逻辑；一项 F2P 与 88 项 P2P、完整 C++ 参考修复及原生合同已静态复核，补齐 Asio 所需声明后仍须通过 Docker 基线与独立冷 Oracle 资格验收。",
     "record_sha256": "488ce11a488a9bcd44d3b0048e100d2c83e463b1b0437b80822d4a898d5b1193",
-    "qualification_status": "PENDING",
+    "qualification_status": "QUALIFIED",
     "replaces": "duckdb__duckdb-24211"
   },
-  "duckdb__duckdb-23569": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-3073": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23443",
+    "issue_key": "3070",
     "difficulty": "complex",
-    "rationale": "继承的命名窗口解析失败，需要恢复窗口作用域与引用关系。",
-    "record_sha256": "b81e88bfae72f1b83300b228e2d9823cb984d87fab24d709cc49eb61c58a82b7"
+    "rationale": "泛型类型转换的兼容性回归，涉及构造判定、SFINAE 与序列化重载。",
+    "record_sha256": "fe95287305a491ccb8bfb0ddbf5de1b0ed665f1b9576b3738e89dacecf8dd589",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-23413": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-2332": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23367",
-    "difficulty": "complex",
-    "rationale": "公共子表达式优化合并易变函数调用，改变聚合和窗口结果。",
-    "record_sha256": "e7f472f2bf6781d2b52e3e821f8ac1b3a3aeeeb0e7cd227654fcb4f56bf4b50b"
-  },
-  "duckdb__duckdb-23615": {
-    "repository": "duckdb/duckdb",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23614",
-    "difficulty": "complex",
-    "rationale": "length 的统计传播导致行组裁剪错误，涉及表达式与优化器统计。",
-    "record_sha256": "d6206b7dd95108ca3934e5b8b5b21c626e555c713eb4b7315b3e07427a470a47"
-  },
-  "duckdb__duckdb-23604": {
-    "repository": "duckdb/duckdb",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23603",
-    "difficulty": "complex",
-    "rationale": "前缀查询的行组裁剪错误，需要协调过滤转换和字符串范围。",
-    "record_sha256": "9a01c13bf0fa26671a00993aaa730daa4ad8cbfcba1ce72248237223567386a1"
-  },
-  "duckdb__duckdb-23637": {
-    "repository": "duckdb/duckdb",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23589",
+    "issue_key": "2330",
     "difficulty": "medium",
-    "rationale": "反向 ROWS 窗口的 COUNT 返回负数，需要修复窗口边界计数。",
-    "record_sha256": "ec382ccb18b75f4cabeb571005f8b3f7184d9e313b274b681d9fce3678f40745"
+    "rationale": "连续注释行导致解析失败，需要处理词法状态转换。",
+    "record_sha256": "a1112b7599683b51b4f2cecd3c661261a414c174588a933545936e89949f69b9",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-24318": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-1446": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "24309",
+    "issue_key": "1445",
     "difficulty": "medium",
-    "rationale": "Hive 分区字符串 NULL 在往返转换后变为 SQL NULL。",
-    "record_sha256": "3034569de76bbe88d44446447370dc3061fe45d4a988a2cf0dea1daf3a9eca4f"
+    "rationale": "连续无效 UTF-8 字符导致序列化缓冲越界。",
+    "record_sha256": "53bd594d70bde9da87190a2e287163bfe5fb714246f3d66db6686ab58a6db0e2",
+    "qualification_status": "PENDING"
   },
-  "duckdb__duckdb-24011": {
-    "repository": "duckdb/duckdb",
+  "nlohmann__json-2319": {
+    "repository": "nlohmann/json",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "24010",
+    "issue_key": "2315",
+    "difficulty": "complex",
+    "rationale": "ordered_json 的 update 与 pair 容器转换失效，涉及映射容器接口和插入语义。",
+    "record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-1555": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1511",
+    "difficulty": "complex",
+    "rationale": "反序列化向已有容器追加元素，涉及通用容器转换与异常安全。",
+    "record_sha256": "82d9bf8ca3fb884c935af75bba76047709cb02af271304bacf53877d47aacda1",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-1343": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1340",
     "difficulty": "medium",
-    "rationale": "BETWEEN 相等边界的 Parquet 行组裁剪错误。",
-    "record_sha256": "29c28a49b7f8e61835c7e96b7b50d688846578ccd9e34b4ac320af505798d82e"
+    "rationale": "流解析到达末尾后丢失 EOF 状态，需要协调 streambuf 与 istream 标志。",
+    "record_sha256": "04e5be39c46c395301937e52f72ee3033fd83c65ce5454539557e6935609bf62",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-1303": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1288",
+    "difficulty": "complex",
+    "rationale": "UBJSON 读取边界与错误定位缺陷，涉及多个二进制格式的解析状态及诊断。",
+    "record_sha256": "1a3a7ddb31cc33727cf0fb0c98c798d5fd57be4df3219cb6b0a905885c5fd462",
+    "qualification_status": "PENDING"
   },
   "shader-slang__slang-10856": {
     "repository": "shader-slang/slang",
@@ -192,7 +204,8 @@
     "issue_key": "1611",
     "difficulty": "medium",
     "rationale": "数组越界赋值和迭代暴露错误间隙值，验证数组填充与迭代合同。",
-    "record_sha256": "4819349e0bd95fe2e0195997a1dead39fcbb446dacacb27cdc4041475547c884"
+    "record_sha256": "4819349e0bd95fe2e0195997a1dead39fcbb446dacacb27cdc4041475547c884",
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3037": {
     "repository": "nlohmann/json",
@@ -201,7 +214,8 @@
     "issue_key": "3032",
     "difficulty": "medium",
     "rationale": "数组下标插入遗漏父指针，JSON_DIAGNOSTICS 触发断言。",
-    "record_sha256": "f6a6267f1224a9661139671deb9e566f8f645baa870d16e22599bcb7ba28302e"
+    "record_sha256": "f6a6267f1224a9661139671deb9e566f8f645baa870d16e22599bcb7ba28302e",
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-3008": {
     "repository": "nlohmann/json",
@@ -210,7 +224,8 @@
     "issue_key": "3007",
     "difficulty": "medium",
     "rationale": "update 插入元素后父指针遗漏，破坏 JSON_DIAGNOSTICS 不变量。",
-    "record_sha256": "08cd86545d1584b47063ac04756f9f0c994a9c1de01d55161f90074b4b20a949"
+    "record_sha256": "08cd86545d1584b47063ac04756f9f0c994a9c1de01d55161f90074b4b20a949",
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2963": {
     "repository": "nlohmann/json",
@@ -219,7 +234,8 @@
     "issue_key": "2962",
     "difficulty": "complex",
     "rationale": "ordered_json 修改导致诊断断言，涉及有序容器移动与父指针维护。",
-    "record_sha256": "951c1a26def96105f9651095e144cdef4b6a3213a38c44d95054cb71696ccd72"
+    "record_sha256": "951c1a26def96105f9651095e144cdef4b6a3213a38c44d95054cb71696ccd72",
+    "qualification_status": "QUALIFIED"
   },
   "catchorg__Catch2-2128": {
     "repository": "catchorg/Catch2",
@@ -228,7 +244,8 @@
     "issue_key": "2121",
     "difficulty": "compile_control",
     "rationale": "用户自定义相等运算符导致表达式分解编译失败。",
-    "record_sha256": "594b3d06d23e25a2fc6eaab3564e2bcebaeb569b34078cefe9b50213cbe530d4"
+    "record_sha256": "594b3d06d23e25a2fc6eaab3564e2bcebaeb569b34078cefe9b50213cbe530d4",
+    "qualification_status": "QUALIFIED"
   },
   "KhronosGroup__glslang-4006": {
     "repository": "KhronosGroup/glslang",
@@ -237,7 +254,8 @@
     "issue_key": "3948",
     "difficulty": "complex",
     "rationale": "SPIR-V 小整数数组索引需要无符号扩展，涉及类型与指令语义",
-    "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf"
+    "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf",
+    "qualification_status": "QUALIFIED"
   },
   "rui314__mold-1546": {
     "repository": "rui314/mold",
@@ -255,7 +273,18 @@
     "issue_key": "2299",
     "difficulty": "complex",
     "rationale": "异步 actor shell 退出后继续接收消息，涉及生命周期与回调重入",
-    "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84"
+    "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84",
+    "qualification_status": "QUALIFIED"
+  },
+  "simdjson__simdjson-644": {
+    "repository": "simdjson/simdjson",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "630",
+    "difficulty": "medium",
+    "rationale": "对象键访问按 JSON Pointer 解释带斜杠的键，与接口约定冲突。",
+    "record_sha256": "941a845898e32a9aee09b73ac918f1672b6512911d6fcdcdaa464d12bc38346e",
+    "qualification_status": "PENDING"
   },
   "nlohmann__json-2866": {
     "repository": "nlohmann/json",
@@ -264,15 +293,7 @@
     "issue_key": "2838",
     "difficulty": "complex",
     "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
-    "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0"
-  },
-  "duckdb__duckdb-23422": {
-    "repository": "duckdb/duckdb",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "23370",
-    "difficulty": "medium",
-    "rationale": "正则替换字符串的非法反向引用与转义验证缺失，产生错误输出",
-    "record_sha256": "8fb2c2f995fc946f46bbc8610e49e1b4f9d1783d329815650093ea27a8028dd2"
+    "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0",
+    "qualification_status": "QUALIFIED"
   }
 }

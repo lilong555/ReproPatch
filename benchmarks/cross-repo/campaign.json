@@ -42,20 +42,20 @@
     "stephenberry__glaze-2611"
   ],
   "formal_repository_targets": {
-    "new_repository_tasks": 25,
-    "existing_repository_new_tasks": 5,
+    "new_repository_tasks": 12,
+    "existing_repository_new_tasks": 18,
+    "minimum_new_repositories": 5,
+    "selection_policy": "resource-feasible-cross-repository-v1",
     "primary": [
-      "duckdb/duckdb",
-      "shader-slang/slang",
+      "nlohmann/json",
       "stephenberry/glaze",
-      "luau-lang/luau",
-      "open-source-parsers/jsoncpp"
-    ],
-    "reserves": [
-      "pocoproject/poco",
-      "ninja-build/ninja",
-      "dragonflydb/dragonfly",
-      "catchorg/Catch2"
+      "shader-slang/slang",
+      "open-source-parsers/jsoncpp",
+      "catchorg/Catch2",
+      "KhronosGroup/glslang",
+      "rui314/mold",
+      "actor-framework/actor-framework",
+      "simdjson/simdjson"
     ]
   },
   "selection": {

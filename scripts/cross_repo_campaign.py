@@ -59,7 +59,9 @@ def development_selection(results, expected_tasks):
     }
 
 
-def selection_review(review, selected, development, existing_repositories):
+def selection_review(
+    review, selected, development, existing_repositories, *, new_repository_tasks=25
+):
     """正式样本同时满足新仓库配额、缺陷语义、去重与难度分层。"""
     if (
         len(selected) != 30
@@ -89,7 +91,12 @@ def selection_review(review, selected, development, existing_repositories):
         difficulties[row["difficulty"]] += 1
         repositories[repository] = repositories.get(repository, 0) + 1
         new_tasks += repository not in existing_repositories
-    if difficulties != development["difficulty_counts"] or new_tasks != 25:
+    if (
+        type(new_repository_tasks) is not int
+        or not 5 <= new_repository_tasks <= 30
+        or difficulties != development["difficulty_counts"]
+        or new_tasks != new_repository_tasks
+    ):
         raise ValueError("CROSS_FORMAL_SELECTION_QUOTA_MISMATCH")
     if len(set(repositories) - set(existing_repositories)) < 5:
         raise ValueError("CROSS_FORMAL_REPOSITORY_COVERAGE_REQUIRED")
