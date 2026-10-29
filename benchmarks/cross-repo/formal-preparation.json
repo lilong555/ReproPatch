@@ -122,7 +122,9 @@
     40837402807,
     40838879031,
     40839329016,
-    40839544176
+    40839544176,
+    40843134481,
+    40844783303
   ],
   "discarded_candidates": [
     {
@@ -1210,9 +1212,10 @@
         "nlohmann__json-3601"
       ],
       "freeze_run_id": 40844682619,
-      "status": "FROZEN",
+      "status": "SUBMITTED",
       "attempts": 10,
-      "request_cap": 240
+      "request_cap": 240,
+      "run_id": 40846468787
     }
   ],
   "repeat_instances": [
