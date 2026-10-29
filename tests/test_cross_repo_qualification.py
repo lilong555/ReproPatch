@@ -440,15 +440,20 @@ def test_slang_native_outputs_keep_original_test_inputs(tmp_path):
 
 @pytest.mark.integration
 @pytest.mark.parametrize("actual", ["expected", "wrong"])
-@pytest.mark.parametrize("test_root", ["tests", "projects"])
-def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, actual, test_root):
+@pytest.mark.parametrize(
+    "test_root,script_root",
+    [("tests", "tools/scripts"), ("projects", "tools/scripts"), ("projects", "scripts")],
+)
+def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(
+    tmp_path, actual, test_root, script_root
+):
     import subprocess
 
     if any(shutil.which(tool) is None for tool in ("cmake", "ctest", "c++")):
         pytest.skip("需要 CMake、CTest 与 C++ 编译器")
     source = tmp_path / "source"
     build = tmp_path / "build"
-    scripts = source / "tools/scripts"
+    scripts = source / script_root
     selftest = f"{test_root}/SelfTest"
     baselines = source / selftest / "Baselines"
     scripts.mkdir(parents=True)
@@ -458,8 +463,9 @@ def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, 
         "#include <iostream>\nint main(int, char** argv) { "
         'std::cout << argv[1] << " " << __FILE__; }\n'
     )
+    parent_index = len(Path(script_root).parts)
     (scripts / "scriptCommon.py").write_text(
-        "from pathlib import Path\ncatchPath = Path(__file__).resolve().parents[2]\n"
+        f"from pathlib import Path\ncatchPath = Path(__file__).resolve().parents[{parent_index}]\n"
     )
     script = scripts / "approvalTests.py"
     script.write_text(
@@ -497,7 +503,7 @@ def test_catch2_approval_preserves_inputs_and_runs_in_build_directory(tmp_path, 
         for path in source.rglob("*")
         if path.is_file()
     } == originals
-    copied = build / "repropatch-fixtures/tools/scripts/approvalTests.py"
+    copied = build / "repropatch-fixtures" / script_root / "approvalTests.py"
     assert copied.read_bytes() == script.read_bytes()
     assert (
         build / "repropatch-fixtures" / selftest / "Baselines/actual.tmp"

@@ -372,8 +372,15 @@ def prepare_ctest_runtime(contract, source, build, reports):
     """Catch2 的原始审批脚本在构建目录内使用同字节输入副本。"""
     if contract.get("configuration", {}).get("repository") != "catchorg/Catch2":
         return
-    script = source / "tools/scripts/approvalTests.py"
-    if not script.exists():
+    script = next(
+        (
+            source / name
+            for name in ("tools/scripts/approvalTests.py", "scripts/approvalTests.py")
+            if (source / name).is_file()
+        ),
+        None,
+    )
+    if script is None:
         return
     fixtures = build / "repropatch-fixtures"
     baselines = (
@@ -381,7 +388,7 @@ def prepare_ctest_runtime(contract, source, build, reports):
         if (source / "tests/SelfTest/Baselines").is_dir()
         else "projects/SelfTest/Baselines"
     )
-    for relative in ("tools/scripts", baselines):
+    for relative in (script.parent.relative_to(source).as_posix(), baselines):
         shutil.copytree(source / relative, fixtures / relative, dirs_exist_ok=True)
     copied = fixtures / script.relative_to(source)
     changes = []

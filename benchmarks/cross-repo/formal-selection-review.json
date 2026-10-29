@@ -289,7 +289,7 @@
     "difficulty": "compile_control",
     "rationale": "json_pointer向标准输出流写入的既有代码编译失败，涉及模板参数推导、字符串转换和输出运算符重载。",
     "record_sha256": "7dfb1fa52d1a8db68ed7ff4685c1f2ef2848267f3c6ec2c78ec7f3d7aa192fd6",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "catchorg__Catch2-1608": {
     "repository": "catchorg/Catch2",
