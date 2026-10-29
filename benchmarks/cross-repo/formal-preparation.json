@@ -10,12 +10,12 @@
   "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
   "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
-  "new_repository_tasks": 10,
-  "existing_repository_new_tasks": 20,
+  "new_repository_tasks": 9,
+  "existing_repository_new_tasks": 21,
   "repository_counts": {
-    "nlohmann/json": 18,
+    "nlohmann/json": 19,
     "stephenberry/glaze": 1,
-    "shader-slang/slang": 6,
+    "shader-slang/slang": 5,
     "open-source-parsers/jsoncpp": 1,
     "catchorg/Catch2": 1,
     "KhronosGroup/glslang": 1,
@@ -24,10 +24,10 @@
   },
   "difficulty_counts": {
     "medium": 10,
-    "complex": 19,
-    "compile_control": 1
+    "complex": 18,
+    "compile_control": 2
   },
-  "selection_review_sha256": "f36c8f0dd6a7303cfb026c70ab285901ba46de94c9fadbbadf47e341e93b8044",
+  "selection_review_sha256": "c0f70be74e6832878eeda2533edd7a7012613aa0c0fd638752f9a6394ec6a11e",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -46,7 +46,7 @@
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
     "shader-slang__slang-10663",
-    "shader-slang__slang-10697",
+    "nlohmann__json-3601",
     "nlohmann__json-3109",
     "shader-slang__slang-10664",
     "open-source-parsers__jsoncpp-1693",
@@ -80,7 +80,7 @@
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
     "shader-slang__slang-10663",
-    "shader-slang__slang-10697",
+    "nlohmann__json-3601",
     "nlohmann__json-3109",
     "shader-slang__slang-10664",
     "open-source-parsers__jsoncpp-1693",
@@ -574,6 +574,27 @@
         "record_sha256": "0d6fb9e7869dd6a0490b9ec7bac23cc19243e226370789ba76f19f85241feff7",
         "qualification_status": "PENDING"
       }
+    },
+    {
+      "instance_id": "shader-slang__slang-10697",
+      "status": "DISCARDED",
+      "reason": "官方修复同时修改slang-diagnostics.lua，当前C++编辑范围省略该声明后参考补丁编译失败；采用双头文件输出运算符回归。",
+      "source_runs": [
+        40834894705
+      ],
+      "source_job_id": 123317635313,
+      "observed_qualification_status": "NATIVE_ORACLE_BUILD_FAILED",
+      "replacement_instance": "nlohmann__json-3601",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10244",
+        "difficulty": "complex",
+        "rationale": "接口类型经属性或下标引用修改时崩溃，涉及访问器声明检查。",
+        "record_sha256": "8730e59b5acbc3b2f4997ab1415df98123802f4408cec393cdb67f07bbb71d26"
+      }
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -815,6 +836,15 @@
       "reason": "原生测试和冷Oracle通过；历史源码包含四个21–24MiB回归数据文件及55MiB性能数据，超出工作树打包上限，采用外置测试数据的新版本命名空间冲突缺陷。",
       "replacement_record_sha256": "60c640d9bf4211f8c3b133227287ee0dcc43d644bd0077118e75c00f6440296b",
       "replacement_base_commit": "d3e347bd2d5bdb52f3d376440a760bbef866f2b9"
+    },
+    {
+      "previous_instance": "shader-slang__slang-10697",
+      "replacement_instance": "nlohmann__json-3601",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "官方修复同时修改slang-diagnostics.lua，当前C++编辑范围省略该声明后参考补丁编译失败；采用双头文件输出运算符回归。",
+      "replacement_record_sha256": "7dfb1fa52d1a8db68ed7ff4685c1f2ef2848267f3c6ec2c78ec7f3d7aa192fd6",
+      "replacement_base_commit": "2d48a4d9c5e8f0a5ce914922eb2a45dc0ec93ee3"
     }
   ],
   "selection_policy": "resource-feasible-cross-repository-v1",
