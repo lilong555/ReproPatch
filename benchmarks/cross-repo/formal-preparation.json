@@ -10,25 +10,25 @@
   "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
   "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
-  "new_repository_tasks": 7,
-  "existing_repository_new_tasks": 23,
+  "new_repository_tasks": 5,
+  "existing_repository_new_tasks": 25,
   "repository_counts": {
     "nlohmann/json": 19,
     "stephenberry/glaze": 1,
-    "shader-slang/slang": 3,
+    "shader-slang/slang": 1,
     "open-source-parsers/jsoncpp": 1,
     "catchorg/Catch2": 2,
     "KhronosGroup/glslang": 1,
     "actor-framework/actor-framework": 1,
     "simdjson/simdjson": 1,
-    "fmtlib/fmt": 1
+    "fmtlib/fmt": 3
   },
   "difficulty_counts": {
     "medium": 12,
-    "complex": 16,
-    "compile_control": 2
+    "complex": 15,
+    "compile_control": 3
   },
-  "selection_review_sha256": "b03ccef58625d9c5e253feba14dfc23953de1fc601a11dbf7b5d409cdda9835a",
+  "selection_review_sha256": "401c7654381e54596f76250421886996570160b9b2a0d987baa84b4cc79f64da",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -45,11 +45,11 @@
     "nlohmann__json-3664",
     "fmtlib__fmt-3824",
     "shader-slang__slang-10768",
-    "shader-slang__slang-10738",
+    "fmtlib__fmt-3569",
     "catchorg__Catch2-1608",
     "nlohmann__json-3601",
     "nlohmann__json-3109",
-    "shader-slang__slang-10664",
+    "fmtlib__fmt-3555",
     "open-source-parsers__jsoncpp-1693",
     "nlohmann__json-3037",
     "nlohmann__json-3008",
@@ -79,11 +79,11 @@
     "nlohmann__json-3664",
     "fmtlib__fmt-3824",
     "shader-slang__slang-10768",
-    "shader-slang__slang-10738",
+    "fmtlib__fmt-3569",
     "catchorg__Catch2-1608",
     "nlohmann__json-3601",
     "nlohmann__json-3109",
-    "shader-slang__slang-10664",
+    "fmtlib__fmt-3555",
     "open-source-parsers__jsoncpp-1693",
     "nlohmann__json-3037",
     "nlohmann__json-3008",
@@ -126,7 +126,8 @@
     40839544176,
     40843134481,
     40844783303,
-    40847057145
+    40847057145,
+    40849741023
   ],
   "discarded_candidates": [
     {
@@ -651,6 +652,52 @@
         "rationale": "入口参数内的接口字段引发编译器崩溃，涉及 IR 类型流专门化。",
         "record_sha256": "554770972e7325ef6fcd9fcaea650e05016ad57bec34a2642b2882c26004fa2d"
       }
+    },
+    {
+      "instance_id": "shader-slang__slang-10664",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "四核资格检查耗时3051.67秒，冷Oracle再次出现gfx模块查找失败。",
+      "source_runs": [
+        40843134481
+      ],
+      "source_job_id": 123344659732,
+      "observed_qualification_status": "NATIVE_ORACLE_TESTS_FAILED",
+      "replacement_instance": "fmtlib__fmt-3555",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10616",
+        "difficulty": "medium",
+        "rationale": "BOM 解码后的源码内容长度计算错误，涉及源码缓冲与位置管理；单项 F2P 聚焦官方新增单元测试，C++ 参考修复完整，等待 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "1b30612fcbb34549d55404c7996431ba3484f17db547a779af8379a89b84342c",
+        "qualification_status": "PENDING",
+        "replaces": "shader-slang__slang-7523"
+      }
+    },
+    {
+      "instance_id": "shader-slang__slang-10738",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "四核资格作业运行超过55分钟，按资源取舍结束本轮重验。",
+      "source_runs": [
+        40843134481
+      ],
+      "source_job_id": 123344659914,
+      "observed_qualification_status": "CANCEL_REQUESTED_RESOURCE",
+      "replacement_instance": "fmtlib__fmt-3569",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10263",
+        "difficulty": "complex",
+        "rationale": "无约束泛型及关联类型专门化的诊断缺陷，涉及 IR 类型流专门化；四项 F2P 聚焦同一官方变更测试的变体，等待 Docker 基线与独立冷 Oracle 资格验收。",
+        "record_sha256": "87b9b138d82df179cc1552c598b7798972f52110213968cf5349180553aa5f7b",
+        "qualification_status": "PENDING",
+        "replaces": "shader-slang__slang-10682"
+      }
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -919,6 +966,24 @@
       "reason": "四核资格检查耗时3239.63秒，冷Oracle仍有gfx模块查找失败；采用较轻的ADL范围端点查找缺陷。",
       "replacement_record_sha256": "4be5118bf8aa124237133a713c8adb69c47518728b91153a87634f94d68832d5",
       "replacement_base_commit": "2caf1b3b91f6d56f420cec8bf752f9af26aa51af"
+    },
+    {
+      "previous_instance": "shader-slang__slang-10664",
+      "replacement_instance": "fmtlib__fmt-3555",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "四核资格检查耗时3051.67秒，冷Oracle再次出现gfx模块查找失败。",
+      "replacement_record_sha256": "6b510bc41d2f217b7a5125d4549a258999ee654b45b2159e1010fe3b17085cfe",
+      "replacement_base_commit": "f4214ae8dd9cdfcbeb5e2db66aee59d066d9cb0c"
+    },
+    {
+      "previous_instance": "shader-slang__slang-10738",
+      "replacement_instance": "fmtlib__fmt-3569",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "四核资格作业运行超过55分钟，按资源取舍结束本轮重验。",
+      "replacement_record_sha256": "7a67b506335e4cd0bbde31da170065e912c659b68b0380f5350c3b253f69230c",
+      "replacement_base_commit": "8a4bec5cf53387356738a06ba0cf4fdf086241ae"
     }
   ],
   "selection_policy": "resource-feasible-cross-repository-v1",
