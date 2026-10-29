@@ -191,13 +191,14 @@ def group_targets(contract, build, selected):
     metadata = json.loads((build / "native-command-contract.json").read_text())
     targets = set()
     mode = contract["mode"]
-    if mode in {"jsoncpp", "ninja", "duckdb", "slang"}:
+    if mode in {"jsoncpp", "ninja", "duckdb", "slang", "glslang"}:
         targets.update(
             {
                 "jsoncpp": ["jsoncpp_test"],
                 "ninja": ["ninja_test"],
                 "duckdb": ["unittest"],
                 "slang": ["slang-test", "slang-test-server"],
+                "glslang": ["glslangtests"],
             }[mode]
         )
     elif mode == "luau":
@@ -294,6 +295,37 @@ def native_suite(contract, source, build, selected=None):
     mode = contract["mode"]
     reports = build / "repropatch-reports"
     reports.mkdir(exist_ok=True)
+    if mode == "glslang":
+        # GoogleTest 个案身份由冻结解析器裁决，CTest 报告保留原生套件退出状态。
+        xml = reports / "ctest.xml"
+        command = [
+            "ctest",
+            "--test-dir",
+            str(build),
+            "-V",
+            "--no-tests=error",
+            "--output-junit",
+            str(xml),
+        ]
+        if selected:
+            command += ["-R", "^glslang-gtests$"]
+        code, log = execute(
+            command,
+            build,
+            reports / "glslang.log",
+            env={"GTEST_FILTER": ":".join(selected)} if selected else None,
+        )
+        if code not in {0, 8} or not xml.exists():
+            raise RuntimeError("NATIVE_CTEST_NOT_EXECUTED")
+        observed = parser_results(contract["parser"], log)
+        observed.update(
+            {
+                "ctest::" + name: state
+                for name, state in ctest_results(xml.read_text(), "ctest").items()
+                if state != "pass"
+            }
+        )
+        return observed
     if mode == "ctest":
         prepare_ctest_runtime(contract, source, build, reports)
         xml = reports / "ctest.xml"

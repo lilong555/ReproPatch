@@ -170,6 +170,34 @@ def test_parser_rejects_process_and_filesystem_code():
         runner.review_parser("def parser(log):\n return open(log).read()\n")
 
 
+@pytest.mark.integration
+def test_glslang_preserves_individual_cases_and_additional_ctest_failures(tmp_path):
+    import subprocess
+
+    if any(shutil.which(tool) is None for tool in ("cmake", "ctest")):
+        pytest.skip("需要 CMake 与 CTest")
+    source, build = tmp_path / "source", tmp_path / "build"
+    source.mkdir()
+    script = source / "tests.py"
+    script.write_text('print("[       OK ] Math.Pass (1 ms)")\n')
+    (source / "CMakeLists.txt").write_text(
+        "cmake_minimum_required(VERSION 3.22)\nproject(fixture NONE)\nenable_testing()\n"
+        f'add_test(NAME glslang-gtests COMMAND "{sys.executable}" "{script}")\n'
+        "add_test(NAME additional COMMAND ${CMAKE_COMMAND} -E false)\n"
+    )
+    subprocess.run(["cmake", "-S", str(source), "-B", str(build)], check=True, capture_output=True)
+    contract = {
+        "mode": "glslang",
+        "parser": "def parser(log):\n"
+        ' return {"Math.Pass": "pass"} if "[       OK ] Math.Pass (1 ms)" in log else {}\n',
+    }
+    assert runner.native_suite(contract, source, build) == {
+        "Math.Pass": "pass",
+        "ctest::additional": "fail",
+    }
+    assert runner.native_suite(contract, source, build, ["Math.Pass"]) == {"Math.Pass": "pass"}
+
+
 def test_duckdb_temporary_outputs_use_build_directory(tmp_path):
     source = tmp_path / "source"
     build = tmp_path / "build"

@@ -1,33 +1,34 @@
 {
   "schema": "repropatch.cross-repository-preparation.v1",
   "batch_id": "cross-repository-formal-preparation-20261028",
-  "status": "PREPARATION_READY",
+  "status": "QUALIFICATION_IN_PROGRESS",
   "model_requests": 0,
   "qualification_policy": "baseline-native-v1",
   "model_request_max_parallel": 3,
-  "qualification_max_parallel": 8,
+  "qualification_max_parallel": 30,
   "optimization": "O3",
-  "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:411933ec8b67292c28c03b30c576c42bbed15eeca33ff06d553733b1a351e447",
-  "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
+  "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+  "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
   "new_repository_tasks": 25,
   "existing_repository_new_tasks": 5,
   "repository_counts": {
     "duckdb/duckdb": 13,
     "shader-slang/slang": 7,
-    "stephenberry/glaze": 1,
     "open-source-parsers/jsoncpp": 1,
-    "pocoproject/poco": 2,
-    "luau-lang/luau": 1,
-    "nlohmann/json": 3,
-    "catchorg/Catch2": 2
+    "nlohmann/json": 4,
+    "catchorg/Catch2": 1,
+    "KhronosGroup/glslang": 1,
+    "rui314/mold": 1,
+    "actor-framework/actor-framework": 1,
+    "ninja-build/ninja": 1
   },
   "difficulty_counts": {
-    "complex": 18,
-    "medium": 8,
-    "compile_control": 4
+    "complex": 20,
+    "medium": 7,
+    "compile_control": 3
   },
-  "selection_review_sha256": "906104478a98ae09c42cfb8ef227bb3a183c832fdf75dda6f455c3c7dc3ac05d",
+  "selection_review_sha256": "d902875af987d1d6eea90fb0f2f48b1eaaf2f78ad53655ace955fd00889d0e46",
   "instances": [
     "duckdb__duckdb-24105",
     "duckdb__duckdb-24181",
@@ -49,58 +50,86 @@
     "shader-slang__slang-10697",
     "shader-slang__slang-7815",
     "shader-slang__slang-7523",
-    "stephenberry__glaze-2731",
     "open-source-parsers__jsoncpp-1693",
-    "pocoproject__poco-5270",
-    "pocoproject__poco-5265",
-    "luau-lang__luau-2506",
     "nlohmann__json-3037",
     "nlohmann__json-3008",
     "nlohmann__json-2963",
     "catchorg__Catch2-2128",
-    "catchorg__Catch2-2288"
+    "KhronosGroup__glslang-4006",
+    "rui314__mold-1546",
+    "actor-framework__actor-framework-2300",
+    "ninja-build__ninja-2749",
+    "nlohmann__json-2866"
   ],
   "development_run_id": 40683926397,
   "formal_freeze": "完整 Docker 资格与开发冷评分齐备后冻结独立正式协议",
-  "reusable_qualifications": {
-    "catchorg__Catch2-2128": {
-      "run_id": 40659068642,
-      "artifact": "cross-evidence-40659068642-catchorg__Catch2-2128",
-      "archive_sha256": "0e1377a4eda3d8398e76e8fa24206139abd07da1ad30295696af0eda62ee4470",
-      "image_id": "sha256:9ff1ac049e1abb26a6fabc036e275646cc75c122fccbb5fcdfd98ca4fb4ec949",
-      "native_tests": 34
-    }
-  },
   "qualification_order": [
-    "catchorg__Catch2-2128",
-    "open-source-parsers__jsoncpp-1693",
     "duckdb__duckdb-24105",
-    "shader-slang__slang-10856",
-    "stephenberry__glaze-2731",
-    "luau-lang__luau-2506",
-    "pocoproject__poco-5265",
-    "nlohmann__json-3037",
     "duckdb__duckdb-24181",
-    "shader-slang__slang-10768",
-    "pocoproject__poco-5270",
-    "nlohmann__json-3008",
-    "catchorg__Catch2-2288",
     "duckdb__duckdb-23280",
-    "shader-slang__slang-10682",
-    "nlohmann__json-2963",
     "duckdb__duckdb-23491",
-    "shader-slang__slang-10663",
     "duckdb__duckdb-23634",
-    "shader-slang__slang-10697",
     "duckdb__duckdb-24211",
-    "shader-slang__slang-7815",
     "duckdb__duckdb-23569",
-    "shader-slang__slang-7523",
     "duckdb__duckdb-23413",
     "duckdb__duckdb-23615",
     "duckdb__duckdb-23604",
     "duckdb__duckdb-23637",
     "duckdb__duckdb-24318",
-    "duckdb__duckdb-24011"
-  ]
+    "duckdb__duckdb-24011",
+    "shader-slang__slang-10856",
+    "shader-slang__slang-10768",
+    "shader-slang__slang-10682",
+    "shader-slang__slang-10663",
+    "shader-slang__slang-10697",
+    "shader-slang__slang-7815",
+    "shader-slang__slang-7523",
+    "open-source-parsers__jsoncpp-1693",
+    "nlohmann__json-3037",
+    "nlohmann__json-3008",
+    "nlohmann__json-2963",
+    "catchorg__Catch2-2128",
+    "KhronosGroup__glslang-4006",
+    "rui314__mold-1546",
+    "actor-framework__actor-framework-2300",
+    "ninja-build__ninja-2749",
+    "nlohmann__json-2866"
+  ],
+  "qualification_runs": [
+    40811143058,
+    40811421175
+  ],
+  "discarded_candidates": [
+    {
+      "instance_id": "luau-lang__luau-2506",
+      "status": "DISCARDED",
+      "reason": "官方回归引用新增 FFlag，基线共享测试二进制链接失败",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "catchorg__Catch2-2288",
+      "status": "DISCARDED",
+      "reason": "编译回归阻断共享 SelfTest，原生 P2P 未执行",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "pocoproject__poco-5265",
+      "status": "DISCARDED",
+      "reason": "原生套件依赖可写 HOME、有效证书与进程树终止",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "pocoproject__poco-5270",
+      "status": "DISCARDED",
+      "reason": "原生套件的额外环境失败阻断基线 P2P",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "stephenberry__glaze-2731",
+      "status": "DISCARDED",
+      "reason": "beve_test 基线挂起，阶段 1800 秒期限耗尽",
+      "model_requests": 0
+    }
+  ],
+  "difficulty_policy": "qualification-feasible-cross-repository-v1"
 }

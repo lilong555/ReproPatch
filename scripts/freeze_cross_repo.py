@@ -54,6 +54,17 @@ def freeze(args):
             artifact=f"cross-results-{args.development_run}",
         )
         review = json.loads(args.selection_review.read_text())
+        preparation = json.loads(
+            (ROOT / "benchmarks/cross-repo/formal-preparation.json").read_text()
+        )
+        if preparation.get("difficulty_policy") == "qualification-feasible-cross-repository-v1":
+            if set(preparation["instances"]) != set(selected) or preparation[
+                "selection_review_sha256"
+            ] != sha(args.selection_review):
+                raise ValueError("CROSS_FORMAL_PREPARATION_REGISTRY_MISMATCH")
+            development["recommended_difficulty_counts"] = development["difficulty_counts"]
+            development["difficulty_counts"] = preparation["difficulty_counts"]
+            development["difficulty_policy"] = preparation["difficulty_policy"]
         quota = selection_review(review, selected, development, existing)
         gate = {"development": development, "review": review, **quota}
     for instance in selected:

@@ -1,6 +1,7 @@
 """项目原生构建合同、受保护 CTest 分组和离线源码准备。"""
 
 import hashlib
+import json
 import re
 import shutil
 from pathlib import Path
@@ -21,6 +22,13 @@ OPTIONS = {
         "-DJSONCPP_WITH_WARNING_AS_ERROR=OFF",
     ],
     "ninja-build/ninja": ["-DBUILD_TESTING=ON"],
+    "KhronosGroup/glslang": ["-DGLSLANG_TESTS=ON", "-DBUILD_WERROR=OFF"],
+    "rui314/mold": ["-DBUILD_TESTING=ON", "-DMOLD_ENABLE_QEMU_TESTS=OFF"],
+    "actor-framework/actor-framework": [
+        "-DCAF_ENABLE_TESTING=ON",
+        "-DCAF_ENABLE_EXAMPLES=OFF",
+        "-DCAF_ENABLE_RUNTIME_CHECKS=ON",
+    ],
     "stephenberry/glaze": [
         "-Dglaze_DEVELOPER_MODE=ON",
         "-Dglaze_ENABLE_SANITIZERS=OFF",
@@ -69,6 +77,7 @@ OPTIONS = {
 MODES = {
     "open-source-parsers/jsoncpp": "jsoncpp",
     "ninja-build/ninja": "ninja",
+    "KhronosGroup/glslang": "glslang",
     "duckdb/duckdb": "duckdb",
     "shader-slang/slang": "slang",
     "luau-lang/luau": "luau",
@@ -123,6 +132,29 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
 def prepare_source_dependencies(record, source, pool, *, deadline):
     """源码快照携带固定离线输入，原生测试的运行产物使用构建目录。"""
     repository = record["org"] + "/" + record["repo"]
+    if repository == "KhronosGroup/glslang":
+        # 官方 known_good 清单固定全部源码依赖，GoogleTest 标签解析到固定提交。
+        dependencies = []
+        for entry in json.loads((source / "known_good.json").read_text())["commits"]:
+            commit = entry["commit"]
+            if commit == "v1.14.0" and entry["subrepo"] == "google/googletest":
+                commit = "f8d7d77c06936315286eb55f8de22cd23c188571"
+            location = entry["subdir"]
+            if Path(location).is_absolute() or ".." in Path(location).parts:
+                raise ValueError("CPP_DEPENDENCY_PATH_REJECTED")
+            target = source / location
+            if target.exists():
+                target.rmdir()
+            children = materialize(entry["subrepo"], commit, target, pool, deadline=deadline)
+            dependencies.append(
+                {
+                    "path": location,
+                    "url": "https://github.com/" + entry["subrepo"],
+                    "commit": commit,
+                    "dependencies": children,
+                }
+            )
+        return dependencies
     if repository == "nlohmann/json":
         from prepare_json_task import adapt
 

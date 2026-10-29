@@ -35,6 +35,14 @@ PRODUCTION_AREAS = {
         "Data/",
     ),
     "ninja-build/ninja": ("src/",),
+    "KhronosGroup/glslang": ("SPIRV/", "glslang/"),
+    "rui314/mold": ("lib/", "src/"),
+    "actor-framework/actor-framework": (
+        "libcaf_core/",
+        "libcaf_io/",
+        "libcaf_net/",
+        "libcaf_openssl/",
+    ),
     "dragonflydb/dragonfly": ("src/",),
 }
 

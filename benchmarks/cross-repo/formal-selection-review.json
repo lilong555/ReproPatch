@@ -179,15 +179,6 @@
     "rationale": "多泛型参数的模板类型 alignOf 编译失败，验证对齐信息生成。",
     "record_sha256": "54e01695cb255f913c6a50d44d4a4c29bffa836d3d22ee758718111b44c60ecf"
   },
-  "stephenberry__glaze-2731": {
-    "repository": "stephenberry/glaze",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "2727",
-    "difficulty": "complex",
-    "rationale": "BEVE 递归读取缺少深度限制，涉及多种二进制读取与跳过路径。",
-    "record_sha256": "3a5c5ce835cada9067a231d288bd9ac265845d46b0033db9f8015793a4864477"
-  },
   "open-source-parsers__jsoncpp-1693": {
     "repository": "open-source-parsers/jsoncpp",
     "semantic_kind": "defect",
@@ -196,33 +187,6 @@
     "difficulty": "medium",
     "rationale": "数组越界赋值和迭代暴露错误间隙值，验证数组填充与迭代合同。",
     "record_sha256": "4819349e0bd95fe2e0195997a1dead39fcbb446dacacb27cdc4041475547c884"
-  },
-  "pocoproject__poco-5270": {
-    "repository": "pocoproject/poco",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "5269",
-    "difficulty": "complex",
-    "rationale": "Pipe 关闭在阻塞读写下死锁，需要协调并发读写和关闭生命周期。",
-    "record_sha256": "e30abd83d9462eefb40dd9b2aa889871c845cd55d594a30c267259a4925050bb"
-  },
-  "pocoproject__poco-5265": {
-    "repository": "pocoproject/poco",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "5263",
-    "difficulty": "medium",
-    "rationale": "X509 证书时间戳以 Z 结束时解析异常。",
-    "record_sha256": "0337693da42f7d39337145178862c5acd57a6c00992c4b94b1e9f6dad1423487"
-  },
-  "luau-lang__luau-2506": {
-    "repository": "luau-lang/luau",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "2493",
-    "difficulty": "medium",
-    "rationale": "types.singleton 的错误诊断与参数类型失配。",
-    "record_sha256": "b5dc8fa5b425203f167b43d8916ae7d2b9683627d4c2e24380024345fd5645bf"
   },
   "nlohmann__json-3037": {
     "repository": "nlohmann/json",
@@ -260,13 +224,49 @@
     "rationale": "用户自定义相等运算符导致表达式分解编译失败。",
     "record_sha256": "594b3d06d23e25a2fc6eaab3564e2bcebaeb569b34078cefe9b50213cbe530d4"
   },
-  "catchorg__Catch2-2288": {
-    "repository": "catchorg/Catch2",
+  "KhronosGroup__glslang-4006": {
+    "repository": "KhronosGroup/glslang",
     "semantic_kind": "defect",
     "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "2273",
-    "difficulty": "compile_control",
-    "rationale": "Approx 调用运算符的 const 正确性导致编译失败。",
-    "record_sha256": "998d0bec610fe3eaa5740de6db8f225afd0a75bfab97d094f12ca604e47c2ad0"
+    "issue_key": "3948",
+    "difficulty": "complex",
+    "rationale": "SPIR-V 小整数数组索引需要无符号扩展，涉及类型与指令语义",
+    "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf"
+  },
+  "rui314__mold-1546": {
+    "repository": "rui314/mold",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1545",
+    "difficulty": "medium",
+    "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
+    "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
+  },
+  "actor-framework__actor-framework-2300": {
+    "repository": "actor-framework/actor-framework",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2299",
+    "difficulty": "complex",
+    "rationale": "异步 actor shell 退出后继续接收消息，涉及生命周期与回调重入",
+    "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84"
+  },
+  "ninja-build__ninja-2749": {
+    "repository": "ninja-build/ninja",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2641",
+    "difficulty": "complex",
+    "rationale": "动态依赖输出与 depfile 输入关联遗漏，涉及构建图状态传播",
+    "record_sha256": "3cd50c4c290928658b3a7a8af9035e551633a49531ed679423c82367f3185f5f"
+  },
+  "nlohmann__json-2866": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2838",
+    "difficulty": "complex",
+    "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
+    "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0"
   }
 }
