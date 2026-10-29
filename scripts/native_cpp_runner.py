@@ -667,6 +667,9 @@ def native_suite(contract, source, build, selected=None):
         for name in ("gfx.slang", "slang.slang"):
             origin = source / "tools/gfx" / name
             target = build / "Release/bin" / name
+            # 原生全量构建可能生成依赖源码内构建布局的相对链接。
+            if target.is_symlink() and not target.exists():
+                target.unlink()
             if origin.is_file() and not target.exists() and not target.is_symlink():
                 target.symlink_to(origin)
         # 原生编译回归的 .actual 和临时输出沿用相对路径，写入测试输入副本。

@@ -140,6 +140,9 @@ def test_slang_finds_prelude_from_executable_in_separate_build_tree(tmp_path, re
     version.write_text("fixed generated version\n")
     executable = build / "Release/bin/slang-test"
     executable.parent.mkdir(parents=True)
+    if relative_build == "native-oracle":
+        for name in ("gfx.slang", "slang.slang"):
+            (executable.parent / name).symlink_to("../../../tools/gfx/" + name)
     executable.write_text(
         "#!/usr/bin/env python3\n"
         "from pathlib import Path\n"

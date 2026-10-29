@@ -12,7 +12,7 @@ from yaml.events import AliasEvent
 
 from .errors import ReproPatchError
 
-MAX_TASK_BYTES = 128 * 1024
+MAX_TASK_BYTES = 512 * 1024
 CTEST_TEMPLATE = ("ctest", "--test-dir", "/build", "--output-on-failure", "--no-tests=error")
 OID = re.compile(r"(?:[a-f0-9]{40}|[a-f0-9]{64})\Z")
 IMAGE_ID = re.compile(r"sha256:[a-f0-9]{64}\Z")
@@ -207,7 +207,7 @@ class Task:
         with path.open("rb") as stream:
             source = stream.read(MAX_TASK_BYTES + 1)
         if len(source) > MAX_TASK_BYTES:
-            fail("task", "清单超过 128 KiB")
+            fail("task", f"清单超过 {MAX_TASK_BYTES // 1024} KiB")
         try:
             raw = yaml.load(source.decode("utf-8"), Loader=UniqueLoader)
             return cls.from_dict(raw, path.resolve().parent, source_bytes=source)
