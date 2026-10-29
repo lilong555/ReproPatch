@@ -10,24 +10,25 @@
   "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
   "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
-  "new_repository_tasks": 8,
-  "existing_repository_new_tasks": 22,
+  "new_repository_tasks": 7,
+  "existing_repository_new_tasks": 23,
   "repository_counts": {
     "nlohmann/json": 19,
     "stephenberry/glaze": 1,
-    "shader-slang/slang": 4,
-    "catchorg/Catch2": 2,
+    "shader-slang/slang": 3,
     "open-source-parsers/jsoncpp": 1,
+    "catchorg/Catch2": 2,
     "KhronosGroup/glslang": 1,
     "actor-framework/actor-framework": 1,
-    "simdjson/simdjson": 1
+    "simdjson/simdjson": 1,
+    "fmtlib/fmt": 1
   },
   "difficulty_counts": {
-    "medium": 11,
-    "complex": 17,
+    "medium": 12,
+    "complex": 16,
     "compile_control": 2
   },
-  "selection_review_sha256": "61f91cdeb655005ff243e079ae89cb7dfcbdc7b5ef9abecea66cd4c75c94c332",
+  "selection_review_sha256": "b03ccef58625d9c5e253feba14dfc23953de1fc601a11dbf7b5d409cdda9835a",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -42,7 +43,7 @@
     "nlohmann__json-3663",
     "nlohmann__json-2352",
     "nlohmann__json-3664",
-    "shader-slang__slang-10856",
+    "fmtlib__fmt-3824",
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
     "catchorg__Catch2-1608",
@@ -76,7 +77,7 @@
     "nlohmann__json-3663",
     "nlohmann__json-2352",
     "nlohmann__json-3664",
-    "shader-slang__slang-10856",
+    "fmtlib__fmt-3824",
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
     "catchorg__Catch2-1608",
@@ -124,7 +125,8 @@
     40839329016,
     40839544176,
     40843134481,
-    40844783303
+    40844783303,
+    40847057145
   ],
   "discarded_candidates": [
     {
@@ -628,6 +630,27 @@
         "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
         "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
       }
+    },
+    {
+      "instance_id": "shader-slang__slang-10856",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "四核资格检查耗时3239.63秒，冷Oracle仍有gfx模块查找失败；采用较轻的ADL范围端点查找缺陷。",
+      "source_runs": [
+        40839329016
+      ],
+      "source_job_id": 123331963258,
+      "observed_qualification_status": "NATIVE_ORACLE_TESTS_FAILED",
+      "replacement_instance": "fmtlib__fmt-3824",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "shader-slang/slang",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "10261",
+        "difficulty": "complex",
+        "rationale": "入口参数内的接口字段引发编译器崩溃，涉及 IR 类型流专门化。",
+        "record_sha256": "554770972e7325ef6fcd9fcaea650e05016ad57bec34a2642b2882c26004fa2d"
+      }
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -887,6 +910,15 @@
       "reason": "源码包含超过16MiB的单文件，四核补跑在准备阶段被工作树资源检查拦截；采用轻量的CAPTURE字符串解析崩溃缺陷。",
       "replacement_record_sha256": "db6619542cd42c3930652c8a8545cf6ddbf1f5bc2c9e072b0d49ad695363c9f8",
       "replacement_base_commit": "979bbf03bb00bc55ca09783791b5091a2247df68"
+    },
+    {
+      "previous_instance": "shader-slang__slang-10856",
+      "replacement_instance": "fmtlib__fmt-3824",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "四核资格检查耗时3239.63秒，冷Oracle仍有gfx模块查找失败；采用较轻的ADL范围端点查找缺陷。",
+      "replacement_record_sha256": "4be5118bf8aa124237133a713c8adb69c47518728b91153a87634f94d68832d5",
+      "replacement_base_commit": "2caf1b3b91f6d56f420cec8bf752f9af26aa51af"
     }
   ],
   "selection_policy": "resource-feasible-cross-repository-v1",
