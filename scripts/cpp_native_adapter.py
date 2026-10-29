@@ -214,12 +214,12 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         "memory_mib": 14336
         if record.get("instance_id") == "duckdb__duckdb-23422"
         else 12288
-        if repo == "duckdb/duckdb"
+        if repo in {"duckdb/duckdb", "shader-slang/slang"}
         else 8192,
         "build_tmpfs_mib": 4096,
         # Slang 原生临时文件固定写入 /tmp，主机可调用模块需要执行权限。
         "tmp_executable": repo == "shader-slang/slang",
-        "build_jobs": 2,
+        "build_jobs": 4 if repo == "shader-slang/slang" else 2,
         # DuckDB 原生并发 DROP 回归同时创建 300 个线程，256 会中断测试进程。
         "pids_limit": 4096 if repo in {"ninja-build/ninja", "duckdb/duckdb"} else 256,
         # 冷编译与完整原生套件共享阶段期限；DuckDB 的 O3 编译可耗时约 25 分钟。
@@ -629,7 +629,9 @@ def wrapper(source, contract):
         '  message(FATAL_ERROR "REPROPATCH_NATIVE_DEFER_CONFIGURATION_FAILED: ${status}")',
         "endif()",
         "add_custom_target(native-build ALL COMMAND ${CMAKE_COMMAND} "
-        "--build ${CMAKE_CURRENT_BINARY_DIR}/native --parallel 2)",
+        "--build ${CMAKE_CURRENT_BINARY_DIR}/native --parallel "
+        + str(contract["configuration"].get("build_jobs", 2))
+        + ")",
     ]
     for group in contract["groups"]:
         escaped = group.replace("\\", "\\\\").replace('"', '\\"')

@@ -31,13 +31,14 @@ from qualify_cpp_batch import CANCELLED, CTEST, Executor, archive, git, save, sh
 
 from repropatch.errors import ReproPatchError
 from repropatch.task import IMAGE_ID, Task
+from repropatch.workspace import git_tree
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class NativeExecutor(Executor):
     def __init__(self, backend, image, directory, deadline, configuration):
-        super().__init__(backend, image, directory, deadline, 2)
+        super().__init__(backend, image, directory, deadline, configuration.get("build_jobs", 2))
         self.configuration = configuration
         self.memory_mib = configuration["memory_mib"]
         self.pids_limit = configuration.get("pids_limit", 256)
@@ -88,7 +89,7 @@ class NativeExecutor(Executor):
             configured = self.run(configure, source, build, phase, "configure")
             if configured["exit_code"]:
                 return {"status": "CONFIGURE_FAILED", "tests": {}}
-            command = ["cmake", "--build", "/build", "--parallel", "2"]
+            command = ["cmake", "--build", "/build", "--parallel", str(self.build_jobs)]
             if selected:
                 command += ["--target", *selected]
             built = self.run(command, source, build, phase, "build")
@@ -203,7 +204,7 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         },
         "environment": {
             "image": image,
-            "cpu_limit": 2.0,
+            "cpu_limit": float(configuration.get("build_jobs", 2)),
             "memory_mib": configuration["memory_mib"],
             "build_tmpfs_mib": configuration["build_tmpfs_mib"],
             "pids_limit": configuration.get("pids_limit", 256),
@@ -216,7 +217,13 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         },
         "commands": {
             "configure": [*configuration["configure"], "-DREPROPATCH_NATIVE_WRAPPER=ON"],
-            "build": ["cmake", "--build", "/build", "--parallel", "2"],
+            "build": [
+                "cmake",
+                "--build",
+                "/build",
+                "--parallel",
+                str(configuration.get("build_jobs", 2)),
+            ],
             "reproduce": list(CTEST),
             "verify": list(CTEST),
         },
@@ -341,6 +348,8 @@ def qualify(record, args):
         result["upstream_snapshot_commit"] = (
             git(source, "rev-parse", "HEAD", deadline=executor.deadline).decode().strip()
         )
+        # 在冷构建前确认源码满足工作树的文件类型与体积约束。
+        git_tree(source, result["upstream_snapshot_commit"])
         save(control / "upstream-source-manifest.json", source_manifest(source))
         git(source, "apply", str(control / "test.patch"), deadline=executor.deadline)
         contract = make_contract(record, configuration)

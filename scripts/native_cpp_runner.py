@@ -673,7 +673,15 @@ def run_group(contract, source, build, group):
     targets = group_targets(contract, build, selected)
     if targets:
         code, output = execute(
-            ["cmake", "--build", str(build), "--target", *targets, "--parallel", "2"],
+            [
+                "cmake",
+                "--build",
+                str(build),
+                "--target",
+                *targets,
+                "--parallel",
+                str(contract.get("configuration", {}).get("build_jobs", 2)),
+            ],
             build,
             build / "repropatch-reports" / (group.replace("/", "_") + "-build.log"),
         )
