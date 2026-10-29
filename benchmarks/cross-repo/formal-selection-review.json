@@ -275,7 +275,7 @@
     "difficulty": "complex",
     "rationale": "泛型构造检测访问私有类型成员，导致普通查找表达式编译失败。",
     "record_sha256": "24126911f4d3466fe3fe050d32bdd188747771ea9fa72654ee435bd94d6f5e8b",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   },
   "nlohmann__json-2019": {
     "repository": "nlohmann/json",
@@ -295,6 +295,6 @@
     "difficulty": "complex",
     "rationale": "ordered_json 遗漏已有异构字符串键支持，需要协调类型特征、顺序映射与元素访问。",
     "record_sha256": "90feabff8cf33dff23eefe2319564f315657e799e6c213c612bfb355590da3fd",
-    "qualification_status": "PENDING"
+    "qualification_status": "QUALIFIED"
   }
 }

@@ -27,7 +27,7 @@
     "complex": 17,
     "compile_control": 2
   },
-  "selection_review_sha256": "77c8730e347b4a8ec1bfb0c5b1bf2dd5f50f52d17fb4b31a0ac05363414cc9ec",
+  "selection_review_sha256": "ae7c6b14dcfeee4121c87c6095d4db4a8e2c384281ca45a85e0bad9b1da3fe6d",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -111,7 +111,9 @@
     40825871574,
     40827519515,
     40828677570,
-    40829252883
+    40829252883,
+    40832297438,
+    40833909499
   ],
   "discarded_candidates": [
     {
@@ -904,6 +906,20 @@
       "archive_sha256": "0230add3a31593c9f2e2c7ddbc0d5a2f3d093aed4e616eacc9abcf22c847be5a",
       "source_job_id": 123312339668,
       "native_tests_reused_from_run": 40824500614
+    },
+    {
+      "instance_id": "nlohmann__json-3564",
+      "run_id": 40832297438,
+      "artifact": "cross-evidence-40832297438-nlohmann__json-3564",
+      "archive_sha256": "af183c722bb8eb2b61f472bcd9f43d3af4447e4efac045f3e0db16047f288df5",
+      "source_job_id": 123309332796
+    },
+    {
+      "instance_id": "nlohmann__json-2352",
+      "run_id": 40833909499,
+      "artifact": "cross-evidence-40833909499-nlohmann__json-2352",
+      "archive_sha256": "170de10d4c5b2cdfc78a0ec220293d69970fc882b19147e99829530f0cd4b955",
+      "source_job_id": 123314475159
     }
   ],
   "task_environments": {
@@ -977,9 +993,10 @@
         "nlohmann__json-3073"
       ],
       "freeze_run_id": 40834980542,
-      "status": "FROZEN",
+      "status": "SUBMITTED",
       "attempts": 20,
-      "request_cap": 480
+      "request_cap": 480,
+      "run_id": 40835967384
     }
   ],
   "repeat_instances": [
