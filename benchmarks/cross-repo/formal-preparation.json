@@ -1,7 +1,7 @@
 {
   "schema": "repropatch.cross-repository-preparation.v1",
   "batch_id": "cross-repository-formal-preparation-20261028",
-  "status": "QUALIFIED_FORMAL_SUBMISSION_IN_PROGRESS",
+  "status": "FORMAL_IN_PROGRESS",
   "model_requests": 0,
   "qualification_policy": "baseline-native-v1",
   "model_request_max_parallel": 3,
@@ -1292,7 +1292,17 @@
       "status": "SUBMITTED",
       "attempts": 20,
       "request_cap": 480,
-      "run_id": 40835967384
+      "run_id": 40896581895,
+      "execution_branch": "experiment/restart-unstarted-batch-03-20261029",
+      "prior_submissions": [
+        {
+          "run_id": 40835967384,
+          "status": "CANCELLED_BEFORE_JOBS",
+          "jobs_created": 0,
+          "artifacts_created": 0,
+          "issued_requests": 0
+        }
+      ]
     },
     {
       "protocol": "benchmarks/cross-repo/formal-protocol-batch-04.json",
@@ -1305,7 +1315,17 @@
       "status": "SUBMITTED",
       "attempts": 10,
       "request_cap": 240,
-      "run_id": 40836518588
+      "run_id": 40896593845,
+      "execution_branch": "experiment/restart-unstarted-batch-04-20261029",
+      "prior_submissions": [
+        {
+          "run_id": 40836518588,
+          "status": "CANCELLED_BEFORE_JOBS",
+          "jobs_created": 0,
+          "artifacts_created": 0,
+          "issued_requests": 0
+        }
+      ]
     },
     {
       "protocol": "benchmarks/cross-repo/formal-protocol-batch-05.json",
@@ -1317,7 +1337,17 @@
       "status": "SUBMITTED",
       "attempts": 5,
       "request_cap": 120,
-      "run_id": 40839687510
+      "run_id": 40896604325,
+      "execution_branch": "experiment/restart-unstarted-batch-05-20261029",
+      "prior_submissions": [
+        {
+          "run_id": 40839687510,
+          "status": "CANCELLED_BEFORE_JOBS",
+          "jobs_created": 0,
+          "artifacts_created": 0,
+          "issued_requests": 0
+        }
+      ]
     },
     {
       "protocol": "benchmarks/cross-repo/formal-protocol-batch-06.json",
@@ -1329,7 +1359,17 @@
       "status": "SUBMITTED",
       "attempts": 5,
       "request_cap": 120,
-      "run_id": 40840917817
+      "run_id": 40896615614,
+      "execution_branch": "experiment/restart-unstarted-batch-06-20261029",
+      "prior_submissions": [
+        {
+          "run_id": 40840917817,
+          "status": "CANCELLED_BEFORE_JOBS",
+          "jobs_created": 0,
+          "artifacts_created": 0,
+          "issued_requests": 0
+        }
+      ]
     },
     {
       "protocol": "benchmarks/cross-repo/formal-protocol-batch-07.json",
@@ -1342,7 +1382,17 @@
       "status": "SUBMITTED",
       "attempts": 10,
       "request_cap": 240,
-      "run_id": 40846468787
+      "run_id": 40896626646,
+      "execution_branch": "experiment/restart-unstarted-batch-07-20261029",
+      "prior_submissions": [
+        {
+          "run_id": 40846468787,
+          "status": "CANCELLED_BEFORE_JOBS",
+          "jobs_created": 0,
+          "artifacts_created": 0,
+          "issued_requests": 0
+        }
+      ]
     },
     {
       "protocol": "benchmarks/cross-repo/formal-protocol-batch-08.json",
@@ -1354,9 +1404,20 @@
         "fmtlib__fmt-3569"
       ],
       "freeze_run_id": 40852743239,
-      "status": "FROZEN",
+      "status": "SUBMITTED",
       "attempts": 20,
-      "request_cap": 480
+      "request_cap": 480,
+      "run_id": 40896636560,
+      "execution_branch": "experiment/restart-unstarted-batch-08-20261029",
+      "prior_submissions": [
+        {
+          "run_id": 40853160095,
+          "status": "CANCELLED_BEFORE_JOBS",
+          "jobs_created": 0,
+          "artifacts_created": 0,
+          "issued_requests": 0
+        }
+      ]
     }
   ],
   "repeat_instances": [
