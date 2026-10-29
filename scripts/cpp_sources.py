@@ -129,9 +129,7 @@ def patch_sections(patch, *, record=None):
         if match is None:
             raise ValueError("CPP_REFERENCE_TREE_REVIEW_REQUIRED")
         if match[1] != match[2] and (
-            record is None
-            or production_path(record, match[1])
-            or production_path(record, match[2])
+            record is None or production_path(record, match[1]) or production_path(record, match[2])
         ):
             raise ValueError("CPP_REFERENCE_TREE_REVIEW_REQUIRED")
         yield match[1], "diff --git " + chunk
