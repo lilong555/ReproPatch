@@ -111,6 +111,7 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         options = [option for option in options if not option.startswith(replaced)]
         options += [
             "-DCMAKE_CXX_STANDARD=23",
+            "-DCMAKE_CXX_FLAGS=-pipe",
             "-DSLANG_ENABLE_DXIL=ON",
             "-DSLANG_ENABLE_XLIB=OFF",
             "-DSLANG_SLANG_LLVM_BINARY_URL=/opt/cpp-deps/slang-10738/libslang-llvm.so",
