@@ -23,11 +23,11 @@
     "simdjson/simdjson": 1
   },
   "difficulty_counts": {
-    "medium": 11,
-    "complex": 18,
+    "medium": 10,
+    "complex": 19,
     "compile_control": 1
   },
-  "selection_review_sha256": "6a3a1907c8ef5364fd59c9a783b5f7e425b7c089ab66613e57841fe452c0194f",
+  "selection_review_sha256": "e410e4bf6a4eb5e92906b748fbf8f19e247cb18f5c12b765c02d6bbed0de7a49",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -37,7 +37,7 @@
     "stephenberry__glaze-2611",
     "nlohmann__json-3073",
     "nlohmann__json-2332",
-    "nlohmann__json-2019",
+    "nlohmann__json-3605",
     "nlohmann__json-2319",
     "nlohmann__json-3663",
     "nlohmann__json-2352",
@@ -71,7 +71,7 @@
     "stephenberry__glaze-2611",
     "nlohmann__json-3073",
     "nlohmann__json-2332",
-    "nlohmann__json-2019",
+    "nlohmann__json-3605",
     "nlohmann__json-2319",
     "nlohmann__json-3663",
     "nlohmann__json-2352",
@@ -552,6 +552,28 @@
         "rationale": "枚举数组索引编译失败，验证类型检查和隐式转换。",
         "record_sha256": "6515e35b6c696cc756b61940682df0466542964e3ecef043a8c1c95f10bc0c34"
       }
+    },
+    {
+      "instance_id": "nlohmann__json-2019",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "原生测试和冷Oracle通过；历史源码包含四个21–24MiB回归数据文件及55MiB性能数据，超出工作树打包上限，采用外置测试数据的新版本命名空间冲突缺陷。",
+      "source_runs": [
+        40833909499,
+        40836473617
+      ],
+      "observed_qualification_status": "SOURCE_FILE_TOO_LARGE",
+      "replacement_instance": "nlohmann__json-3605",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1982",
+        "difficulty": "medium",
+        "rationale": "json_pointer.contains 在数组路径中错误限制后续对象键。",
+        "record_sha256": "0d6fb9e7869dd6a0490b9ec7bac23cc19243e226370789ba76f19f85241feff7",
+        "qualification_status": "PENDING"
+      }
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -784,6 +806,15 @@
       "reason": "两核冷构建耗时1069.85秒，原生套件还依赖cpu-hello-world示例程序与测试变体筛选适配；采用构建较轻的有序JSON范围删除缺陷。",
       "replacement_record_sha256": "474576e64f19c8c51cb3d72170558421a5905bb63d22f8b5cdf3d80caddd9443",
       "replacement_base_commit": "7440786b813534b567f6f6b87afb2aa19f97cc89"
+    },
+    {
+      "previous_instance": "nlohmann__json-2019",
+      "replacement_instance": "nlohmann__json-3605",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原生测试和冷Oracle通过；历史源码包含四个21–24MiB回归数据文件及55MiB性能数据，超出工作树打包上限，采用外置测试数据的新版本命名空间冲突缺陷。",
+      "replacement_record_sha256": "60c640d9bf4211f8c3b133227287ee0dcc43d644bd0077118e75c00f6440296b",
+      "replacement_base_commit": "d3e347bd2d5bdb52f3d376440a760bbef866f2b9"
     }
   ],
   "selection_policy": "resource-feasible-cross-repository-v1",
@@ -1027,6 +1058,19 @@
       "attempts": 20,
       "request_cap": 480,
       "run_id": 40835967384
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-04.json",
+      "sha256": "769b14dc4b525990545bd2bddc1550fe0d4fc509a4b79b5ceaae2e8e8515eb92",
+      "tasks": [
+        "nlohmann__json-3564",
+        "nlohmann__json-2352"
+      ],
+      "freeze_run_id": 40836166777,
+      "status": "SUBMITTED",
+      "attempts": 10,
+      "request_cap": 240,
+      "run_id": 40836518588
     }
   ],
   "repeat_instances": [

@@ -120,13 +120,19 @@ def load_records(directory):
     return records
 
 
-def patch_sections(patch):
+def patch_sections(patch, *, record=None):
     chunks = patch.split("diff --git ")
     if chunks[0].strip():
         raise ValueError("CPP_REFERENCE_PATCH_LAYOUT")
     for chunk in chunks[1:]:
         match = re.match(r"a/(\S+) b/(\S+)\n", chunk)
-        if match is None or match[1] != match[2]:
+        if match is None:
+            raise ValueError("CPP_REFERENCE_TREE_REVIEW_REQUIRED")
+        if match[1] != match[2] and (
+            record is None
+            or production_path(record, match[1])
+            or production_path(record, match[2])
+        ):
             raise ValueError("CPP_REFERENCE_TREE_REVIEW_REQUIRED")
         yield match[1], "diff --git " + chunk
 
@@ -145,7 +151,7 @@ def production_path(record, name):
 
 def production_reference(record):
     selected, omitted = [], []
-    for name, section in patch_sections(record["fix_patch"]):
+    for name, section in patch_sections(record["fix_patch"], record=record):
         if production_path(record, name):
             if re.search(
                 r"(?m)^(?:new file mode|deleted file mode|old mode|new mode|GIT binary patch)",

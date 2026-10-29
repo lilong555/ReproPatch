@@ -17,6 +17,25 @@ sources = importlib.import_module("cpp_sources")
 runner = importlib.import_module("native_cpp_runner")
 
 
+def test_reference_keeps_production_changes_and_omits_document_rename():
+    record = {
+        "org": "nlohmann",
+        "repo": "json",
+        "fix_patch": (
+            "diff --git a/docs/old.md b/docs/new.md\n"
+            "similarity index 100%\nrename from docs/old.md\nrename to docs/new.md\n"
+            "diff --git a/include/json.hpp b/include/json.hpp\n"
+            "--- a/include/json.hpp\n+++ b/include/json.hpp\n@@ -1 +1 @@\n-old\n+new\n"
+        ),
+    }
+    reference, omitted = sources.production_reference(record)
+    assert omitted == ["docs/old.md"]
+    assert reference.startswith("diff --git a/include/json.hpp b/include/json.hpp\n")
+    record["fix_patch"] = record["fix_patch"].replace("docs/new.md", "include/new.hpp")
+    with pytest.raises(ValueError, match="CPP_REFERENCE_TREE_REVIEW_REQUIRED"):
+        sources.production_reference(record)
+
+
 @pytest.mark.integration
 def test_selected_oracle_maps_ctest_name_to_native_build_target(tmp_path):
     if any(shutil.which(tool) is None for tool in ("cmake", "ninja", "c++")):
