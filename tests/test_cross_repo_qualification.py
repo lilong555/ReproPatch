@@ -523,3 +523,7 @@ def test_production_scope_excludes_dictionary_and_test_sources():
     assert not sources.production_path(
         {"org": "BYVoid", "repo": "OpenCC"}, "data/dictionary/STPhrases.txt"
     )
+    assert not sources.production_path(
+        {"org": "actor-framework", "repo": "actor-framework"},
+        "libcaf_net/caf/net/actor_shell.test.cpp",
+    )
