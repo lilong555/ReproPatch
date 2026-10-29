@@ -10,6 +10,8 @@ import subprocess
 import tarfile
 from pathlib import Path
 
+import yaml
+
 
 def inspect(entry, output):
     run, instance = entry["run_id"], entry["instance_id"]
@@ -42,11 +44,25 @@ def inspect(entry, output):
 
         finalize(entry, path, output / "finalized")
     logs = {}
+    task_layout = None
     with tarfile.open(path) as archive:
         result = json.load(archive.extractfile(instance + "/result.json"))
         for member in archive.getmembers():
             if not member.isfile() or not member.name.startswith(instance + "/"):
                 continue
+            if member.name == instance + "/task.yaml":
+                content = archive.extractfile(member).read()
+                task = yaml.safe_load(content)
+                task_layout = {
+                    "yaml_bytes": len(content),
+                    "compact_json_bytes": len(
+                        json.dumps(task, ensure_ascii=False, separators=(",", ":")).encode()
+                    ),
+                    "section_bytes": {
+                        key: len(yaml.safe_dump(value, allow_unicode=True).encode())
+                        for key, value in task.items()
+                    },
+                }
             if member.name.endswith((".log", "native-results.json")):
                 content = archive.extractfile(member).read().decode(errors="replace")
                 lines = content.splitlines()
@@ -59,11 +75,28 @@ def inspect(entry, output):
                         re.IGNORECASE,
                     )
                 ]
+                focus = next(
+                    (
+                        index
+                        for index, line in enumerate(lines)
+                        if "gfx-smoke.slang (cpu)] ERROR:" in line
+                    ),
+                    None,
+                )
                 logs[member.name] = {
                     "errors": errors[:35],
                     "tail": "\n".join(lines[-35:])[-12000:],
+                    "failure_context": "\n".join(lines[max(0, focus - 5) : focus + 70])[:20000]
+                    if focus is not None
+                    else None,
                 }
-    return {"source": entry, "archive_sha256": digest, "result": result, "logs": logs}
+    return {
+        "source": entry,
+        "archive_sha256": digest,
+        "result": result,
+        "task_layout": task_layout,
+        "logs": logs,
+    }
 
 
 def main():

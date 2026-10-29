@@ -6,6 +6,7 @@ import os
 import subprocess
 import sys
 from dataclasses import FrozenInstanceError, replace
+from types import SimpleNamespace
 
 import pytest
 import yaml
@@ -13,7 +14,15 @@ from conftest import ROOT
 
 from repropatch.cli import main
 from repropatch.errors import ReproPatchError
-from repropatch.task import Budget, ImageIdentity, Task, canonical_json, relative_file, resolve_task
+from repropatch.task import (
+    MAX_TASK_BYTES,
+    Budget,
+    ImageIdentity,
+    Task,
+    canonical_json,
+    relative_file,
+    resolve_task,
+)
 from repropatch.workspace import git
 
 
@@ -23,6 +32,34 @@ def valid():
 
 def identity(task):
     return ImageIdentity(task.environment.image)
+
+
+def test_large_task_manifest_preserves_source_and_configuration(tmp_path):
+    source = yaml.safe_dump(valid()) + "#" + "x" * (320 * 1024) + "\n"
+    path = tmp_path / "task.yaml"
+    path.write_text(source)
+    task = Task.load(path)
+    assert task.source_bytes == source.encode()
+    assert task.editable_paths == tuple(valid()["files"]["editable"])
+
+
+@pytest.mark.parametrize("shell_only", [False, True])
+def test_large_source_scope_fits_initial_context_and_keeps_edit_authorization(shell_only):
+    from repropatch.agent_runtime import model_file_scope
+    from repropatch.context import ContextPolicy, estimate_plain
+
+    editable = frozenset(f"source/compiler/component-{index:04d}.cpp" for index in range(842))
+    readable = editable | {
+        f"external/dependency/test/case-{index:05d}/expected.txt" for index in range(14000)
+    }
+    resolved = SimpleNamespace(editable_files=editable, readable_files=readable)
+    scope = model_file_scope(resolved, ContextPolicy(), shell_only=shell_only)
+    assert estimate_plain({"editable": sorted(editable), "readable": sorted(readable)}) > 128000
+    assert estimate_plain(scope) < 48000
+    assert scope["editable"] == sorted(editable)
+    assert scope["readable"]["file_count"] == len(readable)
+    assert scope["readable"]["discovery_tool"] == ("bash" if shell_only else "list_directory")
+    assert resolved.readable_files == readable
 
 
 def test_v2_defaults_immutable_and_normalized(tmp_path):
@@ -118,7 +155,7 @@ def test_path_policy(path):
         ("key: &anchor [1]\nother: *anchor", "anchor/alias"),
         ("!!python/object/apply:os.system ['false']", "解析错误"),
         ("a: " + "[" * 13 + "0" + "]" * 13, "深度"),
-        ("#" + "x" * (128 * 1024), "128 KiB"),
+        pytest.param("#" + "x" * MAX_TASK_BYTES, "512 KiB", id="task-size-limit"),
     ],
 )
 def test_yaml_boundary_is_bounded_and_safe(tmp_path, source, match):

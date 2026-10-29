@@ -27,7 +27,7 @@
     "complex": 18,
     "compile_control": 2
   },
-  "selection_review_sha256": "3c7b4be0ebe9c7ea93abb84ee00147f1850652171acbb017438cbb8925ed9393",
+  "selection_review_sha256": "d27cc57366fc8a53c4050c755d300eb1a8b080776468c584800c4f773a77fa12",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -112,8 +112,17 @@
     40827519515,
     40828677570,
     40829252883,
+    40831034510,
+    40831998932,
     40832297438,
-    40833909499
+    40833345375,
+    40833909499,
+    40834894705,
+    40836845649,
+    40837402807,
+    40838879031,
+    40839329016,
+    40839544176
   ],
   "discarded_candidates": [
     {
@@ -1025,6 +1034,13 @@
       "artifact": "cross-evidence-40837402807-nlohmann__json-3605",
       "source_job_id": 123325685077,
       "archive_sha256": "0d7eeb3c8dd77a1d2a49239d6df4b2ef8399ab909fbe0bf59db196fecea29ac4"
+    },
+    {
+      "instance_id": "shader-slang__slang-10768",
+      "run_id": 40838879031,
+      "artifact": "cross-evidence-40838879031-shader-slang__slang-10768",
+      "archive_sha256": "a426bf1d8a4e0d9159efdd38b5dbcbb642c74f34a9af5001f69c90de659c1ac0",
+      "native_tests_reused_from_run": 40827519515
     }
   ],
   "task_environments": {
@@ -1143,9 +1159,10 @@
         "nlohmann__json-3605"
       ],
       "freeze_run_id": 40840192294,
-      "status": "FROZEN",
+      "status": "SUBMITTED",
       "attempts": 5,
-      "request_cap": 120
+      "request_cap": 120,
+      "run_id": 40840917817
     }
   ],
   "repeat_instances": [

@@ -106,7 +106,8 @@
     "issue_key": "10376",
     "difficulty": "complex",
     "rationale": "接口类型的 RWByteAddressBuffer Load/Store 引发编译器内部错误。",
-    "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13"
+    "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13",
+    "qualification_status": "QUALIFIED"
   },
   "shader-slang__slang-10738": {
     "repository": "shader-slang/slang",

@@ -1,4 +1,4 @@
-"""复用已通过的原生测试证据，完成超长问题描述的 Task 导出。"""
+"""复用已通过的原生测试证据，完成 Task 导出。"""
 
 import json
 import os
@@ -14,6 +14,9 @@ from qualify_cpp_batch import save, sha
 from qualify_cross_repo import manifest, write_task
 from summarize_candidate_qualification import qualification_gate_errors
 
+from repropatch.context import estimate_plain
+from repropatch.task import Task, canonical_json
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -26,7 +29,7 @@ def finalize(entry, archive, output):
     original_sha = sha(directory / "result.json")
     if (
         result["status"] != "PREPARATION_FAILED"
-        or not result.get("diagnostic", "").startswith("bug.description:")
+        or not result.get("diagnostic", "").startswith(("bug.description:", "task: 清单超过 "))
         or result["backend"] != "docker"
         or result["model_requests"] != 0
     ):
@@ -59,18 +62,28 @@ def finalize(entry, archive, output):
         result["f2p"],
         result["p2p"],
     )
+    parsed = Task.load(task)
+    paths = source_manifest(source)
+    prefixes = tuple(path for path in parsed.readable_paths if path.endswith("/"))
+    explicit = set(parsed.readable_paths)
+    readable = sorted(path for path in paths if path in explicit or path.startswith(prefixes))
+    scope = {"editable": parsed.editable_paths, "readable": readable}
     result.update(
         status="QUALIFIED",
         task_path=str(task),
         task_file_sha256=sha(task),
         finalization={
-            "operation": "TASK_DESCRIPTION_EXPORT",
+            "operation": "TASK_EXPORT",
             "source_run_id": entry["run_id"],
             "source_archive_sha256": entry["archive_sha256"],
             "source_result_sha256": original_sha,
             "native_tests_reused": True,
             "model_requests": 0,
             "prepared_source_unchanged": True,
+            "expanded_scope_bytes": len(canonical_json(scope)),
+            "expanded_scope_estimated_tokens": estimate_plain(scope),
+            "editable_file_count": len(parsed.editable_paths),
+            "readable_file_count": len(readable),
         },
     )
     for key in ("failure_type", "diagnostic"):
@@ -81,10 +94,14 @@ def finalize(entry, archive, output):
     summary.rename(output / "source-batch-summary.json")
     save(summary, {"schema_version": 2, "model_requests": 0, "tasks": [result]})
     implementations = {}
-    for name in ("qualify_cross_repo.py", "finalize_qualification_task.py"):
+    for name in (
+        "scripts/qualify_cross_repo.py",
+        "scripts/finalize_qualification_task.py",
+        "src/repropatch/task.py",
+    ):
         target = output / "finalization-code" / name
-        target.parent.mkdir(exist_ok=True)
-        target.write_bytes((ROOT / "scripts" / name).read_bytes())
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / name).read_bytes())
         implementations[name] = sha(target)
     save(output / "finalization-source-manifest.json", implementations)
     (output / "archive-manifest.json").rename(output / "source-archive-manifest.json")

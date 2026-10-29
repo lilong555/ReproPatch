@@ -10,7 +10,7 @@ from .artifacts import MAX_AUDIT_BYTES, EvidenceRef
 from .context import ContextPolicy, ContextState
 from .errors import InfrastructureError, ReproPatchError
 from .events import _json, read_events
-from .task import canonical_json
+from .task import MAX_TASK_BYTES, canonical_json
 from .workspace import SourceManifest, git_deadline
 
 MANIFEST_KEYS = {
@@ -457,7 +457,7 @@ def _fail_recovery(log, resources, snapshot, reason, error, *, outcome="RECOVERY
     if frozen.get("task_original"):
         try:
             ref = EvidenceRef(**frozen["task_original"])
-            ref.read(log.directory, limit=128 * 1024)
+            ref.read(log.directory, limit=MAX_TASK_BYTES)
             task_source_sha256 = ref.sha256
         except (ReproPatchError, OSError, ValueError, KeyError, TypeError):
             diagnostic_errors.append("TASK_SOURCE_UNVERIFIABLE")
@@ -623,7 +623,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     )
     if manifest["input_fingerprints"]["tools_sha256"] != tools_hash:
         raise InfrastructureError("INPUT_CHANGED: 工具 schema 发生变化")
-    original = EvidenceRef(**frozen["task_original"]).read(directory, limit=128 * 1024)
+    original = EvidenceRef(**frozen["task_original"]).read(directory, limit=MAX_TASK_BYTES)
     task = Task.from_dict(raw["task"], directory, source_bytes=original)
     if config["budget"] != asdict(task.budget):
         raise InfrastructureError("INPUT_CHANGED: 冻结预算不一致")
