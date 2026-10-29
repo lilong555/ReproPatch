@@ -291,6 +291,11 @@ def prepare_source_dependencies(record, source, pool, *, deadline):
         return []
     if record.get("instance_id") == "simdjson__simdjson-644":
         # 此版本的六个原生测试直接使用仓库内数据。
+        # JSON 对照库仅保留编译接口，独立项目的测试与性能数据位于其发行仓库。
+        for relative in ("dependencies/json/test", "dependencies/json/benchmarks"):
+            path = source / relative
+            if path.exists():
+                shutil.rmtree(path)
         return []
     from prepare_simdjson_task import adapt_environment, adapt_individual_ctest
 

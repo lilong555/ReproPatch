@@ -186,6 +186,14 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
         (issue.get("title") or "") + "\n" + (issue.get("body") or "")
         for issue in record["resolved_issues"]
     ).strip()
+    encoded_description = description.encode("utf-8")
+    if len(encoded_description) > 30 * 1024:
+        # 保留问题开头与日志结尾，完整原文随 control/record.json 归档。
+        description = (
+            encoded_description[: 26 * 1024].decode("utf-8", errors="ignore")
+            + "\n\n[中间日志已折叠；完整问题原文见资格证据 control/record.json]\n\n"
+            + encoded_description[-3 * 1024 :].decode("utf-8", errors="ignore")
+        )
     raw = {
         "version": 2,
         "id": record["instance_id"].replace("__", "-").lower(),

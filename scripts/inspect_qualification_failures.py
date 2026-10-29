@@ -37,6 +37,10 @@ def inspect(entry, output):
     digest = hashlib.file_digest(path.open("rb"), "sha256").hexdigest()
     if path.with_suffix(".gz.sha256").read_text().split()[0] != digest:
         raise ValueError("ARCHIVE_CHECKSUM_MISMATCH")
+    if entry.get("finalize_task"):
+        from finalize_qualification_task import finalize
+
+        finalize(entry, path, output / "finalized")
     logs = {}
     with tarfile.open(path) as archive:
         result = json.load(archive.extractfile(instance + "/result.json"))
