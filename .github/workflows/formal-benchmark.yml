@@ -1,5 +1,5 @@
 name: Formal Luna max benchmark
-run-name: ${{ inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -57,7 +57,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ${{ inputs.cross_stage == 'qualify' && format('cpp-qualification-{0}', github.run_id) || format('formal-luna-max-{0}', inputs.authorization) }}
+  group: ${{ (inputs.cross_stage == 'qualify' || inputs.cross_stage == 'inspect-native') && format('cpp-environment-{0}', github.run_id) || format('formal-luna-max-{0}', inputs.authorization) }}
   cancel-in-progress: false
 
 env:
