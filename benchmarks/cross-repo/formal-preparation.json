@@ -1135,6 +1135,17 @@
       "attempts": 5,
       "request_cap": 120,
       "run_id": 40839687510
+    },
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-06.json",
+      "sha256": "1f9927ade8f2a640ebe8814eb5798298b1fdc8807923dcbe6683d19fb4e8a68f",
+      "tasks": [
+        "nlohmann__json-3605"
+      ],
+      "freeze_run_id": 40840192294,
+      "status": "FROZEN",
+      "attempts": 5,
+      "request_cap": 120
     }
   ],
   "repeat_instances": [
