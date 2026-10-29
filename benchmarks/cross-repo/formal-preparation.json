@@ -720,5 +720,29 @@
     "actor-framework__actor-framework-2300",
     "KhronosGroup__glslang-4006",
     "stephenberry__glaze-2611"
+  ],
+  "formal_batches": [
+    {
+      "protocol": "benchmarks/cross-repo/formal-protocol-batch-01.json",
+      "sha256": "6f142bffeebb8cefb352f0d661d6294fc8717f5375eb2698dc3d97fd267f2f73",
+      "tasks": [
+        "nlohmann__json-3008",
+        "nlohmann__json-2866",
+        "open-source-parsers__jsoncpp-1693",
+        "catchorg__Catch2-2128",
+        "nlohmann__json-3037",
+        "nlohmann__json-2963",
+        "actor-framework__actor-framework-2300",
+        "KhronosGroup__glslang-4006",
+        "stephenberry__glaze-2611",
+        "nlohmann__json-3543",
+        "nlohmann__json-3523",
+        "nlohmann__json-3446"
+      ],
+      "freeze_run_id": 40828952317,
+      "status": "FROZEN",
+      "attempts": 60,
+      "request_cap": 1440
+    }
   ]
 }
