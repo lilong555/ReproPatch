@@ -195,6 +195,8 @@ def recipe(record, *, cxx="clang++-19", cc="clang-19", optimization="O3"):
         if repo == "duckdb/duckdb"
         else 8192,
         "build_tmpfs_mib": 4096,
+        # Slang 原生临时文件固定写入 /tmp，主机可调用模块需要执行权限。
+        "tmp_executable": repo == "shader-slang/slang",
         "build_jobs": 2,
         # DuckDB 原生并发 DROP 回归同时创建 300 个线程，256 会中断测试进程。
         "pids_limit": 4096 if repo in {"ninja-build/ninja", "duckdb/duckdb"} else 256,

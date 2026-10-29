@@ -158,6 +158,7 @@ class DockerSandbox:
         pids = self.resources.pids_limit if self.resources else 64
         cpus = self.resources.cpu_limit if self.resources else 1
         build_tmpfs = self.resources.build_tmpfs_mib if self.resources else 256
+        tmp_mode = "exec" if self.resources and self.resources.tmp_executable else "noexec"
         args = [
             "create",
             "--name",
@@ -179,7 +180,7 @@ class DockerSandbox:
             "--ulimit=core=0:0",
             "--ipc=none",
             "--log-driver=none",
-            "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
+            f"--tmpfs=/tmp:rw,{tmp_mode},nosuid,nodev,size=64m,mode=1777",
             f"--tmpfs=/build:rw,exec,nosuid,nodev,size={build_tmpfs}m,uid=65534,gid=65534,mode=0700",
             "--workdir=/build",
             "--env=HOME=/tmp",

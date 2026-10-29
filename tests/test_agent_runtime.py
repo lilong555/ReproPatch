@@ -307,7 +307,8 @@ def test_agent_deadline_preserves_verification_reserve(task, tmp_path, monkeypat
     def remaining(self, role):
         value = original(self, role)
         if role == "agent_check":
-            return min(value, 1.0)
+            # 为首次工具写入和源码冻结留出调度时间，再由时限终止阻塞的模型。
+            return min(value, 5.0)
         return value
 
     monkeypatch.setattr(RunClock, "remaining", remaining)

@@ -55,6 +55,8 @@ Git hooks、fsmonitor、外部 diff 与 textconv 不参与运行。完整文件�
 `AuditBudget` 限制非源码审计文件为 256 MiB，给最终报告和清理诊断保留空间；控制文件为 0600。
 
 `DockerSandbox` 仅挂载源码快照，`/src` 只读；`/build` 是有限容量 tmpfs，允许执行编译产物。
+`environment.tmp_executable` 控制 `/tmp` 的执行权限，默认值为 `false`。Slang 的原生测试固定在 `/tmp`
+生成并加载编译产物，其任务将该值设为 `true`；五个实验臂、修复自检与独立冷验收使用同一配置。
 每轮评估创建新容器，配置、编译和测试在同一个容器内进行以共享该轮构建产物。
 固定 sleep 入口、禁用健康检查和重启，拒绝额外镜像 VOLUME；创建后核对实际权限、挂载与资源限额。
 超时、取消、4 MiB 原始输出达限及阶段结束均删除整个容器，再 inspect 确认不存在。daemon 失联或 ID/标签不符终止运行。禁止运行时自动下载或构建镜像；Task 只接受固定

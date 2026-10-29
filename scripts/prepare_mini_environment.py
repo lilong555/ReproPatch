@@ -189,6 +189,7 @@ def main():
     )
     set_container_read_permissions(source)
     resources = task.environment
+    tmp_mode = "exec" if resources.tmp_executable else "noexec"
     run_args = [
         "--rm",
         "--pull=never",
@@ -208,7 +209,7 @@ def main():
         f"--memory={resources.memory_mib}m",
         f"--memory-swap={resources.memory_mib}m",
         f"--cpus={resources.cpu_limit}",
-        "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
+        f"--tmpfs=/tmp:rw,{tmp_mode},nosuid,nodev,size=64m,mode=1777",
         f"--tmpfs=/build:rw,exec,nosuid,nodev,size={resources.build_tmpfs_mib}m,"
         "uid=65534,gid=65534,mode=0700",
         "--mount",

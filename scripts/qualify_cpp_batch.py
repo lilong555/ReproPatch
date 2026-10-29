@@ -175,6 +175,7 @@ class Executor:
         self.backend, self.image, self.directory = backend, image, directory
         self.memory_mib = 4096
         self.pids_limit = 256
+        self.tmp_executable = False
         self.deadline, self.build_jobs = deadline, build_jobs
         self.configure = [*CONFIGURE, f"-DCMAKE_CXX_FLAGS_RELEASE=-{optimization} -DNDEBUG"]
         # Use executable local scratch; copy diagnostics to evidence.
@@ -226,7 +227,9 @@ class Executor:
                 f"--memory-swap={self.memory_mib}m",
                 f"--pids-limit={self.pids_limit}",
                 "--ulimit=core=0:0",
-                "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
+                "--tmpfs=/tmp:rw,"
+                + ("exec" if self.tmp_executable else "noexec")
+                + ",nosuid,nodev,size=64m,mode=1777",
                 "--mount",
                 f"type=bind,source={source},target=/src,readonly",
                 "--mount",

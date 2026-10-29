@@ -132,6 +132,7 @@ class Environment:
     memory_mib: int = 2048
     pids_limit: int = 128
     build_tmpfs_mib: int = 1024
+    tmp_executable: bool = False
 
 
 @dataclass(frozen=True)
@@ -274,6 +275,8 @@ class Task:
         values["cpu_limit"] = float(cpu)
         for key in ("memory_mib", "pids_limit", "build_tmpfs_mib"):
             positive(values[key], f"environment.{key}")
+        if type(values["tmp_executable"]) is not bool:
+            fail("environment.tmp_executable", "期望布尔值")
         if values["build_tmpfs_mib"] >= values["memory_mib"]:
             fail("environment.build_tmpfs_mib", "必须小于 memory_mib")
         bug = mapping(raw["bug"], "bug", ("description",))

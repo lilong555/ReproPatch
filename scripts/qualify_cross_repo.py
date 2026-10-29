@@ -41,6 +41,7 @@ class NativeExecutor(Executor):
         self.configuration = configuration
         self.memory_mib = configuration["memory_mib"]
         self.pids_limit = configuration.get("pids_limit", 256)
+        self.tmp_executable = configuration.get("tmp_executable", False)
         self.configure = [*configuration["configure"], "-DREPROPATCH_NATIVE_WRAPPER=ON"]
         self.phase_timeout = configuration.get("phase_timeout_seconds", 1800)
 
@@ -198,6 +199,7 @@ def write_task(record, source, directory, image, configuration, f2p, p2p):
             "memory_mib": configuration["memory_mib"],
             "build_tmpfs_mib": configuration["build_tmpfs_mib"],
             "pids_limit": configuration.get("pids_limit", 256),
+            "tmp_executable": configuration.get("tmp_executable", False),
         },
         "bug": {
             "description": description

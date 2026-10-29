@@ -33,6 +33,9 @@ def test_v2_defaults_immutable_and_normalized(tmp_path):
     assert task.repository == (tmp_path / "../cpp-bugs").resolve()
     assert task.commands["build"][-1] == "2"
     assert task.environment.memory_mib == 2048
+    assert task.environment.tmp_executable is False
+    raw["environment"]["tmp_executable"] = True
+    assert Task.from_dict(raw, tmp_path).environment.tmp_executable is True
     with pytest.raises(FrozenInstanceError):
         task.budget.max_steps = 1
     with pytest.raises(FrozenInstanceError):
@@ -57,6 +60,8 @@ def test_v1_and_other_versions_have_explicit_migration_error(tmp_path, value):
         ("environment", "cpu_limit", float("nan")),
         ("environment", "memory_mib", True),
         ("environment", "build_tmpfs_mib", 2048),
+        ("environment", "tmp_executable", "true"),
+        ("environment", "tmp_executable", 1),
         ("budget", "max_tool_calls", "80"),
         ("budget", "wall_seconds", 250),
         ("commands", "build", ["sh", "-c", "echo injected"]),

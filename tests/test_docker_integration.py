@@ -266,6 +266,23 @@ def test_real_timeout_removes_container(tmp_path):
     save_sandbox_evidence(sandbox, result)
 
 
+@pytest.mark.parametrize("executable", [False, True])
+def test_real_tmp_execution_matches_task_environment(tmp_path, executable):
+    from repropatch.task import Environment
+
+    source = tmp_path / "source"
+    source.mkdir(mode=0o755)
+    resources = Environment("sha256:" + "a" * 64, tmp_executable=executable)
+    with real_sandbox(tmp_path, source, resources=resources) as sandbox:
+        # 直接执行临时 ELF，验证与 Slang 下游编译产物相同的挂载权限。
+        result = sandbox.run(
+            ("sh", "-c", "cp /bin/true /tmp/native-executable && /tmp/native-executable")
+        )
+        assert result.ok is executable
+    assert sandbox.cleanup_confirmed
+    save_sandbox_evidence(sandbox, result)
+
+
 def test_docker_roundtrip_preserves_bom_crlf_and_missing_final_newline(
     docker_task, model, tmp_path
 ):
