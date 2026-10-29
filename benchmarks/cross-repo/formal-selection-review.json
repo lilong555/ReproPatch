@@ -128,15 +128,6 @@
     "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
     "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
   },
-  "shader-slang__slang-10697": {
-    "repository": "shader-slang/slang",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "10244",
-    "difficulty": "complex",
-    "rationale": "接口类型经属性或下标引用修改时崩溃，涉及访问器声明检查。",
-    "record_sha256": "8730e59b5acbc3b2f4997ab1415df98123802f4408cec393cdb67f07bbb71d26"
-  },
   "shader-slang__slang-10664": {
     "repository": "shader-slang/slang",
     "semantic_kind": "defect",
@@ -296,6 +287,16 @@
     "difficulty": "complex",
     "rationale": "全局用户定义字面量在多个隔离命名空间内包含JSON头文件时发生冲突，涉及公开字面量命名空间、兼容宏与双头文件入口。",
     "record_sha256": "60c640d9bf4211f8c3b133227287ee0dcc43d644bd0077118e75c00f6440296b",
+    "qualification_status": "QUALIFIED"
+  },
+  "nlohmann__json-3601": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3600",
+    "difficulty": "compile_control",
+    "rationale": "json_pointer向标准输出流写入的既有代码编译失败，涉及模板参数推导、字符串转换和输出运算符重载。",
+    "record_sha256": "7dfb1fa52d1a8db68ed7ff4685c1f2ef2848267f3c6ec2c78ec7f3d7aa192fd6",
     "qualification_status": "PENDING"
   }
 }
