@@ -1,7 +1,7 @@
 {
   "schema": "repropatch.cross-repository-preparation.v1",
   "batch_id": "cross-repository-formal-preparation-20261028",
-  "status": "QUALIFICATION_IN_PROGRESS",
+  "status": "FORMAL_AND_QUALIFICATION_IN_PROGRESS",
   "model_requests": 0,
   "qualification_policy": "baseline-native-v1",
   "model_request_max_parallel": 3,
@@ -791,9 +791,11 @@
         "nlohmann__json-3332"
       ],
       "freeze_run_id": 40829404319,
-      "status": "FROZEN",
+      "status": "SUBMITTED",
       "attempts": 20,
-      "request_cap": 480
+      "request_cap": 480,
+      "run_id": 40830019426
     }
-  ]
+  ],
+  "formal_execution_branch": "experiment/cross-formal-batch-01"
 }
