@@ -36,7 +36,7 @@ class CandidateRejected(ValueError):
     pass
 
 
-def candidate_paths(source, patch_file, deadline=None):
+def candidate_paths(source, patch_file, deadline=None, editable=None):
     """Use Git's complete patch parser, including plain unified diff sections."""
     try:
         records = git(source, "apply", "--numstat", "-z", str(patch_file), deadline=deadline).split(
@@ -60,8 +60,12 @@ def candidate_paths(source, patch_file, deadline=None):
             raise CandidateRejected("INVALID_CANDIDATE_PATCH") from error
         path = Path(name)
         if (
-            not name.startswith(("include/", "src/", "fmt/"))
-            or path.suffix not in {".h", ".hpp", ".cc", ".cpp"}
+            (
+                name not in editable
+                if editable is not None
+                else not name.startswith(("include/", "src/", "fmt/"))
+            )
+            or (editable is None and path.suffix not in {".h", ".hpp", ".cc", ".cpp"})
             or ".." in path.parts
             or not (source / path).is_file()
             or (source / path).is_symlink()
@@ -72,6 +76,10 @@ def candidate_paths(source, patch_file, deadline=None):
 
 
 def check(args):
+    if json.loads(args.qualification.read_text()).get("adapter") == "native-cpp-v1":
+        from check_native_cpp_candidate import check as native_check
+
+        return native_check(args)
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     result = {

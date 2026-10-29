@@ -1,0 +1,272 @@
+{
+  "duckdb__duckdb-24105": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "24103",
+    "difficulty": "complex",
+    "rationale": "只读数据库的 WAL 重放写入索引块，需要定位恢复、存储与索引持久化路径。",
+    "record_sha256": "b7f4854cc31b9081a7c00e637bb92c10de1d4bab74d487d5d9e1aa455de36a07"
+  },
+  "duckdb__duckdb-24181": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "24180",
+    "difficulty": "complex",
+    "rationale": "NULL 相关更新产生错误查询结果，涉及列存储更新与有效性信息。",
+    "record_sha256": "b21bdcb5a368b7d2c346c0a2e54f7912b83be64b636d182c3bd8674968a92aac"
+  },
+  "duckdb__duckdb-23280": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23274",
+    "difficulty": "complex",
+    "rationale": "含 VARIANT 字段的 STRUCT 插入失败，需要协调嵌套类型与转换路径。",
+    "record_sha256": "9baff3be1c144610b74668c85a6a8a7b6fda317654ae0dd1e3dcd8d2f7c2a812"
+  },
+  "duckdb__duckdb-23491": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23448",
+    "difficulty": "complex",
+    "rationale": "带 DISTINCT 和 ORDER BY 的窗口 LIST 聚合返回错误结果。",
+    "record_sha256": "6420f8dbd50d9b316155eb8c605808e0481361a2f6c23bc430b104a115315117"
+  },
+  "duckdb__duckdb-23634": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23633",
+    "difficulty": "complex",
+    "rationale": "字符串总长度统计错误，影响字典压缩分析与统计写入。",
+    "record_sha256": "d4bca520fa2a28d8401b7db169fb56d5a9badfa7b125e6ad06d9eb7527cbeb20"
+  },
+  "duckdb__duckdb-24211": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "24210",
+    "difficulty": "complex",
+    "rationale": "结构体字段重命名后默认值失效，涉及目录元数据与字段身份。",
+    "record_sha256": "8a2ca119486ae632ecc95ed15aa6ca5e64bdf67bf7183687209b378a40c09a66"
+  },
+  "duckdb__duckdb-23569": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23443",
+    "difficulty": "complex",
+    "rationale": "继承的命名窗口解析失败，需要恢复窗口作用域与引用关系。",
+    "record_sha256": "b81e88bfae72f1b83300b228e2d9823cb984d87fab24d709cc49eb61c58a82b7"
+  },
+  "duckdb__duckdb-23413": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23367",
+    "difficulty": "complex",
+    "rationale": "公共子表达式优化合并易变函数调用，改变聚合和窗口结果。",
+    "record_sha256": "e7f472f2bf6781d2b52e3e821f8ac1b3a3aeeeb0e7cd227654fcb4f56bf4b50b"
+  },
+  "duckdb__duckdb-23615": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23614",
+    "difficulty": "complex",
+    "rationale": "length 的统计传播导致行组裁剪错误，涉及表达式与优化器统计。",
+    "record_sha256": "d6206b7dd95108ca3934e5b8b5b21c626e555c713eb4b7315b3e07427a470a47"
+  },
+  "duckdb__duckdb-23604": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23603",
+    "difficulty": "complex",
+    "rationale": "前缀查询的行组裁剪错误，需要协调过滤转换和字符串范围。",
+    "record_sha256": "9a01c13bf0fa26671a00993aaa730daa4ad8cbfcba1ce72248237223567386a1"
+  },
+  "duckdb__duckdb-23637": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23589",
+    "difficulty": "medium",
+    "rationale": "反向 ROWS 窗口的 COUNT 返回负数，需要修复窗口边界计数。",
+    "record_sha256": "ec382ccb18b75f4cabeb571005f8b3f7184d9e313b274b681d9fce3678f40745"
+  },
+  "duckdb__duckdb-24318": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "24309",
+    "difficulty": "medium",
+    "rationale": "Hive 分区字符串 NULL 在往返转换后变为 SQL NULL。",
+    "record_sha256": "3034569de76bbe88d44446447370dc3061fe45d4a988a2cf0dea1daf3a9eca4f"
+  },
+  "duckdb__duckdb-24011": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "24010",
+    "difficulty": "medium",
+    "rationale": "BETWEEN 相等边界的 Parquet 行组裁剪错误。",
+    "record_sha256": "29c28a49b7f8e61835c7e96b7b50d688846578ccd9e34b4ac320af505798d82e"
+  },
+  "shader-slang__slang-10856": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "10261",
+    "difficulty": "complex",
+    "rationale": "入口参数内的接口字段引发编译器崩溃，涉及 IR 类型流专门化。",
+    "record_sha256": "554770972e7325ef6fcd9fcaea650e05016ad57bec34a2642b2882c26004fa2d"
+  },
+  "shader-slang__slang-10768": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "10376",
+    "difficulty": "complex",
+    "rationale": "接口类型的 RWByteAddressBuffer Load/Store 引发编译器内部错误。",
+    "record_sha256": "d90c0078d9e2ab9463e2a14ff9a7a29eb6eb7bf05c94158c89414fabecde3a13"
+  },
+  "shader-slang__slang-10682": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "10293",
+    "difficulty": "complex",
+    "rationale": "接口类型的显式泛型专门化崩溃，涉及多个 IR 专门化阶段。",
+    "record_sha256": "30110e691cef9f81f565b614abcc3a690dba3c8f107ffb9215f438457349effb"
+  },
+  "shader-slang__slang-10663": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "10605",
+    "difficulty": "complex",
+    "rationale": "自动微分 pass 回归引发断言失败，需要追踪降低后的 IR。",
+    "record_sha256": "05a97adef532925411a6c17c030c6961a0629106e9098483a7a657013944868e"
+  },
+  "shader-slang__slang-10697": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "10244",
+    "difficulty": "complex",
+    "rationale": "接口类型经属性或下标引用修改时崩溃，涉及访问器声明检查。",
+    "record_sha256": "8730e59b5acbc3b2f4997ab1415df98123802f4408cec393cdb67f07bbb71d26"
+  },
+  "shader-slang__slang-7815": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "7783",
+    "difficulty": "compile_control",
+    "rationale": "枚举数组索引编译失败，验证类型检查和隐式转换。",
+    "record_sha256": "6515e35b6c696cc756b61940682df0466542964e3ecef043a8c1c95f10bc0c34"
+  },
+  "shader-slang__slang-7523": {
+    "repository": "shader-slang/slang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "7522",
+    "difficulty": "compile_control",
+    "rationale": "多泛型参数的模板类型 alignOf 编译失败，验证对齐信息生成。",
+    "record_sha256": "54e01695cb255f913c6a50d44d4a4c29bffa836d3d22ee758718111b44c60ecf"
+  },
+  "open-source-parsers__jsoncpp-1693": {
+    "repository": "open-source-parsers/jsoncpp",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1611",
+    "difficulty": "medium",
+    "rationale": "数组越界赋值和迭代暴露错误间隙值，验证数组填充与迭代合同。",
+    "record_sha256": "4819349e0bd95fe2e0195997a1dead39fcbb446dacacb27cdc4041475547c884"
+  },
+  "nlohmann__json-3037": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3032",
+    "difficulty": "medium",
+    "rationale": "数组下标插入遗漏父指针，JSON_DIAGNOSTICS 触发断言。",
+    "record_sha256": "f6a6267f1224a9661139671deb9e566f8f645baa870d16e22599bcb7ba28302e"
+  },
+  "nlohmann__json-3008": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3007",
+    "difficulty": "medium",
+    "rationale": "update 插入元素后父指针遗漏，破坏 JSON_DIAGNOSTICS 不变量。",
+    "record_sha256": "08cd86545d1584b47063ac04756f9f0c994a9c1de01d55161f90074b4b20a949"
+  },
+  "nlohmann__json-2963": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2962",
+    "difficulty": "complex",
+    "rationale": "ordered_json 修改导致诊断断言，涉及有序容器移动与父指针维护。",
+    "record_sha256": "951c1a26def96105f9651095e144cdef4b6a3213a38c44d95054cb71696ccd72"
+  },
+  "catchorg__Catch2-2128": {
+    "repository": "catchorg/Catch2",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2121",
+    "difficulty": "compile_control",
+    "rationale": "用户自定义相等运算符导致表达式分解编译失败。",
+    "record_sha256": "594b3d06d23e25a2fc6eaab3564e2bcebaeb569b34078cefe9b50213cbe530d4"
+  },
+  "KhronosGroup__glslang-4006": {
+    "repository": "KhronosGroup/glslang",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3948",
+    "difficulty": "complex",
+    "rationale": "SPIR-V 小整数数组索引需要无符号扩展，涉及类型与指令语义",
+    "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf"
+  },
+  "rui314__mold-1546": {
+    "repository": "rui314/mold",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1545",
+    "difficulty": "medium",
+    "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
+    "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
+  },
+  "actor-framework__actor-framework-2300": {
+    "repository": "actor-framework/actor-framework",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2299",
+    "difficulty": "complex",
+    "rationale": "异步 actor shell 退出后继续接收消息，涉及生命周期与回调重入",
+    "record_sha256": "1b5e76f46a6449ecbadd341a964c494952ab208bcf513221d9b82deedcb3ef84"
+  },
+  "nlohmann__json-2866": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "2838",
+    "difficulty": "complex",
+    "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
+    "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0"
+  },
+  "duckdb__duckdb-23422": {
+    "repository": "duckdb/duckdb",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "23370",
+    "difficulty": "medium",
+    "rationale": "正则替换字符串的非法反向引用与转义验证缺失，产生错误输出",
+    "record_sha256": "8fb2c2f995fc946f46bbc8610e49e1b4f9d1783d329815650093ea27a8028dd2"
+  }
+}

@@ -20,6 +20,45 @@ def digest(path):
 
 def required_task_artifacts(result):
     required = {"result.json"}
+    if result.get("adapter") == "native-cpp-v1" and result.get("status") in {
+        "QUALIFIED",
+        "HOST_QUALIFIED",
+    }:
+        required.update(
+            {
+                "commands.json",
+                "prepared.bundle",
+                "control/record.json",
+                "control/reference.patch",
+                "control/reference-full.patch",
+                "control/test.patch",
+                "control/upstream-source-manifest.json",
+                "control/prepared-source-manifest.json",
+                "control/editable-files.json",
+                "repository/repropatch-native/contract.json",
+                "repository/repropatch-native/runner.py",
+                "native-oracle-native-results.json",
+            }
+        )
+        phases = (
+            ("baseline",)
+            if result.get("qualification_policy") == "baseline-native-v1"
+            else ("baseline", "reference")
+        )
+        for phase in phases:
+            required.update({f"{phase}-inventory.json", f"{phase}-results.xml"})
+            required.update(
+                f"logs/{phase}-{stage}.log"
+                for stage in ("configure", "inventory", "build", "ctest")
+            )
+        required.update(
+            f"logs/native-oracle-{stage}.log" for stage in ("configure", "build", "ctest")
+        )
+        if result["backend"] == "docker":
+            required.add("task.yaml")
+        if result.get("configuration", {}).get("repository") == "nlohmann/json":
+            required.add("single-header-native-results.json")
+        return required
     if result.get("status") in {"QUALIFIED", "HOST_QUALIFIED"}:
         required.update(
             {
@@ -108,7 +147,12 @@ def audit(
         summary = batch / "batch-summary.json"
         batch_record["summary_status"] = "PRESENT" if summary.is_file() else "MISSING"
         summary_states = (
-            {r["instance_id"]: r["status"] for r in json.loads(summary.read_text())["results"]}
+            {
+                r["instance_id"]: r["status"]
+                for r in json.loads(summary.read_text()).get(
+                    "results", json.loads(summary.read_text()).get("tasks", [])
+                )
+            }
             if summary.exists()
             else {}
         )

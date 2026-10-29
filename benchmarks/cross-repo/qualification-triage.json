@@ -1,0 +1,291 @@
+{
+  "schema": "repropatch.qualification-triage.v1",
+  "model_requests": 0,
+  "source_runs": [
+    40696086669,
+    40704266694
+  ],
+  "discarded": [
+    {
+      "instance_id": "luau-lang__luau-2506",
+      "status": "DISCARDED",
+      "reason": "官方回归引用新增 FFlag，基线共享测试二进制链接失败",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "catchorg__Catch2-2288",
+      "status": "DISCARDED",
+      "reason": "编译回归阻断共享 SelfTest，原生 P2P 未执行",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "pocoproject__poco-5265",
+      "status": "DISCARDED",
+      "reason": "原生套件依赖可写 HOME、有效证书与进程树终止",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "pocoproject__poco-5270",
+      "status": "DISCARDED",
+      "reason": "原生套件的额外环境失败阻断基线 P2P",
+      "model_requests": 0
+    },
+    {
+      "instance_id": "stephenberry__glaze-2731",
+      "status": "DISCARDED",
+      "reason": "beve_test 基线挂起，阶段 1800 秒期限耗尽",
+      "model_requests": 0
+    }
+  ],
+  "host_diagnostics": [
+    {
+      "instance_id": "nlohmann__json-3037",
+      "backend": "host",
+      "optimization": "O3",
+      "assertions": "diagnostics-enabled",
+      "model_requests": 0,
+      "checks": [
+        {
+          "phase": "baseline",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5652365640053176,
+          "log": "nlohmann__json-3037-assertions-baseline-configure.log",
+          "log_sha256": "b214938a22cf9f5173f41d9598cfa6f8cf82b6a18acf255601306c7255ae4900"
+        },
+        {
+          "phase": "baseline",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.1717442360022687,
+          "log": "nlohmann__json-3037-assertions-baseline-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "baseline",
+          "check": "test",
+          "exit_code": 8,
+          "wall_seconds": 0.11423783100326546,
+          "log": "nlohmann__json-3037-assertions-baseline-test.log",
+          "log_sha256": "f616433e966efc558b82b3cc201b4592febd8c2fcfad6a7309e8db3dfe54c274"
+        },
+        {
+          "phase": "reference",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.515167900994129,
+          "log": "nlohmann__json-3037-assertions-reference-configure.log",
+          "log_sha256": "904aa7e56e668071f4d9d0fe6a63e438701e8794a527d0ca390e6416c50cf9ee"
+        },
+        {
+          "phase": "reference",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.121278380000149,
+          "log": "nlohmann__json-3037-assertions-reference-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "reference",
+          "check": "test",
+          "exit_code": 0,
+          "wall_seconds": 0.06404633299825946,
+          "log": "nlohmann__json-3037-assertions-reference-test.log",
+          "log_sha256": "f4a9be972228cb93ee6fa06354619fce925d3c6f58aa7682420082454b83e437"
+        },
+        {
+          "phase": "single-header",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5148381740000332,
+          "log": "nlohmann__json-3037-assertions-single-header-configure.log",
+          "log_sha256": "7ed0309109be15a9b5740b0eb5d91bba7ac47a31ea90508039549a6b8573335d"
+        },
+        {
+          "phase": "single-header",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.121177170003648,
+          "log": "nlohmann__json-3037-assertions-single-header-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "single-header",
+          "check": "test",
+          "exit_code": 0,
+          "wall_seconds": 0.06399953000072856,
+          "log": "nlohmann__json-3037-assertions-single-header-test.log",
+          "log_sha256": "b74ce234c27bdc9e7c7fd3a5b14a7174ae8bd31f00338138643128c56cb2bc0d"
+        }
+      ]
+    },
+    {
+      "instance_id": "nlohmann__json-3008",
+      "backend": "host",
+      "optimization": "O3",
+      "assertions": "diagnostics-enabled",
+      "model_requests": 0,
+      "checks": [
+        {
+          "phase": "baseline",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5148700539939455,
+          "log": "nlohmann__json-3008-assertions-baseline-configure.log",
+          "log_sha256": "649ac89b45f929761e4b3388cd98657ec7f4cb2aef25637c2f9fd3d5f569d42d"
+        },
+        {
+          "phase": "baseline",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.1215984130030847,
+          "log": "nlohmann__json-3008-assertions-baseline-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "baseline",
+          "check": "test",
+          "exit_code": 8,
+          "wall_seconds": 0.06397991700214334,
+          "log": "nlohmann__json-3008-assertions-baseline-test.log",
+          "log_sha256": "08f3292df2bd3bb43f82c803706a95f84bf699d5605a919e22eec6130f634883"
+        },
+        {
+          "phase": "reference",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5151332589957747,
+          "log": "nlohmann__json-3008-assertions-reference-configure.log",
+          "log_sha256": "e6803fcba3a61baac416a517fab956205a99e137be15fc2099187d38d412e706"
+        },
+        {
+          "phase": "reference",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.12120631000289,
+          "log": "nlohmann__json-3008-assertions-reference-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "reference",
+          "check": "test",
+          "exit_code": 0,
+          "wall_seconds": 0.06401774899859447,
+          "log": "nlohmann__json-3008-assertions-reference-test.log",
+          "log_sha256": "198cf98f7061e1718950a9171b2f60cf5749d1a29191df48029ab49d91ba24fb"
+        },
+        {
+          "phase": "single-header",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5148335929989116,
+          "log": "nlohmann__json-3008-assertions-single-header-configure.log",
+          "log_sha256": "2a2cff2635d7c982ac3d4f26678d30224fb3019fb3bcaa79ddc132aa4d748763"
+        },
+        {
+          "phase": "single-header",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.221322063000116,
+          "log": "nlohmann__json-3008-assertions-single-header-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "single-header",
+          "check": "test",
+          "exit_code": 0,
+          "wall_seconds": 0.06407475100422744,
+          "log": "nlohmann__json-3008-assertions-single-header-test.log",
+          "log_sha256": "f73169c7df75ea9ac5c3ab416499b35164446c48fb7d45e914905fa7d6bd1a95"
+        }
+      ]
+    },
+    {
+      "instance_id": "nlohmann__json-2963",
+      "backend": "host",
+      "optimization": "O3",
+      "assertions": "diagnostics-enabled",
+      "model_requests": 0,
+      "checks": [
+        {
+          "phase": "baseline",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5149351020008908,
+          "log": "nlohmann__json-2963-assertions-baseline-configure.log",
+          "log_sha256": "b1d546b399bd51fcc35d7346f961fe43f3b4eb44bba591ca2ec788eaefcd1eac"
+        },
+        {
+          "phase": "baseline",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.0210430130027817,
+          "log": "nlohmann__json-2963-assertions-baseline-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "baseline",
+          "check": "test",
+          "exit_code": 8,
+          "wall_seconds": 0.06417496699577896,
+          "log": "nlohmann__json-2963-assertions-baseline-test.log",
+          "log_sha256": "1d8a1a9787eac78186d0a72c60906537e5d6cdfa9fee5f06681fe07323a60db4"
+        },
+        {
+          "phase": "reference",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5153398600014043,
+          "log": "nlohmann__json-2963-assertions-reference-configure.log",
+          "log_sha256": "16f07c593810ee98680c4d47527b5cd3d5b166b6cd752f79fb7589d4a1137d73"
+        },
+        {
+          "phase": "reference",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.12079072099732,
+          "log": "nlohmann__json-2963-assertions-reference-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "reference",
+          "check": "test",
+          "exit_code": 0,
+          "wall_seconds": 0.06404094099707436,
+          "log": "nlohmann__json-2963-assertions-reference-test.log",
+          "log_sha256": "a66835ca913ecf04327c215cad82b31e11ad54f9ff7d000949678b07fad56d87"
+        },
+        {
+          "phase": "single-header",
+          "check": "configure",
+          "exit_code": 0,
+          "wall_seconds": 0.5148937720005051,
+          "log": "nlohmann__json-2963-assertions-single-header-configure.log",
+          "log_sha256": "e562f15b959982b1334dd5d5f7820c6f92bfddb959fa2f427989b2694a599c11"
+        },
+        {
+          "phase": "single-header",
+          "check": "build",
+          "exit_code": 0,
+          "wall_seconds": 3.121045571002469,
+          "log": "nlohmann__json-2963-assertions-single-header-build.log",
+          "log_sha256": "42852e612ed28c0609df0590ca54f65ae446047e53e4c74bc644d8b6f494bc6f"
+        },
+        {
+          "phase": "single-header",
+          "check": "test",
+          "exit_code": 0,
+          "wall_seconds": 0.0640539460000582,
+          "log": "nlohmann__json-2963-assertions-single-header-test.log",
+          "log_sha256": "cfb6d8dcfc50ad6dcc7ef8f3fc0c407f2c52fad2a354a5d941fa2793220e29be"
+        }
+      ]
+    }
+  ],
+  "active_qualification_runs": [
+    40811143058,
+    40811421175
+  ],
+  "development_oracle_passed": 20,
+  "development_attempts": 20
+}

@@ -1,14 +1,35 @@
 name: Formal Luna max benchmark
-run-name: Luna max · ${{ inputs.authorization }} requests · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
     inputs:
+      cross_stage:
+        description: '跨仓库执行阶段；legacy 使用已有实验协议'
+        required: false
+        type: choice
+        options: ['legacy', 'qualify', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
+        default: 'legacy'
+      cross_instances:
+        description: '跨仓库资格实例，逗号分隔'
+        required: false
+        type: string
+        default: 'open-source-parsers__jsoncpp-1696,ninja-build__ninja-2749,stephenberry__glaze-2611'
+      cross_protocol:
+        description: '跨仓库冻结阶段协议文件'
+        required: false
+        type: string
+        default: 'benchmarks/cross-repo/development-protocol.json'
+      cross_image:
+        description: '复用已冻结的跨仓库 GHCR digest；留空构建工具链'
+        required: false
+        type: string
+        default: ''
       authorization:
         description: '12：上下文校准；480：四题五组 Pilot；2520：21题五组；其余为历史协议'
         required: true
         type: choice
-        options: ['12', '480', '2520', '912', '504', '2016']
+        options: ['12', '480', '3600', '720', '2520', '912', '504', '2016']
         default: '12'
       inline_calibration:
         description: '全量批次内先执行上下文校准，通过后自动启动105次修复'
@@ -36,7 +57,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: formal-luna-max-${{ inputs.authorization }}
+  group: ${{ inputs.cross_stage == 'qualify' && format('cpp-qualification-{0}', github.run_id) || format('formal-luna-max-{0}', inputs.authorization) }}
   cancel-in-progress: false
 
 env:
@@ -44,7 +65,21 @@ env:
   FORMAL_PROTOCOL: ${{ inputs.revalidation && inputs.revalidation_protocol || inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
+  cross-repository:
+    if: inputs.cross_stage != 'legacy' && inputs.cross_stage != ''
+    uses: ./.github/workflows/cross-repository.yml
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+    with:
+      stage: ${{ inputs.cross_stage }}
+      instances: ${{ inputs.cross_instances }}
+      protocol: ${{ inputs.cross_protocol }}
+      image: ${{ inputs.cross_image }}
+    secrets: inherit
   calibration:
+    if: inputs.cross_stage == 'legacy' || inputs.cross_stage == ''
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     outputs:
@@ -329,7 +364,7 @@ jobs:
 
   aggregate:
     needs: [calibration, attempts, interrupted-oracle]
-    if: always() && inputs.authorization != '12'
+    if: always() && (inputs.cross_stage == 'legacy' || inputs.cross_stage == '') && inputs.authorization != '12'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

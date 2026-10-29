@@ -104,6 +104,10 @@ def sha(path):
 
 def records(dataset, download=False):
     """Check the complete file against the already frozen public coverage index."""
+    if (dataset / "source-manifest.json").is_file():
+        from cpp_sources import load_records
+
+        return load_records(dataset)
     if (dataset / "cpp").is_dir():
         dataset = dataset / "cpp"
     identity = json.loads((ROOT / "benchmarks/coverage.json").read_text())
@@ -169,6 +173,8 @@ def validate_record(record):
 class Executor:
     def __init__(self, backend, image, directory, deadline, build_jobs, optimization="O3"):
         self.backend, self.image, self.directory = backend, image, directory
+        self.memory_mib = 4096
+        self.pids_limit = 256
         self.deadline, self.build_jobs = deadline, build_jobs
         self.configure = [*CONFIGURE, f"-DCMAKE_CXX_FLAGS_RELEASE=-{optimization} -DNDEBUG"]
         # Use executable local scratch; copy diagnostics to evidence.
@@ -214,9 +220,9 @@ class Executor:
                 "--security-opt=no-new-privileges:true",
                 f"--user={container_user}",
                 f"--cpus={self.build_jobs}",
-                "--memory=4096m",
-                "--memory-swap=4096m",
-                "--pids-limit=256",
+                f"--memory={self.memory_mib}m",
+                f"--memory-swap={self.memory_mib}m",
+                f"--pids-limit={self.pids_limit}",
                 "--ulimit=core=0:0",
                 "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
                 "--mount",

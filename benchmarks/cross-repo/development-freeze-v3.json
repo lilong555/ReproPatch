@@ -1,0 +1,27 @@
+{
+  "phase": "development",
+  "status": "DISPATCHED",
+  "protocol": "development-protocol-v3.json",
+  "protocol_sha256": "c6763474a97a7aa22cf6a1bf03274f126ba63960b6ac21f8a818764867085207",
+  "source_commit": "683273de184c6b71e1e5ec47f5913d23c1b5d07b",
+  "execution_sha256": "824d5a647b7f61bf1421cbbfa4dfc5cbf0f878000113ea77323e9ea8c76f716e",
+  "ci_run_id": 40683082554,
+  "tasks": 4,
+  "new_attempts": 18,
+  "retained_attempts": 2,
+  "new_request_cap": 432,
+  "max_cpa_parallel": 3,
+  "max_cold_oracle_parallel": 8,
+  "allocation": {
+    "development": 360,
+    "infrastructure_revalidation": 72
+  },
+  "retained_issued_requests": 45,
+  "retained_oracle_passed": 2,
+  "prior_run_id": 40676427777,
+  "prior_rescore_run_id": 40683207108,
+  "prior_attempts": "development-prior-attempts.json",
+  "interrupted_attempts": "development-continuation-failures.json",
+  "run_id": 40683926397,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40683926397"
+}

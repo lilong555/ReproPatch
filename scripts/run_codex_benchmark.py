@@ -16,6 +16,7 @@ import threading
 import time
 import uuid
 from contextlib import AsyncExitStack
+from datetime import UTC, datetime
 from pathlib import Path
 
 # 容器仅挂载本脚本；中继入口使用标准库，宿主入口加载计量依赖。
@@ -128,6 +129,8 @@ async def read_model_stream_async(
     started = time.monotonic()
     metadata = {
         "request_id": identity,
+        "started_at": datetime.now(UTC).isoformat(),
+        "actual_endpoint": url,
         "http_status": None,
         "first_byte_seconds": None,
         "last_byte_seconds": None,
@@ -211,6 +214,8 @@ async def read_model_stream_async(
             raise ContextLimit("MODEL_TIMEOUT", detail=metadata["timeout_phase"]) from error
         raise
     finally:
+        metadata["completed_at"] = datetime.now(UTC).isoformat()
+        metadata["wall_seconds"] = time.monotonic() - started
         usage = (completed or {}).get("usage") or {}
         metadata["usage_complete"] = status == 200 and all(
             type(usage.get(key)) is int and usage[key] >= 0
@@ -440,6 +445,7 @@ def main():
     from benchmark_budget import BudgetLimit, LocalUsageLedger, validate_task_budget
     from run_benchmark_agent import attempt_identity, candidate_metadata, mini_inputs
 
+    from repropatch.cpa import ROUTES, cpa_route
     from repropatch.task import Task
 
     parser = argparse.ArgumentParser(description=__doc__)
@@ -453,6 +459,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--agent-seconds", type=int, required=True)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--cpa-route", choices=tuple(ROUTES), default="public")
     parser.add_argument(
         "--reasoning-effort",
         choices=("none", "low", "medium", "high", "xhigh", "max"),
@@ -460,6 +467,7 @@ def main():
         help="Codex 原生推理强度，默认 max；实际请求参数逐次保存",
     )
     args = parser.parse_args()
+    route = cpa_route(args.cpa_route)
     task = Task.load(args.task)
     ledger = LocalUsageLedger(args.ledger)
     validate_task_budget(task, request_cap=ledger.request_cap(args.attempt))
@@ -499,17 +507,20 @@ def main():
 
     async def upstream_request(payload, identity):
         async with httpx2.AsyncClient(
-            trust_env=True, follow_redirects=False, timeout=task.budget.model_timeout_seconds
+            trust_env=route.trust_env,
+            follow_redirects=False,
+            timeout=task.budget.model_timeout_seconds,
         ) as client:
             return await read_model_stream_async(
                 client,
-                "https://cpa.liyinlong.me/v1/responses",
+                route.base_url + "/responses",
                 payload,
                 {
                     "Authorization": "Bearer " + key,
                     "Content-Type": "application/json",
                     "User-Agent": "ReproPatch-Codex-Benchmark/1",
                     "Accept-Encoding": "identity",
+                    "X-Request-ID": identity,
                 },
                 trace,
                 identity,
@@ -691,8 +702,8 @@ def main():
         "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
         "code_host_sha256": hashlib.sha256(code_host.read_bytes()).hexdigest(),
         "adapter_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        "provider": {"model": "gpt-6-luna", "base_url": "https://cpa.liyinlong.me/v1"},
-        "host_transport": "httpx2; trust_env=True; follow_redirects=False; timeout="
+        "provider": {"model": "gpt-6-luna", "base_url": route.base_url, "route": route.to_dict()},
+        "host_transport": f"httpx2; trust_env={route.trust_env}; follow_redirects=False; timeout="
         + str(task.budget.model_timeout_seconds),
         "check_only": args.check_only,
         "context_policy": policy.to_dict(),

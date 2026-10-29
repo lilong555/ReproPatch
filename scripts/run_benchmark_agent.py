@@ -34,12 +34,14 @@ from repropatch.context import (
     request_purpose,
     stop_reason,
 )
+from repropatch.cpa import ROUTES, cpa_route
 
 
 def provider(args):
     """保留冻结的 DeepSeek 配置，显式选择用户提供的 CPA 对照配置。"""
     if args.provider == "local-luna":
-        return "gpt-6-luna", "https://cpa.liyinlong.me/v1", "OPENAI_API_KEY", True
+        route = cpa_route(getattr(args, "cpa_route", "public"))
+        return "gpt-6-luna", route.base_url, "OPENAI_API_KEY", route.trust_env
     return POLICY["model"], "https://api.deepseek.com", "DEEPSEEK_API_KEY", True
 
 
@@ -774,6 +776,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--agent", choices=("repropatch", "mini"), required=True)
     parser.add_argument("--provider", choices=("deepseek", "local-luna"), default="deepseek")
+    parser.add_argument("--cpa-route", choices=tuple(ROUTES), default="public")
     parser.add_argument(
         "--reasoning-effort",
         choices=("none", "low", "medium", "high", "xhigh", "max"),
@@ -859,7 +862,9 @@ def main():
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
     (args.output / "task.original.yaml").write_bytes(task.source_bytes)
-    hook_options = {"local_luna": True} if args.provider == "local-luna" else {}
+    hook_options = (
+        {"local_luna": True, "route": args.cpa_route} if args.provider == "local-luna" else {}
+    )
     hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native", **hook_options)
     started = time.monotonic()
     result = {
@@ -883,6 +888,8 @@ def main():
         "base_url": provider(args)[1],
         **parameters,
     }
+    if args.provider == "local-luna":
+        result["provider"]["route"] = cpa_route(args.cpa_route).to_dict()
     result["adapter_source_sha256"] = {
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()
         for path in (Path(__file__), Path(__file__).with_name("benchmark_budget.py"))

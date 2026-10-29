@@ -20,11 +20,16 @@ from repropatch.context import ContextPolicy
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "benchmarks/formal-max-protocol.json"
+ATTEMPT_ID = None
 
 
 def protocol():
     value = json.loads(PROTOCOL.read_text())
-    if "context_policy" in value:
+    if value.get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+        from cross_repo_campaign import validate_protocol
+
+        validate_protocol(value)
+    elif "context_policy" in value:
         from context_campaign import validate_protocol
 
         validate_protocol(value)
@@ -323,7 +328,9 @@ def verify_registry(source, output):
     save(output / "prior-attempts.json", {"attempts": rows})
 
 
-def prepare_execution_contract(directory, target, model_timeout_seconds, budget_overrides=None):
+def prepare_execution_contract(
+    directory, target, model_timeout_seconds, budget_overrides=None, *, readable_paths=None
+):
     """原生资格证据保持原件，执行 Task 单独记录预算与父证据身份。"""
     from repropatch.task import Task
 
@@ -332,7 +339,13 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
     original = Task.load(directory / "task.yaml")
     overrides = {**(budget_overrides or {}), "model_timeout_seconds": model_timeout_seconds}
     raw = original.to_dict()
-    if all(raw["budget"].get(key) == value for key, value in overrides.items()):
+    readable_changed = (
+        readable_paths is not None and list(readable_paths) != raw["files"]["readable"]
+    )
+    if (
+        all(raw["budget"].get(key) == value for key, value in overrides.items())
+        and not readable_changed
+    ):
         return directory
     if original.budget.model_timeout_seconds != model_timeout_seconds:
         assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
@@ -344,6 +357,8 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
     ):
         shutil.copyfile(directory / original_name, target / parent_name)
     raw["budget"].update(overrides)
+    if readable_changed:
+        raw["files"]["readable"] = list(readable_paths)
     task = Task.from_dict(raw, target)
     (target / "task.yaml").write_bytes(task.source_bytes)
     parent = directory / "result.json"
@@ -355,6 +370,8 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
         native_qualification_manifest_sha256=sha(directory / "manifest.json"),
         execution_budget_override=overrides,
     )
+    if readable_changed:
+        result["execution_readable_policy"] = "utf8-text-v1"
     save(target / "result.json", result)
     manifest = {
         str(file.relative_to(target)): {"size": file.stat().st_size, "sha256": sha(file)}
@@ -366,6 +383,10 @@ def prepare_execution_contract(directory, target, model_timeout_seconds, budget_
 
 
 def prepare(instance, output, arm="all"):
+    if protocol().get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+        from cross_repo_campaign import prepare
+
+        return prepare(instance, output, arm, protocol())
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
     from qualify_cpp_batch import ADAPTER, BUILD_TEST, archive, records, validate_record
@@ -469,9 +490,14 @@ def execute(instance, output, arm="all"):
     p = protocol()
     settings = json.loads((output / "prepared.json").read_text())
     attempts = [
-        a for a in p["attempts"] if a["instance_id"] == instance and arm in {"all", a["arm"]}
+        a
+        for a in p["attempts"]
+        if a["instance_id"] == instance
+        and arm in {"all", a["arm"]}
+        and (ATTEMPT_ID is None or a["attempt_id"] == ATTEMPT_ID)
     ]
     assert attempts, "任务与实验臂须在批次中注册"
+    assert len({a["arm"] for a in attempts}) == len(attempts), "重复实验通过独立 Attempt ID 调度"
     agent_python = sys.executable
     mini_python = str(ROOT / ".repropatch/mini-env/bin/python")
     summaries = []
@@ -498,6 +524,8 @@ def execute(instance, output, arm="all"):
             "--reasoning-effort",
             "max",
         ]
+        if p.get("cpa_route"):
+            common += ["--cpa-route", p["cpa_route"]]
         if arm == "shell-only":
             command = [
                 agent_python,
@@ -583,9 +611,11 @@ def execute(instance, output, arm="all"):
                 "--qualification",
                 settings["qualification"],
                 "--dataset",
-                str(ROOT / ".repropatch/inputs/dataset"),
+                settings.get("dataset", str(ROOT / ".repropatch/inputs/dataset")),
                 "--repository",
-                str(ROOT / ".repropatch/inputs/fmt"),
+                settings.get("repository", str(ROOT / ".repropatch/inputs/fmt")),
+                "--timeout",
+                str(p.get("oracle_timeout_seconds", 900)),
                 "--output",
                 str(output / (arm + "-score")),
             ],
@@ -694,8 +724,11 @@ def aggregate(source, output):
                 raise ValueError("DUPLICATE_FORMAL_ATTEMPT")
             known[row["attempt_id"]] = row
     rows = [
-        known.get(a["attempt_id"], {**a, "score": {"status": "NOT_EXECUTED", "accepted": None}})
-        for a in p["attempts"]
+        known.get(
+            a["attempt_id"],
+            a if "score" in a else {**a, "score": {"status": "NOT_EXECUTED", "accepted": None}},
+        )
+        for a in [*p["attempts"], *p.get("prior_attempts", [])]
     ]
     result = {
         "protocol_sha256": sha(PROTOCOL),
@@ -730,7 +763,7 @@ def aggregate(source, output):
 
 
 def main():
-    global PROTOCOL
+    global PROTOCOL, ATTEMPT_ID
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "stage",
@@ -747,6 +780,7 @@ def main():
     )
     parser.add_argument("--protocol", type=Path, default=PROTOCOL)
     parser.add_argument("--instance")
+    parser.add_argument("--attempt-id")
     parser.add_argument(
         "--arm", choices=("all", "shell-only", "full", "no-checks", "mini", "codex"), default="all"
     )
@@ -754,6 +788,7 @@ def main():
     parser.add_argument("--source", type=Path)
     args = parser.parse_args()
     PROTOCOL = args.protocol.resolve(strict=True)
+    ATTEMPT_ID = args.attempt_id
     if args.stage == "calibrate":
         calibrate(args.output)
     elif args.stage == "verify-calibration":
@@ -767,7 +802,20 @@ def main():
     elif args.stage == "prepare":
         prepare(args.instance, args.output, args.arm)
     elif args.stage == "run":
-        execute(args.instance, args.output, args.arm)
+        p = protocol()
+        if p.get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+            from cpa_session import CPASession
+
+            if not args.attempt_id:
+                raise ValueError("CROSS_EXPLICIT_ATTEMPT_ID_REQUIRED")
+            with CPASession(args.output / "cpa-session") as session:
+                from cross_repo_campaign import allocation_phase
+
+                attempt = next(a for a in p["attempts"] if a["attempt_id"] == args.attempt_id)
+                session.claim(args.attempt_id, allocation_phase(p, attempt))
+                execute(args.instance, args.output, args.arm)
+        else:
+            execute(args.instance, args.output, args.arm)
     else:
         aggregate(args.source, args.output)
 

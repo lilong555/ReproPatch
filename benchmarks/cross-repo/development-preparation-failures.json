@@ -1,0 +1,18 @@
+{
+  "cross-repository-20261028-development/open-source-parsers__jsoncpp-1696/codex/first": {
+    "instance_id": "open-source-parsers__jsoncpp-1696",
+    "arm": "codex",
+    "classification": "infrastructure",
+    "reason": "PREPARED_SOURCE_BLOB_MISMATCH",
+    "run_id": 40660958386,
+    "claim_status": "CLAIMED",
+    "request_cap": 24,
+    "issued_requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "artifact": "cross-attempt-40660958386-open-source-parsers__jsoncpp-1696-codex",
+    "artifact_sha256": "e674b597e66eb0b9b3bff0218b682e65085619040d0283a89c3a9afbbcaabbde",
+    "ledger_sha256": "6e0f17ee43be3d2620e91a7869db21f281ea15709af45677c1999e34a9764c6f",
+    "lease_events_sha256": "702e0f5483dbbf6e8bee860a86364833b63868663d084e4f10a8924fb63228b5"
+  }
+}

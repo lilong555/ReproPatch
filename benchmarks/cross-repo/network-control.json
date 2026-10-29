@@ -1,0 +1,48 @@
+{
+  "schema": "repropatch.cpa-network-control.v1",
+  "model_requests": 0,
+  "transport": "restricted SSH local forwarding",
+  "forward_target": "127.0.0.1:8317",
+  "runner_endpoint": "http://127.0.0.1:18317/v1",
+  "heartbeat_expiry_seconds": 1200,
+  "events": [
+    {
+      "action": "enter",
+      "result": {
+        "active": true,
+        "request_retry": 0,
+        "configuration_reload": {
+          "expected_retry": 0,
+          "watch_started_at": "2026-10-28T06:03:33.362612+00:00",
+          "log_path": "/var/lib/docker/containers/dbfd4788cabf78d58a78712fd00ea19d366a2e306df002f208d6b5eadb2672ec/dbfd4788cabf78d58a78712fd00ea19d366a2e306df002f208d6b5eadb2672ec-json.log",
+          "log_offset": 1150973,
+          "reload_events": [
+            "config file changed"
+          ],
+          "verified_at": "2026-10-28T06:03:34.019049+00:00"
+        }
+      }
+    },
+    {
+      "action": "status",
+      "result": {
+        "active": true,
+        "owner": "cross-repository-20261028",
+        "request_retry": 0,
+        "ttl_seconds": 1200,
+        "members": [
+          "run-0-network-control"
+        ]
+      }
+    },
+    {
+      "action": "release",
+      "result": {
+        "active": false,
+        "request_retry": 2
+      }
+    }
+  ],
+  "restored_request_retry": 2,
+  "server_script_sha256": "abded22c965656953d71dbb8031f43d9fe0e40d6e06793d4eee6604872c1efd6"
+}

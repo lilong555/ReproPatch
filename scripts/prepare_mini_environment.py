@@ -2,17 +2,15 @@
 
 import argparse
 import hashlib
-import io
 import json
 import os
 import shlex
 import subprocess
 import sys
-import tarfile
 from pathlib import Path
 
 from repropatch.task import Task, resolve_task
-from repropatch.workspace import git_tree
+from repropatch.workspace import git_blob, git_tree
 
 MINI_COMMIT = "04d809ceab9df28f9adaed044884180159172930"
 
@@ -34,6 +32,21 @@ def set_container_read_permissions(source):
             raise ValueError("SOURCE_SYMLINK_REJECTED")
         mode = path.stat().st_mode
         path.chmod(0o755 if path.is_dir() else 0o644 | (mode & 0o111))
+
+
+def export_commit_source(task, source):
+    """直接导出提交 Blob，保留换行字节和可执行位。"""
+    source.mkdir(parents=True, exist_ok=False)
+    for item in git_tree(task.repository, task.revision):
+        data = git_blob(task.repository, item.oid)
+        algorithm = "sha1" if len(item.oid) == 40 else "sha256"
+        actual = hashlib.new(algorithm, f"blob {len(data)}\0".encode() + data).hexdigest()
+        if actual != item.oid:
+            raise RuntimeError("导出的源码与固定提交不一致")
+        target = source / item.path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
+        target.chmod(0o755 if item.git_mode == "100755" else 0o644)
 
 
 def scripted_check(config, source, editable, output, mini):
@@ -157,16 +170,7 @@ def main():
         parser.error("Docker bind 路径不能包含逗号")
     output.mkdir(parents=True, exist_ok=False)
     source = output / "source"
-    raw = command(["git", "archive", task.revision], cwd=task.repository)
-    with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
-        archive.extractall(source, filter="data")
-    # archive 可能受 export-ignore/subst 影响；逐个核对提交 Blob 后才开放环境。
-    for item in git_tree(task.repository, task.revision):
-        data = (source / item.path).read_bytes()
-        algorithm = "sha1" if len(item.oid) == 40 else "sha256"
-        actual = hashlib.new(algorithm, f"blob {len(data)}\0".encode() + data).hexdigest()
-        if actual != item.oid:
-            raise RuntimeError("导出的源码与固定提交不一致")
+    export_commit_source(task, source)
     git = ["git", "-c", "core.hooksPath=/dev/null", "-c", "commit.gpgsign=false"]
     command([*git, "init", "--template=", "."], cwd=source)
     command([*git, "add", "-f", "."], cwd=source)

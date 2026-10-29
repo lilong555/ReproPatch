@@ -100,6 +100,32 @@ def test_candidate_only_is_pending_and_score_evidence_is_frozen(attempt):
         scorer.score(args)
 
 
+def test_derived_text_task_keeps_worker_and_oracle_identity_aligned(attempt, tmp_path):
+    from formal_benchmark import prepare_execution_contract
+    from run_benchmark_agent import attempt_identity
+
+    from repropatch.task import Task
+
+    scorer, args, metadata, _ = attempt
+    original = Task.load(args.qualification.parent / "task.yaml")
+    directory = prepare_execution_contract(
+        args.qualification.parent,
+        tmp_path / "execution-contract",
+        original.budget.model_timeout_seconds,
+        readable_paths=["src/", "tests/stats_test.cpp", "CMakeLists.txt"],
+    )
+    task = Task.load(directory / "task.yaml")
+    metadata.update(attempt_identity(task, args.attempt_id))
+    scorer.save(args.worker_result, metadata)
+    (args.worker_result.parent / "task.original.yaml").write_bytes(task.source_bytes)
+    args.qualification = directory / "result.json"
+    result = scorer.score(args)
+    assert result["status"] == "PENDING_ORACLE"
+    assert result["qualification_evidence_status"] == "VERIFIED"
+    assert result["task_sha256"] == metadata["task_sha256"]
+    assert result["qualification_sha256"] == scorer.digest(args.qualification)
+
+
 @pytest.mark.parametrize("damage", ["missing_manifest", "changed_result"])
 def test_missing_or_changed_qualification_evidence_cannot_reach_oracle(
     attempt, monkeypatch, damage

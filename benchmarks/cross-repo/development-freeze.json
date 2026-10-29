@@ -1,0 +1,19 @@
+{
+  "phase": "development",
+  "status": "PREPARATION_STOPPED",
+  "protocol": "development-protocol.json",
+  "protocol_sha256": "bfbe023caa4c8d4a9769f5d0fdd9cb132662f3e8e7a328c57aa6f3f313ca104f",
+  "source_commit": "b050a787042b5d6b67f85b75601dd57a2c498b90",
+  "ci_run_id": 40658987273,
+  "tasks": 4,
+  "attempts": 20,
+  "request_cap": 480,
+  "repair_model_requests_before_freeze": 0,
+  "network_calibration_requests": 12,
+  "issued_repair_requests": 0,
+  "claimed_attempts": 1,
+  "preparation_failed_jobs": 10,
+  "cancelled_jobs": 10,
+  "run_id": 40660958386,
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/40660958386"
+}
