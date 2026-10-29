@@ -80,16 +80,6 @@
     "record_sha256": "a1112b7599683b51b4f2cecd3c661261a414c174588a933545936e89949f69b9",
     "qualification_status": "PENDING"
   },
-  "nlohmann__json-1446": {
-    "repository": "nlohmann/json",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "1445",
-    "difficulty": "medium",
-    "rationale": "连续无效 UTF-8 字符导致序列化缓冲越界。",
-    "record_sha256": "53bd594d70bde9da87190a2e287163bfe5fb714246f3d66db6686ab58a6db0e2",
-    "qualification_status": "PENDING"
-  },
   "nlohmann__json-2319": {
     "repository": "nlohmann/json",
     "semantic_kind": "defect",
@@ -98,36 +88,6 @@
     "difficulty": "complex",
     "rationale": "ordered_json 的 update 与 pair 容器转换失效，涉及映射容器接口和插入语义。",
     "record_sha256": "dca2c902a683db1ad20e517050a4d5a58b67ac5b334fa6a2c38cd01fc1394a3a",
-    "qualification_status": "PENDING"
-  },
-  "nlohmann__json-1555": {
-    "repository": "nlohmann/json",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "1511",
-    "difficulty": "complex",
-    "rationale": "反序列化向已有容器追加元素，涉及通用容器转换与异常安全。",
-    "record_sha256": "82d9bf8ca3fb884c935af75bba76047709cb02af271304bacf53877d47aacda1",
-    "qualification_status": "PENDING"
-  },
-  "nlohmann__json-1343": {
-    "repository": "nlohmann/json",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "1340",
-    "difficulty": "medium",
-    "rationale": "流解析到达末尾后丢失 EOF 状态，需要协调 streambuf 与 istream 标志。",
-    "record_sha256": "04e5be39c46c395301937e52f72ee3033fd83c65ce5454539557e6935609bf62",
-    "qualification_status": "PENDING"
-  },
-  "nlohmann__json-1303": {
-    "repository": "nlohmann/json",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "1288",
-    "difficulty": "complex",
-    "rationale": "UBJSON 读取边界与错误定位缺陷，涉及多个二进制格式的解析状态及诊断。",
-    "record_sha256": "1a3a7ddb31cc33727cf0fb0c98c798d5fd57be4df3219cb6b0a905885c5fd462",
     "qualification_status": "PENDING"
   },
   "shader-slang__slang-10856": {
@@ -257,15 +217,6 @@
     "record_sha256": "47bc608ff0f3eef726416487c9347e7b2efd523e535620db4629c4cef963ecaf",
     "qualification_status": "QUALIFIED"
   },
-  "rui314__mold-1546": {
-    "repository": "rui314/mold",
-    "semantic_kind": "defect",
-    "historical_model_exposure": "UNEXPOSED",
-    "issue_key": "1545",
-    "difficulty": "medium",
-    "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
-    "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
-  },
   "actor-framework__actor-framework-2300": {
     "repository": "actor-framework/actor-framework",
     "semantic_kind": "defect",
@@ -295,5 +246,55 @@
     "rationale": "诊断模式下数组元素父节点失步，涉及嵌套值移动与拷贝",
     "record_sha256": "61154adc4b00f0fd8709d1d2913f50ab61bd075650a8a010e6db20179ef6fdc0",
     "qualification_status": "QUALIFIED"
+  },
+  "nlohmann__json-3663": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3655",
+    "difficulty": "complex",
+    "rationale": "value<size_t> 的重载消歧回归，涉及 json_pointer 与类型特征约束。",
+    "record_sha256": "69e5f4fb9f360c939f47fa19786e1e123ac6924bcb41f2d1afccf50c76d68187",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-3664": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3654",
+    "difficulty": "medium",
+    "rationale": "json_pointer 与字符串比较的接口回归，涉及比较运算符与隐式转换。",
+    "record_sha256": "98174eb365fd3ece77a681fbeef750473823e4433843f214ddeaadfdfb6321fa",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-2352": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "43",
+    "difficulty": "complex",
+    "rationale": "泛型构造检测访问私有类型成员，导致普通查找表达式编译失败。",
+    "record_sha256": "24126911f4d3466fe3fe050d32bdd188747771ea9fa72654ee435bd94d6f5e8b",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-2019": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "1982",
+    "difficulty": "medium",
+    "rationale": "json_pointer.contains 在数组路径中错误限制后续对象键。",
+    "record_sha256": "0d6fb9e7869dd6a0490b9ec7bac23cc19243e226370789ba76f19f85241feff7",
+    "qualification_status": "PENDING"
+  },
+  "nlohmann__json-3564": {
+    "repository": "nlohmann/json",
+    "semantic_kind": "defect",
+    "historical_model_exposure": "UNEXPOSED",
+    "issue_key": "3558",
+    "difficulty": "complex",
+    "rationale": "ordered_json 遗漏已有异构字符串键支持，需要协调类型特征、顺序映射与元素访问。",
+    "record_sha256": "90feabff8cf33dff23eefe2319564f315657e799e6c213c612bfb355590da3fd",
+    "qualification_status": "PENDING"
   }
 }

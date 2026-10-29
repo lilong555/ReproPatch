@@ -10,25 +10,24 @@
   "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
   "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8",
   "task_count": 30,
-  "new_repository_tasks": 12,
-  "existing_repository_new_tasks": 18,
+  "new_repository_tasks": 11,
+  "existing_repository_new_tasks": 19,
   "repository_counts": {
-    "nlohmann/json": 16,
+    "nlohmann/json": 17,
     "stephenberry/glaze": 1,
     "shader-slang/slang": 7,
     "open-source-parsers/jsoncpp": 1,
     "catchorg/Catch2": 1,
     "KhronosGroup/glslang": 1,
-    "rui314/mold": 1,
     "actor-framework/actor-framework": 1,
     "simdjson/simdjson": 1
   },
   "difficulty_counts": {
-    "medium": 12,
-    "complex": 16,
+    "medium": 11,
+    "complex": 17,
     "compile_control": 2
   },
-  "selection_review_sha256": "02313a2341af37a8926a3d951a6b60f959e1cf34311e672a22e9f09f61fc309b",
+  "selection_review_sha256": "e8fda7ebffa8a51606fb506115eef584a1e38414073f78b07d549c2a38af8ccb",
   "instances": [
     "nlohmann__json-4512",
     "nlohmann__json-3543",
@@ -38,11 +37,11 @@
     "stephenberry__glaze-2611",
     "nlohmann__json-3073",
     "nlohmann__json-2332",
-    "nlohmann__json-1446",
+    "nlohmann__json-2019",
     "nlohmann__json-2319",
-    "nlohmann__json-1555",
-    "nlohmann__json-1343",
-    "nlohmann__json-1303",
+    "nlohmann__json-3663",
+    "nlohmann__json-2352",
+    "nlohmann__json-3664",
     "shader-slang__slang-10856",
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
@@ -56,7 +55,7 @@
     "nlohmann__json-2963",
     "catchorg__Catch2-2128",
     "KhronosGroup__glslang-4006",
-    "rui314__mold-1546",
+    "nlohmann__json-3564",
     "actor-framework__actor-framework-2300",
     "simdjson__simdjson-644",
     "nlohmann__json-2866"
@@ -72,11 +71,11 @@
     "stephenberry__glaze-2611",
     "nlohmann__json-3073",
     "nlohmann__json-2332",
-    "nlohmann__json-1446",
+    "nlohmann__json-2019",
     "nlohmann__json-2319",
-    "nlohmann__json-1555",
-    "nlohmann__json-1343",
-    "nlohmann__json-1303",
+    "nlohmann__json-3663",
+    "nlohmann__json-2352",
+    "nlohmann__json-3664",
     "shader-slang__slang-10856",
     "shader-slang__slang-10768",
     "shader-slang__slang-10738",
@@ -90,7 +89,7 @@
     "nlohmann__json-2963",
     "catchorg__Catch2-2128",
     "KhronosGroup__glslang-4006",
-    "rui314__mold-1546",
+    "nlohmann__json-3564",
     "actor-framework__actor-framework-2300",
     "simdjson__simdjson-644",
     "nlohmann__json-2866"
@@ -427,6 +426,109 @@
         "record_sha256": "8fb2c2f995fc946f46bbc8610e49e1b4f9d1783d329815650093ea27a8028dd2"
       },
       "last_run_conclusion": "cancelled"
+    },
+    {
+      "instance_id": "nlohmann__json-1555",
+      "status": "DISCARDED",
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "source_runs": [
+        40825590280,
+        40829252883
+      ],
+      "replacement_instance": "nlohmann__json-3663",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1511",
+        "difficulty": "complex",
+        "rationale": "反序列化向已有容器追加元素，涉及通用容器转换与异常安全。",
+        "record_sha256": "82d9bf8ca3fb884c935af75bba76047709cb02af271304bacf53877d47aacda1",
+        "qualification_status": "PENDING"
+      }
+    },
+    {
+      "instance_id": "nlohmann__json-1303",
+      "status": "DISCARDED",
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "source_runs": [
+        40825590280,
+        40829252883
+      ],
+      "replacement_instance": "nlohmann__json-3664",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1288",
+        "difficulty": "complex",
+        "rationale": "UBJSON 读取边界与错误定位缺陷，涉及多个二进制格式的解析状态及诊断。",
+        "record_sha256": "1a3a7ddb31cc33727cf0fb0c98c798d5fd57be4df3219cb6b0a905885c5fd462",
+        "qualification_status": "PENDING"
+      }
+    },
+    {
+      "instance_id": "nlohmann__json-1343",
+      "status": "DISCARDED",
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "source_runs": [
+        40825590280,
+        40829252883
+      ],
+      "replacement_instance": "nlohmann__json-2352",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1340",
+        "difficulty": "medium",
+        "rationale": "流解析到达末尾后丢失 EOF 状态，需要协调 streambuf 与 istream 标志。",
+        "record_sha256": "04e5be39c46c395301937e52f72ee3033fd83c65ce5454539557e6935609bf62",
+        "qualification_status": "PENDING"
+      }
+    },
+    {
+      "instance_id": "nlohmann__json-1446",
+      "status": "DISCARDED",
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "source_runs": [
+        40825590280,
+        40829252883
+      ],
+      "replacement_instance": "nlohmann__json-2019",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "nlohmann/json",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1445",
+        "difficulty": "medium",
+        "rationale": "连续无效 UTF-8 字符导致序列化缓冲越界。",
+        "record_sha256": "53bd594d70bde9da87190a2e287163bfe5fb714246f3d66db6686ab58a6db0e2",
+        "qualification_status": "PENDING"
+      }
+    },
+    {
+      "instance_id": "rui314__mold-1546",
+      "status": "EXCLUDED_RESOURCE",
+      "reason": "原生资格耗时 2221.86 秒，源码符号链接还需额外适配；本批采用构建开销较小的缺陷。",
+      "source_runs": [
+        40824304805
+      ],
+      "replacement_instance": "nlohmann__json-3564",
+      "model_requests": 0,
+      "semantic_review": {
+        "repository": "rui314/mold",
+        "semantic_kind": "defect",
+        "historical_model_exposure": "UNEXPOSED",
+        "issue_key": "1545",
+        "difficulty": "medium",
+        "rationale": "链接脚本 AS_NEEDED 嵌套解析状态遗漏",
+        "record_sha256": "b36c19c1234633e3e0dc6f521d4f5bb6dfc2125e33fbcdecc77938d0472881fe"
+      }
     }
   ],
   "difficulty_policy": "qualification-feasible-cross-repository-v1",
@@ -605,6 +707,51 @@
       "reason": "资源可行性筛选",
       "replacement_record_sha256": "941a845898e32a9aee09b73ac918f1672b6512911d6fcdcdaa464d12bc38346e",
       "replacement_base_commit": "d4f4608dab2c70ceed233b818e1563581bc415a7"
+    },
+    {
+      "previous_instance": "nlohmann__json-1555",
+      "replacement_instance": "nlohmann__json-3663",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "replacement_record_sha256": "69e5f4fb9f360c939f47fa19786e1e123ac6924bcb41f2d1afccf50c76d68187",
+      "replacement_base_commit": "7b6cf5918bc9a4b85d1e3fb9ff65348d6dce5d10"
+    },
+    {
+      "previous_instance": "nlohmann__json-1303",
+      "replacement_instance": "nlohmann__json-3664",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "replacement_record_sha256": "98174eb365fd3ece77a681fbeef750473823e4433843f214ddeaadfdfb6321fa",
+      "replacement_base_commit": "e839f58a2ac1bfe966ebf17a1971167e17b6921d"
+    },
+    {
+      "previous_instance": "nlohmann__json-1343",
+      "replacement_instance": "nlohmann__json-2352",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "replacement_record_sha256": "24126911f4d3466fe3fe050d32bdd188747771ea9fa72654ee435bd94d6f5e8b",
+      "replacement_base_commit": "b888afe5f45f0ac6381aa5fa93bba7b5fc035354"
+    },
+    {
+      "previous_instance": "nlohmann__json-1446",
+      "replacement_instance": "nlohmann__json-2019",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原生测试在两种标准库兼容配置下仍有编译或用例失败，本批采用较新版本缺陷。",
+      "replacement_record_sha256": "0d6fb9e7869dd6a0490b9ec7bac23cc19243e226370789ba76f19f85241feff7",
+      "replacement_base_commit": "b7be613b6ec6269c829144ff1cc8a633876d3092"
+    },
+    {
+      "previous_instance": "rui314__mold-1546",
+      "replacement_instance": "nlohmann__json-3564",
+      "status": "QUALIFICATION_PENDING",
+      "model_requests": 0,
+      "reason": "原生资格耗时 2221.86 秒，源码符号链接还需额外适配；本批采用构建开销较小的缺陷。",
+      "replacement_record_sha256": "90feabff8cf33dff23eefe2319564f315657e799e6c213c612bfb355590da3fd",
+      "replacement_base_commit": "954b10ad3baa5d92bb9cd5bb93c7258433cd2bb2"
     }
   ],
   "selection_policy": "resource-feasible-cross-repository-v1",

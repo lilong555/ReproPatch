@@ -72,7 +72,11 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     request = json.loads(args.request.read_text())
-    if request.get("model_requests") != 0 or not 1 <= len(request["sources"]) <= 30:
+    if (
+        request.get("model_requests") != 0
+        or not 1 <= len(request["sources"]) <= 30
+        or sum(bool(entry.get("finalize_task")) for entry in request["sources"]) > 1
+    ):
         raise ValueError("ZERO_REQUEST_DIAGNOSTIC_REQUIRED")
     args.output.mkdir(parents=True, exist_ok=False)
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
