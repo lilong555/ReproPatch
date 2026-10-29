@@ -49,8 +49,12 @@ class NativeExecutor(Executor):
         try:
             result = super().suite(source, phase, required, selected)
             xml = self.directory / (phase + "-results.xml")
-            if xml.exists() and any(
-                marker in xml.read_text()
+            log = self.directory / "logs" / (phase + "-ctest.log")
+            diagnostic = "\n".join(
+                path.read_text(errors="replace") for path in (xml, log) if path.is_file()
+            )
+            if any(
+                marker in diagnostic
                 for marker in (
                     "REPROPATCH_NATIVE_NOT_EXECUTED",
                     "NATIVE_PROCESS_INFRASTRUCTURE_ERROR",

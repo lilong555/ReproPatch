@@ -1,11 +1,24 @@
 # C++ Benchmark 云端执行与效率改动
 
-GitHub Actions 提供零模型 C++ 资格检查、固定共享工具链、构建性能测量和完整证据归档。
+GitHub Actions 提供零模型 C++ 资格检查、逐题固定工具链、构建性能测量和完整证据归档。
 云端结果见 [Actions 实验报告](ACTIONS_RESULTS.md)，本地原生环境记录见
 [构建与资格报告](BENCHMARK_SCALE_REPORT.md)。正式版本 `v0.3.0` 的发布身份和模型成绩按原始记录保存。
 资源依据与优化取舍见 [Actions 资源依据](ACTIONS_RESOURCES.md)。
 
-## 当前可执行范围
+## 跨仓库五臂实验
+
+`formal-benchmark.yml` 提供跨仓库资格、官方环境读取、协议冻结与五臂正式实验入口。
+同一道题的 Full、关闭自检、Shell-only、mini、Codex 使用相同的源码提交、镜像 digest、
+编译参数、资源限制和独立冷 Oracle。各仓库采用适合其原生测试的编译器与依赖。
+
+正式协议的 `task_environments` 按题目保存镜像 digest 和 image ID，构建与测试合同通过资格文件哈希固定。
+已通过且环境一致的资格记录直接复用。环境变化后重新验证对应题目。
+跨框架结果按题配对汇总，资源耗时同时保留题目和环境身份。
+
+Luna 使用 `max` 推理强度，CPA 请求并发上限为 3；正式模型调用按冻结协议分配预算。
+`qualify`、`inspect-native` 和 `freeze` 阶段的模型请求数为 0。
+
+## fmt 批次入口
 
 | 入口 | 实际行为 |
 | --- | --- |
@@ -20,7 +33,7 @@ GitHub Actions 提供零模型 C++ 资格检查、固定共享工具链、构建
 | `scripts/actions_benchmark.py` | 冻结计划、分片、共享源码输入、SHA-256 归档、包含全部注册任务的 JSON/CSV/Markdown 汇总 |
 | `repropatch run --candidate-only --compiler-cache` | 导出完整性检查过的候选；Run 内自检使用 ccache；统一外部 Oracle 决定最终成绩 |
 
-本轮工作流没有模型调用执行分支；`allow_paid_model=true` 明确失败。
+`benchmark.yml` 提供零模型执行分支；`allow_paid_model=true` 明确失败。
 `plan-formal` 生成各框架唯一 Attempt ID 和请求分配，实际可执行总请求上限始终为 **0**。
 这提供可审查的正式计划；供应商费用上限、跨 Job 请求账本和真实模型执行仍需后续接入。
 

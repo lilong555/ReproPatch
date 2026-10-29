@@ -4,6 +4,7 @@ import importlib
 import json
 import shutil
 import sys
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -14,6 +15,32 @@ sys.path.insert(0, str(SCRIPTS))
 qualification = importlib.import_module("qualify_cross_repo")
 sources = importlib.import_module("cpp_sources")
 runner = importlib.import_module("native_cpp_runner")
+
+
+def test_truncated_ctest_xml_keeps_native_oom_classification(tmp_path, monkeypatch):
+    # CTest 的 XML 输出会截断长套件日志，完整命令日志保留 SIGKILL 与 OOM 证据。
+    (tmp_path / "baseline-results.xml").write_text("<testsuite>truncated output</testsuite>")
+    (tmp_path / "logs").mkdir()
+    (tmp_path / "logs/baseline-ctest.log").write_text(
+        'REPROPATCH_NATIVE_PROCESS_RESULT: {"exit_code": -9, "signal": "SIGKILL", '
+        '"resource_event_delta": {"memory.events": {"oom_kill": 1}}}\n'
+        "RuntimeError: NATIVE_PROCESS_INFRASTRUCTURE_ERROR: exit_code=-9, signal=SIGKILL\n"
+    )
+    monkeypatch.setattr(
+        qualification.Executor,
+        "suite",
+        lambda *args: {"status": "TESTS_FAILED", "tests": {"native-p2p": "failed"}},
+    )
+    executor = qualification.NativeExecutor(
+        "native",
+        None,
+        tmp_path,
+        time.monotonic() + 30,
+        {"memory_mib": 12288, "configure": []},
+    )
+    assert executor.suite(tmp_path, "baseline", ["native-p2p"])["status"] == (
+        "TEST_INFRASTRUCTURE_FAILED"
+    )
 
 
 @pytest.mark.integration
