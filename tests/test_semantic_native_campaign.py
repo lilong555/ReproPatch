@@ -88,6 +88,83 @@ def test_native_transport_is_physical_high_water_without_local_token_admission(n
         campaign.validate_protocol(native_protocol)
 
 
+@pytest.mark.sdk
+def test_common_input_preserves_large_baseline_without_preparation_compaction(
+    native_protocol, task, tmp_path, monkeypatch
+):
+    import socket
+
+    from conftest import SimulatedSandbox
+
+    from repropatch import harness, tools
+    from repropatch.context import ContextLimit, ContextPolicy, ContextState
+
+    original_harness = harness.Harness
+    original_evaluation = tools.model_evaluation
+    retained_log = "error: int value = ;\n" * 16_000
+    captured = {}
+
+    def local_harness(*args, **kwargs):
+        captured["policy"] = kwargs["context_policy"]
+        captured["model"] = args[1]
+        return original_harness(*args, sandbox_factory=SimulatedSandbox, **kwargs)
+
+    def baseline_view(value):
+        return {**original_evaluation(value), "retained_log": retained_log}
+
+    def deny_network(*args, **kwargs):
+        raise AssertionError("共同输入生成仅使用固定模型响应")
+
+    monkeypatch.setattr(harness, "Harness", local_harness)
+    monkeypatch.setattr(tools, "model_evaluation", baseline_view)
+    monkeypatch.setattr(socket.socket, "connect", deny_network)
+    frozen = copy.deepcopy(native_protocol)
+    baseline = campaign.prepare_common_input(task, tmp_path, native_protocol)
+    captured["model"].assert_complete()
+    initial_path = Path(baseline["artifact_directory"]) / "agent/native/0001-input.json"
+    common_path = tmp_path / "common-input.json"
+    assert common_path.read_bytes() == initial_path.read_bytes()
+    body = json.loads(common_path.read_text())
+    assert json.loads(body["input"][0]["content"])["baseline"]["retained_log"] == retained_log
+    assert baseline["agent_stop_reason"] == "MODEL_FINISHED"
+    assert baseline["model_steps"] == 1
+    assert baseline["agent"]["http_attempts"] == 0
+    assert baseline["context"]["compactions"] == []
+    assert captured["policy"].to_dict() == {
+        **frozen["context_policy"],
+        "compaction_enabled": False,
+    }
+    assert native_protocol == frozen
+    with pytest.raises(ContextLimit, match="COMPACTION_FAILED"):
+        ContextState(ContextPolicy.from_dict(frozen["context_policy"])).plan(body)
+
+
+@pytest.mark.sdk
+def test_common_input_preserves_transport_guard_and_reports_agent_stop(
+    native_protocol, task, tmp_path, monkeypatch
+):
+    from conftest import SimulatedSandbox
+
+    from repropatch import harness
+
+    original_harness = harness.Harness
+
+    def local_harness(*args, **kwargs):
+        return original_harness(*args, sandbox_factory=SimulatedSandbox, **kwargs)
+
+    monkeypatch.setattr(harness, "Harness", local_harness)
+    native_protocol["context_policy"]["transport_max_bytes"] = 1
+    with pytest.raises(
+        ValueError,
+        match=(
+            "CROSS_BASELINE_INPUT_MISSING: agent_stop_reason=CONTEXT_LIMIT; "
+            "reason_code=CONTEXT_LIMIT; artifact_directory="
+        ),
+    ):
+        campaign.prepare_common_input(task, tmp_path, native_protocol)
+    assert not (tmp_path / "common-input.json").exists()
+
+
 def test_attempt_namespace_matches_remote_campaign_contract(native_protocol):
     native_protocol["batch_id"] = "semantic-state-native-20261101-r1"
     for row in native_protocol["attempts"]:

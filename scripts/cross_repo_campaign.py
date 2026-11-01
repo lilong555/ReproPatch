@@ -447,12 +447,36 @@ def execution_order(tasks, *, seed=20261028, replicate="first", batch="cross-rep
     return rows
 
 
-def prepare(instance, output, arm, p):
+def prepare_common_input(task, output, protocol):
+    """用固定响应保存完整共同输入，摘要策略由后续各执行器接管。"""
     from agents.testing import ScriptedModel, assistant_message
-    from formal_benchmark import freeze_configuration, prepare_execution_contract
-    from prepare_mini_environment import MINI_COMMIT
 
     from repropatch.harness import Harness
+
+    policy = ContextPolicy.from_dict({**protocol["context_policy"], "compaction_enabled": False})
+    baseline = Harness(
+        task,
+        ScriptedModel([[assistant_message("固定基线输入。")]]),
+        output / "baseline-runs",
+        context_policy=policy,
+    ).run()
+    details = (
+        f"agent_stop_reason={baseline.get('agent_stop_reason')}; "
+        f"reason_code={baseline.get('reason_code')}; "
+        f"artifact_directory={baseline.get('artifact_directory')}"
+    )
+    if not baseline["reproduced"] or not baseline["cleanup_confirmed"]:
+        raise ValueError("CROSS_EXECUTION_BASELINE_FAILED: " + details)
+    initial = Path(baseline["artifact_directory"]) / "agent/native/0001-input.json"
+    if not initial.is_file():
+        raise ValueError("CROSS_BASELINE_INPUT_MISSING: " + details)
+    shutil.copyfile(initial, output / "common-input.json")
+    return baseline
+
+
+def prepare(instance, output, arm, p):
+    from formal_benchmark import freeze_configuration, prepare_execution_contract
+    from prepare_mini_environment import MINI_COMMIT
 
     assert instance in p["tasks"]
     validate_protocol(p)
@@ -514,16 +538,7 @@ def prepare(instance, output, arm, p):
     record = next(r for r in load_records(dataset) if r["instance_id"] == instance)
     if record["base"]["sha"] != q["upstream_commit"]:
         raise ValueError("CROSS_DATASET_IDENTITY_MISMATCH")
-    baseline = Harness(
-        task,
-        ScriptedModel([[assistant_message("固定基线输入。")]]),
-        output / "baseline-runs",
-        context_policy=ContextPolicy.from_dict(p["context_policy"]),
-    ).run()
-    if not baseline["reproduced"] or not baseline["cleanup_confirmed"]:
-        raise ValueError("CROSS_EXECUTION_BASELINE_FAILED")
-    initial = next(Path(baseline["artifact_directory"]).glob("agent/native/0001-input.json"))
-    shutil.copyfile(initial, output / "common-input.json")
+    baseline = prepare_common_input(task, output, p)
     mini = ROOT / ".repropatch/mini-source"
     if arm in {"all", "mini", "codex"}:
         commit = subprocess.check_output(
