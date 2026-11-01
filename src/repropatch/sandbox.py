@@ -1,17 +1,21 @@
 """固定 Docker 执行 profile、所属资源记录与删除确认；无宿主执行回退。"""
 
+import http.client
+import io
 import json
 import re
 import shutil
+import sys
 import tempfile
 import time
 import uuid
-from dataclasses import replace
+from dataclasses import asdict, replace
+from datetime import datetime
 from pathlib import Path
 
-from .artifacts import AuditBudget
+from .artifacts import AuditBudget, EvidenceRef
 from .errors import CleanupUnconfirmed, ExecutionError, InfrastructureError, PolicyError
-from .process import run_logged_process, run_process
+from .process import RAW_OUTPUT_LIMIT, run_logged_process, run_process
 
 
 class DockerSandbox:
@@ -431,7 +435,153 @@ class DockerSandbox:
         return result
 
     def exec_start_failed(self, argv, result):
-        return result.returncode in {125, 126, 127}
+        if result.returncode not in {125, 126, 127}:
+            return False
+        # 这些退出码同时覆盖 CLI 启动失败和已执行程序的退出，需要核对 exec 身份。
+        proof = {"container_id": self.container_id, "argv": list(argv), "confirmed": False}
+        directory = f"logs/{result.command_id}"
+        try:
+            for stream in ("stdout", "stderr"):
+                reference = getattr(result, f"{stream}_log")
+                if (
+                    reference is None
+                    or reference.path != f"{directory}/{stream}.bin"
+                    or reference.size_bytes != getattr(result, f"{stream}_bytes")
+                ):
+                    raise ValueError("命令原始日志引用不完整")
+                reference.read(self.log_root, limit=RAW_OUTPUT_LIMIT)
+            if not result.started_at or not result.finished_at:
+                raise ValueError("缺少命令执行时间")
+            start = datetime.fromisoformat(result.started_at)
+            finish = datetime.fromisoformat(result.finished_at)
+            if start.tzinfo is None or finish.tzinfo is None or finish < start:
+                raise ValueError("命令执行时间无效")
+            events = self._docker(
+                "events",
+                f"--since={result.started_at}",
+                f"--until={result.finished_at}",
+                "--filter=type=container",
+                f"--filter=container={self.container_id}",
+                "--filter=event=exec_create",
+                "--filter=event=exec_start",
+                "--filter=event=exec_die",
+                "--format={{json .}}",
+            )
+            proof["events"] = asdict(
+                EvidenceRef.save(
+                    self.log_root,
+                    f"{directory}/exec-events.jsonl",
+                    events.stdout.encode(),
+                    budget=self.audit_budget,
+                )
+            )
+            entries = [json.loads(line) for line in events.stdout.splitlines() if line.strip()]
+            command = argv[0] + " " + " ".join(argv[1:])
+            identities = set()
+            for event in entries:
+                actor = event.get("Actor", {})
+                if event.get("Type") != "container" or actor.get("ID") != self.container_id:
+                    raise ValueError("exec 事件的容器身份不符")
+                if event.get("Action") in {f"exec_create: {command}", f"exec_start: {command}"}:
+                    identities.add(actor.get("Attributes", {}).get("execID"))
+            if len(identities) != 1:
+                raise ValueError("exec 身份缺失或存在多个匹配命令")
+            identifier = identities.pop()
+            if not isinstance(identifier, str) or not re.fullmatch(r"[a-f0-9]{64}", identifier):
+                raise ValueError("exec ID 无效")
+            matched = [
+                event
+                for event in entries
+                if event.get("Actor", {}).get("Attributes", {}).get("execID") == identifier
+            ]
+            actions = [event.get("Action") for event in matched]
+            if actions != [f"exec_create: {command}", f"exec_start: {command}", "exec_die"]:
+                raise ValueError("exec 创建、启动和退出事件不完整")
+            if matched[-1]["Actor"]["Attributes"].get("exitCode") != str(result.returncode):
+                raise ValueError("exec 事件与 CLI 退出码不符")
+            proof["exec_id"] = identifier
+            info, reference = self._inspect_exec(identifier, directory)
+            proof["inspect"] = asdict(reference)
+            config = info.get("ProcessConfig") or {}
+            if (
+                info.get("ID") != identifier
+                or info.get("ContainerID") != self.container_id
+                or info.get("Running") is not False
+                or type(info.get("Pid")) is not int
+                or info["Pid"] <= 0
+                or type(info.get("ExitCode")) is not int
+                or info["ExitCode"] != result.returncode
+                or config.get("entrypoint") != argv[0]
+                or (config.get("arguments") or []) != list(argv[1:])
+            ):
+                raise ValueError("exec 实际进程、命令身份或退出状态矛盾")
+            proof["confirmed"] = True
+            return False
+        except (InfrastructureError, OSError, ValueError, TypeError, AttributeError) as exc:
+            proof["error"] = str(exc)
+            raise ExecutionError(f"CONTAINER_EXEC: 执行事实未确认：{exc}") from exc
+        finally:
+            EvidenceRef.save(
+                self.log_root,
+                f"{directory}/exec-identity.json",
+                json.dumps(proof, ensure_ascii=False, sort_keys=True).encode(),
+                budget=self.audit_budget,
+            )
+
+    def _inspect_exec(self, identifier, directory):
+        """经相同 Docker CLI 连接只读查询 exec，沿用有界宿主进程和清理机制。"""
+        request = EvidenceRef.save(
+            self.log_root,
+            f"{directory}/exec-inspect.request",
+            f"GET /exec/{identifier}/json HTTP/1.1\r\n"
+            "Host: docker\r\nConnection: close\r\n\r\n".encode(),
+            budget=self.audit_budget,
+        )
+        timeout = 15
+        if self.operation_deadline is not None:
+            timeout = min(timeout, self.operation_deadline - time.monotonic())
+        if timeout <= 0:
+            raise ExecutionError("EXECUTION_DEADLINE: 阶段执行预算耗尽")
+        # 将固定的只读 HTTP 请求接至 CLI stdin；Docker endpoint 和认证仍由 CLI 选择。
+        result = run_process(
+            [
+                sys.executable,
+                "-c",
+                "import os,sys; fd=os.open(sys.argv[1],os.O_RDONLY|os.O_NOFOLLOW); "
+                "os.dup2(fd,0); os.close(fd); os.execvp(sys.argv[2],sys.argv[2:])",
+                str(self.log_root / request.path),
+                self.executable,
+                "system",
+                "dial-stdio",
+            ],
+            timeout=timeout,
+            output_limit=512 * 1024,
+        )
+        reference = EvidenceRef.save(
+            self.log_root,
+            f"{directory}/exec-inspect.http",
+            result.stdout.encode(),
+            budget=self.audit_budget,
+        )
+        if not result.ok or result.output_truncated:
+            raise ExecutionError(f"DOCKER_EXEC_INSPECT: {result.status}: {result.stderr[:2000]}")
+
+        class ResponseStream:
+            def makefile(self, *_):
+                return io.BytesIO(result.stdout.encode())
+
+        try:
+            with http.client.HTTPResponse(ResponseStream()) as response:
+                response.begin()
+                payload = response.read()
+                if response.status != 200:
+                    raise ValueError(f"HTTP {response.status}")
+                info = json.loads(payload)
+                if not isinstance(info, dict):
+                    raise ValueError("exec inspect 格式无效")
+                return info, reference
+        except (http.client.HTTPException, ValueError) as exc:
+            raise ExecutionError(f"DOCKER_EXEC_INSPECT: {exc}") from exc
 
     def close(self):
         self.active = False

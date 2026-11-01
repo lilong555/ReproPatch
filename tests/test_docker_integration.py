@@ -57,6 +57,35 @@ def save_sandbox_evidence(sandbox, *results):
     private_write(path, json.dumps(summary, indent=2, ensure_ascii=False).encode() + b"\n")
 
 
+@pytest.mark.parametrize("exit_code", [125, 126, 127])
+def test_real_exec_exit_identity_allows_subsequent_commands(tmp_path, exit_code):
+    source = tmp_path / "source"
+    source.mkdir(mode=0o755)
+    sandbox = real_sandbox(tmp_path, source)
+    with sandbox:
+        failed = sandbox.run(("/bin/sh", "-lc", f"exit {exit_code}"))
+        assert failed.status == "exited" and failed.returncode == exit_code, failed
+        proof = json.loads(
+            (sandbox.log_root / f"logs/{failed.command_id}/exec-identity.json").read_text()
+        )
+        assert proof["confirmed"] and proof["exec_id"]
+        following = sandbox.run(("/bin/sh", "-lc", "echo next-command"))
+        assert following.ok and "next-command" in following.stdout
+    assert sandbox.cleanup_confirmed
+    save_sandbox_evidence(sandbox, failed, following)
+
+
+def test_real_exec_missing_entrypoint_stops_and_cleans(tmp_path):
+    source = tmp_path / "source"
+    source.mkdir(mode=0o755)
+    sandbox = real_sandbox(tmp_path, source)
+    with sandbox:
+        result = sandbox.run(("/repropatch-missing-entrypoint",))
+        assert result.status == "infra_error", result
+        assert result.cleanup_confirmed and not sandbox.active
+    save_sandbox_evidence(sandbox, result)
+
+
 def test_docker_cpp_end_to_end(docker_task, model, tmp_path):
     task = docker_task
     report = Harness(task, model, tmp_path / "runs").run()
@@ -550,7 +579,7 @@ def test_external_patch_docker_literal_test_name(docker_task, tmp_path):
     assert report["independent"]["tests"][0]["observed_status"] == "passed"
 
 
-@pytest.mark.parametrize("mode", ["shell", "timeout", "budget"])
+@pytest.mark.parametrize("mode", ["shell", "missing", "timeout", "budget"])
 def test_sdk_shell_and_budget_real_docker(docker_task, tmp_path, mode):
     from dataclasses import replace
 
@@ -580,6 +609,8 @@ def test_sdk_shell_and_budget_real_docker(docker_task, tmp_path, mode):
                 "&& echo shell-ok && echo raw-stderr >&2"
             )
         )
+        if mode == "missing":
+            command = "/repropatch-missing-tool/clang++ --version"
         steps.append(
             ModelStep(
                 output=[
@@ -634,6 +665,12 @@ def test_sdk_shell_and_budget_real_docker(docker_task, tmp_path, mode):
             assert b"raw-stderr" in EvidenceRef(**shell[0]["stderr_log"]).read(
                 root, limit=4 * 1024 * 1024
             )
+        if mode == "missing":
+            assert shell[0]["returncode"] == 127 and "clang++" in shell[0]["stderr"]
+            proof = json.loads(
+                (root / f"logs/{shell[0]['command_id']}/exec-identity.json").read_text()
+            )
+            assert proof["confirmed"]
         resources = json.loads((root / "resources.json").read_text())
         assert any(
             item["container_id"] == shell[0]["container_id"] and item["cleanup_confirmed"]

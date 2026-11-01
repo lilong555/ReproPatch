@@ -121,10 +121,6 @@ class PersistentRepairSandbox(DockerSandbox):
                 error.add_note(f"修复命令后的清理失败：{cleanup}")
             raise
 
-    def exec_start_failed(self, argv, result):
-        # Bash 已经预检，126/127 可表示命令权限或程序缺失，属于模型可见反馈。
-        return argv[0] != "/bin/bash" and super().exec_start_failed(argv, result)
-
     def close(self):
         self.paused = False
         super().close()

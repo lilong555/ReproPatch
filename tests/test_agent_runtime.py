@@ -48,6 +48,43 @@ def edit(call_id="edit"):
     )
 
 
+def test_full_shell_missing_command_continues_to_read_edit_and_freeze(task, tmp_path):
+    from agents.testing import ScriptedModel, assistant_message, function_call
+
+    class MissingCompilerSandbox(SimulatedSandbox):
+        cleanup_confirmed = True
+
+        def run(self, argv, *, cwd="/build"):
+            if tuple(argv) == ("/bin/sh", "-lc", "clang++ --version"):
+                return self.result(argv, 127, stderr=b"/bin/sh: 1: clang++: not found\n")
+            return super().run(argv)
+
+    model = ScriptedModel(
+        [
+            [function_call("run_shell", {"command": "clang++ --version"}, call_id="shell")],
+            [function_call("read_file", {"path": "src/stats.cpp"}, call_id="read")],
+            [edit()],
+            [assistant_message("完成")],
+        ]
+    )
+    harness = Harness(
+        task,
+        model,
+        tmp_path / "runs",
+        sandbox_factory=MissingCompilerSandbox,
+        candidate_only=True,
+    )
+    report = harness.run()
+    assert report["reason_code"] == "EXTERNAL_ORACLE_REQUIRED", report
+    assert report["candidate_roundtrip_verified"] and report["cleanup_confirmed"]
+    assert report["agent"]["agent_stop_reason"] == "MODEL_FINISHED"
+    output = json.loads((harness.directory / "agent/tool-results/s000001.t01.json").read_text())
+    assert output["ok"] and output["data"]["status"] == "exited"
+    assert output["data"]["exit_code"] == 127 and "clang++" in output["data"]["stderr"]
+    assert "+    int best = samples.front();" in (harness.directory / "patch.diff").read_text()
+    model.assert_complete()
+
+
 def events(report):
     return [
         json.loads(line)
