@@ -199,6 +199,9 @@ def test_container_failure_remains_a_hard_stop(execution, monkeypatch, failure):
 def test_exec_inspect_uses_bounded_readonly_cli_transport(tmp_path, mode):
     root = tmp_path / "evidence"
     root.mkdir(mode=0o700)
+    # 命令证据目录沿用 run_logged_process 的 0700 权限契约。
+    (root / "logs").mkdir(mode=0o700)
+    (root / "logs/test").mkdir(mode=0o700)
     sandbox = DockerSandbox(
         tmp_path, "repropatch-cpp:0.1", log_root=root, audit_budget=AuditBudget(root)
     )
