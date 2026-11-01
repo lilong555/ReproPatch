@@ -141,7 +141,7 @@ def test_resume_rejects_divergence_without_model_or_overwriting_source(
     elif change == "implementation":
         monkeypatch.setattr("repropatch.harness.implementation_sha256", lambda: "0" * 64)
     else:
-        monkeypatch.setattr("repropatch.tools.sdk_tools_sha256", lambda: "0" * 64)
+        monkeypatch.setattr("repropatch.tools.sdk_tools_sha256", lambda tools=None: "0" * 64)
     before = path.read_bytes()
 
     async def forbidden(**kwargs):
