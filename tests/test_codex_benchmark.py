@@ -166,7 +166,7 @@ def test_relay_starts_in_isolated_python_without_host_package(adapter, tmp_path)
                 except urllib.error.HTTPError as response:
                     assert response.code == 501
                     break
-                except urllib.error.URLError:
+                except (urllib.error.URLError, TimeoutError):
                     if time.monotonic() >= deadline:
                         pytest.fail("独立中继未启动")
                     time.sleep(0.05)
