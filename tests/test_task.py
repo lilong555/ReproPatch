@@ -79,6 +79,19 @@ def test_v2_defaults_immutable_and_normalized(tmp_path):
         task.commands.configure = ("sh",)
 
 
+def test_open_request_budget_roundtrips_without_changing_other_limits(tmp_path):
+    raw = valid()
+    raw["budget"].update(max_steps=None, max_tool_calls=None)
+    task = Task.from_dict(raw, tmp_path)
+    assert task.budget.max_steps is None
+    assert task.budget.max_tool_calls is None
+    restored = Task.from_dict(task.to_dict(), tmp_path)
+    assert restored.budget == task.budget
+    raw["budget"]["model_timeout_seconds"] = None
+    with pytest.raises(ReproPatchError, match="budget.model_timeout_seconds"):
+        Task.from_dict(raw, tmp_path)
+
+
 @pytest.mark.parametrize("value", [1, True, "2", 3])
 def test_v1_and_other_versions_have_explicit_migration_error(tmp_path, value):
     with pytest.raises(ReproPatchError, match="TASK_VERSION_UNSUPPORTED.*TASK_FORMAT"):

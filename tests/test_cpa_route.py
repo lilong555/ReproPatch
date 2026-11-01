@@ -91,6 +91,39 @@ def test_remote_attempt_claim_preserves_global_allocation(tmp_path):
     assert manager.retry() == 2
 
 
+def test_open_campaign_keeps_unique_claims_and_separate_historical_allocation(tmp_path):
+    config = tmp_path / "config.yaml"
+    config.write_text("request-retry: 2\n")
+    manager = server.LeaseManager(config, tmp_path / "state", reload_probe=lambda expected: None)
+    campaign = server.UNBOUNDED_CAMPAIGN
+    request = {
+        "action": "claim",
+        "campaign": campaign,
+        "phase": "development",
+        "attempt_id": campaign + "/task/full/first",
+        "run_id": "123",
+        "request_cap": None,
+    }
+    for number in range(25):
+        result = manager.rpc({**request, "attempt_id": f"{campaign}/task-{number}/full/first"})
+        assert result["allocated_phase_requests"] is None
+        assert result["allocated_campaign_attempts"] == number + 1
+    with pytest.raises(ValueError, match="ALREADY_CLAIMED"):
+        manager.rpc({**request, "attempt_id": f"{campaign}/task-0/full/first"})
+    with pytest.raises(ValueError, match="CLAIM_INVALID"):
+        manager.rpc({**request, "request_cap": 24})
+    historical = manager.rpc(
+        {
+            **request,
+            "campaign": "cross-repository-20261028",
+            "attempt_id": "dev/task/full/first",
+            "request_cap": 24,
+        }
+    )
+    assert historical["allocated_phase_requests"] == 24
+    assert manager.retry() == 2
+
+
 @pytest.mark.sdk
 def test_network_calibration_uses_twelve_claims_and_records_supplier_usage(tmp_path, monkeypatch):
     calibration = importlib.import_module("calibrate_cross_network")

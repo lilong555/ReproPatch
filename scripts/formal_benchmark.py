@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -15,8 +16,6 @@ from pathlib import Path
 from actions_benchmark import save, sha
 from benchmark_budget import LocalUsageLedger
 from prepare_multiswe_task import git
-
-from repropatch.context import ContextPolicy
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "benchmarks/formal-max-protocol.json"
@@ -44,7 +43,10 @@ def protocol():
             for task in value["tasks"]
             for arm in value["arms"]
         ]
-    assert sum(a["request_cap"] for a in value["attempts"]) == value["formal_request_cap"]
+    if value["formal_request_cap"] is None:
+        assert all(a["request_cap"] is None for a in value["attempts"])
+    else:
+        assert sum(a["request_cap"] for a in value["attempts"]) == value["formal_request_cap"]
     assert os.environ.get("GITHUB_RUN_ATTEMPT", "1") == "1", "重跑使用新的预注册批次"
     return value
 
@@ -487,6 +489,8 @@ def prepare(instance, output, arm="all"):
 
 
 def execute(instance, output, arm="all"):
+    from cross_repo_campaign import arm_context_policy, native_trend
+
     p = protocol()
     settings = json.loads((output / "prepared.json").read_text())
     attempts = [
@@ -507,9 +511,7 @@ def execute(instance, output, arm="all"):
         LocalUsageLedger.create_scoped(
             ledger,
             {attempt["attempt_id"]: attempt["request_cap"]},
-            context_policy=ContextPolicy.from_dict(p["context_policy"])
-            if "context_policy" in p
-            else None,
+            context_policy=arm_context_policy(p, arm) if "context_policy" in p else None,
         )
         target = output / arm
         common = [
@@ -553,6 +555,8 @@ def execute(instance, output, arm="all"):
                 "disabled" if arm == "no-checks" else "enabled",
                 *common,
             ]
+            if native_trend(p):
+                command.append("--semantic-state")
         else:
             environment = output / (arm + "-environment")
             subprocess.run(
@@ -578,6 +582,8 @@ def execute(instance, output, arm="all"):
                 "--agent-seconds",
                 str(settings["agent_seconds"]),
             ]
+            if native_trend(p):
+                external.append("--native-context")
             if arm == "mini":
                 command = [
                     mini_python,
@@ -647,6 +653,7 @@ def execute(instance, output, arm="all"):
                 "score_exit": score_code,
                 "score": score,
                 "usage": LocalUsageLedger(ledger).summary(),
+                "executor_policy": p.get("executor_policies", {}).get(arm),
                 **metrics,
             }
         )
@@ -671,6 +678,88 @@ def execute(instance, output, arm="all"):
             ),
             flush=True,
         )
+
+
+def semantic_metrics(worker):
+    """提取持久结构状态计量，累计数与有界观察窗口分别保存。"""
+    state = (worker.get("context") or {}).get("semantic_state")
+    state = state if isinstance(state, dict) else {}
+    explicit_enabled = worker.get("semantic_state")
+    enabled = explicit_enabled if type(explicit_enabled) is bool else True if state else None
+
+    def count(value):
+        return value if type(value) is int and value >= 0 else None
+
+    def seconds(value):
+        return (
+            value if type(value) in (int, float) and math.isfinite(value) and value >= 0 else None
+        )
+
+    sequence = count(state.get("sequence"))
+    observations = state.get("observations")
+    observations = (
+        observations
+        if isinstance(observations, list) and all(isinstance(row, dict) for row in observations)
+        else None
+    )
+    observed_queries = (
+        sum(row.get("tool") == "query_code" for row in observations)
+        if observations is not None
+        else None
+    )
+    queries = count(state.get("queries_total"))
+    query_basis = "cumulative_query_invocations" if queries is not None else None
+    if (
+        queries is None
+        and sequence is not None
+        and observations is not None
+        and sequence == len(observations)
+        and [row.get("sequence") for row in observations] == list(range(1, sequence + 1))
+    ):
+        queries = observed_queries
+        query_basis = "complete_observation_sequence"
+    files, changes = state.get("files"), state.get("changes")
+    files = files if isinstance(files, dict) else None
+    changes = changes if isinstance(changes, dict) else None
+    parse_errors = (
+        sum(row["parse_has_error"] for row in files.values())
+        if files is not None
+        and all(
+            isinstance(row, dict) and type(row.get("parse_has_error")) is bool
+            for row in files.values()
+        )
+        else None
+    )
+    kinds = state.get("query_kinds")
+    kinds = (
+        dict(kinds)
+        if isinstance(kinds, dict) and all(count(value) is not None for value in kinds.values())
+        else None
+    )
+    return {
+        "schema": "repropatch.semantic-metrics.v1",
+        "enabled": enabled,
+        "state_schema": state.get("version"),
+        "counter_schema": state.get("version") if "queries_total" in state else None,
+        "query_code_calls": queries,
+        "query_code_calls_basis": query_basis,
+        "queries_total": count(state.get("queries_total")),
+        "query_kinds": kinds,
+        "parse_count": count(state.get("parse_count")),
+        "cache_hits": count(state.get("cache_hits")),
+        "indexed_bytes_total": count(state.get("indexed_bytes_total")),
+        "index_seconds_total": seconds(state.get("index_seconds_total")),
+        "parse_seconds_total": seconds(state.get("parse_seconds_total")),
+        "observed_query_code_calls": observed_queries,
+        "observation_window_size": len(observations) if observations is not None else None,
+        "observation_window_basis": "persisted_bounded_tail" if observations is not None else None,
+        "indexed_files": len(files) if files is not None else None,
+        "parse_error_files": parse_errors,
+        "index_basis": "current_persisted_index" if files is not None else None,
+        "state_sequence": sequence,
+        "changed_files": len(changes) if changes is not None else None,
+        "changed_files_basis": "successful_edit_file_records" if changes is not None else None,
+    }
 
 
 def attempt_metrics(worker, usage, score, target):
@@ -710,6 +799,7 @@ def attempt_metrics(worker, usage, score, target):
             "self_check_seconds": self_check_seconds,
             "cold_oracle_seconds": score.get("wall_seconds"),
             "tool_calls": worker.get("tool_calls", worker.get("tool_calls_admitted")),
+            "semantic_state": semantic_metrics(worker),
         },
     }
 
@@ -731,7 +821,17 @@ def aggregate(source, output):
         for a in [*p["attempts"], *p.get("prior_attempts", [])]
     ]
     result = {
+        "batch_id": p.get("batch_id"),
+        "variant": p.get("variant"),
+        "phase": p.get("phase"),
         "protocol_sha256": sha(PROTOCOL),
+        "execution_source_commit": p.get("execution_source_commit"),
+        "execution_sha256": p.get("execution_sha256"),
+        "request_cap_per_attempt": p.get("request_cap_per_attempt"),
+        "formal_request_cap": p.get("formal_request_cap"),
+        "executor_policies": p.get("executor_policies"),
+        "historical_reference": p.get("historical_reference"),
+        "primary_pairs": p.get("primary_pairs", [["full", "shell-only"], ["full", "no-checks"]]),
         "attempts": rows,
         "status_counts": dict(Counter(r["score"]["status"] for r in rows)),
         "context_policy": p.get("context_policy"),
@@ -747,18 +847,57 @@ def aggregate(source, output):
     save(output / "results.json", result)
     (output / "protocol.json").write_bytes(PROTOCOL.read_bytes())
     lines = [
-        "# Pilot 机制验收" if p.get("phase") == "pilot" else "# 正式首跑结果",
+        "# 三臂开发趋势对照"
+        if p.get("variant") == "semantic-state-native-v1"
+        else "# Pilot 机制验收"
+        if p.get("phase") == "pilot"
+        else "# 正式首跑结果",
         "",
         "| 任务 | 臂 | Oracle | Agent 停止 | 请求 | 压缩请求 | 自检秒 |",
         "| --- | --- | --- | --- | ---: | ---: | ---: |",
     ]
     lines += [
         f"| {r['instance_id']} | {r['arm']} | {r.get('oracle_result', r['score']['status'])} | "
-        f"{r.get('stop_reason', 'UNKNOWN')} | {r.get('usage', {}).get('requests', 0)} | "
+        f"{r.get('stop_reason', 'UNKNOWN')} | {r.get('usage', {}).get('requests', 'UNKNOWN')} | "
         f"{r.get('metrics', {}).get('compact_requests', 0)} | "
         f"{r.get('metrics', {}).get('self_check_seconds', 0):.1f} |"
         for r in rows
     ]
+    if p.get("variant") == "semantic-state-native-v1":
+        lines += [
+            "",
+            "## Full 结构状态计量",
+            "",
+            "| 任务 | 启用 | 结构查询 | 当前索引文件 | 含解析错误文件 | 状态序号 | 编辑文件登记 |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: |",
+        ]
+        for row in rows:
+            if row["arm"] != "full":
+                continue
+            state = row.get("metrics", {}).get("semantic_state", {})
+            values = [
+                state.get(name)
+                for name in (
+                    "enabled",
+                    "query_code_calls",
+                    "indexed_files",
+                    "parse_error_files",
+                    "state_sequence",
+                    "changed_files",
+                )
+            ]
+            lines.append(
+                f"| {row['instance_id']} | "
+                + " | ".join("UNKNOWN" if value is None else str(value) for value in values)
+                + " |"
+            )
+        lines += [
+            "",
+            "结构查询采用查询入口累计调用数，包含参数错误和失败调用；"
+            "旧状态仅在观察序列完整时直接计数。"
+            "索引及解析错误取当前持久索引快照，编辑文件登记统计成功编辑过的文件。"
+            "未知计数在 JSON 中保存为 null。",
+        ]
     (output / "results.md").write_text("\n".join(lines) + "\n")
 
 
@@ -808,11 +947,16 @@ def main():
 
             if not args.attempt_id:
                 raise ValueError("CROSS_EXPLICIT_ATTEMPT_ID_REQUIRED")
-            with CPASession(args.output / "cpa-session") as session:
+            with CPASession(
+                args.output / "cpa-session",
+                campaign=p.get("campaign", "cross-repository-20261028"),
+            ) as session:
                 from cross_repo_campaign import allocation_phase
 
                 attempt = next(a for a in p["attempts"] if a["attempt_id"] == args.attempt_id)
-                session.claim(args.attempt_id, allocation_phase(p, attempt))
+                session.claim(
+                    args.attempt_id, allocation_phase(p, attempt), cap=attempt["request_cap"]
+                )
                 execute(args.instance, args.output, args.arm)
         else:
             execute(args.instance, args.output, args.arm)

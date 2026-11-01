@@ -10,13 +10,13 @@ from pathlib import Path
 
 
 class CPASession:
-    def __init__(self, evidence):
+    def __init__(self, evidence, *, campaign="cross-repository-20261028"):
         self.evidence = Path(evidence)
         self.evidence.mkdir(parents=True, exist_ok=True)
         self.key = Path(os.environ["CPA_SSH_KEY_FILE"])
         self.known_hosts = Path(os.environ["CPA_SSH_KNOWN_HOSTS_FILE"])
         self.identity = {
-            "owner": "cross-repository-20261028",
+            "owner": campaign,
             "member": "run-"
             + os.environ["GITHUB_RUN_ID"]
             + "-"

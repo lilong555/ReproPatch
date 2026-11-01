@@ -587,9 +587,12 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     )
     tool_mode = config.get("benchmark", {}).get("tool_mode", "legacy")
     intermediate_checks = config.get("benchmark", {}).get("intermediate_checks", True)
+    semantic_state_enabled = config.get("benchmark", {}).get("semantic_state_enabled", False)
     # 禁用自检的提示和工具子集由已校验的冻结配置确定。
     expected_instructions = (
-        instructions_for(tool_mode) if intermediate_checks else config["instructions"]
+        instructions_for(tool_mode, semantic_state_enabled=semantic_state_enabled)
+        if intermediate_checks
+        else config["instructions"]
     )
     try:
         versions = {name: version(name) for name in ("openai-agents", "openai")}
@@ -610,17 +613,15 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     from .tools import sdk_tools
 
     restored_tools = (
-        shell_only_tools(None, None) if tool_mode == "shell-only" else sdk_tools(None, None, None)
+        shell_only_tools(None, None)
+        if tool_mode == "shell-only"
+        else sdk_tools(None, None, None, semantic=object() if semantic_state_enabled else None)
     )
     if not intermediate_checks:
         restored_tools = [
             tool for tool in restored_tools if tool.name not in {"run_command", "run_shell"}
         ]
-    tools_hash = (
-        sdk_tools_sha256()
-        if tool_mode == "legacy" and intermediate_checks
-        else sdk_tools_sha256(restored_tools)
-    )
+    tools_hash = sdk_tools_sha256(restored_tools)
     if manifest["input_fingerprints"]["tools_sha256"] != tools_hash:
         raise InfrastructureError("INPUT_CHANGED: 工具 schema 发生变化")
     original = EvidenceRef(**frozen["task_original"]).read(directory, limit=MAX_TASK_BYTES)
@@ -666,6 +667,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         tool_mode=tool_mode,
         context_policy=context_policy,
         intermediate_checks=intermediate_checks,
+        semantic_state_enabled=semantic_state_enabled,
     )
     if "context_state" in manifest:
         harness.context_state = ContextState.restore(
@@ -832,7 +834,8 @@ def resume_run(directory, *, pause_after_step=None, sandbox_factory=None):
             maximum = raw["execution_contract"]["budget"]["max_steps"]
             if (
                 type(pause_after_step) is not int
-                or not row["steps_used"] < pause_after_step < maximum
+                or pause_after_step <= row["steps_used"]
+                or (maximum is not None and pause_after_step >= maximum)
             ):
                 raise ReproPatchError("PAUSE_STEP_INVALID: 必须 steps_used < N < max_steps")
         source = row["state"]

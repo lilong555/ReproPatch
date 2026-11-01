@@ -38,6 +38,9 @@ def parser():
     run.add_argument("--candidate-only", action="store_true", help="冻结候选供外部 Oracle 评分")
     run.add_argument("--compiler-cache", action="store_true", help="自检使用本 Run 独占的 ccache")
     run.add_argument(
+        "--semantic-state", action="store_true", help="启用 C++ 结构检索与修复证据状态"
+    )
+    run.add_argument(
         "--tool-mode",
         choices=("legacy", "shell-only"),
         default="legacy",
@@ -222,9 +225,12 @@ def main(argv=None):
         else:
             from .models import load_sdk_script
 
-            if (
-                args.pause_after_step is not None
-                and not 1 <= args.pause_after_step < task.budget.max_steps
+            if args.pause_after_step is not None and (
+                args.pause_after_step < 1
+                or (
+                    task.budget.max_steps is not None
+                    and args.pause_after_step >= task.budget.max_steps
+                )
             ):
                 raise ReproPatchError("PAUSE_STEP_INVALID: 暂停 turn 须为 1 <= N < max_steps")
 
@@ -248,6 +254,7 @@ def main(argv=None):
                     script_source=source,
                     **({"candidate_only": True} if args.candidate_only else {}),
                     **({"compiler_cache": True} if args.compiler_cache else {}),
+                    **({"semantic_state_enabled": True} if args.semantic_state else {}),
                     **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
                 )
             else:
@@ -270,6 +277,7 @@ def main(argv=None):
                     args.output_root,
                     **({"candidate_only": True} if args.candidate_only else {}),
                     **({"compiler_cache": True} if args.compiler_cache else {}),
+                    **({"semantic_state_enabled": True} if args.semantic_state else {}),
                     **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
                     **(
                         {"pause_after_step": args.pause_after_step}

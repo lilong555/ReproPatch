@@ -10,38 +10,67 @@ import time
 from pathlib import Path
 
 from benchmark_budget import LocalUsageLedger
-from run_codex_benchmark import native_settings, request_kind
+from run_codex_benchmark import admit_tools, native_settings, prepare_cli_request
 
 from repropatch.context import ContextPolicy, encoded
 
 
-def check(binary, output):
+def check(binary, output, *, native_context=True):
     output.mkdir(parents=True, exist_ok=False)
     version = subprocess.check_output([str(binary), "--version"], text=True, timeout=15).strip()
     assert version == "codex-cli 0.163.0"
-    policy = ContextPolicy(compact_trigger_tokens=40_000, compact_target_tokens=18_000)
+    policy = (
+        ContextPolicy(
+            request_cap=None,
+            compaction_enabled=False,
+            context_policy_version="native-executors-v1",
+        )
+        if native_context
+        else ContextPolicy(compact_trigger_tokens=40_000, compact_target_tokens=18_000)
+    )
     ledger = LocalUsageLedger.create_scoped(
-        output / "usage.sqlite3", {"offline-codex": 8}, context_policy=policy
+        output / "usage.sqlite3",
+        {"offline-codex": None if native_context else 8},
+        context_policy=policy,
     )
     requests = []
     errors = []
     repairs = 0
+    admitted = 0
+    # 固定 CLI 的默认阈值由其模型元数据决定；夹具只报告触发所需的模拟 Usage。
+    trigger_usage = 250_000 if native_context else 45_000
 
     class Handler(http.server.BaseHTTPRequestHandler):
         def log_message(self, *_):
             pass
 
         def do_POST(self):
-            nonlocal repairs
+            nonlocal repairs, admitted
             try:
                 assert self.path == "/v1/responses"
                 raw = self.rfile.read(int(self.headers["Content-Length"]))
-                body = json.loads(raw)
-                body["max_output_tokens"] = 8192
-                purpose = request_kind(body)
-                identity = ledger.reserve("offline-codex", encoded(body), request_purpose=purpose)
+                identity, purpose, body, payload = prepare_cli_request(
+                    ledger,
+                    "offline-codex",
+                    raw,
+                    len(raw),
+                    output,
+                    native_context=native_context,
+                )
+                ledger.reserve("offline-codex", payload, identity=identity)
                 (output / f"{len(requests) + 1:02d}-{purpose}-request.json").write_bytes(raw)
-                requests.append({"purpose": purpose, "input_bytes": len(encoded(body["input"]))})
+                requests.append(
+                    {
+                        "purpose": purpose,
+                        "input_bytes": len(encoded(body["input"])),
+                        "transport_bytes": len(payload),
+                        "native_summary_body_preserved": payload == raw
+                        if purpose == "compact"
+                        else None,
+                        "request_reasoning": body.get("reasoning"),
+                        "request_max_output_tokens": body.get("max_output_tokens"),
+                    }
+                )
                 if purpose == "compact":
                     items = [
                         {
@@ -61,10 +90,10 @@ def check(binary, output):
                             ],
                         }
                     ]
-                    incoming = 45_000
+                    incoming = trigger_usage
                 else:
                     repairs += 1
-                    incoming = 45_000 if repairs == 1 else 3000
+                    incoming = trigger_usage if repairs == 1 else 3000
                     if repairs <= 2:
                         script = (
                             "const r = await tools.exec_command("
@@ -124,6 +153,7 @@ def check(binary, output):
                         },
                     },
                 }
+                admitted = admit_tools(result, admitted, None if native_context else 16)
                 events = [
                     {
                         "type": "response.created",
@@ -154,7 +184,10 @@ def check(binary, output):
     server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    settings = native_settings("max", 30, policy)
+    settings = native_settings("max", 30, policy, native_context=native_context)
+    override_keys = ("model_context_window", "model_auto_compact_token_limit", "compact_prompt")
+    if native_context:
+        assert all(key not in settings for key in override_keys)
     settings["model_providers.benchmark.base_url"] = f"http://127.0.0.1:{server.server_port}/v1"
     (output / "native-config.json").write_bytes(encoded(settings))
     command = [
@@ -181,6 +214,7 @@ def check(binary, output):
     environment.update(CODEX_HOME=str(output / "codex-home"), BENCHMARK_MODEL_KEY="offline-fixture")
     (output / "codex-home").mkdir()
     started = time.monotonic()
+    returncode = None
     try:
         with (output / "events.jsonl").open("wb") as out, (output / "stderr.log").open("wb") as err:
             result = subprocess.run(
@@ -191,6 +225,9 @@ def check(binary, output):
                 stderr=err,
                 timeout=90,
             )
+            returncode = result.returncode
+    except subprocess.TimeoutExpired:
+        errors.append("CODEX_FIXTURE_TIMEOUT")
     finally:
         server.shutdown()
         server.server_close()
@@ -200,25 +237,46 @@ def check(binary, output):
     compact_at = kinds.index("compact") if "compact" in kinds else -1
     continued = compact_at >= 0 and "repair" in kinds[compact_at + 1 :]
     passed = (
-        result.returncode == 0
+        returncode == 0
         and not errors
         and continued
         and "CONTEXT_FIXTURE_1" in events
         and "CONTEXT_FIXTURE_2" in events
         and requests[compact_at + 1]["input_bytes"] < requests[compact_at]["input_bytes"]
-        and ledger.summary()["unknown_usage_requests"] == 0
+        and ledger.summary("offline-codex")["unknown_usage_requests"] == 0
+        and (
+            not native_context
+            or (
+                all(key not in settings for key in override_keys)
+                and all(
+                    row["native_summary_body_preserved"]
+                    for row in requests
+                    if row["purpose"] == "compact"
+                )
+            )
+        )
     )
     report = {
         "passed": passed,
         "paid_model_requests": 0,
         "fixture_requests": len(requests),
+        "usage_source": "fixed_mock_responses",
+        "context_management": "native" if native_context else "benchmark_adapter",
+        "compaction_trigger": "CLI 原生默认阈值与模拟 Usage"
+        if native_context
+        else "夹具自定义低阈值",
+        "mock_first_input_tokens": trigger_usage,
+        "context_configuration_overrides": {
+            key: settings[key] for key in override_keys if key in settings
+        },
         "requests": requests,
         "version": version,
         "errors": errors,
-        "exit_code": result.returncode,
+        "exit_code": returncode,
+        "tool_calls_admitted": admitted,
         "continued_tools_after_compaction": continued,
         "duration_seconds": time.monotonic() - started,
-        "usage": ledger.summary(),
+        "usage": ledger.summary("offline-codex"),
     }
     (output / "result.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False))
@@ -230,5 +288,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--context-mode", choices=("native", "adapter"), default="native")
     args = parser.parse_args()
-    check(args.binary.resolve(strict=True), args.output.resolve())
+    check(
+        args.binary.resolve(strict=True),
+        args.output.resolve(),
+        native_context=args.context_mode == "native",
+    )

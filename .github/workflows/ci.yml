@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -e '.[dev]'
+      - run: python -m pip install -e '.[dev,semantic]'
       - run: ruff check src tests scripts && ruff format --check src tests scripts
       - run: pytest -m 'not docker and not sdk' --junitxml=.repropatch/ci-evidence/python/results.xml
       - uses: actions/upload-artifact@v4
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev]' cmake==4.4.4
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev,semantic]' cmake==4.4.4
       - run: pytest -m sdk --junitxml=.repropatch/ci-evidence/sdk/results.xml
       - uses: actions/upload-artifact@v4
         if: always()
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev]'
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev,semantic]'
       - name: Run real Docker gate
         run: >-
           python scripts/check_docker_gate.py --build

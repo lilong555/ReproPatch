@@ -61,11 +61,12 @@ class BudgetLimit(ContextLimit):
 
 def validate_task_budget(task, *, request_cap=12):
     """按批次额度核对请求、工具和输出预算。"""
+    tool_cap = None if request_cap is None else request_cap * 2
     if (
         task.budget.max_output_tokens != POLICY["max_output_tokens"]
         or task.budget.max_steps != request_cap
         or task.budget.model_timeout_seconds not in (90, 180)
-        or task.budget.max_tool_calls != request_cap * 2
+        or task.budget.max_tool_calls != tool_cap
     ):
         raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
 
@@ -391,12 +392,14 @@ class LocalUsageLedger:
 
     @classmethod
     def create_scoped(cls, path, attempts, *, context_policy=None):
-        """正式批次固定每个 Attempt 的独占额度，分片额度相加构成总上限。"""
+        """注册独立 Attempt；显式 None 配额开放累计调用，计量持续保留。"""
+        maximum = context_policy.request_cap if context_policy is not None else 24
         if not attempts or any(
-            type(cap) is not int or not 1 <= cap <= 24 for cap in attempts.values()
+            (cap is None and maximum is not None)
+            or (cap is not None and (type(cap) is not int or cap <= 0))
+            or (cap is not None and maximum is not None and cap > maximum)
+            for cap in attempts.values()
         ):
-            raise BudgetLimit("INVALID_SCOPED_ALLOCATION")
-        if context_policy and any(cap > context_policy.request_cap for cap in attempts.values()):
             raise BudgetLimit("INVALID_SCOPED_ALLOCATION")
         ledger = cls.create(path, context_policy=context_policy)
         with ledger.connect() as db:
@@ -538,19 +541,28 @@ class LocalUsageLedger:
                     raise BudgetLimit("UNREGISTERED_FORMAL_ATTEMPT")
                 cap = allocation[0]
                 body = json.loads(payload)
+                native_compact = purpose == "compact" and not policy.compaction_enabled
+                output_limit = body.get("max_output_tokens")
+                valid_output = (
+                    output_limit is None or type(output_limit) is int and output_limit > 0
+                    if native_compact
+                    else type(output_limit) is int and 1 <= output_limit <= 8192
+                )
                 if (
                     body.get("model") != "gpt-6-luna"
-                    or body.get("reasoning", {}).get("effort") != "max"
-                    or type(body.get("max_output_tokens")) is not int
-                    or not 1 <= body["max_output_tokens"] <= 8192
+                    or not valid_output
+                    or (not native_compact and body.get("reasoning", {}).get("effort") != "max")
+                    or (native_compact and body.get("tools"))
                 ):
                     raise BudgetLimit("FORMAL_REQUEST_PARAMETERS")
-                if db.execute("SELECT 1 FROM requests WHERE usage IS NULL LIMIT 1").fetchone():
+                # 开放累计额度时，已结算的供应商错误保持未知用量，后续重试照常计数。
+                pending = "status_code IS NULL" if cap is None else "usage IS NULL"
+                if db.execute(f"SELECT 1 FROM requests WHERE {pending} LIMIT 1").fetchone():
                     raise BudgetLimit("FORMAL_USAGE_UNSETTLED")
             count = db.execute(
                 "SELECT COUNT(*) FROM requests WHERE attempt=?", (attempt,)
             ).fetchone()[0]
-            if count >= cap:
+            if cap is not None and count >= cap:
                 raise BudgetLimit("BENCHMARK_REQUEST_LIMIT")
             db.execute(
                 "INSERT INTO requests(id,attempt,sent_at,request_sha256,purpose) "
@@ -665,6 +677,9 @@ class LocalUsageLedger:
         known_input = sum(v["input_tokens"] for v in values)
         known_output = sum(v["output_tokens"] for v in values)
         return {
+            "request_cap": self.request_cap(attempt)
+            if attempt is not None
+            else self.policy.request_cap,
             "requests": len(rows),
             "issued_requests": len(rows),
             "attempted_model_steps": sum(r[1] != "retry" for r in observations),

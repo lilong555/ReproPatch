@@ -584,9 +584,14 @@ class EventLog:
             ):
                 raise ValueError("冻结输入与状态身份不符")
             budget = resolved["execution_contract"]["budget"]
-            if any(
-                type(budget[name]) is not int or budget[name] <= 0
-                for name in ("wall_seconds", "max_steps", "max_tool_calls")
+            if (
+                type(budget["wall_seconds"]) is not int
+                or budget["wall_seconds"] <= 0
+                or any(
+                    budget[name] is not None
+                    and (type(budget[name]) is not int or budget[name] <= 0)
+                    for name in ("max_steps", "max_tool_calls")
+                )
             ):
                 raise ValueError("冻结预算无效")
             elapsed = datetime.fromisoformat(row["deadline_at"]) - datetime.fromisoformat(
@@ -594,8 +599,11 @@ class EventLog:
             )
             if (
                 elapsed.total_seconds() != budget["wall_seconds"]
-                or row["steps_used"] > budget["max_steps"]
-                or row["tool_calls_admitted"] > budget["max_tool_calls"]
+                or (budget["max_steps"] is not None and row["steps_used"] > budget["max_steps"])
+                or (
+                    budget["max_tool_calls"] is not None
+                    and row["tool_calls_admitted"] > budget["max_tool_calls"]
+                )
             ):
                 raise ValueError("状态预算超过冻结上限")
             if _json(contents["configuration"])["engine"]["kind"] != row["engine_kind"]:

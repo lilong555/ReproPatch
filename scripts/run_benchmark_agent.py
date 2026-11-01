@@ -331,6 +331,7 @@ def repropatch_agent(args, hooks, task):
             candidate_only=getattr(args, "candidate_only", False),
             compiler_cache=getattr(args, "compiler_cache", False),
             tool_mode=getattr(args, "tool_mode", "legacy"),
+            semantic_state_enabled=getattr(args, "semantic_state", False),
             context_policy=hooks.ledger.policy
             if isinstance(hooks.ledger, LocalUsageLedger)
             else None,
@@ -503,7 +504,7 @@ def mini_agent(args, hooks, task):
     )
     handler = HTTPHandler(client=http, follow_redirects=False)
     context_adapter = None
-    if isinstance(hooks.ledger, LocalUsageLedger):
+    if isinstance(hooks.ledger, LocalUsageLedger) and not getattr(args, "native_context", False):
         parameters = {
             "model": model_name,
             "max_output_tokens": task.budget.max_output_tokens,
@@ -540,20 +541,21 @@ def mini_agent(args, hooks, task):
 
         def query(self, messages):
             nonlocal calls
-            prepared = native._prepare_messages_for_api(messages)
             if context_adapter and context_adapter.state.policy.compaction_enabled:
                 context_adapter.prepare(messages)
-            elif (
-                len(canonical_json({"input": prepared}))
-                > getattr(hooks.ledger, "policy", ContextPolicy.legacy()).transport_max_bytes
-            ):
-                raise LimitsExceeded(
-                    {
-                        "role": "exit",
-                        "content": "CONTEXT_LIMIT",
-                        "extra": {"exit_status": "CONTEXT_LIMIT"},
-                    }
-                )
+            elif not getattr(args, "native_context", False):
+                prepared = native._prepare_messages_for_api(messages)
+                if (
+                    len(canonical_json({"input": prepared}))
+                    > getattr(hooks.ledger, "policy", ContextPolicy.legacy()).transport_max_bytes
+                ):
+                    raise LimitsExceeded(
+                        {
+                            "role": "exit",
+                            "content": "CONTEXT_LIMIT",
+                            "extra": {"exit_status": "CONTEXT_LIMIT"},
+                        }
+                    )
             try:
                 result = native.query(messages, client=handler)
             except (ContextLimit, InterruptAgentFlow):
@@ -571,7 +573,10 @@ def mini_agent(args, hooks, task):
                     ((hooks.last_response or {}).get("usage") or {}).get("input_tokens"),
                 )
             actions = result.get("extra", {}).get("actions", [])
-            if len(actions) > 8 or calls + len(actions) > task.budget.max_tool_calls:
+            if len(actions) > 8 or (
+                task.budget.max_tool_calls is not None
+                and calls + len(actions) > task.budget.max_tool_calls
+            ):
                 raise LimitsExceeded(
                     {
                         "role": "exit",
@@ -697,7 +702,8 @@ def mini_agent(args, hooks, task):
             EnvironmentDeadline(),
             system_template=system,
             instance_template=templates["agent"]["instance_template"],
-            step_limit=task.budget.max_steps,
+            # 固定上游以 0 表示开放模型步数；公共协议使用 None 表达同一配置。
+            step_limit=0 if task.budget.max_steps is None else task.budget.max_steps,
             cost_limit=0,
             wall_time_limit_seconds=args.agent_seconds,
             output_path=args.output / "trajectory.json",
@@ -709,6 +715,9 @@ def mini_agent(args, hooks, task):
             args.output / "adapter-metrics.json",
             {
                 "context": context_adapter.state.to_dict() if context_adapter else None,
+                "context_management": "native"
+                if getattr(args, "native_context", False)
+                else "benchmark_adapter",
                 "tool_calls_admitted": calls,
             },
         )
@@ -799,16 +808,25 @@ def main():
     )
     parser.add_argument("--intermediate-checks", choices=("enabled", "disabled"), default="enabled")
     parser.add_argument("--tool-mode", choices=("legacy", "shell-only"), default="legacy")
+    parser.add_argument(
+        "--native-context", action="store_true", help="mini 使用固定上游的原生上下文和输出处理"
+    )
+    parser.add_argument(
+        "--semantic-state", action="store_true", help="Full 启用 C++ 结构索引与修复证据状态"
+    )
     args = parser.parse_args()
     if args.agent != "repropatch" and (
         args.candidate_only
         or args.compiler_cache
         or args.intermediate_checks != "enabled"
         or args.tool_mode != "legacy"
+        or args.semantic_state
     ):
         parser.error("候选模式、编译缓存和中途自检开关适用于 ReproPatch")
     if args.tool_mode == "shell-only" and args.intermediate_checks != "enabled":
         parser.error("Shell-only 通过 Bash 执行自检，四文件工具消融使用 legacy 模式")
+    if args.native_context and (args.agent != "mini" or args.provider != "local-luna"):
+        parser.error("原生上下文对照使用 mini 与 local-luna")
     from repropatch.errors import ReproPatchError
     from repropatch.task import Task
 
@@ -822,6 +840,8 @@ def main():
             ledger = BudgetLedger(args.ledger)
         request_cap = ledger.request_cap(args.attempt) if args.provider == "local-luna" else 12
         validate_task_budget(task, request_cap=request_cap)
+        if args.native_context and ledger.policy.compaction_enabled:
+            raise BudgetLimit("BENCHMARK_NATIVE_CONTEXT_POLICY_MISMATCH")
         if args.agent == "mini":
             mini_inputs(args, task)
     except BudgetLimit as error:
@@ -871,6 +891,12 @@ def main():
         "schema": "repropatch.benchmark-attempt.v1",
         "intermediate_checks": args.intermediate_checks,
         "tool_mode": args.tool_mode,
+        "semantic_state": args.semantic_state,
+        "context_management": "repropatch"
+        if args.agent == "repropatch"
+        else "native"
+        if args.native_context
+        else "benchmark_adapter",
         "agent": args.agent,
         "attempt": args.attempt,
         **attempt_identity(task, args.attempt),

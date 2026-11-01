@@ -21,6 +21,149 @@ from repropatch.task import IMAGE_ID, Task
 
 ROOT = Path(__file__).resolve().parents[1]
 ARMS = ["full", "no-checks", "shell-only", "mini", "codex"]
+NATIVE_ARMS = ["full", "mini", "codex"]
+NATIVE_VARIANT = "semantic-state-native-v1"
+NATIVE_CAMPAIGN = "semantic-state-native-20261101"
+NATIVE_TRANSPORT_MAX_BYTES = 64 * 1024 * 1024
+
+
+def native_trend(protocol):
+    """识别结构状态与原生执行器的三臂开发对照。"""
+    return protocol.get("variant") == NATIVE_VARIANT
+
+
+def arm_context_policy(protocol, arm):
+    """Full 使用自身状态策略，原生对照只保留传输计量配置。"""
+    value = dict(protocol["context_policy"])
+    if native_trend(protocol) and arm in {"mini", "codex"}:
+        value["compaction_enabled"] = False
+    return ContextPolicy.from_dict(value)
+
+
+def validate_execution_evidence(protocol, ci, calibration_bytes):
+    """核对执行源码 CI 和历史校准原件，校准次数按该证据合同核验。"""
+    if (
+        ci.get("conclusion") != "success"
+        or ci.get("head_sha") != protocol["execution_source_commit"]
+        or ci.get("name") != "CI"
+    ):
+        raise ValueError("CROSS_CI_SOURCE_IDENTITY_MISMATCH")
+    if hashlib.sha256(calibration_bytes).hexdigest() != protocol["network_calibration"]["sha256"]:
+        raise ValueError("CROSS_NETWORK_CALIBRATION_IDENTITY_MISMATCH")
+    data = json.loads(calibration_bytes)
+    if (
+        data.get("schema") != "repropatch.cross-network-calibration.v1"
+        or data.get("status") != "PASSED"
+        or data.get("model") != protocol["model"]
+        or data.get("reasoning_effort") != protocol["reasoning_effort"]
+        or data.get("model_timeout_seconds") != protocol["model_timeout_seconds"]
+        or data.get("usage", {}).get("issued_requests") != 12
+    ):
+        raise ValueError("CROSS_NETWORK_CALIBRATION_REQUIRED")
+    return data
+
+
+def validate_native_protocol(p):
+    """核验请求总量开放的三臂冻结合同。"""
+    if (
+        p.get("status") != "FROZEN"
+        or p.get("phase") != "development"
+        or p.get("campaign") != NATIVE_CAMPAIGN
+        or p.get("arms") != NATIVE_ARMS
+        or p.get("model") != "gpt-6-luna"
+        or p.get("reasoning_effort") != "max"
+        or p.get("model_timeout_seconds") != 180
+    ):
+        raise ValueError("NATIVE_FRAMEWORK_CONFIGURATION_MISMATCH")
+    if (
+        any(
+            p.get(key, "missing") is not None
+            for key in ("request_cap_per_attempt", "formal_request_cap", "max_tool_calls")
+        )
+        or type(p.get("max_parallel")) is not int
+        or not 1 <= p["max_parallel"] <= 3
+        or p.get("cpa_max_concurrent_requests") != 3
+    ):
+        raise ValueError("NATIVE_BUDGET_CONFIGURATION_MISMATCH")
+    tasks = p.get("tasks", [])
+    attempts = p.get("attempts", [])
+    if not tasks or len(set(tasks)) != len(tasks) or len(tasks) > 30:
+        raise ValueError("NATIVE_TASK_REGISTRY_INVALID")
+    expected = {(task, arm) for task in tasks for arm in NATIVE_ARMS}
+    if (
+        not re.fullmatch(
+            re.escape(NATIVE_CAMPAIGN) + r"/[A-Za-z0-9_.-]{1,80}", p.get("batch_id") or ""
+        )
+        or len(attempts) != len(expected)
+        or len({a["attempt_id"] for a in attempts}) != len(attempts)
+        or {(a["instance_id"], a["arm"]) for a in attempts} != expected
+        or any(a.get("request_cap", "missing") is not None for a in attempts)
+        or any(
+            a["attempt_id"] != f"{p['batch_id']}/{a['instance_id']}/{a['arm']}/first"
+            for a in attempts
+        )
+        or p.get("execution_order") != attempts
+        or p.get("prior_attempts")
+    ):
+        raise ValueError("NATIVE_ATTEMPT_REGISTRY_INVALID")
+    policies = p.get("executor_policies", {})
+    if (
+        policies.get("full") != {"context_management": "repropatch", "semantic_state": True}
+        or policies.get("mini") != {"context_management": "native", "semantic_state": False}
+        or policies.get("codex") != {"context_management": "native", "semantic_state": False}
+    ):
+        raise ValueError("NATIVE_CONTEXT_POLICY_MISMATCH")
+    budget = p.get("execution_budget_override", {})
+    if (
+        budget.get("max_steps", "missing") is not None
+        or budget.get("max_tool_calls", "missing") is not None
+        or budget.get("model_timeout_seconds") != 180
+        or type(budget.get("wall_seconds")) is not int
+        or type(budget.get("verification_reserve_seconds")) is not int
+        or not 0 < budget["verification_reserve_seconds"] < budget["wall_seconds"] <= 18_000
+        or p.get("platform_job_timeout_minutes") != 360
+    ):
+        raise ValueError("NATIVE_EXECUTION_DEADLINE_INVALID")
+    if set(p.get("task_environments", {})) != set(tasks):
+        raise ValueError("CROSS_TASK_ENVIRONMENT_REGISTRY_MISMATCH")
+    if set(p.get("qualification_contracts", {})) != set(tasks):
+        raise ValueError("CROSS_QUALIFICATION_REGISTRY_INCOMPLETE")
+    for task in tasks:
+        environment = task_environment(p, task)
+        if not IMAGE_ID.fullmatch(environment["image_id"]) or not re.fullmatch(
+            r"[A-Za-z0-9._:/-]+@sha256:[a-f0-9]{64}", environment["image"]
+        ):
+            raise ValueError("CROSS_IMMUTABLE_IMAGE_REQUIRED")
+        identity = p["qualification_contracts"][task]
+        if any(
+            not re.fullmatch(r"[a-f0-9]{64}", identity.get(field, ""))
+            for field in ("qualification_sha256", "task_sha256", "manifest_sha256", "bundle_sha256")
+        ) or not re.fullmatch(r"[a-f0-9]{40}", identity.get("prepared_commit", "")):
+            raise ValueError("NATIVE_QUALIFICATION_IDENTITY_INVALID")
+        archives = [row for row in p.get("qualification_archives", []) if task in row["instances"]]
+        if len(archives) != 1 or not re.fullmatch(r"[a-f0-9]{64}", archives[0].get("sha256", "")):
+            raise ValueError("CROSS_QUALIFICATION_ARCHIVE_MISSING")
+    if (
+        p.get("cpa_route") != "azure-ssh"
+        or p.get("retries") != 0
+        or p.get("paid_calls_authorized") is not True
+        or not p.get("network_calibration", {}).get("sha256")
+    ):
+        raise ValueError("CROSS_NETWORK_POLICY_MISMATCH")
+    if (
+        p.get("execution_sha256") != execution_fingerprint()
+        or not re.fullmatch(r"[a-f0-9]{40}", p.get("execution_source_commit") or "")
+        or type(p.get("ci_run_id")) is not int
+        or p["ci_run_id"] <= 0
+    ):
+        raise ValueError("CROSS_EXECUTION_SOURCE_CHANGED")
+    policy = arm_context_policy(p, "full")
+    if (
+        policy.request_cap is not None
+        or not policy.compaction_enabled
+        or policy.transport_max_bytes != NATIVE_TRANSPORT_MAX_BYTES
+    ):
+        raise ValueError("NATIVE_CONTEXT_POLICY_MISMATCH")
 
 
 def task_environment(protocol, instance):
@@ -118,6 +261,7 @@ def execution_fingerprint():
     paths += [
         ROOT / name
         for name in (
+            "pyproject.toml",
             "requirements/agent.txt",
             "requirements/formal-mini.txt",
             ".github/workflows/cross-repository.yml",
@@ -135,6 +279,8 @@ def execution_fingerprint():
 
 def validate_protocol(p):
     """正式请求只使用完整冻结的跨仓库合同。"""
+    if native_trend(p):
+        return validate_native_protocol(p)
     if p["arms"] != ARMS or p["reasoning_effort"] != "max" or p["model_timeout_seconds"] != 180:
         raise ValueError("CROSS_FRAMEWORK_CONFIGURATION_MISMATCH")
     if (
@@ -345,6 +491,7 @@ def prepare(instance, output, arm, p):
         directory,
         output / "execution-contract",
         p["model_timeout_seconds"],
+        p.get("execution_budget_override"),
         readable_paths=readable,
     )
     execution_task = directory / "task.yaml"

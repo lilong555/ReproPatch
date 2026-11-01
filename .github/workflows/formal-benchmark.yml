@@ -1,5 +1,5 @@
 name: Formal Luna max benchmark
-run-name: ${{ inputs.cross_stage == 'inspect-evidence' && '资格证据读取 · 0 模型请求' || inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'inspect-evidence' && '资格证据读取 · 0 模型请求' || inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || inputs.cross_stage == 'native-trend' && 'Luna max · 三臂原生对照 · 请求总量开放' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify', 'inspect-native', 'inspect-evidence', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore']
+        options: ['legacy', 'qualify', 'inspect-native', 'inspect-evidence', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore', 'native-trend']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'
@@ -26,10 +26,10 @@ on:
         type: string
         default: ''
       authorization:
-        description: '12：上下文校准；480：四题五组 Pilot；2520：21题五组；其余为历史协议'
+        description: 'unlimited：三臂请求总量开放；数值选项用于历史冻结协议'
         required: true
         type: choice
-        options: ['12', '480', '3600', '720', '2520', '912', '504', '2016']
+        options: ['12', '480', '3600', '720', '2520', '912', '504', '2016', 'unlimited']
         default: '12'
       inline_calibration:
         description: '全量批次内先执行上下文校准，通过后自动启动105次修复'
@@ -78,6 +78,7 @@ jobs:
       instances: ${{ inputs.cross_instances }}
       protocol: ${{ inputs.cross_protocol }}
       image: ${{ inputs.cross_image }}
+      request_authorization: ${{ inputs.authorization }}
     secrets: inherit
   calibration:
     if: inputs.cross_stage == 'legacy' || inputs.cross_stage == ''

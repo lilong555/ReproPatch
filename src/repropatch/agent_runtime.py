@@ -2,6 +2,7 @@
 
 import asyncio
 import inspect
+import json
 import time
 from dataclasses import dataclass
 
@@ -42,7 +43,7 @@ async def run_sdk(
     input_filter,
     instructions: str,
     context=None,
-    max_turns: int,
+    max_turns: int | None,
     max_output_tokens: int,
     model_timeout: float,
     run_timeout: float,
@@ -50,7 +51,11 @@ async def run_sdk(
     """保留原生 RunResult；取消向 SDK 传播，资源清理由调用方拥有。"""
     positive_timeout(model_timeout)
     positive_timeout(run_timeout)
-    if any(type(v) is not int or v <= 0 for v in (max_turns, max_output_tokens)):
+    if (
+        (max_turns is not None and (type(max_turns) is not int or max_turns <= 0))
+        or type(max_output_tokens) is not int
+        or max_output_tokens <= 0
+    ):
         raise ReproPatchError("SDK turn 与输出 token 限额必须为正整数")
     prepare_sdk()
     from agents import (
@@ -246,7 +251,7 @@ async def run_agent(harness, workspace) -> AgentResult:
         deadline()
         if closed:
             raise AgentStop("AGENT_DEADLINE")
-        if report["model_steps"] >= budget.max_steps:
+        if budget.max_steps is not None and report["model_steps"] >= budget.max_steps:
             raise AgentStop(
                 "REQUEST_BUDGET_EXHAUSTED"
                 if harness.context_policy.compaction_enabled
@@ -445,7 +450,10 @@ async def run_agent(harness, workspace) -> AgentResult:
             ):
                 raise ReproPatchError("PROTOCOL_ERROR: 未注册工具")
             deadline()
-            if report["tool_calls"] + len(calls) > budget.max_tool_calls:
+            if (
+                budget.max_tool_calls is not None
+                and report["tool_calls"] + len(calls) > budget.max_tool_calls
+            ):
                 raise AgentStop("TOOL_BUDGET")
             admitted = report["tool_calls"] + len(calls)
             log.emit(
@@ -496,18 +504,35 @@ async def run_agent(harness, workspace) -> AgentResult:
             value = {"ok": False, "error": {"code": code, "message": message[:1000]}}
         # 整批工具已在事务中扣减；提示额度包含尚待执行的本批工具。
         value["progress"] = {
-            "model_steps_remaining": budget.max_steps - report["model_steps"],
-            "tool_calls_remaining": budget.max_tool_calls - report["tool_calls"],
+            "model_steps_remaining": (
+                None if budget.max_steps is None else budget.max_steps - report["model_steps"]
+            ),
+            "tool_calls_remaining": (
+                None
+                if budget.max_tool_calls is None
+                else budget.max_tool_calls - report["tool_calls"]
+            ),
             "pending_tool_calls": len(pending),
             "agent_seconds_remaining": max(0, int(context.clock.remaining("agent_check"))),
             "source_changed": workspace.expected_manifest != workspace.initial_manifest,
         }
+        if semantic is not None:
+            value["evidence_id"] = tool_id
         reference = EvidenceRef.save(
             harness.directory,
             f"agent/tool-results/{tool_id}.json",
             canonical_json(value) + b"\n",
             budget=harness.resources.budget,
         )
+        if semantic is not None:
+            semantic.observe(
+                name,
+                json.loads(call.arguments),
+                value,
+                asdict(reference),
+                tool_id=tool_id,
+            )
+            context_state.semantic_state = semantic.to_dict()
         log.emit(
             "tool_finished",
             {
@@ -536,6 +561,18 @@ async def run_agent(harness, workspace) -> AgentResult:
         lambda name: harness._agent_check(workspace, name),
         readable=harness.resolved.readable_files,
     )
+    semantic = None
+    if getattr(harness, "semantic_state_enabled", False):
+        from .semantic_state import SemanticState
+
+        semantic = SemanticState(
+            toolbox,
+            context_state.semantic_state,
+            read_evidence=lambda ref: EvidenceRef(**ref).read(
+                harness.directory, limit=ref["size_bytes"]
+            ),
+        )
+        context_state.semantic_state = semantic.to_dict()
     tools = (
         shell_only_tools(
             boundary,
@@ -546,6 +583,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             toolbox,
             boundary,
             lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
+            semantic=semantic,
         )
     )
     if not harness.intermediate_checks_enabled:
@@ -567,6 +605,8 @@ async def run_agent(harness, workspace) -> AgentResult:
         ],
     }
     baseline = model_evaluation(harness.baseline.to_dict())
+    if semantic is not None and "baseline" not in semantic.state.get("evidence", {}):
+        semantic.register_evidence("baseline", save("baseline-observation", baseline))
     initial = [
         {
             "role": "user",
@@ -602,11 +642,32 @@ async def run_agent(harness, workspace) -> AgentResult:
             ).decode(),
         }
     ]
+    if semantic is not None:
+        # 任务约束长期固定；大型基线诊断作为可压缩观察，保持其原始可见内容。
+        contract = json.loads(initial[0]["content"])
+        observation = contract.pop("baseline")
+        contract["repair_state"] = {
+            "version": "cpp-evidence-state-v1",
+            "query_tool": "query_code",
+            "usage": (
+                "先按符号和路径查询结构，再沿语法引用定位；state查修复状态，"
+                "evidence按tool_id或baseline读取原始可见记录。"
+            ),
+        }
+        initial = [
+            {"role": "user", "content": canonical_json(contract).decode()},
+            {
+                "role": "user",
+                "content": canonical_json({"baseline_observation": observation}).decode(),
+            },
+        ]
+        if context_state.fixed_items is None:
+            context_state.fixed_items = initial[:1]
     if getattr(harness, "resume_native", None) is not None:
         initial = harness.resume_native["input"]
     try:
         deadline()
-        if report["model_steps"] >= budget.max_steps:
+        if budget.max_steps is not None and report["model_steps"] >= budget.max_steps:
             raise AgentStop("STEP_BUDGET")
         while True:
             try:
@@ -618,7 +679,11 @@ async def run_agent(harness, workspace) -> AgentResult:
                     input_filter=input_filter,
                     instructions=harness.instructions,
                     context=None,
-                    max_turns=max(1, budget.max_steps - report["model_steps"]),
+                    max_turns=(
+                        None
+                        if budget.max_steps is None
+                        else max(1, budget.max_steps - report["model_steps"])
+                    ),
                     max_output_tokens=budget.max_output_tokens,
                     model_timeout=budget.model_timeout_seconds,
                     run_timeout=context.clock.remaining("agent_check"),

@@ -5,6 +5,7 @@ import json
 import math
 from contextlib import contextmanager
 from contextvars import ContextVar
+from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 
 from .errors import ReproPatchError
@@ -50,7 +51,7 @@ class ContextPolicy:
     max_output_tokens: int = 8192
     transport_max_bytes: int = 2 * 1024 * 1024
     response_max_bytes: int = 2 * 1024 * 1024
-    request_cap: int = 24
+    request_cap: int | None = 24
     context_policy_version: str = "v1.0-unified-compaction"
     tool_growth_tokens: int = 16_000
     estimation_margin_tokens: int = 8000
@@ -59,6 +60,10 @@ class ContextPolicy:
     compaction_enabled: bool = True
 
     def __post_init__(self):
+        if self.request_cap is not None and (
+            type(self.request_cap) is not int or self.request_cap <= 0
+        ):
+            raise ValueError("CONTEXT_POLICY_REQUEST_CAP")
         integers = [value for value in asdict(self).values() if type(value) is int]
         if any(value <= 0 for value in integers):
             raise ValueError("CONTEXT_POLICY_POSITIVE_LIMITS")
@@ -352,6 +357,7 @@ class ContextState:
     compacted_up_to_seq: int = 0
     compactions: list[dict] = field(default_factory=list)
     fixed_items: list[dict] | None = None
+    semantic_state: dict | None = None
 
     def plan(self, body):
         if not self.policy.compaction_enabled:
@@ -371,6 +377,14 @@ class ContextState:
         ):
             return None
         fixed_count = len(self.fixed_items)
+        fixed_tokens = self.estimator.estimate({**body, "input": self.fixed_items})[
+            "estimated_input_tokens"
+        ]
+        if fixed_tokens >= self.policy.compact_target_tokens:
+            raise ContextLimit(
+                "COMPACTION_FAILED",
+                detail=f"固定任务前缀 {fixed_tokens} Token 超出摘要目标，需拆分任务与观察数据",
+            )
         history = items[fixed_count:]
         boundaries = complete_rounds(history)
         keep = self.policy.retain_rounds
@@ -411,16 +425,34 @@ class ContextState:
             "role": "user",
             "content": "Visible state checkpoint:\n" + encoded(summary).decode(),
         }
-        replacement = plan["fixed"] + [message] + plan["retained"]
+        state_messages = []
+        if self.semantic_state is not None:
+            from .semantic_state import state_view
+
+            state_messages.append(
+                {
+                    "role": "user",
+                    "content": "Persistent C++ repair evidence:\n"
+                    + encoded(
+                        state_view(
+                            self.semantic_state,
+                            maximum=min(12_000, self.policy.compact_target_tokens * 3 // 4),
+                        )
+                    ).decode(),
+                }
+            )
+        replacement = plan["fixed"] + [message] + state_messages + plan["retained"]
         complete_rounds(replacement)
-        self.estimator.reset()
+        candidate_estimator = deepcopy(self.estimator)
+        candidate_estimator.reset()
         post_body = {**body, "input": replacement}
-        measured = self.estimator.estimate(post_body)
+        measured = candidate_estimator.estimate(post_body)
         if (
             measured["estimated_input_tokens"] > self.policy.compact_target_tokens
             or len(encoded(post_body)) >= plan["pre_transport_bytes"]
         ):
             raise ContextLimit("COMPACTION_FAILED", detail="摘要未达到目标水位")
+        self.estimator.reset()
         self.summary_state = summary
         self.compacted_up_to_seq = sequence
         self.compactions.append(
@@ -444,6 +476,7 @@ class ContextState:
             "compactions": self.compactions,
             "fixed_items": self.fixed_items,
             "estimator": self.estimator.to_dict(),
+            "semantic_state": self.semantic_state,
         }
 
     @classmethod
@@ -457,6 +490,7 @@ class ContextState:
             value["compacted_up_to_seq"],
             value["compactions"],
             value["fixed_items"],
+            value.get("semantic_state"),
         )
 
 

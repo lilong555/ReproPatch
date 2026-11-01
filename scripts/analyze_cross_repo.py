@@ -40,7 +40,7 @@ def analyze(value):
             raise ValueError("CROSS_FIRST_AND_REPEAT_RESULTS_REQUIRE_SEPARATE_REPORTS")
         tasks[task][arm] = row.get("score", {}).get("accepted")
     comparisons = []
-    for left, right in PAIRS:
+    for left, right in value.get("primary_pairs", PAIRS):
         complete = {
             task: result
             for task, result in tasks.items()

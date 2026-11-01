@@ -17,6 +17,7 @@ STATE = Path("/var/lib/repropatch-cpa")
 NAME = re.compile(r"[a-zA-Z0-9_.:-]{1,100}\Z")
 RETRY = re.compile(r"(?m)^request-retry\s*:\s*(\d+)\s*(?:#.*)?$")
 TTL = 1200
+UNBOUNDED_CAMPAIGN = "semantic-state-native-20261101"
 
 
 def watched_reload(expected):
@@ -99,6 +100,7 @@ class LeaseManager:
         run = request.get("run_id")
         phase = request.get("phase")
         cap = request.get("request_cap")
+        unbounded = campaign == UNBOUNDED_CAMPAIGN and phase == "development"
         limits = {
             "calibration": 12,
             "development": 480,
@@ -106,25 +108,30 @@ class LeaseManager:
             "repeat": 720,
             "infrastructure-revalidation": 480,
         }
-        if campaign != "cross-repository-20261028" or phase not in limits:
+        if not unbounded and (campaign != "cross-repository-20261028" or phase not in limits):
             raise ValueError("CPA_CAMPAIGN_ALLOCATION_REJECTED")
         if (
             not isinstance(attempt, str)
             or not re.fullmatch(r"[A-Za-z0-9_./:-]{1,220}", attempt)
             or not isinstance(run, str)
             or not run.isdigit()
-            or type(cap) is not int
-            or cap != (1 if phase == "calibration" else 24)
+            or (
+                cap is not None
+                if unbounded
+                else type(cap) is not int or cap != (1 if phase == "calibration" else 24)
+            )
+            or (unbounded and not attempt.startswith(campaign + "/"))
         ):
             raise ValueError("CPA_ATTEMPT_CLAIM_INVALID")
         path = self.directory / "claims.json"
         claims = json.loads(path.read_text()) if path.exists() else {}
         if attempt in claims:
             raise ValueError("CPA_ATTEMPT_ALREADY_CLAIMED")
-        allocated = sum(row["request_cap"] for row in claims.values() if row["phase"] == phase)
-        if (
+        campaign_claims = [row for row in claims.values() if row["campaign"] == campaign]
+        allocated = sum(row["request_cap"] or 0 for row in campaign_claims if row["phase"] == phase)
+        if not unbounded and (
             allocated + cap > limits[phase]
-            or sum(row["request_cap"] for row in claims.values()) + cap > 5292
+            or sum(row["request_cap"] for row in campaign_claims) + cap > 5292
         ):
             raise ValueError("CPA_CAMPAIGN_BUDGET_EXHAUSTED")
         row = {
@@ -140,7 +147,12 @@ class LeaseManager:
         temporary.chmod(0o600)
         temporary.replace(path)
         self.event({"event": "claim", **row})
-        return {**row, "allocated_phase_requests": allocated + cap, "status": "CLAIMED"}
+        return {
+            **row,
+            "allocated_phase_requests": None if unbounded else allocated + cap,
+            "allocated_campaign_attempts": len(campaign_claims) + 1,
+            "status": "CLAIMED",
+        }
 
     def retry(self):
         matches = list(RETRY.finditer(self.config.read_text()))

@@ -36,7 +36,9 @@ def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
-def native_settings(reasoning_effort="max", model_timeout_seconds=90, policy=None):
+def native_settings(
+    reasoning_effort="max", model_timeout_seconds=90, policy=None, *, native_context=False
+):
     """原生 CLI 的固定配置，推理强度同时由上游请求留证。"""
     values = {
         "model_provider": "benchmark",
@@ -53,7 +55,7 @@ def native_settings(reasoning_effort="max", model_timeout_seconds=90, policy=Non
         "model_providers.benchmark.stream_idle_timeout_ms": (model_timeout_seconds + 10) * 1000,
         "model_providers.benchmark.supports_websockets": False,
     }
-    if policy and policy.compaction_enabled:
+    if policy and policy.compaction_enabled and not native_context:
         values.update(
             model_context_window=policy.context_window_tokens,
             model_auto_compact_token_limit=policy.compact_trigger_tokens,
@@ -81,11 +83,15 @@ def request_kind(body):
         if isinstance(content, str)
         else "\n".join(item.get("text", "") for item in content if isinstance(item, dict))
     )
-    return "compact" if last.get("role") == "user" and text.startswith(COMPACT_MARKER) else "repair"
+    return (
+        "compact"
+        if last.get("role") == "user" and text.lstrip().startswith(COMPACT_MARKER)
+        else "repair"
+    )
 
 
-def prepare_cli_request(ledger, attempt, raw, declared_size, trace):
-    """完整或部分 CLI 正文先留证；有效请求再统一输出额度并记录上游载荷。"""
+def prepare_cli_request(ledger, attempt, raw, declared_size, trace, *, native_context=False):
+    """先留证完整正文；原生摘要按 CLI 正文转发，修复请求使用共同输出额度。"""
     policy = ledger.policy
     try:
         if declared_size > policy.transport_max_bytes:
@@ -104,8 +110,11 @@ def prepare_cli_request(ledger, attempt, raw, declared_size, trace):
         reason = error.reason if isinstance(error, ContextLimit) else "BENCHMARK_REQUEST_INVALID"
         ledger.reject(identity, reason, "Codex.Model.do_POST")
         raise ContextLimit(reason, detail=identity) from error
-    body["max_output_tokens"] = policy.max_output_tokens
-    payload = encoded(body)
+    if native_context and purpose == "compact":
+        payload = raw
+    else:
+        body["max_output_tokens"] = policy.max_output_tokens
+        payload = encoded(body)
     identity = ledger.record_pre_send_telemetry(attempt, payload, request_purpose=purpose)
     (trace / (identity + "-cli-request.json")).write_bytes(raw)
     (trace / (identity + "-request.json")).write_bytes(payload)
@@ -303,7 +312,7 @@ def admit_tools(completed, admitted, maximum):
     )
     if calls > 8:
         raise BudgetLimit("TOOL_BATCH_LIMIT")
-    if admitted + calls > maximum:
+    if maximum is not None and admitted + calls > maximum:
         raise BudgetLimit("TOOL_BUDGET")
     return admitted + calls
 
@@ -459,6 +468,9 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--agent-seconds", type=int, required=True)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument(
+        "--native-context", action="store_true", help="保留 CLI 原生压缩提示、阈值和历史替换"
+    )
     parser.add_argument("--cpa-route", choices=tuple(ROUTES), default="public")
     parser.add_argument(
         "--reasoning-effort",
@@ -471,6 +483,8 @@ def main():
     task = Task.load(args.task)
     ledger = LocalUsageLedger(args.ledger)
     validate_task_budget(task, request_cap=ledger.request_cap(args.attempt))
+    if args.native_context and ledger.policy.compaction_enabled:
+        raise BudgetLimit("BENCHMARK_NATIVE_CONTEXT_POLICY_MISMATCH")
     config, common, source = mini_inputs(args, task)
     subprocess.run(
         ["git", "-C", str(source), "diff", "--quiet", "HEAD", "--"], check=True, timeout=30
@@ -555,16 +569,20 @@ def main():
                 self.connection.settimeout(30)
                 raw = self.rfile.read(max(0, min(size, policy.transport_max_bytes + 1)))
                 identity, purpose, body, payload = prepare_cli_request(
-                    ledger, args.attempt, raw, size, trace
+                    ledger, args.attempt, raw, size, trace, native_context=args.native_context
                 )
                 state["observed_request_reasoning"].append(body.get("reasoning"))
                 if body.get("model") != "gpt-6-luna" or body.get("stream") is not True:
                     raise ValueError("MODEL_SETTINGS_MISMATCH")
                 if any(t.get("type") not in {"function", "custom"} for t in body.get("tools", [])):
                     raise ValueError("EXTERNAL_TOOL_REJECTED")
-                if not policy.compaction_enabled and (
-                    len(json.dumps(body.get("input"), ensure_ascii=False).encode())
-                    > policy.transport_max_bytes
+                if (
+                    not args.native_context
+                    and not policy.compaction_enabled
+                    and (
+                        len(json.dumps(body.get("input"), ensure_ascii=False).encode())
+                        > policy.transport_max_bytes
+                    )
                 ):
                     raise BudgetLimit("CONTEXT_LIMIT")
                 # CLI 保留原生提示与工具协议；代理统一每请求输出上限并记录原始请求。
@@ -585,7 +603,7 @@ def main():
                 status, data, content_type, completed = asyncio.run(
                     upstream_request(payload, identity)
                 )
-                if status != 200 and purpose != "compact":
+                if status != 200 and (purpose != "compact" or args.native_context):
                     try:
                         response_error = json.loads(data).get("error", {})
                     except ValueError:
@@ -606,10 +624,25 @@ def main():
                             "upstream_status": status,
                         }
                     )
+                    if compact_record is not None:
+                        compact_record.update(
+                            status="failed",
+                            duration_seconds=time.monotonic() - compact_record.pop("started"),
+                            cause=code,
+                        )
                     self.reply(status, data, content_type)
                     return
                 if purpose == "compact":
-                    if (
+                    compact_valid = (
+                        status == 200
+                        and completed
+                        and completed.get("status", "completed") == "completed"
+                        and all(
+                            item.get("type") in {"message", "reasoning"}
+                            for item in completed.get("output", [])
+                        )
+                    )
+                    if not args.native_context and (
                         status != 200
                         or not completed
                         or any(
@@ -619,9 +652,11 @@ def main():
                     ):
                         raise ContextLimit("COMPACTION_FAILED")
                     compact_record.update(
-                        status="completed",
+                        status="completed" if compact_valid else "failed",
                         duration_seconds=time.monotonic() - compact_record.pop("started"),
                     )
+                    if not compact_valid:
+                        compact_record["cause"] = "COMPACTION_FAILED"
                 elif (
                     state["compactions"] and "post_transport_bytes" not in state["compactions"][-1]
                 ):
@@ -707,6 +742,7 @@ def main():
         + str(task.budget.model_timeout_seconds),
         "check_only": args.check_only,
         "context_policy": policy.to_dict(),
+        "context_management": "native" if args.native_context else "benchmark_adapter",
         "provider_compaction_mode": "local_summary_via_responses",
         "provider_capabilities": "unsupported",
         "codex_source_commit": "83086188ae0614bd882818ff1aa23f3194962012",
@@ -765,7 +801,10 @@ def main():
         )
         check.check_returncode()
         native_config = native_settings(
-            args.reasoning_effort, task.budget.model_timeout_seconds, policy
+            args.reasoning_effort,
+            task.budget.model_timeout_seconds,
+            policy,
+            native_context=args.native_context,
         )
         save(output / "native-config.json", native_config)
         cli = [
@@ -865,6 +904,7 @@ def main():
             )
             result["producer_status"] = (
                 result.get("stop_reason")
+                or ("FINISHED" if args.native_context and result.get("exit_code") == 0 else None)
                 or budget_reason
                 or ("MODEL_REQUEST_ERROR" if state["errors"] else None)
                 or ("FINISHED" if result.get("exit_code") == 0 else "CLI_ERROR")

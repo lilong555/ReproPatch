@@ -266,8 +266,8 @@ def sdk_tools_sha256(tools=None):
     ).hexdigest()
 
 
-def sdk_tools(toolbox, boundary, shell):
-    """schema 只由 SDK 从六个真正的 async 回调生成。"""
+def sdk_tools(toolbox, boundary, shell, *, semantic=None):
+    """SDK 从注册的 async 回调生成工具 schema。"""
     from agents import function_tool
     from pydantic import StrictInt
 
@@ -305,7 +305,21 @@ def sdk_tools(toolbox, boundary, shell):
         """在一次性Docker容器内执行Shell；源码只读，/build每次为空且退出即删除。"""
         return await boundary("run_shell", lambda: shell(command, cwd, timeout_seconds))
 
-    return [list_directory, read_file, search_code, edit_file, run_command, run_shell]
+    registered = [list_directory, read_file, search_code, edit_file, run_command, run_shell]
+    if semantic is not None:
+
+        @function_tool(failure_error_function=None)
+        async def query_code(
+            kind: Literal["definitions", "references", "includes", "state", "evidence"],
+            query: str = "",
+            path: str = ".",
+            offset: StrictInt = 0,
+        ) -> str:
+            """查询授权C++定义/语法引用/include/持久state；evidence按tool_id或baseline读取原文，next_offset继续分页。"""
+            return await boundary("query_code", lambda: semantic.query(kind, query, path, offset))
+
+        registered.append(query_code)
+    return registered
 
 
 def shell_only_tools(boundary, shell):

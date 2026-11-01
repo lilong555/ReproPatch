@@ -137,8 +137,8 @@ class Environment:
 
 @dataclass(frozen=True)
 class Budget:
-    max_steps: int = 24
-    max_tool_calls: int = 80
+    max_steps: int | None = 24
+    max_tool_calls: int | None = 80
     wall_seconds: int = 900
     verification_reserve_seconds: int = 240
     model_timeout_seconds: int = 60
@@ -345,6 +345,8 @@ class Task:
         budget = mapping(raw.get("budget", {}), "budget", (), Budget.__dataclass_fields__)
         budget = asdict(Budget()) | budget
         for name, number in budget.items():
+            if name in {"max_steps", "max_tool_calls"} and number is None:
+                continue
             positive(number, "budget." + name)
         if budget["wall_seconds"] <= budget["verification_reserve_seconds"] + 10:
             fail("budget.wall_seconds", "必须大于 verification_reserve_seconds + 10")
