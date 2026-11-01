@@ -131,3 +131,50 @@ def test_native_environment_exports_exact_commit_bytes(task, tmp_path):
         assert path.stat().st_mode & 0o777 == (0o755 if entry.git_mode == "100755" else 0o644)
     assert (target / "run.bat").read_bytes() == b"echo fixture\n"
     assert (target / "hidden.txt").read_text() == "committed\n"
+
+
+def test_native_editable_permissions_preserve_git_modes(task, tmp_path):
+    from dataclasses import replace
+
+    from prepare_mini_environment import (
+        export_commit_source,
+        set_container_read_permissions,
+        set_container_write_permissions,
+    )
+
+    source = task.repository
+    executable = source / "src/stats.cpp"
+    executable.chmod(0o755)
+    (source / ".gitattributes").write_text("*.bat eol=crlf\n")
+    (source / "run.bat").write_bytes(b"echo fixture\n")
+    git(source, "add", ".")
+    git(source, "commit", "-qm", "固定可执行源码与换行属性")
+    frozen = replace(task, revision=git(source, "rev-parse", "HEAD").decode().strip())
+    target = tmp_path / "native-source"
+    export_commit_source(frozen, target)
+    git(target, "init", "--template=")
+    git(target, "add", "-f", ".")
+    git(
+        target,
+        "-c",
+        "user.name=Benchmark",
+        "-c",
+        "user.email=benchmark@example.invalid",
+        "commit",
+        "-qm",
+        "baseline",
+    )
+    before = (target / "src/stats.cpp").read_bytes()
+    set_container_read_permissions(target)
+    set_container_write_permissions(target / "src/stats.cpp")
+    set_container_write_permissions(target / "run.bat")
+    assert (target / "src/stats.cpp").stat().st_mode & 0o777 == 0o777
+    assert (target / "run.bat").stat().st_mode & 0o777 == 0o666
+    assert (target / "CMakeLists.txt").stat().st_mode & 0o777 == 0o644
+    assert (target / "src/stats.cpp").read_bytes() == before
+    assert (target / "run.bat").read_bytes() == b"echo fixture\n"
+    assert git(target, "diff", "--quiet", "HEAD", "--") == b""
+    (target / "src/stats.cpp").write_bytes(before + "\n// 实际源码改动\n".encode())
+    assert git(target, "diff", "--name-only", "HEAD", "--").decode().splitlines() == [
+        "src/stats.cpp"
+    ]

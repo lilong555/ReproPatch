@@ -34,6 +34,11 @@ def set_container_read_permissions(source):
         path.chmod(0o755 if path.is_dir() else 0o644 | (mode & 0o111))
 
 
+def set_container_write_permissions(path):
+    """为容器开放授权文件写权限，并保留固定提交的可执行位。"""
+    path.chmod(0o666 | (path.stat().st_mode & 0o111))
+
+
 def export_commit_source(task, source):
     """直接导出提交 Blob，保留换行字节和可执行位。"""
     source.mkdir(parents=True, exist_ok=False)
@@ -216,7 +221,7 @@ def main():
         f"type=bind,source={source},target=/src,readonly",
     ]
     for name in sorted(resolved.editable_files):
-        (source / name).chmod(0o666)
+        set_container_write_permissions(source / name)
         run_args.extend(["--mount", f"type=bind,source={source / name},target=/src/{name}"])
     config = {
         "environment_class": "docker",
