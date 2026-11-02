@@ -2,22 +2,47 @@
 
 ## 工程验证
 
-2026 年 11 月 2 日，Python 3.12 本地非 Docker 回归通过 **1067 项**，
-1 项依赖 GCC 14 的工具链测试跳过。范围覆盖任务与源码、SDK、预算与上下文、
-Checkpoint 与恢复、演示、只读诊断以及原生执行器。
+2026 年 11 月 2 日，[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/41395271852)
+在源码 `465a14ca5ffaecc6799039588a4fd0b173eb8eb6` 通过 **1120 项测试**：
+**840 Core、232 SDK、48 真实 Docker**，失败与错误均为零。
+四个依赖外部原始归档的回放用例在 CI 跳过，已在本地固定归档环境全部通过。
 
 | 检查 | 结果 | 范围 |
 | --- | --- | --- |
 | Ruff 与格式 | 通过 | `src`、`tests`、`scripts` |
-| 干净核心依赖 | 55 项通过 | CLI、诊断、大目录输入、四份原始启动归档回放 |
-| 原生 SDK 启动 | 4 项通过 | 预检、启动与本地代理故障的零请求留证 |
-| wheel/sdist | 通过 | 五个内置演示资源与源码逐字节一致，从 sdist 构建 wheel |
-| 安装包核心环境 | 21 条验证命令符合预期 | 项目外 `-I` 调用、可选依赖、资源读取与诊断只读性 |
+| Core | 840 项通过 | Task、源码权限、进程、状态事务、诊断、原生执行器和冷评分 |
+| SDK | 232 项通过 | 原生 Items、工具准入、预算、上下文、暂停恢复与脚本演示 |
+| 真实 Docker | 48 项通过 | 容器隔离、C++ 编译、独立验收、持久 Shell、清理和恢复 |
+| 安装版工程门禁 | 16 条 CLI 命令通过 | wheel 安装身份、三场景、只读查询与派生报告 |
+| wheel/sdist 资源 | 通过 | 五个内置演示资源与源码逐字节一致 |
+| 原生上下文 | 通过 | mini 完整输出与不透明状态留存，Codex 原生压缩后继续工具执行 |
+| 本地核心安装 | 21 条验证命令符合预期 | 项目外 `-I` 调用、可选依赖、资源读取与诊断只读性 |
 
-本地 WSL2 环境缺少 Docker CLI，真实隔离执行由
-[CI](../.github/workflows/ci.yml) 的 `docker-integration` 验证。
-该作业执行完整 Docker gate，再构建、安装 wheel，运行工程三场景并核对只读查询。
-可重复执行的命令和通过标准见[工程验收](ACCEPTANCE.md)。
+安装版演示使用真实 Docker 与本地 ScriptedModel。三个场景符合预期，
+模型用量标记为合成，付费模型请求为 **0**。
+
+| 场景 | 结局 | Run ID | 证据 |
+| --- | --- | --- | --- |
+| 正常修复 | `ACCEPTED / VERIFICATION_PASSED` | `49516ea6a92b4c38a8ab1014a9c93d90` | 原始缺陷复现、候选往返与独立 F2P/P2P 通过 |
+| 错误候选 | `REJECTED / F2P_FAILED` | `ce1fb3ba2ec44450bf0a6e30efdecae9` | 保留真实失败观察，P2P 持续通过 |
+| 暂停恢复 | `ACCEPTED / VERIFICATION_PASSED` | `8d314ba079c24f24aa7b2ce0b8408c06` | 同一 Run；基线、编辑各一次；步骤 3→5，工具 3→4 |
+
+恢复场景同时核对 Checkpoint 源码、事件前缀和原始截止时间。
+`inspect`、`diagnose`、`replay`、`export-trace` 前后的全部 Run 文件 SHA-256 一致；
+随后执行的 `report` 刷新派生导出索引。下载复核确认 504 个原文件摘要与三个重建索引有效。
+
+三场景演示在该 CI 的已准备镜像上耗时 **28.04 秒**，包含查询的工程门禁命令合计
+**31.76 秒**；镜像构建和依赖安装单独计时。执行环境为 Python 3.12.15、
+Linux amd64，镜像 ID 为
+`sha256:009306d3661cbd78cb18399ad380ecf81f83dcb388e00c539271ba72d3f5b178`。
+
+[机器可读摘要](evidence/engineering-2026-11-02/summary.json)保存 JUnit、安装包、
+门禁与原生上下文结果的 SHA-256，关联五个 CI Artifact。
+Docker 门禁的 190 个源码文件摘要已与交付代码核对。
+可重复执行命令见[工程验收](ACCEPTANCE.md)，场景说明见[演示指南](DEMO.md)。
+
+本地补充回归通过 1067 项，1 项因缺少 GCC 14 跳过；干净核心依赖专项通过 55 项，
+原生 SDK 启动专项通过 4 项。真实 Docker 结果来自上述云端执行。
 
 <details>
 <summary>历史测试与发布证据</summary>

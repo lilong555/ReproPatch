@@ -1,0 +1,194 @@
+{
+  "schema": "repropatch.engineering-delivery.v1",
+  "date": "2026-11-02",
+  "status": "passed",
+  "ci": {
+    "run_id": 41395271852,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/41395271852",
+    "source_commit": "465a14ca5ffaecc6799039588a4fd0b173eb8eb6",
+    "conclusion": "success",
+    "jobs_passed": 4
+  },
+  "implementation_sha256": "c2012e98f2ae90143049e740e1c702ba0e8d8df51b1eb93e895769780091e04a",
+  "source_manifest": {
+    "artifact": "docker-gate-evidence",
+    "path": "source-manifest.json",
+    "sha256": "a1e54dc3835e030c05273d13fffe44994a5d4064640f3457d708459adf455678",
+    "matched_files": 190
+  },
+  "pytest": {
+    "passed": 1120,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 4,
+    "suites": [
+      {
+        "artifact": "python-cpp-evidence",
+        "path": "results.xml",
+        "sha256": "d1dbc9195236b78cdd2642182f0966e03e9dee6b661c00a90f566e18cbac43a8",
+        "passed": 840,
+        "skipped": 4
+      },
+      {
+        "artifact": "sdk-contract-evidence",
+        "path": "results.xml",
+        "sha256": "24dff2a89c19675f0175a0e0b6faed94005660b66355844d0323d0109f63f0a8",
+        "passed": 232,
+        "skipped": 0
+      },
+      {
+        "artifact": "docker-gate-evidence",
+        "path": "docker-tests.xml",
+        "sha256": "de35ccfba2127c2571ddbec99b839622dc60466143921387da5899846bd53e50",
+        "passed": 48,
+        "skipped": 0
+      }
+    ],
+    "skipped_scope": "四个原始 Actions 归档回放用例需要外部归档与固定 mini 源码；本地四项全部通过。"
+  },
+  "engineering_gate": {
+    "artifact": "engineering-evidence",
+    "path": ".repropatch/ci-evidence/engineering/summary.json",
+    "sha256": "b5767b7c3f91d0cd8199e2cbe5f37a22c224725827b5f422a1fbae38e4311a9d",
+    "status": "passed",
+    "commands_passed": 16,
+    "model_kind": "scripted",
+    "paid_model_requests": 0,
+    "installed_wheel": true,
+    "python": "3.12.15",
+    "image_id": "sha256:009306d3661cbd78cb18399ad380ecf81f83dcb388e00c539271ba72d3f5b178",
+    "demo_seconds": 28.03966810899999,
+    "commands_seconds": 31.761738482000112,
+    "timing_scope": "已准备镜像上的三场景与查询；依赖安装和镜像构建单独计时。",
+    "readonly_queries": ["inspect", "diagnose", "replay", "export-trace"],
+    "readonly_queries_preserved_all_files": true,
+    "downloaded_original_files_verified": 504,
+    "regenerated_export_indices_verified": 3,
+    "index_semantics": "report 在只读核验结束后刷新 run.json 的导出时间；三个索引及其派生文件引用均已复核。",
+    "scenarios": [
+      {
+        "scenario": "repair",
+        "run_id": "49516ea6a92b4c38a8ab1014a9c93d90",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "isolated": true,
+        "evidence_complete": true,
+        "independent_successful": true,
+        "checks_passed": 18,
+        "original_files_verified": 184,
+        "model_steps": 5,
+        "baseline_executions": 1
+      },
+      {
+        "scenario": "rejection",
+        "run_id": "ce1fb3ba2ec44450bf0a6e30efdecae9",
+        "outcome": "REJECTED",
+        "reason_code": "F2P_FAILED",
+        "isolated": true,
+        "evidence_complete": true,
+        "independent_successful": false,
+        "checks_passed": 18,
+        "original_files_verified": 132,
+        "model_steps": 4,
+        "baseline_executions": 1
+      },
+      {
+        "scenario": "recovery",
+        "run_id": "8d314ba079c24f24aa7b2ce0b8408c06",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "isolated": true,
+        "evidence_complete": true,
+        "independent_successful": true,
+        "checks_passed": 28,
+        "original_files_verified": 188,
+        "baseline_executions": 1,
+        "edit_executions": 1,
+        "recovery_attempts": 1,
+        "checkpoint_id": 4,
+        "steps_before": 3,
+        "steps_after": 5,
+        "tool_calls_before": 3,
+        "tool_calls_after": 4,
+        "same_run": true,
+        "event_prefix_preserved": true,
+        "deadline_preserved": true,
+        "checkpoint_source_preserved": true
+      }
+    ]
+  },
+  "packages": [
+    {
+      "artifact": "engineering-evidence",
+      "path": "dist/repropatch-0.3.0-py3-none-any.whl",
+      "sha256": "2bf032ec7597671101105a47aa1f19c1b769f13879bc244a24299d790cbdd7d2",
+      "size_bytes": 152922,
+      "demo_assets_verified": 5
+    },
+    {
+      "artifact": "engineering-evidence",
+      "path": "dist/repropatch-0.3.0.tar.gz",
+      "sha256": "67b7523c75ca54a220714482207d4ec21a8b27cb18f7d3b10e7b8947444ca149",
+      "size_bytes": 3161414,
+      "demo_assets_verified": 5
+    }
+  ],
+  "native_context": [
+    {
+      "artifact": "context-native-evidence",
+      "path": "mini/result.json",
+      "sha256": "1e5ab4545ec5b52603a944cc5b04053c7a72520deeeb1e654d045170e2dac164",
+      "passed": true,
+      "paid_model_requests": 0,
+      "context_management": "native"
+    },
+    {
+      "artifact": "context-native-evidence",
+      "path": "codex/result.json",
+      "sha256": "680564ccf6e74f5a14ef2369845a0c62588e3193861431d9d6dc34675c2f419a",
+      "passed": true,
+      "paid_model_requests": 0,
+      "continued_tools_after_compaction": true
+    }
+  ],
+  "supplemental_local": {
+    "non_docker_passed": 1067,
+    "non_docker_skipped": 1,
+    "non_docker_skip_reason": "需要 GCC 14 的工具链测试",
+    "non_docker_junit_sha256": "4d628ddaed3b554678f82d47ea89f55048ce4fe2d751f404edaf2fb30c247771",
+    "core_contract_passed": 55,
+    "core_contract_junit_sha256": "ef686ea6e789eb75cc7bbac2f08da100dc679b06518894d5f8261eba83290efa",
+    "native_archive_replays_passed": 4,
+    "sdk_startup_passed": 4,
+    "sdk_startup_junit_sha256": "e8c277d5aacfe3068d71528f3f7907836c727ddb659a7780f5b0a0cb9757605c",
+    "core_installation_commands_passed": 21,
+    "docker_available": false
+  },
+  "github_artifacts": [
+    {
+      "name": "python-cpp-evidence",
+      "id": 13118946925,
+      "reported_digest": "sha256:001291969694144f3df1d4e5a2091defcd4ede511d4159540a681c2f5f060ce0"
+    },
+    {
+      "name": "sdk-contract-evidence",
+      "id": 13119550955,
+      "reported_digest": "sha256:26a9745c4635d1c862883e5a4234c4861ce8fbdfb4661e1f81b31a0235bd7739"
+    },
+    {
+      "name": "docker-gate-evidence",
+      "id": 13119591127,
+      "reported_digest": "sha256:7bb2839b4aecf5896b57d5aefd9d1288c831151611ca0ab0cd0ac86ce7db257e"
+    },
+    {
+      "name": "engineering-evidence",
+      "id": 13119576297,
+      "reported_digest": "sha256:4b0ec14f1fbe75acd4795f9c5eb7bde9e8ab744b5bb82bc642fcc2e24468dfac"
+    },
+    {
+      "name": "context-native-evidence",
+      "id": 13119585364,
+      "reported_digest": "sha256:df7705f3c029e216e412f784da1ee999733dbfd640ec77d221c529185cdcf015"
+    }
+  ]
+}
