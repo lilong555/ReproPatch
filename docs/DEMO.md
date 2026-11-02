@@ -25,7 +25,13 @@ docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
 repropatch doctor --image repropatch-cpp:0.1 --json
 ```
 
-发布包、源码身份、镜像和原始验收记录见 [v0.4.0 证据摘要](evidence/v0.4.0/summary.json)；长期原件见 [ReproPatch-engineering-v0.4.0.zip](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip)。本地交付目录为 `/home/li/code/repropatch/deliverables/v0.4.0`。
+发布包、源码身份、镜像和原始验收记录见 [v0.4.0 证据摘要](evidence/v0.4.0/summary.json)；长期原件见 [ReproPatch-engineering-v0.4.0.zip](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip)。
+
+## 已验收快照
+
+以下快照按原始 CLI 输出字段排版，来源为安装版 [CI 41400631265](https://github.com/lilong555/ReproPatch/actions/runs/41400631265)。三场景耗时 24.32 秒，核心正反例及查询命令合计 13.14 秒，镜像构建和依赖安装单独计时。[完整命令记录](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/demo-transcript.txt)保留实际 argv、原始输出和退出码。
+
+![安装版三场景、核心补丁正反例和恢复一致性的 CLI 验收快照](assets/v0.4.0-demo.png)
 
 ## 四分钟主流程
 

@@ -1,6 +1,51 @@
 # 测试报告
 
-## 工程验证
+## v0.4.0 发布验收
+
+[CI 41400631265](https://github.com/lilong555/ReproPatch/actions/runs/41400631265)
+在源码 `259de3cc7eb0baa490ecf5351c20b237e34f012b` 通过 **1159 项测试**，
+失败与错误均为零。4 项固定历史归档回放按环境条件跳过。
+wheel 和 sdist 来自同一 CI，最终发布 tag 的执行代码、门禁、依赖和构建配置与被测源码一致。
+
+| 检查 | 结果 | 验收范围 |
+| --- | --- | --- |
+| Core 与 Ruff | 879 项通过，4 项跳过；静态检查通过 | 输入、源码、状态、诊断、进程与分发合同 |
+| SDK | 232 项通过 | 原生输入、工具准入、上下文、预算与恢复 |
+| 真实 Docker | 48 项通过 | 隔离、编译、CTest、持久 Shell、退出与清理 |
+| 安装版三场景 | 16 条 CLI 命令符合预期 | repair 接受、rejection 拒绝、recovery 接受与只读查询 |
+| core-only 安装 | 11 条命令符合预期 | 正确补丁退出 0、错误补丁退出 1；基线、独立冷验收与清理 |
+| 分发内容 | 30 个 wheel 文件、696 个 sdist 已跟踪文件逐字节一致 | 含 5 个演示资源、发布元数据与原生 CMake 辅助文件 |
+| 原生上下文 | mini/Codex 手动兼容检查通过 | 固定版本、本地响应与零付费模型请求 |
+
+core-only 环境包含 Python 3.12.15、pip、PyYAML 6.0.3 与 ReproPatch 0.4.0，
+`agents` 和 `openai` 均未安装。公开 CLI 从源码目录外以 `python -I -m repropatch`
+执行，安装文件位于 venv 的 site-packages，wheel SHA-256 与来源记录一致。
+
+| 场景 | 结局 | Run ID |
+| --- | --- | --- |
+| 正常修复 | `ACCEPTED / VERIFICATION_PASSED` | `118a80dc44f6494683777541a0cfdea1` |
+| 错误候选 | `REJECTED / F2P_FAILED` | `bed3d1c6233f44b59e1d67118faab7c5` |
+| 暂停恢复 | `ACCEPTED / VERIFICATION_PASSED` | `96b27e4b6a3d4a139c50d0216e6479eb` |
+| 核心正确补丁 | `ACCEPTED / VERIFICATION_PASSED` | `73927743b58e4ba1a4a046def17341c4` |
+| 核心错误补丁 | `REJECTED / F2P_FAILED` | `2bd815452d27463f8b302b1e83b7f97c` |
+
+恢复核对同一 Run、基线与编辑各一次、步骤 3→5、工具 3→4、原 deadline 和事件前缀。
+三场景查询保持原文件字节一致，随后 `report` 重建派生索引。
+下载复核确认 504 个三场景原文件、3 个重建索引和 210 个核心正反例原文件有效。
+
+三场景耗时 **24.32 秒**，含查询的工程命令合计 **27.33 秒**；
+核心正反例、环境查询和诊断合计 **13.14 秒**。依赖安装与镜像构建单独计时。
+脚本模型身份、合成用量和未知 Token 原样保留，付费模型请求为 **0**。
+
+[版本摘要](evidence/v0.4.0/summary.json)记录 JUnit、193 个执行源文件、镜像与包身份。
+[v0.4.0 Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0)
+提供长期原件、完整命令、演示快照和 `SHA256SUMS`。
+本地补充回归为 1071 项通过、5 项环境跳过；分发专项 39 项通过，原始 JUnit 同包保存。
+
+<details>
+<summary>2026-11-02 工程候选验证</summary>
+
+## 工程候选验证
 
 2026 年 11 月 2 日，[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/41395271852)
 在源码 `465a14ca5ffaecc6799039588a4fd0b173eb8eb6` 通过 **1120 项测试**：
@@ -43,6 +88,8 @@ Docker 门禁的 190 个源码文件摘要已与交付代码核对。
 
 本地补充回归通过 1067 项，1 项因缺少 GCC 14 跳过；干净核心依赖专项通过 55 项，
 原生 SDK 启动专项通过 4 项。真实 Docker 结果来自上述云端执行。
+
+</details>
 
 <details>
 <summary>历史测试与发布证据</summary>

@@ -3,17 +3,20 @@
   "product": "ReproPatch",
   "product_version": "0.4.0",
   "positioning": "可恢复的 C++ 修复与验证系统",
-  "release_status": "candidate",
+  "release_status": "published",
   "task_format_version": 2,
   "spec_revision": "2026-11-02",
   "release_identity": {
     "tag": "v0.4.0",
+    "commit_ref": "refs/tags/v0.4.0",
+    "tested_source_commit": "259de3cc7eb0baa490ecf5351c20b237e34f012b",
+    "pull_request": "https://github.com/lilong555/ReproPatch/pull/5",
     "url": "https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0",
     "manifest_url": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/release-manifest.json"
   },
   "support": {
     "platform": "Linux amd64",
-    "python": "3.12",
+    "python": ">=3.12",
     "execution": "单用户、本地 Docker",
     "repository": "已准备的 Git 仓库与完整 Commit",
     "baseline": "CMake 配置与构建成功，声明的 F2P 测试失败，P2P 测试通过",
@@ -33,8 +36,70 @@
     "scripted_demo": ["repair", "rejection", "recovery"]
   },
   "validation": {
+    "status": "passed",
+    "source_commit": "259de3cc7eb0baa490ecf5351c20b237e34f012b",
+    "ci": "https://github.com/lilong555/ReproPatch/actions/runs/41400631265",
+    "python": "3.12.15",
+    "tests": {
+      "core": 879,
+      "sdk": 232,
+      "docker": 48,
+      "passed": 1159,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 4
+    },
     "evidence": "docs/evidence/v0.4.0/summary.json",
+    "evidence_sha256": "2c3f16feb35fa66d32a61109be4bf27c1f55a965020b41af06ded690000e2274",
+    "source_manifest": "docs/evidence/v0.4.0/source-manifest.json",
+    "source_files_matched": 193,
+    "installed_wheel_commands": 16,
+    "core_only_commands": 11,
+    "native_context": "passed_manual",
+    "paid_model_requests": 0,
+    "delivery_execution_inputs": "与被测源码一致，交付 tag 包含当前文档、演示快照和版本证据",
     "required_gates": ["core", "sdk", "docker", "installed-wheel-demo", "core-only-wheel"]
+  },
+  "implementation_sha256": "739bc79a476a11035ef1a1417ce5cce4f59e7cb0e14ff5a8aca96dceb80d210e",
+  "image_id": "sha256:cb9b0208673928ac0dce6f5c6c1b30342da728a4609b25061727ed822d88b239",
+  "distribution_validation": {
+    "status": "passed",
+    "wheel_files_matched": 30,
+    "demo_assets_matched": 5,
+    "sdist_tracked_files_matched": 696,
+    "core_only_optional_modules": {"agents": false, "openai": false},
+    "correct_patch": {"outcome": "ACCEPTED", "exit_code": 0},
+    "wrong_patch": {"outcome": "REJECTED", "reason_code": "F2P_FAILED", "exit_code": 1},
+    "independent_cold_build": true,
+    "container_cleanup_confirmed": true,
+    "readonly_queries_preserved": true
+  },
+  "artifacts": {
+    "repropatch-0.4.0-py3-none-any.whl": {
+      "sha256": "f75128ec7668abd308ad4d84675604225e44dee0a51dd2c363e9b32cf8e2b3f1",
+      "size_bytes": 152413
+    },
+    "repropatch-0.4.0.tar.gz": {
+      "sha256": "528628f9db649ad99dfb6b658e0fcdac4e130d865b24b9b3688d9e72443fa520",
+      "size_bytes": 3189547
+    },
+    "ReproPatch-engineering-v0.4.0.zip": {
+      "sha256": "c681738b8c51025d705defbbdb260c7a269d1ce6ae743cfa8e36dd1ae4f60ae4",
+      "size_bytes": 22356569,
+      "files": 5533
+    },
+    "ReproPatch-engineering-candidate-2026-11-02.zip": {
+      "sha256": "e137d861644c26d1539ee81b54106088e5bb71c58974a15bb26cacf59ef69023",
+      "size_bytes": 13637773,
+      "files": 5223
+    }
+  },
+  "evidence_storage": {
+    "summary": "docs/evidence/v0.4.0/summary.json",
+    "archive": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip",
+    "checksums": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/SHA256SUMS",
+    "demo_snapshot": "docs/assets/v0.4.0-demo.png",
+    "command_transcript": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/demo-transcript.txt"
   },
   "historical_evidence": {
     "engineering_baseline": "425bf34d7adde10a616226aaf20a69b96d53b3d6",

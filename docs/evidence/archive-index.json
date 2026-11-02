@@ -304,6 +304,19 @@
       "verification": "逐文件大小、SHA-256 与凭据模式扫描通过",
       "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-candidate-2026-11-02.zip",
       "summary": "docs/evidence/engineering-2026-11-02/summary.json"
+    },
+    {
+      "scope": "v0.4.0 Core、SDK、Docker、安装版三场景、core-only 正反例与原始日志",
+      "name": "ReproPatch-engineering-v0.4.0.zip",
+      "source_commit": "259de3cc7eb0baa490ecf5351c20b237e34f012b",
+      "ci_run_id": 41400631265,
+      "sha256": "c681738b8c51025d705defbbdb260c7a269d1ce6ae743cfa8e36dd1ae4f60ae4",
+      "size_bytes": 22356569,
+      "files": 5533,
+      "manifest": "evidence-manifest.json",
+      "verification": "下载 ZIP 与 GitHub 摘要一致，逐文件大小和 SHA-256 核对通过",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip",
+      "summary": "docs/evidence/v0.4.0/summary.json"
     }
   ]
 }

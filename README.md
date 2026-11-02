@@ -72,6 +72,8 @@ flowchart LR
 
 ## Release 与证据
 
+发布候选通过 **1159 项测试**：879 Core、232 SDK、48 真实 Docker；4 项历史归档回放按环境条件跳过。安装版三场景与 core-only 正反补丁的 27 条命令符合预期，付费模型请求为 0。[CLI 验收快照与四分钟演示](docs/DEMO.md#已验收快照)提供直接展示入口。
+
 [0.4.0 Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0) 提供 wheel、sdist、[工程原件](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip)和 [SHA256SUMS](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/SHA256SUMS)。[版本身份](RELEASE.json)与[0.4.0 工程摘要](docs/evidence/v0.4.0/summary.json)关联被测源码、实现摘要、镜像和安装包校验值。
 
 [产品合同](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [工程验收](docs/ACCEPTANCE.md) · [测试报告](docs/TEST_REPORT.md) · [项目讲解](docs/PROJECT_REPORT.md)。

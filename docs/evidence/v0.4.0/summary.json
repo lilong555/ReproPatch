@@ -1,0 +1,378 @@
+{
+  "schema": "repropatch.engineering-delivery.v2",
+  "product_version": "0.4.0",
+  "status": "passed",
+  "date": "2026-11-02",
+  "ci": {
+    "run_id": 41400631265,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/41400631265",
+    "source_commit": "259de3cc7eb0baa490ecf5351c20b237e34f012b",
+    "conclusion": "success",
+    "jobs_passed": 4
+  },
+  "implementation_sha256": "739bc79a476a11035ef1a1417ce5cce4f59e7cb0e14ff5a8aca96dceb80d210e",
+  "image_id": "sha256:cb9b0208673928ac0dce6f5c6c1b30342da728a4609b25061727ed822d88b239",
+  "source_manifest": {
+    "path": "docker-gate-evidence/source-manifest.json",
+    "sha256": "10efb6ebace729263909fb25f986f1ccbe11bccc0a47626d4646bb0bdec17401",
+    "matched_files": 193
+  },
+  "pytest": {
+    "passed": 1159,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 4,
+    "total": 1163,
+    "suites": [
+      {
+        "name": "core",
+        "path": "python-cpp-evidence/results.xml",
+        "failed": 0,
+        "errors": 0,
+        "skipped": 4,
+        "passed": 879,
+        "total": 883,
+        "sha256": "5a6b861296e43cf9438ebcaf0e227899fd2e438322071312bb43682af586bb1c"
+      },
+      {
+        "name": "sdk",
+        "path": "sdk-contract-evidence/results.xml",
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 232,
+        "total": 232,
+        "sha256": "24dc6b27ad170ac101e4f2cdc5c3347cf5aca662b6e36d20f68dc61fd67416a8"
+      },
+      {
+        "name": "docker",
+        "path": "docker-gate-evidence/docker-tests.xml",
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 48,
+        "total": 48,
+        "sha256": "25e1c4a952cc984ea95eda49fc197175cb215c35d8c09314e9726b16dceb306f"
+      }
+    ],
+    "skipped_scope": "四项需要固定 mini 源码与外部历史 Actions 归档的回放用例。"
+  },
+  "engineering_gate": {
+    "status": "passed",
+    "commands_passed": 16,
+    "installed_wheel": true,
+    "model_kind": "scripted",
+    "paid_model_requests": 0,
+    "demo_seconds": 24.319094328000006,
+    "commands_seconds": 27.33480139699998,
+    "timing_scope": "已准备镜像上的三场景与查询，依赖安装及镜像构建单独计时。",
+    "readonly_queries_preserved_all_files": true,
+    "scenarios": [
+      {
+        "scenario": "repair",
+        "run_id": "118a80dc44f6494683777541a0cfdea1",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "checks": {
+          "baseline_reproduced": true,
+          "candidate_roundtrip_verified": true,
+          "cleanup_confirmed": true,
+          "cold_independent": true,
+          "docker_image_locked": true,
+          "docker_isolation": true,
+          "evidence_complete": true,
+          "execution_image_consistent": true,
+          "f2p_expected": true,
+          "independent_source_matches_candidate": true,
+          "independent_test_contract": true,
+          "independent_verification": true,
+          "p2p_preserved": true,
+          "scripted_model": true,
+          "synthetic_unknown_usage": true,
+          "task_image_locked": true,
+          "terminal_outcome": true,
+          "zero_paid_model_requests": true
+        },
+        "original_files_verified": 184,
+        "regenerated_indices_verified": 1,
+        "event_counts": {
+          "baseline_finished": 1,
+          "model_started": 5,
+          "recovery_started": 0
+        },
+        "usage": {
+          "input_tokens": null,
+          "known_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0
+          },
+          "output_tokens": null,
+          "synthetic": true,
+          "total_tokens": null,
+          "unknown_turns": 5
+        }
+      },
+      {
+        "scenario": "rejection",
+        "run_id": "bed3d1c6233f44b59e1d67118faab7c5",
+        "outcome": "REJECTED",
+        "reason_code": "F2P_FAILED",
+        "checks": {
+          "baseline_reproduced": true,
+          "candidate_roundtrip_verified": true,
+          "cleanup_confirmed": true,
+          "cold_independent": true,
+          "docker_image_locked": true,
+          "docker_isolation": true,
+          "evidence_complete": true,
+          "execution_image_consistent": true,
+          "f2p_expected": true,
+          "independent_source_matches_candidate": true,
+          "independent_test_contract": true,
+          "independent_verification": true,
+          "p2p_preserved": true,
+          "scripted_model": true,
+          "synthetic_unknown_usage": true,
+          "task_image_locked": true,
+          "terminal_outcome": true,
+          "zero_paid_model_requests": true
+        },
+        "original_files_verified": 132,
+        "regenerated_indices_verified": 1,
+        "event_counts": {
+          "baseline_finished": 1,
+          "model_started": 4,
+          "recovery_started": 0
+        },
+        "usage": {
+          "input_tokens": null,
+          "known_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0
+          },
+          "output_tokens": null,
+          "synthetic": true,
+          "total_tokens": null,
+          "unknown_turns": 4
+        }
+      },
+      {
+        "scenario": "recovery",
+        "run_id": "96b27e4b6a3d4a139c50d0216e6479eb",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "checks": {
+          "baseline_once": true,
+          "baseline_reproduced": true,
+          "candidate_roundtrip_verified": true,
+          "checkpoint_source_preserved": true,
+          "cleanup_confirmed": true,
+          "cold_independent": true,
+          "counters_continued": true,
+          "deadline_preserved": true,
+          "docker_image_locked": true,
+          "docker_isolation": true,
+          "edit_once": true,
+          "event_prefix_preserved": true,
+          "evidence_complete": true,
+          "execution_image_consistent": true,
+          "f2p_expected": true,
+          "independent_source_matches_candidate": true,
+          "independent_test_contract": true,
+          "independent_verification": true,
+          "p2p_preserved": true,
+          "paused_after_edit": true,
+          "paused_evidence_complete": true,
+          "recovery_recorded": true,
+          "same_run": true,
+          "scripted_model": true,
+          "synthetic_unknown_usage": true,
+          "task_image_locked": true,
+          "terminal_outcome": true,
+          "zero_paid_model_requests": true
+        },
+        "original_files_verified": 188,
+        "regenerated_indices_verified": 1,
+        "event_counts": {
+          "baseline_finished": 1,
+          "model_started": 5,
+          "recovery_started": 1
+        },
+        "usage": {
+          "input_tokens": null,
+          "known_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0
+          },
+          "output_tokens": null,
+          "synthetic": true,
+          "total_tokens": null,
+          "unknown_turns": 5
+        },
+        "recovery": {
+          "checkpoint_id": 4,
+          "checkpoint_manifest": {
+            "path": "checkpoints/4/manifest.json",
+            "sha256": "cb3ef927d0d9abeebceafcb1ee55deee255e5c13d9ea9a61a2bf4a00a0d232b7",
+            "size_bytes": 1652
+          },
+          "checkpoint_patch": {
+            "path": "checkpoints/4/patch.diff",
+            "sha256": "99bee26c8894e0b46d04928cfc018c19a804784dd83aa25927c3f72a25e911fe",
+            "size_bytes": 467
+          },
+          "checks": {
+            "baseline_once": true,
+            "checkpoint_source_preserved": true,
+            "counters_continued": true,
+            "deadline_preserved": true,
+            "edit_once": true,
+            "event_prefix_preserved": true,
+            "paused_after_edit": true,
+            "paused_evidence_complete": true,
+            "recovery_recorded": true,
+            "same_run": true
+          },
+          "pause_after_step": 3,
+          "paused_events": {
+            "path": "recovery/paused-events.jsonl",
+            "sha256": "ea7785eaa1ae994d071b0f61ec7b3b52062f76014f39f6abb02ac6dba4d5a4ee",
+            "size_bytes": 39046
+          },
+          "paused_report": {
+            "path": "recovery/paused-report.json",
+            "sha256": "2ad9932b943a9055c086b95b6588e1f5445c07fa090a5bcd1aa034ea958c99cf",
+            "size_bytes": 2212
+          },
+          "paused_run_id": "96b27e4b6a3d4a139c50d0216e6479eb",
+          "paused_state": "INTERRUPTED",
+          "resumed_run_id": "96b27e4b6a3d4a139c50d0216e6479eb",
+          "steps_after": 5,
+          "steps_before": 3,
+          "tool_calls_after": 4,
+          "tool_calls_before": 3
+        }
+      }
+    ]
+  },
+  "core_distribution_gate": {
+    "status": "passed",
+    "commands_passed": 11,
+    "model_requests": 0,
+    "optional_modules": {
+      "agents": false,
+      "openai": false
+    },
+    "installed_distributions": [
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      },
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      },
+      {
+        "name": "repropatch",
+        "version": "0.4.0"
+      }
+    ],
+    "package_directory": "/home/runner/work/ReproPatch/ReproPatch/.repropatch/core-env/lib/python3.12/site-packages/repropatch",
+    "isolated_cli": true,
+    "cli_outside_source": true,
+    "temporary_cwd_removed": true,
+    "commands_seconds": 13.137707007000074,
+    "scenarios": [
+      {
+        "scenario": "correct",
+        "run_id": "73927743b58e4ba1a4a046def17341c4",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "containers_removed": true,
+        "readonly_queries_preserved_all_files": true,
+        "original_files_verified": 105,
+        "baseline_reproduced": true,
+        "independent_cold_build": true
+      },
+      {
+        "scenario": "wrong",
+        "run_id": "2bd815452d27463f8b302b1e83b7f97c",
+        "outcome": "REJECTED",
+        "reason_code": "F2P_FAILED",
+        "containers_removed": true,
+        "readonly_queries_preserved_all_files": true,
+        "original_files_verified": 105,
+        "baseline_reproduced": true,
+        "independent_cold_build": true
+      }
+    ]
+  },
+  "packages": [
+    {
+      "name": "repropatch-0.4.0-py3-none-any.whl",
+      "sha256": "f75128ec7668abd308ad4d84675604225e44dee0a51dd2c363e9b32cf8e2b3f1",
+      "size_bytes": 152413
+    },
+    {
+      "name": "repropatch-0.4.0.tar.gz",
+      "sha256": "528628f9db649ad99dfb6b658e0fcdac4e130d865b24b9b3688d9e72443fa520",
+      "size_bytes": 3189547
+    }
+  ],
+  "distribution_content": {
+    "wheel_files_matched": 30,
+    "demo_assets_matched": 5,
+    "sdist_tracked_files_matched": 696,
+    "sdist_omitted_tracked_files": [
+      ".gitignore"
+    ]
+  },
+  "native_context": [
+    {
+      "name": "mini",
+      "passed": true,
+      "sha256": "1e5ab4545ec5b52603a944cc5b04053c7a72520deeeb1e654d045170e2dac164"
+    },
+    {
+      "name": "codex",
+      "passed": true,
+      "sha256": "e1ffbeb904c840a01426db5565d9dc7740a7922b7871d5413586e5e555290aea"
+    }
+  ],
+  "github_artifacts": [
+    {
+      "name": "docker-gate-evidence",
+      "id": 13121955237,
+      "digest": "sha256:dbeab66315c287046c78b612723270cf075756bb7d1cc5354b5a1f61f32af064",
+      "download_verified_sha256": "dbeab66315c287046c78b612723270cf075756bb7d1cc5354b5a1f61f32af064"
+    },
+    {
+      "name": "engineering-evidence",
+      "id": 13121930255,
+      "digest": "sha256:0955b53cf8e404c6002b37153543bb6f38071251973791077bc164e29f3252f7",
+      "download_verified_sha256": "0955b53cf8e404c6002b37153543bb6f38071251973791077bc164e29f3252f7"
+    },
+    {
+      "name": "context-native-evidence",
+      "id": 13121585379,
+      "digest": "sha256:8706375a7f1835753c4d5ab31a8e2eb560959dd91ae7d2f0495ded1c19f081f5",
+      "download_verified_sha256": "8706375a7f1835753c4d5ab31a8e2eb560959dd91ae7d2f0495ded1c19f081f5"
+    },
+    {
+      "name": "sdk-contract-evidence",
+      "id": 13120319654,
+      "digest": "sha256:ecc81e7477a602af4ae2ca58a6e754cfc17835976e21d8fff4223622a512ef80",
+      "download_verified_sha256": "ecc81e7477a602af4ae2ca58a6e754cfc17835976e21d8fff4223622a512ef80"
+    },
+    {
+      "name": "python-cpp-evidence",
+      "id": 13120099953,
+      "digest": "sha256:84d1677c8e65e0d1ab9fe687989130b53d29ade8cf27a4bd75e60054fb4aa281",
+      "download_verified_sha256": "84d1677c8e65e0d1ab9fe687989130b53d29ade8cf27a4bd75e60054fb4aa281"
+    }
+  ],
+  "history": "docs/evidence/engineering-2026-11-02/summary.json"
+}
