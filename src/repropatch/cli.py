@@ -15,15 +15,24 @@ from .task import Task, inspect_image
 
 
 def parser():
-    root = argparse.ArgumentParser(prog="repropatch", description="Reproducible C++ repair harness")
+    root = argparse.ArgumentParser(
+        prog="repropatch", description="可恢复、可观测的 C++ 代码修复 Agent"
+    )
     root.add_argument("--version", action="version", version=f"{__version__} (Task v2)")
     commands = root.add_subparsers(dest="command", required=True)
-    doctor = commands.add_parser("doctor", help="Check host tools and local Docker image")
+    doctor = commands.add_parser("doctor", help="检查宿主工具、Docker 连接与本地镜像")
     doctor.add_argument("--image")
     doctor.add_argument("--json", action="store_true")
-    check = commands.add_parser("validate-task", help="Validate task YAML without executing code")
+    demo = commands.add_parser("demo", help="运行零 API 密钥的修复、拒绝与恢复演示")
+    demo.add_argument("--output", type=Path, default=Path(".repropatch/demo"), help="新的演示目录")
+    demo.add_argument("--image", default="repropatch-cpp:0.1", help="已准备的本地 Docker 镜像")
+    demo.add_argument(
+        "--scenario", choices=("all", "repair", "rejection", "recovery"), default="all"
+    )
+    demo.add_argument("--json", action="store_true")
+    check = commands.add_parser("validate-task", help="静态核验 Task YAML")
     check.add_argument("task", type=Path)
-    run = commands.add_parser("run", help="Reproduce, repair, independently verify")
+    run = commands.add_parser("run", help="复现缺陷、运行 Agent 并独立验收")
     run.add_argument("task", type=Path)
     run.add_argument("--output-root", type=Path)
     run.add_argument("--engine", choices=["fake", "agents-sdk", "sdk"], default="fake")
@@ -69,12 +78,13 @@ def parser():
     export.add_argument("--output", type=Path, help="原 Run 目录之外的新文件；默认 stdout")
     for name, help_text in (
         ("inspect", "只读查询运行事实和证据完整性"),
+        ("diagnose", "只读分析运行阶段、证据、用量和恢复条件"),
         ("report", "从已提交事实重建报告"),
     ):
         query = commands.add_parser(name, help=help_text)
         query.add_argument("run_id")
         query.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
-        if name == "inspect":
+        if name in {"inspect", "diagnose"}:
             query.add_argument("--json", action="store_true")
         else:
             query.add_argument("--format", choices=["md", "json"], default="md")
@@ -83,6 +93,16 @@ def parser():
 
 def main(argv=None):
     args = parser().parse_args(argv)
+    if args.command == "demo":
+        from .demo import demo_markdown, run_demo
+
+        try:
+            result = run_demo(args.output, args.image, args.scenario)
+            print(json.dumps(result, ensure_ascii=False) if args.json else demo_markdown(result))
+            return 0 if result["status"] == "passed" else 3
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
     if args.command in {"replay", "export-trace"}:
         from .trace import export_trace, replay_trace, trace_markdown
 
@@ -139,7 +159,7 @@ def main(argv=None):
                 )
                 else 3
             )
-    if args.command in {"inspect", "report"}:
+    if args.command in {"inspect", "diagnose", "report"}:
         try:
             validate_run_id(args.run_id)
         except ValueError as exc:
@@ -147,6 +167,16 @@ def main(argv=None):
             return 2
         try:
             directory = run_directory(args.root, args.run_id)
+            if args.command == "diagnose":
+                from .diagnostics import diagnose_run, diagnostics_markdown
+
+                result = diagnose_run(directory)
+                print(
+                    json.dumps(result, ensure_ascii=False)
+                    if args.json
+                    else diagnostics_markdown(result)
+                )
+                return 0 if result["evidence_complete"] else 3
             if args.command == "inspect":
                 result = inspect_run(directory)
                 print(json.dumps(result, ensure_ascii=True, indent=None if args.json else 2))
@@ -196,9 +226,25 @@ def main(argv=None):
                     except ReproPatchError as exc:
                         checks["image"] = False
                         checks["error"] = str(exc)
-            print(json.dumps(checks, indent=2))
             valid = all(checks[key] for key in ("python", "git", "docker", "daemon"))
-            return 0 if valid and (not args.image or checks["image"]) else 2
+            checks["ready"] = bool(valid and (not args.image or checks["image"]))
+            checks["next_actions"] = []
+            if not checks["git"]:
+                checks["next_actions"].append("安装 Git，并确认 git --version 可执行。")
+            if not checks["docker"]:
+                checks["next_actions"].append(
+                    "安装 Docker CLI 并连接 Docker daemon，然后运行 docker info 核验连接。"
+                )
+            elif not checks["daemon"]:
+                checks["next_actions"].append(
+                    "启动 Docker daemon，核对当前用户权限与 Docker context，再运行 docker info。"
+                )
+            elif args.image and not checks["image"]:
+                checks["next_actions"].append(
+                    "准备指定的本地工具链镜像，再使用 doctor --image 核验镜像身份。"
+                )
+            print(json.dumps(checks, ensure_ascii=False, indent=2))
+            return 0 if checks["ready"] else 2
         task = Task.load(args.task)
         if args.command == "validate-task":
             print(

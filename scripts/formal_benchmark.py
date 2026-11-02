@@ -72,6 +72,50 @@ def run(command, log):
     return result.returncode
 
 
+def record_native_startup_failure(attempt, settings, target, ledger, log, exit_code):
+    """执行器提前退出时保留真实日志、零请求账本和可供评分的身份记录。"""
+    from run_benchmark_agent import attempt_identity, candidate_metadata
+
+    from repropatch.task import Task
+
+    raw = log.read_bytes() if log.is_file() else b""
+    result = {
+        "schema": "repropatch.benchmark-attempt.v1",
+        "agent": attempt["arm"],
+        "attempt": attempt["attempt_id"],
+        "attempt_id": attempt["attempt_id"],
+        "native_status": "ENVIRONMENT_ERROR",
+        "error_stage": "worker_startup",
+        "error_type": "WorkerProcessError",
+        "error_code": "BENCHMARK_WORKER_START_FAILED",
+        "error_message": raw.decode(errors="replace")[-16384:],
+        "worker_exit": exit_code,
+        "worker_log": str(log),
+        "worker_log_sha256": hashlib.sha256(raw).hexdigest(),
+        "internal_verification_status": "not_performed",
+        "usage": ledger.summary(attempt["attempt_id"]),
+        "context_policy": ledger.policy.to_dict(),
+        **candidate_metadata(b""),
+    }
+    for line in reversed(raw.splitlines()):
+        try:
+            details = json.loads(line)
+        except (ValueError, UnicodeError):
+            continue
+        if isinstance(details, dict) and details.get("error_code"):
+            result.update(
+                {key: value for key, value in details.items() if key.startswith("error_")}
+            )
+            break
+    try:
+        result.update(attempt_identity(Task.load(Path(settings["task"])), attempt["attempt_id"]))
+    except Exception as error:
+        result["task_input_error"] = str(error)
+    result.update(native_reason=result["error_code"], stop_reason=result["error_code"])
+    target.mkdir(parents=True, exist_ok=True, mode=0o700)
+    save(target / "result.json", result)
+
+
 def freeze_configuration(output, value):
     from repropatch.harness import implementation_sha256
 
@@ -605,7 +649,21 @@ def execute(instance, output, arm="all"):
                     *external,
                 ]
         print(json.dumps({"attempt_started": attempt["attempt_id"]}), flush=True)
-        code = run(command, output / (arm + "-worker.log"))
+        worker_log = output / (arm + "-worker.log")
+        try:
+            code = run(command, worker_log)
+        except (OSError, subprocess.SubprocessError) as error:
+            if arm not in {"mini", "codex"}:
+                raise
+            from run_benchmark_agent import error_details
+
+            code = 2
+            with worker_log.open("a") as stream:
+                stream.write(json.dumps(error_details(error, stage="worker_spawn")) + "\n")
+        if arm in {"mini", "codex"} and code and not (target / "result.json").is_file():
+            record_native_startup_failure(
+                attempt, settings, target, LocalUsageLedger(ledger), worker_log, code
+            )
         score_code = run(
             [
                 agent_python,

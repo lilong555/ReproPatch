@@ -98,6 +98,26 @@ def slang_results(code, log):
     return results
 
 
+def glslang_results(code, log):
+    """保留冻结解析器，补齐 GoogleTest 参数化用例的完整终态行。"""
+    results = parser_results(code, log)
+    rank = {"pass": 0, "skip": 1, "fail": 2}
+    pattern = (
+        r"^(?:[ \t]*\d+:[ \t]*)?\[[ \t]*(OK|FAILED|SKIPPED)[ \t]*\]"
+        r"[ \t]+([^\s,]+)"
+        r"(?:,[ \t]+where[ \t]+(?:GetParam\(\)|TypeParam)[ \t]*=[^\r\n]+)?"
+        r"[ \t]+\([0-9]+[ \t]+ms\)[ \t]*$"
+    )
+    # 仅取带耗时的终态；汇总列表和诊断正文保持原样。
+    for match in re.finditer(pattern, log, re.MULTILINE):
+        state = {"OK": "pass", "FAILED": "fail", "SKIPPED": "skip"}[match[1]]
+        name = match[2]
+        previous = results.get(name)
+        if previous is None or rank[state] > rank[previous]:
+            results[name] = state
+    return results
+
+
 def canonical_case(mode, name):
     name = name.replace("/build/native/", "./build/").replace("/src/", "/testbed/")
     if mode == "ninja":
@@ -502,7 +522,7 @@ def native_suite(contract, source, build, selected=None):
         )
         if code not in {0, 8} or not xml.exists():
             raise RuntimeError("NATIVE_CTEST_NOT_EXECUTED")
-        observed = parser_results(contract["parser"], log)
+        observed = glslang_results(contract["parser"], log)
         observed.update(
             {
                 "ctest::" + name: state

@@ -1,64 +1,52 @@
-# 交付范围与状态
+# 工程路线
 
-正式版本 **[v0.3.0](https://github.com/lilong555/ReproPatch/releases/tag/v0.3.0)** 已发布，
-任务格式为 **Task v2**，聚焦固定预算下的 C++ 修复、独立验收和可复核证据。
-[规格](../specs/2026-10-19.2/SPEC.md)定义执行契约，
-[实施状态](IMPLEMENTATION_PLAN.md)与[测试报告](TEST_REPORT.md)记录实际交付。
+ReproPatch 围绕一条完整的 C++ 修复工作流组织：任务契约、模型与工具执行、隔离环境、
+状态持久化、故障恢复、独立验收和交付证据。项目展示以可运行的工程能力为主，
+实验为设计选择和性能优化提供后台验证。
 
-| 范围 | 当前状态 | 证据 |
+## 交付能力
+
+| 能力 | 工程实现 | 验证入口 |
 | --- | --- | --- |
-| 受控修复与独立验收 | 完成；六工具和持久 Shell、完整源码清单、Docker 隔离、CTest 逐项裁决 | [架构](ARCHITECTURE.md)、[Shell-first](SHELL_FIRST.md) |
-| Checkpoint、有限恢复、只读轨迹 | 完成；SQLite 事务保存状态、预算和事件 | P2-01 至 P2-04 |
-| F2P 自检与回归策略 | 完成；调试优先 reproduce，预算允许继续修复时 verify，最终独立验收 | [v2 结果](../benchmarks/generalization-final-results.md) |
-| 候选来源 | 完成；首个非空来源导出，损坏引用明确报错 | [候选契约](../tests/test_codex_benchmark.py) |
-| 三框架 v2 对照 | 完成；六次首跑，61/72 次正式请求，另 1 次参数校准 | [冻结协议](../benchmarks/generalization-protocol-v2.json) |
-| Luna 推理配置 | 默认 max；客户端检查、真实供应商校准与五组统一上下文复核完成 | [五组结果](../benchmarks/unified-context/results.md) |
-| 统一上下文与压缩 | 完成；Usage 锚点、拒绝前留证、三执行器摘要与预算连续性 | [上下文合同](CONTEXT_POLICY.md) |
-| 发布交付 | v0.3.0 已发布；514 项测试通过，11 个附件通过公开下载与 SHA-256 核验 | [发布清单](../RELEASE.json) |
+| 任务建模 | Task v2 固定源码提交、镜像、文件权限、测试身份与预算 | `validate-task`、[任务测试](../tests/test_task.py) |
+| Agent 编排 | 公开 SDK Runner、原生工具调用、六工具与持久 Shell 两种模式 | [运行时测试](../tests/test_agent_runtime.py)、[Shell 契约](SHELL_FIRST.md) |
+| C++ 上下文 | Tree-sitter 定义、语法引用与包含关系；修复状态和历史证据按需查询 | [结构证据状态](SEMANTIC_STATE.md)、[专项测试](../tests/test_semantic_state.py) |
+| 执行控制 | Docker 非 root、断网、只读根文件系统、资源限额与归属清理 | [沙箱测试](../tests/test_process_sandbox.py)、[真实 Docker 测试](../tests/test_docker_integration.py) |
+| 可恢复运行 | SQLite 事务、完整输入 Checkpoint、累计预算、原始期限和有限恢复 | [恢复测试](../tests/test_resume.py)、[恢复演示](DEMO.md) |
+| 可信验收 | 基线复现、补丁往返、全新工作树与冷构建、逐项 F2P/P2P 验收 | [验收实现](../src/repropatch/verification.py)、[验收标准](ACCEPTANCE.md) |
+| 运行诊断 | 阶段时间线、命令失败、用量和预算、证据完整性、恢复条件 | `diagnose`、[诊断测试](../tests/test_diagnostics.py) |
+| 安装交付 | wheel 内置演示资源；CLI 修复、拒绝、恢复三场景 | `demo`、[工程验收脚本](../scripts/check_engineering_gate.py) |
+| 持续集成 | 核心、SDK、真实 Docker、固定原生上下文与安装包验收 | [CI 配置](../.github/workflows/ci.yml)、[测试报告](TEST_REPORT.md) |
 
-v2 以三组实际 medium 配置得到 Full 1/2、mini 0/2、Codex 0/2。
-Full 在 simdjson-1899 完成两次 F2P 自检后的修复并通过 93 项外部测试；fmt-4055 仍有失败记录。
-两题已有 v1 尝试，历史 110 次请求单列保存。单项机制的因果收益需要预注册配对观察。
+## 优化闭环
 
-## 云端资格与效率实验
+每项优化从运行证据中定位问题，保留基线并明确测量口径。结果同时观察独立验收、
+请求与已知 Token、未知用量、分阶段耗时及资源清理。
 
-Actions 工作流、统一冷 Oracle、显式 candidate-only、Run 内 ccache、资源测量和证据归档已交付。
-[云端实验](ACTIONS_RESULTS.md)以固定 GHCR digest 完成 21 题 O3 Docker 重验，其中 21 题合格；
-同一目标构建 A/B 与四题 1/2/4 Job 对照均完成。免费资格源码 CI 通过 584 项，冻结模型实验源码 CI 通过 614 项。
-2026-10-24 的 41 条原生资格和本地测量按当时环境保留于[原生报告](BENCHMARK_SCALE_REPORT.md)。
+| 已有机制 | 解决的问题 | 测量与检查 |
+| --- | --- | --- |
+| 持久 Shell 与 Run 内 ccache | 重复配置、编译和环境启动开销 | 自检命令耗时、缓存命中；独立验收保持冷构建 |
+| C++ 结构检索与证据索引 | 大仓库定位成本、长日志重复进入上下文 | 查询结果的源码 SHA、截断与分页、模型输入大小 |
+| 原生上下文压缩与稳定状态 | 长任务历史增长、恢复后信息连续性 | 压缩前后工具关联、状态摘要、预算与未知用量 |
+| 失败测试优先的自检 | 在有限时间内获得高价值编译与测试反馈 | F2P/P2P 观察、自检耗时、独立验收结局 |
+| 整批工具准入与预算预留 | 执行中途耗尽额度、验收缺少时间 | 累计计数、最后允许 turn、验收与清理预留 |
 
-## 正式模型实验
+## 后续优先级
 
-[Luna max 五组统一上下文对照](../benchmarks/unified-context/final-results.md)已完成 21 道 fmt 缺陷的全部 105 个冷评分。
-**19 题完整配对**中，外部冷 Oracle 通过数为 **Full 18/19、Shell-only 19/19、mini 18/19、Codex 16/19、关闭自检组 15/19**。
-Full 相对关闭自检组净多通过 3 题，中途自检已知累计 1,725.13 秒；逐题差异和停止状态分别呈现。
-三类执行器均观察到真实压缩后继续执行工具。每次尝试统一 24 请求、48 工具和 180 秒模型总期限。
+| 顺序 | 工作 | 完成标准 |
+| --- | --- | --- |
+| 1 | 目标级增量验证 | 根据 CMake target 选择相关构建与可见测试，记录选择依据、覆盖范围和分阶段耗时 |
+| 2 | 编译诊断结构化 | GCC/Clang 错误位置、类别、摘要与完整日志引用一致，覆盖多行错误和输出截断 |
+| 3 | 跨 Run 运维汇总 | 按任务与实现身份聚合失败原因、延迟和用量，保留未知值及每条原始证据链接 |
+| 4 | 长期证据复核 | 从归档重算摘要、候选身份、用量和冷验收，给出可重复执行的核验结果 |
 
-21 题全部记录有 **93 项通过、12 项候选失败**，待评分和基础设施故障项已补齐。两项中断候选的冷评分通过，原始中断状态保留。
-正式累计 **2,074/2,520 请求**、14 次历史用量未知，校准 11 次单列。
-118 份收费尝试及两份补充冷评分归档已核验，首轮和各次复验分别保存。
-执行源码的[完整 CI](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)通过 **735 项测试**：519 Core、176 SDK、40 真实 Docker，固定 mini/Codex 原生压缩验证通过。
-逐题结果、原始身份见[最终报告](../benchmarks/unified-context/final-results.md)与[首轮报告](../benchmarks/unified-context/results.md)。
+## 后台实验
 
-[Luna max 四臂首跑](ACTIONS_FORMAL.md)已完成 21 道题、84 次模型运行。
-首批两题 90 秒模型超时使用 76 请求；后续 19 题统一 180 秒使用 866 请求。
-正式合计 942/1008 请求、7 次未知用量，独立校准另计 1 请求。
-19 题外部 Oracle 通过数为 Full 7/19、关闭自检组 10/19、mini 11/19、Codex 11/19。
-全部候选、失败、用量、网关 HTTP 524 与冷验收证据保留。
+模型对照使用独立冻结的任务、模型配置、预算、执行源码和镜像身份。首跑、恢复、
+复评分和基础设施故障分别保存；工程 CI 和确定性演示的付费模型请求为零。
 
-## 后续工作
-
-| 工作 | 验收标准 |
-| --- | --- |
-| Shell-first 基线 | 完成；持久 Bash、合法补丁导出和独立冷 Oracle，653 项 Actions 测试通过，见 [规格](SHELL_FIRST.md) |
-| 目标级增量验证 | 持久构建目录中编译相关 target、运行可见定向测试，记录分阶段耗时 |
-| 编译诊断反馈 | GCC/Clang 摘要与完整日志并存，单独比较输入 Token、耗时和修复结果 |
-| 六题开发实验 | 固定模型与预算，比较 Shell-only 和 C++ 快速反馈；独立集覆盖至少两个仓库 |
-| 长期证据复核 | 使用归档与 SHA-256 重算用量、候选和统一冷 Oracle，保存全部首次模型结果 |
-| json 扩容准备 | 复用现有离线数据与双头文件回归，逐题保存资格与失败证据；新模型批次单独冻结预算 |
-
-Luna 默认 `max`；新的付费批次单独固定任务、源码、供应商参数与预算。
-v2 的 medium 配置、六次运行与历史失败完整保留。
-
-当前保持两 Job 默认并发，复用已有执行器、任务适配和冷验收；符号导航扩张、自动源码片段注入、
-并行工具候选、通用 Harbor 和复杂恢复扩展继续封存。
+实验入口：[结构证据状态](SEMANTIC_STATE.md)、
+[跨仓库资格](BENCHMARK_QUALIFICATION.md)、
+[统一上下文对照](../benchmarks/unified-context/final-results.md)、
+[云端实验](ACTIONS_RESULTS.md)。
+历史发布与测试证据见[测试报告](TEST_REPORT.md)。

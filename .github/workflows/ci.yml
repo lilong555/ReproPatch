@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev,semantic]' cmake==4.4.4
-      - run: pytest -m sdk --junitxml=.repropatch/ci-evidence/sdk/results.xml
+      - run: pytest -m 'sdk and not docker' --junitxml=.repropatch/ci-evidence/sdk/results.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -57,11 +57,31 @@ jobs:
         run: >-
           python scripts/check_docker_gate.py --build
           --output .repropatch/ci-evidence/docker
+      - name: 构建并安装交付 wheel
+        run: |
+          python -m pip install build
+          python -m build
+          python -m pip install --force-reinstall --no-deps dist/*.whl
+      - name: 核验安装包演示与只读诊断
+        run: >-
+          python scripts/check_engineering_gate.py
+          --image repropatch-cpp:0.1
+          --output .repropatch/ci-evidence/engineering
+          --require-installed-wheel
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: docker-gate-evidence
           path: .repropatch/ci-evidence/docker/
+          include-hidden-files: true
+          retention-days: 7
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: engineering-evidence
+          path: |
+            .repropatch/ci-evidence/engineering/
+            dist/
           include-hidden-files: true
           retention-days: 7
   context-native:

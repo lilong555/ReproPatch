@@ -1,167 +1,137 @@
-# 架构与关键取舍
+# 架构
 
-本文描述当前 **0.3.0、Task v2** 实现。目标架构见
-[Spec 2026-10-19.2](../specs/2026-10-19.2/docs/ARCHITECTURE.md)：
-独立 `verify-patch` 验收路径与 SDK 基础入口已提供；自动路径六工具、整批预算与原生上下文已提供。
-当前两条入口共用生命周期与独立验证器，模型循环由 SDK 拥有。
+ReproPatch 以一个 Run 为执行单元，为操作者选定的 C++ 仓库提供修复控制面。Task 固定输入和验收标准，公开 OpenAI Agents SDK 执行模型与工具循环，Harness 根据独立 CMake/CTest 证据提交最终结局。
 
-## 目标与边界
+实现：[harness.py](../src/repropatch/harness.py)、[agent_runtime.py](../src/repropatch/agent_runtime.py)。验证：[端到端流程](../tests/test_harness.py)、[SDK 契约](../tests/test_sdk_contract.py)。
 
-模型提出工具调用，Harness 按文件权限和预算准入，
-验证器根据独立测试结果决定是否接受补丁。Python 3.12 提供单进程执行控制，
-公开 SDK 负责单个 Agent 的模型与工具循环。当前交付聚焦 C++ 修复与独立验收，
-C++20 执行器计划保持暂停。
+## 模块关系
 
 ```mermaid
 flowchart TD
-  T["操作者审核的 YAML"] --> H["Harness"]
-  H --> B["基线 Worktree 与源码快照"]
-  B --> R{"构建成功且指定失败出现？"}
-  R -->|否| F["未复现报告"]
-  R -->|是| A["受限 Agent Loop"]
-  A --> P["仅允许文件的候选补丁"]
-  P --> V["独立 Worktree 与全新构建"]
-  V --> J{"复现与完整回归通过？"}
-  J -->|是| S["已验证补丁"]
-  J -->|否| E["失败补丁与诊断"]
+  C[CLI：run / verify-patch / demo] --> T[Task 与 ResolvedTask]
+  T --> H[Harness]
+  H --> W[Worktree 与 SourceManifest]
+  H --> B[基线复现]
+  B --> A[agent_runtime：公开 SDK Runner]
+  A --> U[Toolbox / 持久修复容器]
+  U --> W
+  W --> P[CandidatePatch]
+  P --> V[独立验证器]
+  B --> D[DockerSandbox]
+  V --> D
+  H --> E[SQLite：runs / events / checkpoints]
+  A --> E
+  V --> E
+  E --> R[inspect / diagnose / report / replay]
+  E --> S[resume：核验并恢复 Harness]
 ```
 
-## 组件关系
-
-`Task` 严格解析 v2 manifest，拒绝重复键、anchor/alias、未知字段、无效类型和非法文件路径。
-`ResolvedTask` 从一次读取的输入冻结完整 commit、实际 image ID、展开文件集合与规范执行 hash；
-原 YAML hash 单独保存，绝对位置与 retain 不进入执行 hash。
-manifest 是操作策略和验收标准，由人审核。它不是待修复仓库中由模型决定的规则。
-
-`Worktree` 使用已经验证的完整 commit 创建 detached Worktree，不切换调用者的分支。
-创建前检查本地 Git 配置与提交属性；拒绝外部 filter、include、额外 worktree 配置、partial clone 等输入。
-Git hooks、fsmonitor、外部 diff 与 textconv 不参与运行。完整文件系统与冻结集合核对，
-拒绝 symlink/hardlink、特殊文件、额外空目录及未声明文件；单源文件 16 MiB、整树 256 MiB。
-`SourceManifest` 保存每个规范路径、原始字节 SHA-256、字节数和 Git mode，整份规范 JSON 生成逻辑 hash。
-工作树记录 Git 返回的 manager/common、根目录身份与双向指针；读取及原子编辑拒绝链接，目录 fd 固定替换目标。
-
-`Toolbox` 在宿主机顺序执行读/搜/精确替换，所有路径限定在修复 Worktree。
-模型没有宿主 Shell、Docker 或宿主网络工具。`run_shell` 可在一次性受限制容器内运行 Shell，
-源码只读，持久化源码编辑经 `edit_file`。`run_command` 引用预配置的 `reproduce/verify`，
-会在新环境中先配置和构建。`reproduce` 只运行 F2P 目标测试；
-`verify` 运行 F2P/P2P，供有预算继续修复时检查回归。最终由 Harness 在独立工作树验收。
-每次 `run_shell` 的 `/build` 为独立临时空间；`run_command` 一次完成配置、编译及固定测试。
-`read_file` 返回 `editable` 标志，模型可直接识别可读接口和允许修改的实现。
-受保护文件的编辑反馈引导模型沿声明、宏展开和调用关系继续定位实现；
-系统提示使用同一修复策略，并明确构建工具与临时目录的生命周期。
-同时可编辑模块化与分发单头文件的任务会提示同步对应实现。
-
-`RunResources` 为 Run 创建独占 0700 控制目录和工作区，持有真实文件锁；资源记录固定根身份、Git 管理目录、容器 ID 与标签。
-`AuditBudget` 限制非源码审计文件为 256 MiB，给最终报告和清理诊断保留空间；控制文件为 0600。
-
-`DockerSandbox` 仅挂载源码快照，`/src` 只读；`/build` 是有限容量 tmpfs，允许执行编译产物。
-`environment.tmp_executable` 控制 `/tmp` 的执行权限，默认值为 `false`。Slang 的原生测试固定在 `/tmp`
-生成并加载编译产物，其任务将该值设为 `true`；五个实验臂、修复自检与独立冷验收使用同一配置。
-每轮评估创建新容器，配置、编译和测试在同一个容器内进行以共享该轮构建产物。
-固定 sleep 入口、禁用健康检查和重启，拒绝额外镜像 VOLUME；创建后核对实际权限、挂载与资源限额。
-超时、取消、4 MiB 原始输出达限及阶段结束均删除整个容器，再 inspect 确认不存在。daemon 失联或 ID/标签不符终止运行。禁止运行时自动下载或构建镜像；Task 只接受固定
-image ID/digest，PREPARING 查询实际 ID，后续阶段均使用该 ID。CPU、内存、PID 和构建 tmpfs
-使用 Task 的执行资源。
-
-`models` 只构造公开 Responses/ScriptedModel；不提供自定义 Model/Turn 协议或 HTTP 客户端。
-`agent_runtime.run_agent` 注册六个 async function tools，公开 hooks 执行计数、整批准入和原生附件审计，
-`run_sdk` 只调用一次 Runner。SDK 管理 Items 与 call_id 关联，本项目不维护另一份四角色消息表。
-领域结果 AgentResult 与 SDK 内部状态分离。工具容器与 Git 操作共享阶段时限；资源清理由外层 Run 拥有。
-
-`verification.py` 是两条入口共用的执行与判定模块。`evaluate_checks` 创建一次评估的全新容器，
-按 configure → build → JSON v1 inventory → F2P → P2P 顺序执行，每项 CTest 保存原始 JUnit。
-完整 name/argv/properties 生成身份哈希，properties 保留类型和列表顺序；backtrace 不参与身份。
-`TestObservation` 对每个计划测试明确记录运行、失败、skip、not_run、timeout、crash 或 invalid。
-
-`verify_candidate` 只接收已满足严格 F2P/P2P 基线的输入，从固定 commit 创建新工作树，
-实际应用保存的 patch，核对完整字节清单和规范 diff 后执行 independent。
-身份变化、skip/disabled、缺失测试和普通回归拒绝；证据不完整或资源终止无法确定。
-只有全部必需测试实际通过且清理确认才能 ACCEPTED。预算停止不消除已有合法候选的独立验证机会。
-
-`Harness` 管理共享 Run 生命周期、输入冻结、资源、原始证据和最小报告。
-自动入口在合格 baseline 后进入 SDK Runner；外部入口先复制并静态审核 patch，再运行原始 baseline。
-producer trace 是独立的未验证附件，不能构造 CommandResult 或替代 baseline/independent。
-纯验证 CLI 及其导入链不加载 models 或 Agents SDK。验证执行遵守阶段 deadline、验证预留和清理余量；
-SDK 原生 Items、预算、错误与取消契约见 [P1-05](P1-05.md)。
-
-## 跨框架计量与评分
-
-Full 与 mini 的实际 HTTP 请求和响应由同一账本保存；Luna 对照入口默认使用
-`reasoning.effort=max`，每批实验显式固定参数。Full 在公开 HTTP 客户端的请求构造入口设置该字段，
-mini 使用原生 Responses 参数，Codex 使用 `model_reasoning_effort`。
-v2 归档源码固定 `medium`，对应六次已完成的正式运行。
-
-Codex 代理按 `read_model_stream → admit_tools → self.reply` 执行：
-先逐块保存完整上游 SSE 与传输元数据，再检查单响应 8 工具和累计 24 工具的预算，
-最后将已准入响应交给 CLI。工具额度满后仍可请求纯文本总结，请求次数继续受账本限制。
-容器停止并确认删除后才导出候选，避免超时后的源码继续变化。
-
-ReproPatch 候选导出依次读取 EvidenceRef、`patch.diff` 与 `diagnostics/unverified.patch`，
-选择首个非空补丁；损坏的 EvidenceRef 原样报错。原生结局保持在报告中，
-`candidate_source`、`candidate_bytes`、`candidate_sha256` 与回收标志记录实际来源。
-三个框架统一使用外部原生 Oracle 评分，原生接受、回收通过、环境故障和补丁失败分别保存。
-
-## 信任边界
-
-| 位置 | 内容 | 权限 |
+| 模块 | 职责与数据 | 对应验证 |
 | --- | --- | --- |
-| 宿主机控制面 | 清单、模型客户端、Git 管理、日志 | 只有操作者启动；不直接构建第三方代码 |
-| Agent 工具 | 受控文件操作、固定自检、容器内 Shell | 持久化源码编辑经 `edit_file`；测试和 Git 元数据受保护 |
-| 评估容器 | CMake、编译器、CTest、待修复源码 | 非 root、断网、只读根文件系统、无 capabilities |
-| 独立验证 | 原始 commit + 允许的源码补丁 | 不共享 Agent 构建缓存，不接受其“成功”声明 |
+| [cli.py](../src/repropatch/cli.py)、[demo.py](../src/repropatch/demo.py) | 解析命令、选择入口、呈现结局；demo 以零密钥脚本驱动真实执行链 | [CLI 合同](../tests/test_engineering_cli.py)、[Docker 集成](../tests/test_docker_integration.py) |
+| [task.py](../src/repropatch/task.py) | 解析 Task v2；冻结 commit、镜像身份、文件集合、命令、测试与预算 | [Task 检查](../tests/test_task.py) |
+| [harness.py](../src/repropatch/harness.py) | Run 生命周期、输入冻结、阶段期限、资源归属、候选与最终结局 | [流程与失败路径](../tests/test_harness.py)、[生命周期](../tests/test_runtime_lifecycle.py) |
+| [workspace.py](../src/repropatch/workspace.py) | detached Worktree、受控编辑、完整字节清单、补丁应用与往返核对 | [源码完整性](../tests/test_source_integrity.py)、[工作区工具](../tests/test_workspace_tools.py) |
+| [models.py](../src/repropatch/models.py)、[agent_runtime.py](../src/repropatch/agent_runtime.py) | 公开 Responses/ScriptedModel、SDK hooks、预算准入、原生输入附件 | [SDK 契约](../tests/test_sdk_contract.py)、[Agent 执行](../tests/test_agent_runtime.py) |
+| [tools.py](../src/repropatch/tools.py)、[repair_sandbox.py](../src/repropatch/repair_sandbox.py) | 授权文件工具、固定自检、一次性 Shell 或持久修复 Bash | [工具权限](../tests/test_workspace_tools.py)、[持久沙箱](../tests/test_repair_sandbox.py) |
+| [context.py](../src/repropatch/context.py)、[semantic_state.py](../src/repropatch/semantic_state.py) | 上下文计量与完整轮次压缩；可选 C++ 语法索引、修改和证据状态 | [上下文压缩](../tests/test_context_compaction.py)、[结构状态](../tests/test_semantic_state.py) |
+| [verification.py](../src/repropatch/verification.py)、[sandbox.py](../src/repropatch/sandbox.py) | 干净评估、CTest 身份与结果判定、容器约束和清理确认 | [验证器](../tests/test_verification.py)、[真实 Docker](../tests/test_docker_integration.py) |
+| [events.py](../src/repropatch/events.py)、[recovery.py](../src/repropatch/recovery.py) | 事务状态、累计预算、Checkpoint、安全输入边界和恢复核验 | [事务故障](../tests/test_recovery.py)、[Checkpoint](../tests/test_checkpoints.py)、[恢复](../tests/test_resume.py) |
+| [reports.py](../src/repropatch/reports.py)、[diagnostics.py](../src/repropatch/diagnostics.py)、[trace.py](../src/repropatch/trace.py) | 从已提交事实读取、诊断、导出报告和轨迹，核验 EvidenceRef | [报告](../tests/test_events_reports.py)、[CLI 诊断合同](../tests/test_engineering_cli.py)、[轨迹](../tests/test_trace.py) |
 
-每条容器命令分别保存 stdout.bin/stderr.bin 与 EvidenceRef；64 KiB 双流预览首尾取样、控制字符转义。
-失败签名在完整原始流中匹配，不依赖预览、不跨流拼接。快照位于本 Run 工作区，普通成功诊断结束即释放；
-none/on_failure/always 控制 repair 工作树与最近诊断快照的保留，validation 工作树结束后移除。
-资源清理与证据检查结束后提交最终结局，再导出派生报告。
-详细限制及未解决的问题见 SECURITY.md。Docker 不是抵御内核漏洞的完整边界，
-当前面向操作者选定的仓库，尚不提供多租户敌对代码执行服务。
+## SDK 与控制面
 
-## 事件与产物
+SDK 的 `Runner` 负责调用模型、组织原生 Items、关联 `call_id`、分派注册的 function tools 并识别正常结束。模型由公开 `OpenAIResponsesModel` 或 `agents.testing.ScriptedModel` 提供。ReproPatch 通过公开 hooks 与 `call_model_input_filter` 接入预算、证据和 Checkpoint。
 
-事件使用事务内序号和 UTC 时间戳，统一信封关联 Run、模型步骤、本地工具与命令身份。
-主要类型包含 run_created、state_changed、inputs_frozen、resource_registered、
-model_started/model_finished、tool_batch_admitted、tool_started/tool_finished、
-command_started/command_finished、baseline_finished、verification_finished、cleanup_finished。
-命令耗时来自 monotonic clock。报告保留任务规范/哈希、模型标识、解析后 commit、镜像 ID、
-源码快照哈希、完整候选补丁及其哈希、返回码、超时和截断标记。
-事件不记录 HTTP Authorization header，也不会复制宿主机环境。
+`run_sdk()` 每次调用一个公开 `Runner.run()`。默认策略沿用 SDK 原生历史；启用上下文压缩时，控制面在完整输入边界保存状态，调用一次无工具摘要，再以替换后的公开输入进入新的 Runner。恢复也使用已保存的公开输入。SDK 原生消息与调用关联继续由 SDK 管理。
 
-SQLite schema v2 使用 runs/events/checkpoints 三表；runs 是外层状态、预算、期限和执行片段的权威。
-创建、冻结输入并进入复现、模型开始扣 turn、工具整批准入、终态各自通过本地事务与事件一起提交。
-模型开始先写 segment_open=1，确认提交后才允许 SDK 请求；工具批次扣减提交后才分派。
-最终回复或工具返回不会关闭片段；只有完整输入 filter 的 Checkpoint 事务才能关闭修复片段。
-recovery.py 保存公开 ModelInputData、普通 patch、完整 SourceManifest 和指纹；全部文件 durable 后才提交引用。
-显式暂停与同一个 Checkpoint 事务一起进入 INTERRUPTED，Runner 通过 HarnessPause 离开，不请求下一 turn。
-暂停保留修复源码及必需证据，清理构建快照和容器。
-resume 先持锁、打开原库，原子记录接管阶段与 recovery_attempt；必要容器清理不受已耗尽 wall 限制。
-只有关闭的最新安全 Checkpoint 可继续；原配置和全部引用核对后，从 base＋patch 创建新工作树并比较完整字节。
-旧修复树存在且分歧时不覆盖；未知模型结果或未闭合工具轮次以 RECOVERY_FAILED 停止。
-恢复成功事务回到 REPAIRING 后，SDK 使用原生 input/instructions、剩余 turn 与累计工具额度；未知用量继续保持未知。
-预算耗尽的安全候选按原验证预留规则收尾，不重新执行基线。
-写者持有整个控制进程的 flock，使用 DELETE journal、FULL synchronous、外键约束；
-只读查询核对外层行和已提交事件前缀，发现分裂或损坏立即拒绝。旧 schema 不迁移、不自动续跑。
-JSONL 从已提交的一致性事件前缀导出。
-清理及证据检查后，终态事件引用最终事实附件；reports.py 核验引用并生成 JSON / Markdown。
-run.json 记录派生导出索引；各文件原子替换，跨文件不承诺原子性。
-已提交结局不因导出失败改变；inspect 只读查询，report 可重建丢失报告。
-trace.py 仅从只读 SQLite 快照生成按 seq 排序的投影，并核对宿主 EvidenceRef；原生模型文件不展开。
-replay --mode trace 不执行模型、工具、Git 或 Docker，不获得控制器锁，不改写原 Run。
-export-trace 输出原事件 JSONL；显式外部新文件独占发布，不覆盖 Run 产物或从 JSONL 导入状态。
-恢复 gate 单列安全恢复、明确失败与控制器拒绝，保留真实进程故障后的 Run 和只读前缀。
-SIGKILL 后须显式 resume 核对安全边界，文件孤儿不成为恢复点；不自动重放历史工具。
-导出契约见 [P1-07](P1-07.md)，外层事务见 [P2-01](P2-01.md)，Checkpoint 与暂停见 [P2-02](P2-02.md)，有限恢复见 [P2-03](P2-03.md)，只读轨迹见 [P2-04](P2-04.md)。
+实现：[agent_runtime.py](../src/repropatch/agent_runtime.py)、[models.py](../src/repropatch/models.py)、[context.py](../src/repropatch/context.py)。验证：[原生 Items 与 hooks 顺序](../tests/test_sdk_contract.py)、[完整轮次压缩](../tests/test_context_compaction.py)、[恢复后的原生输入](../tests/test_resume.py)。
 
-## 可复现性的含义
+控制面在请求前提交 `model_started` 和累计步骤，在工具分派前事务提交整批准入。每个响应最多八次工具调用，执行并发固定为一。超出累计工具额度的整批调用停止于准入阶段；已准入工具按顺序执行。模型与 HTTP 客户端的自动重试均配置为零，使一次尝试的计量和失败身份可追踪。
 
-当前记录可复现修复的输入与验证证据，不承诺位级一致构建。Dockerfile 的基础 tag 与 apt 包
-并未完全锁定；实际运行以 image ID 固定阶段间环境，但另一台主机需要保存/分发同一镜像。
-生产评测应额外固定任务 commit、镜像 digest、模型版本与采样参数。
-宿主机受信任 fixture 证据没有 image ID，不能视为 Docker 复现证明。
+实现：[agent_runtime.py](../src/repropatch/agent_runtime.py)、[models.py](../src/repropatch/models.py)、[events.py](../src/repropatch/events.py)。验证：[整批准入与串行执行](../tests/test_sdk_contract.py)、[事务提交后分派](../tests/test_recovery.py)。
 
-主机子进程管理参考 Python subprocess 的进程会话语义，Worktree 操作参考 Git 官方文档；
-容器配置参考 Docker 官方运行参数：
+## 输入与验收链
 
-- https://docs.python.org/3.12/library/subprocess.html
-- https://git-scm.com/docs/git-worktree
-- https://docs.docker.com/engine/containers/run/
+### 冻结输入
+
+Task 由操作者审核，包含本地仓库完整 commit OID、镜像 ID/digest、可读与可编辑路径、受保护文件、命令、F2P/P2P 测试与预算。解析器检查重复键、未知字段、类型、规范路径和命令约束；运行准备阶段核验实际镜像 ID 并展开文件集合，保存原始 Task 和规范执行哈希。
+
+实现：[task.py](../src/repropatch/task.py)。验证：[Task 字段与身份检查](../tests/test_task.py)、[冻结输入](../tests/test_harness.py)。
+
+Worktree 从固定 commit 创建 detached 工作树，保留调用者的分支与现有文件。源码清单记录路径、原始字节 SHA-256、大小与 Git mode；Git 配置、链接、特殊文件和源码集合都参与审核。修复过程和独立验收通过同一清单描述候选身份。
+
+实现：[workspace.py](../src/repropatch/workspace.py)、[resources.py](../src/repropatch/resources.py)。验证：[字节与文件身份](../tests/test_source_integrity.py)、[资源归属](../tests/test_runtime_lifecycle.py)。
+
+### 基线与候选
+
+基线在干净环境配置、构建并发现 CTest inventory。Task 声明的 F2P 测试应出现指定退出码和原始失败签名，P2P 应实际通过。失败签名逐个原始输出流匹配；测试身份由 name、argv、properties 生成哈希。
+
+合法候选从固定 commit 应用保存的 patch，核对完整源码清单和再次导出的规范 diff，再在全新容器运行声明的 F2P/P2P。只有必需测试实际通过、证据完整且清理确认后提交 `ACCEPTED`。测试身份变化、缺失或跳过、编译失败和回归各有明确判定。模型最终文本及修复阶段自检保留为过程证据，最终结局由独立验证器产生。
+
+实现：[verification.py](../src/repropatch/verification.py)、[workspace.py](../src/repropatch/workspace.py)、[process.py](../src/repropatch/process.py)。验证：[测试判定与共用验证器](../tests/test_verification.py)、[源码往返](../tests/test_source_integrity.py)、[Docker 验收](../tests/test_docker_integration.py)。
+
+`verify-patch` 与模型修复共用基线和独立验证器。`--candidate-only` 完成候选冻结与源码往返核验后，以 `INCONCLUSIVE / EXTERNAL_ORACLE_REQUIRED` 交付外部评分；默认修复入口直接执行独立验收。
+
+实现：[harness.py](../src/repropatch/harness.py)。验证：[外部候选](../tests/test_verification.py)、[候选交付资格](../tests/test_candidate_eligibility.py)。
+
+## 状态与恢复
+
+Run 的 `state` 表示运行阶段，`outcome` 表示最终结局。正常修复路径如下，外部补丁验收从 `REPRODUCING` 直接进入 `VERIFYING`：
+
+```text
+CREATED -> PREPARING -> REPRODUCING -> REPAIRING -> VERIFYING -> FINISHED
+                                       |
+                                       v
+                                  INTERRUPTED -> RECOVERING -> REPAIRING
+```
+
+`FINISHED` 配套保存 `ACCEPTED`、`REJECTED`、`NOT_REPRODUCED`、`INCONCLUSIVE`、`BUDGET_EXHAUSTED`、`ERROR`、`CANCELLED` 或 `RECOVERY_FAILED`，并附 `reason_code`。显式暂停在 `INTERRUPTED` 阶段保留空结局和已提交 Checkpoint。
+
+实现：[events.py](../src/repropatch/events.py)、[harness.py](../src/repropatch/harness.py)。验证：[状态事务](../tests/test_recovery.py)、[暂停](../tests/test_checkpoints.py)。
+
+SQLite 的 `runs/events/checkpoints` 三表是外层状态权威。状态行、事件前缀、预算和 Checkpoint 引用在本地事务内共同提交；单写者持有 Run 文件锁，使用 DELETE journal、FULL synchronous 与外键约束。报告和 JSONL 由已提交记录导出。
+
+实现：[events.py](../src/repropatch/events.py)、[resources.py](../src/repropatch/resources.py)。验证：[锁与持久化配置](../tests/test_recovery.py)、[一致性快照](../tests/test_events_reports.py)。
+
+Checkpoint 在所有准入工具已完成、资源静止的完整 SDK 输入边界生成。原生下一输入、普通补丁、完整源码清单、配置指纹和可选上下文状态先 durable 写入，随后事务提交引用并关闭 `segment_open`。显式暂停与该事务一起提交。
+
+`resume` 持锁接管同一 Run，核验原配置、Python/SDK/实现身份、Task、镜像、工具 schema、证据和资源归属，从 base + patch 重建源码并比较清单。已有修复树的分歧保留为诊断；成功恢复沿用累计请求、工具、未知用量和原始 wall 期限，并复用已核验基线。Shell 恢复重新建立容器，`/build`、`/tmp` 和编译缓存从空环境开始。
+
+实现：[recovery.py](../src/repropatch/recovery.py)、[agent_runtime.py](../src/repropatch/agent_runtime.py)。验证：[安全恢复与分歧](../tests/test_resume.py)、[真实容器恢复](../tests/test_docker_integration.py)、[结构状态恢复](../tests/test_semantic_state.py)。
+
+故障恢复按已提交事实作判断：未知模型结果对应 `MODEL_RESULT_UNKNOWN`，未闭合轮次对应 `OPEN_AGENT_SEGMENT`，损坏 Checkpoint 对应 `CHECKPOINT_CORRUPT`。这些运行以 `RECOVERY_FAILED` 保存诊断与已有候选。故障门禁将安全恢复、明确失败和控制器锁拒绝分组记录。
+
+实现：[recovery.py](../src/repropatch/recovery.py)、[恢复门禁](../scripts/check_recovery_gate.py)。验证：[进程死亡边界](../tests/test_resume.py)、[核心恢复拒绝路径](../tests/test_resume_core.py)。
+
+## 工具与执行资源
+
+默认 `legacy` 注册 `list_directory`、`read_file`、`search_code`、`edit_file`、`run_command`、`run_shell`。文件工具使用冻结的 readable/editable 集合；`edit_file` 精确替换唯一片段。`run_command reproduce` 运行 F2P，`verify` 运行 F2P/P2P，每次均从新容器配置和构建。`run_shell` 使用只读源码和一次性 `/build`。
+
+`shell-only` 注册单一 `bash`，`/src` 展示完整 prepared 源码快照，授权的已有文件逐个可写挂载；命令间复用修复容器和 `/build`。命令完成后冻结容器、核对空闲进程并审计源码。最终验收继续使用新工作树和冷构建。
+
+实现：[tools.py](../src/repropatch/tools.py)、[harness.py](../src/repropatch/harness.py)、[repair_sandbox.py](../src/repropatch/repair_sandbox.py)。验证：[文件权限](../tests/test_workspace_tools.py)、[Shell 生命周期](../tests/test_shell_runtime.py)、[持久容器](../tests/test_repair_sandbox.py)。
+
+Docker 执行 CMake、编译器、CTest 和第三方代码；宿主控制面管理 Git、模型连接与证据。容器使用非 root、断网、只读根文件系统、清空 capabilities、固定 CPU/内存/PID 和有限 tmpfs。创建后核验实际 profile；超时、取消、输出达限或阶段结束都删除整个容器并检查删除结果。运行使用已准备的固定镜像，跨机器复现需要分发同一镜像身份。
+
+实现：[sandbox.py](../src/repropatch/sandbox.py)、[process.py](../src/repropatch/process.py)、[docker/Dockerfile](../docker/Dockerfile)。验证：[沙箱约束与清理](../tests/test_process_sandbox.py)、[真实 Shell](../tests/test_shell_docker.py)。具体信任关系见[安全模型](../SECURITY.md)。
+
+## 上下文与观测
+
+`--semantic-state` 为 legacy 增加 `query_code`，提供定义、语法引用、包含关系、修复状态和已登记证据查询。Tree-sitter 结果带源码 SHA、位置、语法精度标注、解析错误和分页信息。源码修改使相应索引失效；Checkpoint 保存可序列化状态，AST 缓存按需重建。
+
+默认 CLI 使用有界原生历史；`--semantic-state` 选择支持完整轮次压缩的策略。Task 合同长期固定，基线观察、修改、可见检查和证据索引参与上下文重建。压缩请求计入累计预算，原始工具结果另存证据。具体配置层次与指标见[工程指南](ENGINEERING.md#上下文与结构证据)。
+
+实现：[semantic_state.py](../src/repropatch/semantic_state.py)、[context.py](../src/repropatch/context.py)、[agent_runtime.py](../src/repropatch/agent_runtime.py)。验证：[结构证据](../tests/test_semantic_state.py)、[上下文计量](../tests/test_context_results.py)、[压缩](../tests/test_context_compaction.py)。
+
+事件按 Run、步骤、本地工具 ID 和命令 ID 关联，命令耗时来自 monotonic clock。EvidenceRef 保存产物路径、SHA-256 和大小，关联原始 stdout/stderr、JUnit、inventory、候选与原生模型附件。`inspect`、`diagnose` 和 `replay` 从只读快照查询；`export-trace` 发布到 stdout 或 Run 外的新文件。`report` 持锁重建派生报告，`resume` 执行恢复。
+
+公开 SDK tracing 关闭，项目的领域事件与受控证据承担观测职责。工程门禁使用当前安装环境执行真实 Docker 三场景，并比较只读查询前后的 Run 内容。默认支持 editable 安装；CI 先构建和安装 wheel，再通过 `--require-installed-wheel` 核验安装来源。完整入口见[交付包验收](ENGINEERING.md#交付包验收)。
+
+实现：[events.py](../src/repropatch/events.py)、[artifacts.py](../src/repropatch/artifacts.py)、[diagnostics.py](../src/repropatch/diagnostics.py)、[reports.py](../src/repropatch/reports.py)、[trace.py](../src/repropatch/trace.py)、[工程门禁](../scripts/check_engineering_gate.py)。验证：[报告完整性](../tests/test_events_reports.py)、[只读轨迹](../tests/test_trace.py)、[CLI 合同](../tests/test_engineering_cli.py)。
+
+## 工程取舍
+
+独立冷构建提供验收隔离，也消耗固定构建成本；`--compiler-cache` 和持久 Shell 优先优化修复阶段反馈。事务与内容哈希增加本地写入和核验工作，换取恢复判断与证据关联。结构检索使用有界语法索引，解析成本、缓存命中和失败诊断分别计量。
+
+这些取舍通过运行记录中的验收结局、命令耗时、自检次数、Token 用量、压缩记录、恢复结果和资源清理确认检验。配对优化方法与测试入口见[工程指南](ENGINEERING.md#观测与优化)，真实仓库验证见[评测索引](../benchmarks/README.md)。

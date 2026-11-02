@@ -349,6 +349,36 @@ def export_candidate(source, output):
     return candidate_metadata(patch)
 
 
+def check_source_readability(name, task, output):
+    """真实路径通过标准输入传入容器，保持命令长度与源码规模独立。"""
+    from run_benchmark_agent import task_readable_files
+
+    readable = task_readable_files(task)
+    probe = (
+        "import json,os,pathlib,sys\n"
+        "assert os.getuid()==65534\n"
+        "for name in json.load(sys.stdin):\n"
+        "    pathlib.Path('/src',name).read_bytes()\n"
+        "print('SOURCE_READABLE')\n"
+    )
+    check = subprocess.run(
+        ["docker", "exec", "-i", name, "python3", "-c", probe],
+        input=encoded(readable),
+        capture_output=True,
+        timeout=30,
+    )
+    save(
+        output / "source-readability.json",
+        {
+            "returncode": check.returncode,
+            "readable_files": len(readable),
+            "stdout": check.stdout.decode(errors="replace"),
+            "stderr": check.stderr.decode(errors="replace"),
+        },
+    )
+    check.check_returncode()
+
+
 class UnixHTTP(http.client.HTTPConnection):
     """容器仅连接挂载的模型代理套接字。"""
 
@@ -452,7 +482,13 @@ def start_container_relay(name, output, *, timeout=15):
 def main():
     import httpx2
     from benchmark_budget import BudgetLimit, LocalUsageLedger, validate_task_budget
-    from run_benchmark_agent import attempt_identity, candidate_metadata, mini_inputs
+    from run_benchmark_agent import (
+        attempt_identity,
+        candidate_metadata,
+        error_details,
+        mini_inputs,
+        startup_failure,
+    )
 
     from repropatch.cpa import ROUTES, cpa_route
     from repropatch.task import Task
@@ -479,37 +515,46 @@ def main():
         help="Codex 原生推理强度，默认 max；实际请求参数逐次保存",
     )
     args = parser.parse_args()
-    route = cpa_route(args.cpa_route)
-    task = Task.load(args.task)
-    ledger = LocalUsageLedger(args.ledger)
-    validate_task_budget(task, request_cap=ledger.request_cap(args.attempt))
-    if args.native_context and ledger.policy.compaction_enabled:
-        raise BudgetLimit("BENCHMARK_NATIVE_CONTEXT_POLICY_MISMATCH")
-    config, common, source = mini_inputs(args, task)
-    subprocess.run(
-        ["git", "-C", str(source), "diff", "--quiet", "HEAD", "--"], check=True, timeout=30
-    )
-    binary = args.binary.resolve(strict=True)
-    code_host = binary.with_name("codex-code-mode-host").resolve(strict=True)
-    version = subprocess.check_output([str(binary), "--version"], timeout=10).decode().strip()
-    if version != "codex-cli 0.163.0":
-        parser.error("CODEX_VERSION_MISMATCH")
-    output = args.output.resolve()
-    output.mkdir(parents=True, exist_ok=False)
-    (output / "task.original.yaml").write_bytes(task.source_bytes)
-    relay_file = output / "adapter.py"
-    relay_file.write_bytes(Path(__file__).read_bytes())
-    relay_file.chmod(0o644)
-    (output / "common-input.json").write_bytes(args.common_input.read_bytes())
-    (output / "task.yaml").write_bytes(args.task.read_bytes())
-    trace = output / "http-native"
-    trace.mkdir()
-    transport = output / "transport"
-    transport.mkdir(mode=0o755)
-    # 容器用户需要遍历挂载目录；显式权限保持独立于宿主 umask。
-    transport.chmod(0o755)
-    socket_path = transport / "socket"
-    key = None if args.check_only else os.environ["OPENAI_API_KEY"]
+    task = ledger = None
+    try:
+        route = cpa_route(args.cpa_route)
+        task = Task.load(args.task)
+        ledger = LocalUsageLedger(args.ledger)
+        validate_task_budget(task, request_cap=ledger.request_cap(args.attempt))
+        if args.native_context and ledger.policy.compaction_enabled:
+            raise BudgetLimit("BENCHMARK_NATIVE_CONTEXT_POLICY_MISMATCH")
+        config, common, source = mini_inputs(args, task, ledger.policy)
+        subprocess.run(
+            ["git", "-C", str(source), "diff", "--quiet", "HEAD", "--"], check=True, timeout=30
+        )
+        binary = args.binary.resolve(strict=True)
+        code_host = binary.with_name("codex-code-mode-host").resolve(strict=True)
+        version = subprocess.check_output([str(binary), "--version"], timeout=10).decode().strip()
+        if version != "codex-cli 0.163.0":
+            raise BudgetLimit("CODEX_VERSION_MISMATCH")
+    except Exception as error:
+        return startup_failure(args, error, agent="codex", task=task, ledger=ledger)
+    try:
+        output = args.output.resolve()
+        output.mkdir(parents=True, exist_ok=False)
+        (output / "task.original.yaml").write_bytes(task.source_bytes)
+        relay_file = output / "adapter.py"
+        relay_file.write_bytes(Path(__file__).read_bytes())
+        relay_file.chmod(0o644)
+        (output / "common-input.json").write_bytes(args.common_input.read_bytes())
+        (output / "task.yaml").write_bytes(args.task.read_bytes())
+        trace = output / "http-native"
+        trace.mkdir()
+        transport = output / "transport"
+        transport.mkdir(mode=0o755)
+        # 容器用户需要遍历挂载目录；显式权限保持独立于宿主 umask。
+        transport.chmod(0o755)
+        socket_path = transport / "socket"
+        key = None if args.check_only else os.environ["OPENAI_API_KEY"]
+    except Exception as error:
+        return startup_failure(
+            args, error, agent="codex", task=task, ledger=ledger, stage="worker_startup"
+        )
     policy = ledger.policy
     state = {
         "tool_calls_admitted": 0,
@@ -720,10 +765,19 @@ def main():
     class Server(socketserver.UnixStreamServer):
         allow_reuse_address = False
 
-    server = Server(str(socket_path), Model)
-    socket_path.chmod(0o666)
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
+    server = None
+    try:
+        server = Server(str(socket_path), Model)
+        socket_path.chmod(0o666)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+    except Exception as error:
+        if server is not None:
+            server.server_close()
+            socket_path.unlink(missing_ok=True)
+        return startup_failure(
+            args, error, agent="codex", task=task, ledger=ledger, stage="host_relay_startup"
+        )
     name = "repropatch-codex-" + uuid.uuid4().hex[:12]
     started = time.monotonic()
     result = {
@@ -753,6 +807,7 @@ def main():
             "容器断网，通过固定模型专用 Unix 套接字连接宿主计量代理",
         ],
     }
+    stage = "container_startup"
     try:
         run = [
             "docker",
@@ -786,20 +841,8 @@ def main():
             str(args.agent_seconds + 120),
         ]
         subprocess.run(run, check=True, capture_output=True, timeout=30)
-        readable = json.loads(common)["readable"]
-        probe = (
-            "import pathlib,os; assert os.getuid()==65534; "
-            + "; ".join("pathlib.Path(" + repr("/src/" + p) + ").read_bytes()" for p in readable)
-            + "; print('SOURCE_READABLE')"
-        )
-        check = subprocess.run(
-            ["docker", "exec", name, "python3", "-c", probe], capture_output=True, timeout=30
-        )
-        save(
-            output / "source-readability.json",
-            {"returncode": check.returncode, "readable_files": len(readable)},
-        )
-        check.check_returncode()
+        stage = "source_readability"
+        check_source_readability(name, task, output)
         native_config = native_settings(
             args.reasoning_effort,
             task.budget.model_timeout_seconds,
@@ -824,10 +867,12 @@ def main():
             cli.extend(["-c", setting + "=" + json.dumps(value)])
         cli.append("-")
         # 模型进程只接触虚拟密钥；真实密钥留在宿主代理进程。
+        stage = "relay_startup"
         start_container_relay(name, output)
         command = "mkdir -p /build/.codex-home; " + (
             "printf 'MODEL_RELAY_READY\\n'" if args.check_only else "exec " + shlex.join(cli)
         )
+        stage = "cli_execution"
         with (output / "events.jsonl").open("wb") as out, (output / "stderr.log").open("wb") as err:
             try:
                 process = subprocess.run(
@@ -846,10 +891,10 @@ def main():
         result.update(
             producer_status="ENVIRONMENT_ERROR",
             stop_reason=error.reason,
-            error_type=type(error).__name__,
+            **error_details(error, stage=stage),
         )
     except Exception as error:
-        result.update(producer_status="ENVIRONMENT_ERROR", error_type=type(error).__name__)
+        result.update(producer_status="ENVIRONMENT_ERROR", **error_details(error, stage=stage))
     finally:
         state["closing"] = True
         try:
@@ -858,6 +903,7 @@ def main():
             result.update(export_candidate(source, output))
         except Exception as error:
             result["cleanup_error_type"] = type(error).__name__
+            result["cleanup_error_message"] = str(error)
             result["producer_status"] = "ENVIRONMENT_ERROR"
         # 等待有总期限的处理器结算，随后冻结结果快照。
         server.shutdown()

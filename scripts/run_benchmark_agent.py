@@ -13,6 +13,7 @@ import time
 from contextlib import asynccontextmanager, contextmanager
 from dataclasses import asdict
 from pathlib import Path
+from types import SimpleNamespace
 
 from benchmark_budget import (
     POLICY,
@@ -88,11 +89,26 @@ def responses_client(args, hooks, *, transport=None):
     )
 
 
-def mini_inputs(args, task):
+def task_readable_files(task):
+    """从冻结提交展开真实可读路径，供预检和原生容器探针共同使用。"""
+    from repropatch.workspace import git_tree
+
+    tracked = {entry.path for entry in git_tree(task.repository, task.revision)}
+    return sorted(
+        path
+        for path in tracked
+        if any(
+            path == name or (name.endswith("/") and path.startswith(name))
+            for name in task.readable_paths
+        )
+    )
+
+
+def mini_inputs(args, task, policy=None):
     """只读检查原生 mini 材料与共同输入，不加载模型或启动容器。"""
     from prepare_mini_environment import MINI_COMMIT
 
-    from repropatch.workspace import git_tree
+    from repropatch.agent_runtime import model_file_scope
 
     if any(value is None for value in (args.mini_source, args.mini_environment, args.common_input)):
         raise BudgetLimit("BENCHMARK_MINI_ARGUMENT_MISSING")
@@ -135,22 +151,25 @@ def mini_inputs(args, task):
         raise BudgetLimit("COMMON_INITIAL_INPUT_INVALID")
     task_input = initial[0]["content"]
     common = json.loads(task_input)
-    tracked = {entry.path for entry in git_tree(task.repository, task.revision)}
-    readable = {
-        path
-        for name in task.readable_paths
-        for path in tracked
-        if path == name or (name.endswith("/") and path.startswith(name))
+    readable = task_readable_files(task)
+    scope = model_file_scope(
+        SimpleNamespace(readable_files=readable, editable_files=task.editable_paths),
+        policy or ContextPolicy(),
+    )
+    expected = {
+        "task": task.prompt,
+        "base_commit": task.revision,
+        "image_id": task.environment.image,
+        "editable": sorted(task.editable_paths),
+        "budget": asdict(task.budget),
     }
-    if (
-        common["task"] != task.prompt
-        or common["base_commit"] != task.revision
-        or common["image_id"] != task.environment.image
-        or common["editable"] != sorted(task.editable_paths)
-        or common["readable"] != sorted(readable)
-        or common["budget"] != asdict(task.budget)
-    ):
-        raise BudgetLimit("COMMON_TASK_MISMATCH")
+    mismatched = [name for name, value in expected.items() if common[name] != value]
+    if common["readable"] not in (readable, scope["readable"]):
+        mismatched.append("readable")
+    if mismatched:
+        error = BudgetLimit("COMMON_TASK_MISMATCH", layer="native.common_input")
+        error.detail = {"mismatched_fields": mismatched}
+        raise error
     source = Path(preparation.get("source", args.mini_environment.parent / "source"))
     if source.stat().st_mode & 0o005 != 0o005:
         raise BudgetLimit("MINI_SOURCE_NOT_READABLE")
@@ -184,6 +203,74 @@ def candidate_metadata(patch):
         "candidate_bytes": len(patch),
         "candidate_sha256": hashlib.sha256(patch).hexdigest() if patch else None,
     }
+
+
+def error_details(error, *, stage, code=None):
+    """保留启动阶段、原始异常和子进程输出，供执行器与调度层统一留证。"""
+    result = {
+        "error_stage": stage,
+        "error_type": type(error).__name__,
+        "error_code": code
+        or (str(error) if isinstance(error, ContextLimit) else "BENCHMARK_STARTUP_FAILED"),
+        "error_message": str(error),
+    }
+    if isinstance(error, ContextLimit):
+        result.update(error_layer=error.layer, error_detail=error.detail)
+    if isinstance(error, (subprocess.CalledProcessError, subprocess.TimeoutExpired)):
+        result["error_command"] = error.cmd
+        result["error_exit_code"] = getattr(error, "returncode", None)
+        for name in ("stdout", "stderr"):
+            value = getattr(error, name, None)
+            if value is not None:
+                result["error_" + name] = (
+                    value.decode(errors="replace") if isinstance(value, bytes) else value
+                )
+    return result
+
+
+def startup_failure(args, error, *, agent, task=None, ledger=None, stage="preflight", code=None):
+    """预检失败直接产出执行结果；只读检查通过标准输出反馈原始错误。"""
+    details = error_details(error, stage=stage, code=code)
+    result = {
+        "ok": False,
+        "schema": "repropatch.benchmark-attempt.v1",
+        "agent": agent,
+        "attempt": args.attempt,
+        "attempt_id": args.attempt,
+        "native_status": "ENVIRONMENT_ERROR",
+        "native_reason": details["error_code"],
+        "stop_reason": details["error_code"],
+        "internal_verification_status": "not_started" if agent == "repropatch" else "not_performed",
+        "context_management": "repropatch"
+        if agent == "repropatch"
+        else "native"
+        if args.native_context
+        else "benchmark_adapter",
+        **candidate_metadata(b""),
+        **details,
+    }
+    if task is not None:
+        result.update(attempt_identity(task, args.attempt))
+    if ledger is not None:
+        try:
+            usage = ledger.summary(args.attempt)
+            result.update(usage=usage, money=usage, **usage)
+            if isinstance(ledger, LocalUsageLedger):
+                result["context_policy"] = ledger.policy.to_dict()
+        except (OSError, sqlite3.Error, ValueError) as usage_error:
+            result["usage_error_message"] = str(usage_error)
+    if not args.check_only:
+        try:
+            output = args.output.resolve()
+            output.mkdir(parents=True, exist_ok=True, mode=0o700)
+            if not (output / "result.json").exists():
+                if task is not None and not (output / "task.original.yaml").exists():
+                    (output / "task.original.yaml").write_bytes(task.source_bytes)
+                save(output / "result.json", result)
+        except OSError as write_error:
+            result["diagnostic_write_error"] = str(write_error)
+    print(json.dumps(result, ensure_ascii=False), flush=True)
+    return 2
 
 
 def export_repropatch_candidate(report, directory, output):
@@ -431,7 +518,7 @@ def mini_agent(args, hooks, task):
     from repropatch.task import canonical_json
 
     model_name, base_url, _, use_proxy = provider(args)
-    config, task_input, source = mini_inputs(args, task)
+    config, task_input, source = mini_inputs(args, task, getattr(hooks.ledger, "policy", None))
     os.environ["MSWEA_GLOBAL_CONFIG_DIR"] = str(args.output / "mini-settings")
     os.environ["MSWEA_SILENT_STARTUP"] = "1"
     os.environ["MSWEA_MODEL_RETRY_STOP_AFTER_ATTEMPT"] = "1"
@@ -830,6 +917,7 @@ def main():
     from repropatch.errors import ReproPatchError
     from repropatch.task import Task
 
+    task = ledger = None
     try:
         parameters = reasoning_parameters(args)
         task = Task.load(args.task)
@@ -843,10 +931,9 @@ def main():
         if args.native_context and ledger.policy.compaction_enabled:
             raise BudgetLimit("BENCHMARK_NATIVE_CONTEXT_POLICY_MISMATCH")
         if args.agent == "mini":
-            mini_inputs(args, task)
+            mini_inputs(args, task, getattr(ledger, "policy", None))
     except BudgetLimit as error:
-        print(json.dumps({"ok": False, "error_code": str(error)}))
-        return 2
+        return startup_failure(args, error, agent=args.agent, task=task, ledger=ledger)
     except (
         OSError,
         ValueError,
@@ -856,16 +943,14 @@ def main():
         ReproPatchError,
         subprocess.SubprocessError,
     ) as error:
-        print(
-            json.dumps(
-                {
-                    "ok": False,
-                    "error_code": "BENCHMARK_INPUT_INVALID",
-                    "error_type": type(error).__name__,
-                }
-            )
+        return startup_failure(
+            args,
+            error,
+            agent=args.agent,
+            task=task,
+            ledger=ledger,
+            code="BENCHMARK_INPUT_INVALID",
         )
-        return 2
     if args.check_only:
         print(
             json.dumps(
@@ -879,13 +964,18 @@ def main():
             )
         )
         return 0
-    args.output = args.output.resolve()
-    args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
-    (args.output / "task.original.yaml").write_bytes(task.source_bytes)
-    hook_options = (
-        {"local_luna": True, "route": args.cpa_route} if args.provider == "local-luna" else {}
-    )
-    hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native", **hook_options)
+    try:
+        args.output = args.output.resolve()
+        args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
+        (args.output / "task.original.yaml").write_bytes(task.source_bytes)
+        hook_options = (
+            {"local_luna": True, "route": args.cpa_route} if args.provider == "local-luna" else {}
+        )
+        hooks = BudgetHooks(ledger, args.attempt, args.output / "http-native", **hook_options)
+    except Exception as error:
+        return startup_failure(
+            args, error, agent=args.agent, task=task, ledger=ledger, stage="worker_startup"
+        )
     started = time.monotonic()
     result = {
         "schema": "repropatch.benchmark-attempt.v1",
@@ -932,7 +1022,7 @@ def main():
         result.update(native_status="CANCELLED", native_reason="USER_CANCELLED")
     except Exception as error:
         result["native_status"] = "ERROR"
-        result["error_type"] = type(error).__name__
+        result.update(error_details(error, stage="agent_execution", code=stop_reason(error)))
         result["stop_reason"] = stop_reason(error)
         if isinstance(error, ContextLimit):
             result["error_code"] = str(error)

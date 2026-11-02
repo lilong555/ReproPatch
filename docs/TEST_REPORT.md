@@ -1,5 +1,27 @@
 # 测试报告
 
+## 工程验证
+
+2026 年 11 月 2 日，Python 3.12 本地非 Docker 回归通过 **1067 项**，
+1 项依赖 GCC 14 的工具链测试跳过。范围覆盖任务与源码、SDK、预算与上下文、
+Checkpoint 与恢复、演示、只读诊断以及原生执行器。
+
+| 检查 | 结果 | 范围 |
+| --- | --- | --- |
+| Ruff 与格式 | 通过 | `src`、`tests`、`scripts` |
+| 干净核心依赖 | 55 项通过 | CLI、诊断、大目录输入、四份原始启动归档回放 |
+| 原生 SDK 启动 | 4 项通过 | 预检、启动与本地代理故障的零请求留证 |
+| wheel/sdist | 通过 | 五个内置演示资源与源码逐字节一致，从 sdist 构建 wheel |
+| 安装包核心环境 | 21 条验证命令符合预期 | 项目外 `-I` 调用、可选依赖、资源读取与诊断只读性 |
+
+本地 WSL2 环境缺少 Docker CLI，真实隔离执行由
+[CI](../.github/workflows/ci.yml) 的 `docker-integration` 验证。
+该作业执行完整 Docker gate，再构建、安装 wheel，运行工程三场景并核对只读查询。
+可重复执行的命令和通过标准见[工程验收](ACCEPTANCE.md)。
+
+<details>
+<summary>历史测试与发布证据</summary>
+
 ## 最终冷评分交付源码
 
 [GitHub Actions](https://github.com/lilong555/ReproPatch/actions/runs/40515296353)在 `a6df2b188fbcb237409d4bf599319db057522c2c` 通过 **735 项**：
@@ -289,3 +311,5 @@ agent wheel 验证固定依赖与安装目录，执行全部 462 项非 Docker �
 开放片段、模型最终文本及完整工具日志都不构成可恢复输入边界。
 报告导出失败不改写权威终态；无法核验的数据库或证据明确报错，不创建空库或推断成功。
 下一任务为 P3-01。
+
+</details>

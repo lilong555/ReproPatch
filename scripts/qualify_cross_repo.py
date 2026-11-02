@@ -133,11 +133,33 @@ class NativeExecutor(Executor):
                     else "TESTS_FAILED",
                     "tests": states,
                 }
+            oracle_runner = "/src/repropatch-native/runner.py"
+            current_runner = None
+            runner_sha256 = None
+            if contract.get("mode") == "glslang":
+                # 评分代码独立于冻结任务；执行副本在编译完成后进入全新构建树。
+                current_runner = build / "repropatch-cold-oracle-runner.py"
+                if current_runner.exists() or current_runner.is_symlink():
+                    raise ValueError("NATIVE_ORACLE_RUNNER_PATH_CONFLICT")
+                shutil.copyfile(ROOT / "scripts/native_cpp_runner.py", current_runner)
+                current_runner.chmod(0o444)
+                runner_sha256 = sha(current_runner)
+                oracle_runner = "/build/" + current_runner.name
+                save(
+                    self.directory / (phase + "-cold-runner.json"),
+                    {
+                        "schema": "repropatch.native-cold-runner.v1",
+                        "runner_path": oracle_runner,
+                        "runner_sha256": runner_sha256,
+                        "frozen_runner_sha256": sha(source / "repropatch-native/runner.py"),
+                        "contract_sha256": sha(source / "repropatch-native/contract.json"),
+                    },
+                )
             tested = self.run(
                 [
                     "python3",
                     "-I",
-                    "/src/repropatch-native/runner.py",
+                    oracle_runner,
                     "--source",
                     "/src",
                     "--build",
@@ -151,6 +173,8 @@ class NativeExecutor(Executor):
                 phase,
                 "ctest",
             )
+            if current_runner is not None and sha(current_runner) != runner_sha256:
+                raise ValueError("NATIVE_ORACLE_RUNNER_IDENTITY_MISMATCH")
             result_file = build / "native-results.json"
             if not result_file.exists():
                 return {"status": "TEST_EXECUTION_FAILED", "tests": {}}
@@ -158,17 +182,22 @@ class NativeExecutor(Executor):
             save(self.directory / (phase + "-native-results.json"), native)
             if native["missing"]:
                 return {"status": "TEST_RESULT_IDENTITY_MISMATCH", **native}
-            if native["additional_failures"]:
-                return {"status": "TESTS_FAILED", **native}
-            if tested["exit_code"] not in {0, 1}:
+            if tested["exit_code"] not in {0, 1} and not (
+                tested["exit_code"] == 3 and native["additional_failures"]
+            ):
                 return {"status": "TEST_EXECUTION_FAILED", **native}
             states = group_states(contract, native["tests"])
             return {
                 "status": "PASSED"
-                if tested["exit_code"] == 0 and set(states.values()) == {"passed"}
+                if tested["exit_code"] == 0
+                and not native["additional_failures"]
+                and set(states.values()) == {"passed"}
                 else "TESTS_FAILED",
                 "tests": states,
                 "native_tests": native["tests"],
+                "missing": native["missing"],
+                "additional_failures": native["additional_failures"],
+                "case_aliases": native.get("case_aliases", {}),
             }
         finally:
             self.deadline = previous
