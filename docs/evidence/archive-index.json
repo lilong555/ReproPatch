@@ -291,6 +291,19 @@
       "files": 586,
       "verification": "docs/evidence/context-unified-2026-10-27/completion-archive.json",
       "scope": "7次上游故障复验及两份零模型冷评分原始证据"
+    },
+    {
+      "scope": "2026-11-02 工程候选的原始 CI、安装包三场景、原生上下文与冻结源码",
+      "name": "ReproPatch-engineering-candidate-2026-11-02.zip",
+      "source_commit": "465a14ca5ffaecc6799039588a4fd0b173eb8eb6",
+      "ci_run_id": 41395271852,
+      "sha256": "e137d861644c26d1539ee81b54106088e5bb71c58974a15bb26cacf59ef69023",
+      "size_bytes": 13637773,
+      "files": 5223,
+      "manifest": "evidence-manifest.json",
+      "verification": "逐文件大小、SHA-256 与凭据模式扫描通过",
+      "url": "https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-candidate-2026-11-02.zip",
+      "summary": "docs/evidence/engineering-2026-11-02/summary.json"
     }
   ]
 }

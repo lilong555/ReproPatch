@@ -1,8 +1,28 @@
 # 验收证据
 
 Git 保存关键摘要、源码清单和少量解析器测试样本，完整原始日志、SQLite、JUnit 与模型附件按 SHA-256 归档。
-[附件索引](archive-index.json)记录已发布历史证据，
-[当前证据清单](../../benchmarks/generalization-evidence.json)记录 v1/v2 运行、资格、用量和本地验证的文件数、哈希与发布状态。
+[v0.4.0 工程摘要](v0.4.0/summary.json)关联被测源码、Core/SDK/Docker、
+安装版三场景和 core-only 正反补丁验收。
+[v0.4.0 Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0)
+提供长期原件 `ReproPatch-engineering-v0.4.0.zip`、精确安装包、
+`release-manifest.json` 与 `SHA256SUMS`。
+
+下载本版附件后，在下载目录执行：
+
+```bash
+sha256sum -c SHA256SUMS
+unzip ReproPatch-engineering-v0.4.0.zip -d engineering-v0.4.0
+```
+
+工程包内的 `evidence-manifest.json` 记录各原文件的大小和 SHA-256。
+三场景与核心正反例保留独立 Run；报告重建后的派生索引按归档时的实际字节登记。
+发布清单分别记录被测源码 Commit 与交付 tag，描述二者涉及的文档与证据范围。
+
+## 历史证据
+
+[附件索引](archive-index.json)记录历史归档的原始发布身份，
+[v1/v2 证据清单](../../benchmarks/generalization-evidence.json)记录对应运行、资格、
+用量和本地验证的文件数、哈希与发布状态。
 
 [0.3.0 验证摘要](v0.3.0/summary.json)对应 338 核心、154 SDK、22 Docker 场景。
 [v2 六次对照](../../benchmarks/generalization-final-results.md)包含全部首跑的原始请求、SSE、工具轨迹、候选与独立原生评分。

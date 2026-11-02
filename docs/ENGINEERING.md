@@ -1,6 +1,6 @@
 # 工程指南
 
-ReproPatch 将 C++ 修复组织为可追踪的 Run：固定任务和环境，运行受控 Agent，冻结候选，在独立环境验收，并保存状态、预算和原始证据。日常使用从[零密钥演示](DEMO.md)开始；模块与 SDK 职责见[架构](ARCHITECTURE.md)。
+ReproPatch 将 C++ 修复与验证组织为可追踪的 Run：固定任务和环境，接收外部补丁或运行可选 Agent，冻结候选，在独立环境验收，并保存状态、预算和原始证据。日常使用从[零密钥演示](DEMO.md)开始；模块与 SDK 职责见[架构](ARCHITECTURE.md)。
 
 ## 运行契约与配置
 
@@ -11,7 +11,7 @@ Python 3.12+ 与 Git 在宿主运行，CMake、编译器、CTest 和第三方代
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[agent,semantic]'
+python -m pip install -c requirements/agent.txt '.[agent,semantic]'
 docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
 repropatch doctor --image repropatch-cpp:0.1 --json
 ```
@@ -216,8 +216,14 @@ python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .re
 
 ```bash
 python -m build
-python -m pip install --force-reinstall --no-deps dist/*.whl
+python -m pip install --force-reinstall --no-deps dist/repropatch-0.4.0-py3-none-any.whl
 python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .repropatch/engineering-wheel-evidence --require-installed-wheel
+
+python -m venv .repropatch/core-env
+.repropatch/core-env/bin/python -m pip install dist/repropatch-0.4.0-py3-none-any.whl
+.repropatch/core-env/bin/python scripts/check_core_distribution.py \
+  --wheel dist/repropatch-0.4.0-py3-none-any.whl \
+  --image repropatch-cpp:0.1 --output .repropatch/core-wheel-evidence
 ```
 
 `python -m build` 生成 sdist 和 wheel，`pip install` 将 wheel 安装到当前 Python 环境，`--require-installed-wheel` 检查安装元数据中的 wheel 来源。门禁通过 `python -I -m repropatch` 调用已安装的 CLI，执行三个场景并保存证据。
@@ -229,5 +235,6 @@ python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .re
 | 恢复故障门禁 | 真实控制进程故障后的事务前缀、安全边界与明确失败 | [check_recovery_gate.py](../scripts/check_recovery_gate.py) |
 | Docker 门禁 | 实际容器约束、C++ 构建、CTest、补丁往返与清理 | [check_docker_gate.py](../scripts/check_docker_gate.py)、[Docker 集成](../tests/test_docker_integration.py) |
 | 工程门禁 | 核验当前安装环境，在真实 Docker 执行三场景，核对 inspect/diagnose/replay/export-trace 对原 Run 的只读性；`--require-installed-wheel` 强制核验 wheel 来源 | [check_engineering_gate.py](../scripts/check_engineering_gate.py)、[CLI 合同](../tests/test_engineering_cli.py) |
+| 核心分发门禁 | 同一 wheel 的 core-only 安装，源码目录外调用正确与错误补丁；核对基线、独立冷验收、清理和只读查询 | [check_core_distribution.py](../scripts/check_core_distribution.py) |
 
-CI 的 `docker-integration` 先执行 Docker 门禁，再构建和安装 wheel，随后以 `--require-installed-wheel` 执行工程门禁，并上传 `engineering-evidence` 与 `dist/`。完整测试结果、耗时与场景结局见[测试报告](TEST_REPORT.md)，交付标准见[工程验收](ACCEPTANCE.md)。
+CI 的 `docker-integration` 先执行 Docker 门禁，再构建和安装 wheel，随后验收三场景与独立 core-only 正反例，并上传 `engineering-evidence` 与 `dist/`。日常 CI 保持 Core、SDK 和 Docker 三个作业；历史 mini/Codex 原生上下文由手动参数 `native_context=true` 启用。完整测试结果、耗时与场景结局见[测试报告](TEST_REPORT.md)，交付标准见[工程验收](ACCEPTANCE.md)。

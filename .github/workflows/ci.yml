@@ -6,6 +6,11 @@ on:
   pull_request:
     paths-ignore: ['docs/*.md', 'docs/evidence/**/*.json', 'specs/**', 'benchmarks/**', '*.md', 'RELEASE.json']
   workflow_dispatch:
+    inputs:
+      native_context:
+        description: 同时核验历史 mini/Codex 原生上下文
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -68,6 +73,14 @@ jobs:
           --image repropatch-cpp:0.1
           --output .repropatch/ci-evidence/engineering
           --require-installed-wheel
+      - name: 核验 core-only wheel 的独立补丁入口
+        run: |
+          python -m venv .repropatch/core-env
+          .repropatch/core-env/bin/python -m pip install dist/*.whl
+          .repropatch/core-env/bin/python scripts/check_core_distribution.py \
+            --wheel dist/*.whl \
+            --image repropatch-cpp:0.1 \
+            --output .repropatch/ci-evidence/core-distribution
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -81,10 +94,12 @@ jobs:
           name: engineering-evidence
           path: |
             .repropatch/ci-evidence/engineering/
+            .repropatch/ci-evidence/core-distribution/
             dist/
           include-hidden-files: true
           retention-days: 7
   context-native:
+    if: github.event_name == 'workflow_dispatch' && inputs.native_context
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

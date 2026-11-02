@@ -1,6 +1,6 @@
 # 工程验收
 
-交付验收覆盖从安装到结果复核的完整路径。确定性演示使用公开
+0.4.0 交付验收覆盖核心补丁入口、可选 Agent、分发安装和结果复核。确定性演示使用公开
 `agents.testing.ScriptedModel`，源码编译、Docker 隔离、状态恢复与独立验收均执行真实代码。
 真实模型的修复能力另由冻结实验衡量。
 
@@ -20,6 +20,8 @@
 | E10 | 基线与候选都核对固定测试身份；跳过、缺失和执行故障明确留证 | [独立验收测试](../tests/test_verification.py)、[原生测试](../tests/test_native_ctest_runtime.py) |
 | E11 | 源码、补丁和执行环境有身份记录，核心查询与独立补丁验收只依赖核心安装 | [源码完整性](../tests/test_source_integrity.py)、[可选依赖测试](../tests/test_sdk_optional.py) |
 | E12 | README、演示、架构、工程决策、路线和测试证据入口完整 | [工程说明](ENGINEERING.md)、[测试报告](TEST_REPORT.md) |
+| E13 | 同一 wheel 在独立 core-only 环境中完成真实 Docker 正反补丁验收，记录安装身份、冷构建、清理和零模型请求 | [核心分发门禁](../scripts/check_core_distribution.py) |
+| E14 | tag、被测源码、wheel/sdist、JUnit 与原始 Run 通过摘要和 SHA-256 对应，证据可长期下载 | [发布清单](../RELEASE.json)、[发布证据](evidence/v0.4.0/summary.json) |
 
 ## 可重复执行
 
@@ -39,11 +41,18 @@ Docker gate 构建工具链镜像，并执行指定的真实容器用例。显�
 python scripts/check_docker_gate.py --build \
   --output .repropatch/acceptance/docker
 python -m build
-python -m pip install --force-reinstall --no-deps dist/*.whl
+python -m pip install --force-reinstall --no-deps dist/repropatch-0.4.0-py3-none-any.whl
 python scripts/check_engineering_gate.py \
   --image repropatch-cpp:0.1 \
   --output .repropatch/acceptance/engineering \
   --require-installed-wheel
+
+python -m venv .repropatch/core-env
+.repropatch/core-env/bin/python -m pip install dist/repropatch-0.4.0-py3-none-any.whl
+.repropatch/core-env/bin/python scripts/check_core_distribution.py \
+  --wheel dist/repropatch-0.4.0-py3-none-any.whl \
+  --image repropatch-cpp:0.1 \
+  --output .repropatch/acceptance/core-distribution
 ```
 
 每次验收使用新的输出目录，保留原始结果。工程 gate 的 `summary.json` 记录安装身份、
@@ -51,6 +60,17 @@ python scripts/check_engineering_gate.py \
 `queries/` 保存命令标准输出、标准错误和导出的事件；`demo/` 保存独立 Run、基线、
 候选、Checkpoint 与验收证据。
 
-CI 执行相同入口，并上传 `python-cpp-evidence`、`sdk-contract-evidence`、
-`docker-gate-evidence`、`engineering-evidence` 和 `context-native-evidence`。
-当前执行结果与历史证据统一从[测试报告](TEST_REPORT.md)访问。
+核心分发门禁确认环境只安装核心依赖、包位于 site-packages，并从源码目录外以
+`python -I -m repropatch` 调用公开入口。正确补丁应退出 0，结局为
+`ACCEPTED`；错误补丁应退出 1，结局为 `REJECTED / F2P_FAILED`。
+两次运行均核对基线、独立冷验收、资源清理和只读诊断。
+
+日常 CI 执行 Core、SDK、Docker 三个作业，并上传 `python-cpp-evidence`、
+`sdk-contract-evidence`、`docker-gate-evidence` 与 `engineering-evidence`。
+工程附件同时包含三场景、core-only 正反例和实际安装的 wheel/sdist。
+历史原生上下文检查通过手动作业参数 `native_context=true` 启用。
+
+[v0.4.0 Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0)
+长期提供原始工程证据、安装包、`release-manifest.json` 和 `SHA256SUMS`。
+下载附件后执行 `sha256sum -c SHA256SUMS`，再按证据包中的逐文件清单复核。
+执行结果与历史证据从[测试报告](TEST_REPORT.md)访问。

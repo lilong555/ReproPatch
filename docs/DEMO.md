@@ -1,134 +1,136 @@
-# 零密钥工程演示
+# v0.4.0 四分钟工程演示
 
-`repropatch demo` 使用公开 OpenAI Agents SDK 的 `ScriptedModel` 驱动真实 Harness、Git 工作树和 Docker，展示成功修复、错误候选拒绝、暂停恢复三个场景。演示保存真实构建、测试、状态和证据，模型步骤来自本地脚本，API 密钥和付费模型请求均为零。
+ReproPatch 是可恢复的 C++ 修复与验证系统。演示依次呈现正确候选接受、错误候选拒绝、编辑后暂停并恢复接受，展示固定输入、独立冷验收和运行证据。
 
-实现：[demo.py](../src/repropatch/demo.py)、[harness.py](../src/repropatch/harness.py)、[models.py](../src/repropatch/models.py)。验证：[CLI 合同](../tests/test_engineering_cli.py)、[真实 Docker 流程](../tests/test_docker_integration.py)、[工程门禁](../scripts/check_engineering_gate.py)。
+示例缺陷是 `maximum_sample` 对非空全负输入返回 0。可修改文件为 `src/stats.cpp`，`negative_values` 为 F2P，`positive_values`、`empty_values`、`mixed_values` 为 P2P；CMake 与测试文件受保护。
 
-## 准备与运行
+模型使用公开 Agents SDK 的 `agents.testing.ScriptedModel`，CLI 引擎身份为 `fake`，演示摘要身份为 `scripted`。模型步骤来自本地 JSON 脚本，付费模型请求为 0；用量标记 `synthetic`，Token 数为未知。Git、C++ 编译、Docker、CTest 与恢复事务实际执行。
 
-需要 Python 3.12+、Git 和 Linux amd64 Docker 引擎。WSL2 可使用启用发行版集成的 Docker Desktop Linux 引擎。项目与运行目录放在 Linux 文件系统中。
+## 演示前准备
 
-在项目根目录执行：
+需要 Python 3.12+、Git 和本地 Linux amd64 Docker 引擎。WSL2 可使用启用发行版集成的 Docker Desktop Linux 引擎，源码与运行目录放在 Linux 文件系统中。依赖安装、镜像构建在现场计时前完成。
 
 ```bash
+git clone https://github.com/lilong555/ReproPatch.git
+cd ReproPatch
+git switch --detach v0.4.0
+
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[agent,semantic]'
+python -m pip install -c requirements/agent.txt \
+  'repropatch[agent] @ https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/repropatch-0.4.0-py3-none-any.whl'
+python -I -m repropatch --version
 
 docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
 repropatch doctor --image repropatch-cpp:0.1 --json
-repropatch demo --output .repropatch/demo --image repropatch-cpp:0.1 --scenario all --json
 ```
 
-默认镜像为 `repropatch-cpp:0.1`，默认场景为 `all`，默认输出目录为 `.repropatch/demo`。镜像提前构建；演示通过本地实际镜像身份固定运行环境。`--output` 使用新目录，重复运行可改为 `.repropatch/demo-2`。
+发布包、源码身份、镜像和原始验收记录见 [v0.4.0 证据摘要](evidence/v0.4.0/summary.json)；长期原件见 [ReproPatch-engineering-v0.4.0.zip](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip)。本地交付目录为 `/home/li/code/repropatch/deliverables/v0.4.0`。
 
-实现：[cli.py](../src/repropatch/cli.py)、[Task 镜像解析](../src/repropatch/task.py)、[编译镜像](../docker/Dockerfile)。验证：[参数与预检合同](../tests/test_engineering_cli.py)、[镜像与容器身份](../tests/test_docker_integration.py)。
+## 四分钟主流程
 
-## 三个场景
-
-| 场景 | 执行内容 | 预期证据 |
+| 时间 | 展示对象 | 讲解重点 |
 | --- | --- | --- |
-| `repair` | 复现原始缺陷，经 SDK 工具修改实现，冻结候选并独立验收 | `ACCEPTED`，F2P/P2P 通过、候选与源码清单、容器清理确认 |
-| `rejection` | 交付错误候选并执行同一验收链 | `REJECTED`，明确拒绝原因与原始失败证据 |
-| `recovery` | 在完整 SDK 输入边界暂停，从已提交 Checkpoint 续跑并验收 | 暂停阶段、Checkpoint、同一 Run 的恢复记录和最终验收 |
-| `all` | 顺序执行上述三个场景 | 各场景的 Run ID、结局和检查结果 |
+| 0:00–0:40 | 示例 Task、固定 commit、镜像 ID、授权文件与 F2P/P2P | 修复输入与完成标准组成可执行合同 |
+| 0:40–1:30 | `doctor`、`demo --scenario all` 与 `summary.md` | 三种结局使用确定性模型步骤，执行链保存真实证据 |
+| 1:30–2:20 | `patch.diff`、`candidate.manifest.json`、独立测试观察 | 候选从固定基线应用到新工作树，冷构建后逐项验收 |
+| 2:20–3:10 | recovery 的暂停记录、Checkpoint、Run ID、计数与期限 | 同一 Run 续跑，基线与编辑各一次，预算和事件前缀连续 |
+| 3:10–4:00 | rejection 的 `diagnose`、JUnit 与原始日志 | `F2P_FAILED` 可以追到声明测试的实际失败 |
 
-场景可单独执行，输出目录分别保存：
-
-```bash
-repropatch demo --output .repropatch/demo-repair --image repropatch-cpp:0.1 --scenario repair --json
-repropatch demo --output .repropatch/demo-rejection --image repropatch-cpp:0.1 --scenario rejection --json
-repropatch demo --output .repropatch/demo-recovery --image repropatch-cpp:0.1 --scenario recovery --json
-```
-
-错误候选的拒绝证据是 `rejection` 的检查目标。各场景符合预期时，演示摘要 `status` 为 `passed`，CLI 返回 0；场景检查失败返回 3，准备或参数错误返回 2。每个 Run 的 `outcome/reason_code` 提供具体的修复结局。
-
-实现：[demo.py](../src/repropatch/demo.py)、[cli.py](../src/repropatch/cli.py)、[verification.py](../src/repropatch/verification.py)。验证：[演示 CLI 退出码](../tests/test_engineering_cli.py)、[正确与错误候选判定](../tests/test_docker_integration.py)。
-
-## 证据检查
-
-从演示 JSON 获取 Run ID 和证据目录。以下 `PATH` 是包含各 Run 目录的根路径，`RUN_ID` 是该目录内的运行身份：
+现场执行：
 
 ```bash
-repropatch inspect RUN_ID --root PATH --json
-repropatch diagnose RUN_ID --root PATH --json
-repropatch replay RUN_ID --root PATH --mode trace --json
+DEMO=.repropatch/demo-v0.4.0-01
+repropatch doctor --image repropatch-cpp:0.1 --json
+repropatch demo --output "$DEMO" --image repropatch-cpp:0.1 --scenario all --json
+sed -n '1,55p' "$DEMO/summary.md"
 ```
 
-`inspect` 查看已提交的阶段、结局和完整性。`diagnose` 聚合阶段、证据、用量与恢复条件；其退出码按证据完整性判定。`replay` 按事件序号呈现轨迹与证据引用。这三个入口从只读 SQLite 快照查询原 Run。
+`--output` 使用新目录，重复演示将 `DEMO` 改为 `.repropatch/demo-v0.4.0-02`。`repair`、`rejection`、`recovery` 可作为 `--scenario` 的单独取值。
 
-实现：[reports.py](../src/repropatch/reports.py)、[diagnostics.py](../src/repropatch/diagnostics.py)、[trace.py](../src/repropatch/trace.py)。验证：[报告查询](../tests/test_events_reports.py)、[诊断 CLI](../tests/test_engineering_cli.py)、[只读轨迹](../tests/test_trace.py)。
+| 场景 | 预期结局 | 检查对象 |
+| --- | --- | --- |
+| `repair` | `ACCEPTED / VERIFICATION_PASSED` | F2P/P2P、补丁往返、候选清单、冷验收与清理 |
+| `rejection` | `REJECTED / F2P_FAILED` | 错误候选的独立失败证据 |
+| `recovery` | `ACCEPTED / VERIFICATION_PASSED` | 暂停与恢复 Run ID 相同，基线与编辑各一次，步骤 3→5、工具 3→4、原期限与事件前缀保留 |
 
-需要外部 JSONL 轨迹时，提前准备目录并使用新文件：
+三场景符合预期时，摘要 `status` 为 `passed`，`demo` 退出码为 0。场景检查失败返回 3，准备或参数错误返回 2。`rejection` 的预期拒绝属于演示通过条件。
+
+## 追到失败证据
+
+从摘要自动取拒绝场景的 Run ID；`--root` 指向该场景下所有 Run 的父目录：
+
+```bash
+ROOT="$DEMO/runs/rejection"
+RUN_ID=$(python -c 'import json,sys; s=json.load(sys.stdin); print(next(r["run_id"] for r in s["runs"] if r["scenario"] == "rejection"))' < "$DEMO/summary.json")
+repropatch inspect "$RUN_ID" --root "$ROOT" --json
+repropatch diagnose "$RUN_ID" --root "$ROOT" --json
+repropatch replay "$RUN_ID" --root "$ROOT" --mode trace --json
+```
+
+阅读 `"$ROOT/$RUN_ID/report.json"` 中的 `independent.tests`。`negative_values` 的 `observed_status` 为 `failed`，其 `result.path` 指向原始 JUnit；命令中的 `stdout_log.path`、`stderr_log.path` 指向原始双流日志。所有证据相对路径以 Run 的 `artifact_directory` 为根解析。
+
+| 产物 | 展示内容 |
+| --- | --- |
+| `task.resolved.json` | commit、镜像、权限、测试、资源与预算 |
+| `patch.diff`、`candidate.manifest.json` | 修改内容、完整源码 SHA-256、字节大小、Git mode |
+| `events.sqlite3` | 已提交事件、阶段、累计用量与 Checkpoint 引用 |
+| `checkpoints/` | 下一完整 SDK 输入、源码、补丁、工具及实现指纹 |
+| recovery 的 `paused-report.json`、`paused-events.jsonl` | 暂停状态和恢复前事件前缀；位置由演示摘要中的证据引用给出 |
+| 原始 stdout/stderr、inventory、JUnit | 基线签名、测试身份、实际执行与拒绝原因 |
+| `report.json`、`report.md`、`run.json` | 结局、清理状态和派生索引 |
+
+`inspect`、`diagnose`、`replay` 从只读 SQLite 快照查询。`export-trace` 将轨迹发布到 Run 之外的新文件；`report` 持有 Run 锁，从已提交事实重建派生报告、JSONL 和索引。
 
 ```bash
 mkdir -p .repropatch/exports
-repropatch export-trace RUN_ID --root PATH --output .repropatch/exports/demo-trace.jsonl
+repropatch export-trace "$RUN_ID" --root "$ROOT" \
+  --output .repropatch/exports/v0.4.0-rejection-01.jsonl
+repropatch report "$RUN_ID" --root "$ROOT" --format json
 ```
 
-派生报告可从已提交事实重建：
+## 独立补丁入口
+
+`verify-patch` 使用核心依赖完成基线复现与独立验收。人工、外部 Agent 或已有脚本生成的补丁都可进入同一流程。在上述 v0.4.0 源码目录中执行：
 
 ```bash
-repropatch report RUN_ID --root PATH --format json
+python scripts/init_example.py \
+  --write-task .repropatch/tasks/negative-maximum.yaml --image repropatch-cpp:0.1
+repropatch validate-task .repropatch/tasks/negative-maximum.yaml
+repropatch verify-patch .repropatch/tasks/negative-maximum.yaml \
+  --patch examples/patches/negative-maximum.correct.patch \
+  --producer local --output-root .repropatch/external-patches --json
+repropatch verify-patch .repropatch/tasks/negative-maximum.yaml \
+  --patch examples/patches/negative-maximum.wrong.patch \
+  --producer local --output-root .repropatch/external-patches --json
 ```
 
-`report` 持有 Run 锁并重新导出报告、JSONL 与索引；原始事件和最终结局保留。轨迹导出发布到 Run 之外的新文件。
-
-实现：[trace.py](../src/repropatch/trace.py)、[reports.py](../src/repropatch/reports.py)。验证：[轨迹发布](../tests/test_trace.py)、[报告重建](../tests/test_events_reports.py)。
-
-### 重点产物
-
-| 产物 | 检查内容 | 实现与验证 |
-| --- | --- | --- |
-| `task.resolved.json` | 实际 commit、镜像、权限、测试和预算 | [task.py](../src/repropatch/task.py) · [Task 测试](../tests/test_task.py) |
-| `events.sqlite3` | 阶段、预算、工具批次、命令与 Checkpoint 事务 | [events.py](../src/repropatch/events.py) · [事务测试](../tests/test_recovery.py) |
-| 候选 patch 与 SourceManifest | 实际修改、SHA-256、字节大小、Git mode 与往返核验 | [workspace.py](../src/repropatch/workspace.py) · [源码完整性](../tests/test_source_integrity.py) |
-| 原始 stdout/stderr、JUnit 与 inventory | 基线失败、构建结果、F2P/P2P 实际执行和测试身份 | [verification.py](../src/repropatch/verification.py)、[process.py](../src/repropatch/process.py) · [验证器测试](../tests/test_verification.py) |
-| `checkpoints/` 与 SDK 原生附件 | 下一完整输入、源码与配置指纹、恢复前后的模型和工具身份 | [recovery.py](../src/repropatch/recovery.py)、[agent_runtime.py](../src/repropatch/agent_runtime.py) · [暂停恢复](../tests/test_resume.py) |
-| `report.json`、`report.md`、`run.json` | 已提交结局、用量、清理和派生产物完整性 | [reports.py](../src/repropatch/reports.py) · [报告测试](../tests/test_events_reports.py) |
-
-演示用量标记为 `synthetic`，Docker 命令、CTest 和恢复事务保留实际执行证据。检查结果时同时阅读候选身份、验收结局、证据完整性与资源清理。
+正确补丁预期退出 0，结局为 `ACCEPTED`；错误补丁预期退出 1，结局为 `REJECTED / F2P_FAILED`。核心安装的独立正反例记录由 [v0.4.0 证据摘要](evidence/v0.4.0/summary.json)提供。
 
 ## 独立暂停与恢复
 
-需要停留在暂停点检查产物时，先生成示例 Task，再执行本地脚本：
+需要停留在暂停点讲解时，使用同一示例 Task 和固定脚本：
 
 ```bash
-python scripts/init_example.py --write-task .repropatch/tasks/negative-maximum.yaml --image repropatch-cpp:0.1
-repropatch run .repropatch/tasks/negative-maximum.yaml --engine fake --mock-script examples/models/fix-negative-maximum.json --output-root .repropatch/runs --pause-after-step 3 --json
+repropatch run .repropatch/tasks/negative-maximum.yaml \
+  --engine fake --mock-script examples/models/fix-negative-maximum.json \
+  --output-root .repropatch/interview-resume --pause-after-step 3 --json
 ```
 
-脚本依次读取、搜索和编辑 `src/stats.cpp`，在累计第三步之后的完整输入边界提交 Checkpoint。返回的暂停摘要包含 `paused` 与 `checkpoint`。保持相同安装环境，使用 Run ID 继续：
+脚本依次读取、搜索和编辑 `src/stats.cpp`，在累计第三步后的完整输入边界提交 Checkpoint。将返回的 `run_id` 代入以下命令，保持相同安装环境与原运行期限：
 
 ```bash
-repropatch diagnose RUN_ID --root .repropatch/runs --json
-repropatch resume RUN_ID --root .repropatch/runs --json
-repropatch inspect RUN_ID --root .repropatch/runs --json
+repropatch diagnose RUN_ID --root .repropatch/interview-resume --json
+repropatch resume RUN_ID --root .repropatch/interview-resume --json
+repropatch inspect RUN_ID --root .repropatch/interview-resume --json
 ```
 
-恢复沿用同一 Run、已核验基线、累计预算和原始期限，核对完整源码后执行剩余脚本与独立验收。源码、配置或证据分歧保留为明确诊断。
+恢复重建已核验源码并执行剩余步骤，沿用已存基线、累计预算和原始 deadline。暂停期间计入原 wall deadline；持久 Shell 恢复重建源码，`/build`、`/tmp` 与编译缓存重新开始。
 
-实现：[recovery.py](../src/repropatch/recovery.py)、[示例脚本](../examples/models/fix-negative-maximum.json)。验证：[剩余步骤与预算连续性](../tests/test_resume.py)、[真实 Docker 恢复](../tests/test_docker_integration.py)。
+## 源码与验证入口
 
-## 工程门禁
+[verify_candidate](../src/repropatch/verification.py) 与 [apply_candidate](../src/repropatch/workspace.py)解释候选与独立验收；[save_checkpoint](../src/repropatch/recovery.py) 与 [EventLog](../src/repropatch/events.py)解释持久化顺序；[进程执行](../src/repropatch/process.py)、[DockerSandbox](../src/repropatch/sandbox.py)和[持久修复容器](../src/repropatch/repair_sandbox.py)解释退出与资源归属。
 
-工程门禁执行 `all` 三场景，核对场景结局、证据与 `inspect/diagnose/replay/export-trace` 对原 Run 的只读性。本地快捷入口直接核验当前安装环境，支持 editable 安装：
+[工程门禁](../scripts/check_engineering_gate.py)通过安装后的 CLI 核对三场景、恢复计数和只读文件指纹，`--require-installed-wheel` 核验安装身份。[日常 CI](../.github/workflows/ci.yml)包含 Core、SDK、真实 Docker 与安装包三个工程作业；原生上下文检查通过手动参数 `native_context=true` 启用。
 
-```bash
-python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .repropatch/engineering-evidence
-```
-
-交付包验收先构建并安装 wheel，再通过 `--require-installed-wheel` 核验安装来源：
-
-```bash
-python -m pip install build
-python -m build
-python -m pip install --force-reinstall --no-deps dist/*.whl
-python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .repropatch/engineering-wheel-evidence --require-installed-wheel
-```
-
-门禁输出使用新目录，保存安装身份、命令、场景与证据记录。CI 的 `docker-integration` 在 Docker 门禁后按上述顺序构建、安装和验收 wheel，并上传 `engineering-evidence` 与 `dist/`。输出 `summary.json` 保存检查结果，完整测试结果、场景结局与耗时见[测试报告](TEST_REPORT.md)。
-
-入口：[check_engineering_gate.py](../scripts/check_engineering_gate.py)、[CI](../.github/workflows/ci.yml)。相关验证：[CLI 合同](../tests/test_engineering_cli.py)、[Docker 集成](../tests/test_docker_integration.py)。
-
-更完整的配置、状态和优化指标见[工程指南](ENGINEERING.md)，真实仓库实验与原始记录见[评测索引](../benchmarks/README.md)。
+深入设计问答与简历表达见[面试材料](INTERVIEW.md)，配置见[工程指南](ENGINEERING.md)，历史真实仓库轨迹见[评测索引](../benchmarks/README.md)。

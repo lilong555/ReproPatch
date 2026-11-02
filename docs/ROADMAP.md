@@ -1,52 +1,58 @@
-# 工程路线
+# ReproPatch 工程路线
 
-ReproPatch 围绕一条完整的 C++ 修复工作流组织：任务契约、模型与工具执行、隔离环境、
-状态持久化、故障恢复、独立验收和交付证据。项目展示以可运行的工程能力为主，
-实验为设计选择和性能优化提供后台验证。
+ReproPatch 0.4.0 定位为**可恢复的 C++ 修复与验证系统**，技术主线是 C++ Repair & Verification Harness，可选内置 Agent 生产补丁。工程围绕任务冻结、执行资源、候选身份、独立验收、状态恢复和证据交付组织；实验使用冻结协议为设计与优化提供后台验证。
 
-## 交付能力
+## 0.4.0 交付能力
 
-| 能力 | 工程实现 | 验证入口 |
+| 能力 | 当前合同 | 实现与验收入口 |
 | --- | --- | --- |
-| 任务建模 | Task v2 固定源码提交、镜像、文件权限、测试身份与预算 | `validate-task`、[任务测试](../tests/test_task.py) |
-| Agent 编排 | 公开 SDK Runner、原生工具调用、六工具与持久 Shell 两种模式 | [运行时测试](../tests/test_agent_runtime.py)、[Shell 契约](SHELL_FIRST.md) |
-| C++ 上下文 | Tree-sitter 定义、语法引用与包含关系；修复状态和历史证据按需查询 | [结构证据状态](SEMANTIC_STATE.md)、[专项测试](../tests/test_semantic_state.py) |
-| 执行控制 | Docker 非 root、断网、只读根文件系统、资源限额与归属清理 | [沙箱测试](../tests/test_process_sandbox.py)、[真实 Docker 测试](../tests/test_docker_integration.py) |
-| 可恢复运行 | SQLite 事务、完整输入 Checkpoint、累计预算、原始期限和有限恢复 | [恢复测试](../tests/test_resume.py)、[恢复演示](DEMO.md) |
-| 可信验收 | 基线复现、补丁往返、全新工作树与冷构建、逐项 F2P/P2P 验收 | [验收实现](../src/repropatch/verification.py)、[验收标准](ACCEPTANCE.md) |
-| 运行诊断 | 阶段时间线、命令失败、用量和预算、证据完整性、恢复条件 | `diagnose`、[诊断测试](../tests/test_diagnostics.py) |
-| 安装交付 | wheel 内置演示资源；CLI 修复、拒绝、恢复三场景 | `demo`、[工程验收脚本](../scripts/check_engineering_gate.py) |
-| 持续集成 | 核心、SDK、真实 Docker、固定原生上下文与安装包验收 | [CI 配置](../.github/workflows/ci.yml)、[测试报告](TEST_REPORT.md) |
+| 任务与源码 | Task v2 固定 commit、镜像、文件权限、测试身份和预算；完整源码与补丁往返 | [Task](../src/repropatch/task.py)、[源码完整性测试](../tests/test_source_integrity.py) |
+| 独立验收 | core-only `verify-patch`，基线复现、全新工作树、冷构建、逐项 F2P/P2P | [验证器](../src/repropatch/verification.py)、[工程验收](ACCEPTANCE.md) |
+| 可选 Agent | 公开 SDK Runner、legacy 六工具、shell-only 持久 Bash；语法结构查询使用可选 extra | [运行时](../src/repropatch/agent_runtime.py)、[结构证据状态](SEMANTIC_STATE.md) |
+| 执行控制 | Docker 固定 profile、资源限额、命令间静止检查和所属资源删除确认 | [沙箱](../src/repropatch/sandbox.py)、[持久修复容器](../src/repropatch/repair_sandbox.py) |
+| 有限恢复 | SQLite 事务与完整输入 Checkpoint，同 Run、原期限和累计预算 | [恢复实现](../src/repropatch/recovery.py)、[恢复测试](../tests/test_resume.py) |
+| 诊断与轨迹 | 只读 inspect/diagnose/replay；Run 外 trace 导出；派生报告重建 | [诊断](../src/repropatch/diagnostics.py)、[轨迹测试](../tests/test_trace.py) |
+| 安装与演示 | wheel 内置资源；零密钥成功、拒绝、恢复三场景；core-only 外部补丁正反例 | [演示指南](DEMO.md)、[安装包门禁](../scripts/check_engineering_gate.py) |
+| 持续集成 | 日常 Core/Ruff、离线 SDK、真实 Docker 与 wheel 三条工程作业 | [CI](../.github/workflows/ci.yml)、[测试报告](TEST_REPORT.md) |
+| 长期证据 | 版本摘要、被测源码、包 SHA、镜像、JUnit 与原始 Run 的固定身份 | [0.4.0 摘要](evidence/v0.4.0/summary.json)、[Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0) |
 
-## 优化闭环
+历史 mini/Codex 原生上下文检查通过 `workflow_dispatch` 的 `native_context=true` 手动启用。工程证据长期保存于 Release 的 `ReproPatch-engineering-v0.4.0.zip` 与 `SHA256SUMS`，日常 CI Artifact 使用短期保留。
 
-每项优化从运行证据中定位问题，保留基线并明确测量口径。结果同时观察独立验收、
-请求与已知 Token、未知用量、分阶段耗时及资源清理。
+## 优化依据
 
-| 已有机制 | 解决的问题 | 测量与检查 |
+每项优化从原始运行证据定位问题，在相同任务、镜像与计量口径下保留基线。结果同时核对独立验收、分阶段耗时、模型请求与用量、未知值及资源清理。
+
+| 已有机制 | 工程作用 | 测量与核验 |
 | --- | --- | --- |
-| 持久 Shell 与 Run 内 ccache | 重复配置、编译和环境启动开销 | 自检命令耗时、缓存命中；独立验收保持冷构建 |
-| C++ 结构检索与证据索引 | 大仓库定位成本、长日志重复进入上下文 | 查询结果的源码 SHA、截断与分页、模型输入大小 |
-| 原生上下文压缩与稳定状态 | 长任务历史增长、恢复后信息连续性 | 压缩前后工具关联、状态摘要、预算与未知用量 |
-| 失败测试优先的自检 | 在有限时间内获得高价值编译与测试反馈 | F2P/P2P 观察、自检耗时、独立验收结局 |
-| 整批工具准入与预算预留 | 执行中途耗尽额度、验收缺少时间 | 累计计数、最后允许 turn、验收与清理预留 |
+| 持久 /build 与 Run 内 ccache | 降低修复阶段重复配置、编译和启动成本 | 自检耗时与缓存统计；独立验收保持冷构建 |
+| 语法检索与证据索引 | 缩小源码定位范围，按需读取既有观察 | 源码 SHA、分页与截断、输入大小和检索用量 |
+| 完整轮次压缩与稳定状态 | 控制长期历史增长并保持工具关联 | 压缩前后原生输入、恢复计数与未知用量 |
+| F2P 优先自检 | 在剩余预算内获得目标失败反馈 | 自检 F2P/P2P、执行次数、耗时和最终验收 |
+| 整批准入与验证预留 | 约束工具批次，为验收及清理保留时间 | 累计准入数、最后允许 turn、原 deadline |
 
-## 后续优先级
+## 发布后 P1
 
-| 顺序 | 工作 | 完成标准 |
-| --- | --- | --- |
-| 1 | 目标级增量验证 | 根据 CMake target 选择相关构建与可见测试，记录选择依据、覆盖范围和分阶段耗时 |
-| 2 | 编译诊断结构化 | GCC/Clang 错误位置、类别、摘要与完整日志引用一致，覆盖多行错误和输出截断 |
-| 3 | 跨 Run 运维汇总 | 按任务与实现身份聚合失败原因、延迟和用量，保留未知值及每条原始证据链接 |
-| 4 | 长期证据复核 | 从归档重算摘要、候选身份、用量和冷验收，给出可重复执行的核验结果 |
+| 工作 | 完成标准 |
+| --- | --- |
+| 真实 fmt-4055 recipe | 固定 Task、参考补丁与 provenance；使用当前 wheel 重验正确与错误补丁，保存冷验收原件 |
+| 工具参数组合校验 | 在创建 Run 前校验 shell-only 与 semantic-state 组合，明确工具合同并覆盖回归 |
+| 上下文策略解耦 | 单独配置压缩策略，推广大基线观察分离；保持工具关联、累计计数与恢复一致性 |
 
-## 后台实验
+## 发布后 P2
 
-模型对照使用独立冻结的任务、模型配置、预算、执行源码和镜像身份。首跑、恢复、
-复评分和基础设施故障分别保存；工程 CI 和确定性演示的付费模型请求为零。
+以下选项根据实际使用需求和 profile 立项，验收同时覆盖性能收益与工程合同。
 
-实验入口：[结构证据状态](SEMANTIC_STATE.md)、
-[跨仓库资格](BENCHMARK_QUALIFICATION.md)、
-[统一上下文对照](../benchmarks/unified-context/final-results.md)、
-[云端实验](ACTIONS_RESULTS.md)。
-历史发布与测试证据见[测试报告](TEST_REPORT.md)。
+| 可选工作 | 完成标准 |
+| --- | --- |
+| 目标级增量验证 | 记录 CMake target 与可见测试的选择依据、覆盖范围和分阶段耗时，最终独立验收完整执行 |
+| 编译诊断结构化 | GCC/Clang 位置、类别和摘要关联完整日志，覆盖多行错误与输出截断 |
+| 跨 Run 运维汇总 | 按任务、实现和镜像身份聚合失败原因、延迟与用量，保留未知值及原始证据链接 |
+| 长期归档复核 | 从原件重算候选身份、摘要和用量，再执行已声明的冷验收 |
+| 扩展任务合同 | 按需求分别设计基线编译错误、crash、文件增删重命名和远程多租户执行的隔离与验收 |
+| 通用 Runtime 或 C++ 执行器 | 以明确应用需求与控制面 profile 形成独立设计，给出维护范围和验证结果 |
+
+## 后台实验与历史索引
+
+模型对照冻结任务、模型、预算、执行源码和镜像身份。首跑、恢复、复评分与基础设施故障分别保存，失败记录保持原始身份。确定性工程演示与离线 SDK 门禁的付费模型请求为零。
+
+实验入口：[评测索引](../benchmarks/README.md)、[跨仓库资格](BENCHMARK_QUALIFICATION.md)、[统一上下文对照](../benchmarks/unified-context/final-results.md)、[云端实验](ACTIONS_RESULTS.md)。历史规格见[产品合同](../SPEC.md#历史规格)，历史测试与发布事实按[测试报告](TEST_REPORT.md)中的版本和源码复查。

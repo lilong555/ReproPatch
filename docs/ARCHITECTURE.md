@@ -1,6 +1,6 @@
 # 架构
 
-ReproPatch 以一个 Run 为执行单元，为操作者选定的 C++ 仓库提供修复控制面。Task 固定输入和验收标准，公开 OpenAI Agents SDK 执行模型与工具循环，Harness 根据独立 CMake/CTest 证据提交最终结局。
+ReproPatch 以一个 Run 为执行单元，为操作者选定的 C++ 仓库提供修复与验证控制面。Task 固定输入和验收标准，候选来自外部补丁或可选内置 Agent，Harness 根据独立 CMake/CTest 证据提交最终结局。内置 Agent 通过公开 OpenAI Agents SDK 执行模型与工具循环。
 
 实现：[harness.py](../src/repropatch/harness.py)、[agent_runtime.py](../src/repropatch/agent_runtime.py)。验证：[端到端流程](../tests/test_harness.py)、[SDK 契约](../tests/test_sdk_contract.py)。
 
@@ -12,10 +12,12 @@ flowchart TD
   T --> H[Harness]
   H --> W[Worktree 与 SourceManifest]
   H --> B[基线复现]
-  B --> A[agent_runtime：公开 SDK Runner]
+  B --> A[可选 agent_runtime：公开 SDK Runner]
+  B --> X[外部补丁]
   A --> U[Toolbox / 持久修复容器]
   U --> W
   W --> P[CandidatePatch]
+  X --> P
   P --> V[独立验证器]
   B --> D[DockerSandbox]
   V --> D

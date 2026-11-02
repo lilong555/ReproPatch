@@ -1,110 +1,89 @@
-# ReproPatch 项目总览
+# ReproPatch｜可恢复的 C++ 修复与验证系统
 
-ReproPatch 是面向 C++ 仓库的可恢复、可观测代码修复 Agent。它把任务定义、模型调用、
-源码工具、隔离执行、状态恢复和独立验收组织为完整的工程流程，交付候选补丁、验收结局
-和可核查的运行证据。
+ReproPatch v0.4.0 面向已准备的 CMake/CTest 工程，连接固定 Git 基线、补丁生产、隔离执行、独立验收和可恢复运行状态。核心是 C++ Repair & Verification Harness；可选内置 Agent、外部 Agent 与人工都可以提供候选补丁。交付包含补丁、验收结局和可追溯的原始证据。
 
-技术栈：Python 3.12、OpenAI Agents SDK、Git Worktree、Docker、CMake/CTest、
-SQLite，以及可选的 Tree-sitter C++。
-仓库：[lilong555/ReproPatch](https://github.com/lilong555/ReproPatch)。
+核心技术栈为 Python 3.12、argparse、dataclasses、SQLite、subprocess、Git Worktree、Docker 和 CMake/CTest。公开 OpenAI Agents SDK 与 Tree-sitter C++ 作为可选依赖提供模型工具循环和语法检索。仓库：[lilong555/ReproPatch](https://github.com/lilong555/ReproPatch)。
 
-## 业务流程
+## 工程流程
 
-使用者提供固定源码提交、构建镜像、可编辑文件和测试契约。系统先确认原始缺陷可以复现，
-再由 Agent 读取源码、定位问题、修改实现并获取编译或测试反馈。修复结束后，系统从基线
-创建独立工作树、应用候选补丁、冷构建并逐项核验测试，最后输出结局与原始证据。
+使用者提供本地仓库、完整 commit、Linux amd64 构建镜像、已有 C/C++ 文件的编辑范围，以及 F2P/P2P 测试。基线 configure/build 成功、声明的 F2P 失败签名成立、P2P 通过后，系统进入补丁生产或外部补丁验收。候选在固定基线的新工作树中应用并核对完整源码清单，再使用全新容器冷构建和逐项测试决定结局。
 
 ```mermaid
 flowchart LR
-    T[Task 契约] --> B[固定基线与缺陷复现]
-    B --> A[SDK Runner 与受控工具]
-    A --> C[源码修改与可见自检]
-    C --> A
-    A --> P[候选补丁与完整源码清单]
-    P --> V[独立工作树与冷构建验收]
-    V --> R[验收结局与可复核证据]
-    A --> E[SQLite 事件与 Checkpoint]
-    E --> A
+    T[固定 Task 与环境] --> B[基线资格与缺陷复现]
+    B --> A[可选 Agent 生产补丁]
+    B --> X[外部补丁]
+    A --> C[冻结候选与完整源码清单]
+    X --> C
+    C --> V[独立工作树与冷验收]
+    V --> R[结局 补丁 原始证据]
+    A --> E[SQLite 与 Checkpoint]
+    E --> Q[查询诊断与边界恢复]
+    V --> E
 ```
 
-`run` 完成自动修复，`verify-patch` 验收外部候选，`resume` 继续同一 Run。
-`inspect`、`diagnose` 和 `replay` 支持从已提交事实定位问题。
+`verify-patch` 提供核心独立验收，`run` 接入修复 Agent，`resume` 继续同一 Run。`inspect`、`diagnose`、`replay` 和 `export-trace` 查询已提交事实，`report` 重建派生报告与索引。
+
+当前工作流适用于单用户本地 Docker、已有 C/C++ 文本文件修改；CMake 和声明测试受保护。Task 准备负责固定构建环境、测试映射与授权范围，`ACCEPTED` 表示候选通过该声明合同。
 
 ## 工程能力
 
-| 环节 | 实现内容 | 可讲解的技术决策 |
+| 环节 | 实现 | 展示价值 |
 | --- | --- | --- |
-| 需求与契约 | Task v2 固定 commit、镜像、授权路径、F2P/P2P、资源与预算 | 将业务完成标准转为可执行检查，准备阶段发现无效输入 |
-| 模型与工具 | 公开 SDK Runner、原生工具调用、整批准入、串行执行 | 保留 SDK 的原生历史和调用关联，宿主管理权限与副作用 |
-| 上下文工程 | 大目录按需发现、输出预览、证据索引、Usage 锚点、完整轮次压缩 | 保持上下文可用性，同时保存完整原始输出供复核 |
-| C++ 定位 | 定义、语法引用、包含关系、源码 SHA、分页和缓存失效 | 检索结果关联实际源码，结构索引与编译反馈共同辅助修复 |
-| 执行与安全 | 非 root、断网 Docker、只读文件系统、资源限额、归属校验和清理 | 将不可信构建与工具副作用限制在登记的执行资源内 |
-| 状态与恢复 | SQLite 事务、文件持久化、完整输入 Checkpoint、原期限和累计额度 | 以闭合输入边界恢复，保留已经执行的工具和原始事件前缀 |
-| 结果验收 | 基线复现、受保护文件审计、补丁往返、全新构建、固定测试身份 | 用独立的可重复执行过程确定候选是否符合 Task |
-| 可观测性 | 结构化事件、命令日志、Token 已知/未知状态、阶段耗时与诊断 | 区分候选失败、基础设施故障、证据损坏和恢复条件 |
-| 交付 | CLI、内置演示资源、wheel/sdist、分层 CI 和验收归档 | 在安装后的环境验证完整工作流，并保留实现与镜像身份 |
+| 输入契约 | Task v2 固定 commit、镜像、授权文件、测试、资源和预算 | 将完成标准转成可执行合同 |
+| 候选身份 | Git Worktree、SourceManifest、原始字节与 Git mode、补丁往返 | 证明验收源码对应冻结候选 |
+| 独立验收 | 基线复现、CTest inventory、逐项 JUnit、全新构建目录 | 检查 F2P/P2P、测试身份与缺失、编译及回归 |
+| Agent 接入 | 基于公开 SDK 集成模型循环，宿主管理整批准入、权限与计量 | 组织模型工具调用与副作用 |
+| 执行生命周期 | 双流原始日志、期限、进程组、Docker 归属和清理确认 | 将命令结果与执行事实关联 |
+| 修复效率 | 持久 Shell 的 `/build`、Run 内 ccache、输出预览与可选结构查询 | 按阶段定位成本并选择复用机制 |
+| 状态与恢复 | SQLite 事件 reducer、附件持久化、完整输入 Checkpoint、指纹校验 | 保持 Run 身份、事件前缀、累计预算和期限 |
+| 诊断与交付 | 只读查询、派生报告、内置演示资源、wheel/sdist 和分层 CI | 安装后复核完整运行链 |
 
-详细模块与调用关系见[架构](ARCHITECTURE.md)，具体配置和测试入口见[工程指南](ENGINEERING.md)。
+模块关系见[架构](ARCHITECTURE.md)，配置与指标见[工程指南](ENGINEERING.md)，公开合同见[规格](../SPEC.md)。
 
-## 三个关键决策
+## 三个深入设计
 
-### 恢复边界与副作用
+**冻结候选与独立验收。** `verify_candidate` 从已核验基线创建新工作树，`apply_candidate` 比较完整基线清单，实际应用补丁并核对源码、Git mode 和规范 diff。验收保持新的构建目录和冷构建，自检缓存服务修复反馈。入口：[verification.py](../src/repropatch/verification.py)、[workspace.py](../src/repropatch/workspace.py)。
 
-模型请求、工具执行和状态提交具有不同的故障窗口。Checkpoint 在完整 SDK 下一输入、
-候选补丁、源码清单和配置指纹持久化之后提交；SQLite 同事务保存事件与累计计数。
-恢复继续使用原 Run、原截止时间和剩余额度，核对源码及运行依赖。
-已开启但结果未知的请求、未闭合的工具片段保留明确的故障原因和已有候选。
+**附件持久化与 SQLite 提交。** `save_checkpoint` 先保存下一完整 SDK 输入、补丁、源码清单和指纹，再由 `EventLog` 在一个事务中保存 Checkpoint 引用、领域事件与运行状态。恢复选择由数据库已提交引用决定，继续使用原 Run、累计计数和 deadline。入口：[recovery.py](../src/repropatch/recovery.py)、[events.py](../src/repropatch/events.py)。
 
-讲解入口：[recovery.py](../src/repropatch/recovery.py)、
-[故障恢复测试](../tests/test_resume.py)、[恢复演示](DEMO.md#独立暂停与恢复)。
+**资源拥有者确认退出。** 宿主进程循环读取双流并回收进程组，`DockerSandbox.close` 依据容器 ID、名称和 Run 标签清理并复查。持久 Shell 在每条命令后冻结容器、核对空闲进程集合，再进行源码审计。入口：[process.py](../src/repropatch/process.py)、[sandbox.py](../src/repropatch/sandbox.py)、[repair_sandbox.py](../src/repropatch/repair_sandbox.py)。
 
-### 自检与独立验收
-
-Agent 自检提供下一步修复反馈，最终验收从固定基线重建候选。
-源码清单检查所有受保护字节与 Git mode，补丁往返核对实际候选身份，
-F2P 确认缺陷修复，P2P 检查回归。测试缺失、跳过、编译故障和资源清理异常均有明确结局。
-
-讲解入口：[verification.py](../src/repropatch/verification.py)、
-[源码完整性测试](../tests/test_source_integrity.py)、[错误候选演示](DEMO.md#三个场景)。
-
-### 工具模式与构建复用
-
-默认模式使用授权文件工具和固定命令，自检创建独立构建环境；Shell-only 提供持久容器，
-支持跨命令保留 `/build`。每条 Shell 命令结束后核对进程与源码状态。
-Run 内 ccache 支持修复自检复用，最终独立验收保持冷构建。
-两种模式分别覆盖精确受控操作和灵活命令调试。
-
-讲解入口：[tools.py](../src/repropatch/tools.py)、
-[repair_sandbox.py](../src/repropatch/repair_sandbox.py)、[Shell 契约](SHELL_FIRST.md)。
+每项设计的故障窗口、实现顺序、测试与追问见[面试材料](INTERVIEW.md)。
 
 ## 优化方法
 
-先用事件与命令记录划分模型等待、检索、配置、编译、自检和验收的成本，再选取对应机制。
-构建成本高时比较持久目录与 ccache；上下文增长快时检查输出预览、证据查询和压缩；
-定位成本高时观察结构查询的命中、解析耗时及缓存复用。
+事件和命令记录将成本划分为模型等待、检索、配置、编译、自检和独立验收。构建成本高时比较持久目录与 ccache；输入增长快时检查输出预览、证据索引和完整轮次压缩；检索成本高时观察结构查询命中、解析耗时和缓存失效。
 
-每项比较固定任务、模型配置、预算、实现和镜像，同时观察独立验收、请求与 Token、
-未知用量、自检次数及分阶段耗时。实验保存首次尝试、失败和重复验证的独立身份，
-为工程选择提供可复核依据。历史结果与协议见[评测索引](../benchmarks/README.md)，
-后续工作见[工程路线](ROADMAP.md)。
+比较固定任务、实现、镜像、模型配置和预算，同时记录独立验收结局、请求、已知及未知 Token、自检次数和分阶段耗时。历史实验保存各次尝试和复验的独立身份，为局部工程决策提供依据。入口：[历史评测](../benchmarks/README.md)、[发布后路线](ROADMAP.md)。
 
-## 演示与验收
+## 演示与证据
 
-环境准备完成后，一条命令执行成功修复、错误候选拒绝、编辑后暂停恢复：
+镜像和安装环境准备完成后执行：
 
 ```bash
-repropatch demo --output .repropatch/demo --scenario all --json
+repropatch demo --output .repropatch/demo-v0.4.0-01 \
+  --image repropatch-cpp:0.1 --scenario all --json
 ```
 
-三个场景分别期望 `ACCEPTED`、`REJECTED`、`ACCEPTED`。
-演示模型为本地 ScriptedModel，付费模型请求为零，构建与独立验收使用真实 Docker。
-恢复证据核对同一 Run、一次基线、一次编辑、事件前缀、累计计数和原截止时间。
-只读查询的验收检查原 Run 全部文件的 SHA-256。
+三场景分别预期 `ACCEPTED`、`REJECTED / F2P_FAILED`、恢复后 `ACCEPTED`。模型身份为 `scripted`，适配器为 `agents.testing.ScriptedModel`，付费模型请求为 0，用量标记 `synthetic`；构建、测试和事务实际执行。恢复检查包含同一 Run、基线与编辑各一次、累计计数、事件前缀和原期限。
 
-入口：[演示指南](DEMO.md)、[验收矩阵](ACCEPTANCE.md)、
-[测试报告](TEST_REPORT.md)、[CI](../.github/workflows/ci.yml)。
-求职展示可依次讲解一条修复 Run、一个拒绝案例和一个恢复边界，
-再沿对应源码与测试说明设计取舍及优化依据。
+v0.4.0 的源码、分发包、同批 CI、镜像与原始运行身份见[版本证据摘要](evidence/v0.4.0/summary.json)，工程原件见 [ReproPatch-engineering-v0.4.0.zip](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip)。四分钟操作见[演示指南](DEMO.md)，行为要求见[验收矩阵](ACCEPTANCE.md)。
+
+### 2026-11-02 工程候选快照
+
+[CI 41395271852](https://github.com/lilong555/ReproPatch/actions/runs/41395271852)测试源码为 `465a14ca5ffaecc6799039588a4fd0b173eb8eb6`，记录 1120 项通过、4 项外部归档回放跳过，安装版工程门禁通过 16 条 CLI 命令。三场景在已准备镜像上合计 28.04 秒；依赖安装与镜像构建单独计时。该组数据保留候选身份，原始摘要见[2026-11-02 工程证据](evidence/engineering-2026-11-02/summary.json)。v0.4.0 的结果与包身份以版本证据摘要为准。
+
+## 简历表达
+
+**ReproPatch｜可恢复的 C++ 修复与验证系统｜个人独立开发**
+
+面向 CMake/CTest 工程开发 Python 修复与验证系统，连接固定 Git 基线、隔离执行、可选 Agent 工具调用与外部补丁验收，交付可追溯的补丁、运行状态和原始证据。
+
+- 基于 Git Worktree 和源码清单冻结候选，校验字节、Git mode 与补丁应用往返；在全新 Docker 环境冷构建，通过 CTest inventory 与逐项 JUnit 检查 F2P/P2P、测试身份、缺失和回归。
+- 设计 SQLite 事件、运行状态和 Checkpoint 提交协议，在完整模型输入边界持久化源码及原生输入附件；恢复重建工作树、校验任务与实现身份，沿用累计预算和原始期限。
+- 实现双流原始日志、超时与资源限额、容器归属和清理确认；持久修复容器支持授权文件同步及构建状态复用，独立验收使用冷环境。
+- 基于公开 Agents SDK 集成可选修复循环，提供独立 `verify-patch`、诊断、只读轨迹和零密钥三场景演示，以分层 CI 与安装后 wheel 门禁检查完整运行链。
 
 <details>
 <summary>2026 年 10 月 27 日实验报告</summary>

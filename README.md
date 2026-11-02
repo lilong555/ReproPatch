@@ -1,121 +1,79 @@
-# ReproPatch
+# ReproPatch｜可恢复的 C++ 修复与验证系统
 
-## 用途
+ReproPatch 0.4.0 的技术主线是 **C++ Repair & Verification Harness**：给定已准备的仓库、固定 commit、构建镜像和 F2P/P2P 测试，系统复现基线失败、冻结候选补丁，在独立工作树与全新容器中冷验收，并保存可查询、可恢复的运行证据。补丁可由人工、外部工具或可选内置 Agent 产生。
 
-ReproPatch 是面向真实 C++ 仓库的可恢复、可观测代码修复 Agent 系统。它将固定 Git 基线、源码权限、执行预算、模型工具调用和 CMake/CTest 独立验收连接为一个有证据可查的运行流程。
+宿主使用 Python 3.12+、Git 和本地 Linux amd64 Docker 引擎。WSL2 使用 Docker Desktop Linux 引擎与发行版集成，项目和 Run 目录放在 Linux 文件系统中。
 
-项目的工程主线覆盖 Agent 的任务配置、执行、验收、恢复与观测：公开 OpenAI Agents SDK 管理模型与工具循环，ReproPatch 管理任务冻结、工具准入、Docker 资源、运行状态、Checkpoint 恢复和候选验收。适用于操作者选定的本地 C++ 仓库，以及外部 Agent 产出补丁后的独立验收。真实开源缺陷实验为设计选择和优化提供验证，协议与原始记录见[评测索引](benchmarks/README.md)。
+## 零密钥脚本模型 Demo
 
-## 可运行入口
-
-需要 Python 3.12+、Git、Linux amd64 Docker 引擎和可用的 Docker daemon。WSL2 可使用启用发行版集成的 Docker Desktop Linux 引擎，项目与运行目录放在 Linux 文件系统中。
-
-### 零 API 密钥演示
-
-在项目根目录执行：
+安装 [v0.4.0 Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0) 的 wheel；源码 checkout 提供 Dockerfile 和独立补丁示例：
 
 ```bash
+git clone --branch v0.4.0 --depth 1 https://github.com/lilong555/ReproPatch.git
+cd ReproPatch
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[agent,semantic]'
-
+python -m pip install -c requirements/agent.txt 'repropatch[agent] @ https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/repropatch-0.4.0-py3-none-any.whl'
 docker build -t repropatch-cpp:0.1 -f docker/Dockerfile docker
 repropatch doctor --image repropatch-cpp:0.1 --json
-repropatch demo --output .repropatch/demo --image repropatch-cpp:0.1 --scenario all --json
+repropatch demo --output .repropatch/demo-interview-01 --image repropatch-cpp:0.1 --scenario all --json
 ```
 
-演示通过公开 SDK 的 `ScriptedModel` 驱动真实 Harness 和 Docker，展示成功修复、错误候选拒绝、暂停后恢复。输出目录保存运行身份和验收证据；重复演示使用新的 `--output` 目录。完整步骤与证据检查见[演示指南](docs/DEMO.md)。
+Demo 使用公开 Agents SDK 的 `ScriptedModel` 驱动真实 C++ 编译、Docker 和 Harness，付费模型请求为零。三场景依次展示 `ACCEPTED`、`REJECTED / F2P_FAILED`、同一 Run 暂停后恢复为 `ACCEPTED`。摘要位于 `.repropatch/demo-interview-01/summary.md`；重复演示使用新的输出目录。操作与四分钟讲解见[演示指南](docs/DEMO.md)。
 
-实现：[demo.py](src/repropatch/demo.py)、[cli.py](src/repropatch/cli.py)。验证：[CLI 合同测试](tests/test_engineering_cli.py)、[真实 Docker 测试](tests/test_docker_integration.py)。
+## Core-only 独立补丁验收
 
-### 独立补丁验收
-
-`verify-patch` 使用同一验证器，可用于本地补丁和外部 Agent 的候选，核心安装 `pip install -e .` 即可使用。
+核心 wheel 的依赖为 PyYAML。以下独立环境使用同一发布包，通过 `verify-patch` 验收外部补丁：
 
 ```bash
-python scripts/init_example.py --write-task .repropatch/tasks/negative-maximum.yaml --image repropatch-cpp:0.1
-repropatch validate-task .repropatch/tasks/negative-maximum.yaml
-repropatch verify-patch .repropatch/tasks/negative-maximum.yaml --patch examples/patches/negative-maximum.correct.patch --producer local --json
+python3.12 -m venv .venv-core
+.venv-core/bin/python -m pip install https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/repropatch-0.4.0-py3-none-any.whl
+.venv-core/bin/python scripts/init_example.py --write-task .repropatch/tasks/negative-maximum.yaml --image repropatch-cpp:0.1
+.venv-core/bin/python -I -m repropatch validate-task .repropatch/tasks/negative-maximum.yaml
+.venv-core/bin/python -I -m repropatch verify-patch .repropatch/tasks/negative-maximum.yaml --patch examples/patches/negative-maximum.correct.patch --producer local --json
+.venv-core/bin/python -I -m repropatch verify-patch .repropatch/tasks/negative-maximum.yaml --patch examples/patches/negative-maximum.wrong.patch --producer local --json
 ```
 
-初始化脚本记录示例仓库的实际完整 commit 和本地镜像 ID。验收先复现原始失败，再从固定 commit 应用候选、重建并运行 Task 声明的 F2P/P2P 测试。正确候选预期得到 `ACCEPTED`。
-
-实现：[Task](src/repropatch/task.py)、[验证器](src/repropatch/verification.py)。验证：[共用验证器测试](tests/test_verification.py)。
-
-### 真实模型修复
-
-准备经过审核的 Task，并设置模型服务凭据与 `MODEL` 环境变量：
-
-```bash
-repropatch run task.yaml --engine agents-sdk --model "$MODEL" --allow-paid-model --semantic-state --json
-```
-
-默认通过 `OPENAI_API_KEY` 读取凭据，`--api-base`、`--key-env` 和 `--use-env-proxy` 配置模型连接。工具模式、自检缓存、暂停和候选导出的用法见[工程指南](docs/ENGINEERING.md)。
-
-实现：[模型配置](src/repropatch/models.py)、[SDK 运行适配](src/repropatch/agent_runtime.py)。验证：[SDK 契约测试](tests/test_sdk_contract.py)、[模型 CLI 测试](tests/test_models_cli.py)。
-
-## 核心架构和特色
+初始化脚本固定示例仓库的完整 commit 和本地镜像 ID。正确补丁预期 `ACCEPTED`、退出码 0；错误补丁预期 `REJECTED / F2P_FAILED`、退出码 1。两次运行分别完成基线复现、补丁往返核验、冷构建与资源清理。F2P 表示原先失败的测试修复后通过，P2P 表示原先通过的测试继续通过。
 
 ```mermaid
 flowchart LR
-  T[Task：Commit、镜像、权限、测试、预算] --> H[Harness：冻结与基线复现]
-  H --> A[公开 SDK Runner 与受控工具]
-  A --> P[候选补丁与源码清单]
-  P --> V[独立 Worktree 与全新 Docker 验收]
-  V --> R[结局与证据]
-  H --> E[SQLite 状态、事件与 Checkpoint]
-  A --> E
-  V --> E
+  T["固定 Task"] --> B["基线复现"]
+  B --> X["外部补丁"]
+  B --> A["可选 Agent"]
+  X --> C["冻结候选"]
+  A --> C
+  C --> V["独立冷验收"]
+  V --> E["结局与证据"]
 ```
 
-| 能力 | 工程作用 | 实现与测试 |
+## 三个源码设计入口
+
+| 设计 | 源码入口 | 核心合同 |
 | --- | --- | --- |
-| 独立验收 | 从固定基线真实应用补丁，核对源码清单、测试身份和声明的 F2P/P2P 结果 | [verification.py](src/repropatch/verification.py) · [测试](tests/test_verification.py) |
-| 可恢复运行 | 在完整 SDK 输入边界提交 Checkpoint，续跑沿用原预算、期限和运行身份 | [recovery.py](src/repropatch/recovery.py) · [测试](tests/test_resume.py) |
-| 受控工具与执行资源 | 默认六工具；`shell-only` 使用持久修复容器。授权编辑、源码审计和独立冷验收贯穿两种模式 | [tools.py](src/repropatch/tools.py)、[repair_sandbox.py](src/repropatch/repair_sandbox.py) · [测试](tests/test_shell_runtime.py) |
-| 可选 C++ 结构证据状态 | `--semantic-state` 为默认工具模式增加 `query_code`，保存语法关系、修改、可见检查与证据索引 | [semantic_state.py](src/repropatch/semantic_state.py) · [测试](tests/test_semantic_state.py) |
-| 可观测证据链 | SQLite 提供已提交事实，报告、诊断和轨迹关联模型步骤、工具、命令与原始输出 | [events.py](src/repropatch/events.py)、[reports.py](src/repropatch/reports.py)、[trace.py](src/repropatch/trace.py) · [测试](tests/test_events_reports.py)、[轨迹测试](tests/test_trace.py) |
+| 候选冻结与独立验收 | [verify_candidate](src/repropatch/verification.py)、[apply_candidate](src/repropatch/workspace.py) | 从固定 commit 实际应用补丁，核对完整源码 bytes/mode、测试身份及冷验收结果 |
+| Checkpoint 与事务 | [save_checkpoint](src/repropatch/recovery.py)、[EventLog](src/repropatch/events.py) | 附件与目录先持久化，SQLite 事务提交引用、状态和累计预算 |
+| 执行资源生命周期 | [DockerSandbox.close](src/repropatch/sandbox.py)、[进程采集](src/repropatch/process.py)、[RunResources](src/repropatch/resources.py) | 管理进程组、双流输出与期限，核对容器 ID/Run 标签及删除确认 |
 
-`inspect` 查看事实，`diagnose` 分析阶段、证据与恢复条件，`replay` 查看只读轨迹，`report` 重建派生报告，`resume` 执行恢复。状态与接受结局分别记录，模型输出、自检结果和独立验收均保留各自证据。
+`inspect`、`diagnose` 和 `replay --mode trace` 只读查询既有事实与轨迹；`export-trace` 导出到 stdout 或 Run 外的新文件；`report` 持锁重建派生报告。Agent 的 `resume` 从已提交的完整模型输入边界继续同一 Run，核验实现、任务、依赖与工具合同，沿用原 deadline 和累计预算；暂停等待计入原期限，shell-only 恢复时重建容器与空构建目录。
 
-## 文档索引
+## 支持矩阵
 
-| 文档 | 内容 |
+| 维度 | 0.4.0 合同 |
 | --- | --- |
-| [项目总览](docs/PROJECT_REPORT.md) | 简明项目介绍与面试讲解：架构、恢复与验收决策、优化路径和演示证据 |
-| [演示指南](docs/DEMO.md) | 零密钥三场景、产物与运行检查 |
-| [架构](docs/ARCHITECTURE.md) | 模块关系、SDK 分工、验收与状态模型 |
-| [工程指南](docs/ENGINEERING.md) | 配置、权限、沙箱、恢复、观测与优化验证 |
-| [工程验收](docs/ACCEPTANCE.md) | 交付标准、验证矩阵与可重复执行入口 |
-| [测试报告](docs/TEST_REPORT.md) | 测试结果、场景结局与原始证据 |
-| [工程路线](docs/ROADMAP.md) | 交付能力、优化闭环与后续优先级 |
-| [C++ 结构证据状态](docs/SEMANTIC_STATE.md) | 可选结构查询和持久修复状态 |
-| [Task 契约](specs/2026-10-19.2/docs/TASK_FORMAT.md) | Task v2 字段与静态检查 |
-| [安全模型](SECURITY.md) | 宿主、仓库、容器与证据的信任关系 |
-| [评测索引](benchmarks/README.md) | 真实仓库实验、协议、原始结果与复现入口 |
+| 执行环境 | 单用户、本地 Linux amd64 Docker；Python 3.12+ 与 Git 在宿主运行 |
+| 输入身份 | 已准备本地仓库、完整 commit、已准备镜像 ID/digest、Task v2 |
+| 基线资格 | CMake/CTest 3.26+；configure/build 成功，至少一个 F2P 正常执行后匹配失败签名，至少一个 P2P 通过 |
+| 补丁范围 | 显式授权的已有 UTF-8 C/C++ 文件内容修改，保持文件集合与 Git mode |
+| 受保护输入 | CMakeLists.txt 与 .cmake 自动保护；验收测试及输入通过 `tests.protected_paths` 声明保护 |
+| 可选 Agent | `agent` extra 提供公开 SDK；legacy 六工具或 shell-only 持久 Bash；`semantic` extra 为 legacy 提供语法结构查询 |
 
-## 简明验证入口
+真实模型连接、工具模式、自检 ccache 与上下文配置见[工程指南](docs/ENGINEERING.md)。发布后接入和优化见[工程路线](docs/ROADMAP.md)，安全与恢复合同见[SECURITY](SECURITY.md)。
 
-```bash
-python -m pip install -c requirements/agent.txt -e '.[agent,semantic,dev]' cmake==4.4.4
-ruff check src tests scripts
-ruff format --check src tests scripts
-python -m pytest -m 'not docker and not sdk' -q
-python -m pytest -m 'sdk and not docker' -q
-python scripts/check_docker_gate.py --image repropatch-cpp:0.1
-python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .repropatch/engineering-evidence
-```
+## Release 与证据
 
-本地快捷入口使用当前安装环境，支持 editable 安装。测试环境在宿主运行受信任 C++ fixture，使用 `cmake==4.4.4` 与 C++ 工具链；日常修复与演示的 CMake/CTest 由 Docker 镜像提供。
+[0.4.0 Release](https://github.com/lilong555/ReproPatch/releases/tag/v0.4.0) 提供 wheel、sdist、[工程原件](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/ReproPatch-engineering-v0.4.0.zip)和 [SHA256SUMS](https://github.com/lilong555/ReproPatch/releases/download/v0.4.0/SHA256SUMS)。[版本身份](RELEASE.json)与[0.4.0 工程摘要](docs/evidence/v0.4.0/summary.json)关联被测源码、实现摘要、镜像和安装包校验值。
 
-交付包验收先构建并安装 wheel，再通过 `--require-installed-wheel` 核验安装来源：
+[产品合同](SPEC.md) · [架构](docs/ARCHITECTURE.md) · [工程验收](docs/ACCEPTANCE.md) · [测试报告](docs/TEST_REPORT.md) · [项目讲解](docs/PROJECT_REPORT.md)。
 
-```bash
-python -m build
-python -m pip install --force-reinstall --no-deps dist/*.whl
-python scripts/check_engineering_gate.py --image repropatch-cpp:0.1 --output .repropatch/engineering-wheel-evidence --require-installed-wheel
-```
-
-工程门禁执行真实 Docker 三场景，并核对 `inspect`、`diagnose`、`replay` 与 `export-trace` 对原 Run 的只读性。CI 按上述顺序构建、安装和验收 wheel，入口与上传证据见[工作流](.github/workflows/ci.yml)。完整测试结果与场景结局见[测试报告](docs/TEST_REPORT.md)，详细验证矩阵见[工程指南](docs/ENGINEERING.md#验证入口)。
-
-许可：Apache-2.0。
+历史工程证据保持[2026-11-02 固定快照](https://github.com/lilong555/ReproPatch/blob/425bf34d7adde10a616226aaf20a69b96d53b3d6/docs/evidence/engineering-2026-11-02/summary.json)的源码与包身份；历史实验按[评测索引](benchmarks/README.md)中的冻结协议复查。许可：Apache-2.0。

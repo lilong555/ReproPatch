@@ -1,77 +1,78 @@
-# 安全边界
+# ReproPatch 0.4.0 安全与执行合同
 
-ReproPatch 当前用于单用户、操作者选定仓库的本地研究和开发。它没有通过外部安全审计。
+ReproPatch 用于单用户、操作者选定仓库的本地 Linux amd64 Docker 工作流。安全机制覆盖输入冻结、源码权限、容器 profile、执行预算、证据完整性与所属资源清理；验证入口见[测试报告](docs/TEST_REPORT.md)与[工程验收](docs/ACCEPTANCE.md)。
 
-## 已实施
+## 信任关系
 
-- API Key 只由宿主机模型适配器读取；容器不运行模型客户端，不继承宿主机环境。
-- 唯一 bind mount 是导出的只读源码；不挂载 Docker Socket、HOME、SSH、Git 元数据或凭据目录。
-- Docker 参数包含非 root UID/GID、network=none、read-only、cap-drop=ALL、
-  no-new-privileges、pids-limit、memory、memory-swap、CPU 限制、nofile/core ulimit。
-- 固定 sleep 入口、禁用健康检查和重启，拒绝额外镜像 VOLUME；创建后核对实际固定 profile 和资源限额。
-- 构建仅写入 Task 限额的 tmpfs。超时、取消、原始输出达限时删除整个容器，十秒清理预算内再次 inspect。
-  只有明确不存在才确认删除；daemon 失联、ID 或 Run 标签不符不能继续或报告通过。
-- Run 独占 0700 控制目录和工作区，持有文件锁；任务、事件、日志与清单为 0600。
-- stdout/stderr 保存原始 bytes，两流合计达到 4 MiB 即停止；Run 非源码审计文件限 256 MiB。
-  预览限 64 KiB，首尾取样并转义控制字符；失败签名只在完整原始单流内匹配。
-- 普通成功诊断快照使用后释放；retain 只保留所属 repair 工作树和最近诊断快照，不保留活跃容器。
-  身份不明的目录或容器停止清理并记录错误，不执行全局 prune。
-- 模型不能发送任意 argv/shell，只能请求人审核清单中的固定验证动作。
-- 文本工具拒绝路径穿越、链接、未跟踪文件、超出预算文件和未获 files.editable 授权的写入。
-  readable/editable/protected 从固定 commit 展开并检查交集；CMakeLists.txt 和 .cmake 始终受保护。
-- 所有 Git 操作禁用 hooks/fsmonitor，diff 禁用外部 diff/textconv；清理任务 Worktree。
-- Git 本地配置禁止 include/includeIf、活动 filter、额外 worktree 配置、外部程序与 partial clone/promisor。
-  提交属性由私有 index 中的 Git 原生解析，拒绝 filter；记录并复核真实 Git 管理目录、根身份与指针。
-- 完整 SourceManifest 与候选证据引用固定原始字节、大小与 mode；独立工作树实际应用补丁并检查完整往返。
-  原子编辑及快照复制逐级固定目录 fd，拒绝链接和路径替换；外部修改触发运行错误。
-- 模型请求使用 HTTPS 或字面地址 `127.0.0.1`、`::1` 的本机 HTTP，拒绝重定向，不回显 HTTP 错误响应体或凭据。
-- 基线构建失败、测试超时、预期退出码/标记不符、空补丁都不会产生 ACCEPTED。
-- 结构化 CTest 固定测试身份与逐项 JUnit；skip/disabled/缺失/畸形证据不能被退出码 0 掩盖。
-- 外部 patch/trace 先复制为有界私有普通文件；trace 不执行、不解包、不提升为可信观察。
-  verify-patch 不导入模型、SDK 或模型密钥，外部生成费用和用量不填零。
+操作者审核本地仓库、Task、构建镜像、验收测试与所选模型服务。CMake 配置、编译和测试均会执行仓库代码，执行环境由 Docker 管理。固定测试集合决定验收覆盖范围；补丁合并和扩展回归由仓库维护者审核。
 
-## 操作者负责审核
+宿主控制面负责 Git、模型客户端、SQLite 与资源管理。模型 API Key 在授权和配置校验后由宿主客户端读取，保留在客户端内存中。core-only `verify-patch` 使用补丁、Task 与验证器；外部生产者 trace 作为有界私有诊断附件保存，生产费用和用量保持原始已知或未知状态。
 
-本地仓库、任务 YAML 和编译镜像由操作者选定。支持的 Git 配置与属性在 checkout 前接受审查；
-仍应自行准备仓库并审核其来源，当前边界不等于对全部 Git 特性的安全认证。
-禁止将密钥提交进源码，导出器不会替你检测所有业务秘密。
-命令白名单不等于 CMake 安全：CMake 配置会运行代码，因此它始终在容器里执行。
+模型可见数据包括文件工具读取内容、工具结果、命令输出和证据摘要。Shell 可读取完整 prepared 源码快照；`files.readable` 限定结构化文件工具的可读集合。操作者按整个源码快照审核秘密、数据授权与模型服务的数据政策，凭据通过宿主环境变量提供。
 
-默认使用本地 Docker daemon，不继承 DOCKER_HOST/DOCKER_CONTEXT 等环境变量；
-没有 daemon 时直接失败。当前已验证 WSL2 Ubuntu 与 Docker Desktop Linux 引擎；不支持远程 daemon、Windows 原生
-路径转换、rootless daemon 配置目录发现或 Windows 原生宿主执行。
+Docker 共享宿主内核，容器逃逸风险随内核和 daemon 安全状态而变化。部署采用可信本地 daemon、已审核镜像与受控单用户工作区；敌对多租户任务采用专用 worker/VM 和独立安全设计。
 
-## 现有局限
+## 执行路径与挂载
 
-Docker 共享宿主机内核，不能保证抵御容器逃逸；敌对多租户任务应使用专用 worker/VM。
-不允许自定义 seccomp 放宽，沿用 daemon 默认 seccomp/AppArmor；宿主机管理员仍可改变默认策略。
-容器内不可信程序可能伪造输出或构造针对测试的补丁。独立工作区保护验收输入及构建隔离，
-不能证明补丁语义普适正确；需要有覆盖面的固定回归和后续隐藏测试。
-模型文件工具只读取 frozen readable 文本；编译容器可见完整源码快照，报告也包含命令输出。
-禁止在仓库内放置不愿发送给所选模型服务的内容。
-单源文件、整树、编辑、候选补丁、原始双流日志与每 Run 审计文件均有上限。
-retain 管理每 Run 工作区；跨 Run 的历史审计文件仍由操作者管理，不提供全局磁盘配额或自动清扫。
+| 路径 | 源码权限 | 环境与构建状态 |
+| --- | --- | --- |
+| 基线与独立 verifier | 完整源码快照只读挂载到 /src | 每次使用全新容器和 /build tmpfs，固定镜像冷构建；独立工作树实际应用并核验候选 |
+| legacy `run_command` | 当前源码快照只读 | 每次新容器配置、构建和自检；`--compiler-cache` 可复用本 Run 的 ccache |
+| legacy `run_shell` | 当前完整源码快照只读 | 在临时容器的 /src 或 /build 执行 `/bin/sh -lc`；容器、临时文件与环境变量随调用结束释放 |
+| shell-only `bash` | /src 整树只读，授权已有文件通过逐文件可写 bind mount 覆盖 | 同一修复阶段保留容器和 /build，执行 `/bin/bash --noprofile --norc -c`；每条命令后冻结容器、核对派生进程及源码 |
 
-真实 Docker 的非 root、凭据、网络、只读与超时清理测试已通过，证据见 docs/TEST_REPORT.md。
-源码与补丁字节往返、Run 所有权/锁、容器删除确认、日志硬限额及 retain 已验收。
-结构化 CTest 与独立 verify-patch 已提供；SDK 基础入口具备原生 Items、有限 timeout、取消传播与离线凭据哨兵；六工具与整批预算已经接入自动路径。
-当前提供同一 Run、相同配置与版本下的有限恢复：只有数据库已提交、附件完整且关闭修复片段的
-Checkpoint 才能继续。请求结果未知、工具执行边界未关闭、源码分歧、证据损坏或资源清理未确认时拒绝恢复。
-恢复不重设原始 deadline 或累计额度，不重做未知副作用，不承诺 Exactly Once、跨版本恢复或掉电后必然接管。
-Trace Replay 和 export-trace 只读数据库及证据，不执行模型、工具或恢复，也不把历史成功文字当作执行权限。
+shell-only 命令结束后，宿主审计修改文件、原始字节清单和 Git mode，再同步修复工作树。授权范围由冻结的 editable 集合确定，构建和验收输入由 protected 集合保护。持久容器命令间保持已核验的静止进程集合；派生进程泄漏或源码分歧进入失败与清理流程。
 
-发现问题时请先本地复现并最小化；公开报告中不要包含密钥、敏感仓库内容或未处理凭据。
+`--compiler-cache` 使用独占 Run 的 /cache 可写挂载与 ccache namespace，缓存身份和统计进入资源及自检证据。缓存用于修复阶段，基线与最终独立验收保持冷环境。shell-only 恢复从已提交源码重建容器，/build、/tmp 和编译缓存重新开始。
 
-SDK 基础入口在授权和输入校验后读取指定环境变量，凭据仅属于客户端，不进入 Run context。
-客户端关闭重试和重定向，默认不继承代理；`--use-env-proxy` 显式启用 HTTPX 的宿主代理及 TLS 环境配置。
-该选项只影响宿主模型客户端，代理地址和模型密钥不写入 Task、报告或容器环境。
-tracing 全局与每次运行均关闭，供应商 SDK 日志被关闭。
-模型名必须显式提供，拒绝由 Runner 隐式选择模型和默认凭据。HTTP 错误仅返回安全分类，不附响应体。
-静态工具必须使用真正的 async 回调；SDK 的异步包装器不证明其内部没有同步线程。
-取消与 timeout 不代替资源拥有者的删除确认，异步 finally 可能被 SDK 的后续取消中断。
+实现：[DockerSandbox.bind_mounts](src/repropatch/sandbox.py)、[PersistentRepairSandbox](src/repropatch/repair_sandbox.py)、[修复与 Shell 调用](src/repropatch/harness.py)、[evaluate_checks](src/repropatch/verification.py)。
 
-自动路径没有宿主 Shell 或后台工具线程。run_shell 只在所属 Docker 的 /src 或 /build 执行 /bin/sh -lc，
-每次使用新快照与容器，源码只读且没有网络；cd/export/tmpfs 不跨调用保存。
-工具函数仅捕获 PolicyError 并返回有稳定代码的 JSON，磁盘/Git/Docker/审计错误终止运行。
-工具批次在公开 on_llm_end 中整体审核；未知执行项、重复/空调用身份、未完成输出或超额批次均不能执行。
-原生输入/输出分别限制 256 KiB/1 MiB；不手裁上下文，不自动重试收费请求，不额外请求总结。
+## 容器 profile 与资源管理
+
+所有执行路径使用固定 profile：UID/GID 65534、`network=none`、只读根文件系统、`cap-drop=ALL`、`no-new-privileges`、PID/内存/CPU 限制、memory-swap 同内存限额、nofile/core ulimit。入口为固定 sleep，镜像已在本地准备；健康检查与重启关闭，额外镜像 VOLUME 进入配置拒绝检查。
+
+挂载由只读源码、自检缓存与 shell-only 授权单文件组成；/build 和 /tmp 使用有界 tmpfs。Docker Socket、宿主 HOME/SSH、凭据目录与 Git 元数据保留在宿主。容器 HOME 指向 /tmp，环境由镜像与固定 profile 组成。创建后再次 inspect 实际镜像、权限、挂载和资源限制。
+
+宿主执行采用显式精简环境，Docker 连接使用本地 daemon。WSL2 使用 Linux 引擎与发行版文件系统；远程 daemon、Windows 原生执行和 rootless 配置发现属于扩展范围。
+
+命令 stdout/stderr 保存原始 bytes，两流合计上限 4 MiB，预览合计 64 KiB，预览转义控制字符。失败签名在完整有界原始单流内匹配。Run 非源码审计文件上限 256 MiB。进程采集使用独立进程组和单调期限，超时、取消、输出达限触发资源终止与清理。
+
+容器清理在固定十秒预算内核对 ID、名称和 Run 标签，删除后 inspect 明确确认容器不存在。daemon 失联、身份变化或删除结果未确认记录清理故障，并保留所属证据供诊断。`retain` 管理修复树与诊断快照，活动容器在阶段结束时释放；跨 Run 历史证据由操作者管理。
+
+实现：[process.py](src/repropatch/process.py)、[DockerSandbox.close](src/repropatch/sandbox.py)、[RunResources](src/repropatch/resources.py)。
+
+## 源码、补丁与工具准入
+
+Run 使用独占 0700 控制目录、工作区和文件锁，任务、日志、事件与清单使用 0600。源码与候选均保存完整路径、原始字节、大小和 mode；独立工作树从固定 commit 实际应用候选，核对完整源码清单与规范补丁往返。
+
+Git 操作使用隔离配置，禁用 hooks/fsmonitor 与外部 diff/textconv；checkout 前审核本地配置、提交属性与 Git 管理身份。include/includeIf、活动 filter、外部程序、额外 worktree 配置、partial clone/promisor 等布局进入策略拒绝检查。属性由私有 index 中的 Git 原生解析，目录和管理指针在运行中复核。
+
+文件工具按冻结 readable/editable/protected 集合操作。路径穿越、链接、未跟踪文件、未授权写入和超限文本产生稳定策略错误；CMakeLists.txt、.cmake 与声明的验收测试输入受保护。已有 C/C++ UTF-8 文本内容为授权修改对象，文件集合与 Git mode 保持一致。原子编辑与快照复制固定目录 fd，源码被外部修改时记录分歧。
+
+每次模型响应整体核对注册工具、调用身份和预算，最多八次工具调用，串行执行。普通策略或参数错误反馈给模型；磁盘、Git、Docker、审计等基础设施异常终止运行。默认 legacy 原生输入传输上限 256 KiB；semantic-state 路径采用支持完整轮次压缩的策略与 2 MiB 传输上限，摘要请求计入累计步骤。
+
+结构化 CTest inventory 和逐项 JUnit 固定测试身份；失败、crash、skip/disabled、缺失或畸形结果各自记录。候选接受要求完整声明测试、源码身份、必需证据与清理确认。
+
+实现：[workspace.py](src/repropatch/workspace.py)、[tools.py](src/repropatch/tools.py)、[agent_runtime.py](src/repropatch/agent_runtime.py)、[verification.py](src/repropatch/verification.py)。
+
+## 模型客户端
+
+模型名与付费授权显式提供，服务使用 HTTPS 或字面回环地址 127.0.0.1/::1 的本机 HTTP。客户端关闭重试、重定向和 tracing，供应商 SDK 日志关闭。HTTP 错误返回安全分类，诊断执行凭据脱敏。
+
+默认客户端使用独立 HTTPX 环境配置，`--use-env-proxy` 显式启用宿主代理与 TLS 环境设置；该选项作用于宿主模型客户端。模型连接参数和 Key 环境变量名随配置冻结，实际密钥与代理地址保留在宿主环境。
+
+实现：[models.py](src/repropatch/models.py)、[SDK 运行适配](src/repropatch/agent_runtime.py)。
+
+## 恢复与证据查询
+
+Checkpoint 支持已提交的完整模型输入边界：附件与目录先持久化，SQLite 事务再提交引用、状态及累计计数。恢复核验同一 Run 的实现、Python/SDK、Task、镜像、模型配置、工具 schema、完整附件与源码，继续原 deadline 和累计预算；暂停等待计入原期限。
+
+请求结果未知、工具片段未闭合、源码分歧、证据损坏、输入变化或所属资源未确认均产生明确恢复诊断。持久 Shell 恢复重建容器与空构建环境；任意崩溃自动接管、执行重放和跨版本恢复按独立扩展合同设计。
+
+`inspect`、`diagnose`、`replay --mode trace` 只读查询数据库及证据；`export-trace` 导出到 stdout 或 Run 外的新文件。`report` 持锁从已提交事实重建 JSONL、报告与导出索引，原始证据继续按哈希核验。`resume` 执行续跑并追加事件。
+
+实现：[recovery.py](src/repropatch/recovery.py)、[events.py](src/repropatch/events.py)、[reports.py](src/repropatch/reports.py)、[trace.py](src/repropatch/trace.py)。
+
+## 问题报告
+
+问题报告提供最小化 Task、版本与镜像身份、稳定错误代码和脱敏证据。密钥、敏感源码和代理凭据通过私有渠道处理，公开材料使用经过审核的最小复现。
