@@ -200,6 +200,191 @@ def test_native_protocol_retains_one_attempt_per_task_and_arm(native_protocol):
         campaign.validate_protocol(native_protocol)
 
 
+@pytest.fixture
+def execution_recovery_protocol(native_protocol):
+    task = "fmtlib__fmt-3569"
+    native_protocol["tasks"] = [task]
+    for field in ("qualification_contracts", "task_environments"):
+        native_protocol[field] = {task: native_protocol[field][task]}
+    native_protocol["batch_id"] = campaign.NATIVE_CAMPAIGN + "/r3"
+    attempt = {
+        "attempt_id": f"{native_protocol['batch_id']}/{task}/full/execution-recovery",
+        "instance_id": task,
+        "arm": "full",
+        "request_cap": None,
+    }
+    native_protocol["attempts"] = [attempt]
+    native_protocol["execution_order"] = [copy.deepcopy(attempt)]
+    native_protocol["study_type"] = "execution-recovery-diagnostic"
+    native_protocol["primary_pairs"] = []
+    native_protocol["execution_recovery"] = {
+        "kind": "shell-exit-feedback",
+        "source_run_id": 41309756321,
+        "source_protocol_sha256": "c" * 64,
+        "original_records_retained": True,
+        "result_policy": "independent-diagnostic",
+        "attempts": [
+            {
+                "source_attempt_id": f"{campaign.NATIVE_CAMPAIGN}/r1/{task}/full/first",
+                **{key: attempt[key] for key in ("attempt_id", "instance_id", "arm")},
+                "issued_requests": 19,
+                "source_stop_reason": "MODEL_ERROR",
+                "source_native_reason": "EXECUTION_ERROR",
+                "command_exit_code": 127,
+                "source_oracle_result": "FAIL",
+                "source_candidate_sha256": "d" * 64,
+                "source_archive_sha256": "e" * 64,
+            }
+        ],
+    }
+    return native_protocol
+
+
+def test_full_execution_recovery_loads_only_affected_attempt(
+    execution_recovery_protocol, tmp_path, monkeypatch
+):
+    path = tmp_path / "protocol.json"
+    path.write_text(json.dumps(execution_recovery_protocol))
+    monkeypatch.setattr(formal, "PROTOCOL", path)
+    p = formal.protocol()
+    assert p["arms"] == campaign.NATIVE_ARMS
+    assert p["formal_request_cap"] is None
+    assert formal.execution_matrix(p) == [
+        {"instance": "fmtlib__fmt-3569", "arm": "full", "suffix": "-full"}
+    ]
+    assert campaign.allocation_phase(p, p["attempts"][0]) == "development"
+    assert (
+        analysis.analyze({"primary_pairs": p["primary_pairs"], "attempts": []})[
+            "primary_comparisons"
+        ]
+        == []
+    )
+
+
+@pytest.mark.parametrize("contract", ["missing", None, {}])
+def test_partial_native_batch_requires_explicit_recovery_contract(
+    execution_recovery_protocol, contract
+):
+    if contract == "missing":
+        execution_recovery_protocol.pop("execution_recovery")
+    else:
+        execution_recovery_protocol["execution_recovery"] = contract
+    with pytest.raises(ValueError, match="ATTEMPT_REGISTRY|RECOVERY_CONTRACT"):
+        campaign.validate_protocol(execution_recovery_protocol)
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("kind", "retry"),
+        ("source_run_id", 0),
+        ("source_run_id", True),
+        ("source_protocol_sha256", "missing"),
+        ("original_records_retained", False),
+        ("result_policy", "replace-original"),
+    ],
+)
+def test_execution_recovery_requires_retained_source_evidence(
+    execution_recovery_protocol, field, value
+):
+    execution_recovery_protocol["execution_recovery"][field] = value
+    with pytest.raises(ValueError, match="RECOVERY_CONTRACT"):
+        campaign.validate_protocol(execution_recovery_protocol)
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("issued_requests", 0),
+        ("issued_requests", True),
+        ("source_stop_reason", "COMPLETED"),
+        ("source_native_reason", "INCONCLUSIVE"),
+        ("command_exit_code", 1),
+        ("source_oracle_result", "PASS"),
+        ("source_candidate_sha256", ""),
+        ("source_archive_sha256", None),
+        ("source_attempt_id", "other-campaign/r1/fmtlib__fmt-3569/full/first"),
+        (
+            "source_attempt_id",
+            "semantic-state-native-20261101/r1/fmtlib__fmt-3555/full/first",
+        ),
+        (
+            "source_attempt_id",
+            "semantic-state-native-20261101/r3/fmtlib__fmt-3569/full/first",
+        ),
+    ],
+)
+def test_execution_recovery_requires_matching_shell_127_failure(
+    execution_recovery_protocol, field, value
+):
+    execution_recovery_protocol["execution_recovery"]["attempts"][0][field] = value
+    with pytest.raises(ValueError, match="RECOVERY_SOURCE"):
+        campaign.validate_protocol(execution_recovery_protocol)
+
+
+@pytest.mark.parametrize("arm", ["mini", "codex"])
+def test_execution_recovery_keeps_completed_native_arms_out(execution_recovery_protocol, arm):
+    p = execution_recovery_protocol
+    attempt = p["attempts"][0]
+    attempt["arm"] = arm
+    attempt["attempt_id"] = f"{p['batch_id']}/{attempt['instance_id']}/{arm}/execution-recovery"
+    p["execution_order"] = copy.deepcopy(p["attempts"])
+    p["execution_recovery"]["attempts"][0].update(
+        {key: attempt[key] for key in ("arm", "attempt_id")}
+    )
+    with pytest.raises(ValueError, match="RECOVERY_SOURCE"):
+        campaign.validate_protocol(p)
+
+
+def test_execution_recovery_rejects_duplicate_and_unlinked_attempts(execution_recovery_protocol):
+    p = execution_recovery_protocol
+    original = copy.deepcopy(p)
+    for field in ("attempts", "execution_order"):
+        p[field].append(copy.deepcopy(p[field][0]))
+    p["execution_recovery"]["attempts"].append(
+        copy.deepcopy(p["execution_recovery"]["attempts"][0])
+    )
+    with pytest.raises(ValueError, match="RECOVERY_REGISTRY"):
+        campaign.validate_protocol(p)
+    original["execution_recovery"]["attempts"][0]["attempt_id"] += "-other"
+    with pytest.raises(ValueError, match="RECOVERY_REGISTRY"):
+        campaign.validate_protocol(original)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "reason"),
+    [
+        ("study_type", "cross-repository-development-trend", "RECOVERY_CONTRACT"),
+        ("primary_pairs", [["full", "mini"]], "RECOVERY_CONTRACT"),
+        ("phase", "formal", "FRAMEWORK"),
+        ("arms", ["full"], "FRAMEWORK"),
+        ("formal_request_cap", 24, "BUDGET"),
+        ("max_parallel", 4, "BUDGET"),
+        ("execution_sha256", "c" * 64, "SOURCE"),
+    ],
+)
+def test_execution_recovery_preserves_common_protocol_guards(
+    execution_recovery_protocol, field, value, reason
+):
+    execution_recovery_protocol[field] = value
+    with pytest.raises(ValueError, match=reason):
+        campaign.validate_protocol(execution_recovery_protocol)
+
+
+def test_execution_recovery_requires_distinct_registered_suffix(execution_recovery_protocol):
+    p = execution_recovery_protocol
+    source = p["execution_recovery"]["attempts"][0]
+    source["attempt_id"] = source["source_attempt_id"]
+    p["attempts"][0]["attempt_id"] = source["attempt_id"]
+    p["execution_order"] = copy.deepcopy(p["attempts"])
+    with pytest.raises(ValueError, match="RECOVERY_SOURCE"):
+        campaign.validate_protocol(p)
+    for row in (source, p["attempts"][0], p["execution_order"][0]):
+        row["attempt_id"] = f"{p['batch_id']}/fmtlib__fmt-3569/full/first"
+    with pytest.raises(ValueError, match="ATTEMPT_REGISTRY"):
+        campaign.validate_protocol(p)
+
+
 def test_protocol_loader_accepts_real_null_budget_and_preserves_order(
     native_protocol, tmp_path, monkeypatch
 ):

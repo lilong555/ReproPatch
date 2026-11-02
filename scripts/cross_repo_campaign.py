@@ -63,6 +63,69 @@ def validate_execution_evidence(protocol, ci, calibration_bytes):
     return data
 
 
+def validate_native_execution_recovery(p):
+    """仅为有完整来源证据的 Full/Shell 127 中断登记独立诊断。"""
+    recovery = p["execution_recovery"]
+    if (
+        not isinstance(recovery, dict)
+        or recovery.get("kind") != "shell-exit-feedback"
+        or recovery.get("original_records_retained") is not True
+        or recovery.get("result_policy") != "independent-diagnostic"
+        or type(recovery.get("source_run_id")) is not int
+        or recovery["source_run_id"] <= 0
+        or not isinstance(recovery.get("source_protocol_sha256"), str)
+        or not re.fullmatch(r"[a-f0-9]{64}", recovery["source_protocol_sha256"])
+        or p.get("study_type") != "execution-recovery-diagnostic"
+        or p.get("primary_pairs") != []
+    ):
+        raise ValueError("NATIVE_EXECUTION_RECOVERY_CONTRACT_INVALID")
+    records = recovery.get("attempts")
+    if (
+        not isinstance(records, list)
+        or not records
+        or any(not isinstance(row, dict) for row in records)
+        or len(records) != len(p["attempts"])
+        or len({row.get("source_attempt_id") for row in records}) != len(records)
+        or [row.get("attempt_id") for row in records]
+        != [row["attempt_id"] for row in p["attempts"]]
+    ):
+        raise ValueError("NATIVE_EXECUTION_RECOVERY_REGISTRY_INVALID")
+    for source, attempt in zip(records, p["attempts"], strict=True):
+        source_id = source.get("source_attempt_id")
+        original = (
+            re.fullmatch(
+                "("
+                + re.escape(NATIVE_CAMPAIGN)
+                + r"/[A-Za-z0-9_.-]{1,80})/"
+                + re.escape(attempt["instance_id"])
+                + "/full/first",
+                source_id,
+            )
+            if isinstance(source_id, str)
+            else None
+        )
+        if (
+            any(source.get(key) != attempt[key] for key in ("attempt_id", "instance_id", "arm"))
+            or source.get("arm") != "full"
+            or original is None
+            or original[1] == p["batch_id"]
+            or source_id == source["attempt_id"]
+            or type(source.get("issued_requests")) is not int
+            or source["issued_requests"] <= 0
+            or source.get("source_stop_reason") != "MODEL_ERROR"
+            or source.get("source_native_reason") != "EXECUTION_ERROR"
+            or type(source.get("command_exit_code")) is not int
+            or source["command_exit_code"] != 127
+            or source.get("source_oracle_result") != "FAIL"
+            or any(
+                not isinstance(source.get(field), str)
+                or not re.fullmatch(r"[a-f0-9]{64}", source[field])
+                for field in ("source_candidate_sha256", "source_archive_sha256")
+            )
+        ):
+            raise ValueError("NATIVE_EXECUTION_RECOVERY_SOURCE_INVALID")
+
+
 def validate_native_protocol(p):
     """核验请求总量开放的三臂冻结合同。"""
     if (
@@ -89,7 +152,11 @@ def validate_native_protocol(p):
     attempts = p.get("attempts", [])
     if not tasks or len(set(tasks)) != len(tasks) or len(tasks) > 30:
         raise ValueError("NATIVE_TASK_REGISTRY_INVALID")
-    expected = {(task, arm) for task in tasks for arm in NATIVE_ARMS}
+    recovery = "execution_recovery" in p
+    if recovery:
+        validate_native_execution_recovery(p)
+    expected = {(task, arm) for task in tasks for arm in (["full"] if recovery else NATIVE_ARMS)}
+    suffix = "execution-recovery" if recovery else "first"
     if (
         not re.fullmatch(
             re.escape(NATIVE_CAMPAIGN) + r"/[A-Za-z0-9_.-]{1,80}", p.get("batch_id") or ""
@@ -99,7 +166,7 @@ def validate_native_protocol(p):
         or {(a["instance_id"], a["arm"]) for a in attempts} != expected
         or any(a.get("request_cap", "missing") is not None for a in attempts)
         or any(
-            a["attempt_id"] != f"{p['batch_id']}/{a['instance_id']}/{a['arm']}/first"
+            a["attempt_id"] != f"{p['batch_id']}/{a['instance_id']}/{a['arm']}/{suffix}"
             for a in attempts
         )
         or p.get("execution_order") != attempts
