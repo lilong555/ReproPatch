@@ -1,0 +1,207 @@
+{
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "model_timeout_seconds": 180,
+  "max_tools_per_response": 8,
+  "max_output_tokens": 8192,
+  "mini_commit": "04d809ceab9df28f9adaed044884180159172930",
+  "codex_binary": ".repropatch/codex/package/vendor/x86_64-unknown-linux-musl/bin/codex",
+  "codex_version": "0.163.0",
+  "codex_sha256": "399ff69c431c066e40de318fba45c2b07f45a76b19939d247ee4828fc70c4215",
+  "codex_tarball": "https://registry.npmjs.org/@openai/codex/-/codex-0.163.0-linux-x64.tgz",
+  "codex_tarball_integrity": "sha512-uwRaOsrYogLQhcxAM/GoeWrw0QIWEMRo7c9gM8sKAviVkZQHlu9kRLJ5PkufbV+ABGjyZgIwiFdJ0LCJ0N6e8w==",
+  "code_host_sha256": "8724d73ec190536233ab4628d24a071bfbcf27e5124f08fe35129f26fe48b916",
+  "network_calibration": {
+    "run_id": 40646051506,
+    "artifact": "cross-network-calibration-40646051506",
+    "sha256": "081e8ae385c0c10041efea18d1cc7cfd3baecaf36e7a486f65271620f32eb1fe"
+  },
+  "campaign_schema": "repropatch.cross-repository-campaign.v1",
+  "variant": "semantic-state-native-v1",
+  "campaign": "semantic-state-native-20261101",
+  "status": "FROZEN",
+  "phase": "development",
+  "study_type": "execution-recovery-diagnostic",
+  "batch_id": "semantic-state-native-20261101/r3",
+  "tasks": [
+    "fmtlib__fmt-3569"
+  ],
+  "arms": [
+    "full",
+    "mini",
+    "codex"
+  ],
+  "attempts": [
+    {
+      "attempt_id": "semantic-state-native-20261101/r3/fmtlib__fmt-3569/full/execution-recovery",
+      "instance_id": "fmtlib__fmt-3569",
+      "arm": "full",
+      "request_cap": null
+    }
+  ],
+  "execution_order": [
+    {
+      "attempt_id": "semantic-state-native-20261101/r3/fmtlib__fmt-3569/full/execution-recovery",
+      "instance_id": "fmtlib__fmt-3569",
+      "arm": "full",
+      "request_cap": null
+    }
+  ],
+  "selection_seed": 20261101,
+  "matrix_per_arm": true,
+  "request_cap_per_attempt": null,
+  "formal_request_cap": null,
+  "max_tool_calls": null,
+  "max_parallel": 3,
+  "cpa_max_concurrent_requests": 3,
+  "context_policy": {
+    "context_window_tokens": 128000,
+    "compact_trigger_tokens": 48000,
+    "compact_target_tokens": 21600,
+    "max_output_tokens": 8192,
+    "transport_max_bytes": 67108864,
+    "response_max_bytes": 2097152,
+    "request_cap": null,
+    "context_policy_version": "v2.0-semantic-state",
+    "tool_growth_tokens": 16000,
+    "estimation_margin_tokens": 8000,
+    "retain_rounds": 2,
+    "tool_output_max_bytes": 24576,
+    "compaction_enabled": true
+  },
+  "executor_policies": {
+    "full": {
+      "context_management": "repropatch",
+      "semantic_state": true
+    },
+    "mini": {
+      "context_management": "native",
+      "semantic_state": false
+    },
+    "codex": {
+      "context_management": "native",
+      "semantic_state": false
+    }
+  },
+  "primary_pairs": [],
+  "qualification_contracts": {
+    "fmtlib__fmt-3569": {
+      "qualification_sha256": "6652ae15ed30bd85d5ea620450d52d5e547a8c1d73bb3618938a71755ac47a82",
+      "task_sha256": "ccaa208bc0c4c42e8eba0dab477b2c2faaae1903cb1cc201017c942486cdff6e",
+      "manifest_sha256": "5f42d25cb2c09919a9a9ba87748684fe1975c8da685815eed345108768d2f9f6",
+      "bundle_sha256": "46bb5bcf39b67f2eaa282a9d9cc7dc54f0d017107660af86e016b59b6b49324f",
+      "prepared_commit": "748c9323787cbe9b0448e535137705b5c1ec641c",
+      "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+      "native_tests": 20
+    }
+  },
+  "environment_policy": "per-task-native-v1",
+  "task_environments": {
+    "fmtlib__fmt-3569": {
+      "image": "ghcr.io/lilong555/repropatch-cross-cpp@sha256:688d9f65c08c283a203d1ff03e7fc60f8b57167cfa925eaa26fb70d2d8b94533",
+      "image_id": "sha256:5db0bcee1c240e8abac6bac6756edc983c661b8806c70e95fefa8aa8558335f8"
+    }
+  },
+  "qualification_run_ids": [
+    40851153655
+  ],
+  "qualification_archives": [
+    {
+      "run_id": 40851153655,
+      "artifact": "cross-evidence-40851153655-fmtlib__fmt-3569",
+      "sha256": "19d2a04b1b4feb83c75d77733c39b800f6f733a686b85fce649df3649b09a99f",
+      "instances": [
+        "fmtlib__fmt-3569"
+      ]
+    }
+  ],
+  "source_protocols": [
+    {
+      "path": "benchmarks/cross-repo/formal-protocol-batch-08.json",
+      "sha256": "d77dfa532eaa482a8ed25bde0109de6b76025771d49cdb56e3a74b9be326818f",
+      "batch_id": "cross-repository-20261028-formal-batch-08",
+      "execution_source_commit": "c5183575fc41e6912833bee73d107454906bfd84",
+      "execution_sha256": "fb0e552f9015d314b0d0145e1ce793b06e2a57f9c843f3ec843a918142857897"
+    }
+  ],
+  "historical_reference": {
+    "configuration": "v1.0-unified-compaction; 24 requests; 48 tool calls",
+    "mini_context_management": "custom-adapter",
+    "codex_compact_trigger_tokens": 48000,
+    "purpose": "带配置身份的历史参考",
+    "tasks": {
+      "fmtlib__fmt-3569": {
+        "source_protocol_sha256": "d77dfa532eaa482a8ed25bde0109de6b76025771d49cdb56e3a74b9be326818f",
+        "attempts": [
+          {
+            "attempt_id": "cross-repository-20261028-formal/fmtlib__fmt-3569/mini/first",
+            "instance_id": "fmtlib__fmt-3569",
+            "arm": "mini",
+            "request_cap": 24
+          },
+          {
+            "attempt_id": "cross-repository-20261028-formal/fmtlib__fmt-3569/full/first",
+            "instance_id": "fmtlib__fmt-3569",
+            "arm": "full",
+            "request_cap": 24
+          },
+          {
+            "attempt_id": "cross-repository-20261028-formal/fmtlib__fmt-3569/codex/first",
+            "instance_id": "fmtlib__fmt-3569",
+            "arm": "codex",
+            "request_cap": 24
+          }
+        ]
+      }
+    }
+  },
+  "execution_budget_override": {
+    "max_steps": null,
+    "max_tool_calls": null,
+    "model_timeout_seconds": 180,
+    "wall_seconds": 12600,
+    "verification_reserve_seconds": 1800
+  },
+  "deadline_policy": {
+    "request_total": "unlimited",
+    "termination": "native completion or recorded execution deadline",
+    "nominal_repair_seconds": 10800,
+    "baseline_counts_toward_worker_wall": true,
+    "platform_job_minutes": 360,
+    "cold_oracle_timeout_seconds": 3600
+  },
+  "platform_job_timeout_minutes": 360,
+  "oracle_timeout_seconds": 3600,
+  "execution_source_commit": "5b433a1eb7684a427e184804365e72443f7c54c0",
+  "execution_sha256": "53f66c5b1ccdd1d542fc64e4fb249897f2e2d8309e4a767f061c2bf3c6ccae4b",
+  "ci_run_id": 41385692583,
+  "paid_calls_authorized": true,
+  "cpa_route": "azure-ssh",
+  "retries": 0,
+  "prior_attempts": [],
+  "protocol_identity": "冻结文件的 SHA256 随运行 provenance 保存",
+  "selection_basis": "fmt-3569 Full 的 Shell 127 执行反馈恢复诊断",
+  "result_policy": "独立诊断评分与原三臂首跑分别保存",
+  "execution_recovery": {
+    "kind": "shell-exit-feedback",
+    "source_run_id": 41309756321,
+    "source_protocol_sha256": "7b983560ca0c8af17653f3dcc62892de547da75427cf5d2bd56463dc6d76548b",
+    "original_records_retained": true,
+    "result_policy": "independent-diagnostic",
+    "attempts": [
+      {
+        "source_attempt_id": "semantic-state-native-20261101/r1/fmtlib__fmt-3569/full/first",
+        "attempt_id": "semantic-state-native-20261101/r3/fmtlib__fmt-3569/full/execution-recovery",
+        "instance_id": "fmtlib__fmt-3569",
+        "arm": "full",
+        "issued_requests": 19,
+        "source_stop_reason": "MODEL_ERROR",
+        "source_native_reason": "EXECUTION_ERROR",
+        "command_exit_code": 127,
+        "source_oracle_result": "FAIL",
+        "source_candidate_sha256": "c203e3739a8cf00b2d96ddfa507eef5b5f7c1a267faaab48746f71585e0597c2",
+        "source_archive_sha256": "7144f90a8e1a37f934db2aed6783ae8e49fe10a429ffa0dfec3159c4162f4574"
+      }
+    ]
+  }
+}
