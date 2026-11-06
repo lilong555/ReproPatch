@@ -27,6 +27,7 @@ from repropatch.task import Task
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "benchmarks/context-ablation/protocol.json"
+TRIGGER_CAMPAIGN = "context-ablation-trigger-20261106"
 ARMS = ("baseline", "diagnostics", "dedup", "state", "combined")
 FLAGS = ("diagnostic_extraction", "deduplicate_results", "state_aware_compaction")
 OVERFLOWS = (
@@ -109,7 +110,17 @@ def archive_task_contracts(p):
 def read_protocol(path=PROTOCOL):
     p = load(path)
     require(p["schema"] == "repropatch.context-ablation.protocol.v1", "PROTOCOL_SCHEMA")
-    require(p["campaign"] == "context-ablation-20261106", "CAMPAIGN")
+    require(p["campaign"] in {"context-ablation-20261106", TRIGGER_CAMPAIGN}, "CAMPAIGN")
+    if p["campaign"] == TRIGGER_CAMPAIGN:
+        require(
+            p.get("predecessor_protocol") == "benchmarks/context-ablation/protocol.json",
+            "PREDECESSOR_PROTOCOL",
+        )
+        require(
+            sha(ROOT / p["predecessor_protocol"]) == p.get("predecessor_protocol_sha256"),
+            "PREDECESSOR_CHANGED",
+        )
+        require(p.get("intervention_revision") == "receipt-context-v2", "INTERVENTION_REVISION")
     require(tuple(p["arms"]) == ARMS, "ARMS")
     require(sha(ROOT / p["task_source"]) == p["task_source_sha256"], "TASK_SOURCE_CHANGED")
     require(p["tasks"] == load(ROOT / p["task_source"])["paired_tasks"], "PAIRED_TASKS")
@@ -585,6 +596,7 @@ def mechanism_metrics(worker, p, arm):
             "metrics": observed,
         }
     metrics["events"] = (state or {}).get("events")
+    metrics["decisions"] = (state or {}).get("decisions")
     return metrics
 
 
@@ -726,8 +738,25 @@ def input_identity_statistics(rows):
     return result
 
 
+def mechanism_decisions(rows, flag):
+    observed = [row.get("mechanisms", {}).get(flag, {}).get("metrics", {}) for row in rows]
+    candidates = [m["candidates"] for m in observed if type(m.get("candidates")) is int]
+    reasons = [m["skip_reasons"] for m in observed if isinstance(m.get("skip_reasons"), dict)]
+    total = Counter()
+    for counts in reasons:
+        total.update({k: v for k, v in counts.items() if type(v) is int and v >= 0})
+    return {
+        "candidate_count": sum(candidates) if candidates else None,
+        "candidate_observed_trials": len(candidates),
+        "skip_reasons": dict(total),
+        "skip_reason_observed_trials": len(reasons),
+    }
+
+
 def arm_statistics(rows):
     n = len(rows)
+    estimates = [(row.get("usage") or {}).get("peak_estimated_input_tokens") for row in rows]
+    estimates = [value for value in estimates if type(value) is int and value >= 0]
     return {
         "N": n,
         "pass": sum(r.get("accepted") is True for r in rows),
@@ -740,12 +769,22 @@ def arm_statistics(rows):
         "classifications": dict(Counter(r["classification"] for r in rows)),
         "input_tokens": token_statistics(rows, "input_tokens"),
         "output_tokens": token_statistics(rows, "output_tokens"),
+        "estimated_input_peak": {
+            "max_observed": max(estimates, default=None),
+            "observed_trials": len(estimates),
+            "missing_trials": n - len(estimates),
+            "complete_trials": sum(
+                (row.get("usage") or {}).get("estimated_input_coverage") == "complete"
+                for row in rows
+            ),
+        },
         "context_overflows": dict(
             Counter(r["context_overflow"] for r in rows if r.get("context_overflow"))
         ),
         "stop_reasons": dict(Counter(r.get("stop_reason") or "missing" for r in rows)),
         "mechanisms": {
             flag: {
+                **mechanism_decisions(rows, flag),
                 "triggered_trials": sum(
                     (r.get("mechanisms", {}).get(flag, {}).get("trigger_count") or 0) > 0
                     for r in rows
@@ -902,7 +941,25 @@ def aggregate(args):
         "",
         "Means cover all registered trials; unknown usage remains missing.",
         "Observed-only means, every pair, overflow classes and mechanism coverage: results.json.",
+        "",
+        "## Mechanism Activation",
+        "",
+        "| Arm | Mechanism | Triggered trials | Triggers | Candidates | Skip reasons |",
+        "| --- | --- | ---: | ---: | ---: | --- |",
     ]
+    for arm, values in result["arms"].items():
+        for flag, counts in values["mechanisms"].items():
+            if not m["protocol"]["treatments"][arm][flag]:
+                continue
+            candidates = counts["candidate_count"]
+            candidates = "missing" if candidates is None else str(candidates)
+            reasons = "; ".join(f"{k}: {v}" for k, v in sorted(counts["skip_reasons"].items()))
+            if counts["skip_reason_observed_trials"] < counts["coverage_denominator"]:
+                reasons = (reasons + "; " if reasons else "") + "partial or missing observations"
+            lines.append(
+                f"| {arm} | {flag} | {counts['triggered_trials']}/{counts['coverage_denominator']} "
+                f"| {counts['trigger_count']} | {candidates} | {reasons or 'none'} |"
+            )
     (args.output / "summary.md").write_text("\n".join(lines) + "\n")
     print(json.dumps({"registered_trials": len(rows), "output": str(args.output)}))
 

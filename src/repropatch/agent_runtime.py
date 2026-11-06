@@ -231,7 +231,13 @@ async def run_agent(harness, workspace) -> AgentResult:
     ):
         from .context_optimization import ContextOptimizer
 
-        optimizer = ContextOptimizer(context_state)
+        optimizer = ContextOptimizer(
+            context_state,
+            read_evidence=lambda ref: EvidenceRef(**ref).read(
+                harness.directory,
+                limit=2 * 1024 * 1024,
+            ),
+        )
     closed = False
     (harness.directory / "agent").mkdir(mode=0o700, exist_ok=True)
     (harness.directory / "agent/native").mkdir(mode=0o700, exist_ok=True)
@@ -569,7 +575,14 @@ async def run_agent(harness, workspace) -> AgentResult:
                 "name": name,
                 "ok": value["ok"],
                 "result_ref": asdict(reference),
-                **({"context_optimization": optimization_events} if optimizer is not None else {}),
+                **(
+                    {
+                        "context_optimization": optimization_events,
+                        "context_optimization_decisions": optimizer.last_decisions,
+                    }
+                    if optimizer is not None
+                    else {}
+                ),
             },
             **identity,
         )

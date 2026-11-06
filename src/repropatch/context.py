@@ -369,10 +369,40 @@ class ContextState:
     optimization_state: dict = field(default_factory=dict)
 
     def plan(self, body):
+        metric = None
+        measure = None
+        if self.policy.state_aware_compaction:
+            from .context_optimization import initialize, record_skip
+
+            metric = initialize(self.optimization_state)["metrics"]["state_aware_compaction"]
+            metric["attempts"] += 1
+            measure = self.estimator.estimate(body)
+            metric["last_estimated_input_tokens"] = measure["estimated_input_tokens"]
+            metric["peak_estimated_input_tokens"] = max(
+                metric.get("peak_estimated_input_tokens", 0), measure["estimated_input_tokens"]
+            )
+            metric["trigger_threshold_tokens"] = self.policy.compact_trigger_tokens
+
+        def skip(reason, **details):
+            if metric is not None:
+                record_skip(
+                    self.optimization_state,
+                    "state_aware_compaction",
+                    reason,
+                    stage="plan",
+                    estimated_input_tokens=measure["estimated_input_tokens"],
+                    **details,
+                )
+
         if not self.policy.compaction_enabled:
+            skip("compaction_disabled")
             return None
         items = input_items(body)
-        complete_rounds(items)
+        try:
+            complete_rounds(items)
+        except ContextLimit as exc:
+            skip("unsafe_tool_history", error=exc.reason)
+            raise
         if self.fixed_items is None:
             fixed = []
             for item in items:
@@ -380,16 +410,18 @@ class ContextState:
                     break
                 fixed.append(item)
             self.fixed_items = fixed
-        measure = self.estimator.estimate(body)
-        if not self.policy.compaction_enabled or (
-            measure["estimated_input_tokens"] < self.policy.compact_trigger_tokens
-        ):
+        measure = measure or self.estimator.estimate(body)
+        if measure["estimated_input_tokens"] < self.policy.compact_trigger_tokens:
+            skip("below_threshold", threshold=self.policy.compact_trigger_tokens)
             return None
+        if metric is not None:
+            metric["threshold_reached"] = metric.get("threshold_reached", 0) + 1
         fixed_count = len(self.fixed_items)
         fixed_tokens = self.estimator.estimate({**body, "input": self.fixed_items})[
             "estimated_input_tokens"
         ]
         if fixed_tokens >= self.policy.compact_target_tokens:
+            skip("fixed_prefix_exceeds_target", fixed_tokens=fixed_tokens)
             raise ContextLimit(
                 "COMPACTION_FAILED",
                 detail=f"固定任务前缀 {fixed_tokens} Token 超出摘要目标，需拆分任务与观察数据",
@@ -411,6 +443,7 @@ class ContextState:
             retained = history[cut:]
         if not history[:cut]:
             # 固定头部保留完整；最终准入在完整请求正文留证后执行。
+            skip("no_compressible_history")
             return None
         plan = {
             "fixed": list(self.fixed_items),
@@ -420,14 +453,22 @@ class ContextState:
             "pre_transport_bytes": len(encoded(body)),
             "folded_items": cut,
         }
-        if self.policy.state_aware_compaction and self.semantic_state is not None:
-            from .context_optimization import state_checkpoint
+        if self.policy.state_aware_compaction:
+            from .context_state_projection import state_checkpoint
 
-            checkpoint = state_checkpoint(
-                self.semantic_state,
-                maximum=min(12_000, self.policy.compact_target_tokens * 3 // 4),
-            )
+            maximum = min(12_000, self.policy.compact_target_tokens * 3 // 4)
+            metric["projection_attempts"] = metric.get("projection_attempts", 0) + 1
+            checkpoint = state_checkpoint(self.semantic_state, maximum=maximum)
             if checkpoint is not None:
+                metric["candidates"] += 1
+                if checkpoint["fallback"]:
+                    metric["fallback_candidates"] = metric.get("fallback_candidates", 0) + 1
+                plan["state_projection"] = {
+                    "fallback": checkpoint["fallback"],
+                    "omitted": checkpoint["omitted"],
+                    "checkpoint_bytes": len(encoded(checkpoint)),
+                    "maximum_bytes": maximum,
+                }
                 plan["state_checkpoint"] = {
                     "role": "user",
                     "content": "Current source-bound tool receipts:\n"
@@ -436,6 +477,17 @@ class ContextState:
                     "Historical references describe earlier source states.",
                 }
                 plan["summarize"].append(plan["state_checkpoint"])
+            elif not isinstance(self.semantic_state, dict):
+                skip("missing_semantic_state")
+            elif (
+                not isinstance(self.semantic_state.get("source_tree_sha256"), str)
+                or not self.semantic_state["source_tree_sha256"]
+                or type(self.semantic_state.get("source_epoch")) is not int
+                or self.semantic_state["source_epoch"] < 0
+            ):
+                skip("missing_source_state")
+            else:
+                skip("checkpoint_exceeds_limit", maximum_bytes=maximum)
         return plan
 
     def replace(self, body, plan, summary_text, *, sequence, duration_seconds):
@@ -508,9 +560,10 @@ class ContextState:
         if "state_checkpoint" in plan:
             from .context_optimization import initialize, record_optimization
 
-            initialize(self.optimization_state)["metrics"]["state_aware_compaction"][
-                "attempts"
-            ] += 1
+            metric = initialize(self.optimization_state)["metrics"]["state_aware_compaction"]
+            projection = plan.get("state_projection", {})
+            if projection.get("fallback"):
+                metric["fallback_triggers"] = metric.get("fallback_triggers", 0) + 1
             event = record_optimization(
                 self.optimization_state,
                 "state_aware_compaction",
@@ -518,6 +571,8 @@ class ContextState:
                 len(encoded(plan["state_checkpoint"])),
                 sequence=sequence,
                 measurement="retained_state_message",
+                stage="replace_committed",
+                **projection,
             )
             self.compactions[-1]["context_optimization"] = [event]
         return replacement

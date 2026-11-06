@@ -676,6 +676,11 @@ class LocalUsageLedger:
         unknown_usage = sum(row[0] is None for row in rows)
         known_input = sum(v["input_tokens"] for v in values)
         known_output = sum(v["output_tokens"] for v in values)
+        estimates = [
+            v["estimated_input_tokens"]
+            for v in telemetry
+            if type(v.get("estimated_input_tokens")) is int and v["estimated_input_tokens"] >= 0
+        ]
         return {
             "request_cap": self.request_cap(attempt)
             if attempt is not None
@@ -697,6 +702,16 @@ class LocalUsageLedger:
                 (v.get("output_tokens_details") or {}).get("reasoning_tokens", 0) for v in values
             ),
             "peak_single_input_tokens": max((v["input_tokens"] for v in values), default=0),
+            "peak_estimated_input_tokens": max(estimates, default=None),
+            "estimated_input_observations": len(estimates),
+            "unknown_estimated_input_observations": len(telemetry) - len(estimates),
+            "estimated_input_coverage": (
+                "absent"
+                if not estimates
+                else "complete"
+                if len(estimates) == len(telemetry)
+                else "partial"
+            ),
             "peak_transport_bytes": max((v["transport_bytes"] for v in telemetry), default=0),
             "opaque_state_peak_bytes": max(
                 (v.get("opaque_state_bytes") or 0 for v in telemetry), default=0

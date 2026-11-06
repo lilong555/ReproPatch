@@ -101,7 +101,10 @@ class LeaseManager:
         phase = request.get("phase")
         cap = request.get("request_cap")
         unbounded = campaign == UNBOUNDED_CAMPAIGN and phase == "development"
-        context_ablation = campaign == "context-ablation-20261106"
+        context_ablation = campaign in {
+            "context-ablation-20261106",
+            "context-ablation-trigger-20261106",
+        }
         limits = {
             "calibration": 12,
             "development": 480,

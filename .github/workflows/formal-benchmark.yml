@@ -16,7 +16,7 @@ on:
         type: string
         default: 'open-source-parsers__jsoncpp-1696,ninja-build__ninja-2749,stephenberry__glaze-2611'
       cross_protocol:
-        description: '跨仓库冻结阶段协议文件'
+        description: '跨仓库或上下文消融的冻结协议文件'
         required: false
         type: string
         default: 'benchmarks/cross-repo/development-protocol.json'
@@ -77,6 +77,7 @@ jobs:
     uses: ./.github/workflows/context-ablation.yml
     with:
       scope: ${{ inputs.context_scope }}
+      protocol: ${{ inputs.cross_protocol == 'benchmarks/cross-repo/development-protocol.json' && 'benchmarks/context-ablation/protocol.json' || inputs.cross_protocol }}
     secrets: inherit
   cross-repository:
     if: inputs.cross_stage != 'legacy' && inputs.cross_stage != '' && inputs.cross_stage != 'context-ablation'
