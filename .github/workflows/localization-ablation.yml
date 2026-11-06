@@ -1,0 +1,232 @@
+name: Localization ablation
+
+on:
+  workflow_call:
+    inputs:
+      scope:
+        type: string
+        required: true
+      protocol:
+        type: string
+        default: benchmarks/localization-ablation/protocol.json
+      smoke_run:
+        type: string
+        default: ''
+    secrets:
+      CPA_API_KEY:
+        required: true
+      CPA_SSH_PRIVATE_KEY:
+        required: true
+      CPA_SSH_KNOWN_HOSTS:
+        required: true
+      CPA_LEASE_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONPATH: ${{ github.workspace }}/src
+  ABLATION_PROTOCOL: ${{ inputs.protocol }}
+  ABLATION_SCOPE: ${{ inputs.scope }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,dev,semantic]'
+      - name: Require same-source CI, offline contracts and predecessor smoke
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SMOKE_RUN: ${{ inputs.smoke_run }}
+        run: >-
+          python scripts/localization_ablation.py preflight
+          --protocol "$ABLATION_PROTOCOL" --scope "$ABLATION_SCOPE"
+          --smoke-run "$SMOKE_RUN" --wait-ci 1200
+          --output .repropatch/localization-gate.json
+      - name: Freeze independent paired matrix
+        id: plan
+        run: >-
+          python scripts/localization_ablation.py plan
+          --protocol "$ABLATION_PROTOCOL" --scope "$ABLATION_SCOPE"
+          --gate .repropatch/localization-gate.json
+          --output .repropatch/localization-plan.json --github-output "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: localization-plan-${{ github.run_id }}-${{ inputs.scope }}
+          path: |
+            .repropatch/localization-plan.json
+            .repropatch/localization-gate.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  attempt:
+    name: ${{ inputs.scope }} / ${{ matrix.job_key }} / ${{ matrix.instance_id }} / ${{ matrix.arm }} / r${{ matrix.repeat }}
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      ATTEMPT_ID: ${{ matrix.attempt_id }}
+      CPA_SSH_KEY_FILE: ${{ github.workspace }}/.repropatch/ssh/identity
+      CPA_SSH_KNOWN_HOSTS_FILE: ${{ github.workspace }}/.repropatch/ssh/known_hosts
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,semantic]'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: localization-plan-${{ github.run_id }}-${{ inputs.scope }}
+          path: .repropatch/plan
+      - name: Restore frozen task and prepare native inputs
+        run: >-
+          python -u scripts/localization_ablation.py prepare
+          --protocol "$ABLATION_PROTOCOL" --scope "$ABLATION_SCOPE"
+          --manifest .repropatch/plan/localization-plan.json
+          --attempt-id "$ATTEMPT_ID" --output .repropatch/localization-attempt
+      - name: Install dedicated SSH identity
+        env:
+          SSH_KEY: ${{ secrets.CPA_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.CPA_SSH_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 .repropatch/ssh
+          umask 077
+          printf '%s\n' "$SSH_KEY" > "$CPA_SSH_KEY_FILE"
+          printf '%s\n' "$KNOWN_HOSTS" > "$CPA_SSH_KNOWN_HOSTS_FILE"
+      - name: Execute readonly localization and repair with one shared ledger
+        env:
+          OPENAI_API_KEY: ${{ secrets.CPA_API_KEY }}
+          CPA_LEASE_TOKEN: ${{ secrets.CPA_LEASE_TOKEN }}
+        run: >-
+          python -u scripts/localization_ablation.py run
+          --protocol "$ABLATION_PROTOCOL" --scope "$ABLATION_SCOPE"
+          --manifest .repropatch/plan/localization-plan.json
+          --attempt-id "$ATTEMPT_ID" --output .repropatch/localization-attempt
+      - name: Archive generation evidence with per-file hashes
+        if: always()
+        run: >-
+          python scripts/actions_benchmark.py pack
+          --source .repropatch/localization-attempt
+          --output .repropatch/localization-attempt.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: localization-raw-${{ github.run_id }}-${{ inputs.scope }}-${{ matrix.job_key }}
+          path: |
+            .repropatch/localization-attempt.tar.gz
+            .repropatch/localization-attempt.tar.gz.sha256
+            .repropatch/localization-attempt.tar.metadata.json
+          include-hidden-files: true
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+
+  score:
+    name: score / ${{ inputs.scope }} / ${{ matrix.job_key }}
+    if: always() && needs.plan.result == 'success'
+    needs: [plan, attempt]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      ATTEMPT_ID: ${{ matrix.attempt_id }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -c requirements/agent.txt -e '.[agent,semantic]'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: localization-plan-${{ github.run_id }}-${{ inputs.scope }}
+          path: .repropatch/plan
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: localization-raw-${{ github.run_id }}-${{ inputs.scope }}-${{ matrix.job_key }}
+          path: .repropatch/archive
+      - name: Verify and restore frozen generation evidence
+        run: >-
+          python scripts/localization_ablation.py unpack
+          --archive .repropatch/archive/localization-attempt.tar.gz
+          --output .repropatch/localization-attempt
+      - name: Independent localization scorer and cold container oracle
+        run: >-
+          python -u scripts/localization_ablation.py score
+          --protocol "$ABLATION_PROTOCOL" --scope "$ABLATION_SCOPE"
+          --manifest .repropatch/plan/localization-plan.json
+          --attempt-id "$ATTEMPT_ID" --output .repropatch/localization-attempt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: localization-summary-${{ github.run_id }}-${{ inputs.scope }}-${{ matrix.job_key }}
+          path: |
+            .repropatch/localization-attempt/summary.json
+            .repropatch/localization-attempt/runner-status.json
+            .repropatch/localization-attempt/localization-score*.json
+            .repropatch/localization-attempt/localization-labels.json
+            .repropatch/localization-attempt/localization-labels.log
+            .repropatch/localization-attempt/localization-score.log
+            .repropatch/localization-attempt/score.log
+            .repropatch/localization-attempt/score/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    if: always() && needs.plan.result == 'success'
+    needs: [plan, score]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: localization-plan-${{ github.run_id }}-${{ inputs.scope }}
+          path: .repropatch/plan
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: localization-summary-${{ github.run_id }}-${{ inputs.scope }}-*
+          path: .repropatch/localization-summaries
+      - name: Aggregate all registered attempts and check smoke plumbing
+        run: >-
+          python scripts/localization_ablation.py aggregate
+          --protocol "$ABLATION_PROTOCOL" --scope "$ABLATION_SCOPE"
+          --manifest .repropatch/plan/localization-plan.json
+          --source .repropatch/localization-summaries --output .repropatch/localization-results
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: localization-results-${{ github.run_id }}-${{ inputs.scope }}
+          path: .repropatch/localization-results/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

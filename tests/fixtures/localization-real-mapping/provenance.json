@@ -1,0 +1,53 @@
+{
+  "schema": "repropatch.localization-real-mapping-fixtures.v1",
+  "qualification_archive": "benchmarks/context-ablation/inputs/batch-40194807297-1-0.tar.gz",
+  "qualification_archive_sha256": "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+  "repository": "https://github.com/fmtlib/fmt",
+  "source_scope": "Only reference-touched files; full bytes match the prepared-source manifest.",
+  "fixtures": [
+    {
+      "instance_id": "fmtlib__fmt-2317",
+      "upstream_commit": "7612f18dc8e0112e64e0845a1ebe9da6cfb8a123",
+      "prepared_commit": "749b81b56118df1ee261c59be0063ddd497bc087",
+      "reference_patch_sha256": "c1e2f8290f8b898f4e3e6d281864f84b46f9b976860c4437c05f70434eb52504",
+      "files": [
+        {
+          "path": "source/include/fmt/format.h",
+          "manifest_key": "repository/include/fmt/format.h",
+          "url": "https://raw.githubusercontent.com/fmtlib/fmt/7612f18dc8e0112e64e0845a1ebe9da6cfb8a123/include/fmt/format.h",
+          "size": 107236,
+          "sha256": "ff7349ac13fc78dca367b3b2718c2e97894b6d36fee45e7de4a1ea88692e9e68"
+        },
+        {
+          "path": "LICENSE.rst",
+          "manifest_key": "repository/LICENSE.rst",
+          "url": "https://raw.githubusercontent.com/fmtlib/fmt/7612f18dc8e0112e64e0845a1ebe9da6cfb8a123/LICENSE.rst",
+          "size": 1408,
+          "sha256": "825c9324e70f8c839c8ba910543dd4a7daee243b86ef960594c11381a19980b8"
+        }
+      ]
+    },
+    {
+      "instance_id": "fmtlib__fmt-3713",
+      "upstream_commit": "649fe0fc8b9366375eab67639cab404617c527cd",
+      "prepared_commit": "97636a89940bd5ba0eb2a867310e67ba6e204b14",
+      "reference_patch_sha256": "6bce177a4ed0d1bace4568df585c707bd6aff85d729db8f4edc047d77be107f1",
+      "files": [
+        {
+          "path": "source/include/fmt/format.h",
+          "manifest_key": "repository/include/fmt/format.h",
+          "url": "https://raw.githubusercontent.com/fmtlib/fmt/649fe0fc8b9366375eab67639cab404617c527cd/include/fmt/format.h",
+          "size": 165366,
+          "sha256": "24922794bd73d56f958fff1b5908e05269dad5ce88d9b103096fa0b6993e095d"
+        },
+        {
+          "path": "LICENSE",
+          "manifest_key": "repository/LICENSE",
+          "url": "https://raw.githubusercontent.com/fmtlib/fmt/649fe0fc8b9366375eab67639cab404617c527cd/LICENSE",
+          "size": 1431,
+          "sha256": "07580f2a3b35709ce703d523f447b242f6dfec7582a8c0df102c7fa2849375f8"
+        }
+      ]
+    }
+  ]
+}

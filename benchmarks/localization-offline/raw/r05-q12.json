@@ -1,0 +1,576 @@
+{
+  "query_id": 12,
+  "query": "output_file",
+  "scope": ".",
+  "repeat": 5,
+  "order": [
+    "A_search",
+    "B_summary",
+    "C_no_evidence"
+  ],
+  "gold": {
+    "path": "include/fmt/os.h",
+    "symbol": "output_file",
+    "kind": "function_definition",
+    "line": 413,
+    "anchor": "inline auto output_file("
+  },
+  "methods": {
+    "A_search": [
+      {
+        "response": {
+          "matches": [
+            {
+              "path": "include/fmt/os.h",
+              "line": 385,
+              "text": "  friend auto output_file(cstring_view path, T... params) -> ostream;"
+            },
+            {
+              "path": "include/fmt/os.h",
+              "line": 409,
+              "text": " *     auto out = fmt::output_file(\"guide.txt\");"
+            },
+            {
+              "path": "include/fmt/os.h",
+              "line": 413,
+              "text": "inline auto output_file(cstring_view path, T... params) -> ostream {"
+            }
+          ],
+          "truncated": false
+        },
+        "response_sha256": "cd9eaf3662c1e7ebbc9bc271f1a65712de191bb26f2cf69b6c01f5002d392895",
+        "bytes": {
+          "total_json_bytes": 365,
+          "source_text_utf8_bytes": 185,
+          "path_utf8_bytes": 48,
+          "source_text_json_payload_bytes": 187,
+          "path_json_payload_bytes": 48,
+          "metadata_and_framing_json_bytes": 130
+        },
+        "timing": {
+          "cpu_ns": 450964,
+          "wall_ns": 452531,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/os.h",
+              385
+            ],
+            [
+              "include/fmt/os.h",
+              409
+            ],
+            [
+              "include/fmt/os.h",
+              413
+            ]
+          ]
+        }
+      }
+    ],
+    "B_summary": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "bounded",
+          "query": "output_file",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "3f03fabe3d96855aa67233c836024e1a9b923e767a5436872a0b9d573907814c",
+          "page_kind": "files",
+          "candidates": [
+            {
+              "candidate_id": "5a1e8270db4be19608088d8a7e65915f06a4c9108e8cb32fc82e6254c033704e",
+              "path": "include/fmt/os.h",
+              "file_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+              "match_count": 3,
+              "hit_lines": [
+                385,
+                409,
+                413
+              ],
+              "hit_lines_next_cursor": null
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "bounded_mode",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0004287039992050268,
+            "oversize_file": false
+          },
+          "ranking_seconds": 7.920007192296907e-07
+        },
+        "response_sha256": "82c0d39304df606ad3a09005ae888365a67fe6835c7f8756f3c2519ab507fd81",
+        "bytes": {
+          "total_json_bytes": 926,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 16,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 16,
+          "metadata_and_framing_json_bytes": 910
+        },
+        "timing": {
+          "cpu_ns": 481141,
+          "wall_ns": 482189,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 28615,
+          "wall_ns": 29558
+        }
+      }
+    ],
+    "C_no_evidence": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "feedback",
+          "query": "output_file",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "3f03fabe3d96855aa67233c836024e1a9b923e767a5436872a0b9d573907814c",
+          "page_kind": "files",
+          "candidates": [
+            {
+              "candidate_id": "5a1e8270db4be19608088d8a7e65915f06a4c9108e8cb32fc82e6254c033704e",
+              "path": "include/fmt/os.h",
+              "file_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+              "match_count": 3,
+              "hit_lines": [
+                385,
+                409,
+                413
+              ],
+              "hit_lines_next_cursor": null,
+              "ranking": {
+                "reason": "text_order",
+                "evidence_count": 0,
+                "evidence": []
+              }
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "no_registered_feedback",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0004472700002224883,
+            "oversize_file": false
+          },
+          "ranking_seconds": 2.153999957954511e-06
+        },
+        "response_sha256": "d89a33f53a9556cfb3d95afdb3cb86a4b7bbe9648be81fa446943bc5da476d9f",
+        "bytes": {
+          "total_json_bytes": 1004,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 16,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 16,
+          "metadata_and_framing_json_bytes": 988
+        },
+        "timing": {
+          "cpu_ns": 500949,
+          "wall_ns": 502199,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 22021,
+          "wall_ns": 22945
+        }
+      }
+    ],
+    "B_drill": [
+      {
+        "response": {
+          "path": "include/fmt/os.h",
+          "editable": false,
+          "start_line": 365,
+          "text": "  FMT_API ostream(cstring_view path, const detail::ostream_params& params);\n\n  FMT_API static void grow(buffer<char>& buf, size_t);\n\n public:\n  FMT_API ostream(ostream&& other) noexcept;\n  FMT_API ~ostream();\n\n  operator writer() {\n    detail::buffer<char>& buf = *this;\n    return buf;\n  }\n\n  inline void flush() {\n    if (size() == 0) return;\n    file_.write(data(), size() * sizeof(data()[0]));\n    clear();\n  }\n\n  template <typename... T>\n  friend auto output_file(cstring_view path, T... params) -> ostream;\n\n  inline void close() {\n    flush();\n    file_.close();\n  }\n\n  /// Formats `args` according to specifications in `fmt` and writes the\n  /// output to the file.\n  template <typename... T> void print(format_string<T...> fmt, T&&... args) {\n    vformat_to(appender(*this), fmt.str, vargs<T...>{{args...}});\n  }\n};\n\n/**\n * Opens a file for writing. Supported parameters passed in `params`:\n *\n * - `<integer>`: Flags passed to [open](\n *   https://pubs.opengroup.org/onlinepubs/007904875/functions/open.html)\n *   (`file::WRONLY | file::CREATE | file::TRUNC` by default)\n * - `buffer_size=<integer>`: Output buffer size\n *\n * **Example**:\n *\n *     auto out = fmt::output_file(\"guide.txt\");\n *     out.print(\"Don't {}\", \"Panic\");\n */\ntemplate <typename... T>\ninline auto output_file(cstring_view path, T... params) -> ostream {\n  return {path, detail::ostream_params(params...)};\n}\n#endif  // FMT_USE_FCNTL\n\nFMT_END_EXPORT\nFMT_END_NAMESPACE\n\n#endif  // FMT_OS_H_\n",
+          "total_lines": 421,
+          "truncated": false,
+          "end_line": 421
+        },
+        "response_sha256": "a8f87b2ed772e027200248c9b6e1c73593d9d9bdb04419fa09df3ddcbf9cc0fb",
+        "bytes": {
+          "total_json_bytes": 1658,
+          "source_text_utf8_bytes": 1473,
+          "path_utf8_bytes": 16,
+          "source_text_json_payload_bytes": 1536,
+          "path_json_payload_bytes": 16,
+          "metadata_and_framing_json_bytes": 106
+        },
+        "timing": {
+          "cpu_ns": 201962,
+          "wall_ns": 203030,
+          "read_calls": 1,
+          "read_bytes": 12648
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/os.h",
+              365
+            ],
+            [
+              "include/fmt/os.h",
+              367
+            ],
+            [
+              "include/fmt/os.h",
+              369
+            ],
+            [
+              "include/fmt/os.h",
+              370
+            ],
+            [
+              "include/fmt/os.h",
+              371
+            ],
+            [
+              "include/fmt/os.h",
+              373
+            ],
+            [
+              "include/fmt/os.h",
+              374
+            ],
+            [
+              "include/fmt/os.h",
+              375
+            ],
+            [
+              "include/fmt/os.h",
+              376
+            ],
+            [
+              "include/fmt/os.h",
+              378
+            ],
+            [
+              "include/fmt/os.h",
+              379
+            ],
+            [
+              "include/fmt/os.h",
+              380
+            ],
+            [
+              "include/fmt/os.h",
+              381
+            ],
+            [
+              "include/fmt/os.h",
+              382
+            ],
+            [
+              "include/fmt/os.h",
+              384
+            ],
+            [
+              "include/fmt/os.h",
+              385
+            ],
+            [
+              "include/fmt/os.h",
+              387
+            ],
+            [
+              "include/fmt/os.h",
+              388
+            ],
+            [
+              "include/fmt/os.h",
+              389
+            ],
+            [
+              "include/fmt/os.h",
+              390
+            ],
+            [
+              "include/fmt/os.h",
+              392
+            ],
+            [
+              "include/fmt/os.h",
+              393
+            ],
+            [
+              "include/fmt/os.h",
+              394
+            ],
+            [
+              "include/fmt/os.h",
+              395
+            ],
+            [
+              "include/fmt/os.h",
+              396
+            ],
+            [
+              "include/fmt/os.h",
+              397
+            ],
+            [
+              "include/fmt/os.h",
+              399
+            ],
+            [
+              "include/fmt/os.h",
+              400
+            ],
+            [
+              "include/fmt/os.h",
+              401
+            ],
+            [
+              "include/fmt/os.h",
+              402
+            ],
+            [
+              "include/fmt/os.h",
+              403
+            ],
+            [
+              "include/fmt/os.h",
+              404
+            ],
+            [
+              "include/fmt/os.h",
+              405
+            ],
+            [
+              "include/fmt/os.h",
+              406
+            ],
+            [
+              "include/fmt/os.h",
+              407
+            ],
+            [
+              "include/fmt/os.h",
+              408
+            ],
+            [
+              "include/fmt/os.h",
+              409
+            ],
+            [
+              "include/fmt/os.h",
+              410
+            ],
+            [
+              "include/fmt/os.h",
+              411
+            ],
+            [
+              "include/fmt/os.h",
+              412
+            ],
+            [
+              "include/fmt/os.h",
+              413
+            ],
+            [
+              "include/fmt/os.h",
+              414
+            ],
+            [
+              "include/fmt/os.h",
+              415
+            ],
+            [
+              "include/fmt/os.h",
+              416
+            ],
+            [
+              "include/fmt/os.h",
+              418
+            ],
+            [
+              "include/fmt/os.h",
+              419
+            ],
+            [
+              "include/fmt/os.h",
+              421
+            ]
+          ]
+        },
+        "arguments": {
+          "path": "include/fmt/os.h",
+          "start_line": 365,
+          "max_lines": 200
+        }
+      }
+    ]
+  },
+  "fixed_candidates": {
+    "stream": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 385,
+        "text": "  friend auto output_file(cstring_view path, T... params) -> ostream;",
+        "candidate_id": "13785ef5178102eb0d642bd9c78ae231e00b577536387460424aae68614bebca"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 409,
+        "text": " *     auto out = fmt::output_file(\"guide.txt\");",
+        "candidate_id": "762c1fec5e127f8335c8ad91d443b662f6ada845c3bb01c92deb37d7f2c48d06"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 413,
+        "text": "inline auto output_file(cstring_view path, T... params) -> ostream {",
+        "candidate_id": "486a7e589313d82c7c0693c349ba14d8d50694b2c8470c81331b22fd8c760878"
+      }
+    ],
+    "stream_sha256": "d01396c196f9d0344e200719746cd5169ef1dab5e13be8bc617dd2252de483f4",
+    "generation": {
+      "cpu_ns": 439292,
+      "wall_ns": 440467,
+      "read_calls": 3,
+      "read_bytes": 25053
+    },
+    "flat": {
+      "response": {
+        "matches": [
+          {
+            "candidate_id": "13785ef5178102eb0d642bd9c78ae231e00b577536387460424aae68614bebca",
+            "line": 385,
+            "path": "include/fmt/os.h",
+            "text": "  friend auto output_file(cstring_view path, T... params) -> ostream;"
+          },
+          {
+            "candidate_id": "762c1fec5e127f8335c8ad91d443b662f6ada845c3bb01c92deb37d7f2c48d06",
+            "line": 409,
+            "path": "include/fmt/os.h",
+            "text": " *     auto out = fmt::output_file(\"guide.txt\");"
+          },
+          {
+            "candidate_id": "486a7e589313d82c7c0693c349ba14d8d50694b2c8470c81331b22fd8c760878",
+            "line": 413,
+            "path": "include/fmt/os.h",
+            "text": "inline auto output_file(cstring_view path, T... params) -> ostream {"
+          }
+        ]
+      },
+      "response_sha256": "b718c98812d2ebb960e10afaa2cfc6867f3fdd2dd51ba0d2cf9fddb9c5fa3e43",
+      "bytes": {
+        "total_json_bytes": 593,
+        "source_text_utf8_bytes": 185,
+        "path_utf8_bytes": 48,
+        "source_text_json_payload_bytes": 187,
+        "path_json_payload_bytes": 48,
+        "metadata_and_framing_json_bytes": 358
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 5681,
+        "wall_ns": 6522
+      }
+    },
+    "grouped": {
+      "response": {
+        "files": [
+          {
+            "matches": [
+              {
+                "candidate_id": "13785ef5178102eb0d642bd9c78ae231e00b577536387460424aae68614bebca",
+                "line": 385,
+                "text": "  friend auto output_file(cstring_view path, T... params) -> ostream;"
+              },
+              {
+                "candidate_id": "762c1fec5e127f8335c8ad91d443b662f6ada845c3bb01c92deb37d7f2c48d06",
+                "line": 409,
+                "text": " *     auto out = fmt::output_file(\"guide.txt\");"
+              },
+              {
+                "candidate_id": "486a7e589313d82c7c0693c349ba14d8d50694b2c8470c81331b22fd8c760878",
+                "line": 413,
+                "text": "inline auto output_file(cstring_view path, T... params) -> ostream {"
+              }
+            ],
+            "path": "include/fmt/os.h"
+          }
+        ]
+      },
+      "response_sha256": "fe3ac6af5dcf5dec4e8c6b818c644ad12817cbb5f53211bd85f435f6661f41d4",
+      "bytes": {
+        "total_json_bytes": 553,
+        "source_text_utf8_bytes": 185,
+        "path_utf8_bytes": 16,
+        "source_text_json_payload_bytes": 187,
+        "path_json_payload_bytes": 16,
+        "metadata_and_framing_json_bytes": 350
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 7905,
+        "wall_ns": 8747
+      }
+    },
+    "same_records_order_content": true,
+    "baseline_same_match_stream": true
+  },
+  "sanity": {
+    "candidate_ids_and_order_equal": true,
+    "candidate_pool_hashes_equal": true,
+    "scan_work_equal": true,
+    "feedback_fallback": true
+  }
+}

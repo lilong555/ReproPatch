@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-11-06T15:00:45.643810+00:00",
+  "parent_protocol_sha256": "2a30d24aab5cddd2cc183ec45bf258bbead30a2744d90728366ea936ae6be5a3",
+  "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+  "fmt_files": {
+    "include/fmt/args.h": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83",
+    "include/fmt/ostream.h": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+    "include/fmt/os.h": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+    "LICENSE": "a65fcc5a1095fc33cc37e4fff69366e49d7e92f613558a2b95ed1b70e33758b4"
+  },
+  "gold": [
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "dynamic_arg_list",
+      "kind": "class_specifier",
+      "line": 43,
+      "anchor": "class dynamic_arg_list {"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "push",
+      "kind": "function_definition",
+      "line": 58,
+      "anchor": "auto push(const Arg& arg)"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "clear",
+      "kind": "function_definition",
+      "line": 197,
+      "anchor": "void clear() {"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "reserve",
+      "kind": "function_definition",
+      "line": 205,
+      "anchor": "void reserve(size_t new_cap,"
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "file_access_tag",
+      "kind": "struct_specifier",
+      "line": 39,
+      "anchor": "struct file_access_tag {};"
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "write_buffer",
+      "kind": "function_definition",
+      "line": 56,
+      "anchor": "void write_buffer("
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "streamed",
+      "kind": "function_definition",
+      "line": 116,
+      "anchor": "constexpr auto streamed("
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "println",
+      "kind": "function_definition",
+      "line": 164,
+      "anchor": "void println(std::ostream&"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "basic_cstring_view",
+      "kind": "class_specifier",
+      "line": 98,
+      "anchor": "class basic_cstring_view {"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "c_str",
+      "kind": "function_definition",
+      "line": 110,
+      "anchor": "auto c_str() const"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "system_category",
+      "kind": "function_definition",
+      "line": 161,
+      "anchor": "inline auto system_category()"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "output_file",
+      "kind": "function_definition",
+      "line": 413,
+      "anchor": "inline auto output_file("
+    }
+  ],
+  "code_files": {
+    "scripts/benchmark_localization.py": "3faaf487d1a96d2c882b792378c0cff6a57f94e84ee61365d4c8b37aa3b43ba4",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "pyproject.toml": "8c749504693ce9bd7ea3dba85e8803ef98722a28a739166fe1f8cc904a6e9a61",
+    "src/repropatch/__init__.py": "916c7164bb41cb29f1c5b66b7d9299cb29d3fe7d1b7cc211def08d3887a9b944",
+    "src/repropatch/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/repropatch/agent_runtime.py": "aa04be32044fcc167023a273b1cd19ae646fe904ebb44265483ac88a5010f5e3",
+    "src/repropatch/artifacts.py": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+    "src/repropatch/cli.py": "9609bd34ce5c0773cf7f98515ce6e8df69a5fb27f9a5aaa7ffdb6b403f87dbce",
+    "src/repropatch/context.py": "f41ebced93d63ec18ba489e0808ec7f8b79f9c9ea5ed11d1788b9e4fc9b8ca82",
+    "src/repropatch/context_diagnostics.py": "367261b3a0eebc37882c7101fc5f2e14ff9d74570112b32c76d57b9b70fd4556",
+    "src/repropatch/context_optimization.py": "57cab925f310a6e64c293f2e8be121ee904a027e1812987879e7c3a0764cb92c",
+    "src/repropatch/context_state_projection.py": "a7a4cc0d63dd1f4abf80a3834abeab64f3989d0b41d0ce2098e6eb337eb185c2",
+    "src/repropatch/cpa.py": "39d1d8338e02b06d917a718735722e66d39e655ecc6bdc83a57ea495ca729877",
+    "src/repropatch/demo.py": "a3fd01beabeb7372708b4dea328d09feb5f86e7bc80565dc7deaaf1c097d4b80",
+    "src/repropatch/diagnostics.py": "0e63d7faac2b599993323598b2b2175e00ccd153013b9dd24742de9a49f323a4",
+    "src/repropatch/errors.py": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+    "src/repropatch/events.py": "21b95c134e0dd3d10356eedaa5340f23616655ecefd4bacbdd60e64501db6add",
+    "src/repropatch/harness.py": "c96051c935fc15b0857d6708839f89ba98d82a6f2eb1439bd3921281eeec0a26",
+    "src/repropatch/localization.py": "3af82bd74248e795e21ce032e34d284b00a0842c2089f859306d8133b27f0a72",
+    "src/repropatch/localization_runtime.py": "5faf4e5eb907a9cdb6b830d54aea1b9ae5de4bf4be233fab6fe9cbcef1bfffcf",
+    "src/repropatch/localization_scoring.py": "e57ce5982b82df2c6dbef32134cabf591117de0c92c4260ce46bbe41537f61b5",
+    "src/repropatch/models.py": "02092ae40d74f2ff456745fd12d233eb1bf6c4d6237cda57e7f977e0ede1e4bc",
+    "src/repropatch/process.py": "d3ad6c80d26542bf4a9dcd8c01051cf48659031f52590e6fb2ad6d2c7b3d9c84",
+    "src/repropatch/recovery.py": "32f4814a7bd95d7b69b85425c82a6cbe4cdd298bc0840d709d712f46103d74b0",
+    "src/repropatch/repair_sandbox.py": "d90107fcd7cee538b2d9a9a8a99164b5be93926e801c7f78373a040554d16982",
+    "src/repropatch/reports.py": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+    "src/repropatch/resources.py": "25cb0e124685db59ad487656e8c38c280e9fc1d76479c73cde7cd5856e69a25a",
+    "src/repropatch/sandbox.py": "3da117bf358777946dae4f4a29517744bfe59ca7504dd7fbaefaac703d70d3c0",
+    "src/repropatch/semantic_state.py": "44ad34e95e707bd349f27f3c8a84b785f0ceb24ab4ac1218160ec3832cde1490",
+    "src/repropatch/task.py": "89150615e82c627565a611fabaff3ad9906c4941bc1473e55f518128d3be1500",
+    "src/repropatch/tools.py": "ea27d7699de2611e9a136ca608bf07a54b3284f5b4f4973bcee4043410a829c8",
+    "src/repropatch/trace.py": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+    "src/repropatch/verification.py": "9756cafc1b7befbd341599de484ce54e30bbcb936489a4d076e79523ddbda1ce",
+    "src/repropatch/workspace.py": "6d1a507881153d4a8eeac8458d3f59a691b995bb94d0bf0850bbc721f00378fc"
+  },
+  "production_source_tar_sha256": "e84bc9c2643b0a4682adc912118e7888020984e21dbb085e0217786ed157bf61",
+  "repeats": 5,
+  "model_calls": 0,
+  "query_scope": [
+    "include/fmt/args.h",
+    "include/fmt/os.h",
+    "include/fmt/ostream.h"
+  ],
+  "source_git_head": "f1eca0d43617594529896d5f20d65811eff5803b",
+  "source_identity": "Exact file hashes and archive include uncommitted production code.",
+  "protocol": {
+    "queries": "All 12 preregistered strings, case-sensitive literal; scope is all 3 headers.",
+    "baseline": "Current production Toolbox.search_code, unchanged.",
+    "bounded": "Localization(mode=bounded).search; drain file/scan pages, at most 64 pages.",
+    "drill": "One read_file per candidate, start=max(1, first_hit-20), max_lines=200; gold-free.",
+    "fixed": "One full literal match stream, 300-char line previews; identical IDs, text and order in flat and file-grouped JSON.",
+    "scoring": "Registered definition-anchor proxy; candidate paths and actual anchor text scored separately after navigation.",
+    "bytes": "Canonical UTF-8 JSON before runtime envelope; primary repeat 1. Every repeat retained. Text/path encoded payloads disjoint; remainder metadata/framing.",
+    "timing": "perf_counter_ns/process_time_ns; all repeated queries retained. Production work includes identity checks and adapter I/O; filesystem cache uncontrolled. Setup and fixed-stream generation separate.",
+    "order": "Rotate A/B/C order by (repeat-1+query_index)%3; B drill afterwards.",
+    "sanity": "C without feedback, same candidate pool and order, same scan work, explicit fallback.",
+    "scope": "Offline static tool responses; model tokens, localization decisions and repair outcomes unmeasured."
+  }
+}

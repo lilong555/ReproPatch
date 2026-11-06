@@ -127,6 +127,10 @@ EVENT_TYPES = {
     "recovery_finished",
     "context_compacted",
     "context_compaction_failed",
+    "localization_exposure",
+    "localization_phase_finished",
+    "localization_receipt_prepared",
+    "localization_receipt_omitted",
 }
 ENVELOPE_KEYS = {
     "schema_version",

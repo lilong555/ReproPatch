@@ -266,7 +266,7 @@ def sdk_tools_sha256(tools=None):
     ).hexdigest()
 
 
-def sdk_tools(toolbox, boundary, shell, *, semantic=None):
+def sdk_tools(toolbox, boundary, shell, *, semantic=None, localization=None):
     """SDK 从注册的 async 回调生成工具 schema。"""
     from agents import function_tool
     from pydantic import StrictInt
@@ -306,6 +306,16 @@ def sdk_tools(toolbox, boundary, shell, *, semantic=None):
         return await boundary("run_shell", lambda: shell(command, cwd, timeout_seconds))
 
     registered = [list_directory, read_file, search_code, edit_file, run_command, run_shell]
+    if localization is not None:
+
+        @function_tool(failure_error_function=None)
+        async def search_files(query: str, path: str = ".", cursor: str | None = None) -> str:
+            """按文件汇总授权字面匹配；以read_file下钻hit_lines，next_cursor续查同查询与源码。"""
+            return await boundary(
+                "search_files", lambda: localization.search(query, path=path, cursor=cursor)
+            )
+
+        registered[2] = search_files
     if semantic is not None:
 
         @function_tool(failure_error_function=None)

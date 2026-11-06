@@ -70,7 +70,22 @@ flowchart LR
 
 真实模型连接、工具模式、自检 ccache 与上下文配置见[工程指南](docs/ENGINEERING.md)。发布后接入和优化见[工程路线](docs/ROADMAP.md)，安全与恢复合同见[SECURITY](SECURITY.md)。
 
-[运行时实验结果](docs/EXPERIMENT_RESULTS.md)记录原始轨迹与微基准；[上下文消融](benchmarks/context-ablation/README.md)提供固定分组、触发观测与复算入口。[执行反馈引导定位](docs/LOCALIZATION_DESIGN.md)给出文献依据、接口设计和独立配对实验方案。
+[运行时实验结果](docs/EXPERIMENT_RESULTS.md)记录原始轨迹与微基准；[上下文消融](benchmarks/context-ablation/README.md)提供固定分组、触发观测与复算入口。
+
+## 执行反馈驱动定位
+
+源码版提供文件级摘要、源码窗口下钻和执行证据排序。`search_files` 在授权源码上聚合字面匹配，返回文件、命中行及续查游标；`feedback` 模式依据模型已收到的编译诊断、测试断言和栈位置重排同一候选池。源码变化使旧证据权重及游标失效。Tree-sitter 保留在独立的可选语法查询模式。
+
+```bash
+python -m pip install -c requirements/agent.txt -e '.[agent]'
+repropatch run task.yaml --engine agents-sdk --model MODEL \
+  --allow-paid-model --localization-mode feedback \
+  --localization-tool-budget 8 --localization-step-budget 4
+```
+
+三组配置为 `native`、`bounded`、`feedback`，共用源码窗口、模型及总执行预算。前置定位阶段只读，随后进入修复；SQLite 记录待交付回执和成功模型响应确认的源码曝光，支持跨进程恢复与独立评分。
+
+[方法与合同](docs/LOCALIZATION_DESIGN.md) · [12 条固定查询的离线结果](benchmarks/localization-offline/README.md) · [19 题 A/B/C 配对实验](benchmarks/localization-ablation/README.md)。离线记录包含摘要与固定下钻的负向结果；模型定位调用数、实际 token 和冷验证结果由在线实验报告。
 
 ## Release 与证据
 

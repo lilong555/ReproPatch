@@ -1,0 +1,1280 @@
+{
+  "query_id": 2,
+  "query": "push",
+  "scope": ".",
+  "repeat": 2,
+  "order": [
+    "C_no_evidence",
+    "A_search",
+    "B_summary"
+  ],
+  "gold": {
+    "path": "include/fmt/args.h",
+    "symbol": "push",
+    "kind": "function_definition",
+    "line": 58,
+    "anchor": "auto push(const Arg& arg)"
+  },
+  "methods": {
+    "C_no_evidence": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "feedback",
+          "query": "push",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "95fee5256c05e54d70e8b407a3167d894a6fccf8c26e2c78f9a624451d513b3e",
+          "page_kind": "files",
+          "common_page_files": 12,
+          "candidates": [
+            {
+              "candidate_id": "9fd5693068423e9d198f4ea13743ac329f2641f6e4931dcc1874d54e3b8454a9",
+              "path": "include/fmt/args.h",
+              "file_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83",
+              "match_count": 12,
+              "hit_lines": [
+                58,
+                125,
+                148,
+                149,
+                150,
+                153,
+                155,
+                168
+              ],
+              "hit_lines_next_cursor": "eyJiaW5kaW5nIjoiZjQzMTcxOTZiMzNhN2Y3YTBhZTY1NWQwNjdmYzY3M2RhZmYzZmNhNTZjNGJkZmU4NzI0ODViZjYzZjAwYzlhNSIsImZpbGVfaW5kZXgiOjAsImhpdF9vZmZzZXQiOjgsImtpbmQiOiJoaXRzIiwic3RhcnQiOjAsInYiOjF9.114530825f28b4b369fc2a98f587fb7607fe696e10a281bbc1da9d39069140e0",
+              "ranking": {
+                "reason": "text_order",
+                "evidence_count": 0,
+                "evidence": []
+              }
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": true,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "no_registered_feedback",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0007399559999612393,
+            "source_read_bytes": 25053,
+            "validation_read_bytes": 0,
+            "metadata_checks": 12
+          },
+          "cache": {
+            "hit": false,
+            "builds": 1,
+            "retained_bytes": 9472
+          },
+          "ranking_seconds": 3.700199886225164e-05
+        },
+        "response_sha256": "f901f3512308c1606c0f72c564aed853065281ee19252e0cead81d4b4090d6d9",
+        "bytes": {
+          "total_json_bytes": 1394,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 18,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 18,
+          "metadata_and_framing_json_bytes": 1376
+        },
+        "timing": {
+          "cpu_ns": 848091,
+          "wall_ns": 849660,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/args.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 36750,
+          "wall_ns": 37924
+        }
+      }
+    ],
+    "A_search": [
+      {
+        "response": {
+          "matches": [
+            {
+              "path": "include/fmt/args.h",
+              "line": 58,
+              "text": "  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 125,
+              "text": "    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 148,
+              "text": "   *     store.push_back(42);"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 149,
+              "text": "   *     store.push_back(\"abc\");"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 150,
+              "text": "   *     store.push_back(1.5f);"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 153,
+              "text": "  template <typename T> void push_back(const T& arg) {"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 155,
+              "text": "      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 168,
+              "text": "   *     store.push_back(std::cref(band));"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 173,
+              "text": "  template <typename T> void push_back(std::reference_wrapper<T> arg) {"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 185,
+              "text": "  template <typename T> void push_back(const named_arg<T, char_type>& arg) {"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 187,
+              "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+            },
+            {
+              "path": "include/fmt/args.h",
+              "line": 190,
+              "text": "          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));"
+            }
+          ],
+          "truncated": false
+        },
+        "response_sha256": "e60c6658e95da2807bebbc51767c645e56f1243ad224c47bfbed582920b65fbe",
+        "bytes": {
+          "total_json_bytes": 1336,
+          "source_text_utf8_bytes": 692,
+          "path_utf8_bytes": 216,
+          "source_text_json_payload_bytes": 694,
+          "path_json_payload_bytes": 216,
+          "metadata_and_framing_json_bytes": 426
+        },
+        "timing": {
+          "cpu_ns": 481041,
+          "wall_ns": 482530,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/args.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/args.h",
+              58
+            ],
+            [
+              "include/fmt/args.h",
+              125
+            ],
+            [
+              "include/fmt/args.h",
+              148
+            ],
+            [
+              "include/fmt/args.h",
+              149
+            ],
+            [
+              "include/fmt/args.h",
+              150
+            ],
+            [
+              "include/fmt/args.h",
+              153
+            ],
+            [
+              "include/fmt/args.h",
+              155
+            ],
+            [
+              "include/fmt/args.h",
+              168
+            ],
+            [
+              "include/fmt/args.h",
+              173
+            ],
+            [
+              "include/fmt/args.h",
+              185
+            ],
+            [
+              "include/fmt/args.h",
+              187
+            ],
+            [
+              "include/fmt/args.h",
+              190
+            ]
+          ]
+        }
+      }
+    ],
+    "B_summary": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "bounded",
+          "query": "push",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "95fee5256c05e54d70e8b407a3167d894a6fccf8c26e2c78f9a624451d513b3e",
+          "page_kind": "files",
+          "common_page_files": 12,
+          "candidates": [
+            {
+              "candidate_id": "9fd5693068423e9d198f4ea13743ac329f2641f6e4931dcc1874d54e3b8454a9",
+              "path": "include/fmt/args.h",
+              "file_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83",
+              "match_count": 12,
+              "hit_lines": [
+                58,
+                125,
+                148,
+                149,
+                150,
+                153,
+                155,
+                168
+              ],
+              "hit_lines_next_cursor": "eyJiaW5kaW5nIjoiZTcwYTFlZjQ4MWMwMmI0ZDI5NGIzZWNlMDllNDQxMTllNmM0ZWUwYWMxYWU4NTA5OGMwM2Q5MDI3MzA0ZDk3MyIsImZpbGVfaW5kZXgiOjAsImhpdF9vZmZzZXQiOjgsImtpbmQiOiJoaXRzIiwic3RhcnQiOjAsInYiOjF9.4585772b4e827aa51860c19dd779f1a33be1f0216229af9b5c29b35aaeb1e9f5"
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": true,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "bounded_mode",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0005733980015065754,
+            "source_read_bytes": 25053,
+            "validation_read_bytes": 0,
+            "metadata_checks": 12
+          },
+          "cache": {
+            "hit": false,
+            "builds": 1,
+            "retained_bytes": 9472
+          },
+          "ranking_seconds": 2.7362999389879405e-05
+        },
+        "response_sha256": "45724b9e81c69a90d475c7fa83e7f8a829379ee2b34989d00f3eac8fae39c7a2",
+        "bytes": {
+          "total_json_bytes": 1317,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 18,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 18,
+          "metadata_and_framing_json_bytes": 1299
+        },
+        "timing": {
+          "cpu_ns": 689376,
+          "wall_ns": 690546,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/args.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 34525,
+          "wall_ns": 35520
+        }
+      }
+    ],
+    "B_drill": [
+      {
+        "response": {
+          "path": "include/fmt/args.h",
+          "editable": false,
+          "start_line": 38,
+          "text": "template <typename = void> struct node {\n  virtual ~node() = default;\n  std::unique_ptr<node<>> next;\n};\n\nclass dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  }\n};\n}  // namespace detail\n\n/**\n * A dynamic list of formatting arguments with storage.\n *\n * It can be implicitly converted into `fmt::basic_format_args` for passing\n * into type-erased formatting functions such as `fmt::vformat`.\n */\nFMT_EXPORT template <typename Context> class dynamic_format_arg_store {\n private:\n  using char_type = typename Context::char_type;\n\n  template <typename T> struct need_copy {\n    static constexpr detail::type mapped_type =\n        detail::mapped_type_constant<T, char_type>::value;\n\n    enum {\n      value = !(detail::is_reference_wrapper<T>::value ||\n                std::is_same<T, basic_string_view<char_type>>::value ||\n                std::is_same<T, detail::std_string_view<char_type>>::value ||\n                (mapped_type != detail::type::cstring_type &&\n                 mapped_type != detail::type::string_type &&\n                 mapped_type != detail::type::custom_type))\n    };\n  };\n\n  template <typename T>\n  using stored_t = conditional_t<\n      std::is_convertible<T, std::basic_string<char_type>>::value &&\n          !detail::is_reference_wrapper<T>::value,\n      std::basic_string<char_type>, T>;\n\n  // Storage of basic_format_arg must be contiguous.\n  std::vector<basic_format_arg<Context>> data_;\n  std::vector<detail::named_arg_info<char_type>> named_info_;\n\n  // Storage of arguments not fitting into basic_format_arg must grow\n  // without relocation because items in data_ refer to it.\n  detail::dynamic_arg_list dynamic_args_;\n\n  friend class basic_format_args<Context>;\n\n  auto data() const -> const basic_format_arg<Context>* {\n    return named_info_.empty() ? data_.data() : data_.data() + 1;\n  }\n\n  template <typename T> void emplace_arg(const T& arg) {\n    data_.emplace_back(arg);\n  }\n\n  template <typename T> void emplace_arg(const named_arg<T, char_type>& arg) {\n    if (named_info_.empty())\n      data_.insert(data_.begin(), basic_format_arg<Context>(nullptr, 0));\n    data_.emplace_back(detail::unwrap(arg.value));\n    auto pop_one = [](std::vector<basic_format_arg<Context>>* data) {\n      data->pop_back();\n    };\n    std::unique_ptr<std::vector<basic_format_arg<Context>>, decltype(pop_one)>\n        guard{&data_, pop_one};\n    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});\n    data_[0] = {named_info_.data(), named_info_.size()};\n    guard.release();\n  }\n\n public:\n  constexpr dynamic_format_arg_store() = default;\n\n  operator basic_format_args<Context>() const {\n    return basic_format_args<Context>(data(), static_cast<int>(size()),\n                                      !named_info_.empty());\n  }\n\n  /**\n   * Adds an argument into the dynamic store for later passing to a formatting\n   * function.\n   *\n   * Note that custom types and string types (but not string views) are copied\n   * into the store dynamically allocating memory if necessary.\n   *\n   * **Example**:\n   *\n   *     fmt::dynamic_format_arg_store<fmt::format_context> store;\n   *     store.push_back(42);\n   *     store.push_back(\"abc\");\n   *     store.push_back(1.5f);\n   *     std::string result = fmt::vformat(\"{} and {} and {}\", store);\n   */\n  template <typename T> void push_back(const T& arg) {\n    if FMT_CONSTEXPR20 (need_copy<T>::value)\n      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));\n    else\n      emplace_arg(detail::unwrap(arg));\n  }\n\n  /**\n   * Adds a reference to the argument into the dynamic store for later passing\n   * to a formatting function.\n   *\n   * **Example**:\n   *\n   *     fmt::dynamic_format_arg_store<fmt::format_context> store;\n   *     char band[] = \"Rolling Stones\";\n   *     store.push_back(std::cref(band));\n   *     band[9] = 'c'; // Changing str affects the output.\n   *     std::string result = fmt::vformat(\"{}\", store);\n   *     // result == \"Rolling Scones\"\n   */\n  template <typename T> void push_back(std::reference_wrapper<T> arg) {\n    static_assert(\n        need_copy<T>::value,\n        \"objects of built-in types and string views are always copied\");\n    emplace_arg(arg.get());\n  }\n\n  /**\n   * Adds named argument into the dynamic store for later passing to a\n   * formatting function. `std::reference_wrapper` is supported to avoid\n   * copying of the argument. The name is always copied into the store.\n   */\n  template <typename T> void push_back(const named_arg<T, char_type>& arg) {\n    const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();\n    if FMT_CONSTEXPR20 (need_copy<T>::value) {\n      emplace_arg(\n          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));\n    } else {\n      emplace_arg(fmt::arg(arg_name, arg.value));\n    }\n  }\n\n  /// Erase all elements from the store.\n  void clear() {\n    data_.clear();\n    named_info_.clear();\n    dynamic_args_ = {};\n  }\n\n  /// Reserves space to store at least `new_cap` arguments including\n  /// `new_cap_named` named arguments.\n  void reserve(size_t new_cap, size_t new_cap_named) {\n    FMT_ASSERT(new_cap >= new_cap_named,\n               \"set of arguments includes set of named arguments\");\n    data_.reserve(new_cap);\n    named_info_.reserve(new_cap_named);\n  }\n\n  /// Returns the number of elements in the store.\n  auto size() const noexcept -> size_t {\n    return data_.size() - (named_info_.empty() ? 0 : 1);\n  }\n};\n\nFMT_END_NAMESPACE\n\n#endif  // FMT_ARGS_H_\n",
+          "total_lines": 220,
+          "truncated": false,
+          "end_line": 220
+        },
+        "response_sha256": "046b6c6f274b007a40a33af19b9db47ff635dc9b31f03dbcedbb6364ae76c838",
+        "bytes": {
+          "total_json_bytes": 6392,
+          "source_text_utf8_bytes": 6072,
+          "path_utf8_bytes": 18,
+          "source_text_json_payload_bytes": 6269,
+          "path_json_payload_bytes": 18,
+          "metadata_and_framing_json_bytes": 105
+        },
+        "timing": {
+          "cpu_ns": 348049,
+          "wall_ns": 349160,
+          "read_calls": 1,
+          "read_bytes": 7224
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/args.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/args.h",
+              38
+            ],
+            [
+              "include/fmt/args.h",
+              39
+            ],
+            [
+              "include/fmt/args.h",
+              40
+            ],
+            [
+              "include/fmt/args.h",
+              41
+            ],
+            [
+              "include/fmt/args.h",
+              43
+            ],
+            [
+              "include/fmt/args.h",
+              44
+            ],
+            [
+              "include/fmt/args.h",
+              45
+            ],
+            [
+              "include/fmt/args.h",
+              47
+            ],
+            [
+              "include/fmt/args.h",
+              48
+            ],
+            [
+              "include/fmt/args.h",
+              50
+            ],
+            [
+              "include/fmt/args.h",
+              51
+            ],
+            [
+              "include/fmt/args.h",
+              52
+            ],
+            [
+              "include/fmt/args.h",
+              53
+            ],
+            [
+              "include/fmt/args.h",
+              55
+            ],
+            [
+              "include/fmt/args.h",
+              57
+            ],
+            [
+              "include/fmt/args.h",
+              58
+            ],
+            [
+              "include/fmt/args.h",
+              59
+            ],
+            [
+              "include/fmt/args.h",
+              60
+            ],
+            [
+              "include/fmt/args.h",
+              61
+            ],
+            [
+              "include/fmt/args.h",
+              62
+            ],
+            [
+              "include/fmt/args.h",
+              63
+            ],
+            [
+              "include/fmt/args.h",
+              64
+            ],
+            [
+              "include/fmt/args.h",
+              65
+            ],
+            [
+              "include/fmt/args.h",
+              66
+            ],
+            [
+              "include/fmt/args.h",
+              68
+            ],
+            [
+              "include/fmt/args.h",
+              69
+            ],
+            [
+              "include/fmt/args.h",
+              70
+            ],
+            [
+              "include/fmt/args.h",
+              71
+            ],
+            [
+              "include/fmt/args.h",
+              72
+            ],
+            [
+              "include/fmt/args.h",
+              73
+            ],
+            [
+              "include/fmt/args.h",
+              74
+            ],
+            [
+              "include/fmt/args.h",
+              75
+            ],
+            [
+              "include/fmt/args.h",
+              76
+            ],
+            [
+              "include/fmt/args.h",
+              78
+            ],
+            [
+              "include/fmt/args.h",
+              79
+            ],
+            [
+              "include/fmt/args.h",
+              80
+            ],
+            [
+              "include/fmt/args.h",
+              82
+            ],
+            [
+              "include/fmt/args.h",
+              83
+            ],
+            [
+              "include/fmt/args.h",
+              84
+            ],
+            [
+              "include/fmt/args.h",
+              85
+            ],
+            [
+              "include/fmt/args.h",
+              86
+            ],
+            [
+              "include/fmt/args.h",
+              87
+            ],
+            [
+              "include/fmt/args.h",
+              88
+            ],
+            [
+              "include/fmt/args.h",
+              89
+            ],
+            [
+              "include/fmt/args.h",
+              90
+            ],
+            [
+              "include/fmt/args.h",
+              92
+            ],
+            [
+              "include/fmt/args.h",
+              93
+            ],
+            [
+              "include/fmt/args.h",
+              94
+            ],
+            [
+              "include/fmt/args.h",
+              95
+            ],
+            [
+              "include/fmt/args.h",
+              96
+            ],
+            [
+              "include/fmt/args.h",
+              98
+            ],
+            [
+              "include/fmt/args.h",
+              99
+            ],
+            [
+              "include/fmt/args.h",
+              100
+            ],
+            [
+              "include/fmt/args.h",
+              102
+            ],
+            [
+              "include/fmt/args.h",
+              103
+            ],
+            [
+              "include/fmt/args.h",
+              104
+            ],
+            [
+              "include/fmt/args.h",
+              106
+            ],
+            [
+              "include/fmt/args.h",
+              108
+            ],
+            [
+              "include/fmt/args.h",
+              109
+            ],
+            [
+              "include/fmt/args.h",
+              110
+            ],
+            [
+              "include/fmt/args.h",
+              112
+            ],
+            [
+              "include/fmt/args.h",
+              113
+            ],
+            [
+              "include/fmt/args.h",
+              114
+            ],
+            [
+              "include/fmt/args.h",
+              116
+            ],
+            [
+              "include/fmt/args.h",
+              117
+            ],
+            [
+              "include/fmt/args.h",
+              118
+            ],
+            [
+              "include/fmt/args.h",
+              119
+            ],
+            [
+              "include/fmt/args.h",
+              120
+            ],
+            [
+              "include/fmt/args.h",
+              121
+            ],
+            [
+              "include/fmt/args.h",
+              122
+            ],
+            [
+              "include/fmt/args.h",
+              123
+            ],
+            [
+              "include/fmt/args.h",
+              124
+            ],
+            [
+              "include/fmt/args.h",
+              125
+            ],
+            [
+              "include/fmt/args.h",
+              126
+            ],
+            [
+              "include/fmt/args.h",
+              127
+            ],
+            [
+              "include/fmt/args.h",
+              128
+            ],
+            [
+              "include/fmt/args.h",
+              130
+            ],
+            [
+              "include/fmt/args.h",
+              131
+            ],
+            [
+              "include/fmt/args.h",
+              133
+            ],
+            [
+              "include/fmt/args.h",
+              134
+            ],
+            [
+              "include/fmt/args.h",
+              135
+            ],
+            [
+              "include/fmt/args.h",
+              136
+            ],
+            [
+              "include/fmt/args.h",
+              138
+            ],
+            [
+              "include/fmt/args.h",
+              139
+            ],
+            [
+              "include/fmt/args.h",
+              140
+            ],
+            [
+              "include/fmt/args.h",
+              141
+            ],
+            [
+              "include/fmt/args.h",
+              142
+            ],
+            [
+              "include/fmt/args.h",
+              143
+            ],
+            [
+              "include/fmt/args.h",
+              144
+            ],
+            [
+              "include/fmt/args.h",
+              145
+            ],
+            [
+              "include/fmt/args.h",
+              146
+            ],
+            [
+              "include/fmt/args.h",
+              147
+            ],
+            [
+              "include/fmt/args.h",
+              148
+            ],
+            [
+              "include/fmt/args.h",
+              149
+            ],
+            [
+              "include/fmt/args.h",
+              150
+            ],
+            [
+              "include/fmt/args.h",
+              151
+            ],
+            [
+              "include/fmt/args.h",
+              152
+            ],
+            [
+              "include/fmt/args.h",
+              153
+            ],
+            [
+              "include/fmt/args.h",
+              154
+            ],
+            [
+              "include/fmt/args.h",
+              155
+            ],
+            [
+              "include/fmt/args.h",
+              156
+            ],
+            [
+              "include/fmt/args.h",
+              157
+            ],
+            [
+              "include/fmt/args.h",
+              158
+            ],
+            [
+              "include/fmt/args.h",
+              160
+            ],
+            [
+              "include/fmt/args.h",
+              161
+            ],
+            [
+              "include/fmt/args.h",
+              162
+            ],
+            [
+              "include/fmt/args.h",
+              163
+            ],
+            [
+              "include/fmt/args.h",
+              164
+            ],
+            [
+              "include/fmt/args.h",
+              165
+            ],
+            [
+              "include/fmt/args.h",
+              166
+            ],
+            [
+              "include/fmt/args.h",
+              167
+            ],
+            [
+              "include/fmt/args.h",
+              168
+            ],
+            [
+              "include/fmt/args.h",
+              169
+            ],
+            [
+              "include/fmt/args.h",
+              170
+            ],
+            [
+              "include/fmt/args.h",
+              171
+            ],
+            [
+              "include/fmt/args.h",
+              172
+            ],
+            [
+              "include/fmt/args.h",
+              173
+            ],
+            [
+              "include/fmt/args.h",
+              174
+            ],
+            [
+              "include/fmt/args.h",
+              175
+            ],
+            [
+              "include/fmt/args.h",
+              176
+            ],
+            [
+              "include/fmt/args.h",
+              177
+            ],
+            [
+              "include/fmt/args.h",
+              178
+            ],
+            [
+              "include/fmt/args.h",
+              180
+            ],
+            [
+              "include/fmt/args.h",
+              181
+            ],
+            [
+              "include/fmt/args.h",
+              182
+            ],
+            [
+              "include/fmt/args.h",
+              183
+            ],
+            [
+              "include/fmt/args.h",
+              184
+            ],
+            [
+              "include/fmt/args.h",
+              185
+            ],
+            [
+              "include/fmt/args.h",
+              186
+            ],
+            [
+              "include/fmt/args.h",
+              187
+            ],
+            [
+              "include/fmt/args.h",
+              188
+            ],
+            [
+              "include/fmt/args.h",
+              189
+            ],
+            [
+              "include/fmt/args.h",
+              190
+            ],
+            [
+              "include/fmt/args.h",
+              191
+            ],
+            [
+              "include/fmt/args.h",
+              192
+            ],
+            [
+              "include/fmt/args.h",
+              193
+            ],
+            [
+              "include/fmt/args.h",
+              194
+            ],
+            [
+              "include/fmt/args.h",
+              196
+            ],
+            [
+              "include/fmt/args.h",
+              197
+            ],
+            [
+              "include/fmt/args.h",
+              198
+            ],
+            [
+              "include/fmt/args.h",
+              199
+            ],
+            [
+              "include/fmt/args.h",
+              200
+            ],
+            [
+              "include/fmt/args.h",
+              201
+            ],
+            [
+              "include/fmt/args.h",
+              203
+            ],
+            [
+              "include/fmt/args.h",
+              204
+            ],
+            [
+              "include/fmt/args.h",
+              205
+            ],
+            [
+              "include/fmt/args.h",
+              206
+            ],
+            [
+              "include/fmt/args.h",
+              207
+            ],
+            [
+              "include/fmt/args.h",
+              208
+            ],
+            [
+              "include/fmt/args.h",
+              209
+            ],
+            [
+              "include/fmt/args.h",
+              210
+            ],
+            [
+              "include/fmt/args.h",
+              212
+            ],
+            [
+              "include/fmt/args.h",
+              213
+            ],
+            [
+              "include/fmt/args.h",
+              214
+            ],
+            [
+              "include/fmt/args.h",
+              215
+            ],
+            [
+              "include/fmt/args.h",
+              216
+            ],
+            [
+              "include/fmt/args.h",
+              218
+            ],
+            [
+              "include/fmt/args.h",
+              220
+            ]
+          ]
+        },
+        "arguments": {
+          "path": "include/fmt/args.h",
+          "start_line": 38,
+          "max_lines": 200
+        }
+      }
+    ]
+  },
+  "fixed_candidates": {
+    "stream": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 58,
+        "text": "  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {",
+        "candidate_id": "dd846d79613782c29a6a2f15ab363b603ee24cf4b17c50a625b5c83ece54c791"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 125,
+        "text": "    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});",
+        "candidate_id": "552d9ac1ac2772ed255f2d7737032d27e52bd1cc4b560ea8801a9027163b57fb"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 148,
+        "text": "   *     store.push_back(42);",
+        "candidate_id": "a31c235ef8fd2dbca0ff41f520563d65f342e8a867d49627d5d24caa4f54dda0"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 149,
+        "text": "   *     store.push_back(\"abc\");",
+        "candidate_id": "91f91296bf133e5971e3bb6926a170b842c956ea9dec8753c77bbe2a7b141be8"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 150,
+        "text": "   *     store.push_back(1.5f);",
+        "candidate_id": "5f8705a95f7138bcb0dcb94921b4f699f3a3959476ec76916de285ba1cba8784"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 153,
+        "text": "  template <typename T> void push_back(const T& arg) {",
+        "candidate_id": "09a38a3d904cc2e3f84d3004a03902587b7a96e120c52a5e9095cf2ffcd2be10"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 155,
+        "text": "      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));",
+        "candidate_id": "1ab59611ead9f4143f62898b321750bb746345bd23d7a8d88f7a65187366a29b"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 168,
+        "text": "   *     store.push_back(std::cref(band));",
+        "candidate_id": "9e611c8b355265041889af75a6c7018d04dc49754b014e2ba1757f3ac93fc14b"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 173,
+        "text": "  template <typename T> void push_back(std::reference_wrapper<T> arg) {",
+        "candidate_id": "d140310b1033e0c98c0c0bd611db1cef2406d182f29ac051341c6b99e92c12ea"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 185,
+        "text": "  template <typename T> void push_back(const named_arg<T, char_type>& arg) {",
+        "candidate_id": "428c4d207a61298cb3a6a5b577d72cfd2fc81f1259e7e20be7cb3e181b86c231"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 187,
+        "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();",
+        "candidate_id": "5525f697cd4a5a5b62530c0f4b42cd61113c30bcb0c584dafb6d1d32686aa250"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 190,
+        "text": "          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));",
+        "candidate_id": "3cd6d64ab84eac46afc5b03f51f2bf6405cc8b2c8b0ce887f9d4a0aaa7fad9c4"
+      }
+    ],
+    "stream_sha256": "df39af1e9a03d305e1c4517a2bb8621815f089552dee1230052b9294aa1f6956",
+    "generation": {
+      "cpu_ns": 570360,
+      "wall_ns": 571603,
+      "read_calls": 3,
+      "read_bytes": 25053
+    },
+    "flat": {
+      "response": {
+        "matches": [
+          {
+            "candidate_id": "dd846d79613782c29a6a2f15ab363b603ee24cf4b17c50a625b5c83ece54c791",
+            "line": 58,
+            "path": "include/fmt/args.h",
+            "text": "  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {"
+          },
+          {
+            "candidate_id": "552d9ac1ac2772ed255f2d7737032d27e52bd1cc4b560ea8801a9027163b57fb",
+            "line": 125,
+            "path": "include/fmt/args.h",
+            "text": "    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});"
+          },
+          {
+            "candidate_id": "a31c235ef8fd2dbca0ff41f520563d65f342e8a867d49627d5d24caa4f54dda0",
+            "line": 148,
+            "path": "include/fmt/args.h",
+            "text": "   *     store.push_back(42);"
+          },
+          {
+            "candidate_id": "91f91296bf133e5971e3bb6926a170b842c956ea9dec8753c77bbe2a7b141be8",
+            "line": 149,
+            "path": "include/fmt/args.h",
+            "text": "   *     store.push_back(\"abc\");"
+          },
+          {
+            "candidate_id": "5f8705a95f7138bcb0dcb94921b4f699f3a3959476ec76916de285ba1cba8784",
+            "line": 150,
+            "path": "include/fmt/args.h",
+            "text": "   *     store.push_back(1.5f);"
+          },
+          {
+            "candidate_id": "09a38a3d904cc2e3f84d3004a03902587b7a96e120c52a5e9095cf2ffcd2be10",
+            "line": 153,
+            "path": "include/fmt/args.h",
+            "text": "  template <typename T> void push_back(const T& arg) {"
+          },
+          {
+            "candidate_id": "1ab59611ead9f4143f62898b321750bb746345bd23d7a8d88f7a65187366a29b",
+            "line": 155,
+            "path": "include/fmt/args.h",
+            "text": "      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));"
+          },
+          {
+            "candidate_id": "9e611c8b355265041889af75a6c7018d04dc49754b014e2ba1757f3ac93fc14b",
+            "line": 168,
+            "path": "include/fmt/args.h",
+            "text": "   *     store.push_back(std::cref(band));"
+          },
+          {
+            "candidate_id": "d140310b1033e0c98c0c0bd611db1cef2406d182f29ac051341c6b99e92c12ea",
+            "line": 173,
+            "path": "include/fmt/args.h",
+            "text": "  template <typename T> void push_back(std::reference_wrapper<T> arg) {"
+          },
+          {
+            "candidate_id": "428c4d207a61298cb3a6a5b577d72cfd2fc81f1259e7e20be7cb3e181b86c231",
+            "line": 185,
+            "path": "include/fmt/args.h",
+            "text": "  template <typename T> void push_back(const named_arg<T, char_type>& arg) {"
+          },
+          {
+            "candidate_id": "5525f697cd4a5a5b62530c0f4b42cd61113c30bcb0c584dafb6d1d32686aa250",
+            "line": 187,
+            "path": "include/fmt/args.h",
+            "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+          },
+          {
+            "candidate_id": "3cd6d64ab84eac46afc5b03f51f2bf6405cc8b2c8b0ce887f9d4a0aaa7fad9c4",
+            "line": 190,
+            "path": "include/fmt/args.h",
+            "text": "          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));"
+          }
+        ]
+      },
+      "response_sha256": "e2569402bf26f50f2d8b2cce58306e2b2e2207bf871793144f9452dca2b465d2",
+      "bytes": {
+        "total_json_bytes": 2302,
+        "source_text_utf8_bytes": 692,
+        "path_utf8_bytes": 216,
+        "source_text_json_payload_bytes": 694,
+        "path_json_payload_bytes": 216,
+        "metadata_and_framing_json_bytes": 1392
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 12363,
+        "wall_ns": 13206
+      }
+    },
+    "grouped": {
+      "response": {
+        "files": [
+          {
+            "matches": [
+              {
+                "candidate_id": "dd846d79613782c29a6a2f15ab363b603ee24cf4b17c50a625b5c83ece54c791",
+                "line": 58,
+                "text": "  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {"
+              },
+              {
+                "candidate_id": "552d9ac1ac2772ed255f2d7737032d27e52bd1cc4b560ea8801a9027163b57fb",
+                "line": 125,
+                "text": "    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});"
+              },
+              {
+                "candidate_id": "a31c235ef8fd2dbca0ff41f520563d65f342e8a867d49627d5d24caa4f54dda0",
+                "line": 148,
+                "text": "   *     store.push_back(42);"
+              },
+              {
+                "candidate_id": "91f91296bf133e5971e3bb6926a170b842c956ea9dec8753c77bbe2a7b141be8",
+                "line": 149,
+                "text": "   *     store.push_back(\"abc\");"
+              },
+              {
+                "candidate_id": "5f8705a95f7138bcb0dcb94921b4f699f3a3959476ec76916de285ba1cba8784",
+                "line": 150,
+                "text": "   *     store.push_back(1.5f);"
+              },
+              {
+                "candidate_id": "09a38a3d904cc2e3f84d3004a03902587b7a96e120c52a5e9095cf2ffcd2be10",
+                "line": 153,
+                "text": "  template <typename T> void push_back(const T& arg) {"
+              },
+              {
+                "candidate_id": "1ab59611ead9f4143f62898b321750bb746345bd23d7a8d88f7a65187366a29b",
+                "line": 155,
+                "text": "      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));"
+              },
+              {
+                "candidate_id": "9e611c8b355265041889af75a6c7018d04dc49754b014e2ba1757f3ac93fc14b",
+                "line": 168,
+                "text": "   *     store.push_back(std::cref(band));"
+              },
+              {
+                "candidate_id": "d140310b1033e0c98c0c0bd611db1cef2406d182f29ac051341c6b99e92c12ea",
+                "line": 173,
+                "text": "  template <typename T> void push_back(std::reference_wrapper<T> arg) {"
+              },
+              {
+                "candidate_id": "428c4d207a61298cb3a6a5b577d72cfd2fc81f1259e7e20be7cb3e181b86c231",
+                "line": 185,
+                "text": "  template <typename T> void push_back(const named_arg<T, char_type>& arg) {"
+              },
+              {
+                "candidate_id": "5525f697cd4a5a5b62530c0f4b42cd61113c30bcb0c584dafb6d1d32686aa250",
+                "line": 187,
+                "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+              },
+              {
+                "candidate_id": "3cd6d64ab84eac46afc5b03f51f2bf6405cc8b2c8b0ce887f9d4a0aaa7fad9c4",
+                "line": 190,
+                "text": "          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));"
+              }
+            ],
+            "path": "include/fmt/args.h"
+          }
+        ]
+      },
+      "response_sha256": "df1658eee0ff1d3660e6d55c40feba95b2a9e12760efc97b718627259f3f92d5",
+      "bytes": {
+        "total_json_bytes": 2006,
+        "source_text_utf8_bytes": 692,
+        "path_utf8_bytes": 18,
+        "source_text_json_payload_bytes": 694,
+        "path_json_payload_bytes": 18,
+        "metadata_and_framing_json_bytes": 1294
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 15549,
+        "wall_ns": 16392
+      }
+    },
+    "same_records_order_content": true,
+    "baseline_same_match_stream": true
+  },
+  "sanity": {
+    "candidate_ids_and_order_equal": true,
+    "candidate_pool_hashes_equal": true,
+    "scan_work_equal": true,
+    "feedback_fallback": true
+  }
+}

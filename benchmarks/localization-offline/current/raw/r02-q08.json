@@ -1,0 +1,448 @@
+{
+  "query_id": 8,
+  "query": "println",
+  "scope": ".",
+  "repeat": 2,
+  "order": [
+    "C_no_evidence",
+    "A_search",
+    "B_summary"
+  ],
+  "gold": {
+    "path": "include/fmt/ostream.h",
+    "symbol": "println",
+    "kind": "function_definition",
+    "line": 164,
+    "anchor": "void println(std::ostream&"
+  },
+  "methods": {
+    "C_no_evidence": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "feedback",
+          "query": "println",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "97322ef9aa3e4b3e6b2dd059e561d0c48ef5dcfc320830e625f15aec3d84b57e",
+          "page_kind": "files",
+          "common_page_files": 12,
+          "candidates": [
+            {
+              "candidate_id": "9b51ab2163a1f992c4dd8dbe77290e6863ce8023fa73cdcbcf948c4c22fd4334",
+              "path": "include/fmt/ostream.h",
+              "file_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+              "match_count": 1,
+              "hit_lines": [
+                164
+              ],
+              "hit_lines_next_cursor": null,
+              "ranking": {
+                "reason": "text_order",
+                "evidence_count": 0,
+                "evidence": []
+              }
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "no_registered_feedback",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0005780760002380703,
+            "source_read_bytes": 25053,
+            "validation_read_bytes": 0,
+            "metadata_checks": 12
+          },
+          "cache": {
+            "hit": false,
+            "builds": 1,
+            "retained_bytes": 9436
+          },
+          "ranking_seconds": 3.671100057545118e-05
+        },
+        "response_sha256": "d7cc27f75284a0ee386934793f78a126237be067fe6ac56de57bc8edd1393a76",
+        "bytes": {
+          "total_json_bytes": 1126,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 1105
+        },
+        "timing": {
+          "cpu_ns": 676521,
+          "wall_ns": 677771,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 49343,
+          "wall_ns": 50779
+        }
+      }
+    ],
+    "A_search": [
+      {
+        "response": {
+          "matches": [
+            {
+              "path": "include/fmt/ostream.h",
+              "line": 164,
+              "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {"
+            }
+          ],
+          "truncated": false
+        },
+        "response_sha256": "083581349ec4192ce3f43753e353f6a9a2a9eae7665c7813c1db8893e4f2acd4",
+        "bytes": {
+          "total_json_bytes": 155,
+          "source_text_utf8_bytes": 70,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 70,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 64
+        },
+        "timing": {
+          "cpu_ns": 414164,
+          "wall_ns": 415329,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/ostream.h",
+              164
+            ]
+          ]
+        }
+      }
+    ],
+    "B_summary": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "bounded",
+          "query": "println",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "97322ef9aa3e4b3e6b2dd059e561d0c48ef5dcfc320830e625f15aec3d84b57e",
+          "page_kind": "files",
+          "common_page_files": 12,
+          "candidates": [
+            {
+              "candidate_id": "9b51ab2163a1f992c4dd8dbe77290e6863ce8023fa73cdcbcf948c4c22fd4334",
+              "path": "include/fmt/ostream.h",
+              "file_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+              "match_count": 1,
+              "hit_lines": [
+                164
+              ],
+              "hit_lines_next_cursor": null
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "bounded_mode",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0005225080003583571,
+            "source_read_bytes": 25053,
+            "validation_read_bytes": 0,
+            "metadata_checks": 12
+          },
+          "cache": {
+            "hit": false,
+            "builds": 1,
+            "retained_bytes": 9436
+          },
+          "ranking_seconds": 2.036900150415022e-05
+        },
+        "response_sha256": "de2645823eb50f3f23ad1aadbdfe0e48b87146fddbda269388632538995644c8",
+        "bytes": {
+          "total_json_bytes": 1048,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 1027
+        },
+        "timing": {
+          "cpu_ns": 590970,
+          "wall_ns": 592133,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 27081,
+          "wall_ns": 27975
+        }
+      }
+    ],
+    "B_drill": [
+      {
+        "response": {
+          "path": "include/fmt/ostream.h",
+          "editable": false,
+          "start_line": 144,
+          "text": "  detail::write_buffer(os, buffer);\n}\n\n/**\n * Prints formatted data to the stream `os`.\n *\n * **Example**:\n *\n *     fmt::print(cerr, \"Don't {}!\", \"panic\");\n */\ntemplate <typename... T>\nvoid print(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::vargs<T...> vargs = {{args...}};\n  if FMT_CONSTEXPR20 (detail::use_utf8) return vprint(os, fmt.str, vargs);\n  auto buffer = memory_buffer();\n  detail::vformat_to(buffer, fmt.str, vargs);\n  detail::write_buffer(os, buffer);\n}\n\ntemplate <typename... T>\nvoid println(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::print(os, FMT_STRING(\"{}\\n\"),\n             fmt::format(fmt, std::forward<T>(args)...));\n}\n\nFMT_END_EXPORT\nFMT_END_NAMESPACE\n\n#endif  // FMT_OSTREAM_H_\n",
+          "total_lines": 172,
+          "truncated": false,
+          "end_line": 172
+        },
+        "response_sha256": "83bce53ea89f377f1c72b2f0678df06b7a9b7192126fb90969b898431fae4e4c",
+        "bytes": {
+          "total_json_bytes": 905,
+          "source_text_utf8_bytes": 742,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 778,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 106
+        },
+        "timing": {
+          "cpu_ns": 194258,
+          "wall_ns": 195381,
+          "read_calls": 1,
+          "read_bytes": 5181
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/ostream.h",
+              144
+            ],
+            [
+              "include/fmt/ostream.h",
+              145
+            ],
+            [
+              "include/fmt/ostream.h",
+              147
+            ],
+            [
+              "include/fmt/ostream.h",
+              148
+            ],
+            [
+              "include/fmt/ostream.h",
+              149
+            ],
+            [
+              "include/fmt/ostream.h",
+              150
+            ],
+            [
+              "include/fmt/ostream.h",
+              151
+            ],
+            [
+              "include/fmt/ostream.h",
+              152
+            ],
+            [
+              "include/fmt/ostream.h",
+              153
+            ],
+            [
+              "include/fmt/ostream.h",
+              154
+            ],
+            [
+              "include/fmt/ostream.h",
+              155
+            ],
+            [
+              "include/fmt/ostream.h",
+              156
+            ],
+            [
+              "include/fmt/ostream.h",
+              157
+            ],
+            [
+              "include/fmt/ostream.h",
+              158
+            ],
+            [
+              "include/fmt/ostream.h",
+              159
+            ],
+            [
+              "include/fmt/ostream.h",
+              160
+            ],
+            [
+              "include/fmt/ostream.h",
+              161
+            ],
+            [
+              "include/fmt/ostream.h",
+              163
+            ],
+            [
+              "include/fmt/ostream.h",
+              164
+            ],
+            [
+              "include/fmt/ostream.h",
+              165
+            ],
+            [
+              "include/fmt/ostream.h",
+              166
+            ],
+            [
+              "include/fmt/ostream.h",
+              167
+            ],
+            [
+              "include/fmt/ostream.h",
+              169
+            ],
+            [
+              "include/fmt/ostream.h",
+              170
+            ],
+            [
+              "include/fmt/ostream.h",
+              172
+            ]
+          ]
+        },
+        "arguments": {
+          "path": "include/fmt/ostream.h",
+          "start_line": 144,
+          "max_lines": 200
+        }
+      }
+    ]
+  },
+  "fixed_candidates": {
+    "stream": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 164,
+        "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {",
+        "candidate_id": "85b0d50ea4a89737d577e268c84f7fbbdf52aa19a3dfd10826dd1d0300942d63"
+      }
+    ],
+    "stream_sha256": "81140c914e00e98368f038fd5fcb6a69cda1a1b69fae8b1b5f58168c29d67020",
+    "generation": {
+      "cpu_ns": 478106,
+      "wall_ns": 479404,
+      "read_calls": 3,
+      "read_bytes": 25053
+    },
+    "flat": {
+      "response": {
+        "matches": [
+          {
+            "candidate_id": "85b0d50ea4a89737d577e268c84f7fbbdf52aa19a3dfd10826dd1d0300942d63",
+            "line": 164,
+            "path": "include/fmt/ostream.h",
+            "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {"
+          }
+        ]
+      },
+      "response_sha256": "37576cda5bebe138ef880926af57a560d4d07531933976a248c436f11a45f480",
+      "bytes": {
+        "total_json_bytes": 219,
+        "source_text_utf8_bytes": 70,
+        "path_utf8_bytes": 21,
+        "source_text_json_payload_bytes": 70,
+        "path_json_payload_bytes": 21,
+        "metadata_and_framing_json_bytes": 128
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 3787,
+        "wall_ns": 4619
+      }
+    },
+    "grouped": {
+      "response": {
+        "files": [
+          {
+            "matches": [
+              {
+                "candidate_id": "85b0d50ea4a89737d577e268c84f7fbbdf52aa19a3dfd10826dd1d0300942d63",
+                "line": 164,
+                "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {"
+              }
+            ],
+            "path": "include/fmt/ostream.h"
+          }
+        ]
+      },
+      "response_sha256": "03dbe53bfc2f7f79f85f6723c90a2879b065c6d180c6eb3e02225072fbd1b045",
+      "bytes": {
+        "total_json_bytes": 231,
+        "source_text_utf8_bytes": 70,
+        "path_utf8_bytes": 21,
+        "source_text_json_payload_bytes": 70,
+        "path_json_payload_bytes": 21,
+        "metadata_and_framing_json_bytes": 140
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 5490,
+        "wall_ns": 6322
+      }
+    },
+    "same_records_order_content": true,
+    "baseline_same_match_stream": true
+  },
+  "sanity": {
+    "candidate_ids_and_order_equal": true,
+    "candidate_pool_hashes_equal": true,
+    "scan_work_equal": true,
+    "feedback_fallback": true
+  }
+}

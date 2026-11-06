@@ -1,0 +1,162 @@
+{
+  "frozen_at": "2026-11-06T07:05:58.938826+00:00",
+  "public_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "public_repository": "https://github.com/lilong555/ReproPatch",
+  "public_license": "Apache-2.0",
+  "public_files": {
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "pyproject.toml": "8c749504693ce9bd7ea3dba85e8803ef98722a28a739166fe1f8cc904a6e9a61",
+    "src/repropatch/__init__.py": "916c7164bb41cb29f1c5b66b7d9299cb29d3fe7d1b7cc211def08d3887a9b944",
+    "src/repropatch/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/repropatch/agent_runtime.py": "61a815522dc7913157dde9a7264e584d735ccd5e0dd0b54074e4793ebd98611b",
+    "src/repropatch/artifacts.py": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+    "src/repropatch/cli.py": "c9626697b7c1cf684a8264b68b3249f8781ab85e607e5e7746317c7fde46eb2d",
+    "src/repropatch/context.py": "83cb9e4a2b5fe7107bccd4ecce5d62a403cc2305cf95e509e955d03e2d2f43ff",
+    "src/repropatch/cpa.py": "39d1d8338e02b06d917a718735722e66d39e655ecc6bdc83a57ea495ca729877",
+    "src/repropatch/demo.py": "a3fd01beabeb7372708b4dea328d09feb5f86e7bc80565dc7deaaf1c097d4b80",
+    "src/repropatch/demo_assets/cpp-bugs/CMakeLists.txt": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+    "src/repropatch/demo_assets/cpp-bugs/src/stats.cpp": "8ed8462f3d8f2020fb94004c43cb2535da4453d1f0f527b551e7b792b99c30b7",
+    "src/repropatch/demo_assets/cpp-bugs/src/stats.hpp": "3ecbc8b95a8e4a2691457f27889dfa80717a2205de3eb0664202748be3a429df",
+    "src/repropatch/demo_assets/cpp-bugs/tests/stats_test.cpp": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+    "src/repropatch/demo_assets/models/fix-negative-maximum.json": "9e80ef8656cca591ca54a9ddce4291932cdd6ea132be9bac50517b99860ba8ea",
+    "src/repropatch/diagnostics.py": "0e63d7faac2b599993323598b2b2175e00ccd153013b9dd24742de9a49f323a4",
+    "src/repropatch/errors.py": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+    "src/repropatch/events.py": "404f60be481e2cabdee100ad6a0a4598e524b7f1eb6de47496eee2362bc3550a",
+    "src/repropatch/harness.py": "03ecea72e907bd6fd5f72916640a73814e6acb961d25ff9217c5bf4a4f4e13e2",
+    "src/repropatch/models.py": "02092ae40d74f2ff456745fd12d233eb1bf6c4d6237cda57e7f977e0ede1e4bc",
+    "src/repropatch/process.py": "d3ad6c80d26542bf4a9dcd8c01051cf48659031f52590e6fb2ad6d2c7b3d9c84",
+    "src/repropatch/recovery.py": "1afebf87d84d100707f0cea898e2a29dced6da5cb9eba97a5fa68b30861cae52",
+    "src/repropatch/repair_sandbox.py": "d90107fcd7cee538b2d9a9a8a99164b5be93926e801c7f78373a040554d16982",
+    "src/repropatch/reports.py": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+    "src/repropatch/resources.py": "25cb0e124685db59ad487656e8c38c280e9fc1d76479c73cde7cd5856e69a25a",
+    "src/repropatch/sandbox.py": "3da117bf358777946dae4f4a29517744bfe59ca7504dd7fbaefaac703d70d3c0",
+    "src/repropatch/semantic_state.py": "2748df52f88a60692802fa327519ea887e9ff3260cdfd657ef0f22e2cbed2302",
+    "src/repropatch/task.py": "89150615e82c627565a611fabaff3ad9906c4941bc1473e55f518128d3be1500",
+    "src/repropatch/tools.py": "c8dd7cabc85054fa219b4cb86028e735efd0a82ab1e93b2c9e0e8d0429398684",
+    "src/repropatch/trace.py": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+    "src/repropatch/verification.py": "9756cafc1b7befbd341599de484ce54e30bbcb936489a4d076e79523ddbda1ce",
+    "src/repropatch/workspace.py": "6d1a507881153d4a8eeac8458d3f59a691b995bb94d0bf0850bbc721f00378fc"
+  },
+  "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+  "fmt_repository": "https://github.com/fmtlib/fmt",
+  "fmt_license": "MIT",
+  "fmt_files": {
+    "include/fmt/args.h": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83",
+    "include/fmt/ostream.h": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+    "include/fmt/os.h": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+    "LICENSE": "a65fcc5a1095fc33cc37e4fff69366e49d7e92f613558a2b95ed1b70e33758b4"
+  },
+  "archives": {
+    "fmt-input.tar": "5ca17ae201815f6a5c0269fa2833785ac63df562c8639e0aebc0478d4b6b2149",
+    "public-source.tar": "8a0ce3369cf89ffb3b4e56923e1885c44ffbd30e55cb6bc26831176da941ec13"
+  },
+  "driver_sha256": "78a18d201337cc399e5a9a289985b42258b81c74c10719d1022545e831b9adf0",
+  "selection": "Three small optional headers; four manually anchored definitions per file.",
+  "gold": [
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "dynamic_arg_list",
+      "kind": "class_specifier",
+      "line": 43,
+      "anchor": "class dynamic_arg_list {"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "push",
+      "kind": "function_definition",
+      "line": 58,
+      "anchor": "auto push(const Arg& arg)"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "clear",
+      "kind": "function_definition",
+      "line": 197,
+      "anchor": "void clear() {"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "symbol": "reserve",
+      "kind": "function_definition",
+      "line": 205,
+      "anchor": "void reserve(size_t new_cap,"
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "file_access_tag",
+      "kind": "struct_specifier",
+      "line": 39,
+      "anchor": "struct file_access_tag {};"
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "write_buffer",
+      "kind": "function_definition",
+      "line": 56,
+      "anchor": "void write_buffer("
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "streamed",
+      "kind": "function_definition",
+      "line": 116,
+      "anchor": "constexpr auto streamed("
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "symbol": "println",
+      "kind": "function_definition",
+      "line": 164,
+      "anchor": "void println(std::ostream&"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "basic_cstring_view",
+      "kind": "class_specifier",
+      "line": 98,
+      "anchor": "class basic_cstring_view {"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "c_str",
+      "kind": "function_definition",
+      "line": 110,
+      "anchor": "auto c_str() const"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "system_category",
+      "kind": "function_definition",
+      "line": 161,
+      "anchor": "inline auto system_category()"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "symbol": "output_file",
+      "kind": "function_definition",
+      "line": 413,
+      "anchor": "inline auto output_file("
+    }
+  ],
+  "repeats": 5,
+  "model_calls": 0,
+  "query_scope": [
+    "include/fmt/args.h",
+    "include/fmt/os.h",
+    "include/fmt/ostream.h"
+  ],
+  "semantics": {
+    "search_code": "Case-sensitive literal lines, including comments and uses.",
+    "definitions": "Syntactic declaration/definition records; substring in name or text.",
+    "coverage": "One anchored gold target per query; no precision/all-definition recall.",
+    "bytes": "Canonical UTF-8 JSON return body, before runtime envelope or folding.",
+    "timing": "Fresh SemanticState then identical query, same process; all retained.",
+    "cache": "In-memory AST cache; each hit still reads and SHA256-hashes the source.",
+    "cold": "Empty application index; OS filesystem cache remains uncontrolled.",
+    "workspace": "InputWorkspace adapter; production Worktree orchestration excluded.",
+    "limits": "Search: 100 rows/300 chars; definitions: 60 records/600 UTF-8 text bytes.",
+    "truncation": "Result truncation and text previews reaching their caps reported separately.",
+    "claims": "Return volume only; no token, tool-step, task, or model benefit inference."
+  },
+  "invalidation": "Rename file_access_tag in one copy; retain cache; expect one reparse."
+}

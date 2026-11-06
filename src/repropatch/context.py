@@ -367,6 +367,7 @@ class ContextState:
     fixed_items: list[dict] | None = None
     semantic_state: dict | None = None
     optimization_state: dict = field(default_factory=dict)
+    localization_state: dict = field(default_factory=dict)
 
     def plan(self, body):
         metric = None
@@ -587,6 +588,7 @@ class ContextState:
             "estimator": self.estimator.to_dict(),
             "semantic_state": self.semantic_state,
             **({"optimization_state": self.optimization_state} if self.optimization_state else {}),
+            **({"localization_state": self.localization_state} if self.localization_state else {}),
         }
 
     @classmethod
@@ -602,6 +604,7 @@ class ContextState:
             value["fixed_items"],
             value.get("semantic_state"),
             value.get("optimization_state", {}),
+            value.get("localization_state", {}),
         )
 
 

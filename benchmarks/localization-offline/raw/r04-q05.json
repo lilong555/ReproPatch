@@ -1,0 +1,904 @@
+{
+  "query_id": 5,
+  "query": "file_access_tag",
+  "scope": ".",
+  "repeat": 4,
+  "order": [
+    "B_summary",
+    "C_no_evidence",
+    "A_search"
+  ],
+  "gold": {
+    "path": "include/fmt/ostream.h",
+    "symbol": "file_access_tag",
+    "kind": "struct_specifier",
+    "line": 39,
+    "anchor": "struct file_access_tag {};"
+  },
+  "methods": {
+    "B_summary": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "bounded",
+          "query": "file_access_tag",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "98f099c2beed454b7db72cfd321d880b343ecf96588fe9badbd15062f36ccf89",
+          "page_kind": "files",
+          "candidates": [
+            {
+              "candidate_id": "3dffab7dc1bce0ff190e98d47762e2ac8d4c37745d9f4020e884820064bd52b4",
+              "path": "include/fmt/ostream.h",
+              "file_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+              "match_count": 2,
+              "hit_lines": [
+                39,
+                47
+              ],
+              "hit_lines_next_cursor": null
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "bounded_mode",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0005033110010117525,
+            "oversize_file": false
+          },
+          "ranking_seconds": 9.22000253922306e-07
+        },
+        "response_sha256": "a0cf6dc7ce03e99467e472f21a26d28ce7ec4156d7fefddd885e504a3b190103",
+        "bytes": {
+          "total_json_bytes": 928,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 907
+        },
+        "timing": {
+          "cpu_ns": 562806,
+          "wall_ns": 564100,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 43673,
+          "wall_ns": 45259
+        }
+      }
+    ],
+    "C_no_evidence": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "feedback",
+          "query": "file_access_tag",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "98f099c2beed454b7db72cfd321d880b343ecf96588fe9badbd15062f36ccf89",
+          "page_kind": "files",
+          "candidates": [
+            {
+              "candidate_id": "3dffab7dc1bce0ff190e98d47762e2ac8d4c37745d9f4020e884820064bd52b4",
+              "path": "include/fmt/ostream.h",
+              "file_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+              "match_count": 2,
+              "hit_lines": [
+                39,
+                47
+              ],
+              "hit_lines_next_cursor": null,
+              "ranking": {
+                "reason": "text_order",
+                "evidence_count": 0,
+                "evidence": []
+              }
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "no_registered_feedback",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0004327320002630586,
+            "oversize_file": false
+          },
+          "ranking_seconds": 2.363998646615073e-06
+        },
+        "response_sha256": "7e29a9f7dae82220e2461d8ffbc8950d39794f92cb27729b7914345cfd032d10",
+        "bytes": {
+          "total_json_bytes": 1007,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 986
+        },
+        "timing": {
+          "cpu_ns": 487133,
+          "wall_ns": 488211,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 26951,
+          "wall_ns": 28266
+        }
+      }
+    ],
+    "A_search": [
+      {
+        "response": {
+          "matches": [
+            {
+              "path": "include/fmt/ostream.h",
+              "line": 39,
+              "text": "struct file_access_tag {};"
+            },
+            {
+              "path": "include/fmt/ostream.h",
+              "line": 47,
+              "text": "template class file_access<file_access_tag, std::filebuf,"
+            }
+          ],
+          "truncated": false
+        },
+        "response_sha256": "bd214d32a2bc5d56bf6d6e6f0f56939d8d35c1df9c3d42961d703a2eaf35f5b4",
+        "bytes": {
+          "total_json_bytes": 220,
+          "source_text_utf8_bytes": 83,
+          "path_utf8_bytes": 42,
+          "source_text_json_payload_bytes": 83,
+          "path_json_payload_bytes": 42,
+          "metadata_and_framing_json_bytes": 95
+        },
+        "timing": {
+          "cpu_ns": 487764,
+          "wall_ns": 490285,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/ostream.h",
+              39
+            ],
+            [
+              "include/fmt/ostream.h",
+              47
+            ]
+          ]
+        }
+      }
+    ],
+    "B_drill": [
+      {
+        "response": {
+          "path": "include/fmt/ostream.h",
+          "editable": false,
+          "start_line": 19,
+          "text": "#  endif\n#  include <io.h>\n#endif\n\n#include \"chrono.h\"  // formatbuf\n\n#ifdef _MSVC_STL_UPDATE\n#  define FMT_MSVC_STL_UPDATE _MSVC_STL_UPDATE\n#elif defined(_MSC_VER) && _MSC_VER < 1912  // VS 15.5\n#  define FMT_MSVC_STL_UPDATE _MSVC_LANG\n#else\n#  define FMT_MSVC_STL_UPDATE 0\n#endif\n\nFMT_BEGIN_NAMESPACE\nnamespace detail {\n\n// Generate a unique explicit instantiation in every translation unit using a\n// tag type in an anonymous namespace.\nnamespace {\nstruct file_access_tag {};\n}  // namespace\ntemplate <typename Tag, typename BufType, FILE* BufType::* FileMemberPtr>\nclass file_access {\n  friend auto get_file(BufType& obj) -> FILE* { return obj.*FileMemberPtr; }\n};\n\n#if FMT_MSVC_STL_UPDATE\ntemplate class file_access<file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>;\nauto get_file(std::filebuf&) -> FILE*;\n#endif\n\n// Write the content of buf to os.\n// It is a separate function rather than a part of vprint to simplify testing.\n// max_size must be positive and no greater than the maximum streamsize.\ntemplate <typename Char>\nvoid write_buffer(std::basic_ostream<Char>& os, buffer<Char>& buf,\n                  make_unsigned_t<std::streamsize> max_size =\n                      to_unsigned(max_value<std::streamsize>())) {\n  const Char* buf_data = buf.data();\n  using unsigned_streamsize = make_unsigned_t<std::streamsize>;\n  unsigned_streamsize size = buf.size();\n  do {\n    unsigned_streamsize n = size <= max_size ? size : max_size;\n    os.write(buf_data, static_cast<std::streamsize>(n));\n    buf_data += n;\n    size -= n;\n  } while (size != 0);\n}\n\ntemplate <typename T> struct streamed_view {\n  const T& value;\n};\n}  // namespace detail\n\nFMT_BEGIN_EXPORT\n\n// Formats an object of type T that has an overloaded ostream operator<<.\ntemplate <typename Char>\nstruct basic_ostream_formatter : formatter<basic_string_view<Char>, Char> {\n  void set_debug_format() = delete;\n\n  template <typename T, typename Context>\n  auto format(const T& value, Context& ctx) const -> decltype(ctx.out()) {\n    auto buffer = basic_memory_buffer<Char>();\n    auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);\n    auto&& output = std::basic_ostream<Char>(&formatbuf);\n    output.imbue(std::locale::classic());  // The default is always unlocalized.\n    output << value;\n    output.exceptions(std::ios_base::failbit | std::ios_base::badbit);\n    return formatter<basic_string_view<Char>, Char>::format(\n        {buffer.data(), buffer.size()}, ctx);\n  }\n};\n\nusing ostream_formatter = basic_ostream_formatter<char>;\n\ntemplate <typename T, typename Char>\nstruct formatter<detail::streamed_view<T>, Char>\n    : basic_ostream_formatter<Char> {\n  template <typename Context>\n  auto format(detail::streamed_view<T> view, Context& ctx) const\n      -> decltype(ctx.out()) {\n    return basic_ostream_formatter<Char>::format(view.value, ctx);\n  }\n};\n\n/**\n * Returns a view that formats `value` via an ostream `operator<<`.\n *\n * **Example**:\n *\n *     fmt::print(\"Current thread id: {}\\n\",\n *                fmt::streamed(std::this_thread::get_id()));\n */\ntemplate <typename T>\nconstexpr auto streamed(const T& value) -> detail::streamed_view<T> {\n  return {value};\n}\n\ninline void vprint(std::ostream& os, string_view fmt, format_args args) {\n  auto buffer = memory_buffer();\n  detail::vformat_to(buffer, fmt, args);\n  FILE* f = nullptr;\n#if FMT_MSVC_STL_UPDATE && FMT_USE_RTTI\n  if (auto* buf = dynamic_cast<std::filebuf*>(os.rdbuf()))\n    f = detail::get_file(*buf);\n#elif defined(_WIN32) && defined(__GLIBCXX__) && FMT_USE_RTTI\n  auto* rdbuf = os.rdbuf();\n  if (auto* sfbuf = dynamic_cast<__gnu_cxx::stdio_sync_filebuf<char>*>(rdbuf))\n    f = sfbuf->file();\n  else if (auto* fbuf = dynamic_cast<__gnu_cxx::stdio_filebuf<char>*>(rdbuf))\n    f = fbuf->file();\n#endif\n#ifdef _WIN32\n  if (f) {\n    int fd = _fileno(f);\n    if (_isatty(fd)) {\n      os.flush();\n      if (detail::write_console(fd, {buffer.data(), buffer.size()})) return;\n    }\n  }\n#endif\n  detail::ignore_unused(f);\n  detail::write_buffer(os, buffer);\n}\n\n/**\n * Prints formatted data to the stream `os`.\n *\n * **Example**:\n *\n *     fmt::print(cerr, \"Don't {}!\", \"panic\");\n */\ntemplate <typename... T>\nvoid print(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::vargs<T...> vargs = {{args...}};\n  if FMT_CONSTEXPR20 (detail::use_utf8) return vprint(os, fmt.str, vargs);\n  auto buffer = memory_buffer();\n  detail::vformat_to(buffer, fmt.str, vargs);\n  detail::write_buffer(os, buffer);\n}\n\ntemplate <typename... T>\nvoid println(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::print(os, FMT_STRING(\"{}\\n\"),\n             fmt::format(fmt, std::forward<T>(args)...));\n}\n\nFMT_END_EXPORT\nFMT_END_NAMESPACE\n\n#endif  // FMT_OSTREAM_H_\n",
+          "total_lines": 172,
+          "truncated": false,
+          "end_line": 172
+        },
+        "response_sha256": "5cf8c9a686025bbd797c1bd01e4b717d6470dd856576564211ca64f9bd309cc4",
+        "bytes": {
+          "total_json_bytes": 5044,
+          "source_text_utf8_bytes": 4752,
+          "path_utf8_bytes": 21,
+          "source_text_json_payload_bytes": 4918,
+          "path_json_payload_bytes": 21,
+          "metadata_and_framing_json_bytes": 105
+        },
+        "timing": {
+          "cpu_ns": 313273,
+          "wall_ns": 314279,
+          "read_calls": 1,
+          "read_bytes": 5181
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/ostream.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/ostream.h",
+              19
+            ],
+            [
+              "include/fmt/ostream.h",
+              20
+            ],
+            [
+              "include/fmt/ostream.h",
+              21
+            ],
+            [
+              "include/fmt/ostream.h",
+              23
+            ],
+            [
+              "include/fmt/ostream.h",
+              25
+            ],
+            [
+              "include/fmt/ostream.h",
+              26
+            ],
+            [
+              "include/fmt/ostream.h",
+              27
+            ],
+            [
+              "include/fmt/ostream.h",
+              28
+            ],
+            [
+              "include/fmt/ostream.h",
+              29
+            ],
+            [
+              "include/fmt/ostream.h",
+              30
+            ],
+            [
+              "include/fmt/ostream.h",
+              31
+            ],
+            [
+              "include/fmt/ostream.h",
+              33
+            ],
+            [
+              "include/fmt/ostream.h",
+              34
+            ],
+            [
+              "include/fmt/ostream.h",
+              36
+            ],
+            [
+              "include/fmt/ostream.h",
+              37
+            ],
+            [
+              "include/fmt/ostream.h",
+              38
+            ],
+            [
+              "include/fmt/ostream.h",
+              39
+            ],
+            [
+              "include/fmt/ostream.h",
+              40
+            ],
+            [
+              "include/fmt/ostream.h",
+              41
+            ],
+            [
+              "include/fmt/ostream.h",
+              42
+            ],
+            [
+              "include/fmt/ostream.h",
+              43
+            ],
+            [
+              "include/fmt/ostream.h",
+              44
+            ],
+            [
+              "include/fmt/ostream.h",
+              46
+            ],
+            [
+              "include/fmt/ostream.h",
+              47
+            ],
+            [
+              "include/fmt/ostream.h",
+              48
+            ],
+            [
+              "include/fmt/ostream.h",
+              49
+            ],
+            [
+              "include/fmt/ostream.h",
+              50
+            ],
+            [
+              "include/fmt/ostream.h",
+              52
+            ],
+            [
+              "include/fmt/ostream.h",
+              53
+            ],
+            [
+              "include/fmt/ostream.h",
+              54
+            ],
+            [
+              "include/fmt/ostream.h",
+              55
+            ],
+            [
+              "include/fmt/ostream.h",
+              56
+            ],
+            [
+              "include/fmt/ostream.h",
+              57
+            ],
+            [
+              "include/fmt/ostream.h",
+              58
+            ],
+            [
+              "include/fmt/ostream.h",
+              59
+            ],
+            [
+              "include/fmt/ostream.h",
+              60
+            ],
+            [
+              "include/fmt/ostream.h",
+              61
+            ],
+            [
+              "include/fmt/ostream.h",
+              62
+            ],
+            [
+              "include/fmt/ostream.h",
+              63
+            ],
+            [
+              "include/fmt/ostream.h",
+              64
+            ],
+            [
+              "include/fmt/ostream.h",
+              65
+            ],
+            [
+              "include/fmt/ostream.h",
+              66
+            ],
+            [
+              "include/fmt/ostream.h",
+              67
+            ],
+            [
+              "include/fmt/ostream.h",
+              68
+            ],
+            [
+              "include/fmt/ostream.h",
+              70
+            ],
+            [
+              "include/fmt/ostream.h",
+              71
+            ],
+            [
+              "include/fmt/ostream.h",
+              72
+            ],
+            [
+              "include/fmt/ostream.h",
+              73
+            ],
+            [
+              "include/fmt/ostream.h",
+              75
+            ],
+            [
+              "include/fmt/ostream.h",
+              77
+            ],
+            [
+              "include/fmt/ostream.h",
+              78
+            ],
+            [
+              "include/fmt/ostream.h",
+              79
+            ],
+            [
+              "include/fmt/ostream.h",
+              80
+            ],
+            [
+              "include/fmt/ostream.h",
+              82
+            ],
+            [
+              "include/fmt/ostream.h",
+              83
+            ],
+            [
+              "include/fmt/ostream.h",
+              84
+            ],
+            [
+              "include/fmt/ostream.h",
+              85
+            ],
+            [
+              "include/fmt/ostream.h",
+              86
+            ],
+            [
+              "include/fmt/ostream.h",
+              87
+            ],
+            [
+              "include/fmt/ostream.h",
+              88
+            ],
+            [
+              "include/fmt/ostream.h",
+              89
+            ],
+            [
+              "include/fmt/ostream.h",
+              90
+            ],
+            [
+              "include/fmt/ostream.h",
+              91
+            ],
+            [
+              "include/fmt/ostream.h",
+              92
+            ],
+            [
+              "include/fmt/ostream.h",
+              93
+            ],
+            [
+              "include/fmt/ostream.h",
+              95
+            ],
+            [
+              "include/fmt/ostream.h",
+              97
+            ],
+            [
+              "include/fmt/ostream.h",
+              98
+            ],
+            [
+              "include/fmt/ostream.h",
+              99
+            ],
+            [
+              "include/fmt/ostream.h",
+              100
+            ],
+            [
+              "include/fmt/ostream.h",
+              101
+            ],
+            [
+              "include/fmt/ostream.h",
+              102
+            ],
+            [
+              "include/fmt/ostream.h",
+              103
+            ],
+            [
+              "include/fmt/ostream.h",
+              104
+            ],
+            [
+              "include/fmt/ostream.h",
+              105
+            ],
+            [
+              "include/fmt/ostream.h",
+              107
+            ],
+            [
+              "include/fmt/ostream.h",
+              108
+            ],
+            [
+              "include/fmt/ostream.h",
+              109
+            ],
+            [
+              "include/fmt/ostream.h",
+              110
+            ],
+            [
+              "include/fmt/ostream.h",
+              111
+            ],
+            [
+              "include/fmt/ostream.h",
+              112
+            ],
+            [
+              "include/fmt/ostream.h",
+              113
+            ],
+            [
+              "include/fmt/ostream.h",
+              114
+            ],
+            [
+              "include/fmt/ostream.h",
+              115
+            ],
+            [
+              "include/fmt/ostream.h",
+              116
+            ],
+            [
+              "include/fmt/ostream.h",
+              117
+            ],
+            [
+              "include/fmt/ostream.h",
+              118
+            ],
+            [
+              "include/fmt/ostream.h",
+              120
+            ],
+            [
+              "include/fmt/ostream.h",
+              121
+            ],
+            [
+              "include/fmt/ostream.h",
+              122
+            ],
+            [
+              "include/fmt/ostream.h",
+              123
+            ],
+            [
+              "include/fmt/ostream.h",
+              124
+            ],
+            [
+              "include/fmt/ostream.h",
+              125
+            ],
+            [
+              "include/fmt/ostream.h",
+              126
+            ],
+            [
+              "include/fmt/ostream.h",
+              127
+            ],
+            [
+              "include/fmt/ostream.h",
+              128
+            ],
+            [
+              "include/fmt/ostream.h",
+              129
+            ],
+            [
+              "include/fmt/ostream.h",
+              130
+            ],
+            [
+              "include/fmt/ostream.h",
+              131
+            ],
+            [
+              "include/fmt/ostream.h",
+              132
+            ],
+            [
+              "include/fmt/ostream.h",
+              133
+            ],
+            [
+              "include/fmt/ostream.h",
+              134
+            ],
+            [
+              "include/fmt/ostream.h",
+              135
+            ],
+            [
+              "include/fmt/ostream.h",
+              136
+            ],
+            [
+              "include/fmt/ostream.h",
+              137
+            ],
+            [
+              "include/fmt/ostream.h",
+              138
+            ],
+            [
+              "include/fmt/ostream.h",
+              139
+            ],
+            [
+              "include/fmt/ostream.h",
+              140
+            ],
+            [
+              "include/fmt/ostream.h",
+              141
+            ],
+            [
+              "include/fmt/ostream.h",
+              142
+            ],
+            [
+              "include/fmt/ostream.h",
+              143
+            ],
+            [
+              "include/fmt/ostream.h",
+              144
+            ],
+            [
+              "include/fmt/ostream.h",
+              145
+            ],
+            [
+              "include/fmt/ostream.h",
+              147
+            ],
+            [
+              "include/fmt/ostream.h",
+              148
+            ],
+            [
+              "include/fmt/ostream.h",
+              149
+            ],
+            [
+              "include/fmt/ostream.h",
+              150
+            ],
+            [
+              "include/fmt/ostream.h",
+              151
+            ],
+            [
+              "include/fmt/ostream.h",
+              152
+            ],
+            [
+              "include/fmt/ostream.h",
+              153
+            ],
+            [
+              "include/fmt/ostream.h",
+              154
+            ],
+            [
+              "include/fmt/ostream.h",
+              155
+            ],
+            [
+              "include/fmt/ostream.h",
+              156
+            ],
+            [
+              "include/fmt/ostream.h",
+              157
+            ],
+            [
+              "include/fmt/ostream.h",
+              158
+            ],
+            [
+              "include/fmt/ostream.h",
+              159
+            ],
+            [
+              "include/fmt/ostream.h",
+              160
+            ],
+            [
+              "include/fmt/ostream.h",
+              161
+            ],
+            [
+              "include/fmt/ostream.h",
+              163
+            ],
+            [
+              "include/fmt/ostream.h",
+              164
+            ],
+            [
+              "include/fmt/ostream.h",
+              165
+            ],
+            [
+              "include/fmt/ostream.h",
+              166
+            ],
+            [
+              "include/fmt/ostream.h",
+              167
+            ],
+            [
+              "include/fmt/ostream.h",
+              169
+            ],
+            [
+              "include/fmt/ostream.h",
+              170
+            ],
+            [
+              "include/fmt/ostream.h",
+              172
+            ]
+          ]
+        },
+        "arguments": {
+          "path": "include/fmt/ostream.h",
+          "start_line": 19,
+          "max_lines": 200
+        }
+      }
+    ]
+  },
+  "fixed_candidates": {
+    "stream": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 39,
+        "text": "struct file_access_tag {};",
+        "candidate_id": "e888dc5797d60af829b9122511c58c0f706021b92aa088ba3494482e929a0beb"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 47,
+        "text": "template class file_access<file_access_tag, std::filebuf,",
+        "candidate_id": "176775a4f5670ec4ac05b2bbac500cee567d6c306834031b5c2ebf11dd01e3b5"
+      }
+    ],
+    "stream_sha256": "3423f001af2d89908df208367e6b26b3d9c290c0701a0035ac82014d8257781e",
+    "generation": {
+      "cpu_ns": 439734,
+      "wall_ns": 440908,
+      "read_calls": 3,
+      "read_bytes": 25053
+    },
+    "flat": {
+      "response": {
+        "matches": [
+          {
+            "candidate_id": "e888dc5797d60af829b9122511c58c0f706021b92aa088ba3494482e929a0beb",
+            "line": 39,
+            "path": "include/fmt/ostream.h",
+            "text": "struct file_access_tag {};"
+          },
+          {
+            "candidate_id": "176775a4f5670ec4ac05b2bbac500cee567d6c306834031b5c2ebf11dd01e3b5",
+            "line": 47,
+            "path": "include/fmt/ostream.h",
+            "text": "template class file_access<file_access_tag, std::filebuf,"
+          }
+        ]
+      },
+      "response_sha256": "577f69229781d24d206575096e15dc6b62855e54c74224eee0c3f9e8ba45e3fb",
+      "bytes": {
+        "total_json_bytes": 366,
+        "source_text_utf8_bytes": 83,
+        "path_utf8_bytes": 42,
+        "source_text_json_payload_bytes": 83,
+        "path_json_payload_bytes": 42,
+        "metadata_and_framing_json_bytes": 241
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 4318,
+        "wall_ns": 5190
+      }
+    },
+    "grouped": {
+      "response": {
+        "files": [
+          {
+            "matches": [
+              {
+                "candidate_id": "e888dc5797d60af829b9122511c58c0f706021b92aa088ba3494482e929a0beb",
+                "line": 39,
+                "text": "struct file_access_tag {};"
+              },
+              {
+                "candidate_id": "176775a4f5670ec4ac05b2bbac500cee567d6c306834031b5c2ebf11dd01e3b5",
+                "line": 47,
+                "text": "template class file_access<file_access_tag, std::filebuf,"
+              }
+            ],
+            "path": "include/fmt/ostream.h"
+          }
+        ]
+      },
+      "response_sha256": "1a3b1849cb81dac40adce7cc257e8e00f3c0522cd49e8792408c21a23d4539f1",
+      "bytes": {
+        "total_json_bytes": 347,
+        "source_text_utf8_bytes": 83,
+        "path_utf8_bytes": 21,
+        "source_text_json_payload_bytes": 83,
+        "path_json_payload_bytes": 21,
+        "metadata_and_framing_json_bytes": 243
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 6863,
+        "wall_ns": 7735
+      }
+    },
+    "same_records_order_content": true,
+    "baseline_same_match_stream": true
+  },
+  "sanity": {
+    "candidate_ids_and_order_equal": true,
+    "candidate_pool_hashes_equal": true,
+    "scan_work_equal": true,
+    "feedback_fallback": true
+  }
+}

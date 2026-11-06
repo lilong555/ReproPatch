@@ -419,6 +419,10 @@ def repropatch_agent(args, hooks, task):
             compiler_cache=getattr(args, "compiler_cache", False),
             tool_mode=getattr(args, "tool_mode", "legacy"),
             semantic_state_enabled=getattr(args, "semantic_state", False),
+            localization_mode=getattr(args, "localization_mode", "native"),
+            localization_tool_budget=getattr(args, "localization_tool_budget", 0),
+            localization_step_budget=getattr(args, "localization_step_budget", 4),
+            localization_feedback=getattr(args, "localization_feedback", None),
             context_policy=hooks.ledger.policy
             if isinstance(hooks.ledger, LocalUsageLedger)
             else None,
@@ -901,6 +905,12 @@ def main():
     parser.add_argument(
         "--semantic-state", action="store_true", help="Full 启用 C++ 结构索引与修复证据状态"
     )
+    parser.add_argument(
+        "--localization-mode", choices=("native", "bounded", "feedback"), default="native"
+    )
+    parser.add_argument("--localization-tool-budget", type=int, default=0)
+    parser.add_argument("--localization-step-budget", type=int, default=4)
+    parser.add_argument("--localization-feedback-file", type=Path)
     args = parser.parse_args()
     if args.agent != "repropatch" and (
         args.candidate_only
@@ -908,8 +918,17 @@ def main():
         or args.intermediate_checks != "enabled"
         or args.tool_mode != "legacy"
         or args.semantic_state
+        or args.localization_mode != "native"
+        or args.localization_tool_budget
+        or args.localization_feedback_file
     ):
         parser.error("候选模式、编译缓存和中途自检开关适用于 ReproPatch")
+    if not 0 <= args.localization_tool_budget <= 48 or not 1 <= args.localization_step_budget <= 24:
+        parser.error("定位工具额度须为0-48，请求额度须为1-24")
+    if (args.localization_mode != "native" or args.localization_tool_budget) and (
+        args.tool_mode != "legacy" or args.semantic_state
+    ):
+        parser.error("定位实验使用 legacy 文本工具集")
     if args.tool_mode == "shell-only" and args.intermediate_checks != "enabled":
         parser.error("Shell-only 通过 Bash 执行自检，四文件工具消融使用 legacy 模式")
     if args.native_context and (args.agent != "mini" or args.provider != "local-luna"):
@@ -921,6 +940,14 @@ def main():
     try:
         parameters = reasoning_parameters(args)
         task = Task.load(args.task)
+        if args.localization_feedback_file is not None:
+            from repropatch.artifacts import read_regular
+            from repropatch.events import _json
+            from repropatch.localization_runtime import FEEDBACK_LIMIT, validate_feedback
+
+            args.localization_feedback = validate_feedback(
+                _json(read_regular(args.localization_feedback_file, limit=FEEDBACK_LIMIT)[0]), task
+            )
         if args.provider == "local-luna":
             ledger = LocalUsageLedger(args.ledger)
         else:
@@ -982,6 +1009,9 @@ def main():
         "intermediate_checks": args.intermediate_checks,
         "tool_mode": args.tool_mode,
         "semantic_state": args.semantic_state,
+        "localization_mode": args.localization_mode,
+        "localization_tool_budget": args.localization_tool_budget,
+        "localization_step_budget": args.localization_step_budget,
         "context_management": "repropatch"
         if args.agent == "repropatch"
         else "native"

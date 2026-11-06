@@ -1,0 +1,1020 @@
+{
+  "query_id": 11,
+  "query": "system_category",
+  "scope": ".",
+  "repeat": 3,
+  "order": [
+    "A_search",
+    "B_summary",
+    "C_no_evidence"
+  ],
+  "gold": {
+    "path": "include/fmt/os.h",
+    "symbol": "system_category",
+    "kind": "function_definition",
+    "line": 161,
+    "anchor": "inline auto system_category()"
+  },
+  "methods": {
+    "A_search": [
+      {
+        "response": {
+          "matches": [
+            {
+              "path": "include/fmt/os.h",
+              "line": 117,
+              "text": "FMT_API const std::error_category& system_category() noexcept;"
+            },
+            {
+              "path": "include/fmt/os.h",
+              "line": 161,
+              "text": "inline auto system_category() noexcept -> const std::error_category& {"
+            },
+            {
+              "path": "include/fmt/os.h",
+              "line": 162,
+              "text": "  return std::system_category();"
+            }
+          ],
+          "truncated": false
+        },
+        "response_sha256": "2689b4e4ffb6af82faea96dc7f4b56949267c7fa4d2c430edf87c4decddacfa7",
+        "bytes": {
+          "total_json_bytes": 342,
+          "source_text_utf8_bytes": 164,
+          "path_utf8_bytes": 48,
+          "source_text_json_payload_bytes": 164,
+          "path_json_payload_bytes": 48,
+          "metadata_and_framing_json_bytes": 130
+        },
+        "timing": {
+          "cpu_ns": 491932,
+          "wall_ns": 493733,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/os.h",
+              117
+            ],
+            [
+              "include/fmt/os.h",
+              161
+            ],
+            [
+              "include/fmt/os.h",
+              162
+            ]
+          ]
+        }
+      }
+    ],
+    "B_summary": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "bounded",
+          "query": "system_category",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "e9fdd78617baac8f20fb78c69ba7ac57ec74c73814805002c6c4365dcda0410b",
+          "page_kind": "files",
+          "candidates": [
+            {
+              "candidate_id": "102bb390dcce22dc7e156f746fd14b61d35d822933aa05a7881e9b5e0d7759a7",
+              "path": "include/fmt/os.h",
+              "file_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+              "match_count": 3,
+              "hit_lines": [
+                117,
+                161,
+                162
+              ],
+              "hit_lines_next_cursor": null
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "bounded_mode",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.0004285140003048582,
+            "oversize_file": false
+          },
+          "ranking_seconds": 9.209998097503558e-07
+        },
+        "response_sha256": "5d460bff86bf3c272fd804b7d1f700e9281ca0c00f6ad9313ded2ec6bd1beb61",
+        "bytes": {
+          "total_json_bytes": 930,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 16,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 16,
+          "metadata_and_framing_json_bytes": 914
+        },
+        "timing": {
+          "cpu_ns": 482323,
+          "wall_ns": 483391,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 30728,
+          "wall_ns": 31612
+        }
+      }
+    ],
+    "C_no_evidence": [
+      {
+        "response": {
+          "schema_version": 1,
+          "mode": "feedback",
+          "query": "system_category",
+          "scope": ".",
+          "source_tree_sha256": "363bd933837e336388dbdb8841b28d61f7754b10f50e9993f03572a7805c88b2",
+          "source_epoch": 0,
+          "candidate_pool_sha256": "e9fdd78617baac8f20fb78c69ba7ac57ec74c73814805002c6c4365dcda0410b",
+          "page_kind": "files",
+          "candidates": [
+            {
+              "candidate_id": "102bb390dcce22dc7e156f746fd14b61d35d822933aa05a7881e9b5e0d7759a7",
+              "path": "include/fmt/os.h",
+              "file_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+              "match_count": 3,
+              "hit_lines": [
+                117,
+                161,
+                162
+              ],
+              "hit_lines_next_cursor": null,
+              "ranking": {
+                "reason": "text_order",
+                "evidence_count": 0,
+                "evidence": []
+              }
+            }
+          ],
+          "matched_files": 1,
+          "scan_complete": true,
+          "count_is_lower_bound": false,
+          "truncated": false,
+          "next_cursor": null,
+          "continuation": null,
+          "coverage_status": "not_collected",
+          "fallback_reason": "no_registered_feedback",
+          "stale_evidence_count": 0,
+          "scan": {
+            "files": 3,
+            "bytes": 25053,
+            "skipped_files": 0,
+            "seconds": 0.00044032700134266634,
+            "oversize_file": false
+          },
+          "ranking_seconds": 2.2250005713431165e-06
+        },
+        "response_sha256": "66928f5f2605d1991783c0d0ad7fd2fc5035aa4c3db75d69be9b837c863d0576",
+        "bytes": {
+          "total_json_bytes": 1010,
+          "source_text_utf8_bytes": 0,
+          "path_utf8_bytes": 16,
+          "source_text_json_payload_bytes": 0,
+          "path_json_payload_bytes": 16,
+          "metadata_and_framing_json_bytes": 994
+        },
+        "timing": {
+          "cpu_ns": 507501,
+          "wall_ns": 508711,
+          "read_calls": 3,
+          "read_bytes": 25053
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": false,
+          "source_lines": []
+        },
+        "setup_timing": {
+          "cpu_ns": 21661,
+          "wall_ns": 22525
+        }
+      }
+    ],
+    "B_drill": [
+      {
+        "response": {
+          "path": "include/fmt/os.h",
+          "editable": false,
+          "start_line": 97,
+          "text": " */\ntemplate <typename Char> class basic_cstring_view {\n private:\n  const Char* data_;\n\n public:\n  /// Constructs a string reference object from a C string.\n  basic_cstring_view(const Char* s) : data_(s) {}\n\n  /// Constructs a string reference from an `std::string` object.\n  basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}\n\n  /// Returns the pointer to a C string.\n  auto c_str() const -> const Char* { return data_; }\n};\n\nusing cstring_view = basic_cstring_view<char>;\nusing wcstring_view = basic_cstring_view<wchar_t>;\n\n#ifdef _WIN32\nFMT_API const std::error_category& system_category() noexcept;\n\nnamespace detail {\nFMT_API void format_windows_error(buffer<char>& out, int error_code,\n                                  const char* message) noexcept;\n}\n\nFMT_API std::system_error vwindows_error(int error_code, string_view fmt,\n                                         format_args args);\n\n/**\n * Constructs a `std::system_error` object with the description of the form\n *\n *     <message>: <system-message>\n *\n * where `<message>` is the formatted message and `<system-message>` is the\n * system message corresponding to the error code.\n * `error_code` is a Windows error code as given by `GetLastError`.\n * If `error_code` is not a valid error code such as -1, the system message\n * will look like \"error -1\".\n *\n * **Example**:\n *\n *     // This throws a system_error with the description\n *     //   cannot open file 'foo': The system cannot find the file specified.\n *     // or similar (system message may vary) if the file doesn't exist.\n *     const char *filename = \"foo\";\n *     LPOFSTRUCT of = LPOFSTRUCT();\n *     HFILE file = OpenFile(filename, &of, OF_READ);\n *     if (file == HFILE_ERROR) {\n *       throw fmt::windows_error(GetLastError(),\n *                                \"cannot open file '{}'\", filename);\n *     }\n */\ntemplate <typename... T>\nauto windows_error(int error_code, string_view message, const T&... args)\n    -> std::system_error {\n  return vwindows_error(error_code, message, vargs<T...>{{args...}});\n}\n\n// Reports a Windows error without throwing an exception.\n// Can be used to report errors from destructors.\nFMT_API void report_windows_error(int error_code, const char* message) noexcept;\n#else\ninline auto system_category() noexcept -> const std::error_category& {\n  return std::system_category();\n}\n#endif  // _WIN32\n\n// A buffered file.\nclass buffered_file {\n private:\n  FILE* file_;\n\n  friend class file;\n\n  inline explicit buffered_file(FILE* f) : file_(f) {}\n\n public:\n  buffered_file(const buffered_file&) = delete;\n  void operator=(const buffered_file&) = delete;\n\n  // Constructs a buffered_file object which doesn't represent any file.\n  inline buffered_file() noexcept : file_(nullptr) {}\n\n  // Destroys the object closing the file it represents if any.\n  FMT_API ~buffered_file() noexcept;\n\n public:\n  inline buffered_file(buffered_file&& other) noexcept : file_(other.file_) {\n    other.file_ = nullptr;\n  }\n\n  inline auto operator=(buffered_file&& other) -> buffered_file& {\n    close();\n    file_ = other.file_;\n    other.file_ = nullptr;\n    return *this;\n  }\n\n  // Opens a file.\n  FMT_API buffered_file(cstring_view filename, cstring_view mode);\n\n  // Closes the file.\n  FMT_API void close();\n\n  // Returns the pointer to a FILE object representing this file.\n  inline auto get() const noexcept -> FILE* { return file_; }\n\n  FMT_API auto descriptor() const -> int;\n\n  template <typename... T>\n  inline void print(string_view fmt, const T&... args) {\n    fmt::vargs<T...> vargs = {{args...}};\n    detail::is_locking<T...>() ? fmt::vprint_buffered(file_, fmt, vargs)\n                               : fmt::vprint(file_, fmt, vargs);\n  }\n};\n\n#if FMT_USE_FCNTL\n\n// A file. Closed file is represented by a file object with descriptor -1.\n// Methods that are not declared with noexcept may throw\n// fmt::system_error in case of failure. Note that some errors such as\n// closing the file multiple times will cause a crash on Windows rather\n// than an exception. You can get standard behavior by overriding the\n// invalid parameter handler with _set_invalid_parameter_handler.\nclass FMT_API file {\n private:\n  int fd_;  // File descriptor.\n\n  // Constructs a file object with a given descriptor.\n  explicit file(int fd) : fd_(fd) {}\n\n  friend struct pipe;\n\n public:\n  // Possible values for the oflag argument to the constructor.\n  enum {\n    RDONLY = FMT_POSIX(O_RDONLY),  // Open for reading only.\n    WRONLY = FMT_POSIX(O_WRONLY),  // Open for writing only.\n    RDWR = FMT_POSIX(O_RDWR),      // Open for reading and writing.\n    CREATE = FMT_POSIX(O_CREAT),   // Create if the file doesn't exist.\n    APPEND = FMT_POSIX(O_APPEND),  // Open in append mode.\n    TRUNC = FMT_POSIX(O_TRUNC)     // Truncate the content of the file.\n  };\n\n  // Constructs a file object which doesn't represent any file.\n  inline file() noexcept : fd_(-1) {}\n\n  // Opens a file and constructs a file object representing this file.\n  file(cstring_view path, int oflag);\n\n public:\n  file(const file&) = delete;\n  void operator=(const file&) = delete;\n\n  inline file(file&& other) noexcept : fd_(other.fd_) { other.fd_ = -1; }\n\n  // Move assignment is not noexcept because close may throw.\n  inline auto operator=(file&& other) -> file& {\n    close();\n    fd_ = other.fd_;\n    other.fd_ = -1;\n    return *this;\n  }\n\n  // Destroys the object closing the file it represents if any.\n  ~file() noexcept;\n\n  // Returns the file descriptor.\n  inline auto descriptor() const noexcept -> int { return fd_; }\n\n  // Closes the file.\n  void close();\n\n  // Returns the file size. The size has signed type for consistency with\n  // stat::st_size.\n  auto size() const -> long long;\n\n  // Attempts to read count bytes from the file into the specified buffer.\n  auto read(void* buffer, size_t count) -> size_t;\n\n  // Attempts to write count bytes from the specified buffer to the file.\n  auto write(const void* buffer, size_t count) -> size_t;\n\n  // Duplicates a file descriptor with the dup function and returns\n  // the duplicate as a file object.\n  static auto dup(int fd) -> file;\n\n  // Makes fd be the copy of this file descriptor, closing fd first if\n  // necessary.\n  void dup2(int fd);\n\n  // Makes fd be the copy of this file descriptor, closing fd first if\n  // necessary.\n  void dup2(int fd, std::error_code& ec) noexcept;\n\n  // Creates a buffered_file object associated with this file and detaches\n  // this file object from the file.\n",
+          "total_lines": 421,
+          "truncated": true,
+          "end_line": 296
+        },
+        "response_sha256": "923a4d40581bae64b78980ac7a037ac7988cf04fecb2fe0a1c5a288a4723b29b",
+        "bytes": {
+          "total_json_bytes": 6810,
+          "source_text_utf8_bytes": 6484,
+          "path_utf8_bytes": 16,
+          "source_text_json_payload_bytes": 6690,
+          "path_json_payload_bytes": 16,
+          "metadata_and_framing_json_bytes": 104
+        },
+        "timing": {
+          "cpu_ns": 371374,
+          "wall_ns": 373315,
+          "read_calls": 1,
+          "read_bytes": 12648
+        },
+        "exposure": {
+          "ordered_candidate_paths": [
+            "include/fmt/os.h"
+          ],
+          "target_file_candidate": true,
+          "target_file_top5": true,
+          "target_anchor_body": true,
+          "source_lines": [
+            [
+              "include/fmt/os.h",
+              97
+            ],
+            [
+              "include/fmt/os.h",
+              98
+            ],
+            [
+              "include/fmt/os.h",
+              99
+            ],
+            [
+              "include/fmt/os.h",
+              100
+            ],
+            [
+              "include/fmt/os.h",
+              102
+            ],
+            [
+              "include/fmt/os.h",
+              103
+            ],
+            [
+              "include/fmt/os.h",
+              104
+            ],
+            [
+              "include/fmt/os.h",
+              106
+            ],
+            [
+              "include/fmt/os.h",
+              107
+            ],
+            [
+              "include/fmt/os.h",
+              109
+            ],
+            [
+              "include/fmt/os.h",
+              110
+            ],
+            [
+              "include/fmt/os.h",
+              111
+            ],
+            [
+              "include/fmt/os.h",
+              113
+            ],
+            [
+              "include/fmt/os.h",
+              114
+            ],
+            [
+              "include/fmt/os.h",
+              116
+            ],
+            [
+              "include/fmt/os.h",
+              117
+            ],
+            [
+              "include/fmt/os.h",
+              119
+            ],
+            [
+              "include/fmt/os.h",
+              120
+            ],
+            [
+              "include/fmt/os.h",
+              121
+            ],
+            [
+              "include/fmt/os.h",
+              122
+            ],
+            [
+              "include/fmt/os.h",
+              124
+            ],
+            [
+              "include/fmt/os.h",
+              125
+            ],
+            [
+              "include/fmt/os.h",
+              127
+            ],
+            [
+              "include/fmt/os.h",
+              128
+            ],
+            [
+              "include/fmt/os.h",
+              129
+            ],
+            [
+              "include/fmt/os.h",
+              130
+            ],
+            [
+              "include/fmt/os.h",
+              131
+            ],
+            [
+              "include/fmt/os.h",
+              132
+            ],
+            [
+              "include/fmt/os.h",
+              133
+            ],
+            [
+              "include/fmt/os.h",
+              134
+            ],
+            [
+              "include/fmt/os.h",
+              135
+            ],
+            [
+              "include/fmt/os.h",
+              136
+            ],
+            [
+              "include/fmt/os.h",
+              137
+            ],
+            [
+              "include/fmt/os.h",
+              138
+            ],
+            [
+              "include/fmt/os.h",
+              139
+            ],
+            [
+              "include/fmt/os.h",
+              140
+            ],
+            [
+              "include/fmt/os.h",
+              141
+            ],
+            [
+              "include/fmt/os.h",
+              142
+            ],
+            [
+              "include/fmt/os.h",
+              143
+            ],
+            [
+              "include/fmt/os.h",
+              144
+            ],
+            [
+              "include/fmt/os.h",
+              145
+            ],
+            [
+              "include/fmt/os.h",
+              146
+            ],
+            [
+              "include/fmt/os.h",
+              147
+            ],
+            [
+              "include/fmt/os.h",
+              148
+            ],
+            [
+              "include/fmt/os.h",
+              149
+            ],
+            [
+              "include/fmt/os.h",
+              150
+            ],
+            [
+              "include/fmt/os.h",
+              151
+            ],
+            [
+              "include/fmt/os.h",
+              152
+            ],
+            [
+              "include/fmt/os.h",
+              153
+            ],
+            [
+              "include/fmt/os.h",
+              154
+            ],
+            [
+              "include/fmt/os.h",
+              155
+            ],
+            [
+              "include/fmt/os.h",
+              157
+            ],
+            [
+              "include/fmt/os.h",
+              158
+            ],
+            [
+              "include/fmt/os.h",
+              159
+            ],
+            [
+              "include/fmt/os.h",
+              160
+            ],
+            [
+              "include/fmt/os.h",
+              161
+            ],
+            [
+              "include/fmt/os.h",
+              162
+            ],
+            [
+              "include/fmt/os.h",
+              163
+            ],
+            [
+              "include/fmt/os.h",
+              164
+            ],
+            [
+              "include/fmt/os.h",
+              166
+            ],
+            [
+              "include/fmt/os.h",
+              167
+            ],
+            [
+              "include/fmt/os.h",
+              168
+            ],
+            [
+              "include/fmt/os.h",
+              169
+            ],
+            [
+              "include/fmt/os.h",
+              171
+            ],
+            [
+              "include/fmt/os.h",
+              173
+            ],
+            [
+              "include/fmt/os.h",
+              175
+            ],
+            [
+              "include/fmt/os.h",
+              176
+            ],
+            [
+              "include/fmt/os.h",
+              177
+            ],
+            [
+              "include/fmt/os.h",
+              179
+            ],
+            [
+              "include/fmt/os.h",
+              180
+            ],
+            [
+              "include/fmt/os.h",
+              182
+            ],
+            [
+              "include/fmt/os.h",
+              183
+            ],
+            [
+              "include/fmt/os.h",
+              185
+            ],
+            [
+              "include/fmt/os.h",
+              186
+            ],
+            [
+              "include/fmt/os.h",
+              187
+            ],
+            [
+              "include/fmt/os.h",
+              188
+            ],
+            [
+              "include/fmt/os.h",
+              190
+            ],
+            [
+              "include/fmt/os.h",
+              191
+            ],
+            [
+              "include/fmt/os.h",
+              192
+            ],
+            [
+              "include/fmt/os.h",
+              193
+            ],
+            [
+              "include/fmt/os.h",
+              194
+            ],
+            [
+              "include/fmt/os.h",
+              195
+            ],
+            [
+              "include/fmt/os.h",
+              197
+            ],
+            [
+              "include/fmt/os.h",
+              198
+            ],
+            [
+              "include/fmt/os.h",
+              200
+            ],
+            [
+              "include/fmt/os.h",
+              201
+            ],
+            [
+              "include/fmt/os.h",
+              203
+            ],
+            [
+              "include/fmt/os.h",
+              204
+            ],
+            [
+              "include/fmt/os.h",
+              206
+            ],
+            [
+              "include/fmt/os.h",
+              208
+            ],
+            [
+              "include/fmt/os.h",
+              209
+            ],
+            [
+              "include/fmt/os.h",
+              210
+            ],
+            [
+              "include/fmt/os.h",
+              211
+            ],
+            [
+              "include/fmt/os.h",
+              212
+            ],
+            [
+              "include/fmt/os.h",
+              213
+            ],
+            [
+              "include/fmt/os.h",
+              214
+            ],
+            [
+              "include/fmt/os.h",
+              216
+            ],
+            [
+              "include/fmt/os.h",
+              218
+            ],
+            [
+              "include/fmt/os.h",
+              219
+            ],
+            [
+              "include/fmt/os.h",
+              220
+            ],
+            [
+              "include/fmt/os.h",
+              221
+            ],
+            [
+              "include/fmt/os.h",
+              222
+            ],
+            [
+              "include/fmt/os.h",
+              223
+            ],
+            [
+              "include/fmt/os.h",
+              224
+            ],
+            [
+              "include/fmt/os.h",
+              225
+            ],
+            [
+              "include/fmt/os.h",
+              226
+            ],
+            [
+              "include/fmt/os.h",
+              228
+            ],
+            [
+              "include/fmt/os.h",
+              229
+            ],
+            [
+              "include/fmt/os.h",
+              231
+            ],
+            [
+              "include/fmt/os.h",
+              233
+            ],
+            [
+              "include/fmt/os.h",
+              234
+            ],
+            [
+              "include/fmt/os.h",
+              235
+            ],
+            [
+              "include/fmt/os.h",
+              236
+            ],
+            [
+              "include/fmt/os.h",
+              237
+            ],
+            [
+              "include/fmt/os.h",
+              238
+            ],
+            [
+              "include/fmt/os.h",
+              239
+            ],
+            [
+              "include/fmt/os.h",
+              240
+            ],
+            [
+              "include/fmt/os.h",
+              241
+            ],
+            [
+              "include/fmt/os.h",
+              242
+            ],
+            [
+              "include/fmt/os.h",
+              244
+            ],
+            [
+              "include/fmt/os.h",
+              245
+            ],
+            [
+              "include/fmt/os.h",
+              247
+            ],
+            [
+              "include/fmt/os.h",
+              248
+            ],
+            [
+              "include/fmt/os.h",
+              250
+            ],
+            [
+              "include/fmt/os.h",
+              251
+            ],
+            [
+              "include/fmt/os.h",
+              252
+            ],
+            [
+              "include/fmt/os.h",
+              254
+            ],
+            [
+              "include/fmt/os.h",
+              256
+            ],
+            [
+              "include/fmt/os.h",
+              257
+            ],
+            [
+              "include/fmt/os.h",
+              258
+            ],
+            [
+              "include/fmt/os.h",
+              259
+            ],
+            [
+              "include/fmt/os.h",
+              260
+            ],
+            [
+              "include/fmt/os.h",
+              261
+            ],
+            [
+              "include/fmt/os.h",
+              262
+            ],
+            [
+              "include/fmt/os.h",
+              264
+            ],
+            [
+              "include/fmt/os.h",
+              265
+            ],
+            [
+              "include/fmt/os.h",
+              267
+            ],
+            [
+              "include/fmt/os.h",
+              268
+            ],
+            [
+              "include/fmt/os.h",
+              270
+            ],
+            [
+              "include/fmt/os.h",
+              271
+            ],
+            [
+              "include/fmt/os.h",
+              273
+            ],
+            [
+              "include/fmt/os.h",
+              274
+            ],
+            [
+              "include/fmt/os.h",
+              275
+            ],
+            [
+              "include/fmt/os.h",
+              277
+            ],
+            [
+              "include/fmt/os.h",
+              278
+            ],
+            [
+              "include/fmt/os.h",
+              280
+            ],
+            [
+              "include/fmt/os.h",
+              281
+            ],
+            [
+              "include/fmt/os.h",
+              283
+            ],
+            [
+              "include/fmt/os.h",
+              284
+            ],
+            [
+              "include/fmt/os.h",
+              285
+            ],
+            [
+              "include/fmt/os.h",
+              287
+            ],
+            [
+              "include/fmt/os.h",
+              288
+            ],
+            [
+              "include/fmt/os.h",
+              289
+            ],
+            [
+              "include/fmt/os.h",
+              291
+            ],
+            [
+              "include/fmt/os.h",
+              292
+            ],
+            [
+              "include/fmt/os.h",
+              293
+            ],
+            [
+              "include/fmt/os.h",
+              295
+            ],
+            [
+              "include/fmt/os.h",
+              296
+            ]
+          ]
+        },
+        "arguments": {
+          "path": "include/fmt/os.h",
+          "start_line": 97,
+          "max_lines": 200
+        }
+      }
+    ]
+  },
+  "fixed_candidates": {
+    "stream": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 117,
+        "text": "FMT_API const std::error_category& system_category() noexcept;",
+        "candidate_id": "37dbd7a8581348b7c44c6a99f5698c209636d8733c87d4b1675313b572ac2423"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 161,
+        "text": "inline auto system_category() noexcept -> const std::error_category& {",
+        "candidate_id": "beaf4147c72123e86a0bd20cb8402704880b77703ff9dda67cca91294360a961"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 162,
+        "text": "  return std::system_category();",
+        "candidate_id": "cf3af7d1d769c1eb53df794af9f75c1569ef26d19a0d1de10413bfea082eeaec"
+      }
+    ],
+    "stream_sha256": "0564b41c0d4ea1c910ce0160a31982064eaf51eff31c62aaceb970829df6b18f",
+    "generation": {
+      "cpu_ns": 478066,
+      "wall_ns": 479454,
+      "read_calls": 3,
+      "read_bytes": 25053
+    },
+    "flat": {
+      "response": {
+        "matches": [
+          {
+            "candidate_id": "37dbd7a8581348b7c44c6a99f5698c209636d8733c87d4b1675313b572ac2423",
+            "line": 117,
+            "path": "include/fmt/os.h",
+            "text": "FMT_API const std::error_category& system_category() noexcept;"
+          },
+          {
+            "candidate_id": "beaf4147c72123e86a0bd20cb8402704880b77703ff9dda67cca91294360a961",
+            "line": 161,
+            "path": "include/fmt/os.h",
+            "text": "inline auto system_category() noexcept -> const std::error_category& {"
+          },
+          {
+            "candidate_id": "cf3af7d1d769c1eb53df794af9f75c1569ef26d19a0d1de10413bfea082eeaec",
+            "line": 162,
+            "path": "include/fmt/os.h",
+            "text": "  return std::system_category();"
+          }
+        ]
+      },
+      "response_sha256": "9498cd429b32512341840a736830075f292b925279e4a465cd2eda8a6dfa3d1f",
+      "bytes": {
+        "total_json_bytes": 570,
+        "source_text_utf8_bytes": 164,
+        "path_utf8_bytes": 48,
+        "source_text_json_payload_bytes": 164,
+        "path_json_payload_bytes": 48,
+        "metadata_and_framing_json_bytes": 358
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 5731,
+        "wall_ns": 6553
+      }
+    },
+    "grouped": {
+      "response": {
+        "files": [
+          {
+            "matches": [
+              {
+                "candidate_id": "37dbd7a8581348b7c44c6a99f5698c209636d8733c87d4b1675313b572ac2423",
+                "line": 117,
+                "text": "FMT_API const std::error_category& system_category() noexcept;"
+              },
+              {
+                "candidate_id": "beaf4147c72123e86a0bd20cb8402704880b77703ff9dda67cca91294360a961",
+                "line": 161,
+                "text": "inline auto system_category() noexcept -> const std::error_category& {"
+              },
+              {
+                "candidate_id": "cf3af7d1d769c1eb53df794af9f75c1569ef26d19a0d1de10413bfea082eeaec",
+                "line": 162,
+                "text": "  return std::system_category();"
+              }
+            ],
+            "path": "include/fmt/os.h"
+          }
+        ]
+      },
+      "response_sha256": "0abb53da19c73611846a5b1111c77b6379cf730689c379486cad826f2c01237e",
+      "bytes": {
+        "total_json_bytes": 530,
+        "source_text_utf8_bytes": 164,
+        "path_utf8_bytes": 16,
+        "source_text_json_payload_bytes": 164,
+        "path_json_payload_bytes": 16,
+        "metadata_and_framing_json_bytes": 350
+      },
+      "format_and_serialize_timing": {
+        "cpu_ns": 8426,
+        "wall_ns": 9269
+      }
+    },
+    "same_records_order_content": true,
+    "baseline_same_match_stream": true
+  },
+  "sanity": {
+    "candidate_ids_and_order_equal": true,
+    "candidate_pool_hashes_equal": true,
+    "scan_work_equal": true,
+    "feedback_fallback": true
+  }
+}

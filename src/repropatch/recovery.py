@@ -94,7 +94,7 @@ def save_checkpoint(harness, workspace, native, tools_sha256):
         "counters": {key: row[key] for key in ("steps_used", "tool_calls_admitted")},
         "deadline_at": row["deadline_at"],
     }
-    if harness.context_policy.compaction_enabled:
+    if harness.context_policy.compaction_enabled or getattr(harness, "localization_enabled", False):
         manifest["schema_version"] = 2
         manifest["context_state"] = save(
             "context-state.json", canonical_json(harness.context_state.to_dict()) + b"\n"
@@ -588,9 +588,16 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     tool_mode = config.get("benchmark", {}).get("tool_mode", "legacy")
     intermediate_checks = config.get("benchmark", {}).get("intermediate_checks", True)
     semantic_state_enabled = config.get("benchmark", {}).get("semantic_state_enabled", False)
+    localization_options = {
+        "localization_mode": config.get("benchmark", {}).get("localization_mode", "native"),
+        "localization_tool_budget": config.get("benchmark", {}).get("localization_tool_budget", 0),
+        "localization_step_budget": config.get("benchmark", {}).get("localization_step_budget", 4),
+    }
     # 禁用自检的提示和工具子集由已校验的冻结配置确定。
     expected_instructions = (
-        instructions_for(tool_mode, semantic_state_enabled=semantic_state_enabled)
+        instructions_for(
+            tool_mode, semantic_state_enabled=semantic_state_enabled, **localization_options
+        )
         if intermediate_checks
         else config["instructions"]
     )
@@ -615,7 +622,15 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     restored_tools = (
         shell_only_tools(None, None)
         if tool_mode == "shell-only"
-        else sdk_tools(None, None, None, semantic=object() if semantic_state_enabled else None)
+        else sdk_tools(
+            None,
+            None,
+            None,
+            semantic=object() if semantic_state_enabled else None,
+            localization=object()
+            if localization_options["localization_mode"] != "native"
+            else None,
+        )
     )
     if not intermediate_checks:
         restored_tools = [
@@ -668,6 +683,8 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         context_policy=context_policy,
         intermediate_checks=intermediate_checks,
         semantic_state_enabled=semantic_state_enabled,
+        **localization_options,
+        localization_feedback=config.get("benchmark", {}).get("localization_feedback"),
     )
     if "context_state" in manifest:
         harness.context_state = ContextState.restore(

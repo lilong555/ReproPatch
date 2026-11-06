@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "a65fcc5a1095fc33cc37e4fff69366e49d7e92f613558a2b95ed1b70e33758b4",
+      "size_bytes": 1094,
+      "git_mode": "100644"
+    },
+    {
+      "path": "include/fmt/args.h",
+      "sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83",
+      "size_bytes": 7224,
+      "git_mode": "100644"
+    },
+    {
+      "path": "include/fmt/os.h",
+      "sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+      "size_bytes": 12648,
+      "git_mode": "100644"
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+      "size_bytes": 5181,
+      "git_mode": "100644"
+    }
+  ]
+}

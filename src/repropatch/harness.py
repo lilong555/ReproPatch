@@ -129,10 +129,37 @@ When the repair is complete, finish with a concise explanation of the cause, edi
 The final patch is scored by an independent cold Oracle."""
 
 
-def instructions_for(tool_mode, *, semantic_state_enabled=False):
+def instructions_for(
+    tool_mode,
+    *,
+    semantic_state_enabled=False,
+    localization_mode="native",
+    localization_tool_budget=0,
+    localization_step_budget=4,
+):
     if tool_mode == "legacy":
-        return SEMANTIC_SYSTEM if semantic_state_enabled else SYSTEM
-    if tool_mode == "shell-only":
+        instructions = SEMANTIC_SYSTEM if semantic_state_enabled else SYSTEM
+        if localization_mode != "native":
+            instructions += (
+                "\nUse search_files for file-level literal match summaries. Follow hit_lines with "
+                "read_file to inspect source. Continue with next_cursor, narrower paths or a new "
+                "query when the scan or candidate page is incomplete. Candidate counts describe "
+                "only the scanned source. Execution evidence labels are symptom locations; "
+                "inspect the implementation and other candidates before choosing an edit.\n"
+            )
+        if localization_tool_budget:
+            instructions += (
+                "\nStart with the read-only localization phase: inspect the supplied baseline "
+                "and use only directory, search and read tools. Source edits and command "
+                "execution become available after the harness announces the repair phase. "
+                f"Localization allows {localization_tool_budget} tool calls or "
+                f"{localization_step_budget} model requests, whichever comes first; a final "
+                "localization explanation also advances to repair. Both phases share the "
+                "original total budget. Finish localization with concrete source locations "
+                "and an evidence-based hypothesis.\n"
+            )
+        return instructions
+    if tool_mode == "shell-only" and localization_mode == "native" and not localization_tool_budget:
         return SHELL_SYSTEM
     raise ReproPatchError("TOOL_MODE: 请选择 legacy 或 shell-only")
 
@@ -170,6 +197,10 @@ class Harness:
         context_meter=None,
         intermediate_checks=True,
         semantic_state_enabled=False,
+        localization_mode="native",
+        localization_tool_budget=0,
+        localization_step_budget=4,
+        localization_feedback=None,
     ):
         from .context import ContextPolicy
 
@@ -187,6 +218,30 @@ class Harness:
         if type(semantic_state_enabled) is not bool:
             raise ReproPatchError("SEMANTIC_STATE: 开关须为布尔值")
         self.semantic_state_enabled = semantic_state_enabled
+        if localization_mode not in {"native", "bounded", "feedback"}:
+            raise ReproPatchError("LOCALIZATION_MODE: 请选择 native、bounded 或 feedback")
+        if (
+            type(localization_tool_budget) is not int
+            or not 0 <= localization_tool_budget <= 48
+            or type(localization_step_budget) is not int
+            or not 1 <= localization_step_budget <= 24
+        ):
+            raise ReproPatchError("LOCALIZATION_BUDGET: 工具额度须为0-48，请求额度须为1-24")
+        self.localization_mode = localization_mode
+        self.localization_tool_budget = localization_tool_budget
+        self.localization_step_budget = localization_step_budget
+        self.localization_enabled = localization_mode != "native" or localization_tool_budget > 0
+        if self.localization_enabled and (tool_mode != "legacy" or model is None):
+            raise ReproPatchError("LOCALIZATION_MODE: 定位接口适用于 legacy 模型修复")
+        if self.localization_enabled and semantic_state_enabled:
+            raise ReproPatchError("LOCALIZATION_MODE: 定位实验使用独立文本检索工具集")
+        self.localization_feedback = None
+        if localization_feedback is not None:
+            from .localization_runtime import validate_feedback
+
+            if not self.localization_enabled:
+                raise ReproPatchError("LOCALIZATION_MODE: 固定反馈使用定位运行入口")
+            self.localization_feedback = validate_feedback(localization_feedback, task)
         if (model is None) == (patch_file is None):
             raise ReproPatchError("INPUT_MODE: 只能选择模型修复或外部补丁验收之一")
         if model is None and (candidate_only or compiler_cache or semantic_state_enabled):
@@ -194,7 +249,11 @@ class Harness:
         self.candidate_only = candidate_only
         self.compiler_cache = compiler_cache
         self.instructions = instructions_for(
-            tool_mode, semantic_state_enabled=semantic_state_enabled
+            tool_mode,
+            semantic_state_enabled=semantic_state_enabled,
+            localization_mode=localization_mode,
+            localization_tool_budget=localization_tool_budget,
+            localization_step_budget=localization_step_budget,
         )
         if model is None and tool_mode != "legacy":
             raise ReproPatchError("TOOL_MODE: 工具模式适用于模型修复入口")
@@ -589,6 +648,14 @@ class Harness:
                 "compiler_cache": "ccache" if self.compiler_cache else "off",
                 "tool_mode": self.tool_mode,
                 "semantic_state_enabled": self.semantic_state_enabled,
+                "localization_mode": self.localization_mode,
+                "localization_tool_budget": self.localization_tool_budget,
+                "localization_step_budget": self.localization_step_budget,
+                "localization_feedback_sha256": (
+                    self.localization_feedback["feedback_sha256"]
+                    if self.localization_feedback
+                    else None
+                ),
                 "internal_verification": "not_started",
                 "final_oracle_required": self.candidate_only,
             },
@@ -820,6 +887,10 @@ class Harness:
                         "tool_mode": self.tool_mode,
                         "intermediate_checks": self.intermediate_checks_enabled,
                         "semantic_state_enabled": self.semantic_state_enabled,
+                        "localization_mode": self.localization_mode,
+                        "localization_tool_budget": self.localization_tool_budget,
+                        "localization_step_budget": self.localization_step_budget,
+                        "localization_feedback": self.localization_feedback,
                     },
                 }
             )

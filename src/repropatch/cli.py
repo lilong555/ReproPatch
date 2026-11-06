@@ -50,6 +50,11 @@ def parser():
         "--semantic-state", action="store_true", help="启用 C++ 结构检索与修复证据状态"
     )
     run.add_argument(
+        "--localization-mode", choices=("native", "bounded", "feedback"), default="native"
+    )
+    run.add_argument("--localization-tool-budget", type=int, default=0)
+    run.add_argument("--localization-step-budget", type=int, default=4)
+    run.add_argument(
         "--tool-mode",
         choices=("legacy", "shell-only"),
         default="legacy",
@@ -302,6 +307,15 @@ def main(argv=None):
                     **({"compiler_cache": True} if args.compiler_cache else {}),
                     **({"semantic_state_enabled": True} if args.semantic_state else {}),
                     **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
+                    **(
+                        {
+                            "localization_mode": args.localization_mode,
+                            "localization_tool_budget": args.localization_tool_budget,
+                            "localization_step_budget": args.localization_step_budget,
+                        }
+                        if args.localization_mode != "native" or args.localization_tool_budget
+                        else {}
+                    ),
                 )
             else:
                 if args.mock_script:
@@ -325,6 +339,15 @@ def main(argv=None):
                     **({"compiler_cache": True} if args.compiler_cache else {}),
                     **({"semantic_state_enabled": True} if args.semantic_state else {}),
                     **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
+                    **(
+                        {
+                            "localization_mode": args.localization_mode,
+                            "localization_tool_budget": args.localization_tool_budget,
+                            "localization_step_budget": args.localization_step_budget,
+                        }
+                        if args.localization_mode != "native" or args.localization_tool_budget
+                        else {}
+                    ),
                     **(
                         {"pause_after_step": args.pause_after_step}
                         if args.pause_after_step is not None

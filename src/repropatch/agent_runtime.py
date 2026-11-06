@@ -278,6 +278,9 @@ async def run_agent(harness, workspace) -> AgentResult:
             raise AgentStop("CONTEXT_LIMIT")
         if pending:
             raise ReproPatchError("CHECKPOINT_UNSAFE: 尚有未执行的准入工具")
+        if localization is not None and (reason := localization.exhausted()):
+            message = localization.transition(reason)
+            raise ContextRebuilt([*data.model_data.input, message])
         current_body = {
             **model_parameters,
             **native,
@@ -375,6 +378,8 @@ async def run_agent(harness, workspace) -> AgentResult:
     class Hooks(RunHooks):
         async def on_llm_start(self, *args):
             deadline()
+            if localization is not None:
+                localization.start_model()
             step = report["model_steps"] + 1
             # 已开始但尚无响应的请求，其用量也属于未知，不能沿用前轮已知总数。
             usage = {
@@ -392,11 +397,14 @@ async def run_agent(harness, workspace) -> AgentResult:
                     "usage": usage,
                     "engine": report["engine"],
                     "request_purpose": REQUEST_PURPOSE.get(),
+                    **({"localization_phase": localization.phase} if localization else {}),
                 },
                 step_id=step,
             )
             report["model_steps"] = step
             report["usage"] = usage
+            if localization is not None:
+                localization.submit(current_body, REQUEST_PURPOSE.get())
 
         async def on_llm_end(self, wrapper, agent, response):
             output = [item.model_dump(mode="json", exclude_none=True) for item in response.output]
@@ -440,6 +448,8 @@ async def run_agent(harness, workspace) -> AgentResult:
                 },
                 step_id=report["model_steps"],
             )
+            if localization is not None:
+                localization.confirm_response()
             calls = []
             for item in response.output:
                 if (
@@ -506,6 +516,8 @@ async def run_agent(harness, workspace) -> AgentResult:
         log.emit("tool_started", {"provider_call_id": call.call_id, "name": name}, **identity)
         try:
             with log.bind(**identity), git_deadline(context.clock.deadline("agent_check")):
+                if localization is not None:
+                    localization.before_tool(name)
                 value = {"ok": True, "data": callback()}
         except OperationDeadline:
             raise AgentStop("AGENT_DEADLINE") from None
@@ -531,6 +543,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             "pending_tool_calls": len(pending),
             "agent_seconds_remaining": max(0, int(context.clock.remaining("agent_check"))),
             "source_changed": workspace.expected_manifest != workspace.initial_manifest,
+            **(localization.progress() if localization is not None else {}),
         }
         if semantic_tools_enabled:
             value["evidence_id"] = tool_id
@@ -589,14 +602,22 @@ async def run_agent(harness, workspace) -> AgentResult:
         if context_state.compactions:
             context_state.compactions[-1]["continued_with_tools"] = True
         deadline()
-        if projected_text is not None:
-            return projected_text
-        text = canonical_json(value).decode("utf-8")
-        if harness.context_policy.compaction_enabled:
+        text = (
+            projected_text if projected_text is not None else canonical_json(value).decode("utf-8")
+        )
+        if projected_text is None and harness.context_policy.compaction_enabled:
             text = fold_tool_output(
                 text,
                 harness.context_policy.tool_output_max_bytes,
                 lambda raw: reference.path,
+            )
+        if localization is not None:
+            localization.prepare_receipt(
+                name,
+                json.loads(call.arguments),
+                text,
+                tool_id=tool_id,
+                provider_call_id=call.call_id,
             )
         return text
 
@@ -606,6 +627,11 @@ async def run_agent(harness, workspace) -> AgentResult:
         lambda name: harness._agent_check(workspace, name),
         readable=harness.resolved.readable_files,
     )
+    localization = None
+    if getattr(harness, "localization_enabled", False):
+        from .localization_runtime import LocalizationSession
+
+        localization = LocalizationSession(harness, workspace, toolbox, context_state)
     semantic = None
     semantic_tools_enabled = getattr(harness, "semantic_state_enabled", False)
     if semantic_tools_enabled or harness.context_policy.state_aware_compaction:
@@ -632,6 +658,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             boundary,
             lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
             semantic=semantic if semantic_tools_enabled else None,
+            **({"localization": localization.engine} if localization is not None else {}),
         )
     )
     if not harness.intermediate_checks_enabled:
@@ -653,6 +680,16 @@ async def run_agent(harness, workspace) -> AgentResult:
         ],
     }
     baseline = model_evaluation(harness.baseline.to_dict())
+    if getattr(harness, "localization_feedback", None) is not None:
+        from .localization_runtime import validate_feedback
+
+        baseline = validate_feedback(
+            harness.localization_feedback,
+            harness.task,
+            source_tree_sha256=workspace.initial_manifest.sha256,
+        )
+    if localization is not None:
+        localization.baseline(baseline)
     if semantic_tools_enabled and "baseline" not in semantic.state.get("evidence", {}):
         semantic.register_evidence("baseline", save("baseline-observation", baseline))
     initial = [
@@ -670,6 +707,11 @@ async def run_agent(harness, workspace) -> AgentResult:
                     "image_id": harness.resolved.image_id,
                     "budget": asdict(budget),
                     "baseline": baseline,
+                    **(
+                        {"localization": localization.progress()}
+                        if localization is not None
+                        else {}
+                    ),
                     **(
                         {
                             "commands": harness.task.commands.to_dict(),
@@ -736,6 +778,10 @@ async def run_agent(harness, workspace) -> AgentResult:
                     model_timeout=budget.model_timeout_seconds,
                     run_timeout=context.clock.remaining("agent_check"),
                 )
+                if localization is not None and localization.phase == "localization":
+                    message = localization.transition("model_finished_localization")
+                    initial = [*result.to_input_list(), message]
+                    continue
                 break
             except ContextRebuilt as rebuild:
                 initial = rebuild.items

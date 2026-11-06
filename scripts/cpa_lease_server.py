@@ -105,6 +105,7 @@ class LeaseManager:
             "context-ablation-20261106",
             "context-ablation-trigger-20261106",
         }
+        localization = campaign == "localization-ablation-20261106"
         limits = {
             "calibration": 12,
             "development": 480,
@@ -114,8 +115,10 @@ class LeaseManager:
         }
         if context_ablation:
             limits = {"smoke": 120, "full": 4560}
+        if localization:
+            limits = {"smoke": 72, "full": 2736}
         if not unbounded and (
-            (campaign != "cross-repository-20261028" and not context_ablation)
+            (campaign != "cross-repository-20261028" and not context_ablation and not localization)
             or phase not in limits
         ):
             raise ValueError("CPA_CAMPAIGN_ALLOCATION_REJECTED")
@@ -133,6 +136,40 @@ class LeaseManager:
             or (context_ablation and not attempt.startswith(campaign + "/" + phase + "/"))
         ):
             raise ValueError("CPA_ATTEMPT_CLAIM_INVALID")
+        if localization:
+            tasks = {
+                "1361",
+                "1390",
+                "2070",
+                "2292",
+                "2310",
+                "2317",
+                "2610",
+                "2940",
+                "3248",
+                "3260",
+                "3272",
+                "3537",
+                "3713",
+                "3727",
+                "3732",
+                "3734",
+                "3750",
+                "3819",
+                "493",
+            }
+            match = re.fullmatch(
+                re.escape(campaign)
+                + r"/(smoke|full)/fmtlib__fmt-([0-9]+)/(native|bounded|feedback)/repeat-([12])",
+                attempt,
+            )
+            if (
+                match is None
+                or match[1] != phase
+                or match[2] not in tasks
+                or (phase == "smoke" and (match[2] != "2310" or match[4] != "1"))
+            ):
+                raise ValueError("CPA_ATTEMPT_CLAIM_INVALID")
         path = self.directory / "claims.json"
         claims = json.loads(path.read_text()) if path.exists() else {}
         if attempt in claims:
@@ -143,6 +180,7 @@ class LeaseManager:
             allocated + cap > limits[phase]
             or (
                 not context_ablation
+                and not localization
                 and sum(row["request_cap"] for row in campaign_claims) + cap > 5292
             )
         ):
