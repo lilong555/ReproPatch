@@ -4,11 +4,15 @@ import gzip
 import io
 import json
 import os
+import sys
 import tarfile
 from copy import deepcopy
+from pathlib import Path
 
-import audit_context_triggers as audit
 import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import audit_context_triggers as audit
 
 from repropatch.context import ContextPolicy, fold_tool_output
 from repropatch.context_optimization import ContextOptimizer

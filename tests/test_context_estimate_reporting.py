@@ -2,8 +2,12 @@
 
 import json
 import socket
+import sys
+from pathlib import Path
 
 import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from benchmark_budget import LocalUsageLedger
 
 from repropatch.context import ContextPolicy, encoded

@@ -1,10 +1,14 @@
 """Successor campaign isolation preserves the running experiment and CPA claims."""
 
 import json
+import sys
 from collections import Counter
+from pathlib import Path
 
-import context_ablation as campaign
 import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import context_ablation as campaign
 from cpa_lease_server import LeaseManager
 
 PROTOCOL = campaign.ROOT / "benchmarks/context-ablation/trigger-protocol.json"
