@@ -1,0 +1,187 @@
+{
+  "runs": [
+    {
+      "run_id": "cc6be5e0b63f4396a410c9f05834efb5",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=cc6be5e0b63f4396a410c9f05834efb5"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "40596a264e4449a087a4b1bbe15eb3d4",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=40596a264e4449a087a4b1bbe15eb3d4"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "17259e57b49442ff937f645c4a0f87b0",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=17259e57b49442ff937f645c4a0f87b0"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "6ca04c78f56d4d478400250f41262b02",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=6ca04c78f56d4d478400250f41262b02"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "7f5853eaa6714f5d9f116074cb34c700",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=7f5853eaa6714f5d9f116074cb34c700"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "caa7d7a93330440dba28689185a129a1",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=caa7d7a93330440dba28689185a129a1"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "f63b2b300ec34d1da481d5893adf32b0",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=f63b2b300ec34d1da481d5893adf32b0"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "ec91285d26f74e5bb8e1082be000d7d1",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=ec91285d26f74e5bb8e1082be000d7d1"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    },
+    {
+      "run_id": "5de8aa29bd394c3b8fa434c56b3ba382",
+      "command": [
+        "ssh",
+        "-S",
+        "/home/li/code/servicedesk-agent/.runtime/cpa-ssh.sock",
+        "azure",
+        "sudo",
+        "-n",
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=repropatch.run=5de8aa29bd394c3b8fa434c56b3ba382"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "no_owned_containers": true
+    }
+  ],
+  "clean_n": 9,
+  "denominator": 9,
+  "retained": "private evidence directories and dedicated reproducibility image; no experiment containers remain"
+}

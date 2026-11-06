@@ -1,0 +1,407 @@
+import argparse
+import json
+import shutil
+import sys
+from pathlib import Path
+
+from . import __version__
+from .errors import ReproPatchError
+from .events import read_events, run_directory, validate_run_id
+from .harness import Harness
+from .process import run_process
+from .reports import export_report, historical_report, inspect_run, markdown
+from .resources import RunLock
+from .task import Task, inspect_image
+
+
+def parser():
+    root = argparse.ArgumentParser(
+        prog="repropatch", description="可恢复、可观测的 C++ 代码修复 Agent"
+    )
+    root.add_argument("--version", action="version", version=f"{__version__} (Task v2)")
+    commands = root.add_subparsers(dest="command", required=True)
+    doctor = commands.add_parser("doctor", help="检查宿主工具、Docker 连接与本地镜像")
+    doctor.add_argument("--image")
+    doctor.add_argument("--json", action="store_true")
+    demo = commands.add_parser("demo", help="运行零 API 密钥的修复、拒绝与恢复演示")
+    demo.add_argument("--output", type=Path, default=Path(".repropatch/demo"), help="新的演示目录")
+    demo.add_argument("--image", default="repropatch-cpp:0.1", help="已准备的本地 Docker 镜像")
+    demo.add_argument(
+        "--scenario", choices=("all", "repair", "rejection", "recovery"), default="all"
+    )
+    demo.add_argument("--json", action="store_true")
+    check = commands.add_parser("validate-task", help="静态核验 Task YAML")
+    check.add_argument("task", type=Path)
+    run = commands.add_parser("run", help="复现缺陷、运行 Agent 并独立验收")
+    run.add_argument("task", type=Path)
+    run.add_argument("--output-root", type=Path)
+    run.add_argument("--engine", choices=["fake", "agents-sdk", "sdk"], default="fake")
+    run.add_argument("--mock-script", type=Path, help="fake 引擎的原生 ScriptedModel JSON")
+    run.add_argument("--model", "--model-name", dest="model_name")
+    run.add_argument("--api-base", default="https://api.openai.com/v1")
+    run.add_argument("--key-env", default="OPENAI_API_KEY")
+    run.add_argument("--use-env-proxy", action="store_true", help="显式信任宿主代理及 TLS 环境配置")
+    run.add_argument("--allow-paid-model", action="store_true")
+    run.add_argument("--json", action="store_true")
+    run.add_argument("--pause-after-step", type=int, help="在累计 N 个 turn 后的完整输入边界暂停")
+    run.add_argument("--candidate-only", action="store_true", help="冻结候选供外部 Oracle 评分")
+    run.add_argument("--compiler-cache", action="store_true", help="自检使用本 Run 独占的 ccache")
+    run.add_argument(
+        "--semantic-state", action="store_true", help="启用 C++ 结构检索与修复证据状态"
+    )
+    run.add_argument(
+        "--tool-mode",
+        choices=("legacy", "shell-only"),
+        default="legacy",
+        help="legacy 六工具或持久容器内的单一 Bash 工具",
+    )
+    verify = commands.add_parser("verify-patch", help="无需模型的独立补丁验收")
+    verify.add_argument("task", type=Path)
+    verify.add_argument("--patch", required=True, type=Path)
+    verify.add_argument("--producer")
+    verify.add_argument("--producer-trace", type=Path)
+    verify.add_argument("--output-root", type=Path)
+    verify.add_argument("--json", action="store_true")
+    resume = commands.add_parser("resume", help="仅从已提交的安全输入边界继续同一 Run")
+    resume.add_argument("run_id")
+    resume.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+    resume.add_argument("--pause-after-step", type=int)
+    resume.add_argument("--json", action="store_true")
+    replay = commands.add_parser("replay", help="只读查看既有领域事件及证据引用")
+    replay.add_argument("run_id")
+    replay.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+    replay.add_argument("--mode", choices=["trace"], required=True)
+    replay.add_argument("--json", action="store_true")
+    export = commands.add_parser("export-trace", help="从 SQLite 一致性快照导出原事件 JSONL")
+    export.add_argument("run_id")
+    export.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+    export.add_argument("--output", type=Path, help="原 Run 目录之外的新文件；默认 stdout")
+    for name, help_text in (
+        ("inspect", "只读查询运行事实和证据完整性"),
+        ("diagnose", "只读分析运行阶段、证据、用量和恢复条件"),
+        ("report", "从已提交事实重建报告"),
+    ):
+        query = commands.add_parser(name, help=help_text)
+        query.add_argument("run_id")
+        query.add_argument("--root", type=Path, default=Path(".repropatch/runs"))
+        if name in {"inspect", "diagnose"}:
+            query.add_argument("--json", action="store_true")
+        else:
+            query.add_argument("--format", choices=["md", "json"], default="md")
+    return root
+
+
+def main(argv=None):
+    args = parser().parse_args(argv)
+    if args.command == "demo":
+        from .demo import demo_markdown, run_demo
+
+        try:
+            result = run_demo(args.output, args.image, args.scenario)
+            print(json.dumps(result, ensure_ascii=False) if args.json else demo_markdown(result))
+            return 0 if result["status"] == "passed" else 3
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
+    if args.command in {"replay", "export-trace"}:
+        from .trace import export_trace, replay_trace, trace_markdown
+
+        try:
+            validate_run_id(args.run_id)
+        except ValueError as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
+        try:
+            directory = run_directory(args.root, args.run_id)
+            if args.command == "replay":
+                result = replay_trace(directory)
+                print(
+                    json.dumps(result, ensure_ascii=True) if args.json else trace_markdown(result)
+                )
+                problems = result["evidence_errors"]
+            else:
+                content, problems = export_trace(directory, args.output)
+                if args.output is None:
+                    sys.stdout.write(content.decode("utf-8"))
+            if problems:
+                print(
+                    "repropatch: EVIDENCE_UNVERIFIABLE: " + json.dumps(problems, ensure_ascii=True),
+                    file=sys.stderr,
+                )
+                return 3
+            return 0
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {str(exc).split(':', 1)[0]}", file=sys.stderr)
+            return 3
+    if args.command == "resume":
+        from .recovery import resume_run
+
+        try:
+            validate_run_id(args.run_id)
+        except ValueError as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
+        try:
+            directory = run_directory(args.root, args.run_id)
+            report = resume_run(directory, pause_after_step=args.pause_after_step)
+            return _print_summary(report, args)
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return (
+                2
+                if str(exc).startswith(
+                    (
+                        "RUN_FINISHED:",
+                        "PAUSE_STEP_INVALID:",
+                        "RESUME_UNSUPPORTED:",
+                        "ENGINE_DEPENDENCY_MISSING",
+                    )
+                )
+                else 3
+            )
+    if args.command in {"inspect", "diagnose", "report"}:
+        try:
+            validate_run_id(args.run_id)
+        except ValueError as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 2
+        try:
+            directory = run_directory(args.root, args.run_id)
+            if args.command == "diagnose":
+                from .diagnostics import diagnose_run, diagnostics_markdown
+
+                result = diagnose_run(directory)
+                print(
+                    json.dumps(result, ensure_ascii=False)
+                    if args.json
+                    else diagnostics_markdown(result)
+                )
+                return 0 if result["evidence_complete"] else 3
+            if args.command == "inspect":
+                result = inspect_run(directory)
+                print(json.dumps(result, ensure_ascii=True, indent=None if args.json else 2))
+                return 0
+            snapshot = read_events(directory, args.run_id)
+            if snapshot.version == 0:
+                result = historical_report(directory, snapshot)
+                print(json.dumps(result, ensure_ascii=True, indent=2))
+                return 0
+            lock = RunLock(directory)
+            try:
+                result = export_report(directory, snapshot)
+            finally:
+                lock.close()
+            print(
+                json.dumps(result, ensure_ascii=True, indent=2)
+                if args.format == "json"
+                else markdown(result),
+                end="\n",
+            )
+            if result.get("command_error"):
+                print(f"repropatch: {result['command_error']}", file=sys.stderr)
+                return 3
+            return 0
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: {exc}", file=sys.stderr)
+            return 3
+    try:
+        if args.command == "doctor":
+            checks = {
+                "python": sys.version.split()[0],
+                "git": shutil.which("git"),
+                "docker": shutil.which("docker"),
+                "daemon": False,
+                "image": None,
+            }
+            if checks["docker"]:
+                checks["daemon"] = run_process([checks["docker"], "info"], timeout=10).ok
+                if checks["daemon"] and args.image:
+                    try:
+                        image = inspect_image(args.image)
+                        checks["image"] = {
+                            "id": image.image_id,
+                            "repo_digests": image.repo_digests,
+                            "platform": image.platform,
+                        }
+                    except ReproPatchError as exc:
+                        checks["image"] = False
+                        checks["error"] = str(exc)
+            valid = all(checks[key] for key in ("python", "git", "docker", "daemon"))
+            checks["ready"] = bool(valid and (not args.image or checks["image"]))
+            checks["next_actions"] = []
+            if not checks["git"]:
+                checks["next_actions"].append("安装 Git，并确认 git --version 可执行。")
+            if not checks["docker"]:
+                checks["next_actions"].append(
+                    "安装 Docker CLI 并连接 Docker daemon，然后运行 docker info 核验连接。"
+                )
+            elif not checks["daemon"]:
+                checks["next_actions"].append(
+                    "启动 Docker daemon，核对当前用户权限与 Docker context，再运行 docker info。"
+                )
+            elif args.image and not checks["image"]:
+                checks["next_actions"].append(
+                    "准备指定的本地工具链镜像，再使用 doctor --image 核验镜像身份。"
+                )
+            print(json.dumps(checks, ensure_ascii=False, indent=2))
+            return 0 if checks["ready"] else 2
+        task = Task.load(args.task)
+        if args.command == "validate-task":
+            print(
+                json.dumps(
+                    {
+                        "valid": True,
+                        "version": task.version,
+                        "id": task.id,
+                        "repository": str(task.repository),
+                        "commit": task.revision,
+                        "image": task.environment.image,
+                    }
+                )
+            )
+            return 0
+        if args.command == "verify-patch":
+            harness = Harness(
+                task,
+                output_root=args.output_root,
+                patch_file=args.patch,
+                producer=args.producer,
+                producer_trace=args.producer_trace,
+            )
+        else:
+            from .models import load_sdk_script
+
+            if args.pause_after_step is not None and (
+                args.pause_after_step < 1
+                or (
+                    task.budget.max_steps is not None
+                    and args.pause_after_step >= task.budget.max_steps
+                )
+            ):
+                raise ReproPatchError("PAUSE_STEP_INVALID: 暂停 turn 须为 1 <= N < max_steps")
+
+            if args.engine == "fake":
+                if not args.mock_script:
+                    raise ReproPatchError("fake 引擎必须提供 --mock-script")
+                if (
+                    args.model_name
+                    or args.allow_paid_model
+                    or args.api_base != "https://api.openai.com/v1"
+                    or args.key_env != "OPENAI_API_KEY"
+                    or args.use_env_proxy
+                ):
+                    raise ReproPatchError("fake 引擎不能提供真实模型参数")
+                model, source = load_sdk_script(args.mock_script, with_source=True)
+                harness = Harness(
+                    task,
+                    model,
+                    args.output_root,
+                    pause_after_step=args.pause_after_step,
+                    script_source=source,
+                    **({"candidate_only": True} if args.candidate_only else {}),
+                    **({"compiler_cache": True} if args.compiler_cache else {}),
+                    **({"semantic_state_enabled": True} if args.semantic_state else {}),
+                    **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
+                )
+            else:
+                if args.mock_script:
+                    raise ReproPatchError("sdk 引擎不接受 --mock-script")
+                if not args.model_name:
+                    raise ReproPatchError("必须提供 --model（也支持 --model-name）")
+                if not args.allow_paid_model:
+                    raise ReproPatchError(
+                        "PAID_MODEL_CONSENT_REQUIRED: 必须显式 --allow-paid-model"
+                    )
+                from .models import ResponsesConfig
+
+                config = ResponsesConfig(
+                    args.model_name, args.api_base, args.key_env, True, args.use_env_proxy
+                )
+                harness = Harness(
+                    task,
+                    config,
+                    args.output_root,
+                    **({"candidate_only": True} if args.candidate_only else {}),
+                    **({"compiler_cache": True} if args.compiler_cache else {}),
+                    **({"semantic_state_enabled": True} if args.semantic_state else {}),
+                    **({"tool_mode": args.tool_mode} if args.tool_mode != "legacy" else {}),
+                    **(
+                        {"pause_after_step": args.pause_after_step}
+                        if args.pause_after_step is not None
+                        else {}
+                    ),
+                )
+        try:
+            report = harness.run()
+        except (ReproPatchError, OSError) as exc:
+            print(f"repropatch: 运行失败：{exc}", file=sys.stderr)
+            return 3
+        return _print_summary(report, args)
+    except (ReproPatchError, OSError) as exc:
+        print(f"repropatch: {exc}", file=sys.stderr)
+        return 2
+
+
+def _print_summary(report, args):
+    if "outcome" in report:
+        summary = {
+            "run_id": report["run_id"],
+            "task_id": report["task_id"],
+            "input_mode": report["input_mode"],
+            "state": report["state"],
+            "outcome": report["outcome"],
+            "reason_code": report["reason_code"],
+            "candidate_only": report.get("benchmark", {}).get("candidate_only", False),
+            "internal_verification": report.get("benchmark", {}).get("internal_verification"),
+            "paused": report.get("paused", False),
+            "artifact_dir": report["artifact_directory"],
+            "artifacts_complete": report.get("artifacts_complete", True),
+            "command_error": report.get("command_error"),
+        }
+        if summary["paused"]:
+            summary["checkpoint"] = report["checkpoint"]
+        print(
+            json.dumps(
+                summary,
+                ensure_ascii=False,
+                separators=(",", ":") if getattr(args, "json", False) else None,
+            )
+        )
+        if summary["command_error"]:
+            print(f"repropatch: {summary['command_error']}", file=sys.stderr)
+            return 3
+        if summary["paused"]:
+            return 0
+        if (
+            report["reason_code"] == "EXTERNAL_ORACLE_REQUIRED"
+            and report.get("candidate_roundtrip_verified")
+            and report.get("cleanup_confirmed")
+            and report.get("artifacts_complete")
+        ):
+            return 0
+        if report["outcome"] == "CANCELLED":
+            return 130
+        if report["outcome"] in {"ERROR", "INCONCLUSIVE", "RECOVERY_FAILED"}:
+            return 3
+        return 0 if report["outcome"] == "ACCEPTED" else 1
+    print(
+        json.dumps(
+            {
+                key: report[key]
+                for key in (
+                    "run_id",
+                    "status",
+                    "isolated",
+                    "duration_seconds",
+                    "artifact_directory",
+                )
+            }
+        )
+    )
+    return (
+        3
+        if report["status"] in {"error", "internal_error"}
+        else 0
+        if report["status"] == "passed"
+        else 1
+    )

@@ -1,0 +1,22 @@
+--- a/src/stats.cpp
++++ b/src/stats.cpp
+@@ -4,7 +4,7 @@
+     if (samples.empty()) {
+         return std::nullopt;
+     }
+-    int best = 0;
++    int best = samples.front();
+     for (int value : samples) {
+         if (value > best) {
+             best = value;
+--- a/tests/stats_test.cpp
++++ b/tests/stats_test.cpp
+@@ -10,7 +10,7 @@
+     if (name == "negative_values") {
+         const std::array samples{-8, -3, -17};
+         const auto result = maximum_sample(samples);
+-        if (result != -3) {
++        if (result != -4) {
+             std::cerr << "expected -3, got " << result.value_or(999) << '\n';
+             return 1;
+         }

@@ -1,0 +1,6 @@
+{
+  "repeat": 1,
+  "model": "agents.testing.ScriptedModel",
+  "new_paid_requests": 0,
+  "synthetic_usage": true
+}

@@ -1,0 +1,126 @@
+{
+  "symbol": "streamed",
+  "method": "definitions",
+  "utf8_return_bytes": 2875,
+  "results": 5,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "f83db4ca6c92f613909d8a73ce6fa5a4df1a9c6c2d95df23f974ff8507470d0f",
+  "response": {
+    "kind": "definitions",
+    "query": "streamed",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 70,
+        "end_line": 72,
+        "kind": "struct_specifier",
+        "symbol": "streamed_view",
+        "scope": "",
+        "qualified_symbol": "streamed_view",
+        "text": "struct streamed_view {\n  const T& value;\n}",
+        "node_id": "include/fmt/ostream.h:2040:struct_specifier",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 71,
+        "end_line": 71,
+        "kind": "variable_declaration",
+        "symbol": "value",
+        "scope": "streamed_view",
+        "qualified_symbol": "streamed_view::value",
+        "text": "const T& value;",
+        "node_id": "include/fmt/ostream.h:2065:variable_declaration",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 98,
+        "end_line": 105,
+        "kind": "struct_specifier",
+        "symbol": "formatter<detail::streamed_view<T>, Char>",
+        "scope": "",
+        "qualified_symbol": "formatter<detail::streamed_view<T>, Char>",
+        "text": "struct formatter<detail::streamed_view<T>, Char>\n    : basic_ostream_formatter<Char> {\n  template <typename Context>\n  auto format(detail::streamed_view<T> view, Context& ctx) const\n      -> decltype(ctx.out()) {\n    return basic_ostream_formatter<Char>::format(view.value, ctx);\n  }\n}",
+        "node_id": "include/fmt/ostream.h:3021:struct_specifier",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 101,
+        "end_line": 104,
+        "kind": "function_definition",
+        "symbol": "format",
+        "scope": "formatter<detail::streamed_view<T>, Char>",
+        "qualified_symbol": "formatter<detail::streamed_view<T>, Char>::format",
+        "text": "auto format(detail::streamed_view<T> view, Context& ctx) const\n      -> decltype(ctx.out()) {\n    return basic_ostream_formatter<Char>::format(view.value, ctx);\n  }",
+        "node_id": "include/fmt/ostream.h:3140:function_definition",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 116,
+        "end_line": 118,
+        "kind": "function_definition",
+        "symbol": "streamed",
+        "scope": "",
+        "qualified_symbol": "streamed",
+        "text": "constexpr auto streamed(const T& value) -> detail::streamed_view<T> {\n  return {value};\n}",
+        "node_id": "include/fmt/ostream.h:3536:function_definition",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

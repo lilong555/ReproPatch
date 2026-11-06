@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-11-06T06:32:44.091082+00:00",
+  "source_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "source_path": "/home/azureuser/runtime-evidence-20261106/public",
+  "protocol_sha256": "38472df398edd3012b38234847c0b5d484dc79846ff7ffa2111b462eb6a3c02f",
+  "driver_sha256": "b95d94415d7e96d297d4a1cb36715bd0b9a121f390b63bdfaecc4ad4e210357e",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "packages": {
+    "openai-agents": "0.24.0",
+    "openai": "3.35.1"
+  }
+}

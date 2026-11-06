@@ -1,0 +1,67 @@
+{
+  "symbol": "c_str",
+  "method": "search_code",
+  "utf8_return_bytes": 1197,
+  "results": 10,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "8ad16768acd183036741971e4092ba3151ba5229a32edf7550380acfb0e6cf18",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 51,
+        "text": "    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 84,
+        "text": "                std::is_same<T, basic_string_view<char_type>>::value ||"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 94,
+        "text": "      std::is_convertible<T, std::basic_string<char_type>>::value &&"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 96,
+        "text": "      std::basic_string<char_type>, T>;"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 187,
+        "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 107,
+        "text": "  basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 110,
+        "text": "  auto c_str() const -> const Char* { return data_; }"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 79,
+        "text": "struct basic_ostream_formatter : formatter<basic_string_view<Char>, Char> {"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 85,
+        "text": "    auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 90,
+        "text": "    return formatter<basic_string_view<Char>, Char>::format("
+      }
+    ],
+    "truncated": false
+  }
+}

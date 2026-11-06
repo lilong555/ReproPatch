@@ -1,0 +1,102 @@
+{
+  "symbol": "clear",
+  "method": "definitions",
+  "utf8_return_bytes": 2308,
+  "results": 3,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 1,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "048f0e228a0ea949125074a8b913d6b63464dfc533190c59e0a96c553ab82398",
+  "response": {
+    "kind": "definitions",
+    "query": "clear",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 197,
+        "end_line": 201,
+        "kind": "function_definition",
+        "symbol": "clear",
+        "scope": "",
+        "qualified_symbol": "clear",
+        "text": "void clear() {\n    data_.clear();\n    named_info_.clear();\n    dynamic_args_ = {};\n  }",
+        "node_id": "include/fmt/args.h:6592:function_definition",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 361,
+        "end_line": 397,
+        "kind": "class_specifier",
+        "symbol": "ostream",
+        "scope": "",
+        "qualified_symbol": "ostream",
+        "text": "class ostream : private detail::buffer<char> {\n private:\n  file file_;\n\n  FMT_API ostream(cstring_view path, const detail::ostream_params& params);\n\n  FMT_API static void grow(buffer<char>& buf, size_t);\n\n public:\n  FMT_API ostream(ostream&& other) noexcept;\n  FMT_API ~ostream();\n\n  operator writer() {\n    detail::buffer<char>& buf = *this;\n    return buf;\n  }\n\n  inline void flush() {\n    if (size() == 0) return;\n    file_.write(data(), size() * sizeof(data()[0]));\n    clear();\n  }\n\n  template <typename... T>\n  friend auto output_file(cstring_view path, T... params) -> ostream;\n\n  inline void ",
+        "node_id": "include/fmt/os.h:11103:class_specifier",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 378,
+        "end_line": 382,
+        "kind": "function_definition",
+        "symbol": "flush",
+        "scope": "ostream",
+        "qualified_symbol": "ostream::flush",
+        "text": "inline void flush() {\n    if (size() == 0) return;\n    file_.write(data(), size() * sizeof(data()[0]));\n    clear();\n  }",
+        "node_id": "include/fmt/os.h:11469:function_definition",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

@@ -1,0 +1,2001 @@
+[
+  {
+    "symbol": "dynamic_arg_list",
+    "method": "search_code",
+    "utf8_return_bytes": 324,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "799e0976411a6a79345a7d0a53e2acf4ce17916e4459613872e67d67093bb17b",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 32,
+          "text": "// node is defined outside dynamic_arg_list to workaround a C2504 bug in MSVC"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "text": "class dynamic_arg_list {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 104,
+          "text": "  detail::dynamic_arg_list dynamic_args_;"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "dynamic_arg_list",
+    "method": "definitions",
+    "utf8_return_bytes": 7690,
+    "results": 12,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 4,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "2190134b94c29a8dd36284e18f4106433ed686bfc0ba2d1ba1e846454140a9bc",
+    "response": {
+      "kind": "definitions",
+      "query": "dynamic_arg_list",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 19,
+          "end_line": 216,
+          "kind": "variable_declaration",
+          "symbol": "namespace",
+          "scope": "",
+          "qualified_symbol": "namespace",
+          "text": "FMT_BEGIN_NAMESPACE\nnamespace detail {\n\ntemplate <typename T> struct is_reference_wrapper : std::false_type {};\ntemplate <typename T>\nstruct is_reference_wrapper<std::reference_wrapper<T>> : std::true_type {};\n\ntemplate <typename T> auto unwrap(const T& v) -> const T& { return v; }\ntemplate <typename T>\nauto unwrap(const std::reference_wrapper<T>& v) -> const T& {\n  return static_cast<const T&>(v);\n}\n\n// node is defined outside dynamic_arg_list to workaround a C2504 bug in MSVC\n// 2022 (v17.10.0).\n//\n// Workaround for clang's -Wweak-vtables. Unlike for regular classes, for\n// templates it does",
+          "node_id": "include/fmt/args.h:433:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "end_line": 194,
+          "kind": "variable_declaration",
+          "symbol": "FMT_EXPORT template <typename Context>",
+          "scope": "",
+          "qualified_symbol": "FMT_EXPORT template <typename Context>",
+          "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+          "node_id": "include/fmt/args.h:1258:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "end_line": 66,
+          "kind": "class_specifier",
+          "symbol": "dynamic_arg_list",
+          "scope": "",
+          "qualified_symbol": "dynamic_arg_list",
+          "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+          "node_id": "include/fmt/args.h:1258:class_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 44,
+          "end_line": 65,
+          "kind": "struct_specifier",
+          "symbol": "typed_node",
+          "scope": "dynamic_arg_list",
+          "qualified_symbol": "dynamic_arg_list::typed_node",
+          "text": "struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  ",
+          "node_id": "include/fmt/args.h:1307:struct_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 45,
+          "end_line": 45,
+          "kind": "variable_declaration",
+          "symbol": "value",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::value",
+          "text": "T value;",
+          "node_id": "include/fmt/args.h:1340:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 48,
+          "end_line": 48,
+          "kind": "function_definition",
+          "symbol": "value",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::value",
+          "text": "FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}",
+          "node_id": "include/fmt/args.h:1382:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 51,
+          "end_line": 53,
+          "kind": "variable_declaration",
+          "symbol": "value",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::value",
+          "text": "FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };",
+          "node_id": "include/fmt/args.h:1473:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 55,
+          "end_line": 55,
+          "kind": "variable_declaration",
+          "symbol": "head_",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::head_",
+          "text": "std::unique_ptr<node<>> head_;",
+          "node_id": "include/fmt/args.h:1585:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 58,
+          "end_line": 64,
+          "kind": "function_definition",
+          "symbol": "push",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::push",
+          "text": "auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  }",
+          "node_id": "include/fmt/args.h:1664:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 59,
+          "end_line": 59,
+          "kind": "variable_declaration",
+          "symbol": "new_node",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::new_node",
+          "text": "auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));",
+          "node_id": "include/fmt/args.h:1708:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 60,
+          "end_line": 60,
+          "kind": "variable_declaration",
+          "symbol": "value",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::value",
+          "text": "auto& value = new_node->value;",
+          "node_id": "include/fmt/args.h:1784:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 104,
+          "end_line": 104,
+          "kind": "variable_declaration",
+          "symbol": "dynamic_args_",
+          "scope": "",
+          "qualified_symbol": "dynamic_args_",
+          "text": "detail::dynamic_arg_list dynamic_args_;",
+          "node_id": "include/fmt/args.h:3357:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "push",
+    "method": "search_code",
+    "utf8_return_bytes": 1336,
+    "results": 12,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "e60c6658e95da2807bebbc51767c645e56f1243ad224c47bfbed582920b65fbe",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 58,
+          "text": "  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 125,
+          "text": "    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 148,
+          "text": "   *     store.push_back(42);"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 149,
+          "text": "   *     store.push_back(\"abc\");"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 150,
+          "text": "   *     store.push_back(1.5f);"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 153,
+          "text": "  template <typename T> void push_back(const T& arg) {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 155,
+          "text": "      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 168,
+          "text": "   *     store.push_back(std::cref(band));"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 173,
+          "text": "  template <typename T> void push_back(std::reference_wrapper<T> arg) {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 185,
+          "text": "  template <typename T> void push_back(const named_arg<T, char_type>& arg) {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 187,
+          "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 190,
+          "text": "          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "push",
+    "method": "definitions",
+    "utf8_return_bytes": 7436,
+    "results": 10,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "f52b2b48fb3dc955cc0a8d70f73f23c294e660f081559fc1213c44d918c717cf",
+    "response": {
+      "kind": "definitions",
+      "query": "push",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "end_line": 194,
+          "kind": "variable_declaration",
+          "symbol": "FMT_EXPORT template <typename Context>",
+          "scope": "",
+          "qualified_symbol": "FMT_EXPORT template <typename Context>",
+          "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+          "node_id": "include/fmt/args.h:1258:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "end_line": 66,
+          "kind": "class_specifier",
+          "symbol": "dynamic_arg_list",
+          "scope": "",
+          "qualified_symbol": "dynamic_arg_list",
+          "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+          "node_id": "include/fmt/args.h:1258:class_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 44,
+          "end_line": 65,
+          "kind": "struct_specifier",
+          "symbol": "typed_node",
+          "scope": "dynamic_arg_list",
+          "qualified_symbol": "dynamic_arg_list::typed_node",
+          "text": "struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  ",
+          "node_id": "include/fmt/args.h:1307:struct_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 58,
+          "end_line": 64,
+          "kind": "function_definition",
+          "symbol": "push",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::push",
+          "text": "auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  }",
+          "node_id": "include/fmt/args.h:1664:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 116,
+          "end_line": 128,
+          "kind": "function_definition",
+          "symbol": "emplace_arg",
+          "scope": "",
+          "qualified_symbol": "emplace_arg",
+          "text": "void emplace_arg(const named_arg<T, char_type>& arg) {\n    if (named_info_.empty())\n      data_.insert(data_.begin(), basic_format_arg<Context>(nullptr, 0));\n    data_.emplace_back(detail::unwrap(arg.value));\n    auto pop_one = [](std::vector<basic_format_arg<Context>>* data) {\n      data->pop_back();\n    };\n    std::unique_ptr<std::vector<basic_format_arg<Context>>, decltype(pop_one)>\n        guard{&data_, pop_one};\n    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});\n    data_[0] = {named_info_.data(), named_info_.size()};\n    guard.release();\n  }",
+          "node_id": "include/fmt/args.h:3686:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 153,
+          "end_line": 158,
+          "kind": "function_definition",
+          "symbol": "push_back",
+          "scope": "",
+          "qualified_symbol": "push_back",
+          "text": "void push_back(const T& arg) {\n    if FMT_CONSTEXPR20 (need_copy<T>::value)\n      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));\n    else\n      emplace_arg(detail::unwrap(arg));\n  }",
+          "node_id": "include/fmt/args.h:5051:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 173,
+          "end_line": 178,
+          "kind": "function_definition",
+          "symbol": "push_back",
+          "scope": "",
+          "qualified_symbol": "push_back",
+          "text": "void push_back(std::reference_wrapper<T> arg) {\n    static_assert(\n        need_copy<T>::value,\n        \"objects of built-in types and string views are always copied\");\n    emplace_arg(arg.get());\n  }",
+          "node_id": "include/fmt/args.h:5719:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 185,
+          "end_line": 193,
+          "kind": "function_definition",
+          "symbol": "push_back",
+          "scope": "",
+          "qualified_symbol": "push_back",
+          "text": "void push_back(const named_arg<T, char_type>& arg) {\n    const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();\n    if FMT_CONSTEXPR20 (need_copy<T>::value) {\n      emplace_arg(\n          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));\n    } else {\n      emplace_arg(fmt::arg(arg_name, arg.value));\n    }",
+          "node_id": "include/fmt/args.h:6173:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 186,
+          "end_line": 187,
+          "kind": "variable_declaration",
+          "symbol": "arg_name",
+          "scope": "",
+          "qualified_symbol": "arg_name",
+          "text": "const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();",
+          "node_id": "include/fmt/args.h:6230:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 188,
+          "end_line": 191,
+          "kind": "function_definition",
+          "symbol": "FMT_CONSTEXPR20",
+          "scope": "",
+          "qualified_symbol": "FMT_CONSTEXPR20",
+          "text": "FMT_CONSTEXPR20 (need_copy<T>::value) {\n      emplace_arg(\n          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));\n    }",
+          "node_id": "include/fmt/args.h:6341:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "clear",
+    "method": "search_code",
+    "utf8_return_bytes": 303,
+    "results": 4,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "bf8fe93062b50b986443410d00d3f9d8137a41a6804f7d7197fec13682d7d3f6",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 197,
+          "text": "  void clear() {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 198,
+          "text": "    data_.clear();"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 199,
+          "text": "    named_info_.clear();"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 381,
+          "text": "    clear();"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "clear",
+    "method": "definitions",
+    "utf8_return_bytes": 2308,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 1,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "048f0e228a0ea949125074a8b913d6b63464dfc533190c59e0a96c553ab82398",
+    "response": {
+      "kind": "definitions",
+      "query": "clear",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 197,
+          "end_line": 201,
+          "kind": "function_definition",
+          "symbol": "clear",
+          "scope": "",
+          "qualified_symbol": "clear",
+          "text": "void clear() {\n    data_.clear();\n    named_info_.clear();\n    dynamic_args_ = {};\n  }",
+          "node_id": "include/fmt/args.h:6592:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 361,
+          "end_line": 397,
+          "kind": "class_specifier",
+          "symbol": "ostream",
+          "scope": "",
+          "qualified_symbol": "ostream",
+          "text": "class ostream : private detail::buffer<char> {\n private:\n  file file_;\n\n  FMT_API ostream(cstring_view path, const detail::ostream_params& params);\n\n  FMT_API static void grow(buffer<char>& buf, size_t);\n\n public:\n  FMT_API ostream(ostream&& other) noexcept;\n  FMT_API ~ostream();\n\n  operator writer() {\n    detail::buffer<char>& buf = *this;\n    return buf;\n  }\n\n  inline void flush() {\n    if (size() == 0) return;\n    file_.write(data(), size() * sizeof(data()[0]));\n    clear();\n  }\n\n  template <typename... T>\n  friend auto output_file(cstring_view path, T... params) -> ostream;\n\n  inline void ",
+          "node_id": "include/fmt/os.h:11103:class_specifier",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 378,
+          "end_line": 382,
+          "kind": "function_definition",
+          "symbol": "flush",
+          "scope": "ostream",
+          "qualified_symbol": "ostream::flush",
+          "text": "inline void flush() {\n    if (size() == 0) return;\n    file_.write(data(), size() * sizeof(data()[0]));\n    clear();\n  }",
+          "node_id": "include/fmt/os.h:11469:function_definition",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "reserve",
+    "method": "search_code",
+    "utf8_return_bytes": 521,
+    "results": 6,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "baaa8e4e88d1694134d1ddc59817c3c1ffb53e19cef04ef59a7064621e022a16",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 4,
+          "text": "// All rights reserved."
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 205,
+          "text": "  void reserve(size_t new_cap, size_t new_cap_named) {"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 208,
+          "text": "    data_.reserve(new_cap);"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 209,
+          "text": "    named_info_.reserve(new_cap_named);"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 4,
+          "text": "// All rights reserved."
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 4,
+          "text": "// All rights reserved."
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "reserve",
+    "method": "definitions",
+    "utf8_return_bytes": 1130,
+    "results": 1,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "2cb10e54d82d17fb449c98f11d6298d604b8e44e1df60ac272bc71d6812ed29c",
+    "response": {
+      "kind": "definitions",
+      "query": "reserve",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 205,
+          "end_line": 210,
+          "kind": "function_definition",
+          "symbol": "reserve",
+          "scope": "",
+          "qualified_symbol": "reserve",
+          "text": "void reserve(size_t new_cap, size_t new_cap_named) {\n    FMT_ASSERT(new_cap >= new_cap_named,\n               \"set of arguments includes set of named arguments\");\n    data_.reserve(new_cap);\n    named_info_.reserve(new_cap_named);\n  }",
+          "node_id": "include/fmt/args.h:6790:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "file_access_tag",
+    "method": "search_code",
+    "utf8_return_bytes": 220,
+    "results": 2,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "bd214d32a2bc5d56bf6d6e6f0f56939d8d35c1df9c3d42961d703a2eaf35f5b4",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 39,
+          "text": "struct file_access_tag {};"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 47,
+          "text": "template class file_access<file_access_tag, std::filebuf,"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "file_access_tag",
+    "method": "definitions",
+    "utf8_return_bytes": 2420,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 1,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "e600278a2c0092f5a2f743f2a9e317f78f28283c2f6845be5ce6f25d5e990d03",
+    "response": {
+      "kind": "definitions",
+      "query": "file_access_tag",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 33,
+          "end_line": 73,
+          "kind": "variable_declaration",
+          "symbol": "namespace",
+          "scope": "",
+          "qualified_symbol": "namespace",
+          "text": "FMT_BEGIN_NAMESPACE\nnamespace detail {\n\n// Generate a unique explicit instantiation in every translation unit using a\n// tag type in an anonymous namespace.\nnamespace {\nstruct file_access_tag {};\n}  // namespace\ntemplate <typename Tag, typename BufType, FILE* BufType::* FileMemberPtr>\nclass file_access {\n  friend auto get_file(BufType& obj) -> FILE* { return obj.*FileMemberPtr; }\n};\n\n#if FMT_MSVC_STL_UPDATE\ntemplate class file_access<file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>;\nauto get_file(std::filebuf&) -> FILE*;\n#endif\n\n// Write the content of buf to o",
+          "node_id": "include/fmt/ostream.h:712:variable_declaration",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 39,
+          "end_line": 39,
+          "kind": "struct_specifier",
+          "symbol": "file_access_tag",
+          "scope": "",
+          "qualified_symbol": "file_access_tag",
+          "text": "struct file_access_tag {}",
+          "node_id": "include/fmt/ostream.h:881:struct_specifier",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 47,
+          "end_line": 48,
+          "kind": "class_specifier",
+          "symbol": "file_access<file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>",
+          "scope": "",
+          "qualified_symbol": "file_access<file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>",
+          "text": "class file_access<file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>",
+          "node_id": "include/fmt/ostream.h:1132:class_specifier",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "write_buffer",
+    "method": "search_code",
+    "utf8_return_bytes": 328,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "3d995401fef92b11947895fc050db6d523ae89bb964657c5603ad0de9a189659",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 56,
+          "text": "void write_buffer(std::basic_ostream<Char>& os, buffer<Char>& buf,"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 144,
+          "text": "  detail::write_buffer(os, buffer);"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 160,
+          "text": "  detail::write_buffer(os, buffer);"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "write_buffer",
+    "method": "definitions",
+    "utf8_return_bytes": 2046,
+    "results": 2,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "b0f3f4aa07ed0d6a892ebbc8cf158bec1637b06a96d4265bc28ffed6f0d2b1a4",
+    "response": {
+      "kind": "definitions",
+      "query": "write_buffer",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 56,
+          "end_line": 68,
+          "kind": "function_definition",
+          "symbol": "write_buffer",
+          "scope": "",
+          "qualified_symbol": "write_buffer",
+          "text": "void write_buffer(std::basic_ostream<Char>& os, buffer<Char>& buf,\n                  make_unsigned_t<std::streamsize> max_size =\n                      to_unsigned(max_value<std::streamsize>())) {\n  const Char* buf_data = buf.data();\n  using unsigned_streamsize = make_unsigned_t<std::streamsize>;\n  unsigned_streamsize size = buf.size();\n  do {\n    unsigned_streamsize n = size <= max_size ? size : max_size;\n    os.write(buf_data, static_cast<std::streamsize>(n));\n    buf_data += n;\n    size -= n;\n  } while (size != 0);\n}",
+          "node_id": "include/fmt/ostream.h:1492:function_definition",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 155,
+          "end_line": 161,
+          "kind": "function_definition",
+          "symbol": "print",
+          "scope": "",
+          "qualified_symbol": "print",
+          "text": "void print(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::vargs<T...> vargs = {{args...}};\n  if FMT_CONSTEXPR20 (detail::use_utf8) return vprint(os, fmt.str, vargs);\n  auto buffer = memory_buffer();\n  detail::vformat_to(buffer, fmt.str, vargs);\n  detail::write_buffer(os, buffer);\n}",
+          "node_id": "include/fmt/ostream.h:4625:function_definition",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "streamed",
+    "method": "search_code",
+    "utf8_return_bytes": 585,
+    "results": 5,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "5b7104467cff65d895c12c6b3fad72864a175d613bb7cb093020d2740392c9fe",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 70,
+          "text": "template <typename T> struct streamed_view {"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 98,
+          "text": "struct formatter<detail::streamed_view<T>, Char>"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 101,
+          "text": "  auto format(detail::streamed_view<T> view, Context& ctx) const"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 113,
+          "text": " *                fmt::streamed(std::this_thread::get_id()));"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 116,
+          "text": "constexpr auto streamed(const T& value) -> detail::streamed_view<T> {"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "streamed",
+    "method": "definitions",
+    "utf8_return_bytes": 2875,
+    "results": 5,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "f83db4ca6c92f613909d8a73ce6fa5a4df1a9c6c2d95df23f974ff8507470d0f",
+    "response": {
+      "kind": "definitions",
+      "query": "streamed",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 70,
+          "end_line": 72,
+          "kind": "struct_specifier",
+          "symbol": "streamed_view",
+          "scope": "",
+          "qualified_symbol": "streamed_view",
+          "text": "struct streamed_view {\n  const T& value;\n}",
+          "node_id": "include/fmt/ostream.h:2040:struct_specifier",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 71,
+          "end_line": 71,
+          "kind": "variable_declaration",
+          "symbol": "value",
+          "scope": "streamed_view",
+          "qualified_symbol": "streamed_view::value",
+          "text": "const T& value;",
+          "node_id": "include/fmt/ostream.h:2065:variable_declaration",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 98,
+          "end_line": 105,
+          "kind": "struct_specifier",
+          "symbol": "formatter<detail::streamed_view<T>, Char>",
+          "scope": "",
+          "qualified_symbol": "formatter<detail::streamed_view<T>, Char>",
+          "text": "struct formatter<detail::streamed_view<T>, Char>\n    : basic_ostream_formatter<Char> {\n  template <typename Context>\n  auto format(detail::streamed_view<T> view, Context& ctx) const\n      -> decltype(ctx.out()) {\n    return basic_ostream_formatter<Char>::format(view.value, ctx);\n  }\n}",
+          "node_id": "include/fmt/ostream.h:3021:struct_specifier",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 101,
+          "end_line": 104,
+          "kind": "function_definition",
+          "symbol": "format",
+          "scope": "formatter<detail::streamed_view<T>, Char>",
+          "qualified_symbol": "formatter<detail::streamed_view<T>, Char>::format",
+          "text": "auto format(detail::streamed_view<T> view, Context& ctx) const\n      -> decltype(ctx.out()) {\n    return basic_ostream_formatter<Char>::format(view.value, ctx);\n  }",
+          "node_id": "include/fmt/ostream.h:3140:function_definition",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 116,
+          "end_line": 118,
+          "kind": "function_definition",
+          "symbol": "streamed",
+          "scope": "",
+          "qualified_symbol": "streamed",
+          "text": "constexpr auto streamed(const T& value) -> detail::streamed_view<T> {\n  return {value};\n}",
+          "node_id": "include/fmt/ostream.h:3536:function_definition",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "println",
+    "method": "search_code",
+    "utf8_return_bytes": 155,
+    "results": 1,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "083581349ec4192ce3f43753e353f6a9a2a9eae7665c7813c1db8893e4f2acd4",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 164,
+          "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "println",
+    "method": "definitions",
+    "utf8_return_bytes": 1069,
+    "results": 1,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "dc5f4ffb5920bc31911823f19870332f8726715aa72dd31bf773f466ba809401",
+    "response": {
+      "kind": "definitions",
+      "query": "println",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 164,
+          "end_line": 167,
+          "kind": "function_definition",
+          "symbol": "println",
+          "scope": "",
+          "qualified_symbol": "println",
+          "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::print(os, FMT_STRING(\"{}\\n\"),\n             fmt::format(fmt, std::forward<T>(args)...));\n}",
+          "node_id": "include/fmt/ostream.h:4952:function_definition",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "basic_cstring_view",
+    "method": "search_code",
+    "utf8_return_bytes": 743,
+    "results": 7,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "5f4adc5454676214e81f34a13371c5e9aedff7f2a6328411bc79cbe8145a717b",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/os.h",
+          "line": 91,
+          "text": " * | cstring_view  | basic_cstring_view<char>    |"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 93,
+          "text": " * | wcstring_view | basic_cstring_view<wchar_t> |"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 98,
+          "text": "template <typename Char> class basic_cstring_view {"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 104,
+          "text": "  basic_cstring_view(const Char* s) : data_(s) {}"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 107,
+          "text": "  basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 113,
+          "text": "using cstring_view = basic_cstring_view<char>;"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 114,
+          "text": "using wcstring_view = basic_cstring_view<wchar_t>;"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "basic_cstring_view",
+    "method": "definitions",
+    "utf8_return_bytes": 3070,
+    "results": 4,
+    "target_covered": false,
+    "truncated": false,
+    "previews_at_limit": 1,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "6e3178c85088b04497590b9b564f7d46c4e5d9de314df7df7ccd094b11aad25e",
+    "response": {
+      "kind": "definitions",
+      "query": "basic_cstring_view",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/os.h",
+          "line": 79,
+          "end_line": 111,
+          "kind": "variable_declaration",
+          "symbol": "FMT_BEGIN_EXPORT\n\n/**\n * A reference to a null-terminated string. It can be constructed from a C\n * string or `std::string`.\n *\n * You can use one of the following type aliases for common character types:\n *\n * +---------------+------------",
+          "scope": "",
+          "qualified_symbol": "FMT_BEGIN_EXPORT\n\n/**\n * A reference to a null-terminated string. It can be constructed from a C\n * string or `std::string`.\n *\n * You can use one of the following type aliases for common character types:\n *\n * +---------------+------------",
+          "text": "FMT_BEGIN_NAMESPACE\nFMT_BEGIN_EXPORT\n\n/**\n * A reference to a null-terminated string. It can be constructed from a C\n * string or `std::string`.\n *\n * You can use one of the following type aliases for common character types:\n *\n * +---------------+-----------------------------+\n * | Type          | Definition                  |\n * +===============+=============================+\n * | cstring_view  | basic_cstring_view<char>    |\n * +---------------+-----------------------------+\n * | wcstring_view | basic_cstring_view<wchar_t> |\n * +---------------+-----------------------------+\n *\n * This clas",
+          "node_id": "include/fmt/os.h:2172:variable_declaration",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 107,
+          "end_line": 107,
+          "kind": "function_definition",
+          "symbol": "basic_cstring_view",
+          "scope": "",
+          "qualified_symbol": "basic_cstring_view",
+          "text": "basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}",
+          "node_id": "include/fmt/os.h:3117:function_definition",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 113,
+          "end_line": 113,
+          "kind": "alias_declaration",
+          "symbol": "cstring_view",
+          "scope": "",
+          "qualified_symbol": "cstring_view",
+          "text": "using cstring_view = basic_cstring_view<char>;",
+          "node_id": "include/fmt/os.h:3292:alias_declaration",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 114,
+          "end_line": 114,
+          "kind": "alias_declaration",
+          "symbol": "wcstring_view",
+          "scope": "",
+          "qualified_symbol": "wcstring_view",
+          "text": "using wcstring_view = basic_cstring_view<wchar_t>;",
+          "node_id": "include/fmt/os.h:3339:alias_declaration",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "c_str",
+    "method": "search_code",
+    "utf8_return_bytes": 1197,
+    "results": 10,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "8ad16768acd183036741971e4092ba3151ba5229a32edf7550380acfb0e6cf18",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 51,
+          "text": "    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 84,
+          "text": "                std::is_same<T, basic_string_view<char_type>>::value ||"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 94,
+          "text": "      std::is_convertible<T, std::basic_string<char_type>>::value &&"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 96,
+          "text": "      std::basic_string<char_type>, T>;"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 187,
+          "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 107,
+          "text": "  basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 110,
+          "text": "  auto c_str() const -> const Char* { return data_; }"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 79,
+          "text": "struct basic_ostream_formatter : formatter<basic_string_view<Char>, Char> {"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 85,
+          "text": "    auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 90,
+          "text": "    return formatter<basic_string_view<Char>, Char>::format("
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "c_str",
+    "method": "definitions",
+    "utf8_return_bytes": 8781,
+    "results": 13,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "a6ec05d36ae32235ac0cbf358d4e75d5b49a3157dad4130839ba35f5ab2f00a3",
+    "response": {
+      "kind": "definitions",
+      "query": "c_str",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "end_line": 194,
+          "kind": "variable_declaration",
+          "symbol": "FMT_EXPORT template <typename Context>",
+          "scope": "",
+          "qualified_symbol": "FMT_EXPORT template <typename Context>",
+          "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+          "node_id": "include/fmt/args.h:1258:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 43,
+          "end_line": 66,
+          "kind": "class_specifier",
+          "symbol": "dynamic_arg_list",
+          "scope": "",
+          "qualified_symbol": "dynamic_arg_list",
+          "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+          "node_id": "include/fmt/args.h:1258:class_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 44,
+          "end_line": 65,
+          "kind": "struct_specifier",
+          "symbol": "typed_node",
+          "scope": "dynamic_arg_list",
+          "qualified_symbol": "dynamic_arg_list::typed_node",
+          "text": "struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  ",
+          "node_id": "include/fmt/args.h:1307:struct_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 51,
+          "end_line": 53,
+          "kind": "variable_declaration",
+          "symbol": "value",
+          "scope": "dynamic_arg_list::typed_node",
+          "qualified_symbol": "dynamic_arg_list::typed_node::value",
+          "text": "FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };",
+          "node_id": "include/fmt/args.h:1473:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 78,
+          "end_line": 90,
+          "kind": "struct_specifier",
+          "symbol": "need_copy",
+          "scope": "",
+          "qualified_symbol": "need_copy",
+          "text": "struct need_copy {\n    static constexpr detail::type mapped_type =\n        detail::mapped_type_constant<T, char_type>::value;\n\n    enum {\n      value = !(detail::is_reference_wrapper<T>::value ||\n                std::is_same<T, basic_string_view<char_type>>::value ||\n                std::is_same<T, detail::std_string_view<char_type>>::value ||\n                (mapped_type != detail::type::cstring_type &&\n                 mapped_type != detail::type::string_type &&\n                 mapped_type != detail::type::custom_type))\n    };\n  }",
+          "node_id": "include/fmt/args.h:2300:struct_specifier",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 93,
+          "end_line": 96,
+          "kind": "alias_declaration",
+          "symbol": "stored_t",
+          "scope": "",
+          "qualified_symbol": "stored_t",
+          "text": "using stored_t = conditional_t<\n      std::is_convertible<T, std::basic_string<char_type>>::value &&\n          !detail::is_reference_wrapper<T>::value,\n      std::basic_string<char_type>, T>;",
+          "node_id": "include/fmt/args.h:2868:alias_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 185,
+          "end_line": 193,
+          "kind": "function_definition",
+          "symbol": "push_back",
+          "scope": "",
+          "qualified_symbol": "push_back",
+          "text": "void push_back(const named_arg<T, char_type>& arg) {\n    const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();\n    if FMT_CONSTEXPR20 (need_copy<T>::value) {\n      emplace_arg(\n          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));\n    } else {\n      emplace_arg(fmt::arg(arg_name, arg.value));\n    }",
+          "node_id": "include/fmt/args.h:6173:function_definition",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/args.h",
+          "line": 186,
+          "end_line": 187,
+          "kind": "variable_declaration",
+          "symbol": "arg_name",
+          "scope": "",
+          "qualified_symbol": "arg_name",
+          "text": "const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();",
+          "node_id": "include/fmt/args.h:6230:variable_declaration",
+          "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 107,
+          "end_line": 107,
+          "kind": "function_definition",
+          "symbol": "basic_cstring_view",
+          "scope": "",
+          "qualified_symbol": "basic_cstring_view",
+          "text": "basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}",
+          "node_id": "include/fmt/os.h:3117:function_definition",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 110,
+          "end_line": 110,
+          "kind": "function_definition",
+          "symbol": "c_str",
+          "scope": "",
+          "qualified_symbol": "c_str",
+          "text": "auto c_str() const -> const Char* { return data_; }",
+          "node_id": "include/fmt/os.h:3236:function_definition",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 75,
+          "end_line": 80,
+          "kind": "function_declaration",
+          "symbol": "set_debug_format",
+          "scope": "",
+          "qualified_symbol": "set_debug_format",
+          "text": "FMT_BEGIN_EXPORT\n\n// Formats an object of type T that has an overloaded ostream operator<<.\ntemplate <typename Char>\nstruct basic_ostream_formatter : formatter<basic_string_view<Char>, Char> {\n  void set_debug_format() = delete;",
+          "node_id": "include/fmt/ostream.h:2108:function_declaration",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 83,
+          "end_line": 92,
+          "kind": "function_definition",
+          "symbol": "format",
+          "scope": "",
+          "qualified_symbol": "format",
+          "text": "auto format(const T& value, Context& ctx) const -> decltype(ctx.out()) {\n    auto buffer = basic_memory_buffer<Char>();\n    auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);\n    auto&& output = std::basic_ostream<Char>(&formatbuf);\n    output.imbue(std::locale::classic());  // The default is always unlocalized.\n    output << value;\n    output.exceptions(std::ios_base::failbit | std::ios_base::badbit);\n    return formatter<basic_string_view<Char>, Char>::format(\n        {buffer.data(), buffer.size()}, ctx);\n  }",
+          "node_id": "include/fmt/ostream.h:2382:function_definition",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "line": 85,
+          "end_line": 85,
+          "kind": "variable_declaration",
+          "symbol": "formatbuf",
+          "scope": "",
+          "qualified_symbol": "formatbuf",
+          "text": "auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);",
+          "node_id": "include/fmt/ostream.h:2506:variable_declaration",
+          "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "system_category",
+    "method": "search_code",
+    "utf8_return_bytes": 342,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "2689b4e4ffb6af82faea96dc7f4b56949267c7fa4d2c430edf87c4decddacfa7",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/os.h",
+          "line": 117,
+          "text": "FMT_API const std::error_category& system_category() noexcept;"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 161,
+          "text": "inline auto system_category() noexcept -> const std::error_category& {"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 162,
+          "text": "  return std::system_category();"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "system_category",
+    "method": "definitions",
+    "utf8_return_bytes": 1386,
+    "results": 2,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "eb5fccab0cfe3d629445b86a8a85207b197ca97a8c7d15cc12e4f07bbb12a34b",
+    "response": {
+      "kind": "definitions",
+      "query": "system_category",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/os.h",
+          "line": 117,
+          "end_line": 117,
+          "kind": "function_declaration",
+          "symbol": "system_category",
+          "scope": "",
+          "qualified_symbol": "system_category",
+          "text": "FMT_API const std::error_category& system_category() noexcept;",
+          "node_id": "include/fmt/os.h:3405:function_declaration",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 161,
+          "end_line": 163,
+          "kind": "function_definition",
+          "symbol": "system_category",
+          "scope": "",
+          "qualified_symbol": "system_category",
+          "text": "inline auto system_category() noexcept -> const std::error_category& {\n  return std::system_category();\n}",
+          "node_id": "include/fmt/os.h:5104:function_definition",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  },
+  {
+    "symbol": "output_file",
+    "method": "search_code",
+    "utf8_return_bytes": 365,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 0,
+    "next_offset": null,
+    "parse_notes": [],
+    "response_sha256": "cd9eaf3662c1e7ebbc9bc271f1a65712de191bb26f2cf69b6c01f5002d392895",
+    "response": {
+      "matches": [
+        {
+          "path": "include/fmt/os.h",
+          "line": 385,
+          "text": "  friend auto output_file(cstring_view path, T... params) -> ostream;"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 409,
+          "text": " *     auto out = fmt::output_file(\"guide.txt\");"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 413,
+          "text": "inline auto output_file(cstring_view path, T... params) -> ostream {"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  {
+    "symbol": "output_file",
+    "method": "definitions",
+    "utf8_return_bytes": 2307,
+    "results": 3,
+    "target_covered": true,
+    "truncated": false,
+    "previews_at_limit": 1,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "response_sha256": "effdb1dc15de2c2b982f10d72a00bdd02a7a2b884a3e6da5e112d226f7de0140",
+    "response": {
+      "kind": "definitions",
+      "query": "output_file",
+      "relation_semantics": "syntactic",
+      "matches": [
+        {
+          "path": "include/fmt/os.h",
+          "line": 361,
+          "end_line": 397,
+          "kind": "class_specifier",
+          "symbol": "ostream",
+          "scope": "",
+          "qualified_symbol": "ostream",
+          "text": "class ostream : private detail::buffer<char> {\n private:\n  file file_;\n\n  FMT_API ostream(cstring_view path, const detail::ostream_params& params);\n\n  FMT_API static void grow(buffer<char>& buf, size_t);\n\n public:\n  FMT_API ostream(ostream&& other) noexcept;\n  FMT_API ~ostream();\n\n  operator writer() {\n    detail::buffer<char>& buf = *this;\n    return buf;\n  }\n\n  inline void flush() {\n    if (size() == 0) return;\n    file_.write(data(), size() * sizeof(data()[0]));\n    clear();\n  }\n\n  template <typename... T>\n  friend auto output_file(cstring_view path, T... params) -> ostream;\n\n  inline void ",
+          "node_id": "include/fmt/os.h:11103:class_specifier",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 385,
+          "end_line": 385,
+          "kind": "function_declaration",
+          "symbol": "output_file",
+          "scope": "ostream",
+          "qualified_symbol": "ostream::output_file",
+          "text": "auto output_file(cstring_view path, T... params) -> ostream;",
+          "node_id": "include/fmt/os.h:11627:function_declaration",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        },
+        {
+          "path": "include/fmt/os.h",
+          "line": 413,
+          "end_line": 415,
+          "kind": "function_definition",
+          "symbol": "output_file",
+          "scope": "",
+          "qualified_symbol": "output_file",
+          "text": "inline auto output_file(cstring_view path, T... params) -> ostream {\n  return {path, detail::ostream_params(params...)};\n}",
+          "node_id": "include/fmt/os.h:12444:function_definition",
+          "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+        }
+      ],
+      "matches_truncated": false,
+      "indexed_files": [
+        "include/fmt/args.h",
+        "include/fmt/os.h",
+        "include/fmt/ostream.h"
+      ],
+      "total_scope_files": 3,
+      "next_offset": null,
+      "parse_notes": [
+        {
+          "path": "include/fmt/args.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/os.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        },
+        {
+          "path": "include/fmt/ostream.h",
+          "parse_has_error": true,
+          "index_truncated": false
+        }
+      ],
+      "parser": {
+        "name": "tree-sitter-cpp",
+        "version": "0.23.4",
+        "runtime_version": "0.25.2",
+        "relation_semantics": "syntactic"
+      }
+    }
+  }
+]

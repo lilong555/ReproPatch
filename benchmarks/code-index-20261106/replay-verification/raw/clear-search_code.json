@@ -1,0 +1,37 @@
+{
+  "symbol": "clear",
+  "method": "search_code",
+  "utf8_return_bytes": 303,
+  "results": 4,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "bf8fe93062b50b986443410d00d3f9d8137a41a6804f7d7197fec13682d7d3f6",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 197,
+        "text": "  void clear() {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 198,
+        "text": "    data_.clear();"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 199,
+        "text": "    named_info_.clear();"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 381,
+        "text": "    clear();"
+      }
+    ],
+    "truncated": false
+  }
+}

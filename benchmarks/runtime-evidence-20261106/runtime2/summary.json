@@ -1,0 +1,406 @@
+{
+  "resume_registered_n": 3,
+  "resume_measured_n": 3,
+  "resume_all_checks_n": 3,
+  "resume_seconds": {
+    "sum": 3.477492026,
+    "n": 3,
+    "denominator": 3,
+    "median": 0.530166631
+  },
+  "validation_registered_n": 0,
+  "new_paid_requests": 0,
+  "resumes": [
+    {
+      "repeat": 1,
+      "model": "agents.testing.ScriptedModel",
+      "new_paid_requests": 0,
+      "synthetic_usage": true,
+      "run_id": "f63b2b300ec34d1da481d5893adf32b0",
+      "artifact_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-1/runs/recovery/f63b2b300ec34d1da481d5893adf32b0",
+      "before": {
+        "run_id": "f63b2b300ec34d1da481d5893adf32b0",
+        "input_mode": "run",
+        "engine_kind": "fake",
+        "state": "INTERRUPTED",
+        "outcome": null,
+        "reason_code": null,
+        "agent_stop_reason": null,
+        "created_at": "2026-11-06T06:35:53.546365+00:00",
+        "deadline_at": "2026-11-06T06:50:53.546365+00:00",
+        "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"3280c71f74246b613ebaccac5d4c081cc23091b049b82b9a842126c7e686f3fe\", \"size_bytes\": 1285}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"a250b3a3086562b9a239ff5c95d8686c886e028683f7e3e4b5ecbb08175edc18\", \"size_bytes\": 3864}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+        "steps_used": 3,
+        "tool_calls_admitted": 3,
+        "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 3}",
+        "segment_open": 0,
+        "last_checkpoint_id": 4,
+        "recovery_attempt": 0,
+        "updated_at": "2026-11-06T06:36:02.478881+00:00"
+      },
+      "checkpoint": {
+        "path": "checkpoints/4/manifest.json",
+        "sha256": "47a8d3eaeacd467e80bacfe71f344171d2f13b829a412a1898183f2d908f7846",
+        "size_bytes": 1651
+      },
+      "prepared": {
+        "schema_version": 1,
+        "output_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-1",
+        "requested_image": "repropatch-runtime-evidence:20261106",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "model_kind": "scripted",
+        "model_adapter": "agents.testing.ScriptedModel",
+        "paid_model_requests": 0,
+        "usage": {
+          "synthetic": true,
+          "input_tokens": null,
+          "output_tokens": null,
+          "total_tokens": null
+        },
+        "verification_backend": "docker",
+        "sandbox_type": "repropatch.sandbox.DockerSandbox",
+        "repository": "/home/azureuser/runtime-evidence-20261106/runs2/resume-1/repository",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "scenarios": [
+          "recovery"
+        ],
+        "assets": [
+          {
+            "path": "cpp-bugs/CMakeLists.txt",
+            "sha256": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+            "size_bytes": 572
+          },
+          {
+            "path": "cpp-bugs/src/stats.cpp",
+            "sha256": "8ed8462f3d8f2020fb94004c43cb2535da4453d1f0f527b551e7b792b99c30b7",
+            "size_bytes": 289
+          },
+          {
+            "path": "cpp-bugs/src/stats.hpp",
+            "sha256": "3ecbc8b95a8e4a2691457f27889dfa80717a2205de3eb0664202748be3a429df",
+            "size_bytes": 167
+          },
+          {
+            "path": "cpp-bugs/tests/stats_test.cpp",
+            "sha256": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+            "size_bytes": 999
+          },
+          {
+            "path": "models/fix-negative-maximum.json",
+            "sha256": "9e80ef8656cca591ca54a9ddce4291932cdd6ea132be9bac50517b99860ba8ea",
+            "size_bytes": 1456
+          }
+        ],
+        "tasks": {
+          "recovery": "/home/azureuser/runtime-evidence-20261106/runs2/resume-1/tasks/recovery.yaml"
+        },
+        "scripts": {
+          "recovery": "/home/azureuser/runtime-evidence-20261106/runs2/resume-1/scripts/recovery.json"
+        }
+      },
+      "status": "measured",
+      "resume_to_admission_seconds": 0.467888506,
+      "admission": {
+        "perf_counter_ns": 3808713730101214
+      },
+      "after": {
+        "run_id": "f63b2b300ec34d1da481d5893adf32b0",
+        "input_mode": "run",
+        "engine_kind": "fake",
+        "state": "FINISHED",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "agent_stop_reason": "MODEL_FINISHED",
+        "created_at": "2026-11-06T06:35:53.546365+00:00",
+        "deadline_at": "2026-11-06T06:50:53.546365+00:00",
+        "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"3280c71f74246b613ebaccac5d4c081cc23091b049b82b9a842126c7e686f3fe\", \"size_bytes\": 1285}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"a250b3a3086562b9a239ff5c95d8686c886e028683f7e3e4b5ecbb08175edc18\", \"size_bytes\": 3864}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+        "steps_used": 5,
+        "tool_calls_admitted": 4,
+        "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 5}",
+        "segment_open": 1,
+        "last_checkpoint_id": 6,
+        "recovery_attempt": 1,
+        "updated_at": "2026-11-06T06:36:14.451258+00:00"
+      },
+      "checks": {
+        "same_run": true,
+        "event_prefix": true,
+        "source_tree": true,
+        "budget_counters": true,
+        "deadline": true,
+        "baseline_once": true,
+        "edit_once": true,
+        "complete_input_boundary": true,
+        "committed_input_preserved": true,
+        "independent_acceptance": true,
+        "cold_independent": true
+      }
+    },
+    {
+      "repeat": 2,
+      "model": "agents.testing.ScriptedModel",
+      "new_paid_requests": 0,
+      "synthetic_usage": true,
+      "run_id": "ec91285d26f74e5bb8e1082be000d7d1",
+      "artifact_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-2/runs/recovery/ec91285d26f74e5bb8e1082be000d7d1",
+      "before": {
+        "run_id": "ec91285d26f74e5bb8e1082be000d7d1",
+        "input_mode": "run",
+        "engine_kind": "fake",
+        "state": "INTERRUPTED",
+        "outcome": null,
+        "reason_code": null,
+        "agent_stop_reason": null,
+        "created_at": "2026-11-06T06:36:14.783948+00:00",
+        "deadline_at": "2026-11-06T06:51:14.783948+00:00",
+        "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"cdc046f0a6a872453dc098ee5a8554f6ed36c57e784d84fe08ca01c25236af91\", \"size_bytes\": 1285}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"36bd29e950ded4049c8c1b6f6f5756a6b5a143de120507cfd026d0363cf57b5e\", \"size_bytes\": 3864}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+        "steps_used": 3,
+        "tool_calls_admitted": 3,
+        "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 3}",
+        "segment_open": 0,
+        "last_checkpoint_id": 4,
+        "recovery_attempt": 0,
+        "updated_at": "2026-11-06T06:36:28.709437+00:00"
+      },
+      "checkpoint": {
+        "path": "checkpoints/4/manifest.json",
+        "sha256": "81ef843086142bfe4e8c22d5aeea3eb54b3ecff9c60a9c2f7e9c5f309e518793",
+        "size_bytes": 1651
+      },
+      "prepared": {
+        "schema_version": 1,
+        "output_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-2",
+        "requested_image": "repropatch-runtime-evidence:20261106",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "model_kind": "scripted",
+        "model_adapter": "agents.testing.ScriptedModel",
+        "paid_model_requests": 0,
+        "usage": {
+          "synthetic": true,
+          "input_tokens": null,
+          "output_tokens": null,
+          "total_tokens": null
+        },
+        "verification_backend": "docker",
+        "sandbox_type": "repropatch.sandbox.DockerSandbox",
+        "repository": "/home/azureuser/runtime-evidence-20261106/runs2/resume-2/repository",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "scenarios": [
+          "recovery"
+        ],
+        "assets": [
+          {
+            "path": "cpp-bugs/CMakeLists.txt",
+            "sha256": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+            "size_bytes": 572
+          },
+          {
+            "path": "cpp-bugs/src/stats.cpp",
+            "sha256": "8ed8462f3d8f2020fb94004c43cb2535da4453d1f0f527b551e7b792b99c30b7",
+            "size_bytes": 289
+          },
+          {
+            "path": "cpp-bugs/src/stats.hpp",
+            "sha256": "3ecbc8b95a8e4a2691457f27889dfa80717a2205de3eb0664202748be3a429df",
+            "size_bytes": 167
+          },
+          {
+            "path": "cpp-bugs/tests/stats_test.cpp",
+            "sha256": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+            "size_bytes": 999
+          },
+          {
+            "path": "models/fix-negative-maximum.json",
+            "sha256": "9e80ef8656cca591ca54a9ddce4291932cdd6ea132be9bac50517b99860ba8ea",
+            "size_bytes": 1456
+          }
+        ],
+        "tasks": {
+          "recovery": "/home/azureuser/runtime-evidence-20261106/runs2/resume-2/tasks/recovery.yaml"
+        },
+        "scripts": {
+          "recovery": "/home/azureuser/runtime-evidence-20261106/runs2/resume-2/scripts/recovery.json"
+        }
+      },
+      "status": "measured",
+      "resume_to_admission_seconds": 2.479436889,
+      "admission": {
+        "perf_counter_ns": 3808742003082892
+      },
+      "after": {
+        "run_id": "ec91285d26f74e5bb8e1082be000d7d1",
+        "input_mode": "run",
+        "engine_kind": "fake",
+        "state": "FINISHED",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "agent_stop_reason": "MODEL_FINISHED",
+        "created_at": "2026-11-06T06:36:14.783948+00:00",
+        "deadline_at": "2026-11-06T06:51:14.783948+00:00",
+        "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"cdc046f0a6a872453dc098ee5a8554f6ed36c57e784d84fe08ca01c25236af91\", \"size_bytes\": 1285}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"36bd29e950ded4049c8c1b6f6f5756a6b5a143de120507cfd026d0363cf57b5e\", \"size_bytes\": 3864}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+        "steps_used": 5,
+        "tool_calls_admitted": 4,
+        "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 5}",
+        "segment_open": 1,
+        "last_checkpoint_id": 6,
+        "recovery_attempt": 1,
+        "updated_at": "2026-11-06T06:36:45.975524+00:00"
+      },
+      "checks": {
+        "same_run": true,
+        "event_prefix": true,
+        "source_tree": true,
+        "budget_counters": true,
+        "deadline": true,
+        "baseline_once": true,
+        "edit_once": true,
+        "complete_input_boundary": true,
+        "committed_input_preserved": true,
+        "independent_acceptance": true,
+        "cold_independent": true
+      }
+    },
+    {
+      "repeat": 3,
+      "model": "agents.testing.ScriptedModel",
+      "new_paid_requests": 0,
+      "synthetic_usage": true,
+      "run_id": "5de8aa29bd394c3b8fa434c56b3ba382",
+      "artifact_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3/runs/recovery/5de8aa29bd394c3b8fa434c56b3ba382",
+      "before": {
+        "run_id": "5de8aa29bd394c3b8fa434c56b3ba382",
+        "input_mode": "run",
+        "engine_kind": "fake",
+        "state": "INTERRUPTED",
+        "outcome": null,
+        "reason_code": null,
+        "agent_stop_reason": null,
+        "created_at": "2026-11-06T06:36:46.575237+00:00",
+        "deadline_at": "2026-11-06T06:51:46.575237+00:00",
+        "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"701fc7d42bf18ca83a8640c6d0cfc1355259664bf1c1ebb141c141066a4c747c\", \"size_bytes\": 1285}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"ecbe694233ff025bc06e1f893b973ab5439ed2c07dbacf8ecfb6c2c62950aee0\", \"size_bytes\": 3864}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+        "steps_used": 3,
+        "tool_calls_admitted": 3,
+        "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 3}",
+        "segment_open": 0,
+        "last_checkpoint_id": 4,
+        "recovery_attempt": 0,
+        "updated_at": "2026-11-06T06:36:53.775615+00:00"
+      },
+      "checkpoint": {
+        "path": "checkpoints/4/manifest.json",
+        "sha256": "918a2f0b9fb94c6c0c8e0a025f99b588370364fe967650c78acd577455e570a8",
+        "size_bytes": 1651
+      },
+      "prepared": {
+        "schema_version": 1,
+        "output_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3",
+        "requested_image": "repropatch-runtime-evidence:20261106",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "model_kind": "scripted",
+        "model_adapter": "agents.testing.ScriptedModel",
+        "paid_model_requests": 0,
+        "usage": {
+          "synthetic": true,
+          "input_tokens": null,
+          "output_tokens": null,
+          "total_tokens": null
+        },
+        "verification_backend": "docker",
+        "sandbox_type": "repropatch.sandbox.DockerSandbox",
+        "repository": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3/repository",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "scenarios": [
+          "recovery"
+        ],
+        "assets": [
+          {
+            "path": "cpp-bugs/CMakeLists.txt",
+            "sha256": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+            "size_bytes": 572
+          },
+          {
+            "path": "cpp-bugs/src/stats.cpp",
+            "sha256": "8ed8462f3d8f2020fb94004c43cb2535da4453d1f0f527b551e7b792b99c30b7",
+            "size_bytes": 289
+          },
+          {
+            "path": "cpp-bugs/src/stats.hpp",
+            "sha256": "3ecbc8b95a8e4a2691457f27889dfa80717a2205de3eb0664202748be3a429df",
+            "size_bytes": 167
+          },
+          {
+            "path": "cpp-bugs/tests/stats_test.cpp",
+            "sha256": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+            "size_bytes": 999
+          },
+          {
+            "path": "models/fix-negative-maximum.json",
+            "sha256": "9e80ef8656cca591ca54a9ddce4291932cdd6ea132be9bac50517b99860ba8ea",
+            "size_bytes": 1456
+          }
+        ],
+        "tasks": {
+          "recovery": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3/tasks/recovery.yaml"
+        },
+        "scripts": {
+          "recovery": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3/scripts/recovery.json"
+        }
+      },
+      "status": "measured",
+      "resume_to_admission_seconds": 0.530166631,
+      "admission": {
+        "perf_counter_ns": 3808765082884827
+      },
+      "after": {
+        "run_id": "5de8aa29bd394c3b8fa434c56b3ba382",
+        "input_mode": "run",
+        "engine_kind": "fake",
+        "state": "FINISHED",
+        "outcome": "ACCEPTED",
+        "reason_code": "VERIFICATION_PASSED",
+        "agent_stop_reason": "MODEL_FINISHED",
+        "created_at": "2026-11-06T06:36:46.575237+00:00",
+        "deadline_at": "2026-11-06T06:51:46.575237+00:00",
+        "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+        "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+        "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+        "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"701fc7d42bf18ca83a8640c6d0cfc1355259664bf1c1ebb141c141066a4c747c\", \"size_bytes\": 1285}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"ecbe694233ff025bc06e1f893b973ab5439ed2c07dbacf8ecfb6c2c62950aee0\", \"size_bytes\": 3864}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+        "steps_used": 5,
+        "tool_calls_admitted": 4,
+        "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 5}",
+        "segment_open": 1,
+        "last_checkpoint_id": 6,
+        "recovery_attempt": 1,
+        "updated_at": "2026-11-06T06:37:16.931338+00:00"
+      },
+      "checks": {
+        "same_run": true,
+        "event_prefix": true,
+        "source_tree": true,
+        "budget_counters": true,
+        "deadline": true,
+        "baseline_once": true,
+        "edit_once": true,
+        "complete_input_boundary": true,
+        "committed_input_preserved": true,
+        "independent_acceptance": true,
+        "cold_independent": true
+      }
+    }
+  ],
+  "validations": []
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "repropatch.runtime-evidence.observer-validation.v1",
+  "source_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "initial_series": "runtime; three repetitions retained as observer failures",
+  "observed_driver_defect": "observer called EventLog.state property as a method after production model_started was committed; timestamp update was therefore skipped and the TypeError reached the runtime",
+  "additional_series": "runtime2; three additional independently created Runs, same fixture/image/task policy, fixed before running",
+  "observer": "delegate original EventLog.emit unchanged; record only perf_counter_ns after first successful model_started return; no state reads",
+  "denominators": "initial 3 and additional 3 reported separately; six registered recovery repetitions in total; no successful subset substituted for the initial series",
+  "validation": "normal/test_tamper/regression execute only in initial series; additional series repeats recovery alone",
+  "timing": "resume_run entry to first successfully committed model_started event; ScriptedModel plus real Docker, zero paid requests",
+  "all_other_conditions": "protocol.json runtime section; source/deadline/cumulative budgets/complete input boundary must match"
+}

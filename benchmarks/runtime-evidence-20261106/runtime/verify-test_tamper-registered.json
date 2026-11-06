@@ -1,0 +1,6 @@
+{
+  "scenario": "test_tamper",
+  "candidate_sha256": "fb7d76198f05fb407a535dc5ee0c1e064b8004aed55d41e333666fdd840a5ab7",
+  "candidate_bytes": 645,
+  "new_paid_requests": 0
+}

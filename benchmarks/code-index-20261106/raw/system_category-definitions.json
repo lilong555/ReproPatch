@@ -1,0 +1,90 @@
+{
+  "symbol": "system_category",
+  "method": "definitions",
+  "utf8_return_bytes": 1386,
+  "results": 2,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "eb5fccab0cfe3d629445b86a8a85207b197ca97a8c7d15cc12e4f07bbb12a34b",
+  "response": {
+    "kind": "definitions",
+    "query": "system_category",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 117,
+        "end_line": 117,
+        "kind": "function_declaration",
+        "symbol": "system_category",
+        "scope": "",
+        "qualified_symbol": "system_category",
+        "text": "FMT_API const std::error_category& system_category() noexcept;",
+        "node_id": "include/fmt/os.h:3405:function_declaration",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 161,
+        "end_line": 163,
+        "kind": "function_definition",
+        "symbol": "system_category",
+        "scope": "",
+        "qualified_symbol": "system_category",
+        "text": "inline auto system_category() noexcept -> const std::error_category& {\n  return std::system_category();\n}",
+        "node_id": "include/fmt/os.h:5104:function_definition",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

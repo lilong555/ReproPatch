@@ -1,0 +1,14 @@
+--- a/src/stats.cpp
++++ b/src/stats.cpp
+@@ -2,9 +2,9 @@
+ 
+ std::optional<int> maximum_sample(std::span<const int> samples) {
+     if (samples.empty()) {
+-        return std::nullopt;
++        return 0;
+     }
+-    int best = 0;
++    int best = samples.front();
+     for (int value : samples) {
+         if (value > best) {
+             best = value;

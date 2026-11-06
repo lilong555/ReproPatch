@@ -1,0 +1,78 @@
+{
+  "symbol": "println",
+  "method": "definitions",
+  "utf8_return_bytes": 1069,
+  "results": 1,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "dc5f4ffb5920bc31911823f19870332f8726715aa72dd31bf773f466ba809401",
+  "response": {
+    "kind": "definitions",
+    "query": "println",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 164,
+        "end_line": 167,
+        "kind": "function_definition",
+        "symbol": "println",
+        "scope": "",
+        "qualified_symbol": "println",
+        "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::print(os, FMT_STRING(\"{}\\n\"),\n             fmt::format(fmt, std::forward<T>(args)...));\n}",
+        "node_id": "include/fmt/ostream.h:4952:function_definition",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

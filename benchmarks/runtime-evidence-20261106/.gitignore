@@ -1,0 +1,6 @@
+# Expanded private copies are shipped byte-for-byte in public-inputs/runtime-state.tar.gz.
+/runs/
+/runs2/
+# Explicitly include the self-contained evidence archives and SQLite inputs.
+!/public-inputs/
+!/public-inputs/**

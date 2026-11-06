@@ -1,0 +1,438 @@
+{
+  "selected_n": 95,
+  "tasks": 19,
+  "split": "exposed-development",
+  "passed": 86,
+  "paid_history_n": 118,
+  "paid_history_usage": {
+    "issued_requests": 2074,
+    "unknown_usage_requests": 14,
+    "known_input_tokens": 44867030,
+    "known_output_tokens": 1016330,
+    "cached_input_tokens": 37979904,
+    "reasoning_tokens": 779584,
+    "repair_requests": 2052,
+    "compact_requests": 22,
+    "retry_requests": 0,
+    "local_rejections": 14,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "groups": {
+    "full": {
+      "n": 19,
+      "tasks": 19,
+      "passed": 18,
+      "stages": {
+        "oracle_passed": 18,
+        "oracle_tests_failed": 1
+      },
+      "stops": {
+        "COMPLETED": 15,
+        "REQUEST_BUDGET_EXHAUSTED": 4
+      },
+      "versions": {
+        "48826203c3979f3d0d67b15fcd43f44fe34a68d5": 8,
+        "6cb341c8793622ab26d1157fda9b91f87df8f91a": 3,
+        "58bc5e596d6230b94d7e01527596fcd5e929e3e1": 7,
+        "a6df2b188fbcb237409d4bf599319db057522c2c": 1
+      },
+      "metrics": {
+        "requests": {
+          "sum": 340,
+          "n": 19,
+          "denominator": 19,
+          "median": 19
+        },
+        "input_tokens": {
+          "sum": 5196230,
+          "n": 19,
+          "denominator": 19,
+          "median": 268317
+        },
+        "output_tokens": {
+          "sum": 106696,
+          "n": 19,
+          "denominator": 19,
+          "median": 4396
+        },
+        "unknown_usage_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "tool_calls": {
+          "sum": 325,
+          "n": 19,
+          "denominator": 19,
+          "median": 18
+        },
+        "worker_seconds": {
+          "sum": 6572.704508268001,
+          "n": 19,
+          "denominator": 19,
+          "median": 332.988486025
+        },
+        "self_check_seconds": {
+          "sum": 1725.129549,
+          "n": 19,
+          "denominator": 19,
+          "median": 93.421677
+        },
+        "cold_oracle_seconds": {
+          "sum": 1616.200419157,
+          "n": 19,
+          "denominator": 19,
+          "median": 85.28161193599993
+        },
+        "compaction_count": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "compact_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        }
+      }
+    },
+    "no-checks": {
+      "n": 19,
+      "tasks": 19,
+      "passed": 15,
+      "stages": {
+        "oracle_passed": 15,
+        "oracle_tests_failed": 3,
+        "oracle_build_failed": 1
+      },
+      "stops": {
+        "COMPLETED": 15,
+        "REQUEST_BUDGET_EXHAUSTED": 4
+      },
+      "versions": {
+        "48826203c3979f3d0d67b15fcd43f44fe34a68d5": 8,
+        "6cb341c8793622ab26d1157fda9b91f87df8f91a": 3,
+        "58bc5e596d6230b94d7e01527596fcd5e929e3e1": 7,
+        "152c7f046fe2206ad09257a1a239d264b71f7803": 1
+      },
+      "metrics": {
+        "requests": {
+          "sum": 359,
+          "n": 19,
+          "denominator": 19,
+          "median": 20
+        },
+        "input_tokens": {
+          "sum": 5312280,
+          "n": 19,
+          "denominator": 19,
+          "median": 286057
+        },
+        "output_tokens": {
+          "sum": 130471,
+          "n": 19,
+          "denominator": 19,
+          "median": 5607
+        },
+        "unknown_usage_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "tool_calls": {
+          "sum": 344,
+          "n": 19,
+          "denominator": 19,
+          "median": 19
+        },
+        "worker_seconds": {
+          "sum": 5293.821237536,
+          "n": 19,
+          "denominator": 19,
+          "median": 248.30132554700003
+        },
+        "self_check_seconds": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "cold_oracle_seconds": {
+          "sum": 1521.657816194,
+          "n": 19,
+          "denominator": 19,
+          "median": 83.87606118399998
+        },
+        "compaction_count": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "compact_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        }
+      }
+    },
+    "shell-only": {
+      "n": 19,
+      "tasks": 19,
+      "passed": 19,
+      "stages": {
+        "oracle_passed": 19
+      },
+      "stops": {
+        "COMPLETED": 15,
+        "REQUEST_BUDGET_EXHAUSTED": 4
+      },
+      "versions": {
+        "48826203c3979f3d0d67b15fcd43f44fe34a68d5": 8,
+        "6cb341c8793622ab26d1157fda9b91f87df8f91a": 3,
+        "58bc5e596d6230b94d7e01527596fcd5e929e3e1": 6,
+        "a6df2b188fbcb237409d4bf599319db057522c2c": 1,
+        "152c7f046fe2206ad09257a1a239d264b71f7803": 1
+      },
+      "metrics": {
+        "requests": {
+          "sum": 335,
+          "n": 19,
+          "denominator": 19,
+          "median": 16
+        },
+        "input_tokens": {
+          "sum": 8193067,
+          "n": 19,
+          "denominator": 19,
+          "median": 374434
+        },
+        "output_tokens": {
+          "sum": 188681,
+          "n": 19,
+          "denominator": 19,
+          "median": 7652
+        },
+        "unknown_usage_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "tool_calls": {
+          "sum": 314,
+          "n": 19,
+          "denominator": 19,
+          "median": 15
+        },
+        "worker_seconds": {
+          "sum": 8392.784760909,
+          "n": 19,
+          "denominator": 19,
+          "median": 401.952907023
+        },
+        "self_check_seconds": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "cold_oracle_seconds": {
+          "sum": 1603.8832162079998,
+          "n": 19,
+          "denominator": 19,
+          "median": 82.8656934
+        },
+        "compaction_count": {
+          "sum": 6,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "compact_requests": {
+          "sum": 6,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        }
+      }
+    },
+    "mini": {
+      "n": 19,
+      "tasks": 19,
+      "passed": 18,
+      "stages": {
+        "oracle_passed": 18,
+        "oracle_build_failed": 1
+      },
+      "stops": {
+        "COMPLETED": 18,
+        "REQUEST_BUDGET_EXHAUSTED": 1
+      },
+      "versions": {
+        "48826203c3979f3d0d67b15fcd43f44fe34a68d5": 7,
+        "6cb341c8793622ab26d1157fda9b91f87df8f91a": 3,
+        "58bc5e596d6230b94d7e01527596fcd5e929e3e1": 6,
+        "a6df2b188fbcb237409d4bf599319db057522c2c": 1,
+        "152c7f046fe2206ad09257a1a239d264b71f7803": 2
+      },
+      "metrics": {
+        "requests": {
+          "sum": 309,
+          "n": 19,
+          "denominator": 19,
+          "median": 17
+        },
+        "input_tokens": {
+          "sum": 6829336,
+          "n": 19,
+          "denominator": 19,
+          "median": 314747
+        },
+        "output_tokens": {
+          "sum": 204890,
+          "n": 19,
+          "denominator": 19,
+          "median": 9463
+        },
+        "unknown_usage_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "tool_calls": {
+          "sum": 331,
+          "n": 19,
+          "denominator": 19,
+          "median": 18
+        },
+        "worker_seconds": {
+          "sum": 6090.614099405,
+          "n": 19,
+          "denominator": 19,
+          "median": 282.41425091299993
+        },
+        "self_check_seconds": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "cold_oracle_seconds": {
+          "sum": 1515.040223864,
+          "n": 19,
+          "denominator": 19,
+          "median": 82.816435802
+        },
+        "compaction_count": {
+          "sum": 2,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "compact_requests": {
+          "sum": 2,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        }
+      }
+    },
+    "codex": {
+      "n": 19,
+      "tasks": 19,
+      "passed": 16,
+      "stages": {
+        "oracle_passed": 16,
+        "oracle_build_failed": 2,
+        "oracle_tests_failed": 1
+      },
+      "stops": {
+        "COMPLETED": 8,
+        "REQUEST_BUDGET_EXHAUSTED": 11
+      },
+      "versions": {
+        "6cb341c8793622ab26d1157fda9b91f87df8f91a": 10,
+        "58bc5e596d6230b94d7e01527596fcd5e929e3e1": 9
+      },
+      "metrics": {
+        "requests": {
+          "sum": 421,
+          "n": 19,
+          "denominator": 19,
+          "median": 24
+        },
+        "input_tokens": {
+          "sum": 13075211,
+          "n": 19,
+          "denominator": 19,
+          "median": 713690
+        },
+        "output_tokens": {
+          "sum": 236181,
+          "n": 19,
+          "denominator": 19,
+          "median": 11143
+        },
+        "unknown_usage_requests": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "tool_calls": {
+          "sum": 403,
+          "n": 19,
+          "denominator": 19,
+          "median": 23
+        },
+        "worker_seconds": {
+          "sum": 5800.465018921,
+          "n": 19,
+          "denominator": 19,
+          "median": 278.717745209
+        },
+        "self_check_seconds": {
+          "sum": 0,
+          "n": 19,
+          "denominator": 19,
+          "median": 0
+        },
+        "cold_oracle_seconds": {
+          "sum": 1395.7175457160001,
+          "n": 19,
+          "denominator": 19,
+          "median": 78.08713889800003
+        },
+        "compaction_count": {
+          "sum": 10,
+          "n": 19,
+          "denominator": 19,
+          "median": 1
+        },
+        "compact_requests": {
+          "sum": 10,
+          "n": 19,
+          "denominator": 19,
+          "median": 1
+        }
+      }
+    }
+  },
+  "archive_verified_n": 95,
+  "raw_usage_matches_n": 84,
+  "worker_hash_matches_n": 95,
+  "raw_requests": 1775,
+  "raw_request_ids_unique": 1775,
+  "context_events": 18,
+  "native_tool_events": 1966,
+  "projection_candidates": 4,
+  "errors": []
+}

@@ -1,0 +1,11 @@
+--- a/src/stats.cpp
++++ b/src/stats.cpp
+@@ -4,7 +4,7 @@
+     if (samples.empty()) {
+         return std::nullopt;
+     }
+-    int best = 0;
++    int best = samples.front();
+     for (int value : samples) {
+         if (value > best) {
+             best = value;

@@ -1,0 +1,32 @@
+{
+  "symbol": "output_file",
+  "method": "search_code",
+  "utf8_return_bytes": 365,
+  "results": 3,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "cd9eaf3662c1e7ebbc9bc271f1a65712de191bb26f2cf69b6c01f5002d392895",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 385,
+        "text": "  friend auto output_file(cstring_view path, T... params) -> ostream;"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 409,
+        "text": " *     auto out = fmt::output_file(\"guide.txt\");"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 413,
+        "text": "inline auto output_file(cstring_view path, T... params) -> ostream {"
+      }
+    ],
+    "truncated": false
+  }
+}

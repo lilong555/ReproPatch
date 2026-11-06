@@ -1,0 +1,48 @@
+{
+  "frozen_at": "2026-11-06T06:27:54.048137+00:00",
+  "source_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "protocol_sha256": "38472df398edd3012b38234847c0b5d484dc79846ff7ffa2111b462eb6a3c02f",
+  "driver_sha256": "a51d479bdd4b6c18e15018163938c0bbf43c319980f4e786d5c0e0763de2a94a",
+  "source": {
+    "files": {
+      "src/repropatch/__init__.py": "916c7164bb41cb29f1c5b66b7d9299cb29d3fe7d1b7cc211def08d3887a9b944",
+      "src/repropatch/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "src/repropatch/agent_runtime.py": "61a815522dc7913157dde9a7264e584d735ccd5e0dd0b54074e4793ebd98611b",
+      "src/repropatch/artifacts.py": "f634fd0650d93fdfc06268ecb0d8fb00b4e2a2b760b44183dcbf379abd215dc9",
+      "src/repropatch/cli.py": "c9626697b7c1cf684a8264b68b3249f8781ab85e607e5e7746317c7fde46eb2d",
+      "src/repropatch/context.py": "83cb9e4a2b5fe7107bccd4ecce5d62a403cc2305cf95e509e955d03e2d2f43ff",
+      "src/repropatch/cpa.py": "39d1d8338e02b06d917a718735722e66d39e655ecc6bdc83a57ea495ca729877",
+      "src/repropatch/demo.py": "a3fd01beabeb7372708b4dea328d09feb5f86e7bc80565dc7deaaf1c097d4b80",
+      "src/repropatch/demo_assets/cpp-bugs/CMakeLists.txt": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+      "src/repropatch/demo_assets/cpp-bugs/src/stats.cpp": "8ed8462f3d8f2020fb94004c43cb2535da4453d1f0f527b551e7b792b99c30b7",
+      "src/repropatch/demo_assets/cpp-bugs/src/stats.hpp": "3ecbc8b95a8e4a2691457f27889dfa80717a2205de3eb0664202748be3a429df",
+      "src/repropatch/demo_assets/cpp-bugs/tests/stats_test.cpp": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+      "src/repropatch/demo_assets/models/fix-negative-maximum.json": "9e80ef8656cca591ca54a9ddce4291932cdd6ea132be9bac50517b99860ba8ea",
+      "src/repropatch/diagnostics.py": "0e63d7faac2b599993323598b2b2175e00ccd153013b9dd24742de9a49f323a4",
+      "src/repropatch/errors.py": "1d902ef0f358ef5074467a26750f1e200bcf9c09db096ab7661ed0cb32785d8f",
+      "src/repropatch/events.py": "404f60be481e2cabdee100ad6a0a4598e524b7f1eb6de47496eee2362bc3550a",
+      "src/repropatch/harness.py": "03ecea72e907bd6fd5f72916640a73814e6acb961d25ff9217c5bf4a4f4e13e2",
+      "src/repropatch/models.py": "02092ae40d74f2ff456745fd12d233eb1bf6c4d6237cda57e7f977e0ede1e4bc",
+      "src/repropatch/process.py": "d3ad6c80d26542bf4a9dcd8c01051cf48659031f52590e6fb2ad6d2c7b3d9c84",
+      "src/repropatch/recovery.py": "1afebf87d84d100707f0cea898e2a29dced6da5cb9eba97a5fa68b30861cae52",
+      "src/repropatch/repair_sandbox.py": "d90107fcd7cee538b2d9a9a8a99164b5be93926e801c7f78373a040554d16982",
+      "src/repropatch/reports.py": "3a74f34bdfa421cd05b76e86ed6fa7653720f0292250464f9297460db5abf06e",
+      "src/repropatch/resources.py": "25cb0e124685db59ad487656e8c38c280e9fc1d76479c73cde7cd5856e69a25a",
+      "src/repropatch/sandbox.py": "3da117bf358777946dae4f4a29517744bfe59ca7504dd7fbaefaac703d70d3c0",
+      "src/repropatch/semantic_state.py": "2748df52f88a60692802fa327519ea887e9ff3260cdfd657ef0f22e2cbed2302",
+      "src/repropatch/task.py": "89150615e82c627565a611fabaff3ad9906c4941bc1473e55f518128d3be1500",
+      "src/repropatch/tools.py": "c8dd7cabc85054fa219b4cb86028e735efd0a82ab1e93b2c9e0e8d0429398684",
+      "src/repropatch/trace.py": "3dbd456e2a539f509b1651ea611fcb1a3e0d685ec50c87aac605ccab979f7593",
+      "src/repropatch/verification.py": "9756cafc1b7befbd341599de484ce54e30bbcb936489a4d076e79523ddbda1ce",
+      "src/repropatch/workspace.py": "6d1a507881153d4a8eeac8458d3f59a691b995bb94d0bf0850bbc721f00378fc"
+    },
+    "sha256": "7fdc39f19a135090553058dc572e1a2ac4cad8083f444449bcc5099a7db43e53"
+  },
+  "inputs": {
+    "/home/li/.cache/repropatch-runtime-evidence-20261106/public/benchmarks/unified-context/final-results.json": "4641cbf02bb89682eefdd528a500ed017281e5c1c49f2370951848f7c97f31fd",
+    "/home/li/.cache/repropatch-runtime-evidence-20261106/public/docs/evidence/context-unified-2026-10-27/final-campaign-verification.json": "92d0195e182a67a55d2462a46942822c2613c04b0c208cd5d58dbbf5f5a1f33f",
+    "/home/li/.cache/repropatch-runtime-evidence-20261106/public/benchmarks/context-formal-protocol.json": "9728016a0f4883d77bcb25636a44a7508d386b1ee142823f92656924624caa0b",
+    "/home/li/.cache/repropatch-runtime-evidence-20261106/public/benchmarks/actions-scale/cloud-results.json": "9eab8a81e4330275cfa4ca41427b5920c9c25da9859b90a26640a228383cde96",
+    "/home/li/code/servicedesk-agent/.runtime/resume/experiment-audit-20261106/repropatch/summary.json": "8dee391024fdeb1719487e99353f67e018495ed7d913a0c061dd044e0d751e0c"
+  }
+}

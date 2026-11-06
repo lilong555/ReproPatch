@@ -1,0 +1,12 @@
+{
+  "command": [
+    "docker",
+    "image",
+    "inspect",
+    "repropatch-runtime-evidence:20261106"
+  ],
+  "started_at": "2026-11-06T06:32:44.851515+00:00",
+  "returncode": 0,
+  "stdout": "[\n    {\n        \"Architecture\": \"amd64\",\n        \"Config\": {\n            \"Cmd\": [\n                \"/bin/bash\"\n            ],\n            \"Env\": [\n                \"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n                \"LANG=C.UTF-8\",\n                \"LC_ALL=C.UTF-8\"\n            ],\n            \"Labels\": {\n                \"org.opencontainers.image.version\": \"24.04\"\n            },\n            \"User\": \"65534:65534\",\n            \"WorkingDir\": \"/build\"\n        },\n        \"Created\": \"2026-11-06T14:30:55.850557947+08:00\",\n        \"Descriptor\": {\n            \"digest\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\",\n            \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n            \"size\": 965\n        },\n        \"Id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\",\n        \"Metadata\": {\n            \"LastTagTime\": \"2026-11-06T06:30:56.188392215Z\"\n        },\n        \"Os\": \"linux\",\n        \"Parent\": \"sha256:f71a4e84e51e90eaf0a1eb70502e9b4850a601f4972ea4bcf8ec07df11a4104e\",\n        \"RepoDigests\": [\n            \"repropatch-runtime-evidence@sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\"\n        ],\n        \"RepoTags\": [\n            \"repropatch-runtime-evidence:20261106\"\n        ],\n        \"RootFS\": {\n            \"Layers\": [\n                \"sha256:bec87777bc2fb2edcdf9af11df1531469e7df911309c1413082b18fcb8610278\",\n                \"sha256:72dc76b4336f0a97d7a199988ee23bab379a9d6c604efcd0446f82c80673bd6f\",\n                \"sha256:2fc7919265b10ee1db407fa60eda6fb14ffea4ad1e3bbe18a8c3e19336802a4a\"\n            ],\n            \"Type\": \"layers\"\n        },\n        \"Size\": 173094321\n    }\n]\n",
+  "stderr": ""
+}

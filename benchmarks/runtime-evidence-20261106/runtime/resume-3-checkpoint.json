@@ -1,0 +1,51 @@
+{
+  "baseline": {
+    "path": "evidence/2cb7570709854ee9b153332bda8813b0/evaluation.json",
+    "sha256": "a38c41b7a6e3c45e03aaf686ea1aa10d60ed50a76dedb1decbecd78fe463790d",
+    "size_bytes": 38489
+  },
+  "boundary": "model_input_ready",
+  "checkpoint_id": 4,
+  "counters": {
+    "steps_used": 3,
+    "tool_calls_admitted": 3
+  },
+  "deadline_at": "2026-11-06T06:48:25.692828+00:00",
+  "input_fingerprints": {
+    "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+    "configuration": {
+      "path": "execution-config.json",
+      "sha256": "d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b",
+      "size_bytes": 3950
+    },
+    "harness_version": "0.4.0",
+    "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+    "implementation_sha256": "739bc79a476a11035ef1a1417ce5cce4f59e7cb0e14ff5a8aca96dceb80d210e",
+    "instructions_sha256": "bdce77253a4458aff13d797b90d2c28fbf355e53b1df6ddbba77e6dd80292e66",
+    "python": "3.12.3",
+    "sdk_versions": {
+      "openai": "3.35.1",
+      "openai-agents": "0.24.0"
+    },
+    "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+    "tools_sha256": "0b6d579abe3082b62c6d639b2c2f5480aaf0c2df4285de7fe01d6d570258084e"
+  },
+  "native_next_input": {
+    "path": "checkpoints/4/next-input.json",
+    "sha256": "ae6d2f1b3973e7de013309ee3cd36d6c33cac3b1443d890f3c5a0df46fd8fb0e",
+    "size_bytes": 10488
+  },
+  "patch": {
+    "path": "checkpoints/4/patch.diff",
+    "sha256": "99bee26c8894e0b46d04928cfc018c19a804784dd83aa25927c3f72a25e911fe",
+    "size_bytes": 467
+  },
+  "schema_version": 1,
+  "source_manifest": {
+    "path": "checkpoints/4/source-manifest.json",
+    "sha256": "6c3754f64691092e871e488237a787ebd8105ad5ba02d511b0aa205130157985",
+    "size_bytes": 591
+  },
+  "source_tree_sha256": "4b0c6c1b2392b40fcbc17d179e2bcabebf68104d5ac28b7e5b4e9a7e363213ea",
+  "step_id": 3
+}

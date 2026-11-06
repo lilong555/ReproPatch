@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "run_id": "5de8aa29bd394c3b8fa434c56b3ba382",
+  "task_id": "negative-maximum-demo-recovery",
+  "input_mode": "run",
+  "state": "INTERRUPTED",
+  "outcome": null,
+  "reason_code": null,
+  "status": "interrupted",
+  "paused": true,
+  "checkpoint": {
+    "checkpoint_id": 4,
+    "manifest": {
+      "path": "checkpoints/4/manifest.json",
+      "sha256": "918a2f0b9fb94c6c0c8e0a025f99b588370364fe967650c78acd577455e570a8",
+      "size_bytes": 1651
+    }
+  },
+  "artifact_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3/runs/recovery/5de8aa29bd394c3b8fa434c56b3ba382",
+  "engine": {
+    "api_base": null,
+    "kind": "fake",
+    "model_name": null,
+    "use_env_proxy": false,
+    "versions": {
+      "openai": "3.35.1",
+      "openai-agents": "0.24.0"
+    }
+  },
+  "workspace_directory": "/home/azureuser/runtime-evidence-20261106/runs2/resume-3/workspaces/recovery/5de8aa29bd394c3b8fa434c56b3ba382",
+  "isolated": true,
+  "provenance": {
+    "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+    "configuration": {
+      "path": "execution-config.json",
+      "sha256": "d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b",
+      "size_bytes": 3950
+    },
+    "harness_version": "0.4.0",
+    "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+    "implementation_sha256": "739bc79a476a11035ef1a1417ce5cce4f59e7cb0e14ff5a8aca96dceb80d210e",
+    "instructions_sha256": "bdce77253a4458aff13d797b90d2c28fbf355e53b1df6ddbba77e6dd80292e66",
+    "python": "3.12.3",
+    "sdk_versions": {
+      "openai": "3.35.1",
+      "openai-agents": "0.24.0"
+    },
+    "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+    "tools_sha256": "0b6d579abe3082b62c6d639b2c2f5480aaf0c2df4285de7fe01d6d570258084e"
+  },
+  "agent": {
+    "agent_stop_reason": null,
+    "steps_used": 3,
+    "tool_calls_used": 3,
+    "http_attempts": 0
+  },
+  "usage": {
+    "input_tokens": null,
+    "known_tokens": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0
+    },
+    "output_tokens": null,
+    "synthetic": true,
+    "total_tokens": null,
+    "unknown_turns": 3
+  },
+  "cleanup": {
+    "active_code_stopped": true,
+    "errors": [],
+    "workspace_retained": true
+  },
+  "deadline_at": "2026-11-06T06:51:46.575237+00:00",
+  "events_last_seq": 59,
+  "trace": {
+    "path": "events.jsonl",
+    "sha256": "fc01e69935bb56c653d269334cfdb137987eaf1d1b41e7ac92b956c5ed94535b",
+    "size_bytes": 38828
+  },
+  "artifacts_complete": true,
+  "evidence_errors": [],
+  "command_error": null
+}

@@ -1,0 +1,29 @@
+{
+  "methods": {
+    "search_code": {
+      "queries": 12,
+      "utf8_return_bytes": 6419,
+      "results": 59,
+      "targets_covered": 12,
+      "truncated_queries": 0,
+      "previews_at_limit": 0,
+      "queries_with_parse_notes": 0
+    },
+    "definitions": {
+      "queries": 12,
+      "utf8_return_bytes": 42518,
+      "results": 59,
+      "targets_covered": 11,
+      "truncated_queries": 0,
+      "previews_at_limit": 14,
+      "queries_with_parse_notes": 12
+    }
+  },
+  "timing_medians_seconds": {
+    "initial_index": 0.014131949,
+    "same_source_cache": 0.00051745
+  },
+  "invalidation": true,
+  "pairwise_equal_responses": true,
+  "restored_input_hashes_match": true
+}

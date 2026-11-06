@@ -1,0 +1,52 @@
+{
+  "symbol": "basic_cstring_view",
+  "method": "search_code",
+  "utf8_return_bytes": 743,
+  "results": 7,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "5f4adc5454676214e81f34a13371c5e9aedff7f2a6328411bc79cbe8145a717b",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 91,
+        "text": " * | cstring_view  | basic_cstring_view<char>    |"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 93,
+        "text": " * | wcstring_view | basic_cstring_view<wchar_t> |"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 98,
+        "text": "template <typename Char> class basic_cstring_view {"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 104,
+        "text": "  basic_cstring_view(const Char* s) : data_(s) {}"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 107,
+        "text": "  basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 113,
+        "text": "using cstring_view = basic_cstring_view<char>;"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 114,
+        "text": "using wcstring_view = basic_cstring_view<wchar_t>;"
+      }
+    ],
+    "truncated": false
+  }
+}

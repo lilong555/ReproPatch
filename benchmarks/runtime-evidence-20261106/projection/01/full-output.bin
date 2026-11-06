@@ -1,0 +1,603 @@
+<returncode>8</returncode>
+<output>
+include/fmt/core.h-1073-template <typename T> auto get_iterator(buffer<T>& buf) -> buffer_appender<T> {
+include/fmt/core.h-1074-  return buffer_appender<T>(buf);
+include/fmt/core.h-1075-}
+include/fmt/core.h-1076-
+include/fmt/core.h-1077-template <typename T, typename Char = char, typename Enable = void>
+include/fmt/core.h:1078:struct fallback_formatter {
+include/fmt/core.h:1079:  fallback_formatter() = delete;
+include/fmt/core.h-1080-};
+include/fmt/core.h-1081-
+include/fmt/core.h:1082:// Specifies if T has an enabled fallback_formatter specialization.
+include/fmt/core.h-1083-template <typename T, typename Char>
+include/fmt/core.h:1084:using has_fallback_formatter =
+include/fmt/core.h-1085-#ifdef FMT_DEPRECATED_OSTREAM
+include/fmt/core.h:1086:    std::is_constructible<fallback_formatter<T, Char>>;
+include/fmt/core.h-1087-#else
+include/fmt/core.h-1088-    std::false_type;
+include/fmt/core.h-1089-#endif
+include/fmt/core.h-1090-
+include/fmt/core.h-1091-struct view {};
+--
+include/fmt/core.h-1247-    // `printf_formatter<T>` for `printf`.
+include/fmt/core.h-1248-    custom.format = format_custom_arg<
+include/fmt/core.h-1249-        value_type,
+include/fmt/core.h-1250-        conditional_t<has_formatter<value_type, Context>::value,
+include/fmt/core.h-1251-                      typename Context::template formatter_type<value_type>,
+include/fmt/core.h:1252:                      fallback_formatter<value_type, char_type>>>;
+include/fmt/core.h-1253-  }
+include/fmt/core.h-1254-  value(unformattable);
+include/fmt/core.h-1255-  value(unformattable_char);
+include/fmt/core.h-1256-  value(unformattable_const);
+include/fmt/core.h-1257-  value(unformattable_pointer);
+--
+include/fmt/core.h-1371-  }
+include/fmt/core.h-1372-  template <typename T,
+include/fmt/core.h-1373-            FMT_ENABLE_IF(
+include/fmt/core.h-1374-                std::is_convertible<T, basic_string_view<char_type>>::value &&
+include/fmt/core.h-1375-                !is_string<T>::value && !has_formatter<T, Context>::value &&
+include/fmt/core.h:1376:                !has_fallback_formatter<T, char_type>::value)>
+include/fmt/core.h-1377-  FMT_CONSTEXPR FMT_INLINE auto map(const T& val)
+include/fmt/core.h-1378-      -> basic_string_view<char_type> {
+include/fmt/core.h-1379-    return basic_string_view<char_type>(val);
+include/fmt/core.h-1380-  }
+include/fmt/core.h-1381-  template <typename T,
+include/fmt/core.h-1382-            FMT_ENABLE_IF(
+include/fmt/core.h-1383-                std::is_convertible<T, std_string_view<char_type>>::value &&
+include/fmt/core.h-1384-                !std::is_convertible<T, basic_string_view<char_type>>::value &&
+include/fmt/core.h-1385-                !is_string<T>::value && !has_formatter<T, Context>::value &&
+include/fmt/core.h:1386:                !has_fallback_formatter<T, char_type>::value)>
+include/fmt/core.h-1387-  FMT_CONSTEXPR FMT_INLINE auto map(const T& val)
+include/fmt/core.h-1388-      -> basic_string_view<char_type> {
+include/fmt/core.h-1389-    return std_string_view<char_type>(val);
+include/fmt/core.h-1390-  }
+include/fmt/core.h-1391-
+--
+include/fmt/core.h-1419-
+include/fmt/core.h-1420-  template <typename T,
+include/fmt/core.h-1421-            FMT_ENABLE_IF(
+include/fmt/core.h-1422-                std::is_enum<T>::value&& std::is_convertible<T, int>::value &&
+include/fmt/core.h-1423-                !has_formatter<T, Context>::value &&
+include/fmt/core.h:1424:                !has_fallback_formatter<T, char_type>::value)>
+include/fmt/core.h-1425-  FMT_CONSTEXPR FMT_INLINE auto map(const T& val)
+include/fmt/core.h-1426-      -> decltype(std::declval<arg_mapper>().map(
+include/fmt/core.h-1427-          static_cast<underlying_t<T>>(val))) {
+include/fmt/core.h-1428-    return map(static_cast<underlying_t<T>>(val));
+include/fmt/core.h-1429-  }
+--
+include/fmt/core.h-1437-
+include/fmt/core.h-1438-  template <typename T, typename U = remove_cvref_t<T>>
+include/fmt/core.h-1439-  struct formattable
+include/fmt/core.h-1440-      : bool_constant<has_const_formatter<U, Context>() ||
+include/fmt/core.h-1441-                      !std::is_const<remove_reference_t<T>>::value ||
+include/fmt/core.h:1442:                      has_fallback_formatter<U, char_type>::value> {};
+include/fmt/core.h-1443-
+include/fmt/core.h-1444-#if (FMT_MSC_VERSION != 0 && FMT_MSC_VERSION < 1910) || \
+include/fmt/core.h-1445-    FMT_ICC_VERSION != 0 || defined(__NVCC__)
+include/fmt/core.h-1446-  // Workaround a bug in MSVC and Intel (Issue 2746).
+include/fmt/core.h-1447-  template <typename T> FMT_CONSTEXPR FMT_INLINE auto do_map(T&& val) -> T& {
+--
+include/fmt/core.h-1462-            FMT_ENABLE_IF(!is_string<U>::value && !is_char<U>::value &&
+include/fmt/core.h-1463-                          !std::is_array<U>::value &&
+include/fmt/core.h-1464-                          !std::is_pointer<U>::value &&
+include/fmt/core.h-1465-                          !has_format_as<U>::value &&
+include/fmt/core.h-1466-                          (has_formatter<U, Context>::value ||
+include/fmt/core.h:1467:                           has_fallback_formatter<U, char_type>::value))>
+include/fmt/core.h-1468-  FMT_CONSTEXPR FMT_INLINE auto map(T&& val)
+include/fmt/core.h-1469-      -> decltype(this->do_map(std::forward<T>(val))) {
+include/fmt/core.h-1470-    return do_map(std::forward<T>(val));
+include/fmt/core.h-1471-  }
+include/fmt/core.h-1472-
+--
+include/fmt/core.h-1800-template <typename T, typename Char = char>
+include/fmt/core.h-1801-using is_formattable = bool_constant<
+include/fmt/core.h-1802-    !std::is_base_of<detail::unformattable,
+include/fmt/core.h-1803-                     decltype(detail::arg_mapper<buffer_context<Char>>().map(
+include/fmt/core.h-1804-                         std::declval<T>()))>::value &&
+include/fmt/core.h:1805:    !detail::has_fallback_formatter<T, Char>::value>;
+include/fmt/core.h-1806-
+include/fmt/core.h-1807-/**
+include/fmt/core.h-1808-  \rst
+include/fmt/core.h-1809-  An array of references to arguments. It can be implicitly converted into
+include/fmt/core.h-1810-  `~fmt::basic_format_args` for passing into type-erased formatting functions
+--
+include/fmt/core.h-2684-      mapped_type_constant<T, context>::value != type::custom_type,
+include/fmt/core.h-2685-      decltype(arg_mapper<context>().map(std::declval<const T&>())),
+include/fmt/core.h-2686-      stripped_type>;
+include/fmt/core.h-2687-  auto f = conditional_t<has_formatter<mapped_type, context>::value,
+include/fmt/core.h-2688-                         formatter<mapped_type, char_type>,
+include/fmt/core.h:2689:                         fallback_formatter<stripped_type, char_type>>();
+include/fmt/core.h-2690-  return f.parse(ctx);
+include/fmt/core.h-2691-}
+include/fmt/core.h-2692-
+include/fmt/core.h-2693-template <typename ErrorHandler>
+include/fmt/core.h-2694-FMT_CONSTEXPR void check_int_type_spec(presentation_type type,
+--
+include/fmt/format.h-3342-    -> enable_if_t<mapped_type_constant<T, Context>::value == type::custom_type,
+include/fmt/format.h-3343-                   OutputIt> {
+include/fmt/format.h-3344-  using formatter_type =
+include/fmt/format.h-3345-      conditional_t<has_formatter<T, Context>::value,
+include/fmt/format.h-3346-                    typename Context::template formatter_type<T>,
+include/fmt/format.h:3347:                    fallback_formatter<T, Char>>;
+include/fmt/format.h-3348-  auto ctx = Context(out, {}, {});
+include/fmt/format.h-3349-  return formatter_type().format(value, ctx);
+include/fmt/format.h-3350-}
+include/fmt/format.h-3351-
+include/fmt/format.h-3352-// An argument visitor that formats the argument and writes it via the output
+--
+include/fmt/format.h-3941-  using formatter_type =
+include/fmt/format.h-3942-      conditional_t<is_formattable<value_type, Char>::value,
+include/fmt/format.h-3943-                    formatter<remove_cvref_t<decltype(map(
+include/fmt/format.h-3944-                                  std::declval<const value_type&>()))>,
+include/fmt/format.h-3945-                              Char>,
+include/fmt/format.h:3946:                    detail::fallback_formatter<value_type, Char>>;
+include/fmt/format.h-3947-
+include/fmt/format.h-3948-  formatter_type value_formatter_;
+include/fmt/format.h-3949-
+include/fmt/format.h-3950- public:
+include/fmt/format.h-3951-  template <typename ParseContext>
+--
+include/fmt/ranges.h-357-using range_formatter_type = conditional_t<
+include/fmt/ranges.h-358-    is_formattable<Element, Char>::value,
+include/fmt/ranges.h-359-    formatter<remove_cvref_t<decltype(range_mapper<buffer_context<Char>>{}.map(
+include/fmt/ranges.h-360-                  std::declval<Element>()))>,
+include/fmt/ranges.h-361-              Char>,
+include/fmt/ranges.h:362:    fallback_formatter<Element, Char>>;
+include/fmt/ranges.h-363-
+include/fmt/ranges.h-364-template <typename R>
+include/fmt/ranges.h-365-using maybe_const_range =
+include/fmt/ranges.h-366-    conditional_t<has_const_begin_end<R>::value, const R, R>;
+include/fmt/ranges.h-367-}  // namespace detail
+--
+include/fmt/ranges.h-374-// Workaround a bug in MSVC 2019 and earlier.
+include/fmt/ranges.h-375-#if !FMT_MSC_VERSION
+include/fmt/ranges.h-376-        &&
+include/fmt/ranges.h-377-        (is_formattable<detail::uncvref_type<detail::maybe_const_range<R>>,
+include/fmt/ranges.h-378-                        Char>::value ||
+include/fmt/ranges.h:379:         detail::has_fallback_formatter<
+include/fmt/ranges.h-380-             detail::uncvref_type<detail::maybe_const_range<R>>, Char>::value)
+include/fmt/ranges.h-381-#endif
+include/fmt/ranges.h-382-        >> {
+include/fmt/ranges.h-383-
+template <typename It, typename Sentinel, typename Char>
+struct formatter<join_view<It, Sentinel, Char>, Char> {
+ private:
+  using value_type =
+#ifdef __cpp_lib_ranges
+      std::iter_value_t<It>;
+#else
+      typename std::iterator_traits<It>::value_type;
+#endif
+  using context = buffer_context<Char>;
+  using mapper = detail::arg_mapper<context>;
+
+  template <typename T, FMT_ENABLE_IF(has_formatter<T, context>::value)>
+  static auto map(const T& value) -> const T& {
+    return value;
+  }
+  template <typename T, FMT_ENABLE_IF(!has_formatter<T, context>::value)>
+  static auto map(const T& value) -> decltype(mapper().map(value)) {
+    return mapper().map(value);
+  }
+
+  using formatter_type =
+      conditional_t<is_formattable<value_type, Char>::value,
+                    formatter<remove_cvref_t<decltype(map(
+                                  std::declval<const value_type&>()))>,
+                              Char>,
+                    detail::fallback_formatter<value_type, Char>>;
+
+  formatter_type value_formatter_;
+
+ public:
+  template <typename ParseContext>
+  FMT_CONSTEXPR auto parse(ParseContext& ctx) -> decltype(ctx.begin()) {
+    return value_formatter_.parse(ctx);
+  }
+
+  template <typename FormatContext>
+  auto format(const join_view<It, Sentinel, Char>& value,
+              FormatContext& ctx) const -> decltype(ctx.out()) {
+    auto it = value.begin;
+    auto out = ctx.out();
+    if (it != value.end) {
+      out = value_formatter_.format(map(*it), ctx);
+      ++it;
+      while (it != value.end) {
+        out = detail::copy_str<Char>(value.sep.begin(), value.sep.end(), out);
+Internal ctest changing into directory: /build
+Test project /build
+      Start  1: args-test
+Could not find executable /build/bin/args-test
+Looked in the following places:
+/build/bin/args-test
+/build/bin/args-test
+/build/bin/Release/args-test
+/build/bin/Release/args-test
+/build/bin/Debug/args-test
+/build/bin/Debug/args-test
+/build/bin/MinSizeRel/args-test
+/build/bin/MinSizeRel/args-test
+/build/bin/RelWithDebInfo/args-test
+/build/bin/RelWithDebInfo/args-test
+/build/bin/Deployment/args-test
+/build/bin/Deployment/args-test
+/build/bin/Development/args-test
+/build/bin/Development/args-test
+build/bin/args-test
+build/bin/args-test
+build/bin/Release/args-test
+build/bin/Release/args-test
+build/bin/Debug/args-test
+build/bin/Debug/args-test
+build/bin/MinSizeRel/args-test
+build/bin/MinSizeRel/args-test
+build/bin/RelWithDebInfo/args-test
+build/bin/RelWithDebInfo/args-test
+build/bin/Deployment/args-test
+build/bin/Deployment/args-test
+build/bin/Development/args-test
+build/bin/Development/args-test
+ 1/20 Test  #1: ar
+[完整工具输出：/build/repropatch-tool-output-0009.log；33646 bytes；sha256=f49325d6b4ce51eb546128b5e2b90022968f0f28541cbccd25faf5456a6d27ef]
+..........***Not Run   0.00 sec
+      Start 10: compile-test
+Unable to find executable: /build/bin/compile-test
+Could not find executable /build/bin/compile-test
+Looked in the following places:
+/build/bin/compile-test
+/build/bin/compile-test
+/build/bin/Release/compile-test
+/build/bin/Release/compile-test
+/build/bin/Debug/compile-test
+/build/bin/Debug/compile-test
+/build/bin/MinSizeRel/compile-test
+/build/bin/MinSizeRel/compile-test
+/build/bin/RelWithDebInfo/compile-test
+/build/bin/RelWithDebInfo/compile-test
+/build/bin/Deployment/compile-test
+/build/bin/Deployment/compile-test
+/build/bin/Development/compile-test
+/build/bin/Development/compile-test
+build/bin/compile-test
+build/bin/compile-test
+build/bin/Release/compile-test
+build/bin/Release/compile-test
+build/bin/Debug/compile-test
+build/bin/Debug/compile-test
+build/bin/MinSizeRel/compile-test
+build/bin/MinSizeRel/compile-test
+build/bin/RelWithDebInfo/compile-test
+build/bin/RelWithDebInfo/compile-test
+build/bin/Deployment/compile-test
+build/bin/Deployment/compile-test
+build/bin/Development/compile-test
+build/bin/Development/compile-test
+10/20 Test #10: compile-test .....................***Not Run   0.00 sec
+      Start 11: compile-fp-test
+Could not find executable /build/bin/compile-fp-test
+Looked in the following places:
+/build/bin/compile-fp-test
+/build/bin/compile-fp-test
+/build/bin/Release/compile-fp-test
+/build/bin/Release/compile-fp-test
+/build/bin/Debug/compile-fp-test
+/build/bin/Debug/compile-fp-test
+/build/bin/MinSizeRel/compile-fp-test
+/build/bin/MinSizeRel/compile-fp-test
+/build/bin/RelWithDebInfo/compile-fp-test
+/build/bin/RelWithDebInfo/compile-fp-test
+/build/bin/Deployment/compile-fp-test
+/build/bin/Deployment/compile-fp-test
+/build/bin/Development/compile-fp-test
+/build/bin/Development/compile-fp-test
+build/bin/compile-fp-test
+build/bin/compile-fp-test
+build/bin/Release/compile-fp-test
+build/bin/Release/compile-fp-test
+build/bin/Debug/compile-fp-test
+build/bin/Debug/compile-fp-test
+build/bin/MinSizeRel/compile-fp-test
+build/bin/MinSizeRel/compile-fp-test
+build/bin/RelWithDebInfo/compile-fp-test
+build/bin/RelWithDebInfo/compile-fp-test
+build/bin/Deployment/compile-fp-test
+build/bin/Deployment/compile-fp-test
+build/bin/Development/compile-fp-test
+build/bin/Development/compile-fp-test
+11/20 Test #11: compile-fp-test ..................***Not Run   0.00 sec
+Unable to find executable: /build/bin/compile-fp-test
+      Start 12: printf-test
+Could not find executable /build/bin/printf-test
+Looked in the following places:
+/build/bin/printf-test
+/build/bin/printf-test
+/build/bin/Release/printf-test
+/build/bin/Release/printf-test
+/build/bin/Debug/printf-test
+/build/bin/Debug/printf-test
+/build/bin/MinSizeRel/printf-test
+/build/bin/MinSizeRel/printf-test
+/build/bin/RelWithDebInfo/printf-test
+/build/bin/RelWithDebInfo/printf-test
+/build/bin/Deployment/printf-test
+/build/bin/Deployment/printf-test
+/build/bin/Development/printf-test
+/build/bin/Development/printf-test
+build/bin/printf-test
+build/bin/printf-test
+build/bin/Release/printf-test
+build/bin/Release/printf-test
+build/bin/Debug/printf-test
+build/bin/Debug/printf-test
+build/bin/MinSizeRel/printf-test
+build/bin/MinSizeRel/printf-test
+build/bin/RelWithDebInfo/printf-test
+build/bin/RelWithDebInfo/printf-test
+build/bin/Deployment/printf-test
+build/bin/Deployment/printf-test
+build/bin/Development/printf-test
+build/bin/Development/printf-test
+Unable to find executable: /build/bin/printf-test
+12/20 Test #12: printf-test ......................***Not Run   0.00 sec
+      Start 13: ranges-test
+13/20 Test #13: ranges-test ......................   Passed    0.10 sec
+      Start 14: scan-test
+Could not find executable /build/bin/scan-test
+Looked in the following places:
+/build/bin/scan-test
+/build/bin/scan-test
+/build/bin/Release/scan-test
+/build/bin/Release/scan-test
+/build/bin/Debug/scan-test
+/build/bin/Debug/scan-test
+/build/bin/MinSizeRel/scan-test
+/build/bin/MinSizeRel/scan-test
+/build/bin/RelWithDebInfo/scan-test
+/build/bin/RelWithDebInfo/scan-test
+/build/bin/Deployment/scan-test
+/build/bin/Deployment/scan-test
+/build/bin/Development/scan-test
+/build/bin/Development/scan-test
+build/bin/scan-test
+build/bin/scan-test
+build/bin/Release/scan-test
+build/bin/Release/scan-test
+build/bin/Debug/scan-test
+build/bin/Debug/scan-test
+build/bin/MinSizeRel/scan-test
+build/bin/MinSizeRel/scan-test
+build/bin/RelWithDebInfo/scan-test
+build/bin/RelWithDebInfo/scan-test
+build/bin/Deployment/scan-test
+build/bin/Deployment/scan-test
+build/bin/Development/scan-test
+build/bin/Development/scan-test
+14/20 Test #14: scan-test ........................***Not Run   0.00 sec
+      Start 15: std-test
+Unable to find executable: /build/bin/scan-test
+Could not find executable /build/bin/std-test
+Looked in the following places:
+/build/bin/std-test
+/build/bin/std-test
+/build/bin/Release/std-test
+/build/bin/Release/std-test
+/build/bin/Debug/std-test
+/build/bin/Debug/std-test
+/build/bin/MinSizeRel/std-test
+/build/bin/MinSizeRel/std-test
+/build/bin/RelWithDebInfo/std-test
+/build/bin/RelWithDebInfo/std-test
+/build/bin/Deployment/std-test
+/build/bin/Deployment/std-test
+/build/bin/Development/std-test
+/build/bin/Development/std-test
+build/bin/std-test
+build/bin/std-test
+build/bin/Release/std-test
+build/bin/Release/std-test
+build/bin/Debug/std-test
+build/bin/Debug/std-test
+build/bin/MinSizeRel/std-test
+build/bin/MinSizeRel/std-test
+build/bin/RelWithDebInfo/std-test
+build/bin/RelWithDebInfo/std-test
+build/bin/Deployment/std-test
+build/bin/Deployment/std-test
+build/bin/Development/std-test
+build/bin/Development/std-test
+Unable to find executable: /build/bin/std-test
+15/20 Test #15: std-test .........................***Not Run   0.00 sec
+      Start 16: unicode-test
+Could not find executable /build/bin/unicode-test
+Looked in the following places:
+/build/bin/unicode-test
+/build/bin/unicode-test
+/build/bin/Release/unicode-test
+/build/bin/Release/unicode-test
+/build/bin/Debug/unicode-test
+/build/bin/Debug/unicode-test
+/build/bin/MinSizeRel/unicode-test
+/build/bin/MinSizeRel/unicode-test
+/build/bin/RelWithDebInfo/unicode-test
+/build/bin/RelWithDebInfo/unicode-test
+/build/bin/Deployment/unicode-test
+/build/bin/Deployment/unicode-test
+/build/bin/Development/unicode-test
+/build/bin/Development/unicode-test
+build/bin/unicode-test
+build/bin/unicode-test
+build/bin/Release/unicode-test
+build/bin/Release/unicode-test
+build/bin/Debug/unicode-test
+build/bin/Debug/unicode-test
+build/bin/MinSizeRel/unicode-test
+build/bin/MinSizeRel/unicode-test
+build/bin/RelWithDebInfo/unicode-test
+build/bin/RelWithDebInfo/unicode-test
+build/bin/Deployment/unicode-test
+build/bin/Deployment/unicode-test
+build/bin/Development/unicode-test
+build/bin/Development/unicode-test
+Unable to find executable: /build/bin/unicode-test
+16/20 Test #16: unicode-test .....................***Not Run   0.00 sec
+      Start 17: xchar-test
+Could not find executable /build/bin/xchar-test
+Looked in the following places:
+/build/bin/xchar-test
+/build/bin/xchar-test
+/build/bin/Release/xchar-test
+/build/bin/Release/xchar-test
+/build/bin/Debug/xchar-test
+/build/bin/Debug/xchar-test
+/build/bin/MinSizeRel/xchar-test
+/build/bin/MinSizeRel/xchar-test
+/build/bin/RelWithDebInfo/xchar-test
+/build/bin/RelWithDebInfo/xchar-test
+/build/bin/Deployment/xchar-test
+/build/bin/Deployment/xchar-test
+/build/bin/Development/xchar-test
+/build/bin/Development/xchar-test
+build/bin/xchar-test
+build/bin/xchar-test
+build/bin/Release/xchar-test
+build/bin/Release/xchar-test
+build/bin/Debug/xchar-test
+build/bin/Debug/xchar-test
+build/bin/MinSizeRel/xchar-test
+build/bin/MinSizeRel/xchar-test
+build/bin/RelWithDebInfo/xchar-test
+build/bin/RelWithDebInfo/xchar-test
+build/bin/Deployment/xchar-test
+build/bin/Deployment/xchar-test
+build/bin/Development/xchar-test
+build/bin/Development/xchar-test
+Unable to find executable: /build/bin/xchar-test
+17/20 Test #17: xchar-test .......................***Not Run   0.00 sec
+      Start 18: enforce-checks-test
+Unable to find executable: /build/bin/enforce-checks-test
+Could not find executable /build/bin/enforce-checks-test
+Looked in the following places:
+/build/bin/enforce-checks-test
+/build/bin/enforce-checks-test
+/build/bin/Release/enforce-checks-test
+/build/bin/Release/enforce-checks-test
+/build/bin/Debug/enforce-checks-test
+/build/bin/Debug/enforce-checks-test
+/build/bin/MinSizeRel/enforce-checks-test
+/build/bin/MinSizeRel/enforce-checks-test
+/build/bin/RelWithDebInfo/enforce-checks-test
+/build/bin/RelWithDebInfo/enforce-checks-test
+/build/bin/Deployment/enforce-checks-test
+/build/bin/Deployment/enforce-checks-test
+/build/bin/Development/enforce-checks-test
+/build/bin/Development/enforce-checks-test
+build/bin/enforce-checks-test
+build/bin/enforce-checks-test
+build/bin/Release/enforce-checks-test
+build/bin/Release/enforce-checks-test
+build/bin/Debug/enforce-checks-test
+build/bin/Debug/enforce-checks-test
+build/bin/MinSizeRel/enforce-checks-test
+build/bin/MinSizeRel/enforce-checks-test
+build/bin/RelWithDebInfo/enforce-checks-test
+build/bin/RelWithDebInfo/enforce-checks-test
+build/bin/Deployment/enforce-checks-test
+build/bin/Deployment/enforce-checks-test
+build/bin/Development/enforce-checks-test
+build/bin/Development/enforce-checks-test
+18/20 Test #18: enforce-checks-test ..............***Not Run   0.00 sec
+      Start 19: posix-mock-test
+Could not find executable /build/bin/posix-mock-test
+Looked in the following places:
+/build/bin/posix-mock-test
+/build/bin/posix-mock-test
+/build/bin/Release/posix-mock-test
+/build/bin/Release/posix-mock-test
+/build/bin/Debug/posix-mock-test
+/build/bin/Debug/posix-mock-test
+/build/bin/MinSizeRel/posix-mock-test
+/build/bin/MinSizeRel/posix-mock-test
+/build/bin/RelWithDebInfo/posix-mock-test
+/build/bin/RelWithDebInfo/posix-mock-test
+/build/bin/Deployment/posix-mock-test
+/build/bin/Deployment/posix-mock-test
+/build/bin/Development/posix-mock-test
+/build/bin/Development/posix-mock-test
+build/bin/posix-mock-test
+build/bin/posix-mock-test
+build/bin/Release/posix-mock-test
+build/bin/Release/posix-mock-test
+build/bin/Debug/posix-mock-test
+build/bin/Debug/posix-mock-test
+build/bin/MinSizeRel/posix-mock-test
+build/bin/MinSizeRel/posix-mock-test
+build/bin/RelWithDebInfo/posix-mock-test
+build/bin/RelWithDebInfo/posix-mock-test
+build/bin/Deployment/posix-mock-test
+build/bin/Deployment/posix-mock-test
+build/bin/Development/posix-mock-test
+build/bin/Development/posix-mock-test
+Unable to find executable: /build/bin/posix-mock-test
+19/20 Test #19: posix-mock-test ..................***Not Run   0.00 sec
+      Start 20: os-test
+Could not find executable /build/bin/os-test
+Looked in the following places:
+/build/bin/os-test
+/build/bin/os-test
+/build/bin/Release/os-test
+/build/bin/Release/os-test
+/build/bin/Debug/os-test
+/build/bin/Debug/os-test
+/build/bin/MinSizeRel/os-test
+/build/bin/MinSizeRel/os-test
+/build/bin/RelWithDebInfo/os-test
+/build/bin/RelWithDebInfo/os-test
+/build/bin/Deployment/os-test
+/build/bin/Deployment/os-test
+/build/bin/Development/os-test
+/build/bin/Development/os-test
+build/bin/os-test
+build/bin/os-test
+build/bin/Release/os-test
+build/bin/Release/os-test
+build/bin/Debug/os-test
+build/bin/Debug/os-test
+build/bin/MinSizeRel/os-test
+build/bin/MinSizeRel/os-test
+build/bin/RelWithDebInfo/os-test
+build/bin/RelWithDebInfo/os-test
+build/bin/Deployment/os-test
+build/bin/Deployment/os-test
+build/bin/Development/os-test
+build/bin/Development/os-test
+20/20 Test #20: os-test ..........................Unable to find executable: /build/bin/os-test
+***Not Run   0.00 sec
+
+5% tests passed, 19 tests failed out of 20
+
+Total Test time (real) =   0.10 sec
+
+The following tests FAILED:
+	  1 - args-test (Not Run)
+	  2 - assert-test (Not Run)
+	  3 - chrono-test (Not Run)
+	  4 - color-test (Not Run)
+	  5 - core-test (Not Run)
+	  6 - gtest-extra-test (Not Run)
+	  7 - format-test (Not Run)
+	  8 - format-impl-test (Not Run)
+	  9 - ostream-test (Not Run)
+	 10 - compile-test (Not Run)
+	 11 - compile-fp-test (Not Run)
+	 12 - printf-test (Not Run)
+	 14 - scan-test (Not Run)
+	 15 - std-test (Not Run)
+	 16 - unicode-test (Not Run)
+	 17 - xchar-test (Not Run)
+	 18 - enforce-checks-test (Not Run)
+	 19 - posix-mock-test (Not Run)
+	 20 - os-test (Not Run)
+Errors while running CTest
+</output>

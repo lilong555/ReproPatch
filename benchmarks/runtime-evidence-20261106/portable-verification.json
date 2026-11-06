@@ -1,0 +1,1064 @@
+{
+  "input_hash_checks": 176,
+  "historical_attempts": 95,
+  "requests": 1764,
+  "unissued_presend": 11,
+  "input_tokens": 38606124,
+  "output_tokens": 866919,
+  "runtime_sqlite_integrity_n": 9,
+  "runtime_complete_n": 9,
+  "projection_roundtrip_n": 6,
+  "new_paid_requests": 0,
+  "original_output_bytes": 174602,
+  "projected_output_bytes": 147456,
+  "attempts": [
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/full/first",
+      "requests": 13,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 159110,
+      "output_tokens": 4255
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/mini/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 256140,
+      "output_tokens": 6704
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/no-checks/first",
+      "requests": 20,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 262576,
+      "output_tokens": 4379
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/shell-only/first",
+      "requests": 18,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 470154,
+      "output_tokens": 7652
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/full/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 456658,
+      "output_tokens": 9368
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/mini/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 510311,
+      "output_tokens": 16571
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/no-checks/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 322604,
+      "output_tokens": 5616
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/shell-only/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 629426,
+      "output_tokens": 14370
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/full/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 250973,
+      "output_tokens": 5744
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/mini/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 271987,
+      "output_tokens": 6939
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/no-checks/first",
+      "requests": 22,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 286057,
+      "output_tokens": 5607
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/shell-only/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 473652,
+      "output_tokens": 9681
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/full/first",
+      "requests": 11,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 132869,
+      "output_tokens": 947
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/mini/first",
+      "requests": 11,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 186666,
+      "output_tokens": 3450
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/no-checks/first",
+      "requests": 9,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 87947,
+      "output_tokens": 1157
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/shell-only/first",
+      "requests": 13,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 317168,
+      "output_tokens": 2642
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/full/first",
+      "requests": 20,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 277280,
+      "output_tokens": 4580
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/mini/first",
+      "requests": 18,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 418674,
+      "output_tokens": 10709
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/no-checks/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 400004,
+      "output_tokens": 9538
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/shell-only/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 295713,
+      "output_tokens": 9016
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/full/first",
+      "requests": 9,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 68560,
+      "output_tokens": 1233
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/mini/first",
+      "requests": 12,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 140078,
+      "output_tokens": 3562
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/no-checks/first",
+      "requests": 10,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 82682,
+      "output_tokens": 1592
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/shell-only/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 201706,
+      "output_tokens": 3682
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/full/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 447330,
+      "output_tokens": 7559
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/no-checks/first",
+      "requests": 20,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 352576,
+      "output_tokens": 11020
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/shell-only/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 365997,
+      "output_tokens": 11413
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/full/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 304333,
+      "output_tokens": 7633
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/mini/first",
+      "requests": 21,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 579466,
+      "output_tokens": 15401
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/no-checks/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 383672,
+      "output_tokens": 8632
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/shell-only/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 660140,
+      "output_tokens": 17943
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-1390/codex/first",
+      "requests": 20,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 636966,
+      "output_tokens": 9853
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2310/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 832611,
+      "output_tokens": 9479
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/codex/first",
+      "requests": 21,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 625742,
+      "output_tokens": 7604
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/full/first",
+      "requests": 16,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 177375,
+      "output_tokens": 2608
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/mini/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 233253,
+      "output_tokens": 6784
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/no-checks/first",
+      "requests": 16,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 188417,
+      "output_tokens": 5168
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/shell-only/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 477218,
+      "output_tokens": 6030
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2940/codex/first",
+      "requests": 18,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 566983,
+      "output_tokens": 11671
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3248/codex/first",
+      "requests": 22,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 713690,
+      "output_tokens": 6405
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3260/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 864985,
+      "output_tokens": 11455
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 869085,
+      "output_tokens": 11393
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/full/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 213393,
+      "output_tokens": 4396
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/mini/first",
+      "requests": 11,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 200709,
+      "output_tokens": 7330
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/no-checks/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 205056,
+      "output_tokens": 5403
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/shell-only/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 332502,
+      "output_tokens": 7291
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3713/codex/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 341807,
+      "output_tokens": 9995
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 721519,
+      "output_tokens": 9667
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/full/first",
+      "requests": 22,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 363597,
+      "output_tokens": 3940
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/mini/first",
+      "requests": 18,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 535390,
+      "output_tokens": 10751
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/no-checks/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 338110,
+      "output_tokens": 4904
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/shell-only/first",
+      "requests": 18,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 531653,
+      "output_tokens": 9750
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3750/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 795378,
+      "output_tokens": 11143
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/codex/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 700114,
+      "output_tokens": 19881
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/full/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 398791,
+      "output_tokens": 9703
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/no-checks/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 375519,
+      "output_tokens": 13641
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 715501,
+      "output_tokens": 14066
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/full/first",
+      "requests": 13,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 136617,
+      "output_tokens": 2728
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/mini/first",
+      "requests": 17,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 393784,
+      "output_tokens": 9463
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/no-checks/first",
+      "requests": 21,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 306446,
+      "output_tokens": 8645
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/shell-only/first",
+      "requests": 13,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 265481,
+      "output_tokens": 5057
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 758920,
+      "output_tokens": 22895
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/mini/first",
+      "requests": 23,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 619239,
+      "output_tokens": 25035
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 780052,
+      "output_tokens": 6059
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/full/first",
+      "requests": 10,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 127502,
+      "output_tokens": 1547
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/mini/first",
+      "requests": 11,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 154654,
+      "output_tokens": 3837
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/no-checks/first",
+      "requests": 21,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 269920,
+      "output_tokens": 4182
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/shell-only/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 374423,
+      "output_tokens": 3241
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 811298,
+      "output_tokens": 10826
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/full/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 325998,
+      "output_tokens": 3320
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/mini/first",
+      "requests": 11,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 199161,
+      "output_tokens": 4994
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/no-checks/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 468635,
+      "output_tokens": 5894
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/shell-only/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 374434,
+      "output_tokens": 5724
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3727/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 677481,
+      "output_tokens": 27087
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/codex/first",
+      "requests": 23,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 635520,
+      "output_tokens": 4511
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/full/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 268317,
+      "output_tokens": 1229
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/mini/first",
+      "requests": 18,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 314747,
+      "output_tokens": 4767
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/no-checks/first",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 276383,
+      "output_tokens": 2052
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/shell-only/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 330312,
+      "output_tokens": 3315
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/codex/first",
+      "requests": 24,
+      "unissued": 1,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 613624,
+      "output_tokens": 19680
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/full/first",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 399792,
+      "output_tokens": 13026
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/mini/first",
+      "requests": 21,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 458435,
+      "output_tokens": 25834
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/no-checks/first",
+      "requests": 10,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 87559,
+      "output_tokens": 1996
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/shell-only/first",
+      "requests": 23,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 528671,
+      "output_tokens": 19891
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/codex/first",
+      "requests": 14,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 413935,
+      "output_tokens": 12511
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/full/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 174915,
+      "output_tokens": 6180
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/no-checks/first",
+      "requests": 15,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 171964,
+      "output_tokens": 8203
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/shell-only/first",
+      "requests": 16,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 350525,
+      "output_tokens": 7355
+    },
+    {
+      "attempt_id": "unified-context-continuation-1-20261027/fmtlib__fmt-1361/mini/revalidation-2",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 606972,
+      "output_tokens": 15485
+    },
+    {
+      "attempt_id": "unified-context-continuation-1-20261027/fmtlib__fmt-2292/full/revalidation-2",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 512820,
+      "output_tokens": 16700
+    },
+    {
+      "attempt_id": "unified-context-continuation-2b-20261027/fmtlib__fmt-2292/shell-only/revalidation-3",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 582795,
+      "output_tokens": 25205
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-1361/shell-only/revalidation-1",
+      "requests": 24,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 631097,
+      "output_tokens": 19423
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-2292/no-checks/revalidation-1",
+      "requests": 23,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 446153,
+      "output_tokens": 22842
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-3727/mini/revalidation-1",
+      "requests": 19,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 497367,
+      "output_tokens": 15783
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-493/mini/revalidation-1",
+      "requests": 12,
+      "unissued": 0,
+      "worker_hash_matches": true,
+      "sqlite_integrity": "ok",
+      "input_tokens": 252303,
+      "output_tokens": 11491
+    }
+  ],
+  "runtime_inspections": [
+    {
+      "run_id": "cc6be5e0b63f4396a410c9f05834efb5",
+      "outcome": "ERROR",
+      "reason_code": "MODEL_ERROR",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "40596a264e4449a087a4b1bbe15eb3d4",
+      "outcome": "ERROR",
+      "reason_code": "MODEL_ERROR",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "17259e57b49442ff937f645c4a0f87b0",
+      "outcome": "REJECTED",
+      "reason_code": "FORBIDDEN_PATCH",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "6ca04c78f56d4d478400250f41262b02",
+      "outcome": "ERROR",
+      "reason_code": "MODEL_ERROR",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "7f5853eaa6714f5d9f116074cb34c700",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "caa7d7a93330440dba28689185a129a1",
+      "outcome": "REJECTED",
+      "reason_code": "REGRESSION_FAILED",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "f63b2b300ec34d1da481d5893adf32b0",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "ec91285d26f74e5bb8e1082be000d7d1",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    },
+    {
+      "run_id": "5de8aa29bd394c3b8fa434c56b3ba382",
+      "outcome": "ACCEPTED",
+      "reason_code": "VERIFICATION_PASSED",
+      "evidence_complete": true,
+      "artifacts_complete": true
+    }
+  ],
+  "projections": [
+    {
+      "original_output_bytes": 34806,
+      "projected_output_bytes": 24576,
+      "original_request_bytes": 213133,
+      "projected_request_bytes": 202866,
+      "original_visible_request_bytes": 143232,
+      "projected_visible_request_bytes": 132965,
+      "boundaries_equal": true,
+      "non_output_fields_preserved": true,
+      "attachment_roundtrip": true,
+      "attachment_count": 1,
+      "references": [
+        {
+          "path": "full-output.bin",
+          "sha256": "2e6c9122deaf880fbe3aee8d1bc48782f56b7b41894c8ba75b806866c542b90c",
+          "size_bytes": 34806
+        }
+      ],
+      "projected_provider_input_tokens": null,
+      "new_paid_requests": 0
+    },
+    {
+      "original_output_bytes": 34477,
+      "projected_output_bytes": 24576,
+      "original_request_bytes": 212803,
+      "projected_request_bytes": 202866,
+      "original_visible_request_bytes": 142902,
+      "projected_visible_request_bytes": 132965,
+      "boundaries_equal": true,
+      "non_output_fields_preserved": true,
+      "attachment_roundtrip": true,
+      "attachment_count": 1,
+      "references": [
+        {
+          "path": "full-output.bin",
+          "sha256": "103e4ab9b60a6d1880de7a3d69632e7278df1c2c49c6f1c1b0be3b475761a51e",
+          "size_bytes": 34477
+        }
+      ],
+      "projected_provider_input_tokens": null,
+      "new_paid_requests": 0
+    },
+    {
+      "original_output_bytes": 27817,
+      "projected_output_bytes": 24576,
+      "original_request_bytes": 83935,
+      "projected_request_bytes": 80628,
+      "original_visible_request_bytes": 65271,
+      "projected_visible_request_bytes": 61964,
+      "boundaries_equal": true,
+      "non_output_fields_preserved": true,
+      "attachment_roundtrip": true,
+      "attachment_count": 1,
+      "references": [
+        {
+          "path": "full-output.bin",
+          "sha256": "89dd78aea67c73d8489ee9b7b4749cdd3d814de7537315291c357b7defd3f722",
+          "size_bytes": 27817
+        }
+      ],
+      "projected_provider_input_tokens": null,
+      "new_paid_requests": 0
+    },
+    {
+      "original_output_bytes": 27721,
+      "projected_output_bytes": 24576,
+      "original_request_bytes": 79815,
+      "projected_request_bytes": 76544,
+      "original_visible_request_bytes": 70903,
+      "projected_visible_request_bytes": 67632,
+      "boundaries_equal": true,
+      "non_output_fields_preserved": true,
+      "attachment_roundtrip": true,
+      "attachment_count": 1,
+      "references": [
+        {
+          "path": "full-output.bin",
+          "sha256": "32f145c657b4018d754b775de0efe66f2462de046abe931eb3c3fc3df6ac239b",
+          "size_bytes": 27721
+        }
+      ],
+      "projected_provider_input_tokens": null,
+      "new_paid_requests": 0
+    },
+    {
+      "original_output_bytes": 25190,
+      "projected_output_bytes": 24576,
+      "original_request_bytes": 170242,
+      "projected_request_bytes": 169627,
+      "original_visible_request_bytes": 102914,
+      "projected_visible_request_bytes": 102299,
+      "boundaries_equal": true,
+      "non_output_fields_preserved": true,
+      "attachment_roundtrip": true,
+      "attachment_count": 1,
+      "references": [
+        {
+          "path": "full-output.bin",
+          "sha256": "20d55fdddb32676cc58bee283ba5d858e06d68ba720c6c56792c0e04d75c5e9d",
+          "size_bytes": 25190
+        }
+      ],
+      "projected_provider_input_tokens": null,
+      "new_paid_requests": 0
+    },
+    {
+      "original_output_bytes": 24591,
+      "projected_output_bytes": 24576,
+      "original_request_bytes": 156165,
+      "projected_request_bytes": 156149,
+      "original_visible_request_bytes": 117565,
+      "projected_visible_request_bytes": 117549,
+      "boundaries_equal": true,
+      "non_output_fields_preserved": true,
+      "attachment_roundtrip": true,
+      "attachment_count": 1,
+      "references": [
+        {
+          "path": "full-output.bin",
+          "sha256": "29b1b571e8547fe283945035bab9a98bf24d5cb61b8fbf5a9061f04a95b498a5",
+          "size_bytes": 24591
+        }
+      ],
+      "projected_provider_input_tokens": null,
+      "new_paid_requests": 0
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "symbol": "system_category",
+  "method": "search_code",
+  "utf8_return_bytes": 342,
+  "results": 3,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "2689b4e4ffb6af82faea96dc7f4b56949267c7fa4d2c430edf87c4decddacfa7",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 117,
+        "text": "FMT_API const std::error_category& system_category() noexcept;"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 161,
+        "text": "inline auto system_category() noexcept -> const std::error_category& {"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 162,
+        "text": "  return std::system_category();"
+      }
+    ],
+    "truncated": false
+  }
+}

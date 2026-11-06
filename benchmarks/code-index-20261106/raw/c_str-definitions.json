@@ -1,0 +1,222 @@
+{
+  "symbol": "c_str",
+  "method": "definitions",
+  "utf8_return_bytes": 8781,
+  "results": 13,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 3,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "a6ec05d36ae32235ac0cbf358d4e75d5b49a3157dad4130839ba35f5ab2f00a3",
+  "response": {
+    "kind": "definitions",
+    "query": "c_str",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 43,
+        "end_line": 194,
+        "kind": "variable_declaration",
+        "symbol": "FMT_EXPORT template <typename Context>",
+        "scope": "",
+        "qualified_symbol": "FMT_EXPORT template <typename Context>",
+        "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+        "node_id": "include/fmt/args.h:1258:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 43,
+        "end_line": 66,
+        "kind": "class_specifier",
+        "symbol": "dynamic_arg_list",
+        "scope": "",
+        "qualified_symbol": "dynamic_arg_list",
+        "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+        "node_id": "include/fmt/args.h:1258:class_specifier",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 44,
+        "end_line": 65,
+        "kind": "struct_specifier",
+        "symbol": "typed_node",
+        "scope": "dynamic_arg_list",
+        "qualified_symbol": "dynamic_arg_list::typed_node",
+        "text": "struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  ",
+        "node_id": "include/fmt/args.h:1307:struct_specifier",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 51,
+        "end_line": 53,
+        "kind": "variable_declaration",
+        "symbol": "value",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::value",
+        "text": "FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };",
+        "node_id": "include/fmt/args.h:1473:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 78,
+        "end_line": 90,
+        "kind": "struct_specifier",
+        "symbol": "need_copy",
+        "scope": "",
+        "qualified_symbol": "need_copy",
+        "text": "struct need_copy {\n    static constexpr detail::type mapped_type =\n        detail::mapped_type_constant<T, char_type>::value;\n\n    enum {\n      value = !(detail::is_reference_wrapper<T>::value ||\n                std::is_same<T, basic_string_view<char_type>>::value ||\n                std::is_same<T, detail::std_string_view<char_type>>::value ||\n                (mapped_type != detail::type::cstring_type &&\n                 mapped_type != detail::type::string_type &&\n                 mapped_type != detail::type::custom_type))\n    };\n  }",
+        "node_id": "include/fmt/args.h:2300:struct_specifier",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 93,
+        "end_line": 96,
+        "kind": "alias_declaration",
+        "symbol": "stored_t",
+        "scope": "",
+        "qualified_symbol": "stored_t",
+        "text": "using stored_t = conditional_t<\n      std::is_convertible<T, std::basic_string<char_type>>::value &&\n          !detail::is_reference_wrapper<T>::value,\n      std::basic_string<char_type>, T>;",
+        "node_id": "include/fmt/args.h:2868:alias_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 185,
+        "end_line": 193,
+        "kind": "function_definition",
+        "symbol": "push_back",
+        "scope": "",
+        "qualified_symbol": "push_back",
+        "text": "void push_back(const named_arg<T, char_type>& arg) {\n    const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();\n    if FMT_CONSTEXPR20 (need_copy<T>::value) {\n      emplace_arg(\n          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));\n    } else {\n      emplace_arg(fmt::arg(arg_name, arg.value));\n    }",
+        "node_id": "include/fmt/args.h:6173:function_definition",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 186,
+        "end_line": 187,
+        "kind": "variable_declaration",
+        "symbol": "arg_name",
+        "scope": "",
+        "qualified_symbol": "arg_name",
+        "text": "const char_type* arg_name =\n        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();",
+        "node_id": "include/fmt/args.h:6230:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 107,
+        "end_line": 107,
+        "kind": "function_definition",
+        "symbol": "basic_cstring_view",
+        "scope": "",
+        "qualified_symbol": "basic_cstring_view",
+        "text": "basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}",
+        "node_id": "include/fmt/os.h:3117:function_definition",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 110,
+        "end_line": 110,
+        "kind": "function_definition",
+        "symbol": "c_str",
+        "scope": "",
+        "qualified_symbol": "c_str",
+        "text": "auto c_str() const -> const Char* { return data_; }",
+        "node_id": "include/fmt/os.h:3236:function_definition",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 75,
+        "end_line": 80,
+        "kind": "function_declaration",
+        "symbol": "set_debug_format",
+        "scope": "",
+        "qualified_symbol": "set_debug_format",
+        "text": "FMT_BEGIN_EXPORT\n\n// Formats an object of type T that has an overloaded ostream operator<<.\ntemplate <typename Char>\nstruct basic_ostream_formatter : formatter<basic_string_view<Char>, Char> {\n  void set_debug_format() = delete;",
+        "node_id": "include/fmt/ostream.h:2108:function_declaration",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 83,
+        "end_line": 92,
+        "kind": "function_definition",
+        "symbol": "format",
+        "scope": "",
+        "qualified_symbol": "format",
+        "text": "auto format(const T& value, Context& ctx) const -> decltype(ctx.out()) {\n    auto buffer = basic_memory_buffer<Char>();\n    auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);\n    auto&& output = std::basic_ostream<Char>(&formatbuf);\n    output.imbue(std::locale::classic());  // The default is always unlocalized.\n    output << value;\n    output.exceptions(std::ios_base::failbit | std::ios_base::badbit);\n    return formatter<basic_string_view<Char>, Char>::format(\n        {buffer.data(), buffer.size()}, ctx);\n  }",
+        "node_id": "include/fmt/ostream.h:2382:function_definition",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 85,
+        "end_line": 85,
+        "kind": "variable_declaration",
+        "symbol": "formatbuf",
+        "scope": "",
+        "qualified_symbol": "formatbuf",
+        "text": "auto&& formatbuf = detail::formatbuf<std::basic_streambuf<Char>>(buffer);",
+        "node_id": "include/fmt/ostream.h:2506:variable_declaration",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

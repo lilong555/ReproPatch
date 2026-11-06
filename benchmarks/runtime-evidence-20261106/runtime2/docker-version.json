@@ -1,0 +1,10 @@
+{
+  "command": [
+    "docker",
+    "version"
+  ],
+  "started_at": "2026-11-06T06:35:47.948208+00:00",
+  "returncode": 0,
+  "stdout": "Client:\n Version:           29.1.3\n API version:       1.52\n Go version:        go1.24.4\n Git commit:        29.1.3-0ubuntu3~24.04.2\n Built:             Wed Apr 29 16:41:06 2026\n OS/Arch:           linux/amd64\n Context:           default\n\nServer:\n Engine:\n  Version:          29.1.3\n  API version:      1.52 (minimum version 1.44)\n  Go version:       go1.24.4\n  Git commit:       29.1.3-0ubuntu3~24.04.2\n  Built:            Wed Apr 29 16:41:06 2026\n  OS/Arch:          linux/amd64\n  Experimental:     false\n containerd:\n  Version:          2.2.1\n  GitCommit:        \n runc:\n  Version:          1.3.4-0ubuntu1~24.04.1\n  GitCommit:        \n docker-init:\n  Version:          0.19.0\n  GitCommit:        \n",
+  "stderr": ""
+}

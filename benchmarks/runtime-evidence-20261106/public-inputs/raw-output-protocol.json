@@ -1,0 +1,12 @@
+{
+  "schema": "repropatch.runtime-evidence.raw-output.v1",
+  "source_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "population": "the 57 selected full/no-checks/shell-only attempts in the same frozen 95; raw agent/tool-results referenced by native tool_finished events",
+  "selection": "six longest unique canonical tool-result texts over 24576 UTF-8 bytes; descending byte count, then attempt_id and member",
+  "pairing": "first lexically ordered archived provider request containing the original provider_call_id output; preserve exact original request separately",
+  "input": "reconstruct the pre-fold tool output at that call_id using canonical_json(raw result); other original request fields unchanged",
+  "measurement": "production fold_tool_output, EvidenceRef save/read and complete_rounds; byte counts for reconstructed unfolded versus newly projected input",
+  "provider_usage": "original archived response belongs to the historical already-folded request; unfolded/projected provider tokens null, new paid requests zero",
+  "interpretation": "offline reconstruction from authentic archived full outputs; sample protocol frozen before raw-output enumeration; earlier provider-input-only measurement retained",
+  "ledger_reconciliation": "join all request artifacts against archived SQLite requests and pre_send tables; issued/request-purpose/local-rejection counts remain distinct"
+}

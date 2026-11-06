@@ -1,0 +1,93 @@
+{
+  "repeat": 1,
+  "model": "agents.testing.ScriptedModel",
+  "new_paid_requests": 0,
+  "synthetic_usage": true,
+  "run_id": "cc6be5e0b63f4396a410c9f05834efb5",
+  "artifact_directory": "/home/azureuser/runtime-evidence-20261106/runs/resume-1/runs/recovery/cc6be5e0b63f4396a410c9f05834efb5",
+  "before": {
+    "run_id": "cc6be5e0b63f4396a410c9f05834efb5",
+    "input_mode": "run",
+    "engine_kind": "fake",
+    "state": "INTERRUPTED",
+    "outcome": null,
+    "reason_code": null,
+    "agent_stop_reason": null,
+    "created_at": "2026-11-06T06:32:50.820825+00:00",
+    "deadline_at": "2026-11-06T06:47:50.820825+00:00",
+    "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+    "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+    "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+    "inputs_json": "{\"base_commit\": \"a98a31601ab70499baae3a2a254959d16b72f485\", \"configuration\": {\"path\": \"execution-config.json\", \"sha256\": \"d28a8fd9369e0cda8ed90fd7b42515541bd2c86d0628efeb70e2f0b68a080f3b\", \"size_bytes\": 3950}, \"image_id\": \"sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\", \"producer\": {\"name\": null, \"patch\": null, \"trace\": null, \"trace_trust\": null}, \"source_manifest\": {\"path\": \"baseline.manifest.json\", \"sha256\": \"3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae\", \"size_bytes\": 591}, \"task_original\": {\"path\": \"task.original.yaml\", \"sha256\": \"3d4faec9cdee000465f3d09f19eaa032193f73886eb51a62efc7cafe165d5562\", \"size_bytes\": 1282}, \"task_resolved\": {\"path\": \"task.resolved.json\", \"sha256\": \"da755b4cf4541a6c8b1ee39dda29f9120baf8b0fbd7ed6e6363d8a92d1064500\", \"size_bytes\": 3858}, \"task_sha256\": \"62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740\"}",
+    "steps_used": 3,
+    "tool_calls_admitted": 3,
+    "usage_json": "{\"input_tokens\": null, \"known_tokens\": {\"input_tokens\": 0, \"output_tokens\": 0, \"total_tokens\": 0}, \"output_tokens\": null, \"synthetic\": true, \"total_tokens\": null, \"unknown_turns\": 3}",
+    "segment_open": 0,
+    "last_checkpoint_id": 4,
+    "recovery_attempt": 0,
+    "updated_at": "2026-11-06T06:33:07.896336+00:00"
+  },
+  "checkpoint": {
+    "path": "checkpoints/4/manifest.json",
+    "sha256": "d1d2fc27b17293bbf3f6d4bf3488172b7c946d5fef9831e3af1d2ddbcef8f4a2",
+    "size_bytes": 1651
+  },
+  "prepared": {
+    "schema_version": 1,
+    "output_directory": "/home/azureuser/runtime-evidence-20261106/runs/resume-1",
+    "requested_image": "repropatch-runtime-evidence:20261106",
+    "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+    "model_kind": "scripted",
+    "model_adapter": "agents.testing.ScriptedModel",
+    "paid_model_requests": 0,
+    "usage": {
+      "synthetic": true,
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null
+    },
+    "verification_backend": "docker",
+    "sandbox_type": "repropatch.sandbox.DockerSandbox",
+    "repository": "/home/azureuser/runtime-evidence-20261106/runs/resume-1/repository",
+    "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+    "scenarios": [
+      "recovery"
+    ],
+    "assets": [
+      {
+        "path": "cpp-bugs/CMakeLists.txt",
+        "sha256": "635fb95e9d676dcadc8ff63bc65e502ba2beb128ac4c16261d1911f64d28e6fb",
+        "size_bytes": 572
+      },
+      {
+        "path": "cpp-bugs/src/stats.cpp",
+        "sha256": "8ed8462f3d8f2020fb94004c43cb2535da4453d1f0f527b551e7b792b99c30b7",
+        "size_bytes": 289
+      },
+      {
+        "path": "cpp-bugs/src/stats.hpp",
+        "sha256": "3ecbc8b95a8e4a2691457f27889dfa80717a2205de3eb0664202748be3a429df",
+        "size_bytes": 167
+      },
+      {
+        "path": "cpp-bugs/tests/stats_test.cpp",
+        "sha256": "8a2150f5bf4357c21b0b028b5eaeeefbfcd3bcea14664ea5edc39fa002ac1e46",
+        "size_bytes": 999
+      },
+      {
+        "path": "models/fix-negative-maximum.json",
+        "sha256": "9e80ef8656cca591ca54a9ddce4291932cdd6ea132be9bac50517b99860ba8ea",
+        "size_bytes": 1456
+      }
+    ],
+    "tasks": {
+      "recovery": "/home/azureuser/runtime-evidence-20261106/runs/resume-1/tasks/recovery.yaml"
+    },
+    "scripts": {
+      "recovery": "/home/azureuser/runtime-evidence-20261106/runs/resume-1/scripts/recovery.json"
+    }
+  },
+  "status": "error",
+  "error": "KeyError('perf_counter_ns')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/azureuser/runtime-evidence-20261106/benchmark_runtime_evidence.py\", line 593, in runtime\n    resume_to_admission_seconds=(admission[\"perf_counter_ns\"] - started) / 1e9,\n                                 ~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nKeyError: 'perf_counter_ns'\n"
+}

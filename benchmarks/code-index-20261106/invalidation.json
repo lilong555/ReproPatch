@@ -1,0 +1,85 @@
+{
+  "before_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+  "after_sha256": "1b6d91c37287ca8d8929a1dbce79c8eca55e1786402223749eae67d91b2ab50f",
+  "expected_after_sha256": "1b6d91c37287ca8d8929a1dbce79c8eca55e1786402223749eae67d91b2ab50f",
+  "mutation": "replace all file_access_tag with benchmark_file_access_tag",
+  "parse_delta": 1,
+  "cache_hit_delta": 2,
+  "new_definition_covered": true,
+  "stale_definition_records": 0,
+  "response": {
+    "kind": "definitions",
+    "query": "benchmark_file_access_tag",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 33,
+        "end_line": 73,
+        "kind": "variable_declaration",
+        "symbol": "namespace",
+        "scope": "",
+        "qualified_symbol": "namespace",
+        "text": "FMT_BEGIN_NAMESPACE\nnamespace detail {\n\n// Generate a unique explicit instantiation in every translation unit using a\n// tag type in an anonymous namespace.\nnamespace {\nstruct benchmark_file_access_tag {};\n}  // namespace\ntemplate <typename Tag, typename BufType, FILE* BufType::* FileMemberPtr>\nclass file_access {\n  friend auto get_file(BufType& obj) -> FILE* { return obj.*FileMemberPtr; }\n};\n\n#if FMT_MSVC_STL_UPDATE\ntemplate class file_access<benchmark_file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>;\nauto get_file(std::filebuf&) -> FILE*;\n#endif\n\n// Write the",
+        "node_id": "include/fmt/ostream.h:712:variable_declaration",
+        "source_sha256": "1b6d91c37287ca8d8929a1dbce79c8eca55e1786402223749eae67d91b2ab50f"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 39,
+        "end_line": 39,
+        "kind": "struct_specifier",
+        "symbol": "benchmark_file_access_tag",
+        "scope": "",
+        "qualified_symbol": "benchmark_file_access_tag",
+        "text": "struct benchmark_file_access_tag {}",
+        "node_id": "include/fmt/ostream.h:881:struct_specifier",
+        "source_sha256": "1b6d91c37287ca8d8929a1dbce79c8eca55e1786402223749eae67d91b2ab50f"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 47,
+        "end_line": 48,
+        "kind": "class_specifier",
+        "symbol": "file_access<benchmark_file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>",
+        "scope": "",
+        "qualified_symbol": "file_access<benchmark_file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>",
+        "text": "class file_access<benchmark_file_access_tag, std::filebuf,\n                           &std::filebuf::_Myfile>",
+        "node_id": "include/fmt/ostream.h:1142:class_specifier",
+        "source_sha256": "1b6d91c37287ca8d8929a1dbce79c8eca55e1786402223749eae67d91b2ab50f"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  },
+  "passed": true
+}

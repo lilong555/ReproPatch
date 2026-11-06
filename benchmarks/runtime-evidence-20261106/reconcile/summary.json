@@ -1,0 +1,13 @@
+{
+  "attempts": 95,
+  "usage_matches_n": 95,
+  "issued_requests": 1764,
+  "unissued_presend": 11,
+  "purpose_counts": {
+    "repair": 1746,
+    "compact": 18
+  },
+  "input_tokens": 38606124,
+  "output_tokens": 866919,
+  "unknown_usage_requests": 0
+}

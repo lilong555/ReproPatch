@@ -1,0 +1,68 @@
+{
+  "dedicated_image_removed": true,
+  "dedicated_directory_removed": true,
+  "owned_containers_before_cleanup": 0,
+  "backup_files_verified": 1292,
+  "local_public_snapshot_retained": "/home/li/.cache/repropatch-runtime-evidence-20261106/public",
+  "shared_containers_and_ssh_socket": "unchanged",
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "--format",
+        "{{.Id}}",
+        "repropatch-runtime-evidence:20261106"
+      ],
+      "returncode": 0,
+      "stdout": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "ancestor=sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "rm",
+        "repropatch-runtime-evidence:20261106"
+      ],
+      "returncode": 0,
+      "stdout": "Untagged: repropatch-runtime-evidence:20261106\nDeleted: sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d\nDeleted: sha256:f71a4e84e51e90eaf0a1eb70502e9b4850a601f4972ea4bcf8ec07df11a4104e\nDeleted: sha256:04fcf61e9aa7bba3911d6c46b14a1b49562cde2cc8300b59babe9ae7393885f1\nDeleted: sha256:0863e98f8ff65093e5bee3260a5678f11420585ce3ef3c956b27d6350e5527b2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "-c",
+        "import json,shutil\nfrom pathlib import Path\np=Path(\"/home/azureuser/runtime-evidence-20261106\")\nassert p.resolve()==p and not p.is_symlink()\nassert json.loads((p/\"frozen-inputs.json\").read_text())[\"source_commit\"]==\"9cf01099206131ba6f984661a97f7aa65ee8b68a\"\nshutil.rmtree(p)\nprint(json.dumps({\"private_directory_removed\":not p.exists()}))"
+      ],
+      "returncode": 0,
+      "stdout": "{\"private_directory_removed\": true}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "ls",
+        "--quiet",
+        "repropatch-runtime-evidence:20261106"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "symbol": "streamed",
+  "method": "search_code",
+  "utf8_return_bytes": 585,
+  "results": 5,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "5b7104467cff65d895c12c6b3fad72864a175d613bb7cb093020d2740392c9fe",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 70,
+        "text": "template <typename T> struct streamed_view {"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 98,
+        "text": "struct formatter<detail::streamed_view<T>, Char>"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 101,
+        "text": "  auto format(detail::streamed_view<T> view, Context& ctx) const"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 113,
+        "text": " *                fmt::streamed(std::this_thread::get_id()));"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 116,
+        "text": "constexpr auto streamed(const T& value) -> detail::streamed_view<T> {"
+      }
+    ],
+    "truncated": false
+  }
+}

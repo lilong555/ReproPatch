@@ -1,0 +1,58 @@
+{
+  "schema": "repropatch.runtime-evidence.protocol.v1",
+  "date": "2026-11-06",
+  "source_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "source_scope": "git archive of the fixed public commit; production modules unchanged",
+  "history": {
+    "source": "benchmarks/unified-context/final-results.json",
+    "selection": "attempts whose instance_id is in paired_tasks; 19 tasks x 5 arms = 95 selected attempts",
+    "split": "previously exposed development/configuration review tasks",
+    "paid_history_denominator": 118,
+    "classification": "report stop_reason and score.status independently; preserve build/test observations without inferring causes",
+    "provenance": "verify archive SHA256; retain attempt, original attempt, execution source, packaging source, worker and score identities",
+    "context": "one row per metrics.compactions event, with reported count and native log coverage separate",
+    "usage": "provider response input/output tokens, compared with frozen selected-attempt usage; cli-request copies excluded"
+  },
+  "projection": {
+    "maximum_tool_output_bytes": 24576,
+    "sample_count": 6,
+    "selection": "top six distinct UTF-8 tool-output contents above the byte limit in provider request input arrays of the 95 selected attempts; rank by descending bytes then attempt_id/member/item index; enumerate all requests, preserve any exceptions",
+    "transformation": "production context.fold_tool_output and EvidenceRef; replace only selected tool output in its original request; context.complete_rounds before/after",
+    "metrics": ["tool_output_bytes", "canonical_request_bytes", "visible_request_bytes", "attachment_roundtrip", "protocol_boundaries", "non_output_fields_preserved"],
+    "provider_tokens": "retain original response usage; projected provider usage null; new paid requests zero",
+    "interpretation": "offline fixed-input volume measurement; no claim of LLM repair or end-to-end token improvement"
+  },
+  "runtime": {
+    "backend": "real DockerSandbox, public agents.testing.ScriptedModel, no sandbox mocks",
+    "environment": "try local Docker then configured Azure host; private directory and dedicated image built from public docker/Dockerfile",
+    "repetitions": 3,
+    "fixture": "public demo_assets/cpp-bugs and fix-negative-maximum.json",
+    "pause_after_step": 3,
+    "resume": "same Run, committed model_input_ready checkpoint, complete native input",
+    "timing": "time.perf_counter_ns immediately before resume_run to return of first successfully committed EventLog.emit(model_started); observer delegates unchanged production method",
+    "checks": ["same_run", "event_prefix", "source_tree", "budget_counters", "deadline", "baseline_once", "edit_once", "complete_input_boundary", "independent_acceptance"],
+    "tokens": "synthetic usage, provider tokens null and paid requests zero",
+    "failure_policy": "all three registered repetitions retained, including preparation or runtime exceptions; no replacement trials"
+  },
+  "verification": {
+    "repetitions_per_scenario": 1,
+    "entry": "production Harness(patch_file=...), independent cold validation",
+    "scenarios": {
+      "normal": "replace int best = 0 with samples.front()",
+      "test_tamper": "normal source fix plus change protected negative test expectation from -3 to -4",
+      "regression": "normal source fix plus return 0 instead of nullopt for empty input"
+    },
+    "expected": {
+      "normal": "accepted, F2P and P2P pass",
+      "test_tamper": "protected path policy rejection",
+      "regression": "F2P pass, empty_values P2P fail"
+    },
+    "identity": "candidate bytes/SHA256, fixture base commit, task, source commit, image ID, independent evaluation evidence",
+    "failure_policy": "retain all registered scenarios and exceptions; policy rejection and independent test rejection reported separately"
+  },
+  "build": {
+    "action": "reuse frozen target_build_profile samples in benchmarks/actions-scale/cloud-results.json; no new build-performance experiment",
+    "scope": "historical fmt-4055/format-test single-target Docker microbenchmark"
+  },
+  "output_policy": "append-only phase directories; source input fingerprints frozen before measurements; actual driver hash on each phase; original results unchanged"
+}

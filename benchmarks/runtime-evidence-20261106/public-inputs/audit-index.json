@@ -1,0 +1,769 @@
+{
+  "schema": "repropatch.portable-audit-index.v1",
+  "source_commit": "9cf01099206131ba6f984661a97f7aa65ee8b68a",
+  "path_base": "directory containing this index",
+  "selected_n": 95,
+  "scope": "byte-identical selected original members; repack SHA and full upstream SHA separate",
+  "fmt_paid_local_archives": [
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/full/first",
+      "archive": "archives/001-full.tar.gz",
+      "sha256": "e8534f9da9fb9fc129729a68a3c7502473e2ec1d529c8785e7bdd1154c831302",
+      "original_archive_sha256": "a3f46bccc2dba33cc714697ade4abcef313f98977eca8d20ec424cf08ca38383",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 42
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/mini/first",
+      "archive": "archives/002-mini.tar.gz",
+      "sha256": "8f7a4b8bb22cd1a8f8caf7c1b620be6251764e389aa9660597165703a27e5276",
+      "original_archive_sha256": "6829e4fbfb9df743cc2439b8cec8ecdb73f57277df11b6d76cc3f72d2d296051",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 33
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/no-checks/first",
+      "archive": "archives/003-no-checks.tar.gz",
+      "sha256": "59162dd6c6495b0a91433ecc50dee802494fd532f51e61ce04ea30a9ae15d5f4",
+      "original_archive_sha256": "426515339a01ba33cd33d79f16cbbdc34f261da003b4898a7247ce55e18d1f43",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 63
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-1390/shell-only/first",
+      "archive": "archives/004-shell-only.tar.gz",
+      "sha256": "52329ec4c19e2062310fcac7a44abc45b4ef6c37b5bfdce831c93269c52c7769",
+      "original_archive_sha256": "a41705e369c522b33d7017dc58567545da84ba53fc8d8100dbb2a672b76a10a8",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 57
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/full/first",
+      "archive": "archives/005-full.tar.gz",
+      "sha256": "415917cf8180fc27f96e6d58524e98dc28c49d823fe0f089c1fbed1305cc7dcf",
+      "original_archive_sha256": "b01e749ee02f3e7aefc635a3bd80717c36d048a3c13fbc181686e75169afb596",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/mini/first",
+      "archive": "archives/006-mini.tar.gz",
+      "sha256": "e1c83f2d82c9da697e6b0b7ddf1f7836df2a2ae7f84f314d0e34f29bdff42921",
+      "original_archive_sha256": "8328ad848f64e146821bfd24738c3ddede511be4645b71a5998cacf7a5dc6182",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 41
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/no-checks/first",
+      "archive": "archives/007-no-checks.tar.gz",
+      "sha256": "2b4129a3a3c81dae1f3dbc04f0f52f0982a997bcaec4eb4a8a4bfb31da687f45",
+      "original_archive_sha256": "51dcf93f3990478f9af95da95c196db373d902168a677b2c8bb68ad05a34b118",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2310/shell-only/first",
+      "archive": "archives/008-shell-only.tar.gz",
+      "sha256": "42c56c8b54e33a367d4fd20654e6c261d764c37dc59dab928e55f8f294d0d5ec",
+      "original_archive_sha256": "adace43936e5faae6b288fb0e8b91bbaaa61c1a5d555a981adbd5243463cbb42",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 75
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/full/first",
+      "archive": "archives/009-full.tar.gz",
+      "sha256": "903603b1b241caeff99fec6c7cd8c2cf4b7161f17091de7840f934791c99e6cd",
+      "original_archive_sha256": "bb72a0b158630663af669ac159bd9b635d2335b4c2992ed2569277229537792f",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/mini/first",
+      "archive": "archives/010-mini.tar.gz",
+      "sha256": "9604ea1c41043d3da85bdbb9ee629b63ec8b9ee560db8872ad419c276d597ece",
+      "original_archive_sha256": "99c30820c252b34d0df634498adee798df290e890b078b0179236e3d4b3ec429",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 31
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/no-checks/first",
+      "archive": "archives/011-no-checks.tar.gz",
+      "sha256": "1b1a3ae9c484d541781006b31c7b4a00dd248947b6f931cf7f0566ac3f694980",
+      "original_archive_sha256": "9dbeae8e84db0b12d864ed275a1f27f810e3c9d039e0e15abf33cd4d00e3bbe7",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 69
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-2940/shell-only/first",
+      "archive": "archives/012-shell-only.tar.gz",
+      "sha256": "2d033c624791ae72be86476a6ba78ddbc3d763c3f5b605a216bfa5016c125751",
+      "original_archive_sha256": "e8145cba0b3affdfbd4dac7fa0f8f7ecfeedb0d266f8515f0096b5d3ee235904",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 59
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/full/first",
+      "archive": "archives/013-full.tar.gz",
+      "sha256": "bd90ab5227e247dbd93ae557bc66d5b79b811b8024a34150ec46578af7abdac4",
+      "original_archive_sha256": "5da75da2ab841afaa52b12fb8a614e062bfbc7191b5cc8096f2844dd1f88d93e",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 36
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/mini/first",
+      "archive": "archives/014-mini.tar.gz",
+      "sha256": "3ce02be3ee4b69f4e4ee1b2604e53941d3d229573c2e2741660b4795d695ebc3",
+      "original_archive_sha256": "a66fb29bcc989f3fa056fbfc8f4fc9f57318f0d2155fa060495fcda88808b3d8",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 25
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/no-checks/first",
+      "archive": "archives/015-no-checks.tar.gz",
+      "sha256": "5019a7f3f71d9da4e01bb029154c7d8e87a756417143537c295dbe7d88cff107",
+      "original_archive_sha256": "4ec3068623a8c665f5214b95492a98ffdbdf5ddc6b3f9175bca82a3d30ffe9f6",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 30
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3248/shell-only/first",
+      "archive": "archives/016-shell-only.tar.gz",
+      "sha256": "53e8a8a2f9510489c77e6529cf752c4849a23f09295b8dc1ac8d58eb5ddcff9f",
+      "original_archive_sha256": "3d9b40442528ab22e5ba5b65569b41056254a660d427e39a1ec70ef261be600a",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 42
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/full/first",
+      "archive": "archives/017-full.tar.gz",
+      "sha256": "35fa2247a941ba6c0805f362be98c68c27cb02ada0f9a0b15adf913834874a14",
+      "original_archive_sha256": "f2112c2c4abf1b9e4408533e0d0bbd7fc4cf25344f6b3fb3fc14e05c493c7dd7",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 63
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/mini/first",
+      "archive": "archives/018-mini.tar.gz",
+      "sha256": "b60fd3be9d8acc84487cf4a1bf66cf5be13910fffdcdac590dd14e56919e172e",
+      "original_archive_sha256": "39fab1156c2f5da4da006a148740450838b174eeb505f85fe0e511ce1e29c061",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 39
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/no-checks/first",
+      "archive": "archives/019-no-checks.tar.gz",
+      "sha256": "2b2b86b13eb8e4489f3334227c68b030e58d98bc1df34ff80eb8144db4cc4266",
+      "original_archive_sha256": "d11195b0375908a074a6591792cc076731d02a300a028a8799dded4ac44723cb",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 75
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3260/shell-only/first",
+      "archive": "archives/020-shell-only.tar.gz",
+      "sha256": "438b984c3b60ba647c84f859b3359f3d093a76d07c69312ea9f8fa3d279d9403",
+      "original_archive_sha256": "b0ce5d3bb18df36c47a7d5a0f1d04cb8c2dfd07eb977a2ba59d3a247999b1228",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/full/first",
+      "archive": "archives/021-full.tar.gz",
+      "sha256": "938fb0a38ece50380854409dae7256ea704ba0f61900c3812632177bfc42791e",
+      "original_archive_sha256": "d868f7237e0e1d9ddab57cbeff4b0cd74d6fe66274bb468c85fcbe618ccaae78",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 30
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/mini/first",
+      "archive": "archives/022-mini.tar.gz",
+      "sha256": "ccacce678f747a26b93962b95eeeca2bc73647dd1ecaf525a35144cf66acf43f",
+      "original_archive_sha256": "fe0e47f41fbe01faeb481498a3adee2a2ed8ffdcadc89ae9ae96e5386761627e",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 27
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/no-checks/first",
+      "archive": "archives/023-no-checks.tar.gz",
+      "sha256": "82921147dee84da0be676b809bfa931763240a50c94927fe534d72ff0fe279bc",
+      "original_archive_sha256": "68439ffc648cdf1ff17170a7bcc2ea08eccc54f23786abbc51403bedf670398f",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 33
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3713/shell-only/first",
+      "archive": "archives/024-shell-only.tar.gz",
+      "sha256": "e734391eadf20fd09290d87d7a931cd585209a898d6ddae7020b5fac7f30dce4",
+      "original_archive_sha256": "6fff38f6e2f81c55ca02fdd058cd7ea297298a5bd331ce2a34140d2ecc1f98e3",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/full/first",
+      "archive": "archives/025-full.tar.gz",
+      "sha256": "4912a8d4c86cd9ffc5b43b034dc25356d45b82e706e69a63f32fa10fb741ba26",
+      "original_archive_sha256": "15793882dbdcabffe158acd1fb02fc9256b6c43f5d94ca21ac69e89ceeff4bfe",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/no-checks/first",
+      "archive": "archives/026-no-checks.tar.gz",
+      "sha256": "3fecdf24fa255a4a06d07c0e3a6cc7d27448df1b496c84bdc163d3ea32de94d4",
+      "original_archive_sha256": "d0290ae46fa647ae6121726d76c57980637b37704a9d85f4084143f0f778e03a",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 63
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3727/shell-only/first",
+      "archive": "archives/027-shell-only.tar.gz",
+      "sha256": "7d430583337151a1dc7d5902bcc387f3fdf2601210cc72235e2eb019b2a050af",
+      "original_archive_sha256": "de40d2b47f9ca0b86de9092d78bf644b354a488a902fb66d388eac4e9c3501cc",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/full/first",
+      "archive": "archives/028-full.tar.gz",
+      "sha256": "450fa5c46e66edf0c0ebd546bc6edc9c1a3d1515ed77674da5a784cacdfd1506",
+      "original_archive_sha256": "2ec43c3be7c4811cc2165905333da01b6b6fb4b2ccf0d27550fd8cdf1dbac9da",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/mini/first",
+      "archive": "archives/029-mini.tar.gz",
+      "sha256": "4b68404b75a4521bdf1d35307eab59265e878558e97ad9e08007537f25ca24b6",
+      "original_archive_sha256": "1c91e64571219cceeb0a80d4c62003b10129ca4caa04ca4ec8140780e08c9a86",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/no-checks/first",
+      "archive": "archives/030-no-checks.tar.gz",
+      "sha256": "7ff6ae19f06cf35fb6bd5275fe2b940a0e361f27d84533e76603de2de796969a",
+      "original_archive_sha256": "823124c0c1a64f4b715cbef5099ea0d94f97cb7304f299dba7f2829717881348",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-full-20261027/fmtlib__fmt-3750/shell-only/first",
+      "archive": "archives/031-shell-only.tar.gz",
+      "sha256": "8c3c3a66709816a1e24fb8ddaf34a1e3f4459dd05262bce1d234254c12780945",
+      "original_archive_sha256": "0813916979f561abe26d3bf747b51f5953b93079f12a21d2247bd7187167d957",
+      "execution_source_commit": "48826203c3979f3d0d67b15fcd43f44fe34a68d5",
+      "member_count": 75
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-1390/codex/first",
+      "archive": "archives/032-codex.tar.gz",
+      "sha256": "11a4c225c0843c409e149c79c3445eb46b0338055b080295ecd25e43ea3c3cea",
+      "original_archive_sha256": "6a8a439d1a78c24b7f3c339969113f7923c8f54692e49834dff6ee796a24205a",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 43
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2310/codex/first",
+      "archive": "archives/033-codex.tar.gz",
+      "sha256": "c003907909cab8298d4285785752da981bcbb5bbe7cafe604beabbc79f0c9391",
+      "original_archive_sha256": "d467f6e4dcbe595948e6579eadaa2d18eb537ab8b885f13425b45d3c0c39cd61",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/codex/first",
+      "archive": "archives/034-codex.tar.gz",
+      "sha256": "75d0b49de3681dffed7a8f9ea93e86ea74bad470d834c7537f231ebec242a0b0",
+      "original_archive_sha256": "96e520e21b94b97b4e140819e5a7e4726759c17863dbe7c66109d0047649ef05",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/full/first",
+      "archive": "archives/035-full.tar.gz",
+      "sha256": "5c1ebd6d96fc92f5fcf39b8065b3ebc03390e162d5db6eae7385d215d29d4d1c",
+      "original_archive_sha256": "8cacbbbd75c9aa2b6ec9fa7553ba834f54bc06234cf97d927401c12fcf499045",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 51
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/mini/first",
+      "archive": "archives/036-mini.tar.gz",
+      "sha256": "d223500badec65a7342913dfbf3380ba180f8ef2120d9b7515e6f35918065708",
+      "original_archive_sha256": "acfe5f0c479409a54cf8b0ebc1dd439d9c938739492daa83a4922af18485efa9",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 31
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/no-checks/first",
+      "archive": "archives/037-no-checks.tar.gz",
+      "sha256": "f9ea1b0c634922eed29d6b99a2092f732a506e1ed928c5f3f57af442254b442e",
+      "original_archive_sha256": "7ef3f1b37ba418add2ccf920c014cb799c231989435477b71c6315f3a6fc05b6",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 51
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2610/shell-only/first",
+      "archive": "archives/038-shell-only.tar.gz",
+      "sha256": "3166b463d1783011f45ebb2d4efebee7fa76996dd526d1ff85578da76578b335",
+      "original_archive_sha256": "c2cd8c1f4ce5ac90cf3c1d48eb3328c7a522575746740aebcbcb3ae27008b58c",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-2940/codex/first",
+      "archive": "archives/039-codex.tar.gz",
+      "sha256": "59c1dca142bca1e9de3abd1339dfc9d289c835b1330c0633a06092484accfa5f",
+      "original_archive_sha256": "ca5d65c9537b9c72ac8ed299d3c735c28bbf9f341acbf40f8574a69ea95391a8",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 39
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3248/codex/first",
+      "archive": "archives/040-codex.tar.gz",
+      "sha256": "a5016af8347710159882cb3edf3ac4b46490077da1751e826cbedd122d31e5fb",
+      "original_archive_sha256": "b239d9dde8cc824d82a1de9c058a44eff47c5f608221ede7073d6c5f02def2d9",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 47
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3260/codex/first",
+      "archive": "archives/041-codex.tar.gz",
+      "sha256": "7730e76b983a08956f9f132934d30d48cb508336aa2ac61c7b39351cfcfec13e",
+      "original_archive_sha256": "59fa72b23eacfcea4294c188cd69cbc08ccb56426223305862b7f55b9d2897d1",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/codex/first",
+      "archive": "archives/042-codex.tar.gz",
+      "sha256": "648ad507da9df0f2635cfada28280803b263980811dbbc2af4c98bb33b9d2728",
+      "original_archive_sha256": "e61715a67da96c7ce4b3c754418549ebd67c0a9615f789737046f165de384e5f",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/full/first",
+      "archive": "archives/043-full.tar.gz",
+      "sha256": "f9a8fd97eb156b5a083798cc7ccd02a86c5287a8343dfc6a68180cd8c020e81d",
+      "original_archive_sha256": "99c9ec82df642d2670c56bcc1961fbb9d44619a06fb830ac451e0d71560e3a70",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 48
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/mini/first",
+      "archive": "archives/044-mini.tar.gz",
+      "sha256": "e22898381e11d5b6ed94cf9f1e61f26162496e8bed6a94826f67b184d9bb1a6d",
+      "original_archive_sha256": "26be7a995660473695d653a51ea64a362340532114143c75ba830aac6a05ca0d",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 25
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/no-checks/first",
+      "archive": "archives/045-no-checks.tar.gz",
+      "sha256": "a4ddafe364847f90cc6f3221166538d9438c4d5104fa0b751561d47faab3da57",
+      "original_archive_sha256": "04a77766911a550f6d24e74e854e00a8e80fd7b0ffe9bb07c2b43b39e9652acc",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3272/shell-only/first",
+      "archive": "archives/046-shell-only.tar.gz",
+      "sha256": "1b2766bd88916c4d5b019078e157d7307c30aac6b482838d4dd1d7513a74e5ba",
+      "original_archive_sha256": "6360cf57817d230f3d83a59a51c6110ba2b0a2556e1527610ca84b2b75bc9c02",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3713/codex/first",
+      "archive": "archives/047-codex.tar.gz",
+      "sha256": "36e95d077bc68a2a8d4a7c333a0c361ff5ca7da6c8c38b30abb5e87989856088",
+      "original_archive_sha256": "4ef6aea22e474436bd4133f2809d4db37872cb45e62c792fbe667ba489f31b7e",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 33
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/codex/first",
+      "archive": "archives/048-codex.tar.gz",
+      "sha256": "097f3fb8cf5fb76f6230fcfba6b615f34cd1e2cc111cee88c1cfec9de821bcb4",
+      "original_archive_sha256": "9dd905b4690ee7db08f5c8d025aea9fb2b0f2b08f5144e87ed77dd3fcc6114fe",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/full/first",
+      "archive": "archives/049-full.tar.gz",
+      "sha256": "82a209b20239ac0dc9fb6fc94e3ead46b9bd9fdd438bc80213c7a02a58d527cf",
+      "original_archive_sha256": "6faa09ccad94650b37c016064cfd9f71f146d7eb015afdcbf624d5785a7401ae",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 69
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/mini/first",
+      "archive": "archives/050-mini.tar.gz",
+      "sha256": "e694c1f3bf49e35b0cca7ab708f9323ade5b823fb8ae06cb5d98a126279837a8",
+      "original_archive_sha256": "7518ecc720d64a974ced07897b79c971f4b766cb0ad0adeca16cb0d4063aae2b",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 39
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/no-checks/first",
+      "archive": "archives/051-no-checks.tar.gz",
+      "sha256": "2985313fa5f86a94cbb4f9d5ac69b63e40d1b135233fc9dc9601da16d13175d8",
+      "original_archive_sha256": "832d09ff6fed3da3f42664d3d1093d2d623991a03cc951c3eda0a48e30013bc7",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3732/shell-only/first",
+      "archive": "archives/052-shell-only.tar.gz",
+      "sha256": "875f40e557dc36dd72e5ce32f92f38e02bf966e0dfe5cf114c3972028e3aba96",
+      "original_archive_sha256": "e89d0a3e6cac9845b1e07d4ede55fd3d6074464b07c93694a4c1bb9f632c41f8",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 57
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v2-20261027/fmtlib__fmt-3750/codex/first",
+      "archive": "archives/053-codex.tar.gz",
+      "sha256": "fe9b6f389cc5a31f10b9ccedfc1cf636006f2aa77aa4d35d13b236b45dfb1ce5",
+      "original_archive_sha256": "b6d4f9a94d58bffa847762dbd5615bfdd06afdb5467e0e1c00d3bb60462f9259",
+      "execution_source_commit": "6cb341c8793622ab26d1157fda9b91f87df8f91a",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/codex/first",
+      "archive": "archives/054-codex.tar.gz",
+      "sha256": "7ab180e565316562d9c67183ebbbe37c3d877a9476ed835aa6e4b88620de88ed",
+      "original_archive_sha256": "20305e3718f878e67675785cdd530e842e0a4e7c774575b333f709c53bf3d2b0",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 51
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/full/first",
+      "archive": "archives/055-full.tar.gz",
+      "sha256": "a59321549b4bb872b98a862379971c573d47dec46496e774600191127393fd24",
+      "original_archive_sha256": "27b939ec70a369ac1d0404adb863666715c32e9c92c7106951758ff4ec1a94e9",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-1361/no-checks/first",
+      "archive": "archives/056-no-checks.tar.gz",
+      "sha256": "bf2d7caf4936f52e1d3b88d218346dcfe2810af24c4110d8131213d271385568",
+      "original_archive_sha256": "5838c7c60c6b3b39c98dc8eb9d0c54eed7a62183ba18948d13abd9e8d98eb60a",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/codex/first",
+      "archive": "archives/057-codex.tar.gz",
+      "sha256": "a9228224987fe2629a42972c6d8a27b98db6859c2f91007cad3d0bbe9bbfc91e",
+      "original_archive_sha256": "f202e2341bf734f2538acd9c72ae3db67a5f33b56ca11fc261bffc1adc7a2c14",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/full/first",
+      "archive": "archives/058-full.tar.gz",
+      "sha256": "1edaba4a762b1407c5db47937234d943fad985327ce0f584217be0354f0710ad",
+      "original_archive_sha256": "290319f98f0ac08de2969d6aeb1da4ee47dc2a6d976ac188c47a7507bdfd9304",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 42
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/mini/first",
+      "archive": "archives/059-mini.tar.gz",
+      "sha256": "a28d0b9281e481e990728b18f3cc32d87c59e6f1f2a5b63e99fb45b5ebe6f892",
+      "original_archive_sha256": "628b8d4aeada8ef639856cb161e0d07e8beeb8fc8dcac269d454c96c0389bedd",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 37
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/no-checks/first",
+      "archive": "archives/060-no-checks.tar.gz",
+      "sha256": "b6574ce546bfe6140d0da57eb42a165868156ed3b5b8795c537cf1f3dcec0bb2",
+      "original_archive_sha256": "d757c7786a6c2ba9800c5091fc2c3d58a95ca765d5cfae2d9015f89bd318d070",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 66
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2070/shell-only/first",
+      "archive": "archives/061-shell-only.tar.gz",
+      "sha256": "1e635fba5ceb818e88e4b92328694b61f25205ec0793d91860eb2312cad514b6",
+      "original_archive_sha256": "86fa67f8211d9e5c6feb0cfffd5461810ae2c0011f09c6205c79e6fcca7ed83e",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 42
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/codex/first",
+      "archive": "archives/062-codex.tar.gz",
+      "sha256": "45c07ee5446a8b5335d08d044b3f5383ab70a25b40e3dcd1fa7c1874f57b4378",
+      "original_archive_sha256": "f2ee7f57be59b335bd7cff7f4773a669b1d7c8d364ee7c9395665be397d3b02a",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2292/mini/first",
+      "archive": "archives/063-mini.tar.gz",
+      "sha256": "036235ff0ed2092bead8940bb054ba3cb5909d7c171aaf60ce6f5052dc6bd79f",
+      "original_archive_sha256": "138ad89e9fc11207d68ed70e2354aad5884c40ce59404b6ca6379a81ea6b38bf",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 49
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/codex/first",
+      "archive": "archives/064-codex.tar.gz",
+      "sha256": "bd7a9bcb3f7983bb3440c7d5f5ebe4ba438fc7c191fda790fff33841bcff6120",
+      "original_archive_sha256": "b5d2a86f4df4fea61045e5f928fa92c03804146f5dc00cafbe32009a3d645e20",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/full/first",
+      "archive": "archives/065-full.tar.gz",
+      "sha256": "be9d6b5cd2d94e5880488f51e5f7f9d78b6cdb45ba7b615a16ba8774a6ec17ab",
+      "original_archive_sha256": "e65331ff33b97bf0591f4c7b0f1b8461a16afa62232da948ed7c5881323f5ef7",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 33
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/mini/first",
+      "archive": "archives/066-mini.tar.gz",
+      "sha256": "bd3c4747aa1a0f60cb2f6efffb9c120f9bbd68471991ccae3dbdd4f51ffed775",
+      "original_archive_sha256": "e93a6e0177f97714bdff89b2758a00b9b6007ebca9421be5dff5e8d6613c677d",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 25
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/no-checks/first",
+      "archive": "archives/067-no-checks.tar.gz",
+      "sha256": "623b57bcdd3ab1b919bb970e2c4fac254fc5301f188ebf90a9b8968093a5b864",
+      "original_archive_sha256": "33ffe1fbc8cf43420d9390279075823873bdf794fd634d2272964cb1b3c69560",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 66
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-2317/shell-only/first",
+      "archive": "archives/068-shell-only.tar.gz",
+      "sha256": "3c087b1b9d8e80e93db98e119a2ecb0cb586fc2a204d78a98705fdd21311efec",
+      "original_archive_sha256": "da202f726c58b214a8c8783bf27c00ad366d92865f056fc24795838182350b4f",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 48
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/codex/first",
+      "archive": "archives/069-codex.tar.gz",
+      "sha256": "674f62c1e257a68907bd570f4fa249f378b89930dbd2b11423226005775a66f3",
+      "original_archive_sha256": "3a55f8a3739006d15e5c60875d57ea0610e5d78dc5df91c2c98a0372b8bfb46e",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/full/first",
+      "archive": "archives/070-full.tar.gz",
+      "sha256": "0234b7063752e1ec2bcade17727cd30bce66f8ef64584d6bed078e9ce2f69982",
+      "original_archive_sha256": "9c07cab1135655dbe91c6b6f70517bfca6b090581355ac8b6c0eb2ed3fd4122e",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/mini/first",
+      "archive": "archives/071-mini.tar.gz",
+      "sha256": "b0264a29f5425474b242f278ce9683a6e9af0afa6b890ad7ba70805512ee3a76",
+      "original_archive_sha256": "09967f41b02892e022cfc7748a5b20b2f5e612cd72244838c8fc89e5e46c836d",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 25
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/no-checks/first",
+      "archive": "archives/072-no-checks.tar.gz",
+      "sha256": "146c1946fb37223ebab32663ab43cbdd156855ae2af2bc4ccc1f1037313859c2",
+      "original_archive_sha256": "2fc5646ba9194cadf46881748227cb0ee91295e223d8ea23c12fad930f4d88e6",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3537/shell-only/first",
+      "archive": "archives/073-shell-only.tar.gz",
+      "sha256": "e3645875ec58f6893cd62b17d0213dc2061e9f586802753f293af39b3efa93da",
+      "original_archive_sha256": "f593ada41a50440ef622e4f14f37d325fec9f2938d6d84c2179ca6bca31d3d6e",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 48
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3727/codex/first",
+      "archive": "archives/074-codex.tar.gz",
+      "sha256": "a0856b1a8889bdce60203e6c4b92852a9f6d096352871bb45d16088d9b0d6185",
+      "original_archive_sha256": "74ebdfcf5a8ddaaefcf26436ef6b9a046198af5b74e7967138b5f6448ac204c3",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/codex/first",
+      "archive": "archives/075-codex.tar.gz",
+      "sha256": "21b97e491ecac1afcaa608dfa495eeb2b6d3b29027a04a6ae93ed41541ef3c1d",
+      "original_archive_sha256": "6d5fe3dd49ae1ed60498e641e2d621be8b1ea6ce688e21c94da968a62146fcfa",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 49
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/full/first",
+      "archive": "archives/076-full.tar.gz",
+      "sha256": "3f0a25f3f042c245d84a08fdb9617b2afae3350790e6ca2591ecee99f6a69075",
+      "original_archive_sha256": "f4a56762a4c3ab85c971f7a682ffd325eb5ead2d908c51ae466a74136284239d",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/mini/first",
+      "archive": "archives/077-mini.tar.gz",
+      "sha256": "c95c71fe801f241ce6bca44a5c8e506c99f86819da84ba23c3305e899fcc90cf",
+      "original_archive_sha256": "5572f594b2bc1487884debe17e858b04a94e4d21700a2beb0ef0fecf6166d15c",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 39
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/no-checks/first",
+      "archive": "archives/078-no-checks.tar.gz",
+      "sha256": "ae30d4c34d6275ed2e5cce14a35d507e09722ffbfbde9a3f970ba703f2cd36eb",
+      "original_archive_sha256": "11b234b76682766ecbaa6d9e2e0af3280eed86845b9f706e95f76a530f2d08aa",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 60
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3734/shell-only/first",
+      "archive": "archives/079-shell-only.tar.gz",
+      "sha256": "f4a98993c9699c0e90058dee440cf13b12a6f19eaaa68a6da48e14e30e7e45bf",
+      "original_archive_sha256": "b01a6bdbe6ec71d79fc2ae0fba967a0f33204f5f9a4c091b972ad8b381802b73",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/codex/first",
+      "archive": "archives/080-codex.tar.gz",
+      "sha256": "283ea1f3057d9972c61992d21030c953ad89fb3cca317d1dc900ed29e4a9f4a3",
+      "original_archive_sha256": "968f7c46fde7d69ec1c64a509a60efe5619aabc66a2122db252ef4dc3a5c242e",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 52
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/full/first",
+      "archive": "archives/081-full.tar.gz",
+      "sha256": "ddbfbc55dbedef99f056aff8b85a83c3abd2330a95bd689224e9000542812fe7",
+      "original_archive_sha256": "ab03d531804c8dcef3c798ec51ca3683c938aefab6029a29c573ebb955ad1c72",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 76
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/mini/first",
+      "archive": "archives/082-mini.tar.gz",
+      "sha256": "b8d19e478035e20bcbf4b2e6aadc6e04f42f9141a06b24f152925f82b3da05fa",
+      "original_archive_sha256": "6d7c7c7b3804ffb6058f476ee8dac3f0b1c56f181349d4bbf398838f34d0995a",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 45
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/no-checks/first",
+      "archive": "archives/083-no-checks.tar.gz",
+      "sha256": "2e55bd9fac09d38f5abbf23038516c53698bd70c07f85382949fc8c923a312e5",
+      "original_archive_sha256": "1b007679e13507d72ac128111cbd5cdac8bd1512f9c13f1d29c90ba02f49f892",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 33
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-3819/shell-only/first",
+      "archive": "archives/084-shell-only.tar.gz",
+      "sha256": "6c07bd0309a45312a5e1776606dfed5a081661fb7bec0a7f185e190220a22384",
+      "original_archive_sha256": "a1e0e48bc16a0bb7d6acfdc3aa325eca8389a2ef188d5ec41d1d4fd2bc3fdf26",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 71
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/codex/first",
+      "archive": "archives/085-codex.tar.gz",
+      "sha256": "7b9c4dc907f89ca389b1c2caa1ecb0192d5f1465ad626f39a7a48ee0ec53c657",
+      "original_archive_sha256": "2f4e09f1de7433f68e05624dcb3322c873792bfc7bb1498d46df8d8d5bb6859e",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 31
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/full/first",
+      "archive": "archives/086-full.tar.gz",
+      "sha256": "b9de039286210ada97362a3eb540b069a0af190329db86fccd2dae5e3e14c7fe",
+      "original_archive_sha256": "2ca6d43d06f8b3050ae1e6c0bf534a2e8236b7497370118b9d4e2838dccb0d90",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 48
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/no-checks/first",
+      "archive": "archives/087-no-checks.tar.gz",
+      "sha256": "91d3856a00dccfe717f77ad0274a53769f17e44db88eadf64fb00773e0ff8f4c",
+      "original_archive_sha256": "1c7f369794355c9221894e2d3d1f4219a89bb321d8e15510f08b14991136a428",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 48
+    },
+    {
+      "attempt_id": "unified-compaction-recovery-v3-20261027/fmtlib__fmt-493/shell-only/first",
+      "archive": "archives/088-shell-only.tar.gz",
+      "sha256": "9a1eb661ace35054a7e2834404ffe1d7a7d50cd431c88071f46561cfb22b5075",
+      "original_archive_sha256": "429d96bbbe6be0055ed303b5d6e7876c1d6b6501abfe5820ee50630adb5d3f8c",
+      "execution_source_commit": "58bc5e596d6230b94d7e01527596fcd5e929e3e1",
+      "member_count": 51
+    },
+    {
+      "attempt_id": "unified-context-continuation-1-20261027/fmtlib__fmt-1361/mini/revalidation-2",
+      "archive": "archives/089-mini.tar.gz",
+      "sha256": "608366c6c6db5cf8b167944aa5f06d04357b6937d6d18e04f345d4d4c7effb41",
+      "original_archive_sha256": "b6c95592dca4b2d03f740f0ada33268247e2def32476c861f7fb5cfdc1b6f3ec",
+      "execution_source_commit": "a6df2b188fbcb237409d4bf599319db057522c2c",
+      "member_count": 51
+    },
+    {
+      "attempt_id": "unified-context-continuation-1-20261027/fmtlib__fmt-2292/full/revalidation-2",
+      "archive": "archives/090-full.tar.gz",
+      "sha256": "8c29f43b9acac573ddb3076feb146e9be0f2565083e6c1f46d7e03d47cec659c",
+      "original_archive_sha256": "8da3b284445e8bcfe610ec2f80429368cf7088dd1231e70e1bba796030dd5640",
+      "execution_source_commit": "a6df2b188fbcb237409d4bf599319db057522c2c",
+      "member_count": 75
+    },
+    {
+      "attempt_id": "unified-context-continuation-2b-20261027/fmtlib__fmt-2292/shell-only/revalidation-3",
+      "archive": "archives/091-shell-only.tar.gz",
+      "sha256": "648c0c284f624733fe73011f660c205936dbc342bf7bdd2523b35b2f297f4ac5",
+      "original_archive_sha256": "d3692639069a0fb692794f672674ac8e4e2afa72d73f7da108b4e4575fbcd797",
+      "execution_source_commit": "a6df2b188fbcb237409d4bf599319db057522c2c",
+      "member_count": 75
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-1361/shell-only/revalidation-1",
+      "archive": "archives/092-shell-only.tar.gz",
+      "sha256": "0096e71b7b43055f7886ebc16722ec0144db175d071f2699f07a83e5e3a7d1b3",
+      "original_archive_sha256": "95082347fe5ae297a98f1c9dd7aff6af4681816f4788b794457ac7dc3f0febe4",
+      "execution_source_commit": "152c7f046fe2206ad09257a1a239d264b71f7803",
+      "member_count": 75
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-2292/no-checks/revalidation-1",
+      "archive": "archives/093-no-checks.tar.gz",
+      "sha256": "4399a1261cd28207325c6ca85b6fe63fcb4b935998702f0ff17d6e63d0c18469",
+      "original_archive_sha256": "9e7c064933e2e888e66aa7b33b9c487bd2cbc0d61afef4bda9fbad51e1ceeef1",
+      "execution_source_commit": "152c7f046fe2206ad09257a1a239d264b71f7803",
+      "member_count": 72
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-3727/mini/revalidation-1",
+      "archive": "archives/094-mini.tar.gz",
+      "sha256": "41cf5f1b9a453d6a724ec8c79a3fa475b74453db00300c66db53468300d43b97",
+      "original_archive_sha256": "2a36068169c8829ac9696ae57a9330e2a3f1cd21ac9d1379448852f8c001b9b6",
+      "execution_source_commit": "152c7f046fe2206ad09257a1a239d264b71f7803",
+      "member_count": 41
+    },
+    {
+      "attempt_id": "unified-context-infrastructure-revalidation-20261027/fmtlib__fmt-493/mini/revalidation-1",
+      "archive": "archives/095-mini.tar.gz",
+      "sha256": "09802bb4aa7ee6917380fc8ed8bf4fb6f3b6cb7fb68f8b8f2b05b8ec8e20dda6",
+      "original_archive_sha256": "3b890ae13a39325ff62947fe0b89f5c8dafb1823db0cb9ba5442847f0a30ecc5",
+      "execution_source_commit": "152c7f046fe2206ad09257a1a239d264b71f7803",
+      "member_count": 27
+    }
+  ]
+}

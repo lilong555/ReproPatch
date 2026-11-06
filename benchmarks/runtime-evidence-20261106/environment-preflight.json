@@ -1,0 +1,14 @@
+{
+  "scope": "observed setup outcomes; experiment results are in per-series raw records",
+  "local_wsl_docker": "docker: command not found; /var/run/docker.sock absent",
+  "windows_docker_client": "28.3.2, desktop-linux",
+  "windows_engine": "dockerDesktopLinuxEngine named pipe not found",
+  "azure_unprivileged_docker": "permission denied on /var/run/docker.sock",
+  "azure_selected_backend": "sudo docker, isolated /home/azureuser/runtime-evidence-20261106",
+  "azure_venv_initial": "python3 -m venv reported ensurepip unavailable",
+  "azure_dependency_resolution": "copied existing pinned local site-packages into private venv; verified openai-agents 0.24.0 and openai 3.35.1",
+  "image_build": "dedicated repropatch-runtime-evidence:20261106 built from public docker/Dockerfile; image inspect and all runtime executions succeeded",
+  "image_build_client_session": "original non-control-socket SSH session remained open after image was available; local SSH client terminated after independent image/daemon verification",
+  "other_containers": "CPA and unrelated containers were not modified",
+  "new_paid_model_requests": 0
+}

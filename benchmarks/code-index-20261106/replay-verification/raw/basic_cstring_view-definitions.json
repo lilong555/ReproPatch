@@ -1,0 +1,114 @@
+{
+  "symbol": "basic_cstring_view",
+  "method": "definitions",
+  "utf8_return_bytes": 3070,
+  "results": 4,
+  "target_covered": false,
+  "truncated": false,
+  "previews_at_limit": 1,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "6e3178c85088b04497590b9b564f7d46c4e5d9de314df7df7ccd094b11aad25e",
+  "response": {
+    "kind": "definitions",
+    "query": "basic_cstring_view",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/os.h",
+        "line": 79,
+        "end_line": 111,
+        "kind": "variable_declaration",
+        "symbol": "FMT_BEGIN_EXPORT\n\n/**\n * A reference to a null-terminated string. It can be constructed from a C\n * string or `std::string`.\n *\n * You can use one of the following type aliases for common character types:\n *\n * +---------------+------------",
+        "scope": "",
+        "qualified_symbol": "FMT_BEGIN_EXPORT\n\n/**\n * A reference to a null-terminated string. It can be constructed from a C\n * string or `std::string`.\n *\n * You can use one of the following type aliases for common character types:\n *\n * +---------------+------------",
+        "text": "FMT_BEGIN_NAMESPACE\nFMT_BEGIN_EXPORT\n\n/**\n * A reference to a null-terminated string. It can be constructed from a C\n * string or `std::string`.\n *\n * You can use one of the following type aliases for common character types:\n *\n * +---------------+-----------------------------+\n * | Type          | Definition                  |\n * +===============+=============================+\n * | cstring_view  | basic_cstring_view<char>    |\n * +---------------+-----------------------------+\n * | wcstring_view | basic_cstring_view<wchar_t> |\n * +---------------+-----------------------------+\n *\n * This clas",
+        "node_id": "include/fmt/os.h:2172:variable_declaration",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 107,
+        "end_line": 107,
+        "kind": "function_definition",
+        "symbol": "basic_cstring_view",
+        "scope": "",
+        "qualified_symbol": "basic_cstring_view",
+        "text": "basic_cstring_view(const std::basic_string<Char>& s) : data_(s.c_str()) {}",
+        "node_id": "include/fmt/os.h:3117:function_definition",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 113,
+        "end_line": 113,
+        "kind": "alias_declaration",
+        "symbol": "cstring_view",
+        "scope": "",
+        "qualified_symbol": "cstring_view",
+        "text": "using cstring_view = basic_cstring_view<char>;",
+        "node_id": "include/fmt/os.h:3292:alias_declaration",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 114,
+        "end_line": 114,
+        "kind": "alias_declaration",
+        "symbol": "wcstring_view",
+        "scope": "",
+        "qualified_symbol": "wcstring_view",
+        "text": "using wcstring_view = basic_cstring_view<wchar_t>;",
+        "node_id": "include/fmt/os.h:3339:alias_declaration",
+        "source_sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

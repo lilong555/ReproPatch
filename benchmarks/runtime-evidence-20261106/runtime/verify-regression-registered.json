@@ -1,0 +1,6 @@
+{
+  "scenario": "regression",
+  "candidate_sha256": "fa90de294609264c600690adcd23136ae1c5430b81bc48a67022c535e5e96395",
+  "candidate_bytes": 350,
+  "new_paid_requests": 0
+}

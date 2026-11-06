@@ -1,0 +1,230 @@
+{
+  "agent": {
+    "agent_stop_reason": null,
+    "http_attempts": 0,
+    "steps_used": 0,
+    "tool_calls_used": 0
+  },
+  "agent_stop_reason": null,
+  "artifact_directory": "/home/azureuser/runtime-evidence-20261106/runs/resume-3/runs/recovery/17259e57b49442ff937f645c4a0f87b0",
+  "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+  "baseline": null,
+  "baseline_manifest": {
+    "path": "baseline.manifest.json",
+    "sha256": "3b7b239ffb3d49d9945b11dc1179f7391201cae6b5468af07230a1987b1878ae",
+    "size_bytes": 591
+  },
+  "benchmark": {
+    "candidate_only": false,
+    "compiler_cache": "off",
+    "final_oracle_required": false,
+    "internal_verification": "not_started",
+    "semantic_state_enabled": false,
+    "tool_mode": "legacy"
+  },
+  "candidate": null,
+  "candidate_roundtrip_verified": false,
+  "cleanup": {
+    "active_code_stopped": true,
+    "errors": [],
+    "workspace_retained": false
+  },
+  "cleanup_confirmed": true,
+  "cleanup_errors": [],
+  "cost": null,
+  "diagnostics": [],
+  "duration_seconds": 0.3939795019105077,
+  "engine": {
+    "api_base": null,
+    "kind": "none",
+    "model_name": null,
+    "use_env_proxy": false,
+    "versions": null
+  },
+  "error": "FORBIDDEN_PATCH: 补丁修改了 protected 路径",
+  "evaluations": [],
+  "events_last_seq": 4,
+  "harness_version": "0.4.0",
+  "independent": null,
+  "input_mode": "verify-patch",
+  "isolated": null,
+  "limitations": [
+    "仅验收冻结 Task 的测试 oracle，不证明所有输入正确。",
+    "Docker 与宿主共享内核。",
+    "恢复仅支持已提交且关闭的完整输入边界；未知模型请求和历史工具不重做。",
+    "外部生成过程、预算和 trace 未受本次运行管理或验证。"
+  ],
+  "model": {
+    "adapter": null,
+    "name": null
+  },
+  "model_steps": 0,
+  "outcome": "REJECTED",
+  "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "producer": {
+    "name": "runtime-evidence-20261106",
+    "patch": {
+      "path": "producer/input.patch",
+      "sha256": "fb7d76198f05fb407a535dc5ee0c1e064b8004aed55d41e333666fdd840a5ab7",
+      "size_bytes": 645
+    },
+    "trace": null,
+    "trace_trust": null
+  },
+  "provenance": {
+    "base_commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+    "image_id": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+    "image_repo_digests": [
+      "repropatch-runtime-evidence@sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d"
+    ],
+    "implementation_sha256": "739bc79a476a11035ef1a1417ce5cce4f59e7cb0e14ff5a8aca96dceb80d210e",
+    "platform": "linux/amd64",
+    "software_version": "0.4.0",
+    "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+    "task_source_sha256": "dab54caa63720cb86f5f3824bb5151768f53819446afaf01419ac4ae4f7e1d1b",
+    "tool_versions": {
+      "docker_server": "29.1.3",
+      "git": "git version 2.43.0",
+      "kernel": "6.17.0-1022-azure"
+    }
+  },
+  "reason_code": "FORBIDDEN_PATCH",
+  "reproduced": false,
+  "requested_image": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+  "run_id": "17259e57b49442ff937f645c4a0f87b0",
+  "schema_version": 1,
+  "started_at": "2026-11-06T06:33:59.844268+00:00",
+  "state": "FINISHED",
+  "status": "failed",
+  "task": {
+    "budget": {
+      "command_timeout_seconds": 120,
+      "max_output_tokens": 2048,
+      "max_steps": 12,
+      "max_tool_calls": 80,
+      "model_timeout_seconds": 60,
+      "verification_reserve_seconds": 240,
+      "wall_seconds": 900
+    },
+    "bug": {
+      "description": "修复 maximum_sample 对非空全负输入返回 0 的错误，保留空输入与完整 int 值域的行为。"
+    },
+    "commands": {
+      "build": [
+        "cmake",
+        "--build",
+        "/build",
+        "--parallel",
+        "2"
+      ],
+      "configure": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/build",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "reproduce": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ],
+      "verify": [
+        "ctest",
+        "--test-dir",
+        "/build",
+        "--output-on-failure",
+        "--no-tests=error"
+      ]
+    },
+    "environment": {
+      "build_tmpfs_mib": 1024,
+      "cpu_limit": 2.0,
+      "image": "sha256:c72159ee43e25d6f43b25224e08622ba4f9708809354236f80b64e020d0c0a6d",
+      "memory_mib": 2048,
+      "pids_limit": 128,
+      "platform": "linux/amd64",
+      "tmp_executable": false
+    },
+    "files": {
+      "editable": [
+        "src/stats.cpp"
+      ],
+      "readable": [
+        "CMakeLists.txt",
+        "src/",
+        "tests/"
+      ]
+    },
+    "id": "negative-maximum-demo-recovery",
+    "outputs": {
+      "root": "/home/azureuser/runtime-evidence-20261106/runs/resume-3/runs/recovery"
+    },
+    "repository": {
+      "commit": "a98a31601ab70499baae3a2a254959d16b72f485",
+      "path": "/home/azureuser/runtime-evidence-20261106/runs/resume-3/repository"
+    },
+    "tests": {
+      "fail_to_pass": [
+        {
+          "expected_exit_code": 8,
+          "name": "negative_values",
+          "output_contains": "expected -3, got 0"
+        }
+      ],
+      "pass_to_pass": [
+        "positive_values",
+        "empty_values",
+        "mixed_values"
+      ],
+      "protected_paths": [
+        "CMakeLists.txt",
+        "tests/"
+      ]
+    },
+    "version": 2,
+    "workspace": {
+      "retain": "none",
+      "root": "/home/azureuser/runtime-evidence-20261106/runs/resume-3/workspaces/recovery"
+    }
+  },
+  "task_id": "negative-maximum-demo-recovery",
+  "task_original": {
+    "path": "task.original.yaml",
+    "sha256": "dab54caa63720cb86f5f3824bb5151768f53819446afaf01419ac4ae4f7e1d1b",
+    "size_bytes": 1282
+  },
+  "task_resolved": {
+    "path": "task.resolved.json",
+    "sha256": "61f69bc085dc0e52e61ee741f71e03fc0a9884c14a9a6bec4c55e9080af3a6ca",
+    "size_bytes": 3858
+  },
+  "task_sha256": "62f07b123833cf9af9492ffd0b8d120f0cfbe748f3f5b8becda348ce961a8740",
+  "task_source_sha256": "dab54caa63720cb86f5f3824bb5151768f53819446afaf01419ac4ae4f7e1d1b",
+  "timing": {
+    "created_at": "2026-11-06T06:33:59.844268+00:00",
+    "deadline_at": "2026-11-06T06:48:59.844268+00:00",
+    "elapsed_ms": 394,
+    "finished_at": "2026-11-06T06:34:00.238248+00:00"
+  },
+  "tool_calls": 0,
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "synthetic": false,
+    "total_tokens": null
+  },
+  "verified": false,
+  "workspace_directory": "/home/azureuser/runtime-evidence-20261106/runs/resume-3/workspaces/recovery/17259e57b49442ff937f645c4a0f87b0",
+  "trace": {
+    "path": "events.jsonl",
+    "sha256": "e0946987bbfd80813dcff95d64ee04db479b5cc1e27a23ca8278307121542103",
+    "size_bytes": 1776
+  },
+  "artifacts_complete": true,
+  "evidence_errors": [],
+  "command_error": null
+}

@@ -1,0 +1,27 @@
+{
+  "symbol": "file_access_tag",
+  "method": "search_code",
+  "utf8_return_bytes": 220,
+  "results": 2,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "bd214d32a2bc5d56bf6d6e6f0f56939d8d35c1df9c3d42961d703a2eaf35f5b4",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 39,
+        "text": "struct file_access_tag {};"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 47,
+        "text": "template class file_access<file_access_tag, std::filebuf,"
+      }
+    ],
+    "truncated": false
+  }
+}

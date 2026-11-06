@@ -1,0 +1,94 @@
+{
+  "repeat": 4,
+  "condition": "same_source_cache",
+  "wall_seconds": 0.000503113,
+  "parse_delta": 0,
+  "cache_hit_delta": 3,
+  "index_seconds": 0.0004245939999236725,
+  "parse_seconds": 0.0,
+  "response": {
+    "kind": "definitions",
+    "query": "write_buffer",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 56,
+        "end_line": 68,
+        "kind": "function_definition",
+        "symbol": "write_buffer",
+        "scope": "",
+        "qualified_symbol": "write_buffer",
+        "text": "void write_buffer(std::basic_ostream<Char>& os, buffer<Char>& buf,\n                  make_unsigned_t<std::streamsize> max_size =\n                      to_unsigned(max_value<std::streamsize>())) {\n  const Char* buf_data = buf.data();\n  using unsigned_streamsize = make_unsigned_t<std::streamsize>;\n  unsigned_streamsize size = buf.size();\n  do {\n    unsigned_streamsize n = size <= max_size ? size : max_size;\n    os.write(buf_data, static_cast<std::streamsize>(n));\n    buf_data += n;\n    size -= n;\n  } while (size != 0);\n}",
+        "node_id": "include/fmt/ostream.h:1492:function_definition",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 155,
+        "end_line": 161,
+        "kind": "function_definition",
+        "symbol": "print",
+        "scope": "",
+        "qualified_symbol": "print",
+        "text": "void print(std::ostream& os, format_string<T...> fmt, T&&... args) {\n  fmt::vargs<T...> vargs = {{args...}};\n  if FMT_CONSTEXPR20 (detail::use_utf8) return vprint(os, fmt.str, vargs);\n  auto buffer = memory_buffer();\n  detail::vformat_to(buffer, fmt.str, vargs);\n  detail::write_buffer(os, buffer);\n}",
+        "node_id": "include/fmt/ostream.h:4625:function_definition",
+        "source_sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  },
+  "files": {
+    "include/fmt/args.h": {
+      "sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83",
+      "source_bytes": 7224,
+      "parse_has_error": true,
+      "index_truncated": false,
+      "record_count": 405
+    },
+    "include/fmt/os.h": {
+      "sha256": "812c0d7e95991caef7e6ef1bd4e8508dc930f615600e78e1121b3eb5dbc8bf20",
+      "source_bytes": 12648,
+      "parse_has_error": true,
+      "index_truncated": false,
+      "record_count": 539
+    },
+    "include/fmt/ostream.h": {
+      "sha256": "f3d624f543e74a837910a635b8f7b1e04dc8fbaee3ef34b86d3e8ec077827385",
+      "source_bytes": 5181,
+      "parse_has_error": true,
+      "index_truncated": false,
+      "record_count": 362
+    }
+  }
+}

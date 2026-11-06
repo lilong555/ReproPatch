@@ -1,0 +1,22 @@
+{
+  "symbol": "println",
+  "method": "search_code",
+  "utf8_return_bytes": 155,
+  "results": 1,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "083581349ec4192ce3f43753e353f6a9a2a9eae7665c7813c1db8893e4f2acd4",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 164,
+        "text": "void println(std::ostream& os, format_string<T...> fmt, T&&... args) {"
+      }
+    ],
+    "truncated": false
+  }
+}

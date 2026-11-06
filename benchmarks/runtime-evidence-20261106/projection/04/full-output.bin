@@ -1,0 +1,275 @@
+<returncode>0</returncode>
+<output>
+/tmp/color-buffer-check.cc: In function ‘int main()’:
+/tmp/color-buffer-check.cc:6:10: error: no match for ‘operator==’ (operand types are ‘fmt::v7::detail::buffer_appender<char>’ and ‘fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char>::iterator’ {aka ‘fmt::v7::detail::buffer_appender<char>’})
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |       ~~ ^~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |       |                   |
+      |       |                   buffer_appender<[...]>
+      |       buffer_appender<[...]>
+In file included from /usr/include/c++/13/memory:65,
+                 from /src/include/fmt/format.h:41,
+                 from /src/include/fmt/color.h:11,
+                 from /tmp/color-buffer-check.cc:1:
+/usr/include/c++/13/bits/allocator.h:237:5: note: candidate: ‘template<class _T1, class _T2> bool std::operator==(const allocator<_Tp1>&, const allocator<_T2>&)’
+  237 |     operator==(const allocator<_T1>&, const allocator<_T2>&)
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/allocator.h:237:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::allocator<_Tp1>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/bits/stl_tempbuf.h:62,
+                 from /usr/include/c++/13/memory:66:
+/usr/include/c++/13/bits/stl_pair.h:812:5: note: candidate: ‘template<class _T1, class _T2> constexpr bool std::operator==(const pair<_T1, _T2>&, const pair<_T1, _T2>&)’
+  812 |     operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/stl_pair.h:812:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::pair<_T1, _T2>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/bits/stl_algobase.h:67,
+                 from /usr/include/c++/13/bits/stl_uninitialized.h:63,
+                 from /usr/include/c++/13/memory:69:
+/usr/include/c++/13/bits/stl_iterator.h:448:5: note: candidate: ‘template<class _Iterator> bool std::operator==(const reverse_iterator<_Iterator>&, const reverse_iterator<_Iterator>&)’
+  448 |     operator==(const reverse_iterator<_Iterator>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:448:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/stl_iterator.h:493:5: note: candidate: ‘template<class _IteratorL, class _IteratorR> bool std::operator==(const reverse_iterator<_Iterator>&, const reverse_iterator<_IteratorR>&)’
+  493 |     operator==(const reverse_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:493:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/stl_iterator.h:1678:5: note: candidate: ‘template<class _IteratorL, class _IteratorR> bool std::operator==(const move_iterator<_IteratorL>&, const move_iterator<_IteratorR>&)’
+ 1678 |     operator==(const move_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:1678:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/stl_iterator.h:1748:5: note: candidate: ‘template<class _Iterator> bool std::operator==(const move_iterator<_IteratorL>&, const move_iterator<_IteratorL>&)’
+ 1748 |     operator==(const move_iterator<_Iterator>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:1748:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/bits/unique_ptr.h:36,
+                 from /usr/include/c++/13/memory:78:
+/usr/include/c++/13/tuple:1919:5: note: candidate: ‘template<class ... _TElements, class ... _UElements> constexpr bool std::operator==(const tuple<_Elements ...>&, const tuple<_Types ...>&)’
+ 1919 |     operator==(const tuple<_TElements...>& __t,
+      |     ^~~~~~~~
+/usr/include/c++/13/tuple:1919:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::tuple<_Elements ...>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/unique_ptr.h:829:5: note: candidate: ‘template<class _Tp, class _Dp, class _Up, class _Ep> bool std::operator==(const unique_ptr<_Tp, _Dp>&, const unique_ptr<_Up, _Ep>&)’
+  829 |     operator==(const unique_ptr<_Tp, _Dp>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/unique_ptr.h:829:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/unique_ptr.h:837:5: note: candidate: ‘template<class _Tp, class _Dp> bool std::operator==(const unique_ptr<_Tp, _Dp>&, nullptr_t)’
+  837 |     operator==(const unique_ptr<_Tp, _Dp>& __x, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/unique_ptr.h:837:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/unique_ptr.h:845:5: note: candidate: ‘template<class _Tp, class _Dp> bool std::operator==(nullptr_t, const unique_ptr<_Tp, _Dp>&)’
+  845 |     operator==(nullptr_t, const unique_ptr<_Tp, _Dp>& __x) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/unique_ptr.h:845:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char>::iterator’ {aka ‘fmt::v7::detail::buffer_appender<char>’} is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/iosfwd:42,
+                 from /usr/include/c++/13/bits/shared_ptr.h:52,
+                 from /usr/include/c++/13/memory:80:
+/usr/include/c++/13/bits/postypes.h:192:5: note: candidate: ‘template<class _StateT> bool std::operator==(const fpos<_StateT>&, const fpos<_StateT>&)’
+  192 |     operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/postypes.h:192:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::fpos<_StateT>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/bits/shared_ptr.h:53:
+/usr/include/c++/13/bits/shared_ptr_base.h:1793:5: note: candidate: ‘template<class _Tp1, class _Tp2, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const __shared_ptr<_Tp1, _Lp>&, const __shared_ptr<_Tp2, _Lp>&)’
+ 1793 |     operator==(const __shared_ptr<_Tp1, _Lp>& __a,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/shared_ptr_base.h:1793:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::__shared_ptr<_Tp1, _Lp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/shared_ptr_base.h:1799:5: note: candidate: ‘template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const __shared_ptr<_Tp, _Lp>&, nullptr_t)’
+ 1799 |     operator==(const __shared_ptr<_Tp, _Lp>& __a, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/shared_ptr_base.h:1799:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::__shared_ptr<_Tp, _Lp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/shared_ptr_base.h:1819:5: note: candidate: ‘template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(nullptr_t, const __shared_ptr<_Tp, _Lp>&)’
+ 1819 |     operator==(nullptr_t, const __shared_ptr<_Tp, _Lp>& __a) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/shared_ptr_base.h:1819:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char>::iterator’ {aka ‘fmt::v7::detail::buffer_appender<char>’} is not derived from ‘const std::__shared_ptr<_Tp, _Lp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/shared_ptr.h:555:5: note: candidate: ‘template<class _Tp, class _Up> bool std::operator==(const shared_ptr<_Tp>&, const shared_ptr<_Tp>&)’
+  555 |     operator==(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/shared_ptr.h:555:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::shared_ptr<_Tp>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/shared_ptr.h:561:5: note: candidate: ‘template<class _Tp> bool std::operator==(const shared_ptr<_Tp>&, nullptr_t)’
+  561 |     operator==(const shared_ptr<_Tp>& __a, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/shared_ptr.h:561:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derive
+[完整工具输出：/build/repropatch-tool-output-0008.log；26787 bytes；sha256=2924a7b31f03eda92c6ee64f88ecaaf19d82f05181151d86676db593c0503b04]
+erived from ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+/usr/include/c++/13/bits/basic_string.h:3774:5: note: candidate: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const _CharT*, const __cxx11::basic_string<_CharT, _Traits, _Alloc>&)’
+ 3774 |     operator==(const _CharT* __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/basic_string.h:3774:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   mismatched types ‘const _CharT*’ and ‘fmt::v7::detail::buffer_appender<char>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/iterator:66,
+                 from /src/include/fmt/core.h:13,
+                 from /src/include/fmt/format.h:45:
+/usr/include/c++/13/bits/streambuf_iterator.h:234:5: note: candidate: ‘template<class _CharT, class _Traits> bool std::operator==(const istreambuf_iterator<_CharT, _Traits>&, const istreambuf_iterator<_CharT, _Traits>&)’
+  234 |     operator==(const istreambuf_iterator<_CharT, _Traits>& __a,
+      |     ^~~~~~~~
+/usr/include/c++/13/bits/streambuf_iterator.h:234:5: note:   template argument deduction/substitution failed:
+/tmp/color-buffer-check.cc:6:61: note:   ‘fmt::v7::detail::buffer_appender<char>’ is not derived from ‘const std::istreambuf_iterator<_CharT, _Traits>’
+    6 |   if (it == fmt::format_to(buf, fmt::text_style(), " {}", 42)) return 1;
+      |                                                             ^
+In file included from /usr/include/c++/13/bits/ios_base.h:46,
+                 from /usr/include/c++/13/streambuf:43,
+                 from /usr/include/c++/13/bits/streambuf_iterator.h:35:
+/usr/include/c++/13/system_error:449:3: note: candidate: ‘bool std::operator==(const error_code&, const error_code&)’
+  449 |   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/13/system_error:449:32: note:   no known conversion for argument 1 from ‘fmt::v7::detail::buffer_appender<char>’ to ‘const std::error_code&’
+  449 |   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/13/system_error:465:3: note: candidate: ‘bool std::operator==(const error_code&, const error_condition&)’
+  465 |   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/13/system_error:465:32: note:   no known conversion for argument 1 from ‘fmt::v7::detail::buffer_appender<char>’ to ‘const std::error_code&’
+  465 |   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/13/system_error:480:3: note: candidate: ‘bool std::operator==(const error_condition&, const error_condition&)’
+  480 |   operator==(const error_condition& __lhs,
+      |   ^~~~~~~~
+/usr/include/c++/13/system_error:480:37: note:   no known conversion for argument 1 from ‘fmt::v7::detail::buffer_appender<char>’ to ‘const std::error_condition&’
+  480 |   operator==(const error_condition& __lhs,
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/13/system_error:517:3: note: candidate: ‘bool std::operator==(const error_condition&, const error_code&)’
+  517 |   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/13/system_error:517:37: note:   no known conversion for argument 1 from ‘fmt::v7::detail::buffer_appender<char>’ to ‘const std::error_condition&’
+  517 |   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/src/include/fmt/format.h: In instantiation of ‘typename fmt::v7::buffer_context<Char>::iterator fmt::v7::format_to(basic_memory_buffer<Char, SIZE>&, const S&, Args&& ...) [with S = emphasis; Args = {const char (&)[11], const char (&)[6]}; long unsigned int SIZE = 500; Char = char; typename buffer_context<Char>::iterator = detail::buffer_appender<char>; buffer_context<Char> = basic_format_context<detail::buffer_appender<char>, char>]’:
+/tmp/color-buffer-check.cc:5:27:   required from here
+/src/include/fmt/format.h:3900:54: error: no matching function for call to ‘make_args_checked<const char (&)[11], const char (&)[6]>(const fmt::v7::emphasis&, const char [11], const char [6])’
+ 3900 |   const auto& vargs = fmt::make_args_checked<Args...>(format_str, args...);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1588:13: note: candidate: ‘template<class ... Args, class S, class Char> fmt::v7::format_arg_store<fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<Char>, Char>, typename std::remove_reference<Args>::type ...> fmt::v7::make_args_checked(const S&, remove_reference_t<Args>& ...)’
+ 1588 | inline auto make_args_checked(const S& format_str,
+      |             ^~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1588:13: note:   template argument deduction/substitution failed:
+/src/include/fmt/core.h: In substitution of ‘template<class S> using fmt::v7::char_t = typename fmt::v7::detail::char_t_impl<S>::type [with S = fmt::v7::emphasis]’:
+/src/include/fmt/core.h:1587:41:   required from ‘typename fmt::v7::buffer_context<Char>::iterator fmt::v7::format_to(basic_memory_buffer<Char, SIZE>&, const S&, Args&& ...) [with S = emphasis; Args = {const char (&)[11], const char (&)[6]}; long unsigned int SIZE = 500; Char = char; typename buffer_context<Char>::iterator = detail::buffer_appender<char>; buffer_context<Char> = basic_format_context<detail::buffer_appender<char>, char>]’
+/tmp/color-buffer-check.cc:5:27:   required from here
+/src/include/fmt/core.h:545:29: error: no type named ‘type’ in ‘struct fmt::v7::detail::char_t_impl<fmt::v7::emphasis, void>’
+  545 | template <typename S> using char_t = typename detail::char_t_impl<S>::type;
+      |                             ^~~~~~
+/src/include/fmt/format.h: In instantiation of ‘typename fmt::v7::buffer_context<Char>::iterator fmt::v7::format_to(basic_memory_buffer<Char, SIZE>&, const S&, Args&& ...) [with S = emphasis; Args = {const char (&)[11], const char (&)[6]}; long unsigned int SIZE = 500; Char = char; typename buffer_context<Char>::iterator = detail::buffer_appender<char>; buffer_context<Char> = basic_format_context<detail::buffer_appender<char>, char>]’:
+/tmp/color-buffer-check.cc:5:27:   required from here
+/src/include/fmt/format.h:3901:41: error: no matching function for call to ‘to_string_view(const fmt::v7::emphasis&)’
+ 3901 |   detail::vformat_to(buf, to_string_view(format_str), vargs);
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~
+/src/include/fmt/core.h:473:32: note: candidate: ‘template<class Char, typename std::enable_if<fmt::v7::is_char<T>::value, int>::type <anonymous> > fmt::v7::basic_string_view<Char> fmt::v7::to_string_view(const Char*)’
+  473 | inline basic_string_view<Char> to_string_view(const Char* s) {
+      |                                ^~~~~~~~~~~~~~
+/src/include/fmt/core.h:473:32: note:   template argument deduction/substitution failed:
+/src/include/fmt/format.h:3901:41: note:   mismatched types ‘const Char*’ and ‘fmt::v7::emphasis’
+ 3901 |   detail::vformat_to(buf, to_string_view(format_str), vargs);
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~
+/src/include/fmt/core.h:478:32: note: candidate: ‘template<class Char, class Traits, class Alloc> fmt::v7::basic_string_view<Char> fmt::v7::to_string_view(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&)’
+  478 | inline basic_string_view<Char> to_string_view(
+      |                                ^~~~~~~~~~~~~~
+/src/include/fmt/core.h:478:32: note:   template argument deduction/substitution failed:
+/src/include/fmt/format.h:3901:41: note:   mismatched types ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’ and ‘const fmt::v7::emphasis’
+ 3901 |   detail::vformat_to(buf, to_string_view(format_str), vargs);
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~
+/src/include/fmt/core.h:484:32: note: candidate: ‘template<class Char> fmt::v7::basic_string_view<Char> fmt::v7::to_string_view(basic_string_view<Char>)’
+  484 | inline basic_string_view<Char> to_string_view(basic_string_view<Char> s) {
+      |                                ^~~~~~~~~~~~~~
+/src/include/fmt/core.h:484:32: note:   template argument deduction/substitution failed:
+/src/include/fmt/format.h:3901:41: note:   mismatched types ‘fmt::v7::basic_string_view<Char>’ and ‘fmt::v7::emphasis’
+ 3901 |   detail::vformat_to(buf, to_string_view(format_str), vargs);
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~
+/src/include/fmt/core.h:490:32: note: candidate: ‘template<class Char, typename std::enable_if<(! std::is_empty<fmt::v7::detail::std_string_view<Char> >::value), int>::type <anonymous> > fmt::v7::basic_string_view<Char> fmt::v7::to_string_view(detail::std_string_view<Char>)’
+  490 | inline basic_string_view<Char> to_string_view(detail::std_string_view<Char> s) {
+      |                                ^~~~~~~~~~~~~~
+/src/include/fmt/core.h:490:32: note:   template argument deduction/substitution failed:
+/src/include/fmt/format.h:3901:41: note:   mismatched types ‘fmt::v7::detail::std_string_view<Char>’ and ‘fmt::v7::emphasis’
+ 3901 |   detail::vformat_to(buf, to_string_view(format_str), vargs);
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~
+/src/include/fmt/core.h:502:52: note: candidate: ‘template<class S, typename std::enable_if<fmt::v7::is_compile_string<S>::value, int>::type <anonymous> > constexpr fmt::v7::basic_string_view<typename S::char_type> fmt::v7::to_string_view(const S&)’
+  502 | constexpr basic_string_view<typename S::char_type> to_string_view(const S& s) {
+      |                                                    ^~~~~~~~~~~~~~
+/src/include/fmt/core.h:502:52: note:   template argument deduction/substitution failed:
+/src/include/fmt/core.h:281:64: error: no type named ‘type’ in ‘struct std::enable_if<false, int>’
+  281 | #  define FMT_ENABLE_IF(...) enable_if_t<(__VA_ARGS__), int> = 0
+      |                                                                ^
+/src/include/fmt/core.h:501:23: note: in expansion of macro ‘FMT_ENABLE_IF’
+  501 | template <typename S, FMT_ENABLE_IF(is_compile_string<S>::value)>
+      |                       ^~~~~~~~~~~~~
+  \rst
+  Formats arguments with the given text_style, writes the result to the output
+  iterator ``out`` and returns the iterator past the end of the output range.
+
+  **Example**::
+
+    std::vector<char> out;
+    fmt::format_to(std::back_inserter(out),
+                   fmt::emphasis::bold | fg(fmt::color::red), "{}", 42);
+  \endrst
+*/
+template <typename S, typename... Args, size_t SIZE = inline_buffer_size,
+          typename Char = enable_if_t<detail::is_string<S>::value, char_t<S>>>
+inline typename buffer_context<Char>::iterator format_to(
+    basic_memory_buffer<Char, SIZE>& buf, const text_style& ts,
+    const S& format_str, Args&&... args) {
+  const auto& vargs = fmt::make_args_checked<Args...>(format_str, args...);
+  detail::vformat_to(buf, ts, to_string_view(format_str), vargs);
+  return detail::buffer_appender<Char>(buf);
+}
+
+template <typename OutputIt, typename S, typename... Args,
+          bool enable = detail::is_output_iterator<OutputIt, char_t<S>>::value&&
+              detail::is_string<S>::value>
+inline auto format_to(OutputIt out, const text_style& ts, const S& format_str,
+                      Args&&... args) ->
+    typename std::enable_if<enable, OutputIt>::type {
+  return vformat_to(out, ts, to_string_view(format_str),
+                    fmt::make_args_checked<Args...>(format_str, args...));
+}
+
+FMT_END_NAMESPACE
+
+#endif  // FMT_COLOR_H_
+</output>

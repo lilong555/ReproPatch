@@ -1,0 +1,47 @@
+{
+  "symbol": "reserve",
+  "method": "search_code",
+  "utf8_return_bytes": 521,
+  "results": 6,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "baaa8e4e88d1694134d1ddc59817c3c1ffb53e19cef04ef59a7064621e022a16",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 4,
+        "text": "// All rights reserved."
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 205,
+        "text": "  void reserve(size_t new_cap, size_t new_cap_named) {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 208,
+        "text": "    data_.reserve(new_cap);"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 209,
+        "text": "    named_info_.reserve(new_cap_named);"
+      },
+      {
+        "path": "include/fmt/os.h",
+        "line": 4,
+        "text": "// All rights reserved."
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 4,
+        "text": "// All rights reserved."
+      }
+    ],
+    "truncated": false
+  }
+}

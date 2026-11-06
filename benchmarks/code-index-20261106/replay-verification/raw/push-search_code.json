@@ -1,0 +1,77 @@
+{
+  "symbol": "push",
+  "method": "search_code",
+  "utf8_return_bytes": 1336,
+  "results": 12,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "e60c6658e95da2807bebbc51767c645e56f1243ad224c47bfbed582920b65fbe",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 58,
+        "text": "  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 125,
+        "text": "    named_info_.push_back({arg.name, static_cast<int>(data_.size() - 2u)});"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 148,
+        "text": "   *     store.push_back(42);"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 149,
+        "text": "   *     store.push_back(\"abc\");"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 150,
+        "text": "   *     store.push_back(1.5f);"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 153,
+        "text": "  template <typename T> void push_back(const T& arg) {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 155,
+        "text": "      emplace_arg(dynamic_args_.push<stored_t<T>>(arg));"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 168,
+        "text": "   *     store.push_back(std::cref(band));"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 173,
+        "text": "  template <typename T> void push_back(std::reference_wrapper<T> arg) {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 185,
+        "text": "  template <typename T> void push_back(const named_arg<T, char_type>& arg) {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 187,
+        "text": "        dynamic_args_.push<std::basic_string<char_type>>(arg.name).c_str();"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 190,
+        "text": "          fmt::arg(arg_name, dynamic_args_.push<stored_t<T>>(arg.value)));"
+      }
+    ],
+    "truncated": false
+  }
+}

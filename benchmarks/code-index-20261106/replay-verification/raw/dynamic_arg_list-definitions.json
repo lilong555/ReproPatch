@@ -1,0 +1,210 @@
+{
+  "symbol": "dynamic_arg_list",
+  "method": "definitions",
+  "utf8_return_bytes": 7690,
+  "results": 12,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 4,
+  "next_offset": null,
+  "parse_notes": [
+    {
+      "path": "include/fmt/args.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/os.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    },
+    {
+      "path": "include/fmt/ostream.h",
+      "parse_has_error": true,
+      "index_truncated": false
+    }
+  ],
+  "response_sha256": "2190134b94c29a8dd36284e18f4106433ed686bfc0ba2d1ba1e846454140a9bc",
+  "response": {
+    "kind": "definitions",
+    "query": "dynamic_arg_list",
+    "relation_semantics": "syntactic",
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 19,
+        "end_line": 216,
+        "kind": "variable_declaration",
+        "symbol": "namespace",
+        "scope": "",
+        "qualified_symbol": "namespace",
+        "text": "FMT_BEGIN_NAMESPACE\nnamespace detail {\n\ntemplate <typename T> struct is_reference_wrapper : std::false_type {};\ntemplate <typename T>\nstruct is_reference_wrapper<std::reference_wrapper<T>> : std::true_type {};\n\ntemplate <typename T> auto unwrap(const T& v) -> const T& { return v; }\ntemplate <typename T>\nauto unwrap(const std::reference_wrapper<T>& v) -> const T& {\n  return static_cast<const T&>(v);\n}\n\n// node is defined outside dynamic_arg_list to workaround a C2504 bug in MSVC\n// 2022 (v17.10.0).\n//\n// Workaround for clang's -Wweak-vtables. Unlike for regular classes, for\n// templates it does",
+        "node_id": "include/fmt/args.h:433:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 43,
+        "end_line": 194,
+        "kind": "variable_declaration",
+        "symbol": "FMT_EXPORT template <typename Context>",
+        "scope": "",
+        "qualified_symbol": "FMT_EXPORT template <typename Context>",
+        "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+        "node_id": "include/fmt/args.h:1258:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 43,
+        "end_line": 66,
+        "kind": "class_specifier",
+        "symbol": "dynamic_arg_list",
+        "scope": "",
+        "qualified_symbol": "dynamic_arg_list",
+        "text": "class dynamic_arg_list {\n  template <typename T> struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    ",
+        "node_id": "include/fmt/args.h:1258:class_specifier",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 44,
+        "end_line": 65,
+        "kind": "struct_specifier",
+        "symbol": "typed_node",
+        "scope": "dynamic_arg_list",
+        "qualified_symbol": "dynamic_arg_list::typed_node",
+        "text": "struct typed_node : node<> {\n    T value;\n\n    template <typename Arg>\n    FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}\n\n    template <typename Char>\n    FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };\n\n  std::unique_ptr<node<>> head_;\n\n public:\n  template <typename T, typename Arg> auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  ",
+        "node_id": "include/fmt/args.h:1307:struct_specifier",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 45,
+        "end_line": 45,
+        "kind": "variable_declaration",
+        "symbol": "value",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::value",
+        "text": "T value;",
+        "node_id": "include/fmt/args.h:1340:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 48,
+        "end_line": 48,
+        "kind": "function_definition",
+        "symbol": "value",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::value",
+        "text": "FMT_CONSTEXPR typed_node(const Arg& arg) : value(arg) {}",
+        "node_id": "include/fmt/args.h:1382:function_definition",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 51,
+        "end_line": 53,
+        "kind": "variable_declaration",
+        "symbol": "value",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::value",
+        "text": "FMT_CONSTEXPR typed_node(const basic_string_view<Char>& arg)\n        : value(arg.data(), arg.size()) {}\n  };",
+        "node_id": "include/fmt/args.h:1473:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 55,
+        "end_line": 55,
+        "kind": "variable_declaration",
+        "symbol": "head_",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::head_",
+        "text": "std::unique_ptr<node<>> head_;",
+        "node_id": "include/fmt/args.h:1585:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 58,
+        "end_line": 64,
+        "kind": "function_definition",
+        "symbol": "push",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::push",
+        "text": "auto push(const Arg& arg) -> const T& {\n    auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));\n    auto& value = new_node->value;\n    new_node->next = std::move(head_);\n    head_ = std::move(new_node);\n    return value;\n  }",
+        "node_id": "include/fmt/args.h:1664:function_definition",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 59,
+        "end_line": 59,
+        "kind": "variable_declaration",
+        "symbol": "new_node",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::new_node",
+        "text": "auto new_node = std::unique_ptr<typed_node<T>>(new typed_node<T>(arg));",
+        "node_id": "include/fmt/args.h:1708:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 60,
+        "end_line": 60,
+        "kind": "variable_declaration",
+        "symbol": "value",
+        "scope": "dynamic_arg_list::typed_node",
+        "qualified_symbol": "dynamic_arg_list::typed_node::value",
+        "text": "auto& value = new_node->value;",
+        "node_id": "include/fmt/args.h:1784:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 104,
+        "end_line": 104,
+        "kind": "variable_declaration",
+        "symbol": "dynamic_args_",
+        "scope": "",
+        "qualified_symbol": "dynamic_args_",
+        "text": "detail::dynamic_arg_list dynamic_args_;",
+        "node_id": "include/fmt/args.h:3357:variable_declaration",
+        "source_sha256": "b105f72e62d7eb403c12c4c0ba22a94d42344b20206664814bf9568c6785fc83"
+      }
+    ],
+    "matches_truncated": false,
+    "indexed_files": [
+      "include/fmt/args.h",
+      "include/fmt/os.h",
+      "include/fmt/ostream.h"
+    ],
+    "total_scope_files": 3,
+    "next_offset": null,
+    "parse_notes": [
+      {
+        "path": "include/fmt/args.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/os.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "parse_has_error": true,
+        "index_truncated": false
+      }
+    ],
+    "parser": {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "runtime_version": "0.25.2",
+      "relation_semantics": "syntactic"
+    }
+  }
+}

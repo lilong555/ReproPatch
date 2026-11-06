@@ -1,0 +1,32 @@
+{
+  "symbol": "dynamic_arg_list",
+  "method": "search_code",
+  "utf8_return_bytes": 324,
+  "results": 3,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "799e0976411a6a79345a7d0a53e2acf4ce17916e4459613872e67d67093bb17b",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/args.h",
+        "line": 32,
+        "text": "// node is defined outside dynamic_arg_list to workaround a C2504 bug in MSVC"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 43,
+        "text": "class dynamic_arg_list {"
+      },
+      {
+        "path": "include/fmt/args.h",
+        "line": 104,
+        "text": "  detail::dynamic_arg_list dynamic_args_;"
+      }
+    ],
+    "truncated": false
+  }
+}

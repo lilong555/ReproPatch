@@ -1,0 +1,32 @@
+{
+  "symbol": "write_buffer",
+  "method": "search_code",
+  "utf8_return_bytes": 328,
+  "results": 3,
+  "target_covered": true,
+  "truncated": false,
+  "previews_at_limit": 0,
+  "next_offset": null,
+  "parse_notes": [],
+  "response_sha256": "3d995401fef92b11947895fc050db6d523ae89bb964657c5603ad0de9a189659",
+  "response": {
+    "matches": [
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 56,
+        "text": "void write_buffer(std::basic_ostream<Char>& os, buffer<Char>& buf,"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 144,
+        "text": "  detail::write_buffer(os, buffer);"
+      },
+      {
+        "path": "include/fmt/ostream.h",
+        "line": 160,
+        "text": "  detail::write_buffer(os, buffer);"
+      }
+    ],
+    "truncated": false
+  }
+}
