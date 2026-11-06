@@ -70,6 +70,8 @@ flowchart LR
 
 真实模型连接、工具模式、自检 ccache 与上下文配置见[工程指南](docs/ENGINEERING.md)。发布后接入和优化见[工程路线](docs/ROADMAP.md)，安全与恢复合同见[SECURITY](SECURITY.md)。
 
+[运行时实验结果](docs/EXPERIMENT_RESULTS.md)记录原始轨迹与微基准；[上下文消融](benchmarks/context-ablation/README.md)提供固定分组、触发观测与复算入口。[执行反馈引导定位](docs/LOCALIZATION_DESIGN.md)给出文献依据、接口设计和独立配对实验方案。
+
 ## Release 与证据
 
 发布候选通过 **1159 项测试**：879 Core、232 SDK、48 真实 Docker；4 项历史归档回放按环境条件跳过。安装版三场景与 core-only 正反补丁的 27 条命令符合预期，付费模型请求为 0。[CLI 验收快照与四分钟演示](docs/DEMO.md#已验收快照)提供直接展示入口。

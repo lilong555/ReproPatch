@@ -10,6 +10,16 @@
 | state | 关闭 | 关闭 | 开启 |
 | combined | 开启 | 开启 | 开启 |
 
+## 策略与观测
+
+结构化诊断在校验大小与 SHA-256 后读取完整日志，保留编译器位置、模板实例化关联、源码摘录及 GTest Expected/Actual 正文，合并重复诊断并移除可确认的正常进度。真正截断、来源缺失或解析上限触发时返回原生回执，并记录原因。
+
+精确结果去重覆盖同源码、同参数的完整只读文件/搜索/目录回执，以及同执行阶段的检查回执。工具仍实际执行，当前进度与原文引用随返回保留；源码变化和历史压缩使去重状态失效。状态摘要采用有界投影，保留当前检查和修复状态，记录裁剪原因及实际省略数量。
+
+每条回执记录尝试数、候选数、实际触发、跳过原因和字节变化。请求账本单列 `peak_estimated_input_tokens` 与估算观测覆盖度，供应方实际 Token 用量保持独立统计。
+
+`combined` 对同一回执先尝试精确去重，成功后诊断记录 `superseded_by_dedup`；否则继续尝试诊断投影。组合效应按整条轨迹的真实用量、触发覆盖和冷评分统计，单策略字节节省各自报告。
+
 ## 固定条件
 
 - 模型：`gpt-6-luna`，推理档位 `max`，通过 Azure CPA 的 SSH 回环入口调用。
@@ -33,6 +43,22 @@ gh workflow run formal-benchmark.yml \
 ```
 
 `smoke` 执行一个固定任务的五组联调，`full` 执行全部 190 次尝试。两类运行使用独立的 Attempt ID。正式运行采用 `context_scope=full`，每次工作流生成自己的冻结清单和结果归档。
+
+## 回执策略批次
+
+[trigger-protocol.json](trigger-protocol.json) 使用独立 campaign `context-ablation-trigger-20261106`，绑定原协议 SHA-256，复用相同任务、模型、预算与 48,000 压缩阈值。`receipt-context-v2` 的 smoke 固定为 `fmtlib__fmt-2310` 五组各一次，共 120 次请求额度；全量规模保持 190 条。共享 Actions 并发组将同类批次串行调度，批次内保持最多 8 个 worker。
+
+```bash
+gh workflow run formal-benchmark.yml \
+  --repo lilong555/ReproPatch \
+  --ref fix/context-trigger-20261106 \
+  -f cross_stage=context-ablation \
+  -f cross_protocol=benchmarks/context-ablation/trigger-protocol.json \
+  -f context_scope=smoke \
+  -f authorization=unlimited
+```
+
+[真实回执离线复算](trigger-replay/README.md) 覆盖四归档、89 条回执和四次诊断触发，保存逐条原文身份及返回字节。模型 smoke 用于检查实际触发覆盖、请求行为与冷评分，完整分组收益由同批次配对数据判断。
 
 ## 结果产物
 
