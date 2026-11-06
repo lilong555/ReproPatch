@@ -394,7 +394,10 @@ def prepare_execution_contract(
     ):
         return directory
     if original.budget.model_timeout_seconds != model_timeout_seconds:
-        assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds == 180
+        assert original.budget.model_timeout_seconds == 90 and model_timeout_seconds in (
+            180,
+            600,
+        )
     shutil.copytree(directory, target)
     for original_name, parent_name in (
         ("result.json", "native-qualification-parent.json"),

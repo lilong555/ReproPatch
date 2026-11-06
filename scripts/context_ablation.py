@@ -116,6 +116,17 @@ def read_protocol(path=PROTOCOL):
     require(len(p["tasks"]) == len(set(p["tasks"])) == 19, "TASK_COUNT")
     require(sha(ROOT / p["parent_protocol"]) == p["parent_protocol_sha256"], "PARENT_CHANGED")
     parent = load(ROOT / p["parent_protocol"])
+    overrides = p.get("parent_contract_overrides", {})
+    require(
+        isinstance(overrides, dict) and set(overrides) <= {"model_timeout_seconds"},
+        "PARENT_OVERRIDE_SCOPE",
+    )
+    if overrides:
+        timeout = overrides["model_timeout_seconds"]
+        require(
+            type(timeout) is int and parent["model_timeout_seconds"] <= timeout <= 600,
+            "PARENT_OVERRIDE_TIMEOUT",
+        )
     for key in (
         "context_policy",
         "execution_budget_override",
@@ -131,7 +142,7 @@ def read_protocol(path=PROTOCOL):
         "qualification_archive_sha256",
         "request_cap_per_attempt",
     ):
-        require(p[key] == parent[key], "PARENT_CONTRACT_CHANGED:" + key)
+        require(p[key] == overrides.get(key, parent[key]), "PARENT_CONTRACT_CHANGED:" + key)
     require(set(p["task_contracts"]) == set(p["tasks"]), "TASK_CONTRACT_SET")
     rebuilt = archive_task_contracts(p)
     for instance, observed in rebuilt.items():

@@ -15,7 +15,7 @@
 - 模型：`gpt-6-luna`，推理档位 `max`，通过 Azure CPA 的 SSH 回环入口调用。
 - 执行器：原生 ReproPatch，legacy 六工具，开启中间自检与单任务编译缓存。
 - 上下文：128,000 token 窗口，48,000 触发压缩，21,600 目标，保留最近两轮，工具返回上限 24 KiB。
-- 每次尝试：24 次模型请求、48 次工具调用、7,200 秒总预算、1,200 秒验证预留；摘要请求计入同一请求预算。
+- 每次尝试：24 次模型请求、48 次工具调用、7,200 秒总预算、1,200 秒验证预留，单次模型请求等待上限 600 秒；摘要请求计入同一请求预算。
 - 调度：GitHub Actions 最多 8 个独立 worker，任务与分组顺序预注册在 [protocol.json](protocol.json)。
 - 评分：复用固定镜像、原始资格记录与 `score_benchmark_attempt.py`，对冻结候选补丁执行独立冷评分。
 
@@ -46,3 +46,7 @@ gh workflow run formal-benchmark.yml \
 ## 连接检查
 
 [cpa-concurrency-probe.json](cpa-concurrency-probe.json) 记录一次 8 路同时发起的短请求检查：8 次均返回 HTTP 200 和 `OK`，单请求观测耗时 2.125–6.884 秒。连接检查单独计数；正式轨迹的用量、延迟和失败情况由实验原始记录汇总。
+
+## 联调结果
+
+[五组联调 42216432142](https://github.com/lilong555/ReproPatch/actions/runs/42216432142) 使用单次请求等待上限 180 秒，完成 4 条冷评分，另有 1 条在第 12 次模型请求处超时。原始 [结果表](smoke/summary.md) 与 [完整汇总](smoke/results.json) 独立保存。正式实验的单次请求等待上限为 600 秒，任务源码、测试定义、模型、每条请求额度、总执行预算和五组处理机制保持一致。

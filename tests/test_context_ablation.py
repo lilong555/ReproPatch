@@ -80,6 +80,25 @@ def test_population_order_budget_and_isolated_flags():
     ) == (128000, 48000, 21600)
 
 
+@pytest.mark.parametrize(
+    "overrides,reason",
+    [
+        ({"model": "different-model"}, "PARENT_OVERRIDE_SCOPE"),
+        ({"model_timeout_seconds": True}, "PARENT_OVERRIDE_TIMEOUT"),
+        ({"model_timeout_seconds": 120}, "PARENT_OVERRIDE_TIMEOUT"),
+        ({"model_timeout_seconds": 601}, "PARENT_OVERRIDE_TIMEOUT"),
+        ({}, "PARENT_CONTRACT_CHANGED:model_timeout_seconds"),
+    ],
+)
+def test_only_declared_model_wait_override_is_allowed(overrides, reason, tmp_path):
+    p = campaign.load(campaign.PROTOCOL)
+    p["parent_contract_overrides"] = overrides
+    path = tmp_path / "protocol.json"
+    campaign.save(path, p)
+    with pytest.raises(ValueError, match=reason):
+        campaign.read_protocol(path)
+
+
 def test_manifest_is_bound_to_source_run_and_first_attempt(manifest, monkeypatch):
     path, value = manifest
     assert campaign.read_manifest(path, execution=True) == value
@@ -469,7 +488,10 @@ def test_real_archive_contract_matches_native_preparation(
     assert "tmp_executable" not in raw["environment"]
     assert original["environment"]["tmp_executable"] is False
     updated = deepcopy(original)
-    overrides = {**p["execution_budget_override"], "model_timeout_seconds": 180}
+    overrides = {
+        **p["execution_budget_override"],
+        "model_timeout_seconds": p["model_timeout_seconds"],
+    }
     updated["budget"].update(overrides)
     task = Task.from_dict(updated, tmp_path)
     contract = p["task_contracts"][instance]
@@ -486,6 +508,7 @@ def test_real_archive_contract_matches_native_preparation(
     assert task.to_dict()["budget"] == {**original["budget"], **overrides}
     legacy = deepcopy(updated)
     legacy["environment"].pop("tmp_executable")
+    legacy["budget"]["model_timeout_seconds"] = parent["model_timeout_seconds"]
     assert (
         hashlib.sha256(Task.from_dict(legacy, tmp_path).source_bytes).hexdigest()
         == (contract["legacy_execution_task_sha256"])
