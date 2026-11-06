@@ -477,7 +477,10 @@ def test_real_archive_contract_matches_native_preparation(
     instance,
     real_qualification_tasks,
     tmp_path,
+    monkeypatch,
+    capsys,
 ):
+    import run_benchmark_agent as worker
     from formal_benchmark import prepare_execution_contract
 
     p, parent, records = real_qualification_tasks
@@ -529,6 +532,41 @@ def test_real_archive_contract_matches_native_preparation(
     assert (prepared / "task.yaml").read_bytes() == task.source_bytes
     assert campaign.sha(prepared / "task.yaml") == contract["execution_task_sha256"]
     assert (prepared / "native-qualification-task.yaml").read_bytes() == archived["task.yaml"]
+
+    ledger = LocalUsageLedger.create_scoped(
+        tmp_path / "usage.sqlite3",
+        {"preflight": p["request_cap_per_attempt"]},
+        context_policy=campaign.context_policy(p, "baseline"),
+    )
+    monkeypatch.setattr(worker, "repropatch_agent", lambda *a, **k: pytest.fail("model started"))
+    monkeypatch.setattr(worker, "BudgetHooks", lambda *a, **k: pytest.fail("transport started"))
+    output = tmp_path / "unused-worker-output"
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "run_benchmark_agent.py",
+            "--check-only",
+            "--provider",
+            "local-luna",
+            "--agent",
+            "repropatch",
+            "--reasoning-effort",
+            p["reasoning_effort"],
+            "--task",
+            str(prepared / "task.yaml"),
+            "--ledger",
+            str(ledger.path),
+            "--attempt",
+            "preflight",
+            "--output",
+            str(output),
+        ],
+    )
+    assert worker.main() == 0
+    assert json.loads(capsys.readouterr().out)["requests_reserved"] == 0
+    assert ledger.summary()["requests"] == 0
+    assert not output.exists()
 
 
 @pytest.mark.parametrize(

@@ -65,7 +65,7 @@ def validate_task_budget(task, *, request_cap=12):
     if (
         task.budget.max_output_tokens != POLICY["max_output_tokens"]
         or task.budget.max_steps != request_cap
-        or task.budget.model_timeout_seconds not in (90, 180)
+        or task.budget.model_timeout_seconds not in (90, 180, 600)
         or task.budget.max_tool_calls != tool_cap
     ):
         raise BudgetLimit("BENCHMARK_TASK_BUDGET_MISMATCH")
