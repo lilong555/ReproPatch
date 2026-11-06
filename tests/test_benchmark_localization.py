@@ -2,10 +2,16 @@
 
 import io
 import json
+import sys
 import tarfile
 from pathlib import Path
 
 import pytest
+
+from repropatch.localization import Localization
+from repropatch.tools import Toolbox
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from benchmark_localization import (
     InputWorkspace,
     aggregate,
@@ -24,9 +30,6 @@ from benchmark_localization import (
     sha,
     unpack_verified,
 )
-
-from repropatch.localization import Localization
-from repropatch.tools import Toolbox
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTERED = ROOT / "benchmarks/code-index-20261106"

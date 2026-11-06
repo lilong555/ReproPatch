@@ -5,12 +5,12 @@ import difflib
 import hashlib
 import json
 import sqlite3
+import sys
 from dataclasses import asdict
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
-from score_localization import main
 
 from repropatch.artifacts import EvidenceRef
 from repropatch.events import EventLog, encode_json
@@ -25,6 +25,9 @@ from repropatch.localization_scoring import (
 )
 from repropatch.task import canonical_json
 from repropatch.workspace import source_manifest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from score_localization import main
 
 OLD = "int first;\nint broken = 0;\nint context;\nint other_bug = 0;\nint last;\n"
 NEW = OLD.replace("broken = 0", "broken = 1").replace("other_bug = 0", "other_bug = 1")
