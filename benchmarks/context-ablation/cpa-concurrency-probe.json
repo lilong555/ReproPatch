@@ -1,0 +1,27 @@
+{
+  "schema": "repropatch.cpa-connection-probe.v1",
+  "purpose": "short_connection_probe",
+  "transport": "Azure CPA loopback",
+  "model": "gpt-6-luna",
+  "request": {
+    "instructions": "Reply with exactly OK.",
+    "input": "Connection check.",
+    "stream": false,
+    "max_output_tokens": 64
+  },
+  "concurrency": 8,
+  "requests": 8,
+  "successes": 8,
+  "elapsed_seconds": 6.889,
+  "included_in_ablation_trials": false,
+  "rows": [
+    {"index": 1, "http_status": 200, "completed": true, "ok": true, "seconds": 2.786},
+    {"index": 2, "http_status": 200, "completed": true, "ok": true, "seconds": 2.505},
+    {"index": 3, "http_status": 200, "completed": true, "ok": true, "seconds": 2.431},
+    {"index": 4, "http_status": 200, "completed": true, "ok": true, "seconds": 2.711},
+    {"index": 5, "http_status": 200, "completed": true, "ok": true, "seconds": 3.275},
+    {"index": 6, "http_status": 200, "completed": true, "ok": true, "seconds": 2.125},
+    {"index": 7, "http_status": 200, "completed": true, "ok": true, "seconds": 2.177},
+    {"index": 8, "http_status": 200, "completed": true, "ok": true, "seconds": 6.884}
+  ]
+}

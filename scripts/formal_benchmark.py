@@ -116,7 +116,7 @@ def record_native_startup_failure(attempt, settings, target, ledger, log, exit_c
     save(target / "result.json", result)
 
 
-def freeze_configuration(output, value):
+def freeze_configuration(output, value, *, protocol_path=None):
     from repropatch.harness import implementation_sha256
 
     save(output / "protocol.json", value)
@@ -126,7 +126,7 @@ def freeze_configuration(output, value):
             "source_commit": subprocess.check_output(
                 ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
             ).strip(),
-            "protocol_sha256": sha(PROTOCOL),
+            "protocol_sha256": sha(protocol_path or PROTOCOL),
             "github_run_id": os.environ.get("GITHUB_RUN_ID"),
             "github_run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
             "implementation_sha256": implementation_sha256(),
@@ -428,11 +428,12 @@ def prepare_execution_contract(
     return target
 
 
-def prepare(instance, output, arm="all"):
-    if protocol().get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
+def prepare(instance, output, arm="all", *, configuration=None, protocol_path=None):
+    p = protocol() if configuration is None else configuration
+    if p.get("campaign_schema") == "repropatch.cross-repository-campaign.v1":
         from cross_repo_campaign import prepare
 
-        return prepare(instance, output, arm, protocol())
+        return prepare(instance, output, arm, p)
     from agents.testing import ScriptedModel, assistant_message
     from prepare_mini_environment import MINI_COMMIT
     from qualify_cpp_batch import ADAPTER, BUILD_TEST, archive, records, validate_record
@@ -440,10 +441,9 @@ def prepare(instance, output, arm="all"):
     from repropatch.harness import Harness
     from repropatch.task import Task
 
-    p = protocol()
     assert instance in p["tasks"]
     output.mkdir(parents=True, exist_ok=False)
-    freeze_configuration(output, p)
+    freeze_configuration(output, p, protocol_path=protocol_path)
     assert (
         subprocess.check_output(
             ["docker", "image", "inspect", "--format", "{{.Id}}", p["image"]], text=True

@@ -2,6 +2,7 @@
 
 import asyncio
 import importlib
+import json
 import sys
 from pathlib import Path
 
@@ -122,6 +123,96 @@ def test_open_campaign_keeps_unique_claims_and_separate_historical_allocation(tm
     )
     assert historical["allocated_phase_requests"] == 24
     assert manager.retry() == 2
+
+
+def context_claim(phase="smoke", number=0, run="123"):
+    campaign = "context-ablation-20261106"
+    return {
+        "action": "claim",
+        "campaign": campaign,
+        "phase": phase,
+        "attempt_id": f"{campaign}/{phase}/task-{number}/baseline/repeat-1",
+        "run_id": run,
+        "request_cap": 24,
+    }
+
+
+def test_context_claim_persists_across_runs_and_lease_release(tmp_path):
+    config = tmp_path / "config.yaml"
+    config.write_text("request-retry: 2\n")
+    directory = tmp_path / "state"
+    manager = server.LeaseManager(config, directory, reload_probe=lambda _: None)
+    identity = {"owner": "context-ablation-20261106", "member": "job-1", "token": "a" * 64}
+    manager.rpc({**identity, "action": "enter"})
+    request = context_claim()
+    assert manager.rpc(request)["allocated_phase_requests"] == 24
+    manager.rpc({**identity, "action": "release"})
+    saved = (directory / "claims.json").read_bytes()
+    restarted = server.LeaseManager(config, directory, reload_probe=lambda _: None)
+    with pytest.raises(ValueError, match="ALREADY_CLAIMED"):
+        restarted.rpc({**request, "run_id": "124"})
+    assert (directory / "claims.json").read_bytes() == saved
+    assert json.loads(saved)[request["attempt_id"]]["run_id"] == "123"
+    assert restarted.retry() == 2
+
+
+@pytest.mark.parametrize("phases", [("smoke", "full"), ("full", "smoke")])
+def test_context_claim_phase_limits_are_independent(tmp_path, phases):
+    config = tmp_path / "config.yaml"
+    config.write_text("request-retry: 2\n")
+    manager = server.LeaseManager(config, tmp_path / "state", reload_probe=lambda _: None)
+    limits = {"smoke": 120, "full": 4560}
+    for phase in phases:
+        for number in range(limits[phase] // 24):
+            result = manager.rpc(context_claim(phase, number))
+            assert result["allocated_phase_requests"] == (number + 1) * 24
+        with pytest.raises(ValueError, match="BUDGET_EXHAUSTED"):
+            manager.rpc(context_claim(phase, 999))
+    claims = json.loads((tmp_path / "state/claims.json").read_text())
+    assert len(claims) == 195
+    for phase, cap in limits.items():
+        assert sum(row["request_cap"] for row in claims.values() if row["phase"] == phase) == cap
+    historical = manager.rpc(
+        {
+            **context_claim(),
+            "campaign": "cross-repository-20261028",
+            "phase": "development",
+            "attempt_id": "dev/task/full/first",
+        }
+    )
+    assert historical["allocated_phase_requests"] == 24
+    native = manager.rpc(
+        {
+            **context_claim(),
+            "campaign": server.UNBOUNDED_CAMPAIGN,
+            "phase": "development",
+            "attempt_id": server.UNBOUNDED_CAMPAIGN + "/task/full/first",
+            "request_cap": None,
+        }
+    )
+    assert native["allocated_phase_requests"] is None
+
+
+@pytest.mark.parametrize(
+    "changes,reason",
+    [
+        ({"phase": "development"}, "ALLOCATION_REJECTED"),
+        ({"attempt_id": "context-ablation-20261106/full/task/baseline/repeat-1"}, "CLAIM_INVALID"),
+        ({"attempt_id": "context-ablation-20261106/smoke-extra/task"}, "CLAIM_INVALID"),
+        ({"attempt_id": "other/smoke/task"}, "CLAIM_INVALID"),
+        ({"request_cap": None}, "CLAIM_INVALID"),
+        ({"request_cap": 1}, "CLAIM_INVALID"),
+        ({"request_cap": 25}, "CLAIM_INVALID"),
+        ({"request_cap": True}, "CLAIM_INVALID"),
+    ],
+)
+def test_context_claim_validates_phase_prefix_and_fixed_attempt_cap(tmp_path, changes, reason):
+    config = tmp_path / "config.yaml"
+    config.write_text("request-retry: 2\n")
+    manager = server.LeaseManager(config, tmp_path / "state", reload_probe=lambda _: None)
+    with pytest.raises(ValueError, match=reason):
+        manager.rpc({**context_claim(), **changes})
+    assert not (tmp_path / "state/claims.json").exists()
 
 
 @pytest.mark.sdk

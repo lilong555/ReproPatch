@@ -224,6 +224,14 @@ async def run_agent(harness, workspace) -> AgentResult:
     current_body = None
     context_state = harness.context_state or ContextState(harness.context_policy)
     harness.context_state = context_state
+    optimizer = None
+    if any(
+        getattr(harness.context_policy, name)
+        for name in ("diagnostic_extraction", "deduplicate_results", "state_aware_compaction")
+    ):
+        from .context_optimization import ContextOptimizer
+
+        optimizer = ContextOptimizer(context_state)
     closed = False
     (harness.directory / "agent").mkdir(mode=0o700, exist_ok=True)
     (harness.directory / "agent/native").mkdir(mode=0o700, exist_ok=True)
@@ -268,6 +276,8 @@ async def run_agent(harness, workspace) -> AgentResult:
             **model_parameters,
             **native,
         }
+        if harness.context_policy.state_aware_compaction and semantic is not None:
+            semantic.track_source()
         meter = harness.context_meter
         if meter is not None and meter.last_request_body is not None:
             current_body = {**meter.last_request_body, **native}
@@ -516,7 +526,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             "agent_seconds_remaining": max(0, int(context.clock.remaining("agent_check"))),
             "source_changed": workspace.expected_manifest != workspace.initial_manifest,
         }
-        if semantic is not None:
+        if semantic_tools_enabled:
             value["evidence_id"] = tool_id
         reference = EvidenceRef.save(
             harness.directory,
@@ -531,8 +541,27 @@ async def run_agent(harness, workspace) -> AgentResult:
                 value,
                 asdict(reference),
                 tool_id=tool_id,
+                **({"track_source": True} if harness.context_policy.state_aware_compaction else {}),
             )
             context_state.semantic_state = semantic.to_dict()
+        projected_text, optimization_events = None, []
+        if optimizer is not None:
+            native_text = canonical_json(value).decode("utf-8")
+            if harness.context_policy.compaction_enabled:
+                native_text = fold_tool_output(
+                    native_text,
+                    harness.context_policy.tool_output_max_bytes,
+                    lambda raw: reference.path,
+                )
+            projected_text, optimization_events = optimizer.project(
+                name,
+                json.loads(call.arguments),
+                value,
+                asdict(reference),
+                tool_id=tool_id,
+                source=workspace.expected_manifest.sha256,
+                native=native_text,
+            )
         log.emit(
             "tool_finished",
             {
@@ -540,15 +569,18 @@ async def run_agent(harness, workspace) -> AgentResult:
                 "name": name,
                 "ok": value["ok"],
                 "result_ref": asdict(reference),
+                **({"context_optimization": optimization_events} if optimizer is not None else {}),
             },
             **identity,
         )
         if context_state.compactions:
             context_state.compactions[-1]["continued_with_tools"] = True
         deadline()
+        if projected_text is not None:
+            return projected_text
         text = canonical_json(value).decode("utf-8")
         if harness.context_policy.compaction_enabled:
-            return fold_tool_output(
+            text = fold_tool_output(
                 text,
                 harness.context_policy.tool_output_max_bytes,
                 lambda raw: reference.path,
@@ -562,7 +594,8 @@ async def run_agent(harness, workspace) -> AgentResult:
         readable=harness.resolved.readable_files,
     )
     semantic = None
-    if getattr(harness, "semantic_state_enabled", False):
+    semantic_tools_enabled = getattr(harness, "semantic_state_enabled", False)
+    if semantic_tools_enabled or harness.context_policy.state_aware_compaction:
         from .semantic_state import SemanticState
 
         semantic = SemanticState(
@@ -572,6 +605,8 @@ async def run_agent(harness, workspace) -> AgentResult:
                 harness.directory, limit=ref["size_bytes"]
             ),
         )
+        if harness.context_policy.state_aware_compaction:
+            semantic.track_source()
         context_state.semantic_state = semantic.to_dict()
     tools = (
         shell_only_tools(
@@ -583,7 +618,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             toolbox,
             boundary,
             lambda command, cwd, timeout: harness._agent_shell(workspace, command, cwd, timeout),
-            semantic=semantic,
+            semantic=semantic if semantic_tools_enabled else None,
         )
     )
     if not harness.intermediate_checks_enabled:
@@ -605,7 +640,7 @@ async def run_agent(harness, workspace) -> AgentResult:
         ],
     }
     baseline = model_evaluation(harness.baseline.to_dict())
-    if semantic is not None and "baseline" not in semantic.state.get("evidence", {}):
+    if semantic_tools_enabled and "baseline" not in semantic.state.get("evidence", {}):
         semantic.register_evidence("baseline", save("baseline-observation", baseline))
     initial = [
         {
@@ -642,7 +677,7 @@ async def run_agent(harness, workspace) -> AgentResult:
             ).decode(),
         }
     ]
-    if semantic is not None:
+    if semantic_tools_enabled:
         # 任务约束长期固定；大型基线诊断作为可压缩观察，保持其原始可见内容。
         contract = json.loads(initial[0]["content"])
         observation = contract.pop("baseline")

@@ -58,6 +58,9 @@ class ContextPolicy:
     retain_rounds: int = 2
     tool_output_max_bytes: int = 24 * 1024
     compaction_enabled: bool = True
+    diagnostic_extraction: bool = False
+    deduplicate_results: bool = False
+    state_aware_compaction: bool = False
 
     def __post_init__(self):
         if self.request_cap is not None and (
@@ -93,7 +96,12 @@ class ContextPolicy:
         return cls(**value)
 
     def to_dict(self):
-        return asdict(self)
+        value = asdict(self)
+        # Keep disabled ablations byte-compatible with frozen policies.
+        for name in ("diagnostic_extraction", "deduplicate_results", "state_aware_compaction"):
+            if value[name] is False:
+                value.pop(name)
+        return value
 
 
 def encoded(value):
@@ -358,6 +366,7 @@ class ContextState:
     compactions: list[dict] = field(default_factory=list)
     fixed_items: list[dict] | None = None
     semantic_state: dict | None = None
+    optimization_state: dict = field(default_factory=dict)
 
     def plan(self, body):
         if not self.policy.compaction_enabled:
@@ -403,7 +412,7 @@ class ContextState:
         if not history[:cut]:
             # 固定头部保留完整；最终准入在完整请求正文留证后执行。
             return None
-        return {
+        plan = {
             "fixed": list(self.fixed_items),
             "retained": retained,
             "summarize": visible(items[:fixed_count] + history[:cut]),
@@ -411,6 +420,23 @@ class ContextState:
             "pre_transport_bytes": len(encoded(body)),
             "folded_items": cut,
         }
+        if self.policy.state_aware_compaction and self.semantic_state is not None:
+            from .context_optimization import state_checkpoint
+
+            checkpoint = state_checkpoint(
+                self.semantic_state,
+                maximum=min(12_000, self.policy.compact_target_tokens * 3 // 4),
+            )
+            if checkpoint is not None:
+                plan["state_checkpoint"] = {
+                    "role": "user",
+                    "content": "Current source-bound tool receipts:\n"
+                    + encoded(checkpoint).decode()
+                    + "\nUse these receipts for current checks and pending verification. "
+                    "Historical references describe earlier source states.",
+                }
+                plan["summarize"].append(plan["state_checkpoint"])
+        return plan
 
     def replace(self, body, plan, summary_text, *, sequence, duration_seconds):
         try:
@@ -426,7 +452,9 @@ class ContextState:
             "content": "Visible state checkpoint:\n" + encoded(summary).decode(),
         }
         state_messages = []
-        if self.semantic_state is not None:
+        if "state_checkpoint" in plan:
+            state_messages.append(plan["state_checkpoint"])
+        elif self.semantic_state is not None and not self.policy.state_aware_compaction:
             from .semantic_state import state_view
 
             state_messages.append(
@@ -466,6 +494,32 @@ class ContextState:
                 "folded_items": plan["folded_items"],
             }
         )
+        if self.policy.deduplicate_results:
+            # Archived receipts can outlive the visible tool rounds that disclosed them.
+            invalidated = len(self.optimization_state.get("dedup_index", {}))
+            self.optimization_state["dedup_index"] = {}
+            self.optimization_state["compaction_invalidations"] = (
+                self.optimization_state.get("compaction_invalidations", 0) + 1
+            )
+            self.compactions[-1]["dedup_invalidation"] = {
+                "reason": "context_compaction",
+                "invalidated_entries": invalidated,
+            }
+        if "state_checkpoint" in plan:
+            from .context_optimization import initialize, record_optimization
+
+            initialize(self.optimization_state)["metrics"]["state_aware_compaction"][
+                "attempts"
+            ] += 1
+            event = record_optimization(
+                self.optimization_state,
+                "state_aware_compaction",
+                0,
+                len(encoded(plan["state_checkpoint"])),
+                sequence=sequence,
+                measurement="retained_state_message",
+            )
+            self.compactions[-1]["context_optimization"] = [event]
         return replacement
 
     def to_dict(self):
@@ -477,6 +531,7 @@ class ContextState:
             "fixed_items": self.fixed_items,
             "estimator": self.estimator.to_dict(),
             "semantic_state": self.semantic_state,
+            **({"optimization_state": self.optimization_state} if self.optimization_state else {}),
         }
 
     @classmethod
@@ -491,6 +546,7 @@ class ContextState:
             value["compactions"],
             value["fixed_items"],
             value.get("semantic_state"),
+            value.get("optimization_state", {}),
         )
 
 

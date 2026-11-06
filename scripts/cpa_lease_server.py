@@ -101,6 +101,7 @@ class LeaseManager:
         phase = request.get("phase")
         cap = request.get("request_cap")
         unbounded = campaign == UNBOUNDED_CAMPAIGN and phase == "development"
+        context_ablation = campaign == "context-ablation-20261106"
         limits = {
             "calibration": 12,
             "development": 480,
@@ -108,7 +109,12 @@ class LeaseManager:
             "repeat": 720,
             "infrastructure-revalidation": 480,
         }
-        if not unbounded and (campaign != "cross-repository-20261028" or phase not in limits):
+        if context_ablation:
+            limits = {"smoke": 120, "full": 4560}
+        if not unbounded and (
+            (campaign != "cross-repository-20261028" and not context_ablation)
+            or phase not in limits
+        ):
             raise ValueError("CPA_CAMPAIGN_ALLOCATION_REJECTED")
         if (
             not isinstance(attempt, str)
@@ -121,6 +127,7 @@ class LeaseManager:
                 else type(cap) is not int or cap != (1 if phase == "calibration" else 24)
             )
             or (unbounded and not attempt.startswith(campaign + "/"))
+            or (context_ablation and not attempt.startswith(campaign + "/" + phase + "/"))
         ):
             raise ValueError("CPA_ATTEMPT_CLAIM_INVALID")
         path = self.directory / "claims.json"
@@ -131,7 +138,10 @@ class LeaseManager:
         allocated = sum(row["request_cap"] or 0 for row in campaign_claims if row["phase"] == phase)
         if not unbounded and (
             allocated + cap > limits[phase]
-            or sum(row["request_cap"] for row in campaign_claims) + cap > 5292
+            or (
+                not context_ablation
+                and sum(row["request_cap"] for row in campaign_claims) + cap > 5292
+            )
         ):
             raise ValueError("CPA_CAMPAIGN_BUDGET_EXHAUSTED")
         row = {

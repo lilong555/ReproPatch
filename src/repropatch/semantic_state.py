@@ -389,7 +389,37 @@ class SemanticState:
             "next_offset": offset + len(part) if offset + len(part) < len(raw) else None,
         }
 
-    def observe(self, name, arguments, value, reference, *, tool_id):
+    def track_source(self):
+        """Track the validated workspace snapshot without constructing a syntax index."""
+        workspace = self.toolbox.workspace
+        manifest = workspace.expected_manifest
+        source = manifest.sha256
+        if self.state.get("source_tree_sha256") != source:
+            self.state["source_epoch"] = self.state.get("source_epoch", 0) + 1
+            self.state["source_tree_sha256"] = source
+        initial = workspace.initial_manifest.by_path
+        changes = []
+        for entry in manifest.files:
+            before = initial.get(entry.path)
+            if before == entry:
+                continue
+            change = {
+                "path": entry.path,
+                "before_sha256": before.sha256 if before else None,
+                "after_sha256": entry.sha256,
+            }
+            receipt = self.state["changes"].get(entry.path, {})
+            if receipt.get("after_sha256") == entry.sha256:
+                change.update({k: receipt[k] for k in ("tool_id", "evidence") if k in receipt})
+            changes.append(change)
+        for path in sorted(initial.keys() - manifest.by_path.keys()):
+            changes.append(
+                {"path": path, "before_sha256": initial[path].sha256, "after_sha256": None}
+            )
+        self.state["current_changes"] = changes
+        return source
+
+    def observe(self, name, arguments, value, reference, *, tool_id, track_source=False):
         """只登记已完成工具的可见输出与身份，编译和测试状态直接来自工具结果。"""
         self.state["sequence"] += 1
         data = value.get("data", {}) if isinstance(value, dict) else {}
@@ -412,6 +442,19 @@ class SemanticState:
             "paths": sorted(paths),
             "evidence": reference,
         }
+        if track_source:
+            source = self.track_source()
+            event.update(
+                source_tree_sha256=data.get("source_tree_sha256") or source,
+                source_epoch=self.state["source_epoch"],
+                phase=(
+                    arguments.get("name")
+                    if name == "run_command"
+                    else "run_shell:" + hashlib.sha256(canonical_json(arguments)).hexdigest()
+                    if name == "run_shell"
+                    else name
+                ),
+            )
         self.register_evidence(tool_id, reference)
         for key in ("query", "name", "start_line", "max_lines"):
             if key in arguments:
@@ -441,8 +484,32 @@ class SemanticState:
                     if item.get("observed_status") != "passed"
                 ][:30],
             }
+            if track_source:
+                check.update(
+                    passed=data.get("passed") if value.get("ok") else None,
+                    exit_codes={
+                        key: data[key].get("exit_code")
+                        for key in ("configure", "build", "discovery")
+                        if isinstance(data.get(key), dict)
+                    },
+                )
+                if name == "run_shell":
+                    check.update(
+                        command=_clip(arguments.get("command", ""), 4096),
+                        exit_code=data.get("exit_code"),
+                        status=data.get("status"),
+                        passed=(
+                            data["exit_code"] == 0
+                            if value.get("ok")
+                            and data.get("status") == "exited"
+                            and type(data.get("exit_code")) is int
+                            else None
+                        ),
+                    )
             self.state["checks"].append(check)
             self.state["checks"] = self.state["checks"][-32:]
+        if track_source:
+            self.track_source()
         return event
 
     def to_dict(self):
