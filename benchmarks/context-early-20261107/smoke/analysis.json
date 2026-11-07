@@ -1,0 +1,356 @@
+{
+  "arms": {
+    "baseline": {
+      "n": 1,
+      "accepted": 1,
+      "success_rate": 1.0,
+      "input_mean": 131104.0,
+      "output_mean": 2022.0,
+      "total_mean": 133126.0,
+      "input_change_percent": 0.0,
+      "total_change_percent": 0.0,
+      "requests": 13,
+      "cached_input_tokens": 105216,
+      "score_statuses": {
+        "ORACLE_PASSED": 1
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "early_observation_reduction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "observation_recall": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {
+            "recall_rejected": 0
+          },
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    },
+    "early": {
+      "n": 1,
+      "accepted": 1,
+      "success_rate": 1.0,
+      "input_mean": 116642.0,
+      "output_mean": 5845.0,
+      "total_mean": 122487.0,
+      "input_change_percent": -11.030937271174036,
+      "total_change_percent": -7.991677057824919,
+      "requests": 13,
+      "cached_input_tokens": 65792,
+      "score_statuses": {
+        "ORACLE_PASSED": 1
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "early_observation_reduction": {
+          "candidate_count": 3,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 1,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 3,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 7596,
+            "added_bytes": 0
+          }
+        },
+        "observation_recall": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {
+            "recall_rejected": 0
+          },
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    },
+    "early_state": {
+      "n": 1,
+      "accepted": 1,
+      "success_rate": 1.0,
+      "input_mean": 168937.0,
+      "output_mean": 6107.0,
+      "total_mean": 175044.0,
+      "input_change_percent": 28.85724310471076,
+      "total_change_percent": 31.48746300497274,
+      "requests": 20,
+      "cached_input_tokens": 75904,
+      "score_statuses": {
+        "ORACLE_PASSED": 1
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": 1,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {
+            "below_threshold": 15
+          },
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 1,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 1,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 1580,
+            "saved_bytes": 0,
+            "added_bytes": 1580
+          }
+        },
+        "early_observation_reduction": {
+          "candidate_count": 4,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {
+            "model_keep": 1
+          },
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 1,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 3,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 9198,
+            "added_bytes": 0
+          }
+        },
+        "observation_recall": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 1,
+          "skip_reasons": {
+            "recall_rejected": 0
+          },
+          "skip_reason_observed_trials": 1,
+          "triggered_trials": 0,
+          "observed_trials": 1,
+          "missing_trials": 0,
+          "coverage_denominator": 1,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    }
+  },
+  "paired_outcomes": {
+    "early": {
+      "both_pass": 1
+    },
+    "early_state": {
+      "both_pass": 1
+    }
+  },
+  "task_results": {
+    "fmtlib__fmt-2070": {
+      "baseline": 1,
+      "early": 1,
+      "early_state": 1
+    }
+  },
+  "usage": {
+    "requests": 46,
+    "repair_requests": 38,
+    "compact_requests": 8,
+    "input_tokens": 416683,
+    "output_tokens": 13974,
+    "cached_input_tokens": 246912,
+    "unknown_usage_requests": 0
+  },
+  "schema": "repropatch.context-result-evidence.v1",
+  "run_id": 42343788196,
+  "source_commit": "586fe18e9d073d92a9943f220919f2a6d4b53af7",
+  "registered_trials": 3,
+  "verified_raw": 3,
+  "failure_count": 0,
+  "failure_tasks": {},
+  "input_refs": {
+    "results_sha256": "40c89a707df72c1b15bf6553ab1e8a5d9148e7500557835d21c3121737714422",
+    "artifacts_sha256": "4a19c9e0054cff0a2b9e4896adee6943e512e530106d304900599441813da7b8",
+    "analysis_source_sha256": "31c1f812b8b5e5044e68bca5e29a8521801f0f36e69a4ce238c0f8c1cc2894bb"
+  }
+}

@@ -1,0 +1,27 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index 9b4f9d4ed5ab469ece30ed312eba801919f1832c..48079b28345ddb11d96a50a125ab3b99953cc6c6 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -1626,6 +1626,7 @@ struct chrono_format_checker : null_chrono_spec_handler<chrono_format_checker> {
+   FMT_CONSTEXPR void on_12_hour(numeric_system, pad_type) {}
+   FMT_CONSTEXPR void on_minute(numeric_system, pad_type) {}
+   FMT_CONSTEXPR void on_second(numeric_system, pad_type) {}
++  FMT_CONSTEXPR void on_day_of_year() {}
+   FMT_CONSTEXPR void on_12_hour_time() {}
+   FMT_CONSTEXPR void on_24_hour_time() {}
+   FMT_CONSTEXPR void on_iso_time() {}
+@@ -1884,7 +1885,13 @@ struct chrono_formatter {
+   void on_dec0_week_of_year(numeric_system) {}
+   void on_dec1_week_of_year(numeric_system) {}
+   void on_iso_week_of_year(numeric_system) {}
+-  void on_day_of_year() {}
++  void on_day_of_year() {
++    using day_duration = std::chrono::duration<rep, std::ratio<86400>>;
++    auto days = fmt_duration_cast<day_duration>(
++                    std::chrono::duration<rep, Period>(val))
++                    .count();
++    write(days, 0);
++  }
+   void on_day_of_month(numeric_system) {}
+   void on_day_of_month_space(numeric_system) {}
+ 

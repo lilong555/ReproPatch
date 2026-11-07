@@ -1,0 +1,2230 @@
+{
+  "schema": "repropatch.completed-artifacts.v1",
+  "run_id": 42343832567,
+  "source_commit": "586fe18e9d073d92a9943f220919f2a6d4b53af7",
+  "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567",
+  "raw_artifacts": [
+    {
+      "id": 13570830096,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDgzMDA5Ng==",
+      "name": "context-raw-42343832567-trial-028",
+      "size_in_bytes": 2683791,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570830096",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570830096/zip",
+      "expired": false,
+      "digest": "sha256:096073eb2bb5c457356c0fdf69f5617147a510cdabfa067fa44de708eccb0581",
+      "created_at": "2026-11-07T10:11:04Z",
+      "updated_at": "2026-11-07T10:11:04Z",
+      "expires_at": "2026-12-07T10:11:02Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570821484,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDgyMTQ4NA==",
+      "name": "context-raw-42343832567-trial-035",
+      "size_in_bytes": 5354930,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570821484",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570821484/zip",
+      "expired": false,
+      "digest": "sha256:406e8516acb8d82d8300aff6008f62c796bde0f5330d0392463b1c2058fb0417",
+      "created_at": "2026-11-07T10:21:43Z",
+      "updated_at": "2026-11-07T10:21:43Z",
+      "expires_at": "2026-12-07T10:21:42Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570806336,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDgwNjMzNg==",
+      "name": "context-raw-42343832567-trial-033",
+      "size_in_bytes": 4295980,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570806336",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570806336/zip",
+      "expired": false,
+      "digest": "sha256:0043a4a94bebdd2a2cb73d0b5a62f978736f1cf87f58ea59c92de3469904d6a5",
+      "created_at": "2026-11-07T10:20:18Z",
+      "updated_at": "2026-11-07T10:20:18Z",
+      "expires_at": "2026-12-07T10:20:18Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570796418,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDc5NjQxOA==",
+      "name": "context-raw-42343832567-trial-032",
+      "size_in_bytes": 9599804,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570796418",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570796418/zip",
+      "expired": false,
+      "digest": "sha256:2e247a8e5ac9f7dfe69d53844b3d40b0872f7a71b0cdd24fe5d94082a0ee60b2",
+      "created_at": "2026-11-07T10:20:51Z",
+      "updated_at": "2026-11-07T10:20:51Z",
+      "expires_at": "2026-12-07T10:20:50Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570651156,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDY1MTE1Ng==",
+      "name": "context-raw-42343832567-trial-031",
+      "size_in_bytes": 3935859,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570651156",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570651156/zip",
+      "expired": false,
+      "digest": "sha256:7390e4592ebbc3fcbbf1b4ad0fa8a136ad66d272ba2e22cb3a0962fda2818f5b",
+      "created_at": "2026-11-07T10:17:32Z",
+      "updated_at": "2026-11-07T10:17:32Z",
+      "expires_at": "2026-12-07T10:17:30Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570607184,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDYwNzE4NA==",
+      "name": "context-raw-42343832567-trial-034",
+      "size_in_bytes": 1703075,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570607184",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570607184/zip",
+      "expired": false,
+      "digest": "sha256:b24bc1fbf8071a589903e2a49708d175bcaa1a5bffc897757cef38287fb4b172",
+      "created_at": "2026-11-07T10:18:40Z",
+      "updated_at": "2026-11-07T10:18:40Z",
+      "expires_at": "2026-12-07T10:18:39Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570601440,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDYwMTQ0MA==",
+      "name": "context-raw-42343832567-trial-036",
+      "size_in_bytes": 3883691,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570601440",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570601440/zip",
+      "expired": false,
+      "digest": "sha256:bb18318a3d6cfcc0380d22c3da7182237a89e7950c673e13368d6cc23d326aa8",
+      "created_at": "2026-11-07T10:19:41Z",
+      "updated_at": "2026-11-07T10:19:41Z",
+      "expires_at": "2026-12-07T10:19:40Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570535298,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDUzNTI5OA==",
+      "name": "context-raw-42343832567-trial-022",
+      "size_in_bytes": 2390774,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570535298",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570535298/zip",
+      "expired": false,
+      "digest": "sha256:8a68def046f3dae4c38738bffc1d184241bf913aeae7f08780addd0539c7dcf1",
+      "created_at": "2026-11-07T10:06:03Z",
+      "updated_at": "2026-11-07T10:06:03Z",
+      "expires_at": "2026-12-07T10:06:02Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570363157,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM2MzE1Nw==",
+      "name": "context-raw-42343832567-trial-027",
+      "size_in_bytes": 2907938,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570363157",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570363157/zip",
+      "expired": false,
+      "digest": "sha256:d8f3d6f5486c4420042dc7fdd164290d007de79c84de6a4011bdbe46a8d4d93d",
+      "created_at": "2026-11-07T10:12:52Z",
+      "updated_at": "2026-11-07T10:12:52Z",
+      "expires_at": "2026-12-07T10:12:51Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570355748,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM1NTc0OA==",
+      "name": "context-raw-42343832567-trial-011",
+      "size_in_bytes": 1718713,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570355748",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570355748/zip",
+      "expired": false,
+      "digest": "sha256:17accf9208361bdb1aac52dbdeed8c595d5cd0f8567681c0244f8d327d603c69",
+      "created_at": "2026-11-07T09:53:16Z",
+      "updated_at": "2026-11-07T09:53:16Z",
+      "expires_at": "2026-12-07T09:53:14Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570352236,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM1MjIzNg==",
+      "name": "context-raw-42343832567-trial-021",
+      "size_in_bytes": 4820598,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570352236",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570352236/zip",
+      "expired": false,
+      "digest": "sha256:35ba33f7cc6970fae6b2e899c3ee2c7d85e408206bf36bf6c08a600b05fba34d",
+      "created_at": "2026-11-07T10:04:43Z",
+      "updated_at": "2026-11-07T10:04:43Z",
+      "expires_at": "2026-12-07T10:04:42Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570342051,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM0MjA1MQ==",
+      "name": "context-raw-42343832567-trial-019",
+      "size_in_bytes": 3505880,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570342051",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570342051/zip",
+      "expired": false,
+      "digest": "sha256:35a85f022d7d89c51810da4568ec37dc6e53495f1207ed0fd111d774c9cec9bb",
+      "created_at": "2026-11-07T10:02:12Z",
+      "updated_at": "2026-11-07T10:02:12Z",
+      "expires_at": "2026-12-07T10:02:10Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570307433,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDMwNzQzMw==",
+      "name": "context-raw-42343832567-trial-020",
+      "size_in_bytes": 1469429,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570307433",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570307433/zip",
+      "expired": false,
+      "digest": "sha256:cb0cb5ce7d91129d9535309ed14da58f8652bae86700efb53697176c30b63398",
+      "created_at": "2026-11-07T10:02:35Z",
+      "updated_at": "2026-11-07T10:02:35Z",
+      "expires_at": "2026-12-07T10:02:33Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570262408,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDI2MjQwOA==",
+      "name": "context-raw-42343832567-trial-017",
+      "size_in_bytes": 2555477,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570262408",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570262408/zip",
+      "expired": false,
+      "digest": "sha256:816eeb6221184b9b8663ded7d38d1a0ae6078ca4c1c25b6a12170f367d4f2ffa",
+      "created_at": "2026-11-07T09:59:28Z",
+      "updated_at": "2026-11-07T09:59:28Z",
+      "expires_at": "2026-12-07T09:59:28Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570162836,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDE2MjgzNg==",
+      "name": "context-raw-42343832567-trial-016",
+      "size_in_bytes": 8059042,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570162836",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570162836/zip",
+      "expired": false,
+      "digest": "sha256:26145215cc88dcbeee503c5c1dca8128a93844e1e483a0b51952a9210a53dd89",
+      "created_at": "2026-11-07T10:00:11Z",
+      "updated_at": "2026-11-07T10:00:11Z",
+      "expires_at": "2026-12-07T10:00:10Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570135916,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEzNTkxNg==",
+      "name": "context-raw-42343832567-trial-002",
+      "size_in_bytes": 6639848,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570135916",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570135916/zip",
+      "expired": false,
+      "digest": "sha256:197f6b1df3520db46d9c491adf689dff17ce6c2173831496b805a827800083ba",
+      "created_at": "2026-11-07T09:46:08Z",
+      "updated_at": "2026-11-07T09:46:08Z",
+      "expires_at": "2026-12-07T09:46:07Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570126622,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEyNjYyMg==",
+      "name": "context-raw-42343832567-trial-012",
+      "size_in_bytes": 1744368,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570126622",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570126622/zip",
+      "expired": false,
+      "digest": "sha256:233f4751d7cfa71ce04c85cbd224d2ced2bf89e720e4e8d39440f7db97b97a25",
+      "created_at": "2026-11-07T09:51:33Z",
+      "updated_at": "2026-11-07T09:51:33Z",
+      "expires_at": "2026-12-07T09:51:32Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570119471,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDExOTQ3MQ==",
+      "name": "context-raw-42343832567-trial-029",
+      "size_in_bytes": 1834504,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570119471",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570119471/zip",
+      "expired": false,
+      "digest": "sha256:b7dc74a4ea9bc62ca3391ea1fa8ffbb8b66265e90260c314abbcc6869892658c",
+      "created_at": "2026-11-07T10:12:32Z",
+      "updated_at": "2026-11-07T10:12:32Z",
+      "expires_at": "2026-12-07T10:12:31Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570105911,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEwNTkxMQ==",
+      "name": "context-raw-42343832567-trial-006",
+      "size_in_bytes": 3866353,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570105911",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570105911/zip",
+      "expired": false,
+      "digest": "sha256:ebfc0580110cc1495c24d49f17a12f20ada027f7e7840e4dcf8309c8f5c1c1c4",
+      "created_at": "2026-11-07T09:44:38Z",
+      "updated_at": "2026-11-07T09:44:38Z",
+      "expires_at": "2026-12-07T09:44:37Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570013215,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDAxMzIxNQ==",
+      "name": "context-raw-42343832567-trial-018",
+      "size_in_bytes": 7715990,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13570013215",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570013215/zip",
+      "expired": false,
+      "digest": "sha256:62255de228c49377d7e534f05e1d4840bedcccb2da6deee155bc0231c295ca14",
+      "created_at": "2026-11-07T10:02:37Z",
+      "updated_at": "2026-11-07T10:02:37Z",
+      "expires_at": "2026-12-07T10:02:37Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569988364,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTk4ODM2NA==",
+      "name": "context-raw-42343832567-trial-030",
+      "size_in_bytes": 7407585,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569988364",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569988364/zip",
+      "expired": false,
+      "digest": "sha256:4b1a6974aa4ebc8df5350983ac99637c743c4cf46f55726423d63646fb296b6a",
+      "created_at": "2026-11-07T10:14:36Z",
+      "updated_at": "2026-11-07T10:14:36Z",
+      "expires_at": "2026-12-07T10:14:36Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569984602,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTk4NDYwMg==",
+      "name": "context-raw-42343832567-trial-026",
+      "size_in_bytes": 2042908,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569984602",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569984602/zip",
+      "expired": false,
+      "digest": "sha256:cf34a3339bc56fe68f05d6f427e6b057035df55182fff2827be3c97a1bbb4a0e",
+      "created_at": "2026-11-07T10:12:18Z",
+      "updated_at": "2026-11-07T10:12:18Z",
+      "expires_at": "2026-12-07T10:12:17Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569881534,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg4MTUzNA==",
+      "name": "context-raw-42343832567-trial-015",
+      "size_in_bytes": 3281768,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569881534",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569881534/zip",
+      "expired": false,
+      "digest": "sha256:636a6813051666c2af3e49ae89fd8a7d40dd659829860f417e08f118769b1c40",
+      "created_at": "2026-11-07T09:53:38Z",
+      "updated_at": "2026-11-07T09:53:38Z",
+      "expires_at": "2026-12-07T09:53:38Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569871843,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg3MTg0Mw==",
+      "name": "context-raw-42343832567-trial-013",
+      "size_in_bytes": 3392716,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569871843",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569871843/zip",
+      "expired": false,
+      "digest": "sha256:cb7e797b570fc74ec1ae3982e06db7b8a0a59c3910b0e9bd098f2393a067a5db",
+      "created_at": "2026-11-07T09:56:28Z",
+      "updated_at": "2026-11-07T09:56:28Z",
+      "expires_at": "2026-12-07T09:56:27Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569851423,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg1MTQyMw==",
+      "name": "context-raw-42343832567-trial-003",
+      "size_in_bytes": 6150299,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569851423",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569851423/zip",
+      "expired": false,
+      "digest": "sha256:7996ec7ecc3385d3cb0849db3648838a5f3fdcb9a413b151fff5480217c1bd37",
+      "created_at": "2026-11-07T09:45:09Z",
+      "updated_at": "2026-11-07T09:45:09Z",
+      "expires_at": "2026-12-07T09:45:07Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569787965,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTc4Nzk2NQ==",
+      "name": "context-raw-42343832567-trial-009",
+      "size_in_bytes": 5491506,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569787965",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569787965/zip",
+      "expired": false,
+      "digest": "sha256:5535d2b3c652e3d90cbb9c16675d99af222c7399136568fd38e4662cece0f79e",
+      "created_at": "2026-11-07T09:56:03Z",
+      "updated_at": "2026-11-07T09:56:03Z",
+      "expires_at": "2026-12-07T09:56:01Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569571240,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTU3MTI0MA==",
+      "name": "context-raw-42343832567-trial-008",
+      "size_in_bytes": 2288041,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569571240",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569571240/zip",
+      "expired": false,
+      "digest": "sha256:f84a8529953a06ea6541a661034e508bfd56c9547bd6b86893ed14c2a7df2e6c",
+      "created_at": "2026-11-07T09:43:07Z",
+      "updated_at": "2026-11-07T09:43:07Z",
+      "expires_at": "2026-12-07T09:43:06Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569562069,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTU2MjA2OQ==",
+      "name": "context-raw-42343832567-trial-010",
+      "size_in_bytes": 2234945,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569562069",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569562069/zip",
+      "expired": false,
+      "digest": "sha256:0b0782ef7cd8b7dbfd6fe4c9e753d07a75ac9afc53186581a8a65eafffbbde8e",
+      "created_at": "2026-11-07T09:50:24Z",
+      "updated_at": "2026-11-07T09:50:24Z",
+      "expires_at": "2026-12-07T09:50:22Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569474362,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQ3NDM2Mg==",
+      "name": "context-raw-42343832567-trial-014",
+      "size_in_bytes": 1510932,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569474362",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569474362/zip",
+      "expired": false,
+      "digest": "sha256:85b78de69945ef376985724a8eac9bf9e5bba7774882d7a483934da00cc9d475",
+      "created_at": "2026-11-07T09:50:29Z",
+      "updated_at": "2026-11-07T09:50:29Z",
+      "expires_at": "2026-12-07T09:50:28Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569434293,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQzNDI5Mw==",
+      "name": "context-raw-42343832567-trial-023",
+      "size_in_bytes": 2599240,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569434293",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569434293/zip",
+      "expired": false,
+      "digest": "sha256:11a25894cbb4b9d6836218ff316f5cf6d1aee4ad9c82657ca12cd4d6790c7fd1",
+      "created_at": "2026-11-07T10:04:19Z",
+      "updated_at": "2026-11-07T10:04:19Z",
+      "expires_at": "2026-12-07T10:04:18Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569389891,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM4OTg5MQ==",
+      "name": "context-raw-42343832567-trial-024",
+      "size_in_bytes": 4909673,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569389891",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569389891/zip",
+      "expired": false,
+      "digest": "sha256:3a39b5c062e1bcc6022c4081364190d97de7a27d034e3f79ee6e947097e8b6c8",
+      "created_at": "2026-11-07T10:09:06Z",
+      "updated_at": "2026-11-07T10:09:06Z",
+      "expires_at": "2026-12-07T10:09:05Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569387752,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM4Nzc1Mg==",
+      "name": "context-raw-42343832567-trial-005",
+      "size_in_bytes": 3353909,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569387752",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569387752/zip",
+      "expired": false,
+      "digest": "sha256:ed564600833170f344d16e38480934a991e6dc55d6f2d5f35a4a11f631b4a095",
+      "created_at": "2026-11-07T09:45:46Z",
+      "updated_at": "2026-11-07T09:45:46Z",
+      "expires_at": "2026-12-07T09:45:45Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569369929,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM2OTkyOQ==",
+      "name": "context-raw-42343832567-trial-025",
+      "size_in_bytes": 3468968,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569369929",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569369929/zip",
+      "expired": false,
+      "digest": "sha256:2ed987af2c915d266539b20ac6e8fda278230f553b446be2e302fb28441ba8b3",
+      "created_at": "2026-11-07T10:08:26Z",
+      "updated_at": "2026-11-07T10:08:26Z",
+      "expires_at": "2026-12-07T10:08:25Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569183337,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTE4MzMzNw==",
+      "name": "context-raw-42343832567-trial-007",
+      "size_in_bytes": 3021433,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569183337",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569183337/zip",
+      "expired": false,
+      "digest": "sha256:57c7cbdbf3d032138bff4c757d72ecde46e7daa27dbea892202272ad987e41e9",
+      "created_at": "2026-11-07T09:45:11Z",
+      "updated_at": "2026-11-07T09:45:11Z",
+      "expires_at": "2026-12-07T09:45:10Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569124945,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTEyNDk0NQ==",
+      "name": "context-raw-42343832567-trial-004",
+      "size_in_bytes": 1792167,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569124945",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569124945/zip",
+      "expired": false,
+      "digest": "sha256:aae89c26738d4f806ffea19068373d5856bc7bf5b21349756cefb0f38531b66c",
+      "created_at": "2026-11-07T09:43:16Z",
+      "updated_at": "2026-11-07T09:43:16Z",
+      "expires_at": "2026-12-07T09:43:15Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569043600,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTA0MzYwMA==",
+      "name": "context-raw-42343832567-trial-001",
+      "size_in_bytes": 3946986,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567/artifacts/13569043600",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569043600/zip",
+      "expired": false,
+      "digest": "sha256:5bef1b719b1871312d7ec15f9861baf18e307dcc93ae5b18c7de7adf1d30ea71",
+      "created_at": "2026-11-07T09:42:04Z",
+      "updated_at": "2026-11-07T09:42:04Z",
+      "expires_at": "2026-12-07T09:42:03Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    }
+  ],
+  "all_artifacts": [
+    {
+      "id": 13570950824,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDk1MDgyNA==",
+      "name": "context-summary-42343832567-trial-033",
+      "size_in_bytes": 9262,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570950824",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570950824/zip",
+      "expired": false,
+      "digest": "sha256:5bd932b82829ee813017aed164939e2e2948aebaa9233520c29a43f585031345",
+      "created_at": "2026-11-07T10:20:19Z",
+      "updated_at": "2026-11-07T10:20:19Z",
+      "expires_at": "2026-12-07T10:20:19Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570870156,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDg3MDE1Ng==",
+      "name": "context-summary-42343832567-trial-027",
+      "size_in_bytes": 9683,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570870156",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570870156/zip",
+      "expired": false,
+      "digest": "sha256:648b42ae153bd0286c2a63e1c6e53a4fcffb2ca4ce714745f9f5b8e60f7d4d0e",
+      "created_at": "2026-11-07T10:12:53Z",
+      "updated_at": "2026-11-07T10:12:53Z",
+      "expires_at": "2026-12-07T10:12:52Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570830096,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDgzMDA5Ng==",
+      "name": "context-raw-42343832567-trial-028",
+      "size_in_bytes": 2683791,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570830096",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570830096/zip",
+      "expired": false,
+      "digest": "sha256:096073eb2bb5c457356c0fdf69f5617147a510cdabfa067fa44de708eccb0581",
+      "created_at": "2026-11-07T10:11:04Z",
+      "updated_at": "2026-11-07T10:11:04Z",
+      "expires_at": "2026-12-07T10:11:02Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570821484,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDgyMTQ4NA==",
+      "name": "context-raw-42343832567-trial-035",
+      "size_in_bytes": 5354930,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570821484",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570821484/zip",
+      "expired": false,
+      "digest": "sha256:406e8516acb8d82d8300aff6008f62c796bde0f5330d0392463b1c2058fb0417",
+      "created_at": "2026-11-07T10:21:43Z",
+      "updated_at": "2026-11-07T10:21:43Z",
+      "expires_at": "2026-12-07T10:21:42Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570806336,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDgwNjMzNg==",
+      "name": "context-raw-42343832567-trial-033",
+      "size_in_bytes": 4295980,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570806336",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570806336/zip",
+      "expired": false,
+      "digest": "sha256:0043a4a94bebdd2a2cb73d0b5a62f978736f1cf87f58ea59c92de3469904d6a5",
+      "created_at": "2026-11-07T10:20:18Z",
+      "updated_at": "2026-11-07T10:20:18Z",
+      "expires_at": "2026-12-07T10:20:18Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570796418,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDc5NjQxOA==",
+      "name": "context-raw-42343832567-trial-032",
+      "size_in_bytes": 9599804,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570796418",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570796418/zip",
+      "expired": false,
+      "digest": "sha256:2e247a8e5ac9f7dfe69d53844b3d40b0872f7a71b0cdd24fe5d94082a0ee60b2",
+      "created_at": "2026-11-07T10:20:51Z",
+      "updated_at": "2026-11-07T10:20:51Z",
+      "expires_at": "2026-12-07T10:20:50Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570781209,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDc4MTIwOQ==",
+      "name": "context-summary-42343832567-trial-034",
+      "size_in_bytes": 9382,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570781209",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570781209/zip",
+      "expired": false,
+      "digest": "sha256:b764162357904959981de6e450f347b1cef54545db31815759f78d97e851f3b0",
+      "created_at": "2026-11-07T10:18:41Z",
+      "updated_at": "2026-11-07T10:18:41Z",
+      "expires_at": "2026-12-07T10:18:41Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570691965,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDY5MTk2NQ==",
+      "name": "context-summary-42343832567-trial-032",
+      "size_in_bytes": 9212,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570691965",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570691965/zip",
+      "expired": false,
+      "digest": "sha256:55be6ea2cbfd10534c9effd12c92439d9abf55d4b5a7b3d8b12e3ddcb6700c94",
+      "created_at": "2026-11-07T10:20:52Z",
+      "updated_at": "2026-11-07T10:20:52Z",
+      "expires_at": "2026-12-07T10:20:51Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570666375,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDY2NjM3NQ==",
+      "name": "context-results-42343832567",
+      "size_in_bytes": 60570,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570666375",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570666375/zip",
+      "expired": false,
+      "digest": "sha256:c50e44990eb10d93fe459f41b6f3e3b19687b5b95c2b45ae85573afa3894084e",
+      "created_at": "2026-11-07T10:22:08Z",
+      "updated_at": "2026-11-07T10:22:08Z",
+      "expires_at": "2026-12-07T10:22:07Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570651156,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDY1MTE1Ng==",
+      "name": "context-raw-42343832567-trial-031",
+      "size_in_bytes": 3935859,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570651156",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570651156/zip",
+      "expired": false,
+      "digest": "sha256:7390e4592ebbc3fcbbf1b4ad0fa8a136ad66d272ba2e22cb3a0962fda2818f5b",
+      "created_at": "2026-11-07T10:17:32Z",
+      "updated_at": "2026-11-07T10:17:32Z",
+      "expires_at": "2026-12-07T10:17:30Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570640194,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDY0MDE5NA==",
+      "name": "context-summary-42343832567-trial-025",
+      "size_in_bytes": 9170,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570640194",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570640194/zip",
+      "expired": false,
+      "digest": "sha256:3cd39e8907c4c64e014a7527c8e659cc47a1c6ea83c861275c4e4fa304182cc3",
+      "created_at": "2026-11-07T10:08:27Z",
+      "updated_at": "2026-11-07T10:08:27Z",
+      "expires_at": "2026-12-07T10:08:27Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570631024,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDYzMTAyNA==",
+      "name": "context-summary-42343832567-trial-031",
+      "size_in_bytes": 9211,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570631024",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570631024/zip",
+      "expired": false,
+      "digest": "sha256:f3d68b24ba7f0528ac98d395499882b561f915d8604ad15a93d3d33ec1524132",
+      "created_at": "2026-11-07T10:17:33Z",
+      "updated_at": "2026-11-07T10:17:33Z",
+      "expires_at": "2026-12-07T10:17:33Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570607184,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDYwNzE4NA==",
+      "name": "context-raw-42343832567-trial-034",
+      "size_in_bytes": 1703075,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570607184",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570607184/zip",
+      "expired": false,
+      "digest": "sha256:b24bc1fbf8071a589903e2a49708d175bcaa1a5bffc897757cef38287fb4b172",
+      "created_at": "2026-11-07T10:18:40Z",
+      "updated_at": "2026-11-07T10:18:40Z",
+      "expires_at": "2026-12-07T10:18:39Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570601443,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDYwMTQ0Mw==",
+      "name": "context-summary-42343832567-trial-036",
+      "size_in_bytes": 9140,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570601443",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570601443/zip",
+      "expired": false,
+      "digest": "sha256:6f9d6861d6e3f4281a26a0128b23c58b2368da6675478fc1ec5ebb980ed77e1d",
+      "created_at": "2026-11-07T10:19:43Z",
+      "updated_at": "2026-11-07T10:19:43Z",
+      "expires_at": "2026-12-07T10:19:42Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570601440,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDYwMTQ0MA==",
+      "name": "context-raw-42343832567-trial-036",
+      "size_in_bytes": 3883691,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570601440",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570601440/zip",
+      "expired": false,
+      "digest": "sha256:bb18318a3d6cfcc0380d22c3da7182237a89e7950c673e13368d6cc23d326aa8",
+      "created_at": "2026-11-07T10:19:41Z",
+      "updated_at": "2026-11-07T10:19:41Z",
+      "expires_at": "2026-12-07T10:19:40Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570580976,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDU4MDk3Ng==",
+      "name": "context-summary-42343832567-trial-030",
+      "size_in_bytes": 9142,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570580976",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570580976/zip",
+      "expired": false,
+      "digest": "sha256:42fabd6a349b5a8e190c519d4d790e87d5f5ded6b03b93ed608bdac32111503a",
+      "created_at": "2026-11-07T10:14:37Z",
+      "updated_at": "2026-11-07T10:14:37Z",
+      "expires_at": "2026-12-07T10:14:37Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570562740,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDU2Mjc0MA==",
+      "name": "context-summary-42343832567-trial-035",
+      "size_in_bytes": 9278,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570562740",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570562740/zip",
+      "expired": false,
+      "digest": "sha256:930ba8b98dcd1174febe1b9971d1ae97b9115ef139a476f8d955c9e6fbae9c98",
+      "created_at": "2026-11-07T10:21:44Z",
+      "updated_at": "2026-11-07T10:21:44Z",
+      "expires_at": "2026-12-07T10:21:44Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570560163,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDU2MDE2Mw==",
+      "name": "context-summary-42343832567-trial-018",
+      "size_in_bytes": 9205,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570560163",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570560163/zip",
+      "expired": false,
+      "digest": "sha256:9e104cb03db80053768a8dc9ee6fa87dbc80cde2216c770464471b69d326c06c",
+      "created_at": "2026-11-07T10:02:38Z",
+      "updated_at": "2026-11-07T10:02:38Z",
+      "expires_at": "2026-12-07T10:02:37Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570535298,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDUzNTI5OA==",
+      "name": "context-raw-42343832567-trial-022",
+      "size_in_bytes": 2390774,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570535298",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570535298/zip",
+      "expired": false,
+      "digest": "sha256:8a68def046f3dae4c38738bffc1d184241bf913aeae7f08780addd0539c7dcf1",
+      "created_at": "2026-11-07T10:06:03Z",
+      "updated_at": "2026-11-07T10:06:03Z",
+      "expires_at": "2026-12-07T10:06:02Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570363157,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM2MzE1Nw==",
+      "name": "context-raw-42343832567-trial-027",
+      "size_in_bytes": 2907938,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570363157",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570363157/zip",
+      "expired": false,
+      "digest": "sha256:d8f3d6f5486c4420042dc7fdd164290d007de79c84de6a4011bdbe46a8d4d93d",
+      "created_at": "2026-11-07T10:12:52Z",
+      "updated_at": "2026-11-07T10:12:52Z",
+      "expires_at": "2026-12-07T10:12:51Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570355748,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM1NTc0OA==",
+      "name": "context-raw-42343832567-trial-011",
+      "size_in_bytes": 1718713,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570355748",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570355748/zip",
+      "expired": false,
+      "digest": "sha256:17accf9208361bdb1aac52dbdeed8c595d5cd0f8567681c0244f8d327d603c69",
+      "created_at": "2026-11-07T09:53:16Z",
+      "updated_at": "2026-11-07T09:53:16Z",
+      "expires_at": "2026-12-07T09:53:14Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570352236,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM1MjIzNg==",
+      "name": "context-raw-42343832567-trial-021",
+      "size_in_bytes": 4820598,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570352236",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570352236/zip",
+      "expired": false,
+      "digest": "sha256:35ba33f7cc6970fae6b2e899c3ee2c7d85e408206bf36bf6c08a600b05fba34d",
+      "created_at": "2026-11-07T10:04:43Z",
+      "updated_at": "2026-11-07T10:04:43Z",
+      "expires_at": "2026-12-07T10:04:42Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570342051,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDM0MjA1MQ==",
+      "name": "context-raw-42343832567-trial-019",
+      "size_in_bytes": 3505880,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570342051",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570342051/zip",
+      "expired": false,
+      "digest": "sha256:35a85f022d7d89c51810da4568ec37dc6e53495f1207ed0fd111d774c9cec9bb",
+      "created_at": "2026-11-07T10:02:12Z",
+      "updated_at": "2026-11-07T10:02:12Z",
+      "expires_at": "2026-12-07T10:02:10Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570307433,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDMwNzQzMw==",
+      "name": "context-raw-42343832567-trial-020",
+      "size_in_bytes": 1469429,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570307433",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570307433/zip",
+      "expired": false,
+      "digest": "sha256:cb0cb5ce7d91129d9535309ed14da58f8652bae86700efb53697176c30b63398",
+      "created_at": "2026-11-07T10:02:35Z",
+      "updated_at": "2026-11-07T10:02:35Z",
+      "expires_at": "2026-12-07T10:02:33Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570294081,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDI5NDA4MQ==",
+      "name": "context-summary-42343832567-trial-029",
+      "size_in_bytes": 9172,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570294081",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570294081/zip",
+      "expired": false,
+      "digest": "sha256:feb2aa01b952c07c40282e3852c9aa7e01434d748d891b2cf3baeb5e022505f9",
+      "created_at": "2026-11-07T10:12:34Z",
+      "updated_at": "2026-11-07T10:12:34Z",
+      "expires_at": "2026-12-07T10:12:33Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570287231,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDI4NzIzMQ==",
+      "name": "context-summary-42343832567-trial-016",
+      "size_in_bytes": 9203,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570287231",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570287231/zip",
+      "expired": false,
+      "digest": "sha256:e6acb25bbe3ed091833a5ef3f4308a610304e3ad9f03ec5f60303080fd673d5d",
+      "created_at": "2026-11-07T10:00:12Z",
+      "updated_at": "2026-11-07T10:00:12Z",
+      "expires_at": "2026-12-07T10:00:11Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570275024,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDI3NTAyNA==",
+      "name": "context-summary-42343832567-trial-008",
+      "size_in_bytes": 9212,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570275024",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570275024/zip",
+      "expired": false,
+      "digest": "sha256:8d5ae1aa478ddedf9498f4f07cc7352de1897b48704113e3b4a121ce65b63da3",
+      "created_at": "2026-11-07T09:43:08Z",
+      "updated_at": "2026-11-07T09:43:08Z",
+      "expires_at": "2026-12-07T09:43:08Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570262408,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDI2MjQwOA==",
+      "name": "context-raw-42343832567-trial-017",
+      "size_in_bytes": 2555477,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570262408",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570262408/zip",
+      "expired": false,
+      "digest": "sha256:816eeb6221184b9b8663ded7d38d1a0ae6078ca4c1c25b6a12170f367d4f2ffa",
+      "created_at": "2026-11-07T09:59:28Z",
+      "updated_at": "2026-11-07T09:59:28Z",
+      "expires_at": "2026-12-07T09:59:28Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570227151,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDIyNzE1MQ==",
+      "name": "context-summary-42343832567-trial-009",
+      "size_in_bytes": 9264,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570227151",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570227151/zip",
+      "expired": false,
+      "digest": "sha256:590da094c70627eb4769404c8f2855f829a71089b5b33a68c76b59ea17255223",
+      "created_at": "2026-11-07T09:56:04Z",
+      "updated_at": "2026-11-07T09:56:04Z",
+      "expires_at": "2026-12-07T09:56:03Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570162836,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDE2MjgzNg==",
+      "name": "context-raw-42343832567-trial-016",
+      "size_in_bytes": 8059042,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570162836",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570162836/zip",
+      "expired": false,
+      "digest": "sha256:26145215cc88dcbeee503c5c1dca8128a93844e1e483a0b51952a9210a53dd89",
+      "created_at": "2026-11-07T10:00:11Z",
+      "updated_at": "2026-11-07T10:00:11Z",
+      "expires_at": "2026-12-07T10:00:10Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570135916,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEzNTkxNg==",
+      "name": "context-raw-42343832567-trial-002",
+      "size_in_bytes": 6639848,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570135916",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570135916/zip",
+      "expired": false,
+      "digest": "sha256:197f6b1df3520db46d9c491adf689dff17ce6c2173831496b805a827800083ba",
+      "created_at": "2026-11-07T09:46:08Z",
+      "updated_at": "2026-11-07T09:46:08Z",
+      "expires_at": "2026-12-07T09:46:07Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570132670,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEzMjY3MA==",
+      "name": "context-summary-42343832567-trial-017",
+      "size_in_bytes": 9633,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570132670",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570132670/zip",
+      "expired": false,
+      "digest": "sha256:bf8424e8fc88d8a7ccd61cde77fababf79ac83a1c1c15e8f88adce21489f5fcf",
+      "created_at": "2026-11-07T09:59:29Z",
+      "updated_at": "2026-11-07T09:59:29Z",
+      "expires_at": "2026-12-07T09:59:29Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570126622,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEyNjYyMg==",
+      "name": "context-raw-42343832567-trial-012",
+      "size_in_bytes": 1744368,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570126622",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570126622/zip",
+      "expired": false,
+      "digest": "sha256:233f4751d7cfa71ce04c85cbd224d2ced2bf89e720e4e8d39440f7db97b97a25",
+      "created_at": "2026-11-07T09:51:33Z",
+      "updated_at": "2026-11-07T09:51:33Z",
+      "expires_at": "2026-12-07T09:51:32Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570119471,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDExOTQ3MQ==",
+      "name": "context-raw-42343832567-trial-029",
+      "size_in_bytes": 1834504,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570119471",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570119471/zip",
+      "expired": false,
+      "digest": "sha256:b7dc74a4ea9bc62ca3391ea1fa8ffbb8b66265e90260c314abbcc6869892658c",
+      "created_at": "2026-11-07T10:12:32Z",
+      "updated_at": "2026-11-07T10:12:32Z",
+      "expires_at": "2026-12-07T10:12:31Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570105911,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDEwNTkxMQ==",
+      "name": "context-raw-42343832567-trial-006",
+      "size_in_bytes": 3866353,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570105911",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570105911/zip",
+      "expired": false,
+      "digest": "sha256:ebfc0580110cc1495c24d49f17a12f20ada027f7e7840e4dcf8309c8f5c1c1c4",
+      "created_at": "2026-11-07T09:44:38Z",
+      "updated_at": "2026-11-07T09:44:38Z",
+      "expires_at": "2026-12-07T09:44:37Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570048339,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDA0ODMzOQ==",
+      "name": "context-summary-42343832567-trial-020",
+      "size_in_bytes": 9401,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570048339",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570048339/zip",
+      "expired": false,
+      "digest": "sha256:08324d303097755acdf7ad747937902bee5d9cbedaeabd423e9a29a68f04a25b",
+      "created_at": "2026-11-07T10:02:36Z",
+      "updated_at": "2026-11-07T10:02:36Z",
+      "expires_at": "2026-12-07T10:02:35Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13570013215,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU3MDAxMzIxNQ==",
+      "name": "context-raw-42343832567-trial-018",
+      "size_in_bytes": 7715990,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570013215",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13570013215/zip",
+      "expired": false,
+      "digest": "sha256:62255de228c49377d7e534f05e1d4840bedcccb2da6deee155bc0231c295ca14",
+      "created_at": "2026-11-07T10:02:37Z",
+      "updated_at": "2026-11-07T10:02:37Z",
+      "expires_at": "2026-12-07T10:02:37Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569988364,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTk4ODM2NA==",
+      "name": "context-raw-42343832567-trial-030",
+      "size_in_bytes": 7407585,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569988364",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569988364/zip",
+      "expired": false,
+      "digest": "sha256:4b1a6974aa4ebc8df5350983ac99637c743c4cf46f55726423d63646fb296b6a",
+      "created_at": "2026-11-07T10:14:36Z",
+      "updated_at": "2026-11-07T10:14:36Z",
+      "expires_at": "2026-12-07T10:14:36Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569984609,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTk4NDYwOQ==",
+      "name": "context-summary-42343832567-trial-026",
+      "size_in_bytes": 9414,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569984609",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569984609/zip",
+      "expired": false,
+      "digest": "sha256:7157415933f0a6ddbca333647d986d330af09805d80d64232ba30de2a3c38f25",
+      "created_at": "2026-11-07T10:12:20Z",
+      "updated_at": "2026-11-07T10:12:20Z",
+      "expires_at": "2026-12-07T10:12:19Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569984602,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTk4NDYwMg==",
+      "name": "context-raw-42343832567-trial-026",
+      "size_in_bytes": 2042908,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569984602",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569984602/zip",
+      "expired": false,
+      "digest": "sha256:cf34a3339bc56fe68f05d6f427e6b057035df55182fff2827be3c97a1bbb4a0e",
+      "created_at": "2026-11-07T10:12:18Z",
+      "updated_at": "2026-11-07T10:12:18Z",
+      "expires_at": "2026-12-07T10:12:17Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569912437,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTkxMjQzNw==",
+      "name": "context-summary-42343832567-trial-023",
+      "size_in_bytes": 9173,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569912437",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569912437/zip",
+      "expired": false,
+      "digest": "sha256:63b8f002ca065c45ca0dcadaa33f80af791cc6fafa2b4a652631aaffd2f0e0c9",
+      "created_at": "2026-11-07T10:04:20Z",
+      "updated_at": "2026-11-07T10:04:20Z",
+      "expires_at": "2026-12-07T10:04:19Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569900744,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTkwMDc0NA==",
+      "name": "context-summary-42343832567-trial-005",
+      "size_in_bytes": 9657,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569900744",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569900744/zip",
+      "expired": false,
+      "digest": "sha256:7611c0fed2041dadfabcda79396ddfd134c53a567bdb69d779553266344d5a70",
+      "created_at": "2026-11-07T09:45:48Z",
+      "updated_at": "2026-11-07T09:45:48Z",
+      "expires_at": "2026-12-07T09:45:47Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569889715,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg4OTcxNQ==",
+      "name": "context-summary-42343832567-trial-028",
+      "size_in_bytes": 9350,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569889715",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569889715/zip",
+      "expired": false,
+      "digest": "sha256:accf57e15bbf34e70dd3e51642780236cc9270f125d247f6713f4b3ed0763522",
+      "created_at": "2026-11-07T10:11:05Z",
+      "updated_at": "2026-11-07T10:11:05Z",
+      "expires_at": "2026-12-07T10:11:04Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569886086,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg4NjA4Ng==",
+      "name": "context-summary-42343832567-trial-004",
+      "size_in_bytes": 9182,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569886086",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569886086/zip",
+      "expired": false,
+      "digest": "sha256:7fe57fdaa8584b79801b5cd1f004a6ef2936e56c65446c8fe6084b0b32ec1969",
+      "created_at": "2026-11-07T09:43:17Z",
+      "updated_at": "2026-11-07T09:43:17Z",
+      "expires_at": "2026-12-07T09:43:16Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569881534,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg4MTUzNA==",
+      "name": "context-raw-42343832567-trial-015",
+      "size_in_bytes": 3281768,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569881534",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569881534/zip",
+      "expired": false,
+      "digest": "sha256:636a6813051666c2af3e49ae89fd8a7d40dd659829860f417e08f118769b1c40",
+      "created_at": "2026-11-07T09:53:38Z",
+      "updated_at": "2026-11-07T09:53:38Z",
+      "expires_at": "2026-12-07T09:53:38Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569877130,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg3NzEzMA==",
+      "name": "context-summary-42343832567-trial-012",
+      "size_in_bytes": 9143,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569877130",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569877130/zip",
+      "expired": false,
+      "digest": "sha256:db5afa6083a93c11ba94fde815535ac53ca45ebc4d09a431037b2273a4027e7f",
+      "created_at": "2026-11-07T09:51:34Z",
+      "updated_at": "2026-11-07T09:51:34Z",
+      "expires_at": "2026-12-07T09:51:33Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569871843,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg3MTg0Mw==",
+      "name": "context-raw-42343832567-trial-013",
+      "size_in_bytes": 3392716,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569871843",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569871843/zip",
+      "expired": false,
+      "digest": "sha256:cb7e797b570fc74ec1ae3982e06db7b8a0a59c3910b0e9bd098f2393a067a5db",
+      "created_at": "2026-11-07T09:56:28Z",
+      "updated_at": "2026-11-07T09:56:28Z",
+      "expires_at": "2026-12-07T09:56:27Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569851423,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTg1MTQyMw==",
+      "name": "context-raw-42343832567-trial-003",
+      "size_in_bytes": 6150299,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569851423",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569851423/zip",
+      "expired": false,
+      "digest": "sha256:7996ec7ecc3385d3cb0849db3648838a5f3fdcb9a413b151fff5480217c1bd37",
+      "created_at": "2026-11-07T09:45:09Z",
+      "updated_at": "2026-11-07T09:45:09Z",
+      "expires_at": "2026-12-07T09:45:07Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569811608,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTgxMTYwOA==",
+      "name": "context-summary-42343832567-trial-002",
+      "size_in_bytes": 9274,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569811608",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569811608/zip",
+      "expired": false,
+      "digest": "sha256:5ed06c6bf20eb5fbb45693c74784253d87597b7de17bc9468dd21dab5810477d",
+      "created_at": "2026-11-07T09:46:09Z",
+      "updated_at": "2026-11-07T09:46:09Z",
+      "expires_at": "2026-12-07T09:46:09Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569787965,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTc4Nzk2NQ==",
+      "name": "context-raw-42343832567-trial-009",
+      "size_in_bytes": 5491506,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569787965",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569787965/zip",
+      "expired": false,
+      "digest": "sha256:5535d2b3c652e3d90cbb9c16675d99af222c7399136568fd38e4662cece0f79e",
+      "created_at": "2026-11-07T09:56:03Z",
+      "updated_at": "2026-11-07T09:56:03Z",
+      "expires_at": "2026-12-07T09:56:01Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569786522,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTc4NjUyMg==",
+      "name": "context-summary-42343832567-trial-006",
+      "size_in_bytes": 9716,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569786522",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569786522/zip",
+      "expired": false,
+      "digest": "sha256:6f469671ac2b10a0db1765579af7b2114a94ba05055b27d4ba32fbc670599689",
+      "created_at": "2026-11-07T09:44:39Z",
+      "updated_at": "2026-11-07T09:44:39Z",
+      "expires_at": "2026-12-07T09:44:38Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569761621,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTc2MTYyMQ==",
+      "name": "context-summary-42343832567-trial-003",
+      "size_in_bytes": 9197,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569761621",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569761621/zip",
+      "expired": false,
+      "digest": "sha256:8ca71fcc2a87b62b27c8820dddcd3dddbf670bb9b9fb364e93711ed2d9c4d6f1",
+      "created_at": "2026-11-07T09:45:10Z",
+      "updated_at": "2026-11-07T09:45:10Z",
+      "expires_at": "2026-12-07T09:45:09Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569753870,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTc1Mzg3MA==",
+      "name": "context-summary-42343832567-trial-019",
+      "size_in_bytes": 9662,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569753870",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569753870/zip",
+      "expired": false,
+      "digest": "sha256:ea7805274144e21b4de8fff7ddbe34d1895c562b411cea23c834832cec891505",
+      "created_at": "2026-11-07T10:02:13Z",
+      "updated_at": "2026-11-07T10:02:13Z",
+      "expires_at": "2026-12-07T10:02:12Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569651627,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTY1MTYyNw==",
+      "name": "context-summary-42343832567-trial-010",
+      "size_in_bytes": 9173,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569651627",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569651627/zip",
+      "expired": false,
+      "digest": "sha256:b509fc738ab8ea7ade8ab2ee8d79c42a97bf080fb0b7675420e7451ee17e3d48",
+      "created_at": "2026-11-07T09:50:25Z",
+      "updated_at": "2026-11-07T09:50:25Z",
+      "expires_at": "2026-12-07T09:50:24Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569644564,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTY0NDU2NA==",
+      "name": "context-summary-42343832567-trial-021",
+      "size_in_bytes": 9223,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569644564",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569644564/zip",
+      "expired": false,
+      "digest": "sha256:75e13bf0f85050ab811928e1c71c3bc829ef0c6f96f219946ca85f1d54b284c5",
+      "created_at": "2026-11-07T10:04:45Z",
+      "updated_at": "2026-11-07T10:04:45Z",
+      "expires_at": "2026-12-07T10:04:44Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569618175,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTYxODE3NQ==",
+      "name": "context-summary-42343832567-trial-022",
+      "size_in_bytes": 9179,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569618175",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569618175/zip",
+      "expired": false,
+      "digest": "sha256:51ee59a118eed486c7811b72d8b7166608813c00e3c2010307f7bd26fe6d8f43",
+      "created_at": "2026-11-07T10:06:05Z",
+      "updated_at": "2026-11-07T10:06:05Z",
+      "expires_at": "2026-12-07T10:06:04Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569571240,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTU3MTI0MA==",
+      "name": "context-raw-42343832567-trial-008",
+      "size_in_bytes": 2288041,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569571240",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569571240/zip",
+      "expired": false,
+      "digest": "sha256:f84a8529953a06ea6541a661034e508bfd56c9547bd6b86893ed14c2a7df2e6c",
+      "created_at": "2026-11-07T09:43:07Z",
+      "updated_at": "2026-11-07T09:43:07Z",
+      "expires_at": "2026-12-07T09:43:06Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569568871,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTU2ODg3MQ==",
+      "name": "context-summary-42343832567-trial-024",
+      "size_in_bytes": 9165,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569568871",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569568871/zip",
+      "expired": false,
+      "digest": "sha256:98f8b8e24ac6a13949ca5668d6e8e5a1d792f0ded67c0feea406e225af2aa4de",
+      "created_at": "2026-11-07T10:09:08Z",
+      "updated_at": "2026-11-07T10:09:08Z",
+      "expires_at": "2026-12-07T10:09:07Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569562069,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTU2MjA2OQ==",
+      "name": "context-raw-42343832567-trial-010",
+      "size_in_bytes": 2234945,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569562069",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569562069/zip",
+      "expired": false,
+      "digest": "sha256:0b0782ef7cd8b7dbfd6fe4c9e753d07a75ac9afc53186581a8a65eafffbbde8e",
+      "created_at": "2026-11-07T09:50:24Z",
+      "updated_at": "2026-11-07T09:50:24Z",
+      "expires_at": "2026-12-07T09:50:22Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569474362,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQ3NDM2Mg==",
+      "name": "context-raw-42343832567-trial-014",
+      "size_in_bytes": 1510932,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569474362",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569474362/zip",
+      "expired": false,
+      "digest": "sha256:85b78de69945ef376985724a8eac9bf9e5bba7774882d7a483934da00cc9d475",
+      "created_at": "2026-11-07T09:50:29Z",
+      "updated_at": "2026-11-07T09:50:29Z",
+      "expires_at": "2026-12-07T09:50:28Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569453280,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQ1MzI4MA==",
+      "name": "context-summary-42343832567-trial-015",
+      "size_in_bytes": 9679,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569453280",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569453280/zip",
+      "expired": false,
+      "digest": "sha256:1de43838ec372e492607bbdef6f2905420375b75d893bd2007d80b9cd98263c6",
+      "created_at": "2026-11-07T09:53:39Z",
+      "updated_at": "2026-11-07T09:53:39Z",
+      "expires_at": "2026-12-07T09:53:39Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569439984,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQzOTk4NA==",
+      "name": "context-summary-42343832567-trial-011",
+      "size_in_bytes": 9210,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569439984",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569439984/zip",
+      "expired": false,
+      "digest": "sha256:e57de745346700f2e76682580a6b7cf291fecddbf8e67473c17a4a71b61c9553",
+      "created_at": "2026-11-07T09:53:17Z",
+      "updated_at": "2026-11-07T09:53:17Z",
+      "expires_at": "2026-12-07T09:53:16Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569434293,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQzNDI5Mw==",
+      "name": "context-raw-42343832567-trial-023",
+      "size_in_bytes": 2599240,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569434293",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569434293/zip",
+      "expired": false,
+      "digest": "sha256:11a25894cbb4b9d6836218ff316f5cf6d1aee4ad9c82657ca12cd4d6790c7fd1",
+      "created_at": "2026-11-07T10:04:19Z",
+      "updated_at": "2026-11-07T10:04:19Z",
+      "expires_at": "2026-12-07T10:04:18Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569407312,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQwNzMxMg==",
+      "name": "context-summary-42343832567-trial-001",
+      "size_in_bytes": 9159,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569407312",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569407312/zip",
+      "expired": false,
+      "digest": "sha256:a5a5bdccca7a6023974ef304bed43096a3d25871c30f9fd3d5a8edc0dc228cd8",
+      "created_at": "2026-11-07T09:42:05Z",
+      "updated_at": "2026-11-07T09:42:05Z",
+      "expires_at": "2026-12-07T09:42:05Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569404761,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTQwNDc2MQ==",
+      "name": "context-summary-42343832567-trial-014",
+      "size_in_bytes": 9134,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569404761",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569404761/zip",
+      "expired": false,
+      "digest": "sha256:0b9f3caec33b438d550c4f7930a56d5ced2dbd3a6b2bbd4441e15ff7c413e197",
+      "created_at": "2026-11-07T09:50:30Z",
+      "updated_at": "2026-11-07T09:50:30Z",
+      "expires_at": "2026-12-07T09:50:29Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569389891,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM4OTg5MQ==",
+      "name": "context-raw-42343832567-trial-024",
+      "size_in_bytes": 4909673,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569389891",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569389891/zip",
+      "expired": false,
+      "digest": "sha256:3a39b5c062e1bcc6022c4081364190d97de7a27d034e3f79ee6e947097e8b6c8",
+      "created_at": "2026-11-07T10:09:06Z",
+      "updated_at": "2026-11-07T10:09:06Z",
+      "expires_at": "2026-12-07T10:09:05Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569387752,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM4Nzc1Mg==",
+      "name": "context-raw-42343832567-trial-005",
+      "size_in_bytes": 3353909,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569387752",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569387752/zip",
+      "expired": false,
+      "digest": "sha256:ed564600833170f344d16e38480934a991e6dc55d6f2d5f35a4a11f631b4a095",
+      "created_at": "2026-11-07T09:45:46Z",
+      "updated_at": "2026-11-07T09:45:46Z",
+      "expires_at": "2026-12-07T09:45:45Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569387700,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM4NzcwMA==",
+      "name": "context-summary-42343832567-trial-007",
+      "size_in_bytes": 9718,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569387700",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569387700/zip",
+      "expired": false,
+      "digest": "sha256:d01af620b2c8036271b4284577e5de82c3f8cb9c3c852f272b968d7e5a503abb",
+      "created_at": "2026-11-07T09:45:12Z",
+      "updated_at": "2026-11-07T09:45:12Z",
+      "expires_at": "2026-12-07T09:45:11Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569369929,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTM2OTkyOQ==",
+      "name": "context-raw-42343832567-trial-025",
+      "size_in_bytes": 3468968,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569369929",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569369929/zip",
+      "expired": false,
+      "digest": "sha256:2ed987af2c915d266539b20ac6e8fda278230f553b446be2e302fb28441ba8b3",
+      "created_at": "2026-11-07T10:08:26Z",
+      "updated_at": "2026-11-07T10:08:26Z",
+      "expires_at": "2026-12-07T10:08:25Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569331828,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTMzMTgyOA==",
+      "name": "context-plan-42343832567",
+      "size_in_bytes": 11135,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569331828",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569331828/zip",
+      "expired": false,
+      "digest": "sha256:c1142afadb44ae813593ed1178432abf80c362b2df0dd32ff8f7344d69f942ed",
+      "created_at": "2026-11-07T09:33:56Z",
+      "updated_at": "2026-11-07T09:33:56Z",
+      "expires_at": "2026-12-07T09:33:56Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569227195,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTIyNzE5NQ==",
+      "name": "early-smoke-prerequisite-42343832567",
+      "size_in_bytes": 25040,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569227195",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569227195/zip",
+      "expired": false,
+      "digest": "sha256:3807c0cb7e5fe8a7a838f2a41a4b2c9b300f24296eff9c740f8921518dd9a4f7",
+      "created_at": "2026-11-07T09:33:55Z",
+      "updated_at": "2026-11-07T09:33:55Z",
+      "expires_at": "2026-12-07T09:33:54Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569209097,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTIwOTA5Nw==",
+      "name": "context-summary-42343832567-trial-013",
+      "size_in_bytes": 9712,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569209097",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569209097/zip",
+      "expired": false,
+      "digest": "sha256:0bef567e493345bcdaa7da50de05d4c41a7fdb0f220d56ec5ad50a863012c712",
+      "created_at": "2026-11-07T09:56:30Z",
+      "updated_at": "2026-11-07T09:56:30Z",
+      "expires_at": "2026-12-07T09:56:29Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569183337,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTE4MzMzNw==",
+      "name": "context-raw-42343832567-trial-007",
+      "size_in_bytes": 3021433,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569183337",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569183337/zip",
+      "expired": false,
+      "digest": "sha256:57c7cbdbf3d032138bff4c757d72ecde46e7daa27dbea892202272ad987e41e9",
+      "created_at": "2026-11-07T09:45:11Z",
+      "updated_at": "2026-11-07T09:45:11Z",
+      "expires_at": "2026-12-07T09:45:10Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569124945,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTEyNDk0NQ==",
+      "name": "context-raw-42343832567-trial-004",
+      "size_in_bytes": 1792167,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569124945",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569124945/zip",
+      "expired": false,
+      "digest": "sha256:aae89c26738d4f806ffea19068373d5856bc7bf5b21349756cefb0f38531b66c",
+      "created_at": "2026-11-07T09:43:16Z",
+      "updated_at": "2026-11-07T09:43:16Z",
+      "expires_at": "2026-12-07T09:43:15Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    },
+    {
+      "id": 13569043600,
+      "node_id": "MDg6QXJ0aWZhY3QxMzU2OTA0MzYwMA==",
+      "name": "context-raw-42343832567-trial-001",
+      "size_in_bytes": 3946986,
+      "url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569043600",
+      "archive_download_url": "https://api.github.com/repos/lilong555/ReproPatch/actions/artifacts/13569043600/zip",
+      "expired": false,
+      "digest": "sha256:5bef1b719b1871312d7ec15f9861baf18e307dcc93ae5b18c7de7adf1d30ea71",
+      "created_at": "2026-11-07T09:42:04Z",
+      "updated_at": "2026-11-07T09:42:04Z",
+      "expires_at": "2026-12-07T09:42:03Z",
+      "workflow_run": {
+        "id": 42343832567,
+        "repository_id": 1427853083,
+        "head_repository_id": 1427853083,
+        "head_branch": "feat/execution-localization-20261106",
+        "head_sha": "586fe18e9d073d92a9943f220919f2a6d4b53af7"
+      }
+    }
+  ]
+}

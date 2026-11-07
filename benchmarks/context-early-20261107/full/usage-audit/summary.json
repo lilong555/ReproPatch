@@ -1,0 +1,446 @@
+{
+  "arms": {
+    "baseline": {
+      "n": 12,
+      "accepted": 10,
+      "requests": 196,
+      "input_tokens": 2790493,
+      "output_tokens": 83830,
+      "cached_input_tokens": 2230144,
+      "total_tokens": 2874323,
+      "uncached_input_tokens": 560349,
+      "by_role": {
+        "repair": {
+          "requests": 196,
+          "input_tokens": 2790493,
+          "output_tokens": 83830,
+          "cached_input_tokens": 2230144
+        }
+      }
+    },
+    "early": {
+      "n": 12,
+      "accepted": 9,
+      "requests": 243,
+      "input_tokens": 2969788,
+      "output_tokens": 114946,
+      "cached_input_tokens": 1879680,
+      "total_tokens": 3084734,
+      "uncached_input_tokens": 1090108,
+      "by_role": {
+        "early_selection": {
+          "requests": 45,
+          "input_tokens": 374595,
+          "output_tokens": 38410,
+          "cached_input_tokens": 0
+        },
+        "repair": {
+          "requests": 198,
+          "input_tokens": 2595193,
+          "output_tokens": 76536,
+          "cached_input_tokens": 1879680
+        }
+      }
+    },
+    "early_state": {
+      "n": 12,
+      "accepted": 10,
+      "requests": 249,
+      "input_tokens": 2177276,
+      "output_tokens": 103695,
+      "cached_input_tokens": 992128,
+      "total_tokens": 2280971,
+      "uncached_input_tokens": 1185148,
+      "by_role": {
+        "early_selection": {
+          "requests": 45,
+          "input_tokens": 353435,
+          "output_tokens": 34334,
+          "cached_input_tokens": 0
+        },
+        "history_compaction": {
+          "requests": 10,
+          "input_tokens": 140364,
+          "output_tokens": 15999,
+          "cached_input_tokens": 0
+        },
+        "repair": {
+          "requests": 194,
+          "input_tokens": 1683477,
+          "output_tokens": 53362,
+          "cached_input_tokens": 992128
+        }
+      }
+    }
+  },
+  "tasks": {
+    "fmtlib__fmt-2070": {
+      "baseline": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 96624,
+        "output_mean": 1996
+      },
+      "early": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 191779,
+        "output_mean": 5936
+      },
+      "early_state": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 139921.5,
+        "output_mean": 4954.5
+      }
+    },
+    "fmtlib__fmt-3537": {
+      "baseline": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 184792,
+        "output_mean": 2683.5
+      },
+      "early": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 309176.5,
+        "output_mean": 7970.5
+      },
+      "early_state": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 208478.5,
+        "output_mean": 8520.5
+      }
+    },
+    "fmtlib__fmt-3713": {
+      "baseline": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 92858.5,
+        "output_mean": 1314.5
+      },
+      "early": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 119914.5,
+        "output_mean": 2545
+      },
+      "early_state": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 93315,
+        "output_mean": 1818
+      }
+    },
+    "fmtlib__fmt-3750": {
+      "baseline": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 430393,
+        "output_mean": 10603
+      },
+      "early": {
+        "n": 2,
+        "accepted": 1,
+        "input_mean": 357351.5,
+        "output_mean": 11173.5
+      },
+      "early_state": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 216373.5,
+        "output_mean": 10102.5
+      }
+    },
+    "fmtlib__fmt-3819": {
+      "baseline": {
+        "n": 2,
+        "accepted": 0,
+        "input_mean": 379061.5,
+        "output_mean": 14385.5
+      },
+      "early": {
+        "n": 2,
+        "accepted": 0,
+        "input_mean": 300144.5,
+        "output_mean": 17572
+      },
+      "early_state": {
+        "n": 2,
+        "accepted": 0,
+        "input_mean": 214117.5,
+        "output_mean": 11423
+      }
+    },
+    "fmtlib__fmt-493": {
+      "baseline": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 211517.5,
+        "output_mean": 10932.5
+      },
+      "early": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 206528,
+        "output_mean": 12276
+      },
+      "early_state": {
+        "n": 2,
+        "accepted": 2,
+        "input_mean": 216432,
+        "output_mean": 15029
+      }
+    }
+  },
+  "first_input_differences": [
+    {
+      "instance_id": "fmtlib__fmt-2070",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.sha256",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    },
+    {
+      "instance_id": "fmtlib__fmt-3537",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.sha256",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    },
+    {
+      "instance_id": "fmtlib__fmt-3713",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.sha256",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    },
+    {
+      "instance_id": "fmtlib__fmt-3750",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.sha256",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.size_bytes",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    },
+    {
+      "instance_id": "fmtlib__fmt-3819",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    },
+    {
+      "instance_id": "fmtlib__fmt-493",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.sha256",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    }
+  ],
+  "comparisons": {
+    "early": {
+      "input_change_percent": 6.4252087355173515,
+      "total_change_percent": 7.320367265613492,
+      "task_means_lower": 3,
+      "task_count": 6,
+      "by_repeat": {
+        "1": {
+          "baseline_input": 1421058,
+          "treatment_input": 1451606,
+          "input_change_percent": 2.1496659531138107
+        },
+        "2": {
+          "baseline_input": 1369435,
+          "treatment_input": 1518182,
+          "input_change_percent": 10.861924808406375
+        }
+      }
+    },
+    "early_state": {
+      "input_change_percent": -21.97522086599034,
+      "total_change_percent": -20.643191457605848,
+      "task_means_lower": 2,
+      "task_count": 6,
+      "by_repeat": {
+        "1": {
+          "baseline_input": 1421058,
+          "treatment_input": 1101225,
+          "input_change_percent": -22.50668164142491
+        },
+        "2": {
+          "baseline_input": 1369435,
+          "treatment_input": 1076051,
+          "input_change_percent": -21.423725843139685
+        }
+      }
+    }
+  },
+  "verified_attempts": 36,
+  "verified_provider_responses": 688,
+  "schema": "repropatch.completed-usage-audit.v1",
+  "kind": "context",
+  "run_id": 42343832567,
+  "source_commit": "586fe18e9d073d92a9943f220919f2a6d4b53af7",
+  "results_sha256": "6574b9625f958adf8b2d43de14ed46346ec2ea16eea63f62aef791271bbb85a5",
+  "artifact_index_sha256": "35cf9a86d97a4289af53b066308d68f88ed1f5b1a51634b4580a7930c2774370",
+  "audit_source_sha256": "3dfdb3e54af9ceed0d54cdbfaaf8c139d926f0d571435f765d655d9418c414d9"
+}

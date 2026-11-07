@@ -2,6 +2,8 @@
 
 本实验比较原始上下文、早期观察提取、早期观察提取与状态摘要三组策略。目标是在相同修复任务、总请求预算和独立冷验收下，衡量较早裁剪工具回执带来的累计 Token 变化、辅助模型成本及修复成功率。
 
+**实验已完成。** [正式 36 条结果](full/README.md)中 baseline / early / early_state 分别通过 **10/12、9/12、10/12**；`early_state` 平均输入降低 **21.98%**，输入与输出合计降低 **20.64%**，包括全部辅助调用。其状态摘要在 9/12 条中触发 10 次，输入改善集中于两道较长任务。`early` 平均输入增加 6.43%。[预检三条](smoke/README.md)单独统计。[逐条失败](full/failures.md)和[全部原始轨迹](full/trajectories.md)均已保留。
+
 冻结合同为 [protocol.json](protocol.json)，campaign 为 `context-early-20261107-v1`，协议 SHA-256 为 `4b49a755f6689b6bbaa780c2534e77d019b30ea5d930fe55610490f19abe52c1`。现有 19 题五组实验的 190 条轨迹保存在原批次；本目录记录独立三组实验。
 
 执行源码固定为 [`586fe18`](https://github.com/lilong555/ReproPatch/tree/586fe18e9d073d92a9943f220919f2a6d4b53af7)，对应 Git 标签 `context-early-20261107-v1`。统一预检 **526 项通过**，测试期间执行源码、测试与工作流哈希保持一致。

@@ -1,0 +1,14 @@
+diff --git a/include/fmt/args.h b/include/fmt/args.h
+index b77a2d0661122dc4520a5a595373d58eed09e942..dafeccfc9e55da45d67fa26820d0a45024428284 100644
+--- a/include/fmt/args.h
++++ b/include/fmt/args.h
+@@ -112,7 +112,8 @@ class dynamic_format_arg_store
+   friend class basic_format_args<Context>;
+ 
+   auto get_types() const -> unsigned long long {
+-    return detail::is_unpacked_bit | data_.size() |
++    auto size = data_.size() - (named_info_.empty() ? 0 : 1);
++    return detail::is_unpacked_bit | size |
+            (named_info_.empty()
+                 ? 0ULL
+                 : static_cast<unsigned long long>(detail::has_named_args_bit));

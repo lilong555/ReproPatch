@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="task-ledger" tests="25" failures="0" errors="0">
+  <testcase classname="tests.test_checkpoint_archive" name="test_verified_archive_retains_restorable_latest_state_and_durable_tasks" file="tests/test_checkpoint_archive.py" line="12" time="1.351" />
+  <testcase classname="tests.test_checkpoint_archive" name="test_interrupted_checkpoint_is_retained" file="tests/test_checkpoint_archive.py" line="59" time="0.589" />
+  <testcase classname="tests.test_checkpoint_archive" name="test_archive_failure_leaves_all_checkpoints" file="tests/test_checkpoint_archive.py" line="70" time="0.651" />
+  <testcase classname="tests.test_task_ledger" name="test_120_items_retain_identity_and_retry_in_six_batches" file="tests/test_task_ledger.py" line="41" time="0.341">
+    <properties>
+      <property name="tasks_imported" value="120" />
+      <property name="duplicate_task_ids" value="0" />
+      <property name="retried_batches" value="6" />
+    </properties>
+  </testcase>
+  <testcase classname="tests.test_task_ledger" name="test_import_resumes_after_abrupt_process_exit[0]" file="tests/test_task_ledger.py" line="65" time="0.515" />
+  <testcase classname="tests.test_task_ledger" name="test_import_resumes_after_abrupt_process_exit[1]" file="tests/test_task_ledger.py" line="65" time="0.541" />
+  <testcase classname="tests.test_task_ledger" name="test_import_resumes_after_abrupt_process_exit[3]" file="tests/test_task_ledger.py" line="65" time="0.513" />
+  <testcase classname="tests.test_task_ledger" name="test_import_resumes_after_abrupt_process_exit[5]" file="tests/test_task_ledger.py" line="65" time="0.522" />
+  <testcase classname="tests.test_task_ledger" name="test_structured_import_cannot_be_declared_complete_with_missing_items" file="tests/test_task_ledger.py" line="106" time="0.164" />
+  <testcase classname="tests.test_task_ledger" name="test_store_failure_reports_error_and_atomic_batch_keeps_import_progress" file="tests/test_task_ledger.py" line="116" time="0.162" />
+  <testcase classname="tests.test_task_ledger" name="test_workset_is_bounded_and_oversized_task_requires_all_pages" file="tests/test_task_ledger.py" line="133" time="4.516">
+    <properties>
+      <property name="workset_utf8_bytes" value="1544" />
+      <property name="workset_budget_utf8_bytes" value="1800" />
+      <property name="long_description_characters" value="39000" />
+    </properties>
+  </testcase>
+  <testcase classname="tests.test_task_ledger" name="test_waiting_dependencies_and_revoked_grants_report_waiting" file="tests/test_task_ledger.py" line="165" time="0.179" />
+  <testcase classname="tests.test_task_ledger" name="test_done_requires_matching_trusted_evidence" file="tests/test_task_ledger.py" line="179" time="0.241" />
+  <testcase classname="tests.test_task_ledger" name="test_read_completion_is_bound_to_the_exact_task_and_revision" file="tests/test_task_ledger.py" line="216" time="0.220" />
+  <testcase classname="tests.test_task_ledger" name="test_same_note_for_distinct_tasks_and_replay_use_distinct_operation_keys" file="tests/test_task_ledger.py" line="226" time="0.162" />
+  <testcase classname="tests.test_task_ledger" name="test_compression_preserves_120_tasks_and_complete_tool_boundaries" file="tests/test_task_ledger.py" line="249" time="1.837" />
+  <testcase classname="tests.test_task_ledger" name="test_native_120_item_input_is_saved_before_model_and_prompt_stays_bounded" file="tests/test_task_ledger.py" line="276" time="0.830">
+    <properties>
+      <property name="raw_input_utf8_bytes" value="60513" />
+      <property name="peak_model_messages_utf8_bytes" value="8689" />
+      <property name="tool_result_utf8_bytes" value="2690" />
+    </properties>
+  </testcase>
+  <testcase classname="tests.test_task_ledger" name="test_handoff_summary_and_partial_legacy_list_preserve_all_old_tasks" file="tests/test_task_ledger.py" line="309" time="0.795" />
+  <testcase classname="tests.test_task_ledger" name="test_large_ticket_and_receipt_are_references_in_state" file="tests/test_task_ledger.py" line="340" time="0.998" />
+  <testcase classname="tests.test_task_ledger" name="test_task_write_checkpoint_gap_recovers_without_a_second_dispatch" file="tests/test_task_ledger.py" line="369" time="1.010">
+    <properties>
+      <property name="http_write_dispatches" value="1" />
+      <property name="recovery_http_write_dispatches" value="0" />
+    </properties>
+  </testcase>
+  <testcase classname="tests.test_task_ledger" name="test_write_task_kind_stays_bound_to_its_operation" file="tests/test_task_ledger.py" line="441" time="0.160" />
+  <testcase classname="tests.test_task_ledger" name="test_missing_task_rows_are_reported_as_incomplete" file="tests/test_task_ledger.py" line="449" time="0.277" />
+  <testcase classname="tests.test_task_ledger" name="test_missing_fact_store_is_detected_before_resumption" file="tests/test_task_ledger.py" line="457" time="0.727" />
+  <testcase classname="tests.test_task_ledger" name="test_revocation_keeps_tasks_and_blocks_later_write_execution" file="tests/test_task_ledger.py" line="466" time="1.088" />
+  <testcase classname="tests.test_task_ledger" name="test_native_loop_continues_until_all_executable_query_tasks_complete" file="tests/test_task_ledger.py" line="499" time="1.011" />
+</testsuite>

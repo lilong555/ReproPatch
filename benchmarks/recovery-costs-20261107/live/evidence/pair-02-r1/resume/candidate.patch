@@ -1,0 +1,66 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index 7bd4206d7528023c4d4b63a105e6b09c104a6fa9..ed786772511ee152063abb7901e06e9dde068213 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -523,9 +523,39 @@ inline std::tm gmtime(std::time_t time) {
+   return gt.tm_;
+ }
+ 
++namespace detail {
++template <typename To, typename Duration>
++inline typename std::enable_if<
++    std::is_integral<typename Duration::rep>::value &&
++        std::is_integral<typename To::rep>::value,
++    To>::type
++checked_duration_cast(Duration d) {
++#if FMT_SAFE_DURATION_CAST
++  int ec;
++  auto result = safe_duration_cast::safe_duration_cast<To>(d, ec);
++  if (ec) FMT_THROW(format_error("cannot format duration"));
++  return result;
++#else
++  return std::chrono::duration_cast<To>(d);
++#endif
++}
++
++template <typename To, typename Duration>
++inline typename std::enable_if<
++    !std::is_integral<typename Duration::rep>::value ||
++        !std::is_integral<typename To::rep>::value,
++    To>::type
++checked_duration_cast(Duration d) {
++  return std::chrono::duration_cast<To>(d);
++}
++}  // namespace detail
++
++template <typename Duration>
+ inline std::tm gmtime(
+-    std::chrono::time_point<std::chrono::system_clock> time_point) {
+-  return gmtime(std::chrono::system_clock::to_time_t(time_point));
++    std::chrono::time_point<std::chrono::system_clock, Duration> time_point) {
++  auto time = detail::checked_duration_cast<std::chrono::duration<std::time_t>>(
++      time_point.time_since_epoch());
++  return gmtime(time.count());
+ }
+ 
+ namespace detail {
+@@ -2082,8 +2112,17 @@ struct formatter<std::chrono::time_point<std::chrono::system_clock, Duration>,
+             period::num != 1 || period::den != 1 ||
+             std::is_floating_point<typename Duration::rep>::value)) {
+       const auto epoch = val.time_since_epoch();
+-      auto subsecs = std::chrono::duration_cast<Duration>(
+-          epoch - std::chrono::duration_cast<std::chrono::seconds>(epoch));
++#if FMT_SAFE_DURATION_CAST
++      int ec;
++      auto epoch_seconds = safe_duration_cast::safe_duration_cast<
++          std::chrono::seconds>(epoch, ec);
++      if (ec) FMT_THROW(format_error("cannot format duration"));
++#else
++      auto epoch_seconds = std::chrono::duration_cast<std::chrono::seconds>(
++          epoch);
++#endif
++      auto subsecs =
++          std::chrono::duration_cast<Duration>(epoch - epoch_seconds);
+ 
+       if (subsecs.count() < 0) {
+         auto second =

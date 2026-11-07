@@ -156,7 +156,10 @@ def statistics(results):
     analysis = {"arms": {}, "paired_outcomes": {}, "task_results": {}}
     for arm, official in results["arms"].items():
         selected = [row for row in rows if row["arm"] == arm]
-        require(arm_statistics(selected) == official, "arm_recompute_mismatch:" + arm)
+        require(
+            arm_statistics(selected, flags=tuple(official["mechanisms"])) == official,
+            "arm_recompute_mismatch:" + arm,
+        )
         inp, out = (official[key]["all_trial_mean"] for key in ("input_tokens", "output_tokens"))
         mechanisms = {}
         for name, counts in official["mechanisms"].items():
@@ -228,19 +231,25 @@ def statistics(results):
 
 def failure_report(records, analysis):
     failed = [row for row in records if not row["accepted"]]
+    arm_names = list(analysis["arms"])
+    denominators = Counter((row["instance_id"], row["arm"]) for row in records)
     lines = [
         "# 回执上下文策略逐题结果与失败证据",
         "",
         f"全部 {len(records)} 条轨迹中，{len(records) - len(failed)} 条冷验收通过，"
         f"{len(failed)} 条失败。评分状态、执行停止原因与具体日志分别保存。",
         "",
-        "## 19 题逐组通过数",
+        f"## {len(analysis['task_results'])} 题逐组通过数",
         "",
-        "| 任务 | baseline | diagnostics | dedup | state | combined |",
-        "| --- | ---: | ---: | ---: | ---: | ---: |",
+        "| 任务 | " + " | ".join(arm_names) + " |",
+        "| --- | " + " | ".join("---:" for _ in arm_names) + " |",
     ]
     for task, arms in analysis["task_results"].items():
-        lines.append(f"| `{task}` | " + " | ".join(f"{v}/2" for v in arms.values()) + " |")
+        lines.append(
+            f"| `{task}` | "
+            + " | ".join(f"{arms[arm]}/{denominators[task, arm]}" for arm in arm_names)
+            + " |"
+        )
     lines += [
         "",
         "## 逐条失败与原始轨迹",

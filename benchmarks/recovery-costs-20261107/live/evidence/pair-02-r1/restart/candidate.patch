@@ -1,0 +1,41 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index 7bd4206d7528023c4d4b63a105e6b09c104a6fa9..500d4a04cab6b80111111f9bc5fa7c054df2f829 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -1631,6 +1631,19 @@ To fmt_safe_duration_cast(std::chrono::duration<FromRep, FromPeriod> from) {
+ }
+ #endif
+ 
++template <typename Duration>
++inline std::tm gmtime(
++    std::chrono::time_point<std::chrono::system_clock, Duration> time_point) {
++#if FMT_SAFE_DURATION_CAST
++  auto time = fmt_safe_duration_cast<std::chrono::duration<std::time_t>>(
++      time_point.time_since_epoch());
++#else
++  auto time = std::chrono::duration_cast<std::chrono::duration<std::time_t>>(
++      time_point.time_since_epoch());
++#endif
++  return gmtime(time.count());
++}
++
+ template <typename Rep, typename Period,
+           FMT_ENABLE_IF(std::is_integral<Rep>::value)>
+ inline std::chrono::duration<Rep, std::milli> get_milliseconds(
+@@ -2082,8 +2095,15 @@ struct formatter<std::chrono::time_point<std::chrono::system_clock, Duration>,
+             period::num != 1 || period::den != 1 ||
+             std::is_floating_point<typename Duration::rep>::value)) {
+       const auto epoch = val.time_since_epoch();
++#if FMT_SAFE_DURATION_CAST
++      auto epoch_seconds = detail::fmt_safe_duration_cast<
++          std::chrono::seconds>(epoch);
++#else
++      const auto epoch_seconds =
++          std::chrono::duration_cast<std::chrono::seconds>(epoch);
++#endif
+       auto subsecs = std::chrono::duration_cast<Duration>(
+-          epoch - std::chrono::duration_cast<std::chrono::seconds>(epoch));
++          epoch - std::chrono::duration_cast<Duration>(epoch_seconds));
+ 
+       if (subsecs.count() < 0) {
+         auto second =

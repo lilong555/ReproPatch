@@ -1,0 +1,170 @@
+{
+  "arms": {
+    "baseline": {
+      "n": 1,
+      "accepted": 1,
+      "requests": 13,
+      "input_tokens": 131104,
+      "output_tokens": 2022,
+      "cached_input_tokens": 105216,
+      "total_tokens": 133126,
+      "uncached_input_tokens": 25888,
+      "by_role": {
+        "repair": {
+          "requests": 13,
+          "input_tokens": 131104,
+          "output_tokens": 2022,
+          "cached_input_tokens": 105216
+        }
+      }
+    },
+    "early": {
+      "n": 1,
+      "accepted": 1,
+      "requests": 13,
+      "input_tokens": 116642,
+      "output_tokens": 5845,
+      "cached_input_tokens": 65792,
+      "total_tokens": 122487,
+      "uncached_input_tokens": 50850,
+      "by_role": {
+        "early_selection": {
+          "requests": 3,
+          "input_tokens": 19788,
+          "output_tokens": 3461,
+          "cached_input_tokens": 0
+        },
+        "repair": {
+          "requests": 10,
+          "input_tokens": 96854,
+          "output_tokens": 2384,
+          "cached_input_tokens": 65792
+        }
+      }
+    },
+    "early_state": {
+      "n": 1,
+      "accepted": 1,
+      "requests": 20,
+      "input_tokens": 168937,
+      "output_tokens": 6107,
+      "cached_input_tokens": 75904,
+      "total_tokens": 175044,
+      "uncached_input_tokens": 93033,
+      "by_role": {
+        "early_selection": {
+          "requests": 4,
+          "input_tokens": 35778,
+          "output_tokens": 2930,
+          "cached_input_tokens": 0
+        },
+        "history_compaction": {
+          "requests": 1,
+          "input_tokens": 12139,
+          "output_tokens": 841,
+          "cached_input_tokens": 0
+        },
+        "repair": {
+          "requests": 15,
+          "input_tokens": 121020,
+          "output_tokens": 2336,
+          "cached_input_tokens": 75904
+        }
+      }
+    }
+  },
+  "tasks": {
+    "fmtlib__fmt-2070": {
+      "baseline": {
+        "n": 1,
+        "accepted": 1,
+        "input_mean": 131104,
+        "output_mean": 2022
+      },
+      "early": {
+        "n": 1,
+        "accepted": 1,
+        "input_mean": 116642,
+        "output_mean": 5845
+      },
+      "early_state": {
+        "n": 1,
+        "accepted": 1,
+        "input_mean": 168937,
+        "output_mean": 6107
+      }
+    }
+  },
+  "first_input_differences": [
+    {
+      "instance_id": "fmtlib__fmt-2070",
+      "differing_first_input_paths": [
+        "input[1].content.baseline_observation.build.command_id",
+        "input[1].content.baseline_observation.build.stderr_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.path",
+        "input[1].content.baseline_observation.build.stdout_log.sha256",
+        "input[1].content.baseline_observation.cleanup.container_id",
+        "input[1].content.baseline_observation.configure.command_id",
+        "input[1].content.baseline_observation.configure.stderr_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.path",
+        "input[1].content.baseline_observation.configure.stdout_log.sha256",
+        "input[1].content.baseline_observation.discovery.command_id",
+        "input[1].content.baseline_observation.discovery.stderr_log.path",
+        "input[1].content.baseline_observation.discovery.stdout_log.path",
+        "input[1].content.baseline_observation.evaluation_id",
+        "input[1].content.baseline_observation.evidence.path",
+        "input[1].content.baseline_observation.evidence.sha256",
+        "input[1].content.baseline_observation.evidence.size_bytes",
+        "input[1].content.baseline_observation.failed_commands[0].argv[8]",
+        "input[1].content.baseline_observation.failed_commands[0].command_id",
+        "input[1].content.baseline_observation.failed_commands[0].container_id",
+        "input[1].content.baseline_observation.failed_commands[0].duration_ms",
+        "input[1].content.baseline_observation.failed_commands[0].duration_seconds",
+        "input[1].content.baseline_observation.failed_commands[0].finished_at",
+        "input[1].content.baseline_observation.failed_commands[0].started_at",
+        "input[1].content.baseline_observation.failed_commands[0].stderr_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.path",
+        "input[1].content.baseline_observation.failed_commands[0].stdout_log.sha256",
+        "input[1].content.baseline_observation.source_manifest.path"
+      ]
+    }
+  ],
+  "comparisons": {
+    "early": {
+      "input_change_percent": -11.030937271174036,
+      "total_change_percent": -7.991677057824919,
+      "task_means_lower": 1,
+      "task_count": 1,
+      "by_repeat": {
+        "1": {
+          "baseline_input": 131104,
+          "treatment_input": 116642,
+          "input_change_percent": -11.030937271174036
+        }
+      }
+    },
+    "early_state": {
+      "input_change_percent": 28.85724310471076,
+      "total_change_percent": 31.48746300497274,
+      "task_means_lower": 0,
+      "task_count": 1,
+      "by_repeat": {
+        "1": {
+          "baseline_input": 131104,
+          "treatment_input": 168937,
+          "input_change_percent": 28.85724310471076
+        }
+      }
+    }
+  },
+  "verified_attempts": 3,
+  "verified_provider_responses": 46,
+  "schema": "repropatch.completed-usage-audit.v1",
+  "kind": "context",
+  "run_id": 42343788196,
+  "source_commit": "586fe18e9d073d92a9943f220919f2a6d4b53af7",
+  "results_sha256": "40c89a707df72c1b15bf6553ab1e8a5d9148e7500557835d21c3121737714422",
+  "artifact_index_sha256": "4a19c9e0054cff0a2b9e4896adee6943e512e530106d304900599441813da7b8",
+  "audit_source_sha256": "3dfdb3e54af9ceed0d54cdbfaaf8c139d926f0d571435f765d655d9418c414d9"
+}

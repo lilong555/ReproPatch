@@ -2,6 +2,8 @@
 
 19 道真实 C++ 缺陷任务的 190 条历史轨迹已完成逐项复算，覆盖 3,584 次模型请求、52,842,882 个输入 Token。新鲜模型配对实验使用 2 道任务、每题 2 次重复，共 4 对，衡量故障后继续原 Run 与从基础源码重新执行的成本和冷验收结果。
 
+**四对真实模型实验已完成。** 恢复 / 重启冷验收为 **3/4、2/4**，故障后输入分别为 **1,747,457、1,353,987 Token**，恢复增加 **29.06%**。检查点重建中位 **1.859 秒**，八项恢复一致性检查均 4/4 通过；四对 Harness 执行总时长中恢复多 11.31 秒。[完整结果](live/README.md)、[三条失败](live/failures.md)及[原始配对轨迹](live/trajectories.md)已核验。
+
 ## 已完成的历史成本核算
 
 原始批次为 [Actions Run 42219312911](https://github.com/lilong555/ReproPatch/actions/runs/42219312911)，包含 baseline、diagnostics、dedup、state、combined 五组。每组均为 19 题 × 2 次重复。复算逐一核对原始下载摘要、tar SHA256、SQLite 完整性、事件投影、供应方响应及 usage、检查点引用和累计用量。
@@ -44,11 +46,11 @@ baseline 单独覆盖 38 条轨迹、701 次请求、10,005,093 个输入 Token�
 
 ## 执行与证据
 
-CPA 已注册 `recovery-costs-20261107-v1`；[注册回执](registration.json)包含服务脚本 SHA256、8 项临时认领验证、原租约与配置连续性，以及生产环境恢复认领数 `0`。新鲜模型结果由 Actions 完成后发布。
+CPA 注册 `recovery-costs-20261107-v1` 的[回执](registration.json)包含服务脚本 SHA256、8 项临时认领验证、原租约与配置连续性，以及登记时的生产环境恢复认领数 `0`。实际执行共 175 次请求，详见[原始 CI 结果](live/results.json)。
 
 执行批次为 [Actions Run 42342132692](https://github.com/lilong555/ReproPatch/actions/runs/42342132692)，源码固定为 [`d15c9d8`](https://github.com/lilong555/ReproPatch/tree/d15c9d837cdb227cfd3bd93154580fd9b05fa85a)，对应 Git 标签 `recovery-costs-20261107-v1`。[调度回执](dispatch.json)保存创建时间、运行入口及该源码身份。
 
-调度入口为 `formal-benchmark.yml` 的 `cross_stage=recovery-costs`。该入口与正在执行的上下文批次共用 `context-ablation-cpa-8` 队列，`cancel-in-progress=false`；四对按 `max-parallel=1` 串行。执行前核对前序 [Run 42335967622](https://github.com/lilong555/ReproPatch/actions/runs/42335967622) 已完成。
+调度入口为 `formal-benchmark.yml` 的 `cross_stage=recovery-costs`。该入口与上下文批次共用 `context-ablation-cpa-8` 队列，`cancel-in-progress=false`；四对按 `max-parallel=1` 串行。执行前核对前序 [Run 42335967622](https://github.com/lilong555/ReproPatch/actions/runs/42335967622) 已完成。
 
 ```bash
 gh workflow run formal-benchmark.yml --repo lilong555/ReproPatch \

@@ -1,0 +1,30 @@
+[1/67] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[2/67] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+FAILED: CMakeFiles/fmt.dir/src/format.cc.o 
+/usr/bin/c++  -I/src/include -O3 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden -MD -MT CMakeFiles/fmt.dir/src/format.cc.o -MF CMakeFiles/fmt.dir/src/format.cc.o.d -o CMakeFiles/fmt.dir/src/format.cc.o -c /src/src/format.cc
+In file included from /src/include/fmt/format-inl.h:25,
+                 from /src/src/format.cc:8:
+/src/include/fmt/format.h: In instantiation of ‘OutputIt fmt::v10::detail::write_int(OutputIt, UInt, unsigned int, const fmt::v10::format_specs<Char>&, const digit_grouping<Char>&) [with OutputIt = fmt::v10::appender; UInt = long unsigned int; Char = char]’:
+/src/include/fmt/format.h:2231:14:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = int; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = char]’
+/src/include/fmt/core.h:1689:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<>; decltype (vis(0)) = bool]’
+/src/include/fmt/format-inl.h:141:19:   required from here
+/src/include/fmt/format.h:2181:45: error: ‘make_write_int_arg’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
+ 2181 |     return write_int(out, make_write_int_arg(value, specs.sign), specs,
+      |                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/src/include/fmt/format.h:2206:20: note: ‘template<class T> constexpr fmt::v10::detail::write_int_arg<typename std::conditional<((num_bits<T>() <= 32) && (!0)), unsigned int, typename std::conditional<(num_bits<T>() <= 64), long unsigned int, __int128 unsigned>::type>::type> fmt::v10::detail::make_write_int_arg(T, fmt::v10::sign_t)’ declared here, later in the translation unit
+ 2206 | FMT_CONSTEXPR auto make_write_int_arg(T value, sign_t sign)
+      |                    ^~~~~~~~~~~~~~~~~~
+/src/include/fmt/format.h: In instantiation of ‘OutputIt fmt::v10::detail::write_int(OutputIt, UInt, unsigned int, const fmt::v10::format_specs<Char>&, const digit_grouping<Char>&) [with OutputIt = fmt::v10::appender; UInt = __int128 unsigned; Char = char]’:
+/src/include/fmt/format.h:2231:14:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = __int128; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = char]’
+/src/include/fmt/core.h:1697:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<>; decltype (vis(0)) = bool]’
+/src/include/fmt/format-inl.h:141:19:   required from here
+/src/include/fmt/format.h:2181:45: error: ‘make_write_int_arg’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation
+ 2181 |     return write_int(out, make_write_int_arg(value, specs.sign), specs,
+      |                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/src/include/fmt/format.h:2206:20: note: ‘template<class T> constexpr fmt::v10::detail::write_int_arg<typename std::conditional<((num_bits<T>() <= 32) && (!0)), unsigned int, typename std::conditional<(num_bits<T>() <= 64), long unsigned int, __int128 unsigned>::type>::type> fmt::v10::detail::make_write_int_arg(T, fmt::v10::sign_t)’ declared here, later in the translation unit
+ 2206 | FMT_CONSTEXPR auto make_write_int_arg(T value, sign_t sign)
+      |                    ^~~~~~~~~~~~~~~~~~
+[3/67] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+ninja: build stopped: subcommand failed.

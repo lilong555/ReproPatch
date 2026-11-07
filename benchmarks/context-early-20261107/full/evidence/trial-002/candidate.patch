@@ -1,0 +1,14 @@
+diff --git a/include/fmt/base.h b/include/fmt/base.h
+index 7d75a1bcd604a62e90279d43c4f181d73f4f5f9b..c1609f8eb2ec47cae46f043d7f46b0f6fd2c3d01 100644
+--- a/include/fmt/base.h
++++ b/include/fmt/base.h
+@@ -773,6 +773,9 @@ template <typename Char> class basic_format_parse_context {
+     do_check_arg_id(id);
+   }
+   FMT_CONSTEXPR void check_arg_id(basic_string_view<Char>) {}
++  FMT_CONSTEXPR void advance_arg_id(int id) {
++    if (next_arg_id_ >= 0 && next_arg_id_ <= id) next_arg_id_ = id + 1;
++  }
+   FMT_CONSTEXPR void check_dynamic_spec(int arg_id);
+ };
+ 

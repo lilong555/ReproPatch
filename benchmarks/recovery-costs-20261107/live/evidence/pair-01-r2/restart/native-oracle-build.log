@@ -1,0 +1,277 @@
+[1/67] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[2/67] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[3/67] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[4/67] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[5/67] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[6/67] Linking CXX static library libfmt.a
+[7/67] Building CXX object test/CMakeFiles/args-test.dir/args-test.cc.o
+[8/67] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[9/67] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+FAILED: test/CMakeFiles/chrono-test.dir/chrono-test.cc.o 
+/usr/bin/c++ -DGTEST_HAS_STD_WSTRING=1 -D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING=1 -I/src/include -isystem /src/test/gtest/. -O3 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden -Wno-stringop-overflow -MD -MT test/CMakeFiles/chrono-test.dir/chrono-test.cc.o -MF test/CMakeFiles/chrono-test.dir/chrono-test.cc.o.d -o test/CMakeFiles/chrono-test.dir/chrono-test.cc.o -c /src/test/chrono-test.cc
+In file included from /usr/include/c++/13/bits/chrono.h:37,
+                 from /usr/include/c++/13/chrono:41,
+                 from /src/include/fmt/chrono.h:12,
+                 from /src/test/chrono-test.cc:8:
+/usr/include/c++/13/ratio: In instantiation of ‘struct std::__safe_multiply<1000000000000000000, 86400>’:
+/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000000>, std::ratio<1, 86400> >’
+/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000000>, std::ratio<86400> >’
+/usr/include/c++/13/ratio:387:11:   required by substitution of ‘template<class _R1, class _R2> using std::ratio_divide = typename std::__ratio_divide::type [with _R1 = std::ratio<1, 1000000000000000000>; _R2 = std::ratio<86400>]’
+/src/include/fmt/chrono.h:197:10:   required from ‘struct fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+/src/include/fmt/chrono.h:198:72:   required from ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:450:53:   [ skipping 5 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<int, std::ratio<1, 1000000000000000000> > >]’
+/src/test/chrono-test.cc:433:3:   required from here
+/usr/include/c++/13/ratio:100:47: error: static assertion failed: overflow in multiplication
+  100 |       static_assert(__a0 * __b1 + __b0 * __a1 < (__c >> 1),
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+/usr/include/c++/13/ratio:100:47: note: the comparison reduces to ‘(20116567555200 < 2147483648)’
+/usr/include/c++/13/ratio:105:21: error: static assertion failed: overflow in multiplication
+  104 |       static_assert((__a0 * __b1 + __b0 * __a1) * __c
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  105 |                     <= __INTMAX_MAX__ -  __b0 * __a0,
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/ratio:105:21: note: the comparison reduces to ‘(13897260176844521472 <= 9223129395529515007)’
+/usr/include/c++/13/ratio: In instantiation of ‘const intmax_t std::__safe_multiply<1000000000000000000, 86400>::value’:
+/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000000>, std::ratio<1, 86400> >’
+/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000000>, std::ratio<86400> >’
+/usr/include/c++/13/ratio:387:11:   required by substitution of ‘template<class _R1, class _R2> using std::ratio_divide = typename std::__ratio_divide::type [with _R1 = std::ratio<1, 1000000000000000000>; _R2 = std::ratio<86400>]’
+/src/include/fmt/chrono.h:197:10:   required from ‘struct fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+/src/include/fmt/chrono.h:198:72:   required from ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:450:53:   [ skipping 5 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<int, std::ratio<1, 1000000000000000000> > >]’
+/src/test/chrono-test.cc:433:3:   required from here
+/usr/include/c++/13/ratio:109:29: error: overflow in constant expression [-fpermissive]
+  109 |       static const intmax_t value = _Pn * _Qn;
+      |                             ^~~~~
+/usr/include/c++/13/ratio:109:29: error: overflow in constant expression [-fpermissive]
+/src/include/fmt/chrono.h: In instantiation of ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’:
+/src/include/fmt/chrono.h:450:53:   required from ‘To fmt::v10::detail::fmt_duration_cast(std::chrono::duration<_Rep, _Period>) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<is_same_arithmetic_type<FromRep, typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:1890:48:   required from ‘void fmt::v10::detail::chrono_formatter<FormatContext, OutputIt, Rep, Period>::on_day_of_year() [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; OutputIt = std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >; Rep = int; Period = std::ratio<1, 1000000000000000000>]’
+/src/include/fmt/chrono.h:767:29:   required from ‘constexpr const Char* fmt::v10::detail::parse_chrono_format(const Char*, const Char*, Handler&&) [with Char = char; Handler = chrono_formatter<fmt::v10::basic_format_context<fmt::v10::appender, char>, std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >, int, std::ratio<1, 1000000000000000000> >&]’
+/src/include/fmt/chrono.h:2097:34:   required from ‘decltype (ctx.out()) fmt::v10::formatter<std::chrono::duration<_Rep1, _Period1>, Char>::format(std::chrono::duration<_Rep1, _Period1>, FormatContext&) const [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; Rep = int; Period = std::ratio<1, 1000000000000000000>; Char = char; decltype (ctx.out()) = fmt::v10::appender]’
+/src/include/fmt/core.h:1322:28:   required from ‘static void fmt::v10::detail::value<Context>::format_custom_arg(void*, typename Context::parse_context_type&, Context&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; Formatter = fmt::v10::formatter<std::chrono::duration<int, std::ratio<1, 1000000000000000000> >, char, void>; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; typename Context::parse_context_type = fmt::v10::basic_format_parse_context<char>]’
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<int, std::ratio<1, 1000000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<int, std::ratio<1, 1000000000000000000> > >]’
+/src/test/chrono-test.cc:433:3:   required from here
+/src/include/fmt/chrono.h:200:25: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  200 |   static_assert(Factor::num > 0, "num must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:201:25: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  201 |   static_assert(Factor::den > 0, "den must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:216:35: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  216 |   if (detail::const_check(Factor::num != 1)) {
+      |                                   ^~~
+/src/include/fmt/chrono.h:217:70: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  217 |     const auto max1 = detail::max_value<IntermediateRep>() / Factor::num;
+      |                                                                      ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:223:65: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  223 |         (std::numeric_limits<IntermediateRep>::min)() / Factor::num;
+      |                                                                 ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:229:22: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  229 |     count *= Factor::num;
+      |                      ^~~
+/src/include/fmt/chrono.h:232:35: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  232 |   if (detail::const_check(Factor::den != 1)) count /= Factor::den;
+      |                                   ^~~
+/src/include/fmt/chrono.h:232:63: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  232 |   if (detail::const_check(Factor::den != 1)) count /= Factor::den;
+      |                                                               ^~~
+/usr/include/c++/13/ratio: In instantiation of ‘struct std::__safe_multiply<1000000000000000, 86400>’:
+/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000>, std::ratio<1, 86400> >’
+/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000>, std::ratio<86400> >’
+/usr/include/c++/13/ratio:387:11:   required by substitution of ‘template<class _R1, class _R2> using std::ratio_divide = typename std::__ratio_divide::type [with _R1 = std::ratio<1, 1000000000000000>; _R2 = std::ratio<86400>]’
+/src/include/fmt/chrono.h:197:10:   required from ‘struct fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+/src/include/fmt/chrono.h:198:72:   required from ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:450:53:   [ skipping 5 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<int, std::ratio<1, 1000000000000000> > >]’
+/src/test/chrono-test.cc:435:3:   required from here
+/usr/include/c++/13/ratio:100:47: error: static assertion failed: overflow in multiplication
+  100 |       static_assert(__a0 * __b1 + __b0 * __a1 < (__c >> 1),
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+/usr/include/c++/13/ratio:100:47: note: the comparison reduces to ‘(20116512000 < 2147483648)’
+/usr/include/c++/13/ratio:105:21: error: static assertion failed: overflow in multiplication
+  104 |       static_assert((__a0 * __b1 + __b0 * __a1) * __c
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  105 |                     <= __INTMAX_MAX__ -  __b0 * __a0,
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/ratio:105:21: note: the comparison reduces to ‘(12612784854753345536 <= 9223133186446327807)’
+/usr/include/c++/13/ratio: In instantiation of ‘const intmax_t std::__safe_multiply<1000000000000000, 86400>::value’:
+/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000>, std::ratio<1, 86400> >’
+/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000>, std::ratio<86400> >’
+/usr/include/c++/13/ratio:387:11:   required by substitution of ‘template<class _R1, class _R2> using std::ratio_divide = typename std::__ratio_divide::type [with _R1 = std::ratio<1, 1000000000000000>; _R2 = std::ratio<86400>]’
+/src/include/fmt/chrono.h:197:10:   required from ‘struct fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+/src/include/fmt/chrono.h:198:72:   required from ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:450:53:   [ skipping 5 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<int, std::ratio<1, 1000000000000000> > >]’
+/src/test/chrono-test.cc:435:3:   required from here
+/usr/include/c++/13/ratio:109:29: error: overflow in constant expression [-fpermissive]
+  109 |       static const intmax_t value = _Pn * _Qn;
+      |                             ^~~~~
+/usr/include/c++/13/ratio:109:29: error: overflow in constant expression [-fpermissive]
+/src/include/fmt/chrono.h: In instantiation of ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’:
+/src/include/fmt/chrono.h:450:53:   required from ‘To fmt::v10::detail::fmt_duration_cast(std::chrono::duration<_Rep, _Period>) [with To = std::chrono::duration<unsigned int, std::ratio<86400> >; FromRep = unsigned int; FromPeriod = std::ratio<1, 1000000000000000>; typename std::enable_if<is_same_arithmetic_type<FromRep, typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:1890:48:   required from ‘void fmt::v10::detail::chrono_formatter<FormatContext, OutputIt, Rep, Period>::on_day_of_year() [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; OutputIt = std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >; Rep = int; Period = std::ratio<1, 1000000000000000>]’
+/src/include/fmt/chrono.h:767:29:   required from ‘constexpr const Char* fmt::v10::detail::parse_chrono_format(const Char*, const Char*, Handler&&) [with Char = char; Handler = chrono_formatter<fmt::v10::basic_format_context<fmt::v10::appender, char>, std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >, int, std::ratio<1, 1000000000000000> >&]’
+/src/include/fmt/chrono.h:2097:34:   required from ‘decltype (ctx.out()) fmt::v10::formatter<std::chrono::duration<_Rep1, _Period1>, Char>::format(std::chrono::duration<_Rep1, _Period1>, FormatContext&) const [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; Rep = int; Period = std::ratio<1, 1000000000000000>; Char = char; decltype (ctx.out()) = fmt::v10::appender]’
+/src/include/fmt/core.h:1322:28:   required from ‘static void fmt::v10::detail::value<Context>::format_custom_arg(void*, typename Context::parse_context_type&, Context&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; Formatter = fmt::v10::formatter<std::chrono::duration<int, std::ratio<1, 1000000000000000> >, char, void>; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; typename Context::parse_context_type = fmt::v10::basic_format_parse_context<char>]’
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<int, std::ratio<1, 1000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<int, std::ratio<1, 1000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<int, std::ratio<1, 1000000000000000> > >]’
+/src/test/chrono-test.cc:435:3:   required from here
+/src/include/fmt/chrono.h:200:25: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  200 |   static_assert(Factor::num > 0, "num must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:201:25: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  201 |   static_assert(Factor::den > 0, "den must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:216:35: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  216 |   if (detail::const_check(Factor::num != 1)) {
+      |                                   ^~~
+/src/include/fmt/chrono.h:217:70: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  217 |     const auto max1 = detail::max_value<IntermediateRep>() / Factor::num;
+      |                                                                      ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:223:65: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  223 |         (std::numeric_limits<IntermediateRep>::min)() / Factor::num;
+      |                                                                 ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:229:22: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  229 |     count *= Factor::num;
+      |                      ^~~
+/src/include/fmt/chrono.h:232:35: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  232 |   if (detail::const_check(Factor::den != 1)) count /= Factor::den;
+      |                                   ^~~
+/src/include/fmt/chrono.h:232:63: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<unsigned int, std::ratio<86400> >, unsigned int, std::ratio<1, 1000000000000000> >(std::chrono::duration<unsigned int, std::ratio<1, 1000000000000000> >, int&)::Factor’
+  232 |   if (detail::const_check(Factor::den != 1)) count /= Factor::den;
+      |                                                               ^~~
+/src/include/fmt/chrono.h: In instantiation of ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<float, std::ratio<86400> >; FromRep = float; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<std::is_floating_point<From>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_floating_point<typename To::rep>::value, int>::type <anonymous> = 0]’:
+/src/include/fmt/chrono.h:450:53:   required from ‘To fmt::v10::detail::fmt_duration_cast(std::chrono::duration<_Rep, _Period>) [with To = std::chrono::duration<float, std::ratio<86400> >; FromRep = float; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<is_same_arithmetic_type<FromRep, typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:1890:48:   required from ‘void fmt::v10::detail::chrono_formatter<FormatContext, OutputIt, Rep, Period>::on_day_of_year() [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; OutputIt = std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >; Rep = float; Period = std::ratio<1, 1000000000000000000>]’
+/src/include/fmt/chrono.h:767:29:   required from ‘constexpr const Char* fmt::v10::detail::parse_chrono_format(const Char*, const Char*, Handler&&) [with Char = char; Handler = chrono_formatter<fmt::v10::basic_format_context<fmt::v10::appender, char>, std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >, float, std::ratio<1, 1000000000000000000> >&]’
+/src/include/fmt/chrono.h:2097:34:   required from ‘decltype (ctx.out()) fmt::v10::formatter<std::chrono::duration<_Rep1, _Period1>, Char>::format(std::chrono::duration<_Rep1, _Period1>, FormatContext&) const [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; Rep = float; Period = std::ratio<1, 1000000000000000000>; Char = char; decltype (ctx.out()) = fmt::v10::appender]’
+/src/include/fmt/core.h:1322:28:   required from ‘static void fmt::v10::detail::value<Context>::format_custom_arg(void*, typename Context::parse_context_type&, Context&) [with T = std::chrono::duration<float, std::ratio<1, 1000000000000000000> >; Formatter = fmt::v10::formatter<std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, char, void>; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; typename Context::parse_context_type = fmt::v10::basic_format_parse_context<char>]’
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<float, std::ratio<1, 1000000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<float, std::ratio<1, 1000000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<float, std::ratio<1, 1000000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<float, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<float, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<float, std::ratio<1, 1000000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<float, std::ratio<1, 1000000000000000000> > >]’
+/src/test/chrono-test.cc:736:3:   required from here
+/src/include/fmt/chrono.h:264:25: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  264 |   static_assert(Factor::num > 0, "num must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:265:25: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  265 |   static_assert(Factor::den > 0, "den must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:273:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  273 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:284:35: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  284 |   if (detail::const_check(Factor::num != 1)) {
+      |                                   ^~~
+/src/include/fmt/chrono.h:286:64: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  286 |                           static_cast<IntermediateRep>(Factor::num);
+      |                                                                ^~~
+/src/include/fmt/chrono.h:273:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  273 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:292:64: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  292 |                           static_cast<IntermediateRep>(Factor::num);
+      |                                                                ^~~
+/src/include/fmt/chrono.h:297:51: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  297 |     count *= static_cast<IntermediateRep>(Factor::num);
+      |                                                   ^~~
+/src/include/fmt/chrono.h:301:35: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  301 |   if (detail::const_check(Factor::den != 1)) {
+      |                                   ^~~
+/src/include/fmt/chrono.h:273:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  273 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:303:44: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<float, std::ratio<86400> >, float, std::ratio<1, 1000000000000000000> >(std::chrono::duration<float, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  303 |     count /= static_cast<common_t>(Factor::den);
+      |                                            ^~~
+/src/include/fmt/chrono.h: In instantiation of ‘To fmt::v10::safe_duration_cast::safe_duration_cast(std::chrono::duration<_Rep, _Period>, int&) [with To = std::chrono::duration<long long unsigned int, std::ratio<86400> >; FromRep = long long unsigned int; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<std::is_integral<_Size>::value, int>::type <anonymous> = 0; typename std::enable_if<std::is_integral<typename To::rep>::value, int>::type <anonymous> = 0]’:
+/src/include/fmt/chrono.h:450:53:   required from ‘To fmt::v10::detail::fmt_duration_cast(std::chrono::duration<_Rep, _Period>) [with To = std::chrono::duration<long long unsigned int, std::ratio<86400> >; FromRep = long long unsigned int; FromPeriod = std::ratio<1, 1000000000000000000>; typename std::enable_if<is_same_arithmetic_type<FromRep, typename To::rep>::value, int>::type <anonymous> = 0]’
+/src/include/fmt/chrono.h:1890:48:   required from ‘void fmt::v10::detail::chrono_formatter<FormatContext, OutputIt, Rep, Period>::on_day_of_year() [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; OutputIt = std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >; Rep = long long int; Period = std::ratio<1, 1000000000000000000>]’
+/src/include/fmt/chrono.h:767:29:   required from ‘constexpr const Char* fmt::v10::detail::parse_chrono_format(const Char*, const Char*, Handler&&) [with Char = char; Handler = chrono_formatter<fmt::v10::basic_format_context<fmt::v10::appender, char>, std::back_insert_iterator<fmt::v10::basic_memory_buffer<char> >, long long int, std::ratio<1, 1000000000000000000> >&]’
+/src/include/fmt/chrono.h:2097:34:   required from ‘decltype (ctx.out()) fmt::v10::formatter<std::chrono::duration<_Rep1, _Period1>, Char>::format(std::chrono::duration<_Rep1, _Period1>, FormatContext&) const [with FormatContext = fmt::v10::basic_format_context<fmt::v10::appender, char>; Rep = long long int; Period = std::ratio<1, 1000000000000000000>; Char = char; decltype (ctx.out()) = fmt::v10::appender]’
+/src/include/fmt/core.h:1322:28:   required from ‘static void fmt::v10::detail::value<Context>::format_custom_arg(void*, typename Context::parse_context_type&, Context&) [with T = std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >; Formatter = fmt::v10::formatter<std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >, char, void>; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; typename Context::parse_context_type = fmt::v10::basic_format_parse_context<char>]’
+/src/include/fmt/core.h:1304:19:   required from ‘fmt::v10::detail::value<Context>::value(T&) [with T = std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>]’
+/src/include/fmt/core.h:1601:41:   required from ‘constexpr fmt::v10::detail::value<Context> fmt::v10::detail::make_arg(T&) [with bool PACKED = true; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; T = std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >; typename std::enable_if<PACKED, int>::type <anonymous> = 0]’
+/src/include/fmt/core.h:1826:51:   required from ‘constexpr fmt::v10::format_arg_store<Context, Args>::format_arg_store(T& ...) [with T = {std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >}; Context = fmt::v10::basic_format_context<fmt::v10::appender, char>; Args = {std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:1844:18:   required from ‘constexpr fmt::v10::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<T>::type>::type ...> fmt::v10::make_format_args(T& ...) [with Context = basic_format_context<appender, char>; T = {std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >}]’
+/src/include/fmt/core.h:2817:44:   required from ‘std::string fmt::v10::format(format_string<T ...>, T&& ...) [with T = {std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> >}; std::string = std::__cxx11::basic_string<char>; format_string<T ...> = basic_format_string<char, std::chrono::duration<long long int, std::ratio<1, 1000000000000000000> > >]’
+/src/test/chrono-test.cc:772:3:   required from here
+/src/include/fmt/chrono.h:200:25: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  200 |   static_assert(Factor::num > 0, "num must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:201:25: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  201 |   static_assert(Factor::den > 0, "den must be positive");
+      |                         ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:216:35: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  216 |   if (detail::const_check(Factor::num != 1)) {
+      |                                   ^~~
+/src/include/fmt/chrono.h:217:70: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  217 |     const auto max1 = detail::max_value<IntermediateRep>() / Factor::num;
+      |                                                                      ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:223:65: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  223 |         (std::numeric_limits<IntermediateRep>::min)() / Factor::num;
+      |                                                                 ^~~
+/src/include/fmt/chrono.h:209:42: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  209 |                                 decltype(Factor::num)>::type;
+      |                                          ^~~~~~
+/src/include/fmt/chrono.h:229:22: error: ‘num’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  229 |     count *= Factor::num;
+      |                      ^~~
+/src/include/fmt/chrono.h:232:35: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  232 |   if (detail::const_check(Factor::den != 1)) count /= Factor::den;
+      |                                   ^~~
+/src/include/fmt/chrono.h:232:63: error: ‘den’ is not a member of ‘fmt::v10::safe_duration_cast::safe_duration_cast<std::chrono::duration<long long unsigned int, std::ratio<86400> >, long long unsigned int, std::ratio<1, 1000000000000000000> >(std::chrono::duration<long long unsigned int, std::ratio<1, 1000000000000000000> >, int&)::Factor’
+  232 |   if (detail::const_check(Factor::den != 1)) count /= Factor::den;
+      |                                                               ^~~
+[10/67] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+ninja: build stopped: subcommand failed.

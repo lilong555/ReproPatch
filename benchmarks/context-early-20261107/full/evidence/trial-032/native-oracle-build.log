@@ -1,0 +1,14 @@
+[1/71] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[2/71] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+FAILED: CMakeFiles/fmt.dir/src/format.cc.o 
+/usr/bin/c++  -I/src/include -O3 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden -MD -MT CMakeFiles/fmt.dir/src/format.cc.o -MF CMakeFiles/fmt.dir/src/format.cc.o.d -o CMakeFiles/fmt.dir/src/format.cc.o -c /src/src/format.cc
+In file included from /src/include/fmt/format-inl.h:25,
+                 from /src/src/format.cc:8:
+/src/include/fmt/format.h: In instantiation of ‘constexpr int fmt::v10::detail::vformat_to(buffer<T>&, fmt::v10::basic_string_view<Char>, typename vformat_args<Char>::type, locale_ref)::format_handler::on_arg_id(fmt::v10::basic_string_view<Char>) [with Char = char]’:
+/src/include/fmt/format.h:4302:3:   required from ‘void fmt::v10::detail::vformat_to(buffer<T>&, fmt::v10::basic_string_view<Char>, typename vformat_args<Char>::type, locale_ref) [with Char = char; typename vformat_args<Char>::type = fmt::v10::basic_format_args<fmt::v10::context>]’
+/src/src/format.cc:32:75:   required from here
+/src/include/fmt/format.h:4272:21: error: ‘class fmt::v10::basic_format_parse_context<char>’ has no member named ‘advance_to_arg_id’
+ 4272 |       parse_context.advance_to_arg_id(arg_id);
+      |       ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+[3/71] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+ninja: build stopped: subcommand failed.

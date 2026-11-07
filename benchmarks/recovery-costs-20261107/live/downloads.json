@@ -1,0 +1,98 @@
+{
+  "recovery-raw-42342132692-pair-02-r2": {
+    "artifact_id": 13569321114,
+    "name": "recovery-raw-42342132692-pair-02-r2",
+    "sha256": "a21e4b3d8c81eae84cb91223be00f5872dbde9cf57c3e522f3e8024f58db861b",
+    "members": [
+      {
+        "path": "recovery.tar.gz",
+        "sha256": "573841daf426d861037266689b0261f3ba899c41b42a8a7123e329bdde996dd0",
+        "size_bytes": 17738195
+      },
+      {
+        "path": "recovery.tar.gz.sha256",
+        "sha256": "d02126e6cc98ce077d0b10ba767b7229e79dec4290606364be00f23e74559bfc",
+        "size_bytes": 82
+      },
+      {
+        "path": "recovery.tar.metadata.json",
+        "sha256": "4163ddcc1b0dfc85d91cb7d0973e9df2fec00ca4171210f7b7e123827991e84c",
+        "size_bytes": 281
+      }
+    ],
+    "run_id": 42342132692,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/42342132692/artifacts/13569321114"
+  },
+  "recovery-raw-42342132692-pair-02-r1": {
+    "artifact_id": 13568207735,
+    "name": "recovery-raw-42342132692-pair-02-r1",
+    "sha256": "132fe452582f3396f5c52e356db5dc0d96a36527be0946c707445a07295b80c5",
+    "members": [
+      {
+        "path": "recovery.tar.gz",
+        "sha256": "b65611bb7f0228c2ac3bcc740c1a43d8cd4c9dcc9fe2493021f0c3dfbdba28d4",
+        "size_bytes": 18061947
+      },
+      {
+        "path": "recovery.tar.gz.sha256",
+        "sha256": "29a0f6fef70a4a47953c44110387123991eff662b5f2c0320250493f2a53e93c",
+        "size_bytes": 82
+      },
+      {
+        "path": "recovery.tar.metadata.json",
+        "sha256": "e8e63edfdb3ecfe382c1e57de87bb438f684cec2ea981aa83282da73cbbc2d6f",
+        "size_bytes": 282
+      }
+    ],
+    "run_id": 42342132692,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/42342132692/artifacts/13568207735"
+  },
+  "recovery-raw-42342132692-pair-01-r2": {
+    "artifact_id": 13568011186,
+    "name": "recovery-raw-42342132692-pair-01-r2",
+    "sha256": "6fffe0f00053b5d8e4ced72a7e9bbd786d43c1558622a2687c8f66b2f19cb753",
+    "members": [
+      {
+        "path": "recovery.tar.gz.sha256",
+        "sha256": "794af32fcab26b6dea0d0047bc415899821f695c0b4637546633eb32148669ab",
+        "size_bytes": 82
+      },
+      {
+        "path": "recovery.tar.gz",
+        "sha256": "672419aa76d9254e303e2b395bcc0129d12ee85efb4b6e7e44f16bb00f5f65ed",
+        "size_bytes": 10564208
+      },
+      {
+        "path": "recovery.tar.metadata.json",
+        "sha256": "c7c91fbfb5a682057b6568ee9b19960ae8cc0c68d0e1d712f13350bd50b72904",
+        "size_bytes": 274
+      }
+    ],
+    "run_id": 42342132692,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/42342132692/artifacts/13568011186"
+  },
+  "recovery-raw-42342132692-pair-01-r1": {
+    "artifact_id": 13566538040,
+    "name": "recovery-raw-42342132692-pair-01-r1",
+    "sha256": "72cabb0299f3fee1c1686549712ba5cb7b4d00867c813d36a98ebcd45388cc18",
+    "members": [
+      {
+        "path": "recovery.tar.gz",
+        "sha256": "33bc675bf22427c99cffd20309ff2858b1f131a26e3a5312dc15d6421c875e58",
+        "size_bytes": 10086716
+      },
+      {
+        "path": "recovery.tar.gz.sha256",
+        "sha256": "80292f2ff6d3607811988326006d97fad346426a272bd3b80a532eacafa81f9c",
+        "size_bytes": 82
+      },
+      {
+        "path": "recovery.tar.metadata.json",
+        "sha256": "243f71f773f6ef51783364cda8ba7af2676eb03b793c2e7fb816e3946a768f9a",
+        "size_bytes": 281
+      }
+    ],
+    "run_id": 42342132692,
+    "url": "https://github.com/lilong555/ReproPatch/actions/runs/42342132692/artifacts/13566538040"
+  }
+}

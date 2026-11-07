@@ -1,0 +1,40 @@
+{
+  "verified_pairs": 4,
+  "verified_provider_responses": 175,
+  "cold_successes": {
+    "restart": 2,
+    "resume": 3
+  },
+  "paired_input_cost": {
+    "complete_pairs": 4,
+    "restart_minus_resume_sum": -393470,
+    "restart_sum": 1353987,
+    "resume_sum": 1747457,
+    "saved_fraction": -0.29060101758731804
+  },
+  "restore_ready_seconds": {
+    "median": 1.8590652310000002,
+    "min": 1.527201655,
+    "max": 2.66321647
+  },
+  "resume_wall_seconds": 1623.401269611,
+  "restart_wall_seconds": 1612.092550757,
+  "restart_minus_resume_wall_seconds": -11.308718854000091,
+  "checks": {
+    "counters_monotonic": 4,
+    "deadline_preserved": 4,
+    "event_prefix_preserved": 4,
+    "ledger_prefix_preserved": 4,
+    "model_step_cap_preserved": 4,
+    "same_ledger": 4,
+    "same_run": 4,
+    "tool_cap_preserved": 4
+  },
+  "schema": "repropatch.completed-usage-audit.v1",
+  "kind": "recovery",
+  "run_id": 42342132692,
+  "source_commit": "d15c9d837cdb227cfd3bd93154580fd9b05fa85a",
+  "results_sha256": "601ecc6d95f09a982f7ba021d21986880fd084cbbab9b3d710feef5106298cc6",
+  "artifact_index_sha256": "5a9769faf5dbd5fbc749d7f6897c18ba859db6b2779a24a6611a5a580fd08a41",
+  "audit_source_sha256": "3dfdb3e54af9ceed0d54cdbfaaf8c139d926f0d571435f765d655d9418c414d9"
+}

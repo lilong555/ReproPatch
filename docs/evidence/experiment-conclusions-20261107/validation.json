@@ -1,0 +1,20 @@
+{
+  "schema": "repropatch.experiment-report-validation.v1",
+  "targeted_tests": {
+    "total": 94,
+    "passed": 94,
+    "failed": 0
+  },
+  "command": "PYTHONPATH=src:scripts python -m pytest -q tests/test_completed_usage_audit.py tests/test_recovery_costs.py tests/test_context_trigger_audit.py tests/test_false_positive_audit.py",
+  "junit_sha256": "98965de2526612b90f24d4a5c22ff08d279f01bc5cd21c96cec3542490dc3c5f",
+  "ruff": "passed",
+  "new_model_requests": 0,
+  "raw_archives_verified": 43,
+  "provider_responses_verified": 909,
+  "source_hashes": {
+    "scripts/audit_completed_usage.py": "3dfdb3e54af9ceed0d54cdbfaaf8c139d926f0d571435f765d655d9418c414d9",
+    "scripts/report_context_results.py": "31c1f812b8b5e5044e68bca5e29a8521801f0f36e69a4ce238c0f8c1cc2894bb",
+    "tests/test_completed_usage_audit.py": "a700a7a45e0b15f9d15da6323b4b7395a255583a5e3cbccaf6b0aff4d28537e0"
+  },
+  "junit_path": "report-tests.xml"
+}
