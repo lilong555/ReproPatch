@@ -10,6 +10,10 @@ on:
         type: string
         required: false
         default: benchmarks/context-ablation/protocol.json
+      smoke_run_id:
+        type: string
+        required: false
+        default: ''
     secrets:
       CPA_API_KEY:
         required: true
@@ -52,6 +56,26 @@ jobs:
           tests/test_context_state_projection.py tests/test_context_estimate_reporting.py
           tests/test_context_trigger_audit.py tests/test_context_trigger_campaign.py
           tests/test_context_ablation.py
+          tests/test_context_early*.py
+          tests/test_early_smoke_gate.py
+      - name: Verify early-context smoke evidence
+        if: inputs.scope == 'full' && inputs.protocol == 'benchmarks/context-early-20261107/protocol.json'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EARLY_SMOKE_RUN: ${{ inputs.smoke_run_id }}
+        run: >-
+          python scripts/check_early_smoke.py
+          --run-id "$EARLY_SMOKE_RUN" --protocol "$ABLATION_PROTOCOL"
+          --output .repropatch/early-prerequisite/receipt.json
+      - name: Preserve early-context prerequisite receipt
+        if: always() && inputs.scope == 'full' && inputs.protocol == 'benchmarks/context-early-20261107/protocol.json'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: early-smoke-prerequisite-${{ github.run_id }}
+          path: .repropatch/early-prerequisite/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
       - name: Freeze execution matrix
         id: plan
         run: >-

@@ -61,8 +61,15 @@ class ContextPolicy:
     diagnostic_extraction: bool = False
     deduplicate_results: bool = False
     state_aware_compaction: bool = False
+    early_observation_reduction: bool = False
+    observation_recall: bool = False
 
     def __post_init__(self):
+        if any(
+            type(getattr(self, name)) is not bool
+            for name in ("early_observation_reduction", "observation_recall")
+        ):
+            raise ValueError("CONTEXT_POLICY_EARLY_BOOLEAN")
         if self.request_cap is not None and (
             type(self.request_cap) is not int or self.request_cap <= 0
         ):
@@ -98,7 +105,13 @@ class ContextPolicy:
     def to_dict(self):
         value = asdict(self)
         # Keep disabled ablations byte-compatible with frozen policies.
-        for name in ("diagnostic_extraction", "deduplicate_results", "state_aware_compaction"):
+        for name in (
+            "diagnostic_extraction",
+            "deduplicate_results",
+            "state_aware_compaction",
+            "early_observation_reduction",
+            "observation_recall",
+        ):
             if value[name] is False:
                 value.pop(name)
         return value
@@ -368,6 +381,7 @@ class ContextState:
     semantic_state: dict | None = None
     optimization_state: dict = field(default_factory=dict)
     localization_state: dict = field(default_factory=dict)
+    early_observation_state: dict = field(default_factory=dict)
 
     def plan(self, body):
         metric = None
@@ -589,6 +603,11 @@ class ContextState:
             "semantic_state": self.semantic_state,
             **({"optimization_state": self.optimization_state} if self.optimization_state else {}),
             **({"localization_state": self.localization_state} if self.localization_state else {}),
+            **(
+                {"early_observation_state": self.early_observation_state}
+                if self.early_observation_state
+                else {}
+            ),
         }
 
     @classmethod
@@ -605,6 +624,7 @@ class ContextState:
             value.get("semantic_state"),
             value.get("optimization_state", {}),
             value.get("localization_state", {}),
+            value.get("early_observation_state", {}),
         )
 
 

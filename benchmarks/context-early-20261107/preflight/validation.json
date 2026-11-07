@@ -1,0 +1,89 @@
+{
+  "schema": "repropatch.context-early.preflight.v1",
+  "campaign": "context-early-20261107-v1",
+  "completed_at": "2026-11-07T05:38:35.312299+00:00",
+  "protocol_sha256": "4b49a755f6689b6bbaa780c2534e77d019b30ea5d930fe55610490f19abe52c1",
+  "git_base_commit": "d15c9d837cdb227cfd3bd93154580fd9b05fa85a",
+  "source_snapshot_sha256": "c84ca6997fa9f2bcea2a1361467f2d02718b8d0232f50dd4b02f57acfc78a167",
+  "execution_source_unchanged_during_validation": true,
+  "tests_unchanged_during_validation": true,
+  "workflows_unchanged_during_validation": true,
+  "test_source_sha256": {
+    "tests/test_context_optimization.py": "663309e5f29732b48f555002e99d83c7730ba640db89b1f5348c3af3f0455565",
+    "tests/test_context_diagnostics.py": "c4eb23f9a5f2249425a0c41a17ddfcd8dbeab0783a0c34eb1288e8f812db190d",
+    "tests/test_context_read_dedup.py": "a7559c99adab81add84c88f0c9308bc291bccc58b0cb84054854be541e6dff10",
+    "tests/test_context_runtime_evidence.py": "d24885266bec64d160d62286ef802d152a9d806e2a91d51540878932c72bbf75",
+    "tests/test_context_state_projection.py": "eb9ca23e55a0bdce7fb1e1d5a7edad0d1015d0bb04d91e230a19bc36d14eee81",
+    "tests/test_context_estimate_reporting.py": "5fc2a48cd2ca32e47e929bf86de80d04b86cf7b4d81fb34ca174edaadcb99138",
+    "tests/test_context_trigger_audit.py": "526485054ae6eae4f5127bee368dacf7d35ef1f168a3369044e4bc32272aad65",
+    "tests/test_context_trigger_campaign.py": "1af61ef950db9f76a5ada661b98b747b8e9440727ee4c0d413644e70440319dc",
+    "tests/test_context_ablation.py": "be6d695293ef870d39ddbaa27be992060e1536fc1084d307a51c821f63ca0f87",
+    "tests/test_context_early.py": "290c44e17b5bcee45626741301a696b0dacbb2b4c7724fed24ddb4cc50e90f2a",
+    "tests/test_context_early_campaign.py": "268e83d9dffb9a2dc18262690e53df1f398ca4187aa58e420915b94d3941d0f7",
+    "tests/test_context_early_cpa.py": "699eb4fb53b270639e83031d32a9ec0e1d9c6e7ddabf9e12835e1865ddc89f62",
+    "tests/test_context_early_runtime.py": "3717ea6728aa61408ba717b8394d58bce66d5ed979100997c7e7dc42d91b8298",
+    "tests/test_early_smoke_gate.py": "fc634aa6a85bca1476386f2c56d3418d9580c011f0b831ed73d2a5e12b29eb9f",
+    "tests/test_recovery_costs.py": "0e538af4d5d4ee10b40c4efa35098925a1c33da55dc9fd3d1589a7a7a4992f2d",
+    "tests/test_resume.py": "4a280fc87a40d7d104881f85ba3237dfe9f1415457d66146ef91d0e8a980fcd3"
+  },
+  "workflow_source_sha256": {
+    ".github/workflows/context-ablation.yml": "5f62b21b2e5cfeea07145597525d1bf3a70871810710b2bb037b2602a4fae6fd",
+    ".github/workflows/formal-benchmark.yml": "477cc3bf9317882432eba922a329f838e2a01aa4e7ed329d71d444fac669058c"
+  },
+  "pytest": {
+    "command": [
+      "/home/li/code/repropatch/engineering/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_context_optimization.py",
+      "tests/test_context_diagnostics.py",
+      "tests/test_context_read_dedup.py",
+      "tests/test_context_runtime_evidence.py",
+      "tests/test_context_state_projection.py",
+      "tests/test_context_estimate_reporting.py",
+      "tests/test_context_trigger_audit.py",
+      "tests/test_context_trigger_campaign.py",
+      "tests/test_context_ablation.py",
+      "tests/test_context_early.py",
+      "tests/test_context_early_campaign.py",
+      "tests/test_context_early_cpa.py",
+      "tests/test_context_early_runtime.py",
+      "tests/test_early_smoke_gate.py",
+      "tests/test_recovery_costs.py",
+      "tests/test_resume.py",
+      "--junitxml=/home/li/code/repropatch/localization-20261106/benchmarks/context-early-20261107/preflight/pytest.xml"
+    ],
+    "exit_code": 0,
+    "counts": {
+      "tests": 526,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "passed": 526,
+    "wall_seconds": 218.051
+  },
+  "ruff": {
+    "check_exit_code": 0,
+    "format_exit_code": 0
+  },
+  "new_cpa_model_requests": 0,
+  "model_execution": "ScriptedModel and MockTransport; native worker startup uses --check-only",
+  "offline_plans": {
+    "smoke": {
+      "file": "benchmarks/context-early-20261107/preflight/smoke-plan.json",
+      "file_sha256": "70cdccc5876017c6b55fa1e0b4b27a2de1532adba51872a3ba10dee9ce83697a",
+      "manifest_sha256": "691806de5cd4e59081a86867e3c96d2424e3eb1c763f614c31e9c3d2b00b8a2e",
+      "trial_count": 3,
+      "request_cap": 72
+    },
+    "full": {
+      "file": "benchmarks/context-early-20261107/preflight/full-plan.json",
+      "file_sha256": "07af743a61394bd30592c8b1d3984ab15477d64fedb6371f4b2c02456cf83004",
+      "manifest_sha256": "a50a9333915a8c002c84fabad1998fce1083b94832c54eed87d9b1e1b6382f2e",
+      "trial_count": 36,
+      "request_cap": 864
+    }
+  }
+}

@@ -109,6 +109,12 @@ def archive_task_contracts(p):
 
 def read_protocol(path=PROTOCOL):
     p = load(path)
+    if p.get("campaign") == "context-early-20261107-v1":
+        from context_early_campaign import validate_protocol
+
+        return validate_protocol(
+            p, root=ROOT, read_parent=read_protocol, archive_contracts=archive_task_contracts
+        )
     require(p["schema"] == "repropatch.context-ablation.protocol.v1", "PROTOCOL_SCHEMA")
     require(p["campaign"] in {"context-ablation-20261106", TRIGGER_CAMPAIGN}, "CAMPAIGN")
     if p["campaign"] == TRIGGER_CAMPAIGN:
@@ -294,7 +300,17 @@ def runner_identity():
 
 
 def context_policy(p, arm):
-    return ContextPolicy.from_dict({**p["context_policy"], **p["treatments"][arm]})
+    return ContextPolicy.from_dict(
+        {
+            **p["context_policy"],
+            **p.get("context_policy_overrides", {}).get(arm, {}),
+            **p["treatments"][arm],
+        }
+    )
+
+
+def mechanism_flags(p):
+    return tuple(p.get("mechanism_flags", FLAGS))
 
 
 def status(output, state, **details):
@@ -580,10 +596,26 @@ def optional_json(path):
 
 
 def mechanism_metrics(worker, p, arm):
-    state = (worker.get("context") or {}).get("optimization_state")
+    context = worker.get("context") or {}
+    state = context.get("optimization_state")
+    early = (context.get("early_observation_state") or {}).get("metrics") or {}
     metrics = {}
-    for flag in FLAGS:
+    for flag in mechanism_flags(p):
         observed = ((state or {}).get("metrics") or {}).get(flag, {})
+        if flag == "early_observation_reduction" and early:
+            observed = {
+                **early,
+                "triggers": early.get("trigger_count"),
+                "skip_reasons": early.get("skip_counts"),
+            }
+        elif flag == "observation_recall" and early:
+            observed = {
+                "candidates": early.get("recall_calls"),
+                "triggers": early.get("recall_success"),
+                "skip_reasons": {"recall_rejected": early["recall_rejections"]}
+                if type(early.get("recall_rejections")) is int
+                else None,
+            }
         count = observed.get("triggers")
         if type(count) is not int or count < 0:
             count = (
@@ -606,7 +638,8 @@ def first_request_identity(output):
         return None
     with LocalUsageLedger(ledger_path).connect() as db:
         row = db.execute(
-            "SELECT payload FROM pre_send WHERE purpose='repair' ORDER BY sequence LIMIT 1"
+            "SELECT payload FROM pre_send WHERE purpose='repair' AND issued=1 "
+            "ORDER BY sequence LIMIT 1"
         ).fetchone()
     if row is None:
         return None
@@ -718,6 +751,15 @@ def input_identity_statistics(rows):
         group = [row for row in rows if row["instance_id"] == task]
         identities = [row["first_request"] for row in group if row.get("first_request")]
         contracts = [row.get("prepared_identity", {}).get("task_sha256") for row in group]
+        hashes = {
+            field: sorted({r[field + "_sha256"] for r in identities})
+            for field in ("input", "instructions", "tools")
+        }
+        complete = len(identities) == len(group)
+        agreement = {
+            "byte_identical_first_" + field: len(values) == 1 if complete else None
+            for field, values in hashes.items()
+        }
         result.append(
             {
                 "instance_id": task,
@@ -725,14 +767,11 @@ def input_identity_statistics(rows):
                 "first_requests_observed": len(identities),
                 "first_requests_missing": len(group) - len(identities),
                 "distinct_task_hashes": sorted({v for v in contracts if v}),
-                "distinct_input_hashes": sorted({r["input_sha256"] for r in identities}),
-                "distinct_instruction_hashes": sorted(
-                    {r["instructions_sha256"] for r in identities}
-                ),
-                "distinct_tool_hashes": sorted({r["tools_sha256"] for r in identities}),
-                "byte_identical_first_input": len({r["input_sha256"] for r in identities}) == 1
-                if len(identities) == len(group)
-                else None,
+                "distinct_input_hashes": hashes["input"],
+                "distinct_instruction_hashes": hashes["instructions"],
+                "distinct_tool_hashes": hashes["tools"],
+                **agreement,
+                "byte_identical_first_request": all(agreement.values()) if complete else None,
             }
         )
     return result
@@ -753,11 +792,32 @@ def mechanism_decisions(rows, flag):
     }
 
 
-def arm_statistics(rows):
+def auxiliary_statistics(rows, field):
+    values = []
+    for row in rows:
+        metrics = (
+            row.get("mechanisms", {}).get("early_observation_reduction", {}).get("metrics", {})
+        )
+        value = metrics.get(field)
+        known = type(value) is int and value >= 0
+        if field.endswith("tokens"):
+            known = known and metrics.get("auxiliary_unknown_usage") == 0
+        values.append(value if known else None)
+    present = [v for v in values if v is not None]
+    return {
+        "all_trial_mean": sum(present) / len(rows) if len(present) == len(rows) and rows else None,
+        "observed_trial_mean": sum(present) / len(present) if present else None,
+        "observed_trials": len(present),
+        "missing_trials": len(rows) - len(present),
+        "known_trial_sum": sum(present),
+    }
+
+
+def arm_statistics(rows, *, flags=FLAGS):
     n = len(rows)
     estimates = [(row.get("usage") or {}).get("peak_estimated_input_tokens") for row in rows]
     estimates = [value for value in estimates if type(value) is int and value >= 0]
-    return {
+    result = {
         "N": n,
         "pass": sum(r.get("accepted") is True for r in rows),
         "fail": sum(r.get("accepted") is False for r in rows),
@@ -801,9 +861,22 @@ def arm_statistics(rows):
                     r.get("mechanisms", {}).get(flag, {}).get("trigger_count") or 0 for r in rows
                 ),
             }
-            for flag in FLAGS
+            for flag in flags
         },
     }
+    if "early_observation_reduction" in flags:
+        result["early_auxiliary_usage"] = {
+            field: auxiliary_statistics(rows, field)
+            for field in (
+                "auxiliary_requests",
+                "auxiliary_input_tokens",
+                "auxiliary_output_tokens",
+                "auxiliary_cached_input_tokens",
+                "auxiliary_unknown_usage",
+                "saved_bytes",
+            )
+        }
+    return result
 
 
 def paired_statistics(rows, left, right):
@@ -838,6 +911,8 @@ def paired_statistics(rows, left, right):
 
 def aggregate(args):
     m = read_manifest(args.manifest, args.protocol)
+    arms = tuple(m["protocol"]["arms"])
+    flags = mechanism_flags(m["protocol"])
     require(getattr(args, "scope", None) in {None, m["scope"]}, "SCOPE_MISMATCH")
     expected = {r["attempt_id"]: r for r in m["attempts"]}
     found, rejected, statuses = {}, [], {}
@@ -911,9 +986,11 @@ def aggregate(args):
         "task_population": m["task_population"],
         "registered_trials": len(rows),
         "source_sha256": m["source_sha256"],
-        "arms": {arm: arm_statistics([r for r in rows if r["arm"] == arm]) for arm in ARMS},
+        "arms": {
+            arm: arm_statistics([r for r in rows if r["arm"] == arm], flags=flags) for arm in arms
+        },
         "paired_differences": [
-            paired_statistics(rows, a, b) for a, b in itertools.combinations(ARMS, 2)
+            paired_statistics(rows, a, b) for a, b in itertools.combinations(arms, 2)
         ],
         "attempts": rows,
         "rejected_artifacts": rejected,
@@ -960,6 +1037,29 @@ def aggregate(args):
                 f"| {arm} | {flag} | {counts['triggered_trials']}/{counts['coverage_denominator']} "
                 f"| {counts['trigger_count']} | {candidates} | {reasons or 'none'} |"
             )
+    if "early_observation_reduction" in flags:
+        lines += [
+            "",
+            "## Early Observation Auxiliary Usage",
+            "",
+            "| Arm | Auxiliary requests | Auxiliary input | Auxiliary output "
+            "| Cached input | Unknown usage |",
+            "| --- | ---: | ---: | ---: | ---: | ---: |",
+        ]
+        for arm, values in result["arms"].items():
+            cells = []
+            for field in (
+                "auxiliary_requests",
+                "auxiliary_input_tokens",
+                "auxiliary_output_tokens",
+                "auxiliary_cached_input_tokens",
+                "auxiliary_unknown_usage",
+            ):
+                stats = values["early_auxiliary_usage"][field]
+                cells.append(
+                    str(stats["known_trial_sum"]) if not stats["missing_trials"] else "missing"
+                )
+            lines.append(f"| {arm} | " + " | ".join(cells) + " |")
     (args.output / "summary.md").write_text("\n".join(lines) + "\n")
     print(json.dumps({"registered_trials": len(rows), "output": str(args.output)}))
 

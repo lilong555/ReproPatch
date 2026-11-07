@@ -1,0 +1,259 @@
+{
+  "model": "gpt-6-luna",
+  "endpoint": "https://cpa.liyinlong.me/v1",
+  "reasoning_effort": "max",
+  "max_output_tokens": 8192,
+  "max_tool_calls": 48,
+  "max_tools_per_response": 8,
+  "model_timeout_seconds": 600,
+  "execution_budget_override": {
+    "max_steps": 24,
+    "max_tool_calls": 48,
+    "wall_seconds": 7200,
+    "verification_reserve_seconds": 1200
+  },
+  "retries": 0,
+  "image": "ghcr.io/lilong555/repropatch-benchmark@sha256:c00247e787729d6af3af364ab80cce196d90033832f77f2c1262a6e8f7cf111a",
+  "image_id": "sha256:e0fd90230315094b7ab52b7655dd09bc8280dbcd0e8b2c65be435c6689ff149b",
+  "qualification_run_id": 40194807297,
+  "qualification_archive_sha256": [
+    "2ac2f72e244226386e9c371de2ac4f372f6f08913578f00125a5f531dcde3c39",
+    "7413bfd973143bb5ba6b05dce99cd3f847a05176c80304c3ea735c5b4eaaa257"
+  ],
+  "context_policy": {
+    "context_window_tokens": 128000,
+    "compact_trigger_tokens": 48000,
+    "compact_target_tokens": 21600,
+    "max_output_tokens": 8192,
+    "transport_max_bytes": 2097152,
+    "response_max_bytes": 2097152,
+    "request_cap": 24,
+    "context_policy_version": "v1.0-unified-compaction",
+    "tool_growth_tokens": 16000,
+    "estimation_margin_tokens": 8000,
+    "retain_rounds": 2,
+    "tool_output_max_bytes": 24576,
+    "compaction_enabled": true
+  },
+  "request_cap_per_attempt": 24,
+  "tasks": [
+    "fmtlib__fmt-2070",
+    "fmtlib__fmt-3819",
+    "fmtlib__fmt-3750",
+    "fmtlib__fmt-3713",
+    "fmtlib__fmt-493",
+    "fmtlib__fmt-3537"
+  ],
+  "task_contracts": {
+    "fmtlib__fmt-2070": {
+      "legacy_execution_task_sha256": "6f7e39d1aabb6b6132c4b4e7cd6f40df42687930b43e1dc8847f9545d48ae533",
+      "execution_task_sha256": "206ab63463f54ca56dfb3ab8becdb0fcade01fedcc27ce78d8e44b999442e7db",
+      "prepared_commit": "73e27385b0b7457144e4e894bb24a99fd1b9089c"
+    },
+    "fmtlib__fmt-3819": {
+      "legacy_execution_task_sha256": "e129606347523086f446d50f319129b0008bc0c57263cd25e76767cd9a0a608d",
+      "execution_task_sha256": "87689302df8fd06476246f2d744e6f2aaf6ec8da32f737e7efd50e13be9e0868",
+      "prepared_commit": "c41f45b6074c1aef18d5338ebc8c46bbe760386e"
+    },
+    "fmtlib__fmt-3750": {
+      "legacy_execution_task_sha256": "debda253f421248c908d169dd1bb27c96193b0a3415fc7a7bb16aa27ef9ea788",
+      "execution_task_sha256": "333ba6f84c10e42f956ec20a4945a9ec5d8869ecf7a8f233beb5df2c0136ac21",
+      "prepared_commit": "a2d4156f57d04e5ad843ac7ef9f5607b50781751"
+    },
+    "fmtlib__fmt-3713": {
+      "legacy_execution_task_sha256": "c1acfa5fe67894948e2f5b4bd3d6e8a85c80567ba0d958d8cac34488548a07f0",
+      "execution_task_sha256": "07325c8dc771e42231b7ec1792e1cc812f971c1791507d5879218e00d86dcdc4",
+      "prepared_commit": "97636a89940bd5ba0eb2a867310e67ba6e204b14"
+    },
+    "fmtlib__fmt-493": {
+      "legacy_execution_task_sha256": "154ecd6474f99c4a77e345501262ecd4b8071848b810c55028cb450853b05d32",
+      "execution_task_sha256": "c4a7537dab72008f2f04fce0c2d86850b8a3e3058d0cb328a34d7e692aec7f74",
+      "prepared_commit": "0c6ba753c9da0c669b6ba08bbddd557c506d7c8a"
+    },
+    "fmtlib__fmt-3537": {
+      "legacy_execution_task_sha256": "22c3b30db6459a1253a8fda95239cc4fced126651d9a34e786a4fd25033b1bfd",
+      "execution_task_sha256": "fa96c393b11666ec8d39a1a0e4318c76a17816054a69d65e08643ddd7fa8d1c3",
+      "prepared_commit": "0e9bcadff1972224879c5e91bda96e76b255a667"
+    }
+  },
+  "execution_order": {
+    "smoke": [
+      "fmtlib__fmt-2070/baseline/repeat-1",
+      "fmtlib__fmt-2070/early/repeat-1",
+      "fmtlib__fmt-2070/early_state/repeat-1"
+    ],
+    "full": [
+      "fmtlib__fmt-493/early/repeat-1",
+      "fmtlib__fmt-3819/early/repeat-2",
+      "fmtlib__fmt-3750/baseline/repeat-1",
+      "fmtlib__fmt-3713/baseline/repeat-1",
+      "fmtlib__fmt-3537/early_state/repeat-1",
+      "fmtlib__fmt-3819/early_state/repeat-1",
+      "fmtlib__fmt-3750/early_state/repeat-2",
+      "fmtlib__fmt-3713/early/repeat-1",
+      "fmtlib__fmt-3819/early/repeat-1",
+      "fmtlib__fmt-2070/early/repeat-1",
+      "fmtlib__fmt-3713/early/repeat-2",
+      "fmtlib__fmt-2070/baseline/repeat-1",
+      "fmtlib__fmt-3750/early_state/repeat-1",
+      "fmtlib__fmt-2070/baseline/repeat-2",
+      "fmtlib__fmt-493/early_state/repeat-1",
+      "fmtlib__fmt-3750/baseline/repeat-2",
+      "fmtlib__fmt-2070/early_state/repeat-1",
+      "fmtlib__fmt-3819/baseline/repeat-1",
+      "fmtlib__fmt-493/early_state/repeat-2",
+      "fmtlib__fmt-3713/early_state/repeat-1",
+      "fmtlib__fmt-3537/early/repeat-1",
+      "fmtlib__fmt-3537/baseline/repeat-1",
+      "fmtlib__fmt-3537/baseline/repeat-2",
+      "fmtlib__fmt-493/early/repeat-2",
+      "fmtlib__fmt-2070/early/repeat-2",
+      "fmtlib__fmt-3713/early_state/repeat-2",
+      "fmtlib__fmt-3537/early_state/repeat-2",
+      "fmtlib__fmt-3819/early_state/repeat-2",
+      "fmtlib__fmt-3713/baseline/repeat-2",
+      "fmtlib__fmt-493/baseline/repeat-1",
+      "fmtlib__fmt-3537/early/repeat-2",
+      "fmtlib__fmt-3819/baseline/repeat-2",
+      "fmtlib__fmt-3750/early/repeat-1",
+      "fmtlib__fmt-2070/early_state/repeat-2",
+      "fmtlib__fmt-3750/early/repeat-2",
+      "fmtlib__fmt-493/baseline/repeat-2"
+    ]
+  },
+  "schema": "repropatch.context-early.protocol.v1",
+  "batch_id": "context-early-20261107-v1",
+  "campaign": "context-early-20261107-v1",
+  "task_population": "previously_exposed_development_tasks",
+  "task_source": "benchmarks/unified-context/final-results.json",
+  "task_source_field": "paired_tasks",
+  "task_source_sha256": "4641cbf02bb89682eefdd528a500ed017281e5c1c49f2370951848f7c97f31fd",
+  "parent_protocol": "benchmarks/context-ablation/trigger-protocol.json",
+  "parent_protocol_sha256": "ca4b66d28d0467a523c8c8a5413d5132d1b0eb9deb437122ef0391f3d3b7e9b3",
+  "cpa_route": "azure-ssh",
+  "cpa_transport": "ssh-loopback",
+  "cpa_claim": true,
+  "api_key_env": "OPENAI_API_KEY",
+  "cpa_retry_count": 0,
+  "arms": [
+    "baseline",
+    "early",
+    "early_state"
+  ],
+  "treatments": {
+    "baseline": {
+      "diagnostic_extraction": false,
+      "deduplicate_results": false,
+      "state_aware_compaction": false,
+      "early_observation_reduction": false,
+      "observation_recall": true
+    },
+    "early": {
+      "diagnostic_extraction": false,
+      "deduplicate_results": false,
+      "state_aware_compaction": false,
+      "early_observation_reduction": true,
+      "observation_recall": true
+    },
+    "early_state": {
+      "diagnostic_extraction": false,
+      "deduplicate_results": false,
+      "state_aware_compaction": true,
+      "early_observation_reduction": true,
+      "observation_recall": true
+    }
+  },
+  "executor": {
+    "agent": "repropatch",
+    "provider": "local-luna",
+    "tool_mode": "legacy",
+    "tool_count": 7,
+    "compiler_cache": true,
+    "intermediate_checks": "enabled",
+    "candidate_only": true,
+    "semantic_state": false
+  },
+  "task_count": 6,
+  "repeats": 2,
+  "trial_count": 36,
+  "max_parallel": 8,
+  "formal_request_cap": 864,
+  "smoke": {
+    "task": "fmtlib__fmt-2070",
+    "repeats": 1,
+    "trial_count": 3,
+    "request_cap": 72
+  },
+  "execution_order_seed": "context-early-20261107-v1",
+  "execution_order_algorithm": "ascending SHA256(ASCII(seed + '/' + scope + '/' + task + '/' + arm + '/repeat-' + repeat))",
+  "oracle_timeout_seconds": 900,
+  "worker_timeout_seconds": 7500,
+  "scorer_timeout_seconds": 1200,
+  "session_health_poll_seconds": 2,
+  "subprocess_termination_grace_seconds": 10,
+  "failed_trial_reruns": 0,
+  "github_run_attempt": 1,
+  "artifacts_retention_days": 30,
+  "dataset_revision": "56ff018c04a38e27ada1e9d0a6d5839a51f88f0d",
+  "coverage_sha256": "4a1c6f7dcca6098d40b4643226e1d5ee0d28650c07a0a38f7e95b7d9ac6104b1",
+  "scoring": "score_benchmark_attempt.py: original base commit, official tests, immutable image, independent cold oracle",
+  "input_policy": "identical qualified task, native legacy tools plus read_observation, separate content-equivalent baseline feedback; compare actual first request identities",
+  "usage_policy": "all registered trials; unknown usage is missing; observed-only mean separately labelled",
+  "paired_analysis": "task x repeat; all three pairwise differences; retain missing pairs; descriptive only",
+  "history_policy": "qualification and task identities only; previous model outcomes excluded",
+  "source_policy": "freeze source and protocol hashes per run; all full trials share one manifest",
+  "intervention_revision": "early-observation-line-extract-v1",
+  "task_selection": {
+    "population": "parent_protocol.tasks",
+    "population_count": 19,
+    "algorithm": "ascending SHA256(ASCII(prefix + instance_id)); first 6",
+    "prefix": "early-context-pilot-v1/",
+    "selected_count": 6
+  },
+  "mechanism_flags": [
+    "diagnostic_extraction",
+    "deduplicate_results",
+    "state_aware_compaction",
+    "early_observation_reduction",
+    "observation_recall"
+  ],
+  "context_policy_overrides": {
+    "baseline": {},
+    "early": {},
+    "early_state": {
+      "compact_trigger_tokens": 16000,
+      "compact_target_tokens": 7200
+    }
+  },
+  "early_observation_policy": {
+    "token_estimator": "ceil(UTF-8 bytes / 3)",
+    "minimum_observation_tokens_exclusive": 500,
+    "subsequent_complete_repair_responses": 2,
+    "max_auxiliary_requests_per_repair_response": 1,
+    "max_auxiliary_requests_per_attempt": 4,
+    "minimum_remaining_requests": 2,
+    "selection": "source text line ranges",
+    "auxiliary_request_purpose": "compact",
+    "auxiliary_tools": [],
+    "auxiliary_requests_share_attempt_cap": true,
+    "original_observation_recall": true
+  },
+  "auxiliary_budget_policy": {
+    "all_arms": true,
+    "request_cap": "min(task.budget.max_steps, context_policy.request_cap)",
+    "minimum_remaining_repair_requests": 1,
+    "applies_to": [
+      "early_observation_selection",
+      "history_compaction",
+      "state_aware_compaction"
+    ],
+    "pre_send_rejection_counts_as_request": false,
+    "unknown_usage_policy": "count issued request; retain unknown usage; enforce usage-ledger settlement"
+  },
+  "initial_observation_policy": {
+    "all_arms": "identical separate baseline_observation user message",
+    "visible_content": "unchanged qualified baseline feedback",
+    "task_contract": "fixed_items",
+    "hidden_oracle_or_candidate_input": false
+  }
+}

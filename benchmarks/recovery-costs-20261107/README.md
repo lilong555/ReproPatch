@@ -46,6 +46,8 @@ baseline 单独覆盖 38 条轨迹、701 次请求、10,005,093 个输入 Token�
 
 CPA 已注册 `recovery-costs-20261107-v1`；[注册回执](registration.json)包含服务脚本 SHA256、8 项临时认领验证、原租约与配置连续性，以及生产环境恢复认领数 `0`。新鲜模型结果由 Actions 完成后发布。
 
+执行批次为 [Actions Run 42342132692](https://github.com/lilong555/ReproPatch/actions/runs/42342132692)，源码固定为 [`d15c9d8`](https://github.com/lilong555/ReproPatch/tree/d15c9d837cdb227cfd3bd93154580fd9b05fa85a)。[调度回执](dispatch.json)保存创建时间、运行入口及该源码身份。
+
 调度入口为 `formal-benchmark.yml` 的 `cross_stage=recovery-costs`。该入口与正在执行的上下文批次共用 `context-ablation-cpa-8` 队列，`cancel-in-progress=false`；四对按 `max-parallel=1` 串行。执行前核对前序 [Run 42335967622](https://github.com/lilong555/ReproPatch/actions/runs/42335967622) 已完成。
 
 ```bash

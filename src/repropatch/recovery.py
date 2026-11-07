@@ -638,6 +638,10 @@ def _resume_harness(
         restored_tools = [
             tool for tool in restored_tools if tool.name not in {"run_command", "run_shell"}
         ]
+    if context_policy.observation_recall:
+        from .context_early import observation_tools
+
+        restored_tools.extend(observation_tools(None, None))
     tools_hash = sdk_tools_sha256(restored_tools)
     if manifest["input_fingerprints"]["tools_sha256"] != tools_hash:
         raise InfrastructureError("INPUT_CHANGED: 工具 schema 发生变化")

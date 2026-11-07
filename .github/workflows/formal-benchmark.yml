@@ -37,6 +37,11 @@ on:
         type: choice
         options: ['smoke', 'full']
         default: 'smoke'
+      context_smoke_run:
+        description: 'Early-context full 的同源码 smoke Run ID'
+        required: false
+        type: string
+        default: ''
       inline_calibration:
         description: '全量批次内先执行上下文校准，通过后自动启动105次修复'
         required: false
@@ -100,6 +105,7 @@ jobs:
     with:
       scope: ${{ inputs.context_scope }}
       protocol: ${{ inputs.cross_protocol == 'benchmarks/cross-repo/development-protocol.json' && 'benchmarks/context-ablation/protocol.json' || inputs.cross_protocol }}
+      smoke_run_id: ${{ inputs.context_smoke_run }}
     secrets: inherit
   cross-repository:
     if: inputs.cross_stage != 'legacy' && inputs.cross_stage != '' && inputs.cross_stage != 'context-ablation' && inputs.cross_stage != 'localization-ablation' && inputs.cross_stage != 'recovery-costs'

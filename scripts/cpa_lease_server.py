@@ -107,6 +107,7 @@ class LeaseManager:
         }
         localization = campaign == "localization-ablation-20261106"
         recovery = campaign == "recovery-costs-20261107-v1"
+        early_context = campaign == "context-early-20261107-v1"
         limits = {
             "calibration": 12,
             "development": 480,
@@ -120,12 +121,15 @@ class LeaseManager:
             limits = {"smoke": 72, "full": 2736}
         if recovery:
             limits = {"full": 192}
+        if early_context:
+            limits = {"smoke": 72, "full": 864}
         if not unbounded and (
             (
                 campaign != "cross-repository-20261028"
                 and not context_ablation
                 and not localization
                 and not recovery
+                and not early_context
             )
             or phase not in limits
         ):
@@ -188,6 +192,19 @@ class LeaseManager:
             is None
         ):
             raise ValueError("CPA_ATTEMPT_CLAIM_INVALID")
+        if early_context:
+            match = re.fullmatch(
+                re.escape(campaign)
+                + r"/(smoke|full)/fmtlib__fmt-(2070|3819|3750|3713|493|3537)"
+                + r"/(baseline|early|early_state)/repeat-([12])",
+                attempt,
+            )
+            if (
+                match is None
+                or match[1] != phase
+                or (phase == "smoke" and (match[2] != "2070" or match[4] != "1"))
+            ):
+                raise ValueError("CPA_ATTEMPT_CLAIM_INVALID")
         path = self.directory / "claims.json"
         claims = json.loads(path.read_text()) if path.exists() else {}
         if attempt in claims:
@@ -200,6 +217,7 @@ class LeaseManager:
                 not context_ablation
                 and not localization
                 and not recovery
+                and not early_context
                 and sum(row["request_cap"] for row in campaign_claims) + cap > 5292
             )
         ):

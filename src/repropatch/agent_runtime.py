@@ -4,6 +4,7 @@ import asyncio
 import inspect
 import json
 import time
+from copy import deepcopy
 from dataclasses import dataclass
 
 from .context import (
@@ -224,6 +225,27 @@ async def run_agent(harness, workspace) -> AgentResult:
     current_body = None
     context_state = harness.context_state or ContextState(harness.context_policy)
     harness.context_state = context_state
+    early, early_active = None, False
+    if (
+        harness.context_policy.early_observation_reduction
+        or harness.context_policy.observation_recall
+    ):
+        from .context_early import EarlyObservations
+
+        early = EarlyObservations(
+            context_state,
+            read_evidence=lambda ref: EvidenceRef(**ref).read(
+                harness.directory, limit=2 * 1024 * 1024
+            ),
+            save_view=lambda tool_id, raw: asdict(
+                EvidenceRef.save(
+                    harness.directory,
+                    f"agent/observation-views/{tool_id}.txt",
+                    raw,
+                    budget=harness.resources.budget,
+                )
+            ),
+        )
     optimizer = None
     if any(
         getattr(harness.context_policy, name)
@@ -261,11 +283,15 @@ async def run_agent(harness, workspace) -> AgentResult:
         return asdict(ref)
 
     async def input_filter(data):
-        nonlocal next_input, current_body
+        nonlocal next_input, current_body, early_active
         deadline()
         if closed:
             raise AgentStop("AGENT_DEADLINE")
-        if budget.max_steps is not None and report["model_steps"] >= budget.max_steps:
+        request_limit = budget.max_steps
+        if early is not None:
+            caps = [n for n in (request_limit, harness.context_policy.request_cap) if n is not None]
+            request_limit = min(caps) if caps else None
+        if request_limit is not None and report["model_steps"] >= request_limit:
             raise AgentStop(
                 "REQUEST_BUDGET_EXHAUSTED"
                 if harness.context_policy.compaction_enabled
@@ -278,6 +304,10 @@ async def run_agent(harness, workspace) -> AgentResult:
             raise AgentStop("CONTEXT_LIMIT")
         if pending:
             raise ReproPatchError("CHECKPOINT_UNSAFE: 尚有未执行的准入工具")
+        if early is not None:
+            projected = early.project(data.model_data.input)
+            if projected != data.model_data.input:
+                raise ContextRebuilt(projected)
         if localization is not None and (reason := localization.exhausted()):
             message = localization.transition(reason)
             raise ContextRebuilt([*data.model_data.input, message])
@@ -290,8 +320,23 @@ async def run_agent(harness, workspace) -> AgentResult:
         meter = harness.context_meter
         if meter is not None and meter.last_request_body is not None:
             current_body = {**meter.last_request_body, **native}
+            if early is not None:
+                # Auxiliary requests use an empty tool schema and a smaller output limit.
+                # Admission estimates for repair retain its actual frozen contract.
+                current_body.update(
+                    tools=model_parameters["tools"],
+                    max_output_tokens=model_parameters["max_output_tokens"],
+                )
             context_state.estimator = meter.ledger.estimator(meter.attempt)
-        plan = context_state.plan(current_body)
+        early_plan, remaining = None, None
+        if early is not None:
+            remaining = request_limit - report["model_steps"] if request_limit else None
+            early_plan = early.prepare(current_body, remaining_requests=remaining)
+            early.emit_decisions(log.emit)
+        auxiliary_allowed = early is None or remaining is None or remaining >= 2
+        plan = (
+            context_state.plan(current_body) if early_plan is None and auxiliary_allowed else None
+        )
         if meter is None and plan is None and harness.context_policy.compaction_enabled:
             measurement = {
                 **context_state.estimator.estimate(current_body),
@@ -316,6 +361,75 @@ async def run_agent(harness, workspace) -> AgentResult:
         }
         if pause:
             raise HarnessPause("已提交完整输入边界")
+        if early_plan is not None:
+            from .context_early import SELECTION_INSTRUCTIONS
+
+            repair_body = deepcopy(current_body)
+            repair_estimator = deepcopy(context_state.estimator)
+            auxiliary_meter_before = meter.ledger.summary(meter.attempt) if meter else None
+
+            async def selection_filter(selection_data):
+                nonlocal next_input, current_body
+                current_body = {
+                    **model_parameters,
+                    "tools": [],
+                    "max_output_tokens": min(2048, budget.max_output_tokens),
+                    "instructions": SELECTION_INSTRUCTIONS,
+                    "input": selection_data.model_data.input,
+                }
+                next_input = save(
+                    f"{report['model_steps'] + 1:04d}-input",
+                    {
+                        "instructions": SELECTION_INSTRUCTIONS,
+                        "input": selection_data.model_data.input,
+                        "request_purpose": "compact",
+                        "context_operation": "early_selection",
+                    },
+                )
+                return selection_data.model_data
+
+            try:
+                early.start_attempt(early_plan)
+                early_active = True
+                with request_purpose("compact"):
+                    selected = await run_sdk(
+                        model=harness.model,
+                        input_items=[
+                            {"role": "user", "content": encoded(early_plan["prompt"]).decode()}
+                        ],
+                        tools=[],
+                        hooks=Hooks(),
+                        input_filter=selection_filter,
+                        instructions=SELECTION_INSTRUCTIONS,
+                        max_turns=1,
+                        max_output_tokens=min(2048, budget.max_output_tokens),
+                        model_timeout=budget.model_timeout_seconds,
+                        run_timeout=context.clock.remaining("agent_check"),
+                    )
+                early.finish(early_plan, selected.final_output)
+            except (InfrastructureError, HarnessPause, asyncio.CancelledError):
+                raise
+            except Exception as exc:
+                early_plan["record"]["status"] = "kept"
+                early.decision(early_plan["record"], "auxiliary_failed", cause=stop_reason(exc))
+                if report["usage"]["unknown_turns"]:
+                    for key in unknown:
+                        unknown[key] |= report["usage"][key] is None
+                if stop_reason(exc) in {"REQUEST_BUDGET_EXHAUSTED", "LOCAL_TRANSPORT_LIMIT"}:
+                    raise AgentStop(stop_reason(exc)) from exc
+            finally:
+                early_active = False
+                if auxiliary_meter_before is not None:
+                    early.account_metered_auxiliary(
+                        auxiliary_meter_before, meter.ledger.summary(meter.attempt)
+                    )
+                current_body = repair_body
+                context_state.estimator = repair_estimator
+                early.emit_decisions(log.emit)
+            replacement = early.project(data.model_data.input)
+            if replacement != data.model_data.input:
+                context_state.estimator.reset()
+            raise ContextRebuilt(replacement)
         if plan is not None:
             before = time.monotonic()
             summary_input = [{"role": "user", "content": encoded(plan["summarize"]).decode()}]
@@ -403,6 +517,8 @@ async def run_agent(harness, workspace) -> AgentResult:
             )
             report["model_steps"] = step
             report["usage"] = usage
+            if early_active and harness.context_meter is None:
+                early.auxiliary_started()
             if localization is not None:
                 localization.submit(current_body, REQUEST_PURPOSE.get())
 
@@ -419,6 +535,8 @@ async def run_agent(harness, workspace) -> AgentResult:
                 },
             )
             usage = raw_token_usage(response)
+            if early_active and harness.context_meter is None:
+                early.auxiliary_finished(response.raw_usage)
             context_state.estimator.observe(
                 current_body, {"output": output, "usage": response.raw_usage}
             )
@@ -475,6 +593,8 @@ async def run_agent(harness, workspace) -> AgentResult:
                 for call in calls
             ):
                 raise ReproPatchError("PROTOCOL_ERROR: 未注册工具")
+            if early is not None and REQUEST_PURPOSE.get() == "repair":
+                early.complete_repair(current_body, report["model_steps"])
             deadline()
             if (
                 budget.max_tool_calls is not None
@@ -547,6 +667,12 @@ async def run_agent(harness, workspace) -> AgentResult:
         }
         if semantic_tools_enabled:
             value["evidence_id"] = tool_id
+        if early is not None:
+            value["observation_id"] = tool_id
+            value["observed_source"] = {
+                "source_tree_sha256": workspace.expected_manifest.sha256,
+                "repair_response": early.state["repair_responses"],
+            }
         reference = EvidenceRef.save(
             harness.directory,
             f"agent/tool-results/{tool_id}.json",
@@ -619,6 +745,20 @@ async def run_agent(harness, workspace) -> AgentResult:
                 tool_id=tool_id,
                 provider_call_id=call.call_id,
             )
+        if early is not None:
+            arguments = json.loads(call.arguments)
+            source_file = workspace.expected_manifest.by_path.get(arguments.get("path"))
+            early.register(
+                tool_id=tool_id,
+                provider_call_id=call.call_id,
+                tool=name,
+                arguments=arguments,
+                raw_ref=asdict(reference),
+                rendered=text,
+                source_tree_sha256=workspace.expected_manifest.sha256,
+                file_sha256=source_file.sha256 if source_file is not None else None,
+                model_step=report["model_steps"],
+            )
         return text
 
     toolbox = Toolbox(
@@ -663,6 +803,10 @@ async def run_agent(harness, workspace) -> AgentResult:
     )
     if not harness.intermediate_checks_enabled:
         tools = [tool for tool in tools if tool.name not in {"run_command", "run_shell"}]
+    if harness.context_policy.observation_recall:
+        from .context_early import observation_tools
+
+        tools.extend(observation_tools(boundary, early))
     names = {tool.name for tool in tools}
     tools_sha256 = sdk_tools_sha256(tools)
     model_parameters = {
@@ -732,18 +876,19 @@ async def run_agent(harness, workspace) -> AgentResult:
             ).decode(),
         }
     ]
-    if semantic_tools_enabled:
+    if semantic_tools_enabled or harness.context_policy.observation_recall:
         # 任务约束长期固定；大型基线诊断作为可压缩观察，保持其原始可见内容。
         contract = json.loads(initial[0]["content"])
         observation = contract.pop("baseline")
-        contract["repair_state"] = {
-            "version": "cpp-evidence-state-v1",
-            "query_tool": "query_code",
-            "usage": (
-                "先按符号和路径查询结构，再沿语法引用定位；state查修复状态，"
-                "evidence按tool_id或baseline读取原始可见记录。"
-            ),
-        }
+        if semantic_tools_enabled:
+            contract["repair_state"] = {
+                "version": "cpp-evidence-state-v1",
+                "query_tool": "query_code",
+                "usage": (
+                    "先按符号和路径查询结构，再沿语法引用定位；state查修复状态，"
+                    "evidence按tool_id或baseline读取原始可见记录。"
+                ),
+            }
         initial = [
             {"role": "user", "content": canonical_json(contract).decode()},
             {
@@ -753,6 +898,18 @@ async def run_agent(harness, workspace) -> AgentResult:
         ]
         if context_state.fixed_items is None:
             context_state.fixed_items = initial[:1]
+        if harness.context_policy.observation_recall and "baseline" not in early.observations:
+            baseline_ref = save("recall-baseline-observation", observation)
+            early.register(
+                tool_id="baseline",
+                provider_call_id=None,
+                tool="baseline",
+                arguments={},
+                raw_ref=baseline_ref,
+                rendered=canonical_json(observation).decode(),
+                source_tree_sha256=workspace.initial_manifest.sha256,
+                baseline_message=initial[1]["content"],
+            )
     if getattr(harness, "resume_native", None) is not None:
         initial = harness.resume_native["input"]
     try:

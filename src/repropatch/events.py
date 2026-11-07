@@ -127,6 +127,7 @@ EVENT_TYPES = {
     "recovery_finished",
     "context_compacted",
     "context_compaction_failed",
+    "early_observation_decision",
     "localization_exposure",
     "localization_phase_finished",
     "localization_receipt_prepared",
