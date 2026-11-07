@@ -4,6 +4,15 @@
 
 冻结合同为 [protocol.json](protocol.json)，campaign 为 `context-early-20261107-v1`，协议 SHA-256 为 `4b49a755f6689b6bbaa780c2534e77d019b30ea5d930fe55610490f19abe52c1`。现有 19 题五组实验的 190 条轨迹保存在原批次；本目录记录独立三组实验。
 
+执行源码固定为 [`586fe18`](https://github.com/lilong555/ReproPatch/tree/586fe18e9d073d92a9943f220919f2a6d4b53af7)，对应 Git 标签 `context-early-20261107-v1`。统一预检 **526 项通过**，测试期间执行源码、测试与工作流哈希保持一致。
+
+| 执行范围 | 轨迹数 / 请求上限 | Actions 入口 |
+|---|---:|---|
+| smoke | 3 / 72 | [Run 42343788196](https://github.com/lilong555/ReproPatch/actions/runs/42343788196) |
+| full | 36 / 864 | [Run 42343832567](https://github.com/lilong555/ReproPatch/actions/runs/42343832567) |
+
+两批使用相同源码。正式运行核验上述 smoke 的完整计量、评分与早期辅助调用后执行；修复失败、空补丁和 KEEP 均保留。结果与原始轨迹由各批次自动汇总为 `context-results-<run_id>` 和 `context-raw-<run_id>-<trial>`，完整调度身份见 [dispatch.json](dispatch.json)。
+
 ## 负载与证据
 
 [历史机会分布](../context-opportunities-20261107/README.md)覆盖原批次全部 190 条轨迹。基线 38 条轨迹中，48K 历史压缩阈值的覆盖为 0/38；251 条较早工具回执超过 500 个 `o200k_base` 代理 Token，经过两步后仍被后续修复请求携带。

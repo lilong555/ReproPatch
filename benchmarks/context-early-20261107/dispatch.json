@@ -1,0 +1,31 @@
+{
+  "schema": "repropatch.context-early.dispatch.v1",
+  "campaign": "context-early-20261107-v1",
+  "source_commit": "586fe18e9d073d92a9943f220919f2a6d4b53af7",
+  "source_tag": "context-early-20261107-v1",
+  "protocol_sha256": "4b49a755f6689b6bbaa780c2534e77d019b30ea5d930fe55610490f19abe52c1",
+  "workflow": "formal-benchmark.yml",
+  "concurrency_group": "context-ablation-cpa-8",
+  "max_parallel": 8,
+  "runs": {
+    "smoke": {
+      "id": 42343788196,
+      "created_at": "2026-11-07T05:41:22Z",
+      "status_at_dispatch": "pending",
+      "scope": "smoke",
+      "trial_count": 3,
+      "request_cap": 72,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343788196"
+    },
+    "full": {
+      "id": 42343832567,
+      "created_at": "2026-11-07T05:42:02Z",
+      "status_at_dispatch": "pending",
+      "scope": "full",
+      "trial_count": 36,
+      "request_cap": 864,
+      "smoke_run_id": 42343788196,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42343832567"
+    }
+  }
+}

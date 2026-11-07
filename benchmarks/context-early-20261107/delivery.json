@@ -25,7 +25,7 @@
   "files": {
     ".github/workflows/context-ablation.yml": "5f62b21b2e5cfeea07145597525d1bf3a70871810710b2bb037b2602a4fae6fd",
     ".github/workflows/formal-benchmark.yml": "477cc3bf9317882432eba922a329f838e2a01aa4e7ed329d71d444fac669058c",
-    "benchmarks/context-early-20261107/README.md": "61998526ec693a4703fdec0f34c962f9b97adcb75047f3f3e2a6cd44a06aeda3",
+    "benchmarks/context-early-20261107/README.md": "2af7b0e06211d67f913fca6beaee58063fd6249f28524359bcc378887d22e07f",
     "benchmarks/context-early-20261107/preflight/full-plan.json": "07af743a61394bd30592c8b1d3984ab15477d64fedb6371f4b2c02456cf83004",
     "benchmarks/context-early-20261107/preflight/pytest.txt": "9d09a5386744d243dbc175f4a6e027c297a3916191f396689aba765026daa6ad",
     "benchmarks/context-early-20261107/preflight/pytest.xml": "51bbe70746143a4b1d5b047ae036dd2461b890ba7c5dac28fad5e76cac3b245c",
@@ -48,6 +48,9 @@
     "tests/test_context_early_campaign.py": "268e83d9dffb9a2dc18262690e53df1f398ca4187aa58e420915b94d3941d0f7",
     "tests/test_context_early_cpa.py": "699eb4fb53b270639e83031d32a9ec0e1d9c6e7ddabf9e12835e1865ddc89f62",
     "tests/test_context_early_runtime.py": "3717ea6728aa61408ba717b8394d58bce66d5ed979100997c7e7dc42d91b8298",
-    "tests/test_early_smoke_gate.py": "fc634aa6a85bca1476386f2c56d3418d9580c011f0b831ed73d2a5e12b29eb9f"
-  }
+    "tests/test_early_smoke_gate.py": "fc634aa6a85bca1476386f2c56d3418d9580c011f0b831ed73d2a5e12b29eb9f",
+    "benchmarks/context-early-20261107/dispatch.json": "93b9f189a657239ada2051c36a72630c928c8f8a728c065cac7a2fb7178070d8"
+  },
+  "execution_source_commit": "586fe18e9d073d92a9943f220919f2a6d4b53af7",
+  "execution_source_tag": "context-early-20261107-v1"
 }
