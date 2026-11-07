@@ -1,0 +1,89 @@
+{
+  "schema": "repropatch.experiment.artifact-index.v1",
+  "run_id": 42242783788,
+  "scope": "smoke",
+  "source_commit": "5b4a2b1efd609a3384aeca3757d3a8c84dcffb3b",
+  "run_url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788",
+  "artifacts": [
+    {
+      "created_at": "2026-11-06T16:51:44Z",
+      "digest": "sha256:fabfe8022abc22914c8157bfa2427d715ea133a59553395d31663434ff76c173",
+      "expired": false,
+      "expires_at": "2026-12-06T16:51:43Z",
+      "id": 13523565094,
+      "name": "localization-plan-42242783788-smoke",
+      "size_in_bytes": 22171,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13523565094"
+    },
+    {
+      "created_at": "2026-11-06T16:55:29Z",
+      "digest": "sha256:44eb31f913bd00d195affbfb0b070f83f8aa68bb143c9be9063a6a94ebb4aae3",
+      "expired": false,
+      "expires_at": "2026-12-06T16:55:28Z",
+      "id": 13522378135,
+      "name": "localization-raw-42242783788-smoke-trial-001",
+      "size_in_bytes": 5356602,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13522378135"
+    },
+    {
+      "created_at": "2026-11-06T16:58:38Z",
+      "digest": "sha256:33486f48705cfe3094e361ccd0970bdc5122777a69528f9c87336111387cd137",
+      "expired": false,
+      "expires_at": "2026-12-06T16:58:36Z",
+      "id": 13522279083,
+      "name": "localization-raw-42242783788-smoke-trial-002",
+      "size_in_bytes": 7171204,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13522279083"
+    },
+    {
+      "created_at": "2026-11-06T16:58:26Z",
+      "digest": "sha256:d6ccbc01bd9b4e6e6d56d4d867264a0ec0ccc71ffaf2cce7e1bae38c7c033432",
+      "expired": false,
+      "expires_at": "2026-12-06T16:58:25Z",
+      "id": 13522229124,
+      "name": "localization-raw-42242783788-smoke-trial-003",
+      "size_in_bytes": 7985910,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13522229124"
+    },
+    {
+      "created_at": "2026-11-06T17:00:55Z",
+      "digest": "sha256:fd459896f30f667d952fab0cdc1bd42d1a2e3ab78b25b83f43f380e97215d46c",
+      "expired": false,
+      "expires_at": "2026-12-06T17:00:54Z",
+      "id": 13521884966,
+      "name": "localization-results-42242783788-smoke",
+      "size_in_bytes": 32487,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13521884966"
+    },
+    {
+      "created_at": "2026-11-06T16:59:21Z",
+      "digest": "sha256:0b481ea8918493dd0ec0a5a34f2f4daee9620ccee6b662d196acbd4f442d0e08",
+      "expired": false,
+      "expires_at": "2026-12-06T16:59:21Z",
+      "id": 13521984557,
+      "name": "localization-summary-42242783788-smoke-trial-001",
+      "size_in_bytes": 63135,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13521984557"
+    },
+    {
+      "created_at": "2026-11-06T17:00:34Z",
+      "digest": "sha256:8819f2c0d11e5458b663a1dac3ff60c88dccf5c5d326a3bc0f3099aac9e6d690",
+      "expired": false,
+      "expires_at": "2026-12-06T17:00:33Z",
+      "id": 13522384291,
+      "name": "localization-summary-42242783788-smoke-trial-002",
+      "size_in_bytes": 82581,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13522384291"
+    },
+    {
+      "created_at": "2026-11-06T17:00:13Z",
+      "digest": "sha256:1c857bf74c8fbf5d04317f79388f50d72ff99e4cf5c5bed9ba305a266549c304",
+      "expired": false,
+      "expires_at": "2026-12-06T17:00:12Z",
+      "id": 13521854742,
+      "name": "localization-summary-42242783788-smoke-trial-003",
+      "size_in_bytes": 83727,
+      "url": "https://github.com/lilong555/ReproPatch/actions/runs/42242783788/artifacts/13521854742"
+    }
+  ]
+}

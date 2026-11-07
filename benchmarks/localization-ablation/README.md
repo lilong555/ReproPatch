@@ -2,6 +2,8 @@
 
 固定 19 个历史暴露的 fmt 开发任务，比较三种定位接口：A `native` 使用 `search_code`，B `bounded` 使用文件摘要 `search_files`，C `feedback` 在 B 的候选池上按公开执行证据排序。三臂关闭 Tree-sitter，使用同一 baseline 上下文策略、源码窗口与总预算。
 
+[114 条完整结果](full/README.md)：A/B/C 冷评分分别通过 32/38、33/38、30/38；B、C 的输入 Token 及首次命中工具成本高于 A，默认继续采用原生搜索。[三组预检](smoke/README.md)独立保存。
+
 ## 配置与预算
 
 | 配置 | 固定值 |

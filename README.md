@@ -85,7 +85,7 @@ repropatch run task.yaml --engine agents-sdk --model MODEL \
 
 三组配置为 `native`、`bounded`、`feedback`，共用源码窗口、模型及总执行预算。前置定位阶段只读，随后进入修复；SQLite 记录待交付回执和成功模型响应确认的源码曝光，支持跨进程恢复与独立评分。
 
-[方法与合同](docs/LOCALIZATION_DESIGN.md) · [12 条固定查询的离线结果](benchmarks/localization-offline/README.md) · [19 题 A/B/C 配对实验](benchmarks/localization-ablation/README.md)。离线记录包含摘要与固定下钻的负向结果；模型定位调用数、实际 token 和冷验证结果由在线实验报告。
+[方法与合同](docs/LOCALIZATION_DESIGN.md) · [12 条固定查询的离线结果](benchmarks/localization-offline/README.md) · [19 题 A/B/C 配对实验](benchmarks/localization-ablation/full/README.md)。114 条在线轨迹中 A/B/C 分别通过 32/38、33/38、30/38；B、C 的输入 Token 和首次命中工具成本高于 A，默认采用原生搜索，文件摘要与反馈排序保留为可选接口。
 
 ## Release 与证据
 
