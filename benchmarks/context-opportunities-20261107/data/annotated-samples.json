@@ -1,0 +1,796 @@
+{
+  "schema": "repropatch.context-opportunity-sample-review.v1",
+  "selection_source_sha256": "a1c9e791a280eefa9d10435e26c06b81c0f009dca8ab71b1bce9a24350ea5389",
+  "sample_count": 29,
+  "method": "按工具类型、入模长度桶及源码/检查后继关系固定哈希抽样，读取回执结构、状态、代码或错误片段并核对邻近关系。",
+  "rows": [
+    {
+      "sample_id": "S01",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3537/baseline/repeat-2",
+      "job_key": "trial-019",
+      "tool_id": "s000014.t01",
+      "tool": "edit_file",
+      "arguments": {
+        "path": "include/fmt/core.h",
+        "old": "  FMT_INLINE auto get() const -> basic_string_view<Char> { return str_; }\n};\n\n#if FMT_GCC_VERSION && FMT_GCC_VERSION < 409",
+        "new": "  FMT_INLINE auto get() const -> basic_string_view<Char> { return str_; }\n};\n\nnamespace detail {\ntemplate <typename Char, typename... Args>\nFMT_INLINE auto to_string_view(const basic_format_string<Char, Args...>& s)\n    -> basic_string_view<Char> {\n  return s.get();\n}\n}  // namespace detail\n\n#if FMT_GCC_VERSION && FMT_GCC_VERSION < 409"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "69f1e99939ccce70ddd91ca24a464e6d69450c909ee75fe9f23f3c8f7dfecb8a",
+      "raw_ref": {
+        "path": "worker/runs/a8d6f1ee9dc04659800e7031180c3855/agent/tool-results/s000014.t01.json",
+        "sha256": "26a891157f32e4daa178c385513e55111f2bbb756dce942eac1960c02464f57a",
+        "size_bytes": 356
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13504656968",
+      "first_visible_proxy_tokens_o200k": 135,
+      "repair_appearances": 3,
+      "delayed_500_candidate": false,
+      "classification": "保留短状态回执",
+      "review": "135 Token 的文件修改回执记录路径及修改前后哈希，承担源码状态关联。",
+      "excerpt": "{\"after_sha256\": \"43cf4b3afff1054032bcd86c23e2edd322f8decd5333289d9eb2c27b0b821a96\", \"before_sha256\": \"4eaf49800e2b9d18744f79343f1eb9e65114e8dcfb8f72104424b39f11a5facc\", \"path\": \"include/fmt/core.h\"}"
+    },
+    {
+      "sample_id": "S02",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/combined/repeat-1",
+      "job_key": "trial-104",
+      "tool_id": "s000015.t01",
+      "tool": "edit_file",
+      "arguments": {
+        "path": "include/fmt/chrono.h",
+        "old": "struct chrono_format_checker : null_chrono_spec_handler<chrono_format_checker> {\n  bool has_precision_integral = false;\n\n  FMT_NORETURN void unsupported() { FMT_THROW(format_error(\"no date\")); }\n\n  template <typename Char>\n  FMT_CONSTEXPR void on_text(const Char*, const Char*) {}\n  FMT_CONSTEXPR void on_24_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_12_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_minute(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_second(numeric_system, pad_type) {}\n",
+        "new": "struct chrono_format_checker : null_chrono_spec_handler<chrono_format_checker> {\n  bool has_precision_integral = false;\n\n  FMT_NORETURN void unsupported() { FMT_THROW(format_error(\"no date\")); }\n\n  template <typename Char>\n  FMT_CONSTEXPR void on_text(const Char*, const Char*) {}\n  FMT_CONSTEXPR void on_24_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_12_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_minute(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_second(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_day_of_year() {}\n"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+      "raw_ref": {
+        "path": "worker/runs/453e1b49d1954270baa8e04478fad816/agent/tool-results/s000015.t01.json",
+        "sha256": "9ce646be4b8e5b6f624d6a13232639e26368643a16215407aad7170ed3c7aa59",
+        "size_bytes": 357
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13514495680",
+      "first_visible_proxy_tokens_o200k": 136,
+      "repair_appearances": 7,
+      "delayed_500_candidate": false,
+      "classification": "保留短状态回执",
+      "review": "136 Token 的修改回执提供 chrono.h 的前后哈希，适合继续保留。",
+      "excerpt": "{\"after_sha256\": \"dcb7628183492dfbb4d5ea2448e54545ca9a2b0e3163fcea11799d3b575edaa2\", \"before_sha256\": \"c26ba1f7ab39511a7c8a5deed044b5f2a640a1109c80ab8896b9f26799ba050c\", \"path\": \"include/fmt/chrono.h\"}"
+    },
+    {
+      "sample_id": "S03",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-1361/dedup/repeat-1",
+      "job_key": "trial-145",
+      "tool_id": "s000018.t01",
+      "tool": "list_directory",
+      "arguments": {
+        "path": "src"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "e597304b4a6c75818b120cadfbaff10426e5b5dcbe939c5dbb3f3f0ea8128af5",
+      "raw_ref": {
+        "path": "worker/runs/21deb357651b4b2390602d84e170d08a/agent/tool-results/s000018.t01.json",
+        "sha256": "155b6bf1de5dfc99f1427368cbde30cbbb76343b2d469e6ede325318c06081cb",
+        "size_bytes": 262
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13518506697",
+      "first_visible_proxy_tokens_o200k": 67,
+      "repair_appearances": 6,
+      "delayed_500_candidate": false,
+      "classification": "保留短目录结果",
+      "review": "两个源文件名提供目录结构，当前 67 Token 的回执已经紧凑。",
+      "excerpt": "{\"entries\": [{\"name\": \"format.cc\", \"type\": \"file\"}, {\"name\": \"posix.cc\", \"type\": \"file\"}]}"
+    },
+    {
+      "sample_id": "S04",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/baseline/repeat-1",
+      "job_key": "trial-141",
+      "tool_id": "s000002.t01",
+      "tool": "list_directory",
+      "arguments": {
+        "path": "include/fmt"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "60fb6a6d9352d023c39124dd7274be149d0de2cd0bb11bab88c353f7be5e2a8c",
+      "raw_ref": {
+        "path": "worker/runs/447ef87da72549ddbc224bba21a45575/agent/tool-results/s000002.t01.json",
+        "sha256": "d2a8fe69eea85954c2758af64f9ec8e70e22d41c001826fdf15583131b71db6e",
+        "size_bytes": 632
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13518601020",
+      "first_visible_proxy_tokens_o200k": 168,
+      "repair_appearances": 17,
+      "delayed_500_candidate": false,
+      "classification": "保留短目录结果",
+      "review": "13 个头文件条目提供候选目录信息，168 Token 的回执压缩空间有限。",
+      "excerpt": "{\"entries\": [{\"name\": \"args.h\", \"type\": \"file\"}, {\"name\": \"chrono.h\", \"type\": \"file\"}, {\"name\": \"color.h\", \"type\": \"file\"}, {\"name\": \"compile.h\", \"type\": \"file\"}, {\"name\": \"core.h\", \"type\": \"file\"}, {\"name\": \"format-inl.h\", \"type\": \"file\"}, {\"name\": \"format.h\", \"type\": \"file\"}, {\"name\": \"locale.h\", \"type\": \"file\"}, {\"name\": \"os.h\", \"type\": \"file\"}, {\"name\": \"ostream.h\", \"type\": \"file\"}, {\"name\": \"printf.h\", \"type\": \"file\"}, {\"name\": \"ranges.h\", \"type\": \"file\"}, {\"name\": \"wchar.h\", \"type\": \"file\"}]}"
+    },
+    {
+      "sample_id": "S05",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-1361/dedup/repeat-1",
+      "job_key": "trial-145",
+      "tool_id": "s000010.t01",
+      "tool": "read_file",
+      "arguments": {
+        "path": "include/fmt/format.h",
+        "start_line": 2790,
+        "max_lines": 75
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "e597304b4a6c75818b120cadfbaff10426e5b5dcbe939c5dbb3f3f0ea8128af5",
+      "raw_ref": {
+        "path": "worker/runs/21deb357651b4b2390602d84e170d08a/agent/tool-results/s000010.t01.json",
+        "sha256": "7f68473f7628c663b8055fcff9e9f74352cb7914cc6d6926c8f799a77fda1ee7",
+        "size_bytes": 3043
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13518506697",
+      "first_visible_proxy_tokens_o200k": 813,
+      "repair_appearances": 14,
+      "delayed_500_candidate": true,
+      "classification": "候选：按任务裁剪代码",
+      "review": "75 行包含浮点格式化与相邻系统错误接口；裁剪需要当前定位目标，保留函数边界与可回读引用。",
+      "excerpt": "    value = -value;\n  } else if (specs.sign != sign::none) {\n    if (specs.sign == sign::plus)\n      sign = '+';\n    else if (specs.sign == sign::space)\n      sign = ' ';\n  }\n\n  if (!std::isfinite(value)) {\n    // Format infinity and NaN ourselves because sprintf's output is not\n    // consistent across platforms.\n    const char* str = std::isinf(value) ? (handler.upper ? \"INF\" : \"inf\")\n                                        : (handler.upper ? \"NAN\" : \"nan\");\n    return write_padded(specs,\n                        inf_or_nan_writer{sign, handler.as_percentage, str});\n  }\n\n  if (handler.as_perc"
+    },
+    {
+      "sample_id": "S06",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2610/state/repeat-1",
+      "job_key": "trial-072",
+      "tool_id": "s000002.t01",
+      "tool": "read_file",
+      "arguments": {
+        "path": "include/fmt/core.h",
+        "start_line": 1190,
+        "max_lines": 100
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "97163ccd889dcda3ca288cdc27420c5bbc557d9e72bae8546b4855ad3d880335",
+      "raw_ref": {
+        "path": "worker/runs/510595c67662448aa76a12c5a075e206/agent/tool-results/s000002.t01.json",
+        "sha256": "d37bb73a431816125c0530596c55af48ba4e60b1d7c7992be54883d3aa99b7d2",
+        "size_bytes": 4920
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13510192275",
+      "first_visible_proxy_tokens_o200k": 1317,
+      "repair_appearances": 22,
+      "delayed_500_candidate": true,
+      "classification": "候选：按任务裁剪代码",
+      "review": "100 行涉及 value 构造、类型特征和 arg_mapper，包含模板修复所需上下文；长度用于选择待审片段。",
+      "excerpt": "\n  constexpr FMT_INLINE value() : no_value() {}\n  constexpr FMT_INLINE value(int val) : int_value(val) {}\n  constexpr FMT_INLINE value(unsigned val) : uint_value(val) {}\n  constexpr FMT_INLINE value(long long val) : long_long_value(val) {}\n  constexpr FMT_INLINE value(unsigned long long val) : ulong_long_value(val) {}\n  FMT_INLINE value(int128_t val) : int128_value(val) {}\n  FMT_INLINE value(uint128_t val) : uint128_value(val) {}\n  constexpr FMT_INLINE value(float val) : float_value(val) {}\n  constexpr FMT_INLINE value(double val) : double_value(val) {}\n  FMT_INLINE value(long double val) : lo"
+    },
+    {
+      "sample_id": "S07",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3248/baseline/repeat-1",
+      "job_key": "trial-178",
+      "tool_id": "s000007.t01",
+      "tool": "read_file",
+      "arguments": {
+        "path": "include/fmt/core.h",
+        "start_line": 2130,
+        "max_lines": 45
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "63363cb5b24770ad75ada6fb58025cb4c9dec282b748a3dbf6bda42c1b097715",
+      "raw_ref": {
+        "path": "worker/runs/a6eba34b9ff643ed9ef3e196aba047d5/agent/tool-results/s000007.t01.json",
+        "sha256": "0c914e60d82e8111c77f408763d9d5f8250917ecfa5ba23c8f117fba761de09e",
+        "size_bytes": 1390
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13520882873",
+      "first_visible_proxy_tokens_o200k": 429,
+      "repair_appearances": 6,
+      "delayed_500_candidate": false,
+      "classification": "保留紧凑代码上下文",
+      "review": "429 Token 的枚举与格式参数定义与后续修复有关，低于本次 500 Token 候选阈值。",
+      "excerpt": "  hex_lower,       // 'x'\n  hex_upper,       // 'X'\n  bin_lower,       // 'b'\n  bin_upper,       // 'B'\n  hexfloat_lower,  // 'a'\n  hexfloat_upper,  // 'A'\n  exp_lower,       // 'e'\n  exp_upper,       // 'E'\n  fixed_lower,     // 'f'\n  fixed_upper,     // 'F'\n  general_lower,   // 'g'\n  general_upper,   // 'G'\n  chr,             // 'c'\n  string,          // 's'\n  pointer,         // 'p'\n  debug            // '?'\n};\n\n// Format specifiers for built-in and string types.\ntemplate <typename Char> struct basic_format_specs {\n  int width;\n  int precision;\n  presentation_type type;\n  align_t align : 4"
+    },
+    {
+      "sample_id": "S08",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2310/combined/repeat-2",
+      "job_key": "trial-018",
+      "tool_id": "s000010.t01",
+      "tool": "read_file",
+      "arguments": {
+        "path": "include/fmt/core.h",
+        "start_line": 1855,
+        "max_lines": 45
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "5eab8dd90c916093e74a620abab7248efed3febf6021a962b37802907c8d48d8",
+      "raw_ref": {
+        "path": "worker/runs/01993e5a96eb4974885b0eff6ebd4945/agent/tool-results/s000010.t01.json",
+        "sha256": "9bb6df4b05391c40451ec24696fd1c2d4b2f668d1b0683b2788dd4cddd6b9e2a",
+        "size_bytes": 1492
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13503728882",
+      "first_visible_proxy_tokens_o200k": 430,
+      "repair_appearances": 14,
+      "delayed_500_candidate": false,
+      "classification": "保留紧凑代码上下文",
+      "review": "430 Token 含 basic_format_specs 与参数引用，适合保留定义及源码位置。",
+      "excerpt": "  }\n\n  constexpr auto size() const -> size_t { return size_; }\n  constexpr auto data() const -> const Char* { return data_; }\n\n  FMT_CONSTEXPR auto operator[](size_t index) -> Char& { return data_[index]; }\n  FMT_CONSTEXPR auto operator[](size_t index) const -> const Char& {\n    return data_[index];\n  }\n};\nFMT_END_DETAIL_NAMESPACE\n\n// Format specifiers for built-in and string types.\ntemplate <typename Char> struct basic_format_specs {\n  int width;\n  int precision;\n  char type;\n  align_t align : 4;\n  sign_t sign : 3;\n  bool alt : 1;  // Alternate form ('#').\n  bool localized : 1;\n  detail::fill"
+    },
+    {
+      "sample_id": "S09",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/baseline/repeat-1",
+      "job_key": "trial-126",
+      "tool_id": "s000017.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "reproduce"
+      },
+      "tool_ok": true,
+      "test_passed": false,
+      "check_mode": "reproduce",
+      "source_tree_sha256": "ca406755be4e31e20d385d9f255304a5ce7496f8ffb586f1fa6517d95525ab15",
+      "raw_ref": {
+        "path": "worker/runs/0aecd22bd3154a3ab859838b88904249/agent/tool-results/s000017.t01.json",
+        "sha256": "23c8c25260045c961349512c6926cfa4a2b9446c3c0ad37497369bb05e239bfb",
+        "size_bytes": 36552
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13516822617",
+      "first_visible_proxy_tokens_o200k": 7837,
+      "repair_appearances": 4,
+      "delayed_500_candidate": true,
+      "classification": "候选：保留失败诊断的摘要",
+      "review": "reproduce 工具完成，chrono-test 失败；原始 36,552 字节经现有折叠后仍有 7,837 代理 Token。保留文件行号、编译错误与失败测试，后续 s000019.t01 才通过。",
+      "excerpt": "Test project /build\n    Start 3: chrono-test\n1/1 Test #3: chrono-test ......................***Failed    2.90 sec\n[1/2] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o\nFAILED: test/CMakeFiles/chrono-test.dir/chrono-test.cc.o \nccache /usr/bin/c++ -DGTEST_HAS_STD_WSTRING=1 -D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING=1 -I/src/include -isystem /src/test/gtest/. -O3 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden -Wno-stringop-overflow -MD -MT test/CMakeFiles/chrono-test.dir/chrono-test.cc.o -MF test/CMakeFiles/chrono-test.dir/chrono-test.cc.o.d -o test/CMakeFiles/chrono-test.dir/chrono-test.cc.o -c /src/test/chrono-test.cc\nIn file included from /usr/include/c++/13/bits/chrono.h:37,\n                 from /usr/include/c++/13/chrono:41,\n                 from /src/include/fmt/chrono.h:12,\n                 from /src/test/chrono-test.cc:8:\n/usr/include/c++/13/ratio: In instantiation of ‘struct std::__safe_multiply<1000000000000000000, 86400>’:\n/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000000>, std::ratio<1, 86400> >’\n/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000000>, std::ratio<86400> >’\n/usr/include/c++/13/ratio:387:11:   required by substitution of ‘template<class _R1, class _R2> using std::ratio_divide = typename std::__ratio_di"
+    },
+    {
+      "sample_id": "S10",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/combined/repeat-1",
+      "job_key": "trial-104",
+      "tool_id": "s000017.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "reproduce"
+      },
+      "tool_ok": true,
+      "test_passed": false,
+      "check_mode": "reproduce",
+      "source_tree_sha256": "1d2584afde733dcf0c33d6cd047e968b958b01ada57c829eca357fd54be72e4b",
+      "raw_ref": {
+        "path": "worker/runs/453e1b49d1954270baa8e04478fad816/agent/tool-results/s000017.t01.json",
+        "sha256": "0e21916e10853f0ba9f956e5678af276be74707bdf6498c729b62659f81ea31b",
+        "size_bytes": 36552
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13514495680",
+      "first_visible_proxy_tokens_o200k": 7824,
+      "repair_appearances": 5,
+      "delayed_500_candidate": true,
+      "classification": "候选：保留失败诊断的摘要",
+      "review": "同样出现工具完成且 chrono-test 失败，后继检查通过。阶段状态分别记录，旧失败可在新证据到来后压缩为带引用的历史摘要。",
+      "excerpt": "Test project /build\n    Start 3: chrono-test\n1/1 Test #3: chrono-test ......................***Failed    2.00 sec\n[1/2] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o\nFAILED: test/CMakeFiles/chrono-test.dir/chrono-test.cc.o \nccache /usr/bin/c++ -DGTEST_HAS_STD_WSTRING=1 -D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING=1 -I/src/include -isystem /src/test/gtest/. -O3 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden -Wno-stringop-overflow -MD -MT test/CMakeFiles/chrono-test.dir/chrono-test.cc.o -MF test/CMakeFiles/chrono-test.dir/chrono-test.cc.o.d -o test/CMakeFiles/chrono-test.dir/chrono-test.cc.o -c /src/test/chrono-test.cc\nIn file included from /usr/include/c++/13/bits/chrono.h:37,\n                 from /usr/include/c++/13/chrono:41,\n                 from /src/include/fmt/chrono.h:12,\n                 from /src/test/chrono-test.cc:8:\n/usr/include/c++/13/ratio: In instantiation of ‘struct std::__safe_multiply<1000000000000000000, 86400>’:\n/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000000>, std::ratio<1, 86400> >’\n/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000000>, std::ratio<86400> >’\n/usr/include/c++/13/ratio:387:11:   required by substitution of ‘template<class _R1, class _R2> using std::ratio_divide = typename std::__ratio_di"
+    },
+    {
+      "sample_id": "S11",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-493/combined/repeat-1",
+      "job_key": "trial-091",
+      "tool_id": "s000018.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "verify"
+      },
+      "tool_ok": true,
+      "test_passed": true,
+      "check_mode": "verify",
+      "source_tree_sha256": "c787a4f68123d3c498dd0971630d2047254f53cf15bafad26c10e5b98166cc10",
+      "raw_ref": {
+        "path": "worker/runs/ddabf39035004636aae522cad52a79b5/agent/tool-results/s000018.t01.json",
+        "sha256": "3cb06f8b099913a7489cf87131b2013ee505cf37cc7f66ae2094e638436dee72",
+        "size_bytes": 4016
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13511427059",
+      "first_visible_proxy_tokens_o200k": 1399,
+      "repair_appearances": 2,
+      "delayed_500_candidate": false,
+      "classification": "候选：按组汇总已通过测试",
+      "review": "verify 的 F2P/P2P 都通过，回执包含逐测试状态和日志引用；可保留检查角色、源码哈希、测试分组统计及原文入口。",
+      "excerpt": "{\"passed\": true, \"tests\": [{\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"F2P\", \"marker_seen\": null, \"name\": \"ostream-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"assert-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"container-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"custom-formatter-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"format-impl-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"format-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"gtest-extra-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"macro-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"posix-mock-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"posix-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": "
+    },
+    {
+      "sample_id": "S12",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3260/baseline/repeat-1",
+      "job_key": "trial-176",
+      "tool_id": "s000017.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "reproduce"
+      },
+      "tool_ok": true,
+      "test_passed": true,
+      "check_mode": "reproduce",
+      "source_tree_sha256": "c0ea32c6c5ee20fbf8475c18edb294ad49ea65f8256662fb43f5fc72c7266c79",
+      "raw_ref": {
+        "path": "worker/runs/228db0d967464985af6d8df941a0e503/agent/tool-results/s000017.t01.json",
+        "sha256": "70846c9bb24325b98d7937e3dd2b33cdd8427cc20ff5298e413105d154b5ac4c",
+        "size_bytes": 2447
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13519969045",
+      "first_visible_proxy_tokens_o200k": 1002,
+      "repair_appearances": 2,
+      "delayed_500_candidate": false,
+      "classification": "候选：汇总单次验证状态",
+      "review": "reproduce 的 chrono-test 通过，回执含构建与日志元数据。压缩应保留所检验测试、源码版本与验证角色。",
+      "excerpt": "{\"passed\": true, \"tests\": [{\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"F2P\", \"marker_seen\": null, \"name\": \"chrono-test\", \"observed_status\": \"passed\"}]}"
+    },
+    {
+      "sample_id": "S13",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/diagnostics/repeat-1",
+      "job_key": "trial-086",
+      "tool_id": "s000024.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "verify"
+      },
+      "tool_ok": true,
+      "test_passed": true,
+      "check_mode": "verify",
+      "source_tree_sha256": "4993da36b68ae356f1178d528e58df4cd3306966a862bb89751339e45ca78fd2",
+      "raw_ref": {
+        "path": "worker/runs/7f08a35dc0af45a8b65977d66f283ecf/agent/tool-results/s000024.t01.json",
+        "sha256": "b1fb387d28a169a527b6071e0cfd0852fde46fe4fa7d312c857af30c43992f3b",
+        "size_bytes": 4722
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13512725624",
+      "first_visible_proxy_tokens_o200k": null,
+      "repair_appearances": 0,
+      "delayed_500_candidate": false,
+      "classification": "末尾回执：后续入模次数为 0",
+      "review": "verify 已通过，24 次模型请求预算之后没有后续请求；该回执的离线缩短对已记录运行的累计输入贡献为 0。",
+      "excerpt": "{\"passed\": true, \"tests\": [{\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"F2P\", \"marker_seen\": null, \"name\": \"chrono-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"args-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"assert-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"color-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"compile-fp-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"compile-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"core-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"enforce-checks-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"format-impl-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"format-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": "
+    },
+    {
+      "sample_id": "S14",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3734/state/repeat-2",
+      "job_key": "trial-062",
+      "tool_id": "s000024.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "verify"
+      },
+      "tool_ok": true,
+      "test_passed": true,
+      "check_mode": "verify",
+      "source_tree_sha256": "fb14022dff87a03a76c01e5d75bf00b7f8c4d228da15f17dc54f010954a9f17c",
+      "raw_ref": {
+        "path": "worker/runs/0086b48bab014fd19550a196a18b35af/agent/tool-results/s000024.t01.json",
+        "sha256": "e48a82fa6805a926067bae6d12ebdf564cea678b7a4eb494b9111adc207458fd",
+        "size_bytes": 4722
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13509080308",
+      "first_visible_proxy_tokens_o200k": null,
+      "repair_appearances": 0,
+      "delayed_500_candidate": false,
+      "classification": "末尾回执：后续入模次数为 0",
+      "review": "format-test 及 P2P 通过，结果停留在末尾；保留完整验收证据，输入机会统计按实际发送次数计量。",
+      "excerpt": "{\"passed\": true, \"tests\": [{\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"F2P\", \"marker_seen\": null, \"name\": \"format-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"args-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"assert-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"chrono-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"color-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"compile-fp-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"compile-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"core-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"enforce-checks-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": \"P2P\", \"marker_seen\": null, \"name\": \"format-impl-test\", \"observed_status\": \"passed\"}, {\"ctest_exit_code\": 0, \"diagnostic\": \"\", \"group\": "
+    },
+    {
+      "sample_id": "S15",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/state/repeat-1",
+      "job_key": "trial-135",
+      "tool_id": "s000020.t01",
+      "tool": "run_shell",
+      "arguments": {
+        "command": "cat > /build/check.cc <<'EOF'\n#include <chrono>\n#include <iostream>\n#include <fmt/chrono.h>\nint main() {\n  using namespace std::chrono;\n  auto ms = time_point<system_clock, milliseconds>(milliseconds(1023));\n  auto ns = time_point<system_clock, nanoseconds>(nanoseconds(1234567890));\n  auto sec = time_point<system_clock, seconds>(seconds(1));\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", ms, ms);\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", ns, ns);\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", sec, sec);\n}\nEOF\ng++ -std=c++11 -I/src/include /build/check.cc -o /build/check && /build/check",
+        "cwd": "/src",
+        "timeout_seconds": 120
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "99eaef1053aa55fb681ce3a72a8b2a3ab84b86427473e9ab324626280dfdaf8d",
+      "raw_ref": {
+        "path": "worker/runs/21dec745604247f18e395ed2ba677f47/agent/tool-results/s000020.t01.json",
+        "sha256": "e55a9071ce777e0b05cd20abf802e891fb1226c69d60102f4fbd76cad686c1e7",
+        "size_bytes": 24299
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13517394133",
+      "first_visible_proxy_tokens_o200k": 8340,
+      "repair_appearances": 4,
+      "delayed_500_candidate": true,
+      "classification": "候选：聚合同类链接错误",
+      "review": "stderr 包含多条 fmt 符号 undefined reference，保留首个根因、不同缺失符号及命令配置。下一步出现文件缺失错误，需按不同故障分别保留。",
+      "excerpt": "/usr/bin/ld: /tmp/cc7xB2yy.o: warning: relocation against `_ZN3fmt2v76detail10basic_dataIvE6digitsE' in read-only section `.text._ZN3fmt2v76detail14write_exponentIcPcEET0_iS4_[_ZN3fmt2v76detail14write_exponentIcPcEET0_iS4_]'\n/usr/bin/ld: /tmp/cc7xB2yy.o: in function `main':\ncheck.cc:(.text+0xc2): undefined reference to `fmt::v7::detail::vformat[abi:cxx11](fmt::v7::basic_string_view<char>, fmt::v7::basic_format_args<fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char> >)'\n/usr/bin/ld: check.cc:(.text+0x168): undefined reference to `fmt::v7::detail::vformat[abi:cxx11](fmt::v7::basic_string_view<char>, fmt::v7::basic_format_args<fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char> >)'\n/usr/bin/ld: check.cc:(.text+0x20e): undefined reference to `fmt::v7::detail::vformat[abi:cxx11](fmt::v7::basic_string_view<char>, fmt::v7::basic_format_args<fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char> >)'\n/usr/bin/ld: /tmp/cc7xB2yy.o: in function `fmt::v7::format_error::format_error(char const*)':\ncheck.cc:(.text._ZN3fmt2v712format_errorC2EPKc[_ZN3fmt2v712format_errorC5EPKc]+0x2a): undefined reference to `vtable for fmt::v7::format_error'\n/usr/bin/ld: /tmp/cc7xB2yy.o: in function `fmt::v7::localtime(long)':\ncheck.cc:(.text._ZN3fmt2v79localtimeEl[_ZN3fmt2v79localtimeEl]+0x82): undefined reference to `fmt::v7::format_error::"
+    },
+    {
+      "sample_id": "S16",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/combined/repeat-1",
+      "job_key": "trial-032",
+      "tool_id": "s000017.t01",
+      "tool": "run_shell",
+      "arguments": {
+        "command": "cat > /build/check.cc <<'EOF'\n#define FMT_HEADER_ONLY\n#include \"fmt/chrono.h\"\n#include <chrono>\n#include <iostream>\nint main() {\n  using namespace std::chrono;\n  using ms_tp = time_point<system_clock, milliseconds>;\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", system_clock::time_point(nanoseconds(1234000000)), system_clock::time_point(nanoseconds(1234000000)));\n  std::cout << fmt::format(\"{:%S}\\n\", ms_tp(milliseconds(-123)));\n  std::cout << fmt::format(L\"{:%S}\\n\", system_clock::time_point(nanoseconds(1234000000)));\n  std::cout << fmt::format(\"{:%OS}\\n\", system_clock::time_point(nanoseconds(1234000000)));\n}\nEOF\nc++ -std=c++11 -I/src/include /build/check.cc -o /build/check && /build/check",
+        "cwd": "/build",
+        "timeout_seconds": 120
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "f2281feb4efd11c34283331b4e0b0e47b000da6e7fbfbde89788be7f7048866b",
+      "raw_ref": {
+        "path": "worker/runs/8dbd3a65b5ee43618984c0969371cd96/agent/tool-results/s000017.t01.json",
+        "sha256": "e05d564c51729af1ec799677047ee69e1977899c4b3313e16ee3cc5714cd7107",
+        "size_bytes": 27975
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13505434195",
+      "first_visible_proxy_tokens_o200k": 7497,
+      "repair_appearances": 5,
+      "delayed_500_candidate": true,
+      "classification": "候选：保留主错误的编译摘要",
+      "review": "宽字符字符串写入 std::ostream 引发 operator<< 不匹配和大量候选展开；主错误、操作数类型、用户代码位置属于关键证据。",
+      "excerpt": "/build/check.cc: In function ‘int main()’:\n/build/check.cc:10:13: error: no match for ‘operator<<’ (operand types are ‘std::ostream’ {aka ‘std::basic_ostream<char>’} and ‘std::__cxx11::basic_string<wchar_t>’)\n   10 |   std::cout << fmt::format(L\"{:%S}\\n\", system_clock::time_point(nanoseconds(1234000000)));\n      |   ~~~~~~~~~ ^~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n      |        |                  |\n      |        |                  std::__cxx11::basic_string<wchar_t>\n      |        std::ostream {aka std::basic_ostream<char>}\nIn file included from /usr/include/c++/13/istream:41,\n                 from /usr/include/c++/13/sstream:40,\n                 from /src/include/fmt/chrono.h:15,\n                 from /build/check.cc:2:\n/usr/include/c++/13/ostream:110:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(__ostream_type& (*)(__ostream_type&)) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’\n  110 |       operator<<(__ostream_type& (*__pf)(__ostream_type&))\n      |       ^~~~~~~~\n/usr/include/c++/13/ostream:110:36: note:   no known conversion for argument 1 from ‘std::__cxx11::basic_string<wchar_t>’ to ‘std::basic_ostream<char>::__ostream_type& (*)(std::basic_ostream<char>::__ostream_type&)’ {aka ‘std::basic_ostream<char>&"
+    },
+    {
+      "sample_id": "S17",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2610/baseline/repeat-2",
+      "job_key": "trial-102",
+      "tool_id": "s000019.t01",
+      "tool": "run_shell",
+      "arguments": {
+        "command": "cat > /build/check.cc <<'EOF'\n#include <fmt/core.h>\n#include <type_traits>\nusing namespace fmt;\nusing F = void (*)();\nstruct s;\nusing M = int (s::*);\nusing MF = int (s::*)();\nstatic_assert(!std::is_convertible<const F&, const void*>::value, \"fvoid\");\nstatic_assert(!std::is_constructible<basic_string_view<char>, F>::value, \"fsv\");\nstatic_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");\nstatic_assert(!fmt::detail::has_fallback_formatter<F,char>::value, \"hfb\");\nstatic_assert(std::is_base_of<fmt::detail::unformattable, decltype(fmt::detail::arg_mapper<fmt::format_context>().map(std::declval<F>()))>::value, \"mapped f\");\nstatic_assert(!fmt::is_formattable<F>::value, \"form f\");\nstatic_assert(!fmt::is_formattable<M>::value, \"form m\");\nstatic_assert(!fmt::is_formattable<MF>::value, \"form mf\");\nint main(){}\nEOF\nc++ -std=c++11 -I/src/include -c /build/check.cc -o /build/check.o",
+        "cwd": "/build",
+        "timeout_seconds": 30
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "97163ccd889dcda3ca288cdc27420c5bbc557d9e72bae8546b4855ad3d880335",
+      "raw_ref": {
+        "path": "worker/runs/01176db541fc4595ae225ed89b933737/agent/tool-results/s000019.t01.json",
+        "sha256": "e06b42bac6adc179ebb93e50461a6bd1474a6693ca7a1d712a5b291828c38061",
+        "size_bytes": 3992
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13511804028",
+      "first_visible_proxy_tokens_o200k": 1179,
+      "repair_appearances": 4,
+      "delayed_500_candidate": true,
+      "classification": "候选：保留诊断因果链",
+      "review": "has_formatter 缺失带来连续解析错误；可按同一用户代码位置整理，保留建议符号、静态断言与原始诊断引用。",
+      "excerpt": "/build/check.cc:10:29: error: ‘has_formatter’ is not a member of ‘fmt::v8::detail’; did you mean ‘has_const_formatter’?\n   10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");\n      |                             ^~~~~~~~~~~~~\n      |                             has_const_formatter\n/build/check.cc:10:44: error: expected primary-expression before ‘,’ token\n   10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");\n      |                                            ^\n/build/check.cc:10:46: error: expected string-literal before ‘fmt’\n   10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");\n      |                                              ^~~\n/build/check.cc:10:45: error: expected ‘)’ before ‘fmt’\n   10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");\n      |              ~                              ^~~~\n      |                                             )\n/build/check.cc:12:141: error: static assertion failed: mapped f\n   12 | static_assert(std::is_base_of<fmt::detail::unformattable, decltype(fmt::detail::arg_mapper<fmt::format_context>().map(std::declval<F>()))>::value, \"mapped f\");\n      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~\n/build/c"
+    },
+    {
+      "sample_id": "S18",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-493/state/repeat-2",
+      "job_key": "trial-139",
+      "tool_id": "s000012.t01",
+      "tool": "run_shell",
+      "arguments": {
+        "command": "cat >/build/memory_writer_allocation.cc <<'EOF'\n#define FMT_HEADER_ONLY\n#include \"fmt/ostream.h\"\n#include <string>\n#include <iostream>\nint main() {\n  fmt::MemoryWriter w;\n  size_t final_len = 0;\n  const size_t l = 10000;\n  for (size_t i = 0; i < l; ++i) {\n    const std::string token = std::to_string(i);\n    final_len += token.size();\n    w << token;\n  }\n  const std::string rs = w.str();\n  if (w.size() != final_len || rs.size() != final_len) {\n    std::cerr << w.size() << \" \" << final_len << \" \" << rs.size() << \"\\n\";\n    return 1;\n  }\n  return 0;\n}\nEOF\ng++ -std=c++11 -I/src /build/memory_writer_allocation.cc -o /build/memory_writer_allocation && /build/memory_writer_allocation",
+        "cwd": "/src",
+        "timeout_seconds": 120
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "484b992f2a00a755889319006a54e0d38ac6ba7a3006488bfedee4e14bc91625",
+      "raw_ref": {
+        "path": "worker/runs/8e72cda07ee74176b412110849ee0218/agent/tool-results/s000012.t01.json",
+        "sha256": "7319c6cb86a34297a997beb607a68e07ffead8ad7d429fb00c5121056a0078a8",
+        "size_bytes": 1752
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13517990232",
+      "first_visible_proxy_tokens_o200k": 615,
+      "repair_appearances": 6,
+      "delayed_500_candidate": true,
+      "classification": "候选：压缩已完成命令正文",
+      "review": "自建 memory_writer 检查返回 0；回执复述了完整命令和程序，可归纳检查内容、退出码与源码状态并保留原文。",
+      "excerpt": "{}"
+    },
+    {
+      "sample_id": "S19",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/diagnostics/repeat-1",
+      "job_key": "trial-069",
+      "tool_id": "s000021.t01",
+      "tool": "run_shell",
+      "arguments": {
+        "command": "g++ -std=c++11 -DFMT_HEADER_ONLY -I/src/include /build/chrono_check.cc -o /build/chrono_check && /build/chrono_check",
+        "cwd": "/src",
+        "timeout_seconds": 120
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "faddda063250542d113fcffb0f23f88d6e2d7b1cc33dfb9b4d9e38f547b6f603",
+      "raw_ref": {
+        "path": "worker/runs/a9da8cd5a638403abc0de0c3fc7f8f7e/agent/tool-results/s000021.t01.json",
+        "sha256": "8ba4319a347ab1568744145b766a7bc25e9e2693283819d64c43b85f901bd1c7",
+        "size_bytes": 1254
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13510841421",
+      "first_visible_proxy_tokens_o200k": 452,
+      "repair_appearances": 3,
+      "delayed_500_candidate": false,
+      "classification": "保留短错误与环境状态",
+      "review": "452 Token 回执报告 /build/chrono_check.cc 缺失；短错误准确解释本次编译失败与临时文件状态。",
+      "excerpt": "cc1plus: fatal error: /build/chrono_check.cc: No such file or directory\ncompilation terminated.\n"
+    },
+    {
+      "sample_id": "S20",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/state/repeat-1",
+      "job_key": "trial-135",
+      "tool_id": "s000021.t01",
+      "tool": "run_shell",
+      "arguments": {
+        "command": "g++ -std=c++11 -DFMT_HEADER_ONLY -I/src/include /build/check.cc -o /build/check && /build/check",
+        "cwd": "/src",
+        "timeout_seconds": 120
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "99eaef1053aa55fb681ce3a72a8b2a3ab84b86427473e9ab324626280dfdaf8d",
+      "raw_ref": {
+        "path": "worker/runs/21dec745604247f18e395ed2ba677f47/agent/tool-results/s000021.t01.json",
+        "sha256": "811711a8156603f79398cbec098619077e37e1c792f528ec02f416940e57e20a",
+        "size_bytes": 1225
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13517394133",
+      "first_visible_proxy_tokens_o200k": 432,
+      "repair_appearances": 3,
+      "delayed_500_candidate": false,
+      "classification": "保留短错误与环境状态",
+      "review": "432 Token 回执报告 /build/check.cc 缺失；它与前一轮链接失败是不同问题，应保留独立错误与命令身份。",
+      "excerpt": "cc1plus: fatal error: /build/check.cc: No such file or directory\ncompilation terminated.\n"
+    },
+    {
+      "sample_id": "S21",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/baseline/repeat-1",
+      "job_key": "trial-126",
+      "tool_id": "s000013.t01",
+      "tool": "search_code",
+      "arguments": {
+        "query": "fmt_duration_cast",
+        "path": "include/fmt/chrono.h"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+      "raw_ref": {
+        "path": "worker/runs/0aecd22bd3154a3ab859838b88904249/agent/tool-results/s000013.t01.json",
+        "sha256": "af3629cab5a0d6ec3b096bcb3ecb7acd500a87f0978d8acce7bd1b7b395d2494",
+        "size_bytes": 2132
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13516822617",
+      "first_visible_proxy_tokens_o200k": 581,
+      "repair_appearances": 8,
+      "delayed_500_candidate": true,
+      "classification": "候选：按目标选择搜索命中",
+      "review": "fmt_duration_cast 的定义与调用共存；摘要需要当前修复目标及完整原文入口。",
+      "excerpt": "{\"matches\": [{\"line\": 445, \"path\": \"include/fmt/chrono.h\", \"text\": \"To fmt_duration_cast(std::chrono::duration<FromRep, FromPeriod> from) {\"}, {\"line\": 462, \"path\": \"include/fmt/chrono.h\", \"text\": \"To fmt_duration_cast(std::chrono::duration<FromRep, FromPeriod> from) {\"}, {\"line\": 473, \"path\": \"include/fmt/chrono.h\", \"text\": \"  return fmt_duration_cast<std::chrono::duration<std::time_t>>(\"}, {\"line\": 1099, \"path\": \"include/fmt/chrono.h\", \"text\": \"  const auto fractional = d - fmt_duration_cast<std::chrono::seconds>(d);\"}, {\"line\": 1104, \"path\": \"include/fmt/chrono.h\", \"text\": \"          : fmt_duration_cast<subsecond_precision>(fractional).count();\"}, {\"line\": 1676, \"path\": \"include/fmt/chrono.h\", \"text\": \"  const auto d_as_common = fmt_duration_cast<CommonSecondsType>(d);\"}, {\"line\": 1678, \"path\": \"include/fmt/chrono.h\", \"text\": \"      fmt_duration_cast<std::chrono::seconds>(d_as_common);\"}, {\"line\": 1682, \"path\": \"include/fmt/chrono.h\", \"text\": \"      fmt_duration_cast<std::chrono::duration<Rep, std::milli>>(diff);\"}, {\"line\": 1685, \"path\": \"include/fmt/chrono.h\", \"text\": \"  auto s = fmt_duration_cast<std::chrono::seconds>(d);\"}, {\"line\": 1686, \"path\": \"include/fmt/chrono.h\", \"text\": \"  return fmt_duration_cast<std::chrono::milliseconds>(d - s);\"}, {\"line\": 1788, \"path\": \"include/fmt/chrono.h\", \"text\": \"    s = fmt_duration_cast<seconds>(std::chrono::duration<rep, Period>(val)"
+    },
+    {
+      "sample_id": "S22",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/state/repeat-1",
+      "job_key": "trial-135",
+      "tool_id": "s000012.t01",
+      "tool": "search_code",
+      "arguments": {
+        "query": "fmt::format(\"{:%",
+        "path": "test/chrono-test.cc"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "60fb6a6d9352d023c39124dd7274be149d0de2cd0bb11bab88c353f7be5e2a8c",
+      "raw_ref": {
+        "path": "worker/runs/21dec745604247f18e395ed2ba677f47/agent/tool-results/s000012.t01.json",
+        "sha256": "ceaa956fceb41d1913935e31d9a9c519c87717119550219beb70cb74c5f257e2",
+        "size_bytes": 5378
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13517394133",
+      "first_visible_proxy_tokens_o200k": 1710,
+      "repair_appearances": 12,
+      "delayed_500_candidate": true,
+      "classification": "候选：按目标选择搜索命中",
+      "review": "测试文件含大量时间格式化断言，1,710 Token 的命中清单有裁剪空间；保留相关格式符、期望值与行号。",
+      "excerpt": "{\"matches\": [{\"line\": 98, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(strftime(t1), fmt::format(\\\"{:%Y-%m-%d %H:%M:%S}\\\", t1));\"}, {\"line\": 102, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(strftime(t2), fmt::format(\\\"{:%Y-%m-%d %H:%M:%S}\\\", t2));\"}, {\"line\": 106, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"01.023\\\", fmt::format(\\\"{:%S}\\\", t3));\"}, {\"line\": 174, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"%\\\", fmt::format(\\\"{:%%}\\\", std::chrono::seconds(0)));\"}, {\"line\": 175, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"\\\\n\\\", fmt::format(\\\"{:%n}\\\", std::chrono::seconds(0)));\"}, {\"line\": 176, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"\\\\t\\\", fmt::format(\\\"{:%t}\\\", std::chrono::seconds(0)));\"}, {\"line\": 177, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"00\\\", fmt::format(\\\"{:%S}\\\", std::chrono::seconds(0)));\"}, {\"line\": 178, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"00\\\", fmt::format(\\\"{:%S}\\\", std::chrono::seconds(60)));\"}, {\"line\": 179, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"42\\\", fmt::format(\\\"{:%S}\\\", std::chrono::seconds(42)));\"}, {\"line\": 180, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"01.234\\\", fmt::format(\\\"{:%S}\\\", std::chrono::milliseconds(1234)));\"}, {\"line\": 181, \"path\": \"test/chrono-test.cc\", \"text\": \"  EXPECT_EQ(\\\"00\\\", fmt::format(\\\"{:%M}\\\", std::chrono::minutes(0)"
+    },
+    {
+      "sample_id": "S23",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3734/baseline/repeat-1",
+      "job_key": "trial-106",
+      "tool_id": "s000006.t01",
+      "tool": "search_code",
+      "arguments": {
+        "query": "formatter<bool",
+        "path": "include/fmt"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "e378bfc9c1864dda4b1ccbd903ddd546ca9c2610c84256b4a667b839641ef803",
+      "raw_ref": {
+        "path": "worker/runs/af7a8c5665cf43a0ba9beeadd16c1478/agent/tool-results/s000006.t01.json",
+        "sha256": "6c3f625db822aa0023fab4bdca1ba09996b56b919c579ac26c2b1e582a68cc10",
+        "size_bytes": 594
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13514840862",
+      "first_visible_proxy_tokens_o200k": 157,
+      "repair_appearances": 18,
+      "delayed_500_candidate": false,
+      "classification": "精确重复，收益较小",
+      "review": "与 s000004.t01 的源码、参数和结果一致，157 Token；引用替换仍有自身开销。",
+      "excerpt": "{\"matches\": [{\"line\": 506, \"path\": \"include/fmt/std.h\", \"text\": \"    : formatter<bool, Char> {\"}, {\"line\": 510, \"path\": \"include/fmt/std.h\", \"text\": \"    return formatter<bool, Char>::format(v, ctx);\"}, {\"line\": 529, \"path\": \"include/fmt/std.h\", \"text\": \"struct formatter<std::atomic_flag, Char> : formatter<bool, Char> {\"}, {\"line\": 533, \"path\": \"include/fmt/std.h\", \"text\": \"    return formatter<bool, Char>::format(v.test(), ctx);\"}]}"
+    },
+    {
+      "sample_id": "S24",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3734/baseline/repeat-1",
+      "job_key": "trial-106",
+      "tool_id": "s000001.t01",
+      "tool": "search_code",
+      "arguments": {
+        "query": "formatter<bool>",
+        "path": "include/fmt/format.h"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "e378bfc9c1864dda4b1ccbd903ddd546ca9c2610c84256b4a667b839641ef803",
+      "raw_ref": {
+        "path": "worker/runs/af7a8c5665cf43a0ba9beeadd16c1478/agent/tool-results/s000001.t01.json",
+        "sha256": "3f36d5635473a43bd48a29437500d474735e3c83d07e95e641c144294563d71d",
+        "size_bytes": 195
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13514840862",
+      "first_visible_proxy_tokens_o200k": 47,
+      "repair_appearances": 23,
+      "delayed_500_candidate": false,
+      "classification": "保留查询及空结果",
+      "review": "formatter<bool> 在指定路径下没有命中，47 Token 的负证据应连同查询身份保留。",
+      "excerpt": "{\"matches\": []}"
+    },
+    {
+      "sample_id": "S25",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/combined/repeat-1",
+      "job_key": "trial-104",
+      "tool_id": "s000010.t01",
+      "tool": "search_code",
+      "arguments": {
+        "query": "day_of_year",
+        "path": "."
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+      "raw_ref": {
+        "path": "worker/runs/453e1b49d1954270baa8e04478fad816/agent/tool-results/s000010.t01.json",
+        "sha256": "4df8a2939e22523f30d295f007da3d5aceb1ef30efbe88626579773128c69e53",
+        "size_bytes": 639
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13514495680",
+      "first_visible_proxy_tokens_o200k": 182,
+      "repair_appearances": 12,
+      "delayed_500_candidate": false,
+      "classification": "保留不同查询语义",
+      "review": "回执 payload 与 s000001.t01 相同，但查询参数不同；两个查询身份都承载搜索路径信息。",
+      "excerpt": "{\"matches\": [{\"line\": 767, \"path\": \"include/fmt/chrono.h\", \"text\": \"      handler.on_day_of_year();\"}, {\"line\": 938, \"path\": \"include/fmt/chrono.h\", \"text\": \"  FMT_CONSTEXPR void on_day_of_year() { unsupported(); }\"}, {\"line\": 981, \"path\": \"include/fmt/chrono.h\", \"text\": \"  FMT_CONSTEXPR void on_day_of_year() {}\"}, {\"line\": 1524, \"path\": \"include/fmt/chrono.h\", \"text\": \"  void on_day_of_year() {\"}, {\"line\": 1887, \"path\": \"include/fmt/chrono.h\", \"text\": \"  void on_day_of_year() {}\"}]}"
+    },
+    {
+      "sample_id": "S26",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-1361/dedup/repeat-2",
+      "job_key": "trial-158",
+      "tool_id": "s000014.t01",
+      "tool": "search_code",
+      "arguments": {
+        "query": "grisu_format",
+        "path": "include/fmt/format-inl.h"
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "e597304b4a6c75818b120cadfbaff10426e5b5dcbe939c5dbb3f3f0ea8128af5",
+      "raw_ref": {
+        "path": "worker/runs/dd21e4a1f94b4d5db613c0664746e07a/agent/tool-results/s000014.t01.json",
+        "sha256": "00b3d1e05d99e333c98952d770cd527ab1ad979cb9a1af7c6280f386191ce082",
+        "size_bytes": 317
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13519860233",
+      "first_visible_proxy_tokens_o200k": 82,
+      "repair_appearances": 10,
+      "delayed_500_candidate": false,
+      "classification": "精确重复，收益较小",
+      "review": "与 s000006.t01 的源码、查询与单个 grisu_format 命中相同，82 Token；替换长度需计入引用开销。",
+      "excerpt": "{\"matches\": [{\"line\": 1017, \"path\": \"include/fmt/format-inl.h\", \"text\": \"bool grisu_format(Double value, buffer<char>& buf, int precision,\"}]}"
+    },
+    {
+      "sample_id": "S27",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/state/repeat-2",
+      "job_key": "trial-128",
+      "tool_id": "s000009.t01",
+      "tool": "read_file",
+      "arguments": {
+        "path": "include/fmt/chrono.h",
+        "start_line": 1725,
+        "max_lines": 145
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+      "raw_ref": {
+        "path": "worker/runs/bd9b7c1acb5d496cbabac44e44c83754/agent/tool-results/s000009.t01.json",
+        "sha256": "aa648cf5eb322adf0e93b608fee6c94eba4306208f57c814884db6129d0388ac",
+        "size_bytes": 4468
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13517632875",
+      "first_visible_proxy_tokens_o200k": 1367,
+      "repair_appearances": 11,
+      "delayed_500_candidate": true,
+      "classification": "候选：源码版本更新",
+      "review": "后续 read_file 读取了更新的 chrono.h，数值行号区间相交 25 行。旧片段涵盖 145 行，需结合补丁及定位目标确定保留范围。",
+      "excerpt": "  if (const_check(Period::den != 1)) {\n    *out++ = '/';\n    out = write<Char>(out, Period::den);\n  }\n  *out++ = ']';\n  *out++ = 's';\n  return out;\n}\n\nclass get_locale {\n private:\n  union {\n    std::locale locale_;\n  };\n  bool has_locale_ = false;\n\n public:\n  get_locale(bool localized, locale_ref loc) : has_locale_(localized) {\n    if (localized)\n      ::new (&locale_) std::locale(loc.template get<std::locale>());\n  }\n  ~get_locale() {\n    if (has_locale_) locale_.~locale();\n  }\n  operator const std::locale&() const {\n    return has_locale_ ? locale_ : get_classic_locale();\n  }\n};\n\ntemplate <t"
+    },
+    {
+      "sample_id": "S28",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2310/diagnostics/repeat-1",
+      "job_key": "trial-001",
+      "tool_id": "s000004.t01",
+      "tool": "read_file",
+      "arguments": {
+        "path": "include/fmt/format.h",
+        "start_line": 1540,
+        "max_lines": 90
+      },
+      "tool_ok": true,
+      "test_passed": null,
+      "check_mode": null,
+      "source_tree_sha256": "5eab8dd90c916093e74a620abab7248efed3febf6021a962b37802907c8d48d8",
+      "raw_ref": {
+        "path": "worker/runs/088c9d14fb824d6dbed38677850ffc47/agent/tool-results/s000004.t01.json",
+        "sha256": "b0990be1a4f8b0096fa963b3bb80c9ddb90615be53d8573382fced3ea1a9c4f0",
+        "size_bytes": 4245
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13503376927",
+      "first_visible_proxy_tokens_o200k": 1076,
+      "repair_appearances": 20,
+      "delayed_500_candidate": true,
+      "classification": "候选：源码版本更新",
+      "review": "后续 read_file 读取更新的 format.h，数值行号区间相交 26 行。保留版本哈希和范围，逐段判断旧证据用途。",
+      "excerpt": "                             const basic_format_specs<Char>& specs,\n                             locale_ref loc) {\n  return write_int(out, make_write_int_arg(value, specs.sign), specs, loc);\n}\n// An inlined version of write used in format string compilation.\ntemplate <typename Char, typename OutputIt, typename T,\n          FMT_ENABLE_IF(is_integral<T>::value &&\n                        !std::is_same<T, bool>::value &&\n                        !std::is_same<OutputIt, buffer_appender<Char>>::value)>\nFMT_CONSTEXPR FMT_INLINE OutputIt write(OutputIt out, T value,\n                                    "
+    },
+    {
+      "sample_id": "S29",
+      "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3727/diagnostics/repeat-1",
+      "job_key": "trial-110",
+      "tool_id": "s000010.t01",
+      "tool": "run_command",
+      "arguments": {
+        "name": "reproduce"
+      },
+      "tool_ok": true,
+      "test_passed": false,
+      "check_mode": "reproduce",
+      "source_tree_sha256": "f1d81ce3a5526b396aa5a87c940104974c47bbade4634ac41b77b7ef77fdb489",
+      "raw_ref": {
+        "path": "worker/runs/109a7ff3bcfc43b3ae4e36b06f69e7dc/agent/tool-results/s000010.t01.json",
+        "sha256": "3e57e22dfce9fbca0a6e1b5da19f3251f3a0c93f40f19902ecac212fc8c9c20a",
+        "size_bytes": 6061
+      },
+      "artifact_url": "https://github.com/lilong555/ReproPatch/actions/runs/42219312911/artifacts/13514931752",
+      "first_visible_proxy_tokens_o200k": 1993,
+      "repair_appearances": 13,
+      "delayed_500_candidate": true,
+      "classification": "候选：构建进度折叠与证据更新",
+      "review": "构建失败导致 chrono-test 尚未执行，后继 reproduce 仍未通过；进度行可汇总，主编译错误、not_run 与源码版本应保留。",
+      "excerpt": "[1/65] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o\n[2/65] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o\n[3/65] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o\n[4/65] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o\n[5/65] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o\n[6/65] Linking CXX static library libfmt.a\n[7/65] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o\n[8/65] Building CXX object test/CMakeFiles/args-test.dir/args-test.cc.o\n[9/65] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o\n[10/65] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o\n[11/65] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o\n[12/65] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o\n[13/65] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o\n[14/65] Building CXX object test/CMakeFiles/format-impl-test.dir/header-only-test.cc.o\n[15/65] Building CXX object test/CMakeFiles/format-impl-test.dir/test-main.cc.o\n[16/65] Building CXX object test/CMakeFiles/format-impl-test.dir/util.cc.o\n[17/65] Building CXX object test/CMakeFiles/format-impl-test.dir/gtest-extra.cc.o\n[18/65] Building CXX object test/CMakeFiles/format-impl-test.dir/__/src/os.cc.o\n[19/65] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test."
+    }
+  ]
+}

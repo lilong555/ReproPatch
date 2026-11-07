@@ -1,0 +1,271 @@
+{
+  "arms": {
+    "baseline": {
+      "audit_statuses": {
+        "verified": 38
+      },
+      "candidate_available": 38,
+      "candidate_identity_verified": 38,
+      "cold_failures": 4,
+      "cold_identity_verified": 38,
+      "cold_passes": 34,
+      "disagreement_categories": {},
+      "eligible_exploration_pass": 30,
+      "expected": 38,
+      "exploration_checks": 72,
+      "exploration_cold_crosstab": {
+        "final_patch_not_tested": {
+          "cold_fail": 2,
+          "cold_pass": 3
+        },
+        "no_exploration_check": {
+          "cold_fail": 2,
+          "cold_pass": 1
+        },
+        "passed": {
+          "cold_fail": 0,
+          "cold_pass": 30
+        }
+      },
+      "false_accept_fraction": 0.0,
+      "false_accept_jobs": [],
+      "false_accepts": 0,
+      "final_check_statuses": {
+        "final_patch_not_tested": 5,
+        "no_exploration_check": 3,
+        "passed": 30
+      },
+      "final_patch_exploratorily_checked": 30,
+      "final_source_identity_verified": 38
+    },
+    "combined": {
+      "audit_statuses": {
+        "verified": 38
+      },
+      "candidate_available": 38,
+      "candidate_identity_verified": 38,
+      "cold_failures": 8,
+      "cold_identity_verified": 38,
+      "cold_passes": 30,
+      "disagreement_categories": {},
+      "eligible_exploration_pass": 29,
+      "expected": 38,
+      "exploration_checks": 75,
+      "exploration_cold_crosstab": {
+        "build_failed": {
+          "cold_fail": 1,
+          "cold_pass": 0
+        },
+        "final_patch_not_tested": {
+          "cold_fail": 2,
+          "cold_pass": 0
+        },
+        "no_exploration_check": {
+          "cold_fail": 2,
+          "cold_pass": 1
+        },
+        "passed": {
+          "cold_fail": 0,
+          "cold_pass": 29
+        },
+        "tests_failed": {
+          "cold_fail": 3,
+          "cold_pass": 0
+        }
+      },
+      "false_accept_fraction": 0.0,
+      "false_accept_jobs": [],
+      "false_accepts": 0,
+      "final_check_statuses": {
+        "build_failed": 1,
+        "final_patch_not_tested": 2,
+        "no_exploration_check": 3,
+        "passed": 29,
+        "tests_failed": 3
+      },
+      "final_patch_exploratorily_checked": 33,
+      "final_source_identity_verified": 38
+    },
+    "dedup": {
+      "audit_statuses": {
+        "verified": 38
+      },
+      "candidate_available": 38,
+      "candidate_identity_verified": 38,
+      "cold_failures": 5,
+      "cold_identity_verified": 38,
+      "cold_passes": 33,
+      "disagreement_categories": {},
+      "eligible_exploration_pass": 33,
+      "expected": 38,
+      "exploration_checks": 79,
+      "exploration_cold_crosstab": {
+        "no_exploration_check": {
+          "cold_fail": 3,
+          "cold_pass": 0
+        },
+        "passed": {
+          "cold_fail": 0,
+          "cold_pass": 33
+        },
+        "tests_failed": {
+          "cold_fail": 2,
+          "cold_pass": 0
+        }
+      },
+      "false_accept_fraction": 0.0,
+      "false_accept_jobs": [],
+      "false_accepts": 0,
+      "final_check_statuses": {
+        "no_exploration_check": 3,
+        "passed": 33,
+        "tests_failed": 2
+      },
+      "final_patch_exploratorily_checked": 35,
+      "final_source_identity_verified": 38
+    },
+    "diagnostics": {
+      "audit_statuses": {
+        "verified": 38
+      },
+      "candidate_available": 38,
+      "candidate_identity_verified": 38,
+      "cold_failures": 7,
+      "cold_identity_verified": 38,
+      "cold_passes": 31,
+      "disagreement_categories": {},
+      "eligible_exploration_pass": 29,
+      "expected": 38,
+      "exploration_checks": 76,
+      "exploration_cold_crosstab": {
+        "final_patch_not_tested": {
+          "cold_fail": 2,
+          "cold_pass": 2
+        },
+        "no_exploration_check": {
+          "cold_fail": 3,
+          "cold_pass": 0
+        },
+        "passed": {
+          "cold_fail": 0,
+          "cold_pass": 29
+        },
+        "tests_failed": {
+          "cold_fail": 2,
+          "cold_pass": 0
+        }
+      },
+      "false_accept_fraction": 0.0,
+      "false_accept_jobs": [],
+      "false_accepts": 0,
+      "final_check_statuses": {
+        "final_patch_not_tested": 4,
+        "no_exploration_check": 3,
+        "passed": 29,
+        "tests_failed": 2
+      },
+      "final_patch_exploratorily_checked": 31,
+      "final_source_identity_verified": 38
+    },
+    "state": {
+      "audit_statuses": {
+        "verified": 38
+      },
+      "candidate_available": 38,
+      "candidate_identity_verified": 38,
+      "cold_failures": 6,
+      "cold_identity_verified": 38,
+      "cold_passes": 32,
+      "disagreement_categories": {},
+      "eligible_exploration_pass": 32,
+      "expected": 38,
+      "exploration_checks": 75,
+      "exploration_cold_crosstab": {
+        "final_patch_not_tested": {
+          "cold_fail": 2,
+          "cold_pass": 0
+        },
+        "no_exploration_check": {
+          "cold_fail": 2,
+          "cold_pass": 0
+        },
+        "passed": {
+          "cold_fail": 0,
+          "cold_pass": 32
+        },
+        "tests_failed": {
+          "cold_fail": 2,
+          "cold_pass": 0
+        }
+      },
+      "false_accept_fraction": 0.0,
+      "false_accept_jobs": [],
+      "false_accepts": 0,
+      "final_check_statuses": {
+        "final_patch_not_tested": 2,
+        "no_exploration_check": 2,
+        "passed": 32,
+        "tests_failed": 2
+      },
+      "final_patch_exploratorily_checked": 34,
+      "final_source_identity_verified": 38
+    }
+  },
+  "input_hashes": {
+    "artifacts.json": "1c43cf47b38847baa1f62451073e6518cd22c7a67a86b7d7ca07215a3bd45415",
+    "audit_false_positives.py": "1cf5ec79c21e456603059e32d0ee5adcc730c7f025d0d163bb4f2264688eac62",
+    "results.json": "727b14cb9e23ede27c6b4f14470b1e5e0eb5d5d8b99c64d9229e13ef27d5e48e"
+  },
+  "overall": {
+    "audit_statuses": {
+      "verified": 190
+    },
+    "candidate_available": 190,
+    "candidate_identity_verified": 190,
+    "cold_failures": 30,
+    "cold_identity_verified": 190,
+    "cold_passes": 160,
+    "disagreement_categories": {},
+    "eligible_exploration_pass": 153,
+    "expected": 190,
+    "exploration_checks": 377,
+    "exploration_cold_crosstab": {
+      "build_failed": {
+        "cold_fail": 1,
+        "cold_pass": 0
+      },
+      "final_patch_not_tested": {
+        "cold_fail": 8,
+        "cold_pass": 5
+      },
+      "no_exploration_check": {
+        "cold_fail": 12,
+        "cold_pass": 2
+      },
+      "passed": {
+        "cold_fail": 0,
+        "cold_pass": 153
+      },
+      "tests_failed": {
+        "cold_fail": 9,
+        "cold_pass": 0
+      }
+    },
+    "false_accept_fraction": 0.0,
+    "false_accept_jobs": [],
+    "false_accepts": 0,
+    "final_check_statuses": {
+      "build_failed": 1,
+      "final_patch_not_tested": 13,
+      "no_exploration_check": 14,
+      "passed": 153,
+      "tests_failed": 9
+    },
+    "final_patch_exploratorily_checked": 163,
+    "final_source_identity_verified": 190
+  },
+  "schema": "repropatch.final-patch-verification-audit.v1",
+  "scope": "full",
+  "source_commit": "2597016d80ea47c8bbc06c93598093c307a24ee7",
+  "source_run_id": 42219312911
+}

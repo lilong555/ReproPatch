@@ -1,5 +1,5 @@
 name: Formal Luna max benchmark
-run-name: ${{ inputs.cross_stage == 'localization-ablation' && format('Localization A/B/C · {0} · 8 workers', inputs.context_scope) || inputs.cross_stage == 'context-ablation' && format('Context ablation · {0} · 8 workers', inputs.context_scope) || inputs.cross_stage == 'inspect-evidence' && '资格证据读取 · 0 模型请求' || inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || inputs.cross_stage == 'native-trend' && 'Luna max · 三臂原生对照 · 请求总量开放' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
+run-name: ${{ inputs.cross_stage == 'recovery-costs' && 'Checkpoint recovery · 4 pairs · 1 worker' || inputs.cross_stage == 'localization-ablation' && format('Localization A/B/C · {0} · 8 workers', inputs.context_scope) || inputs.cross_stage == 'context-ablation' && format('Context ablation · {0} · 8 workers', inputs.context_scope) || inputs.cross_stage == 'inspect-evidence' && '资格证据读取 · 0 模型请求' || inputs.cross_stage == 'inspect-native' && '官方环境读取 · 0 模型请求' || inputs.cross_stage == 'freeze' && '正式协议冻结 · 0 模型请求' || inputs.cross_stage == 'rescore' && '冻结候选冷评分 · 0 模型请求' || inputs.cross_stage == 'qualify' && 'O3 Docker 资格 · 0 模型请求' || inputs.cross_stage == 'native-trend' && 'Luna max · 三臂原生对照 · 请求总量开放' || format('Luna max · {0} requests', inputs.authorization) }} · ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         description: '跨仓库执行阶段；legacy 使用已有实验协议'
         required: false
         type: choice
-        options: ['legacy', 'qualify', 'inspect-native', 'inspect-evidence', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore', 'native-trend', 'context-ablation', 'localization-ablation']
+        options: ['legacy', 'qualify', 'inspect-native', 'inspect-evidence', 'freeze', 'calibrate', 'development', 'formal', 'repeat', 'infrastructure-revalidation', 'rescore', 'native-trend', 'context-ablation', 'localization-ablation', 'recovery-costs']
         default: 'legacy'
       cross_instances:
         description: '跨仓库资格实例，逗号分隔'
@@ -29,7 +29,7 @@ on:
         description: 'unlimited：三臂请求总量开放；数值选项用于历史冻结协议'
         required: true
         type: choice
-        options: ['12', '480', '3600', '720', '2520', '912', '504', '2016', 'unlimited']
+        options: ['12', '192', '480', '3600', '720', '2520', '912', '504', '2016', 'unlimited']
         default: '12'
       context_scope:
         description: 'Context: 5/190 attempts; localization: smoke or smoke then 114 full attempts'
@@ -63,7 +63,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ${{ (inputs.cross_stage == 'context-ablation' || inputs.cross_stage == 'localization-ablation') && 'context-ablation-cpa-8' || (inputs.cross_stage == 'qualify' || inputs.cross_stage == 'inspect-native' || inputs.cross_stage == 'inspect-evidence' || inputs.cross_stage == 'freeze' || inputs.cross_stage == 'rescore') && format('cpp-environment-{0}', github.run_id) || (inputs.cross_stage != 'legacy' && inputs.cross_stage != '') && 'cross-cpa-model-3' || format('formal-luna-max-{0}', inputs.authorization) }}
+  group: ${{ (inputs.cross_stage == 'context-ablation' || inputs.cross_stage == 'localization-ablation' || inputs.cross_stage == 'recovery-costs') && 'context-ablation-cpa-8' || (inputs.cross_stage == 'qualify' || inputs.cross_stage == 'inspect-native' || inputs.cross_stage == 'inspect-evidence' || inputs.cross_stage == 'freeze' || inputs.cross_stage == 'rescore') && format('cpp-environment-{0}', github.run_id) || (inputs.cross_stage != 'legacy' && inputs.cross_stage != '') && 'cross-cpa-model-3' || format('formal-luna-max-{0}', inputs.authorization) }}
   cancel-in-progress: false
   queue: max
 
@@ -72,6 +72,12 @@ env:
   FORMAL_PROTOCOL: ${{ inputs.revalidation && inputs.revalidation_protocol || inputs.recovery && 'benchmarks/context-recovery-protocol-v3.json' || inputs.authorization == '12' && 'benchmarks/context-calibration-protocol.json' || inputs.authorization == '480' && 'benchmarks/context-pilot-protocol.json' || inputs.authorization == '2520' && 'benchmarks/context-formal-protocol.json' || inputs.authorization == '504' && 'benchmarks/shell-only-full-protocol.json' || inputs.authorization == '2016' && 'benchmarks/comparison-full-24-protocol.json' || 'benchmarks/formal-max-full-180s-protocol.json' }}
 
 jobs:
+  recovery-costs:
+    if: inputs.cross_stage == 'recovery-costs'
+    uses: ./.github/workflows/recovery-costs.yml
+    with:
+      protocol: ${{ inputs.cross_protocol == 'benchmarks/cross-repo/development-protocol.json' && 'benchmarks/recovery-costs-20261107/live-protocol.json' || inputs.cross_protocol }}
+    secrets: inherit
   localization-smoke:
     if: inputs.cross_stage == 'localization-ablation'
     uses: ./.github/workflows/localization-ablation.yml
@@ -96,7 +102,7 @@ jobs:
       protocol: ${{ inputs.cross_protocol == 'benchmarks/cross-repo/development-protocol.json' && 'benchmarks/context-ablation/protocol.json' || inputs.cross_protocol }}
     secrets: inherit
   cross-repository:
-    if: inputs.cross_stage != 'legacy' && inputs.cross_stage != '' && inputs.cross_stage != 'context-ablation' && inputs.cross_stage != 'localization-ablation'
+    if: inputs.cross_stage != 'legacy' && inputs.cross_stage != '' && inputs.cross_stage != 'context-ablation' && inputs.cross_stage != 'localization-ablation' && inputs.cross_stage != 'recovery-costs'
     uses: ./.github/workflows/cross-repository.yml
     permissions:
       contents: read

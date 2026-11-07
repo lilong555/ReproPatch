@@ -1,0 +1,505 @@
+{
+  "dataset": "ByteDance-Seed/Multi-SWE-bench-flash",
+  "revision": "b0485dbebaf8a1317ebf140e80e6fc6c02d3502b",
+  "url": "https://huggingface.co/datasets/ByteDance-Seed/Multi-SWE-bench-flash/resolve/b0485dbebaf8a1317ebf140e80e6fc6c02d3502b/multi_swe_bench_flash.jsonl",
+  "sha256": "48d6d02cc976a71a06b494cc60581d92e82c06c2793c0d412c52c63e6956bebe",
+  "total_rows": 300,
+  "language_counts": {
+    "c": 40,
+    "rust": 45,
+    "typescript": 45,
+    "java": 40,
+    "go": 45,
+    "javascript": 45,
+    "c++": 40
+  },
+  "cpp_rows": 40,
+  "cpp_repository_counts": {
+    "catchorg/Catch2": 12,
+    "simdjson/simdjson": 6,
+    "nlohmann/json": 4,
+    "fmtlib/fmt": 18
+  },
+  "cpp": [
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 2849,
+      "instance_id": "catchorg__Catch2-2849",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:devel",
+        "ref": "devel",
+        "sha": "7ce35799767de7b9c6ba836c72e479c5f70219a3"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 2723,
+      "instance_id": "catchorg__Catch2-2723",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:devel",
+        "ref": "devel",
+        "sha": "4acc51828f7f93f3b2058a63f54d112af4034503"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 2394,
+      "instance_id": "catchorg__Catch2-2394",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:devel",
+        "ref": "devel",
+        "sha": "1a8a793178d50b74b0f9a0adb3eec937b61039a9"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 2288,
+      "instance_id": "catchorg__Catch2-2288",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:v2.x",
+        "ref": "v2.x",
+        "sha": "85c9544fa4c9625b9656d9bd765e54f8e639287f"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 2187,
+      "instance_id": "catchorg__Catch2-2187",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:devel",
+        "ref": "devel",
+        "sha": "2cb5210caf35bf8fc29ade2e5570cc0f37537951"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 2128,
+      "instance_id": "catchorg__Catch2-2128",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:devel",
+        "ref": "devel",
+        "sha": "65c9a1d31a338f28ef93cd61c475efc40f6cc42e"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 1616,
+      "instance_id": "catchorg__Catch2-1616",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:master",
+        "ref": "master",
+        "sha": "00347f1e79260e76d5072cca5b3636868397dda5"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 1614,
+      "instance_id": "catchorg__Catch2-1614",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:master",
+        "ref": "master",
+        "sha": "9c741fe96073ed620ffc032afbed1f3c789d2b68"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 1609,
+      "instance_id": "catchorg__Catch2-1609",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:master",
+        "ref": "master",
+        "sha": "bd703dd74be7fd2413eb0c01662a491bcebea430"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 1608,
+      "instance_id": "catchorg__Catch2-1608",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:master",
+        "ref": "master",
+        "sha": "979bbf03bb00bc55ca09783791b5091a2247df68"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 1448,
+      "instance_id": "catchorg__Catch2-1448",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:master",
+        "ref": "master",
+        "sha": "62460fafe6b54c3173bc5cbc46d05a5f071017ff"
+      }
+    },
+    {
+      "org": "catchorg",
+      "repo": "Catch2",
+      "number": 1422,
+      "instance_id": "catchorg__Catch2-1422",
+      "language": "c++",
+      "base": {
+        "label": "catchorg:master",
+        "ref": "master",
+        "sha": "1faccd601d904a951142d8fba82914a8325b764e"
+      }
+    },
+    {
+      "org": "simdjson",
+      "repo": "simdjson",
+      "number": 644,
+      "instance_id": "simdjson__simdjson-644",
+      "language": "c++",
+      "base": {
+        "label": "simdjson:master",
+        "ref": "master",
+        "sha": "d4f4608dab2c70ceed233b818e1563581bc415a7"
+      }
+    },
+    {
+      "org": "simdjson",
+      "repo": "simdjson",
+      "number": 559,
+      "instance_id": "simdjson__simdjson-559",
+      "language": "c++",
+      "base": {
+        "label": "simdjson:master",
+        "ref": "master",
+        "sha": "032936a7b54f3c705af3b60b798045c940a2eb86"
+      }
+    },
+    {
+      "org": "simdjson",
+      "repo": "simdjson",
+      "number": 545,
+      "instance_id": "simdjson__simdjson-545",
+      "language": "c++",
+      "base": {
+        "label": "simdjson:master",
+        "ref": "master",
+        "sha": "e4e89fe27a37a1abf70387d07adfb3b1b9f115ef"
+      }
+    },
+    {
+      "org": "simdjson",
+      "repo": "simdjson",
+      "number": 543,
+      "instance_id": "simdjson__simdjson-543",
+      "language": "c++",
+      "base": {
+        "label": "simdjson:master",
+        "ref": "master",
+        "sha": "d140bc23f547e7cca43f85bf0ba1004e26e228e3"
+      }
+    },
+    {
+      "org": "simdjson",
+      "repo": "simdjson",
+      "number": 524,
+      "instance_id": "simdjson__simdjson-524",
+      "language": "c++",
+      "base": {
+        "label": "simdjson:master",
+        "ref": "master",
+        "sha": "0b21203141bd31229c77e4b1e8b22f523a4a69e0"
+      }
+    },
+    {
+      "org": "simdjson",
+      "repo": "simdjson",
+      "number": 485,
+      "instance_id": "simdjson__simdjson-485",
+      "language": "c++",
+      "base": {
+        "label": "simdjson:master",
+        "ref": "master",
+        "sha": "76c706644a245726d263950065219c45bd156d1a"
+      }
+    },
+    {
+      "org": "nlohmann",
+      "repo": "json",
+      "number": 609,
+      "instance_id": "nlohmann__json-609",
+      "language": "c++",
+      "base": {
+        "label": "nlohmann:develop",
+        "ref": "develop",
+        "sha": "92ef19696a18187112512b8361b822d817d01e95"
+      }
+    },
+    {
+      "org": "nlohmann",
+      "repo": "json",
+      "number": 545,
+      "instance_id": "nlohmann__json-545",
+      "language": "c++",
+      "base": {
+        "label": "nlohmann:develop",
+        "ref": "develop",
+        "sha": "d07596a0ea5e66e2677568d4c45b8d9147c9173b"
+      }
+    },
+    {
+      "org": "nlohmann",
+      "repo": "json",
+      "number": 508,
+      "instance_id": "nlohmann__json-508",
+      "language": "c++",
+      "base": {
+        "label": "nlohmann:develop",
+        "ref": "develop",
+        "sha": "100bf3ef2cb6893c2384bc0114e3b6592636d2d0"
+      }
+    },
+    {
+      "org": "nlohmann",
+      "repo": "json",
+      "number": 18,
+      "instance_id": "nlohmann__json-18",
+      "language": "c++",
+      "base": {
+        "label": "nlohmann:master",
+        "ref": "master",
+        "sha": "46474010307f209ddfb1454844f8b4432ffe6f11"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 3537,
+      "instance_id": "fmtlib__fmt-3537",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "661b23edeb52d400cf5812e7330f14f05c072fab"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 3279,
+      "instance_id": "fmtlib__fmt-3279",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "f89cd276f7dead38f11cebc73d1e91a1b1b38124"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 3272,
+      "instance_id": "fmtlib__fmt-3272",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "bfc0924eacaa3c6163eb872c8948098565464192"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 3158,
+      "instance_id": "fmtlib__fmt-3158",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "80f8d34427d40ec5e7ce3b10ededc46bd4bd5759"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2940,
+      "instance_id": "fmtlib__fmt-2940",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "eaa8efb950be5d8f1803a99b06f76cf398c67cb8"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2610,
+      "instance_id": "fmtlib__fmt-2610",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "19cac63fe4b4d8fe6a4ced28de16a68659cf9035"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2394,
+      "instance_id": "fmtlib__fmt-2394",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "cfc05e05f08dc0b6fe619831c96f00ee27d99613"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2317,
+      "instance_id": "fmtlib__fmt-2317",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "7612f18dc8e0112e64e0845a1ebe9da6cfb8a123"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2310,
+      "instance_id": "fmtlib__fmt-2310",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "bc13c6de390751ecf8daa1b1ce8f775d104fdc65"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2292,
+      "instance_id": "fmtlib__fmt-2292",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "0dd91e20d5e8c7c41154acbb4fbe6b9d37688ea3"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2158,
+      "instance_id": "fmtlib__fmt-2158",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "835b910e7d758efdfdce9f23df1b190deb3373db"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 2070,
+      "instance_id": "fmtlib__fmt-2070",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "e737672614dfad3a6df23ffe3f2348fcfa4d3944"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 1837,
+      "instance_id": "fmtlib__fmt-1837",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "c7e6d8afb06cec7b8244f963dc081daf7e70f7f6"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 1663,
+      "instance_id": "fmtlib__fmt-1663",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "8d9d528bf52c60864802844e8acf16db09dae19a"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 1171,
+      "instance_id": "fmtlib__fmt-1171",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 974,
+      "instance_id": "fmtlib__fmt-974",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "7f7504b3f532c6cd7d6de405241f774df6b4b666"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 967,
+      "instance_id": "fmtlib__fmt-967",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "bf1f1c73e39c7ee6581ee0d5bb2471856a14bdb2"
+      }
+    },
+    {
+      "org": "fmtlib",
+      "repo": "fmt",
+      "number": 493,
+      "instance_id": "fmtlib__fmt-493",
+      "language": "c++",
+      "base": {
+        "label": "fmtlib:master",
+        "ref": "master",
+        "sha": "c03f55ec3a0511611fa7f0537f858544a0ed03bd"
+      }
+    }
+  ]
+}

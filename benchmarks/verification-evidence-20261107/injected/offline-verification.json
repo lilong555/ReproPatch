@@ -1,0 +1,87 @@
+{
+  "image_id_verified": true,
+  "new_model_requests": 0,
+  "production_source_files_verified": 36,
+  "registered_repeats": 3,
+  "rows": [
+    {
+      "candidate_sha256": "4e1b21918db8e478880c173952d23abfc98fc8065af9aff1a380b00201784f86",
+      "checks": {
+        "changed_source_builds": true,
+        "cold_cleanup_confirmed": true,
+        "cold_compiler_cache_disabled": true,
+        "cold_xml_verified": true,
+        "distinct_cold_container": true,
+        "exploration_cleanup_confirmed": true,
+        "fresh_binary_differs": true,
+        "frozen_patch_replayed": true,
+        "old_binary_four_tests_pass": true,
+        "old_binary_unchanged_after_source_edit": true,
+        "production_rejects_regression": true,
+        "protected_test_inputs_unchanged": true,
+        "rebuilt_empty_test_fails": true,
+        "same_final_source": true
+      },
+      "outcome": "REJECTED",
+      "persisted_events": 73,
+      "reason_code": "REGRESSION_FAILED",
+      "repeat": 1,
+      "run_id": "8f9e6ae80c55476fa98d83aa9e656138",
+      "source_tree_sha256": "b19b71907976654b790c3f8a3dfcb9e7695e0ae0636e616355fc168e77c9264c"
+    },
+    {
+      "candidate_sha256": "4e1b21918db8e478880c173952d23abfc98fc8065af9aff1a380b00201784f86",
+      "checks": {
+        "changed_source_builds": true,
+        "cold_cleanup_confirmed": true,
+        "cold_compiler_cache_disabled": true,
+        "cold_xml_verified": true,
+        "distinct_cold_container": true,
+        "exploration_cleanup_confirmed": true,
+        "fresh_binary_differs": true,
+        "frozen_patch_replayed": true,
+        "old_binary_four_tests_pass": true,
+        "old_binary_unchanged_after_source_edit": true,
+        "production_rejects_regression": true,
+        "protected_test_inputs_unchanged": true,
+        "rebuilt_empty_test_fails": true,
+        "same_final_source": true
+      },
+      "outcome": "REJECTED",
+      "persisted_events": 73,
+      "reason_code": "REGRESSION_FAILED",
+      "repeat": 2,
+      "run_id": "f76eda9819184da7b93fef9ff93d3cd4",
+      "source_tree_sha256": "b19b71907976654b790c3f8a3dfcb9e7695e0ae0636e616355fc168e77c9264c"
+    },
+    {
+      "candidate_sha256": "4e1b21918db8e478880c173952d23abfc98fc8065af9aff1a380b00201784f86",
+      "checks": {
+        "changed_source_builds": true,
+        "cold_cleanup_confirmed": true,
+        "cold_compiler_cache_disabled": true,
+        "cold_xml_verified": true,
+        "distinct_cold_container": true,
+        "exploration_cleanup_confirmed": true,
+        "fresh_binary_differs": true,
+        "frozen_patch_replayed": true,
+        "old_binary_four_tests_pass": true,
+        "old_binary_unchanged_after_source_edit": true,
+        "production_rejects_regression": true,
+        "protected_test_inputs_unchanged": true,
+        "rebuilt_empty_test_fails": true,
+        "same_final_source": true
+      },
+      "outcome": "REJECTED",
+      "persisted_events": 73,
+      "reason_code": "REGRESSION_FAILED",
+      "repeat": 3,
+      "run_id": "0a47d35fd4ef4bc5b4d42e30f957adf1",
+      "source_tree_sha256": "b19b71907976654b790c3f8a3dfcb9e7695e0ae0636e616355fc168e77c9264c"
+    }
+  ],
+  "scenario_count": 1,
+  "schema": "repropatch.stale-build-offline-audit.v1",
+  "script_sha256_verified": true,
+  "verified_repeats": 3
+}

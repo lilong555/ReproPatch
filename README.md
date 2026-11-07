@@ -72,6 +72,8 @@ flowchart LR
 
 [运行时实验结果](docs/EXPERIMENT_RESULTS.md)记录原始轨迹与微基准；[上下文消融](benchmarks/context-ablation/README.md)提供固定分组、触发观测与复算入口。
 
+[190 条轨迹的负载审计](benchmarks/context-opportunities-20261107/README.md)显示，baseline 38/38 存在较早的大回执候选，48K 压缩水位覆盖 0/38；文件回执贡献候选后续携带量的 86.3%。[最终补丁审计](benchmarks/verification-evidence-20261107/README.md)记录自然误接受 0/153；另一个旧二进制污染场景重复三次，生产独立冷验收均检出回归。报告保留逐题结果、源码与测试身份、供应方用量和原始轨迹。
+
 ## 执行反馈驱动定位
 
 源码版提供文件级摘要、源码窗口下钻和执行证据排序。`search_files` 在授权源码上聚合字面匹配，返回文件、命中行及续查游标；`feedback` 模式依据模型已收到的编译诊断、测试断言和栈位置重排同一候选池。源码变化使旧证据权重及游标失效。Tree-sitter 保留在独立的可选语法查询模式。

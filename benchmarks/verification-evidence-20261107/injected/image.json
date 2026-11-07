@@ -1,0 +1,47 @@
+[
+    {
+        "Architecture": "amd64",
+        "Config": {
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "LC_ALL=C.UTF-8"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            },
+            "User": "65534:65534",
+            "WorkingDir": "/build"
+        },
+        "Created": "2026-11-07T12:49:54.063519913+08:00",
+        "Descriptor": {
+            "digest": "sha256:500d13919a823b0673d645dfd22b242d6b4bf1069fab2b4efade2a5a27de2e41",
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "size": 965
+        },
+        "Id": "sha256:500d13919a823b0673d645dfd22b242d6b4bf1069fab2b4efade2a5a27de2e41",
+        "Metadata": {
+            "LastTagTime": "2026-11-07T04:49:54.557290703Z"
+        },
+        "Os": "linux",
+        "Parent": "sha256:1720c6a9893965daffdb720b20b46019deb0a80be6fb1df902b6a946bc8cbf11",
+        "RepoDigests": [
+            "repropatch-fp-20261107@sha256:500d13919a823b0673d645dfd22b242d6b4bf1069fab2b4efade2a5a27de2e41"
+        ],
+        "RepoTags": [
+            "repropatch-fp-20261107:1"
+        ],
+        "RootFS": {
+            "Layers": [
+                "sha256:bec87777bc2fb2edcdf9af11df1531469e7df911309c1413082b18fcb8610278",
+                "sha256:6d94d57ffc857a2c28b3328c2808c1465e1efbd56e14c06669f22542628417a0",
+                "sha256:da47a895fded22bd88b7b44480ff511cf9a3b403631a1844fd3b7b1fc1b9bd49"
+            ],
+            "Type": "layers"
+        },
+        "Size": 173093397
+    }
+]

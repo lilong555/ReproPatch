@@ -558,7 +558,9 @@ def _fail_recovery(log, resources, snapshot, reason, error, *, outcome="RECOVERY
         return {**body, "command_error": "ARTIFACT_EXPORT_FAILED", "artifacts_complete": False}
 
 
-def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory):
+def _resume_harness(
+    log, resources, snapshot, pause_after_step, sandbox_factory, context_meter=None
+):
     """核对冻结配置，在新自有工作树重建安全源码后交回同一 Harness。"""
     import platform
     import time
@@ -681,6 +683,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
         compiler_cache=config.get("benchmark", {}).get("compiler_cache", False),
         tool_mode=tool_mode,
         context_policy=context_policy,
+        context_meter=context_meter,
         intermediate_checks=intermediate_checks,
         semantic_state_enabled=semantic_state_enabled,
         **localization_options,
@@ -817,7 +820,7 @@ def _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
     return harness
 
 
-def resume_run(directory, *, pause_after_step=None, sandbox_factory=None):
+def resume_run(directory, *, pause_after_step=None, sandbox_factory=None, context_meter=None):
     """只接管已有 Run；锁和库有效前不产生恢复事实或外部执行。"""
     from .artifacts import AuditBudget
     from .events import EventLog, validate_run_id
@@ -900,7 +903,9 @@ def resume_run(directory, *, pause_after_step=None, sandbox_factory=None):
                 raise InfrastructureError("NO_CHECKPOINT: 没有已提交的安全输入边界")
             if cleanup_failure is not None:
                 raise cleanup_failure
-            harness = _resume_harness(log, resources, snapshot, pause_after_step, sandbox_factory)
+            harness = _resume_harness(
+                log, resources, snapshot, pause_after_step, sandbox_factory, context_meter
+            )
         except KeyboardInterrupt as exc:
             if resources is not None:
                 try:

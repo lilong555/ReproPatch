@@ -1,0 +1,24 @@
+{
+  "schema": "repropatch.recovery-campaign-registration.v1",
+  "registered_at": "2026-11-07T05:01:40.965527+00:00",
+  "campaign": "recovery-costs-20261107-v1",
+  "server_source_sha256": "1119551766a80ca0dde6cf47560eb876993e166a9e8b70883f09bc3330a59fbb",
+  "previous_source_sha256": "4f5457821eb2477afe06fa39622e3640927225b9e282797393f141f42e0a00a6",
+  "registration_method": "atomic replacement of per-request RPC script",
+  "synthetic_claim_probe": {
+    "attempts": 8,
+    "allocation": 192,
+    "production_state": false
+  },
+  "production_recovery_claims": 0,
+  "new_model_requests": 0,
+  "prior_owner": "context-ablation-trigger-20261106",
+  "prior_active": true,
+  "prior_member_count": 5,
+  "lease_preserved": true,
+  "claims_preserved": true,
+  "retry_configuration_preserved": true,
+  "existing_claims": 559,
+  "service_restarted": false,
+  "monitor_pid_preserved": true
+}

@@ -1,0 +1,64 @@
+{
+  "files": {
+    "src/repropatch/recovery.py": {
+      "sha256": "0347270460544ef8de93a5012e5ea92a4a7fbfc98bfc81572d8c91ad7745e964",
+      "size_bytes": 40934
+    },
+    "scripts/benchmark_recovery_costs.py": {
+      "sha256": "60fdbe5b37c9c6fb5cebc36cf903422103bcd4691556127c811cf1f59ed792d9",
+      "size_bytes": 24080
+    },
+    "scripts/run_recovery_pair.py": {
+      "sha256": "83a7ff68b6a7a157a26975357836e202d3649c220a0ec208e095581c330ed30a",
+      "size_bytes": 26554
+    },
+    "scripts/cpa_lease_server.py": {
+      "sha256": "1119551766a80ca0dde6cf47560eb876993e166a9e8b70883f09bc3330a59fbb",
+      "size_bytes": 14403
+    },
+    "tests/test_recovery_costs.py": {
+      "sha256": "0e538af4d5d4ee10b40c4efa35098925a1c33da55dc9fd3d1589a7a7a4992f2d",
+      "size_bytes": 14250
+    },
+    ".github/workflows/recovery-costs.yml": {
+      "sha256": "0864d0963c144fb7f5baa661d93f206e4b95f2ce3a4f50c2f30276c4b295c327",
+      "size_bytes": 9412
+    },
+    ".github/workflows/formal-benchmark.yml": {
+      "sha256": "d01ca276f8a4cd7ec2e0f03a93c2d7ac5e1d2451e7f7d5e031542d71d857d697",
+      "size_bytes": 24734
+    },
+    "benchmarks/recovery-costs-20261107/README.md": {
+      "sha256": "aeb3d3f0b8f17778b1660357e2083f8a3cf9157903e1900a0255a78653ad295c",
+      "size_bytes": 6072
+    },
+    "benchmarks/recovery-costs-20261107/history/attempts.jsonl": {
+      "sha256": "55e80c38c5e80d78d5d802f9aad5185bb24b8950ede052ca2cb909e834db1fec",
+      "size_bytes": 1281505
+    },
+    "benchmarks/recovery-costs-20261107/history/prefixes.csv": {
+      "sha256": "24d0040050cd82a820ce7fb58a8fdd9088beffb5f71cbeabbbb97e5b04ff69de",
+      "size_bytes": 367622
+    },
+    "benchmarks/recovery-costs-20261107/history/summary.json": {
+      "sha256": "0f613176acb58acdbf2779db6f2f9f490497b402a462c931e1ca8ef3cc509683",
+      "size_bytes": 47364
+    },
+    "benchmarks/recovery-costs-20261107/live-protocol.json": {
+      "sha256": "e7f710e1c534e1b24cd2af403e9802983b5613be1f9d81eba61d780c3ab953b5",
+      "size_bytes": 15457
+    },
+    "benchmarks/recovery-costs-20261107/registration.json": {
+      "sha256": "91fda95d872168e13cde96181ecc8501e4e8fea121ea76ffb4fb8cf956b93e19",
+      "size_bytes": 883
+    },
+    "benchmarks/recovery-costs-20261107/validation-tests.xml": {
+      "sha256": "7e1e439f8e0a6476d94bff2e23f6e8fb763f8fa880be0b6eec4a90dacd7dc3bd",
+      "size_bytes": 11782
+    },
+    "benchmarks/recovery-costs-20261107/validation.json": {
+      "sha256": "85459fc4b3291c07a513872e3f11d0b450cf01f9d7b3aa895abb2a1fc6511e73",
+      "size_bytes": 1162
+    }
+  }
+}

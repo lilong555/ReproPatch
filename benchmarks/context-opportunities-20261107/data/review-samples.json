@@ -1,0 +1,4476 @@
+[
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3537/baseline/repeat-2",
+    "job_key": "trial-019",
+    "instance_id": "fmtlib__fmt-3537",
+    "arm": "baseline",
+    "repeat": 2,
+    "tool_id": "s000014.t01",
+    "provider_call_id": "call_xHf8njPfKZSzucfIbSMULb5d",
+    "step_id": 14,
+    "event_seq": 186,
+    "tool": "edit_file",
+    "arguments": {
+      "path": "include/fmt/core.h",
+      "old": "  FMT_INLINE auto get() const -> basic_string_view<Char> { return str_; }\n};\n\n#if FMT_GCC_VERSION && FMT_GCC_VERSION < 409",
+      "new": "  FMT_INLINE auto get() const -> basic_string_view<Char> { return str_; }\n};\n\nnamespace detail {\ntemplate <typename Char, typename... Args>\nFMT_INLINE auto to_string_view(const basic_format_string<Char, Args...>& s)\n    -> basic_string_view<Char> {\n  return s.get();\n}\n}  // namespace detail\n\n#if FMT_GCC_VERSION && FMT_GCC_VERSION < 409"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "69f1e99939ccce70ddd91ca24a464e6d69450c909ee75fe9f23f3c8f7dfecb8a",
+    "raw_ref": {
+      "path": "worker/runs/a8d6f1ee9dc04659800e7031180c3855/agent/tool-results/s000014.t01.json",
+      "sha256": "26a891157f32e4daa178c385513e55111f2bbb756dce942eac1960c02464f57a",
+      "size_bytes": 356
+    },
+    "raw_canonical_bytes": 355,
+    "raw_proxy_tokens_o200k": 135,
+    "raw_proxy_tokens_utf8_div3": 119,
+    "data_sha256": "6f3fcbdf0e64b330f81087a99ab3c149f0cf37a97756f2c1f66a11f157a41c95",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "d432694c866c70579d76576e0ee4ee70c7fcaa9327d0322cbe047d55216c19ee",
+        "bytes": 355,
+        "proxy_tokens_o200k": 135,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "d432694c866c70579d76576e0ee4ee70c7fcaa9327d0322cbe047d55216c19ee",
+        "bytes": 355,
+        "proxy_tokens_o200k": 135,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "d432694c866c70579d76576e0ee4ee70c7fcaa9327d0322cbe047d55216c19ee",
+        "bytes": 355,
+        "proxy_tokens_o200k": 135,
+        "proxy_tokens_utf8_div3": 119
+      }
+    ],
+    "edited_file_path": "include/fmt/core.h",
+    "edit_before_sha256": "4eaf49800e2b9d18744f79343f1eb9e65114e8dcfb8f72104424b39f11a5facc",
+    "edit_after_sha256": "43cf4b3afff1054032bcd86c23e2edd322f8decd5333289d9eb2c27b0b821a96",
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 355,
+    "first_visible_proxy_tokens_o200k": 135,
+    "first_visible_proxy_tokens_utf8_div3": 119,
+    "observed_in_repair_requests": 3,
+    "actual_repair_exposure_proxy_tokens_o200k": 405,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 74,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 1
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/combined/repeat-1",
+    "job_key": "trial-104",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "combined",
+    "repeat": 1,
+    "tool_id": "s000015.t01",
+    "provider_call_id": "call_F660ulaXTW68Bp5Gnd3SWQe8",
+    "step_id": 15,
+    "event_seq": 192,
+    "tool": "edit_file",
+    "arguments": {
+      "path": "include/fmt/chrono.h",
+      "old": "struct chrono_format_checker : null_chrono_spec_handler<chrono_format_checker> {\n  bool has_precision_integral = false;\n\n  FMT_NORETURN void unsupported() { FMT_THROW(format_error(\"no date\")); }\n\n  template <typename Char>\n  FMT_CONSTEXPR void on_text(const Char*, const Char*) {}\n  FMT_CONSTEXPR void on_24_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_12_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_minute(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_second(numeric_system, pad_type) {}\n",
+      "new": "struct chrono_format_checker : null_chrono_spec_handler<chrono_format_checker> {\n  bool has_precision_integral = false;\n\n  FMT_NORETURN void unsupported() { FMT_THROW(format_error(\"no date\")); }\n\n  template <typename Char>\n  FMT_CONSTEXPR void on_text(const Char*, const Char*) {}\n  FMT_CONSTEXPR void on_24_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_12_hour(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_minute(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_second(numeric_system, pad_type) {}\n  FMT_CONSTEXPR void on_day_of_year() {}\n"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+    "raw_ref": {
+      "path": "worker/runs/453e1b49d1954270baa8e04478fad816/agent/tool-results/s000015.t01.json",
+      "sha256": "9ce646be4b8e5b6f624d6a13232639e26368643a16215407aad7170ed3c7aa59",
+      "size_bytes": 357
+    },
+    "raw_canonical_bytes": 356,
+    "raw_proxy_tokens_o200k": 136,
+    "raw_proxy_tokens_utf8_div3": 119,
+    "data_sha256": "2e005e87ce30d80dfb789c0f2f0aed88f8990e8ee44c7a9157b46b9bb62fd7f7",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "1b22a065f3982c104302ee3ef7b2f32ebd1e624bf3b0d46d25e38a5a19cf5fc2",
+        "bytes": 356,
+        "proxy_tokens_o200k": 136,
+        "proxy_tokens_utf8_div3": 119
+      }
+    ],
+    "edited_file_path": "include/fmt/chrono.h",
+    "edit_before_sha256": "c26ba1f7ab39511a7c8a5deed044b5f2a640a1109c80ab8896b9f26799ba050c",
+    "edit_after_sha256": "dcb7628183492dfbb4d5ea2448e54545ca9a2b0e3163fcea11799d3b575edaa2",
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 356,
+    "first_visible_proxy_tokens_o200k": 136,
+    "first_visible_proxy_tokens_utf8_div3": 119,
+    "observed_in_repair_requests": 7,
+    "actual_repair_exposure_proxy_tokens_o200k": 952,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 5
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-1361/dedup/repeat-1",
+    "job_key": "trial-145",
+    "instance_id": "fmtlib__fmt-1361",
+    "arm": "dedup",
+    "repeat": 1,
+    "tool_id": "s000018.t01",
+    "provider_call_id": "call_k1RfjUPeX06xiQZw0mhATZPu",
+    "step_id": 18,
+    "event_seq": 198,
+    "tool": "list_directory",
+    "arguments": {
+      "path": "src"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "e597304b4a6c75818b120cadfbaff10426e5b5dcbe939c5dbb3f3f0ea8128af5",
+    "raw_ref": {
+      "path": "worker/runs/21deb357651b4b2390602d84e170d08a/agent/tool-results/s000018.t01.json",
+      "sha256": "155b6bf1de5dfc99f1427368cbde30cbbb76343b2d469e6ede325318c06081cb",
+      "size_bytes": 262
+    },
+    "raw_canonical_bytes": 261,
+    "raw_proxy_tokens_o200k": 67,
+    "raw_proxy_tokens_utf8_div3": 87,
+    "data_sha256": "1405cc3b5e7db1e179bf67270617693b8a8474f18fecb9df09857be255f41f2d",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "865f22132840e51e56be2907e3db12d14c00f58581220a900e59f31803289851",
+        "bytes": 261,
+        "proxy_tokens_o200k": 67,
+        "proxy_tokens_utf8_div3": 87
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "865f22132840e51e56be2907e3db12d14c00f58581220a900e59f31803289851",
+        "bytes": 261,
+        "proxy_tokens_o200k": 67,
+        "proxy_tokens_utf8_div3": 87
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "865f22132840e51e56be2907e3db12d14c00f58581220a900e59f31803289851",
+        "bytes": 261,
+        "proxy_tokens_o200k": 67,
+        "proxy_tokens_utf8_div3": 87
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "865f22132840e51e56be2907e3db12d14c00f58581220a900e59f31803289851",
+        "bytes": 261,
+        "proxy_tokens_o200k": 67,
+        "proxy_tokens_utf8_div3": 87
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "865f22132840e51e56be2907e3db12d14c00f58581220a900e59f31803289851",
+        "bytes": 261,
+        "proxy_tokens_o200k": 67,
+        "proxy_tokens_utf8_div3": 87
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "865f22132840e51e56be2907e3db12d14c00f58581220a900e59f31803289851",
+        "bytes": 261,
+        "proxy_tokens_o200k": 67,
+        "proxy_tokens_utf8_div3": 87
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 261,
+    "first_visible_proxy_tokens_o200k": 67,
+    "first_visible_proxy_tokens_utf8_div3": 87,
+    "observed_in_repair_requests": 6,
+    "actual_repair_exposure_proxy_tokens_o200k": 402,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 4
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/baseline/repeat-1",
+    "job_key": "trial-141",
+    "instance_id": "fmtlib__fmt-2292",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000002.t01",
+    "provider_call_id": "call_G4iJltcFkuv8c41fTD3OtynW",
+    "step_id": 2,
+    "event_seq": 106,
+    "tool": "list_directory",
+    "arguments": {
+      "path": "include/fmt"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "60fb6a6d9352d023c39124dd7274be149d0de2cd0bb11bab88c353f7be5e2a8c",
+    "raw_ref": {
+      "path": "worker/runs/447ef87da72549ddbc224bba21a45575/agent/tool-results/s000002.t01.json",
+      "sha256": "d2a8fe69eea85954c2758af64f9ec8e70e22d41c001826fdf15583131b71db6e",
+      "size_bytes": 632
+    },
+    "raw_canonical_bytes": 631,
+    "raw_proxy_tokens_o200k": 168,
+    "raw_proxy_tokens_utf8_div3": 211,
+    "data_sha256": "65108d7e92e7de7d99f50ae15f0076d1ecbb4dcf405aa6ebc0802090449da406",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 3,
+        "purpose": "repair",
+        "step_id": 3,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 4,
+        "purpose": "repair",
+        "step_id": 4,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 5,
+        "purpose": "repair",
+        "step_id": 5,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 6,
+        "purpose": "repair",
+        "step_id": 6,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 7,
+        "purpose": "repair",
+        "step_id": 7,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 8,
+        "purpose": "repair",
+        "step_id": 8,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 9,
+        "purpose": "repair",
+        "step_id": 9,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "4e3928b19f77375992d393e63b04f93dced8698eef8c0a46c8816e065450cc86",
+        "bytes": 631,
+        "proxy_tokens_o200k": 168,
+        "proxy_tokens_utf8_div3": 211
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 631,
+    "first_visible_proxy_tokens_o200k": 168,
+    "first_visible_proxy_tokens_utf8_div3": 211,
+    "observed_in_repair_requests": 17,
+    "actual_repair_exposure_proxy_tokens_o200k": 2856,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 74,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 15
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-1361/dedup/repeat-1",
+    "job_key": "trial-145",
+    "instance_id": "fmtlib__fmt-1361",
+    "arm": "dedup",
+    "repeat": 1,
+    "tool_id": "s000010.t01",
+    "provider_call_id": "call_2xPydy2lqzwH1C8z2flP5I6K",
+    "step_id": 10,
+    "event_seq": 150,
+    "tool": "read_file",
+    "arguments": {
+      "path": "include/fmt/format.h",
+      "start_line": 2790,
+      "max_lines": 75
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "e597304b4a6c75818b120cadfbaff10426e5b5dcbe939c5dbb3f3f0ea8128af5",
+    "raw_ref": {
+      "path": "worker/runs/21deb357651b4b2390602d84e170d08a/agent/tool-results/s000010.t01.json",
+      "sha256": "7f68473f7628c663b8055fcff9e9f74352cb7914cc6d6926c8f799a77fda1ee7",
+      "size_bytes": 3043
+    },
+    "raw_canonical_bytes": 3042,
+    "raw_proxy_tokens_o200k": 813,
+    "raw_proxy_tokens_utf8_div3": 1014,
+    "data_sha256": "da9d29083a223998f5662a2429a2050d1598d9bdadda2f23bf618486339f5853",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "73404d98efd846f3cdc5a06934dca7ef371dc9ef369b9114b17b5313917a1b36",
+        "bytes": 3042,
+        "proxy_tokens_o200k": 813,
+        "proxy_tokens_utf8_div3": 1014
+      }
+    ],
+    "file_path": "include/fmt/format.h",
+    "file_sha256": "aa95ab485fa5533166360ec8bacec71b93858f7d6b70f8c6dd1de133c13e1c49",
+    "start_line": 2790,
+    "end_line": 2864,
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 3042,
+    "first_visible_proxy_tokens_o200k": 813,
+    "first_visible_proxy_tokens_utf8_div3": 1014,
+    "observed_in_repair_requests": 14,
+    "actual_repair_exposure_proxy_tokens_o200k": 11382,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 13,
+    "delayed_actual_repair_appearances": 12,
+    "delayed_repair_exposure_proxy_tokens_o200k": 9756,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 8880,
+    "later_repair_requests_after_two_completed_steps": 12
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2610/state/repeat-1",
+    "job_key": "trial-072",
+    "instance_id": "fmtlib__fmt-2610",
+    "arm": "state",
+    "repeat": 1,
+    "tool_id": "s000002.t01",
+    "provider_call_id": "call_e9WVJ8ZSWUHc5nTjSuGRgNE5",
+    "step_id": 2,
+    "event_seq": 110,
+    "tool": "read_file",
+    "arguments": {
+      "path": "include/fmt/core.h",
+      "start_line": 1190,
+      "max_lines": 100
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "97163ccd889dcda3ca288cdc27420c5bbc557d9e72bae8546b4855ad3d880335",
+    "raw_ref": {
+      "path": "worker/runs/510595c67662448aa76a12c5a075e206/agent/tool-results/s000002.t01.json",
+      "sha256": "d37bb73a431816125c0530596c55af48ba4e60b1d7c7992be54883d3aa99b7d2",
+      "size_bytes": 4920
+    },
+    "raw_canonical_bytes": 4919,
+    "raw_proxy_tokens_o200k": 1317,
+    "raw_proxy_tokens_utf8_div3": 1640,
+    "data_sha256": "3c8341fc0a30da1b92345f35226d3d415bda7b5ad09b768af08526e9fe66a4e3",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 3,
+        "purpose": "repair",
+        "step_id": 3,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 4,
+        "purpose": "repair",
+        "step_id": 4,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 5,
+        "purpose": "repair",
+        "step_id": 5,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 6,
+        "purpose": "repair",
+        "step_id": 6,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 7,
+        "purpose": "repair",
+        "step_id": 7,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 8,
+        "purpose": "repair",
+        "step_id": 8,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 9,
+        "purpose": "repair",
+        "step_id": 9,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "a68e99517cd17de3fa1e45780f51b9dc895869b266e12b2c4fb34f17514c169b",
+        "bytes": 4919,
+        "proxy_tokens_o200k": 1317,
+        "proxy_tokens_utf8_div3": 1640
+      }
+    ],
+    "file_path": "include/fmt/core.h",
+    "file_sha256": "1d124cc2dda2686fe342c0bf509e2f090dfede6587281c4fc804bae7c9267882",
+    "start_line": 1190,
+    "end_line": 1289,
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [
+      {
+        "tool_id": "s000003.t01",
+        "step_id": 3,
+        "matched_line_count": 1,
+        "matched_bytes": 72,
+        "qualifying_repair_coappearances": 20
+      }
+    ],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 72,
+    "first_visible_bytes": 4919,
+    "first_visible_proxy_tokens_o200k": 1317,
+    "first_visible_proxy_tokens_utf8_div3": 1640,
+    "observed_in_repair_requests": 22,
+    "actual_repair_exposure_proxy_tokens_o200k": 28974,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 5,
+    "delayed_actual_repair_appearances": 20,
+    "delayed_repair_exposure_proxy_tokens_o200k": 26340,
+    "delayed_reference_stub_proxy_tokens_o200k": 66,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 25020,
+    "later_repair_requests_after_two_completed_steps": 20
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3248/baseline/repeat-1",
+    "job_key": "trial-178",
+    "instance_id": "fmtlib__fmt-3248",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000007.t01",
+    "provider_call_id": "call_Zgxw9lmCHeKv5W738ew0LTbg",
+    "step_id": 7,
+    "event_seq": 144,
+    "tool": "read_file",
+    "arguments": {
+      "path": "include/fmt/core.h",
+      "start_line": 2130,
+      "max_lines": 45
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "63363cb5b24770ad75ada6fb58025cb4c9dec282b748a3dbf6bda42c1b097715",
+    "raw_ref": {
+      "path": "worker/runs/a6eba34b9ff643ed9ef3e196aba047d5/agent/tool-results/s000007.t01.json",
+      "sha256": "0c914e60d82e8111c77f408763d9d5f8250917ecfa5ba23c8f117fba761de09e",
+      "size_bytes": 1390
+    },
+    "raw_canonical_bytes": 1389,
+    "raw_proxy_tokens_o200k": 429,
+    "raw_proxy_tokens_utf8_div3": 463,
+    "data_sha256": "fdc4eb9b8668d65a8215e8c2248f9f087d4f52cc7e30c0518012a8be30d91227",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 8,
+        "purpose": "repair",
+        "step_id": 8,
+        "sha256": "8ee9bd276d61315217b7b29e385403f0e1245c578ee9c0e8b24831fc558402c1",
+        "bytes": 1389,
+        "proxy_tokens_o200k": 429,
+        "proxy_tokens_utf8_div3": 463
+      },
+      {
+        "sequence": 9,
+        "purpose": "repair",
+        "step_id": 9,
+        "sha256": "8ee9bd276d61315217b7b29e385403f0e1245c578ee9c0e8b24831fc558402c1",
+        "bytes": 1389,
+        "proxy_tokens_o200k": 429,
+        "proxy_tokens_utf8_div3": 463
+      },
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "8ee9bd276d61315217b7b29e385403f0e1245c578ee9c0e8b24831fc558402c1",
+        "bytes": 1389,
+        "proxy_tokens_o200k": 429,
+        "proxy_tokens_utf8_div3": 463
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "8ee9bd276d61315217b7b29e385403f0e1245c578ee9c0e8b24831fc558402c1",
+        "bytes": 1389,
+        "proxy_tokens_o200k": 429,
+        "proxy_tokens_utf8_div3": 463
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "8ee9bd276d61315217b7b29e385403f0e1245c578ee9c0e8b24831fc558402c1",
+        "bytes": 1389,
+        "proxy_tokens_o200k": 429,
+        "proxy_tokens_utf8_div3": 463
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "8ee9bd276d61315217b7b29e385403f0e1245c578ee9c0e8b24831fc558402c1",
+        "bytes": 1389,
+        "proxy_tokens_o200k": 429,
+        "proxy_tokens_utf8_div3": 463
+      }
+    ],
+    "file_path": "include/fmt/core.h",
+    "file_sha256": "2bb392abe6f0aaa3dbca3cb43716d64e6dc592e456c4fcf5807ce7db284f2163",
+    "start_line": 2130,
+    "end_line": 2174,
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 309,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 1389,
+    "first_visible_proxy_tokens_o200k": 429,
+    "first_visible_proxy_tokens_utf8_div3": 463,
+    "observed_in_repair_requests": 6,
+    "actual_repair_exposure_proxy_tokens_o200k": 2574,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 4
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2310/combined/repeat-2",
+    "job_key": "trial-018",
+    "instance_id": "fmtlib__fmt-2310",
+    "arm": "combined",
+    "repeat": 2,
+    "tool_id": "s000010.t01",
+    "provider_call_id": "call_diGGMtyZ5Al7Q3idTAeSCWQN",
+    "step_id": 10,
+    "event_seq": 150,
+    "tool": "read_file",
+    "arguments": {
+      "path": "include/fmt/core.h",
+      "start_line": 1855,
+      "max_lines": 45
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "5eab8dd90c916093e74a620abab7248efed3febf6021a962b37802907c8d48d8",
+    "raw_ref": {
+      "path": "worker/runs/01993e5a96eb4974885b0eff6ebd4945/agent/tool-results/s000010.t01.json",
+      "sha256": "9bb6df4b05391c40451ec24696fd1c2d4b2f668d1b0683b2788dd4cddd6b9e2a",
+      "size_bytes": 1492
+    },
+    "raw_canonical_bytes": 1491,
+    "raw_proxy_tokens_o200k": 430,
+    "raw_proxy_tokens_utf8_div3": 497,
+    "data_sha256": "569f202a21e73cdf9aa2fc772af60b885adb63053faa8142bd1a5d0a19c8e465",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "5f84bdd80b681ce6dd53737ae4795a139110143587aea5ac903abf6cc2cf49d8",
+        "bytes": 1491,
+        "proxy_tokens_o200k": 430,
+        "proxy_tokens_utf8_div3": 497
+      }
+    ],
+    "file_path": "include/fmt/core.h",
+    "file_sha256": "c10e1898a6b79acf1f9843a50531ed4f61abdff999ac9dfce29e6dbc1606be2b",
+    "start_line": 1855,
+    "end_line": 1899,
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [
+      {
+        "tool_id": "s000019.t01",
+        "step_id": 19,
+        "old_anchor_bytes": 92,
+        "before_sha256": "c10e1898a6b79acf1f9843a50531ed4f61abdff999ac9dfce29e6dbc1606be2b",
+        "after_sha256": "f455511cb1dbb1565ad371a02f005b9ab5f32e3e67ae8c5aedbb6653674ba69f",
+        "qualifying_repair_coappearances": 0
+      }
+    ],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 1491,
+    "first_visible_proxy_tokens_o200k": 430,
+    "first_visible_proxy_tokens_utf8_div3": 497,
+    "observed_in_repair_requests": 14,
+    "actual_repair_exposure_proxy_tokens_o200k": 6020,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 12
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/baseline/repeat-1",
+    "job_key": "trial-126",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000017.t01",
+    "provider_call_id": "call_0aQJSR93Dz9D812OLcHVOWmG",
+    "step_id": 17,
+    "event_seq": 227,
+    "tool": "run_command",
+    "arguments": {
+      "name": "reproduce"
+    },
+    "tool_ok": true,
+    "test_passed": false,
+    "check_mode": "reproduce",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "ca406755be4e31e20d385d9f255304a5ce7496f8ffb586f1fa6517d95525ab15",
+    "raw_ref": {
+      "path": "worker/runs/0aecd22bd3154a3ab859838b88904249/agent/tool-results/s000017.t01.json",
+      "sha256": "23c8c25260045c961349512c6926cfa4a2b9446c3c0ad37497369bb05e239bfb",
+      "size_bytes": 36552
+    },
+    "raw_canonical_bytes": 36551,
+    "raw_proxy_tokens_o200k": 11450,
+    "raw_proxy_tokens_utf8_div3": 12184,
+    "data_sha256": "f45382574d26d4a061a33a381a661700769c12916dfd85fdaed235fac9d1e1ec",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 8788,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 75,
+      "examples": [
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[1/2] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000000>, std::ratio<1, 86400> >’"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000000>, std::ratio<86400> >’"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "1e40a11ed19bac862ff344267b827836bc7422a2b7e495ec44ec5ea9d913e1f9",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7837,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "1e40a11ed19bac862ff344267b827836bc7422a2b7e495ec44ec5ea9d913e1f9",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7837,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "1e40a11ed19bac862ff344267b827836bc7422a2b7e495ec44ec5ea9d913e1f9",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7837,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "1e40a11ed19bac862ff344267b827836bc7422a2b7e495ec44ec5ea9d913e1f9",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7837,
+        "proxy_tokens_utf8_div3": 8192
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": {
+      "tool_id": "s000019.t01",
+      "step_id": 19,
+      "same_source": false,
+      "check_mode": "reproduce",
+      "old_tool_ok": true,
+      "new_tool_ok": true,
+      "old_test_passed": false,
+      "new_test_passed": true,
+      "old_evaluation_role": "agent_check",
+      "new_evaluation_role": "agent_check"
+    },
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 24576,
+    "first_visible_proxy_tokens_o200k": 7837,
+    "first_visible_proxy_tokens_utf8_div3": 8192,
+    "observed_in_repair_requests": 4,
+    "actual_repair_exposure_proxy_tokens_o200k": 31348,
+    "first_visible_json_complete": false,
+    "literal_visible_candidates": null,
+    "raw_to_first_visible_bytes_saved": 11975,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 20,
+    "delayed_actual_repair_appearances": 2,
+    "delayed_repair_exposure_proxy_tokens_o200k": 15674,
+    "delayed_reference_stub_proxy_tokens_o200k": 71,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 15532,
+    "later_repair_requests_after_two_completed_steps": 2
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/combined/repeat-1",
+    "job_key": "trial-104",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "combined",
+    "repeat": 1,
+    "tool_id": "s000017.t01",
+    "provider_call_id": "call_AClaJUzq7MyVccdPqeC9opi6",
+    "step_id": 17,
+    "event_seq": 227,
+    "tool": "run_command",
+    "arguments": {
+      "name": "reproduce"
+    },
+    "tool_ok": true,
+    "test_passed": false,
+    "check_mode": "reproduce",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "1d2584afde733dcf0c33d6cd047e968b958b01ada57c829eca357fd54be72e4b",
+    "raw_ref": {
+      "path": "worker/runs/453e1b49d1954270baa8e04478fad816/agent/tool-results/s000017.t01.json",
+      "sha256": "0e21916e10853f0ba9f956e5678af276be74707bdf6498c729b62659f81ea31b",
+      "size_bytes": 36552
+    },
+    "raw_canonical_bytes": 36551,
+    "raw_proxy_tokens_o200k": 11439,
+    "raw_proxy_tokens_utf8_div3": 12184,
+    "data_sha256": "1d50825cdc6425948dea54de33ed271dc49dbf0a5414136ce504c0994ee0f603",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 8788,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 75,
+      "examples": [
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[1/2] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "/usr/include/c++/13/ratio:340:54:   required from ‘struct std::__ratio_multiply<std::ratio<1, 1000000000000000000>, std::ratio<1, 86400> >’"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "/usr/include/c++/13/ratio:369:42:   required from ‘struct std::__ratio_divide<std::ratio<1, 1000000000000000000>, std::ratio<86400> >’"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "8fad24e999c62adc6f2460b6ca0ca8ded1d671a48b5ec687717723425a974174",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7824,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "8fad24e999c62adc6f2460b6ca0ca8ded1d671a48b5ec687717723425a974174",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7824,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "8fad24e999c62adc6f2460b6ca0ca8ded1d671a48b5ec687717723425a974174",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7824,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "8fad24e999c62adc6f2460b6ca0ca8ded1d671a48b5ec687717723425a974174",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7824,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "8fad24e999c62adc6f2460b6ca0ca8ded1d671a48b5ec687717723425a974174",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7824,
+        "proxy_tokens_utf8_div3": 8192
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": {
+      "tool_id": "s000019.t01",
+      "step_id": 19,
+      "same_source": false,
+      "check_mode": "reproduce",
+      "old_tool_ok": true,
+      "new_tool_ok": true,
+      "old_test_passed": false,
+      "new_test_passed": true,
+      "old_evaluation_role": "agent_check",
+      "new_evaluation_role": "agent_check"
+    },
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 24576,
+    "first_visible_proxy_tokens_o200k": 7824,
+    "first_visible_proxy_tokens_utf8_div3": 8192,
+    "observed_in_repair_requests": 5,
+    "actual_repair_exposure_proxy_tokens_o200k": 39120,
+    "first_visible_json_complete": false,
+    "literal_visible_candidates": null,
+    "raw_to_first_visible_bytes_saved": 11975,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 20,
+    "delayed_actual_repair_appearances": 3,
+    "delayed_repair_exposure_proxy_tokens_o200k": 23472,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 23262,
+    "later_repair_requests_after_two_completed_steps": 3
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-493/combined/repeat-1",
+    "job_key": "trial-091",
+    "instance_id": "fmtlib__fmt-493",
+    "arm": "combined",
+    "repeat": 1,
+    "tool_id": "s000018.t01",
+    "provider_call_id": "call_qqiBP2N6inZUuK8QuzvkrlBr",
+    "step_id": 18,
+    "event_seq": 284,
+    "tool": "run_command",
+    "arguments": {
+      "name": "verify"
+    },
+    "tool_ok": true,
+    "test_passed": true,
+    "check_mode": "verify",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "c787a4f68123d3c498dd0971630d2047254f53cf15bafad26c10e5b98166cc10",
+    "raw_ref": {
+      "path": "worker/runs/ddabf39035004636aae522cad52a79b5/agent/tool-results/s000018.t01.json",
+      "sha256": "3cb06f8b099913a7489cf87131b2013ee505cf37cc7f66ae2094e638436dee72",
+      "size_bytes": 4016
+    },
+    "raw_canonical_bytes": 4015,
+    "raw_proxy_tokens_o200k": 1399,
+    "raw_proxy_tokens_utf8_div3": 1339,
+    "data_sha256": "6164c6d784033711a6122d3d4bb14453cd0cd23fc11bb94983006f4d079e901d",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "94d0ca323b0038fd64001cdf1dc3bda3fd08a981588ecc691990ddfcc9ce0105",
+        "bytes": 4015,
+        "proxy_tokens_o200k": 1399,
+        "proxy_tokens_utf8_div3": 1339
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "94d0ca323b0038fd64001cdf1dc3bda3fd08a981588ecc691990ddfcc9ce0105",
+        "bytes": 4015,
+        "proxy_tokens_o200k": 1399,
+        "proxy_tokens_utf8_div3": 1339
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 4015,
+    "first_visible_proxy_tokens_o200k": 1399,
+    "first_visible_proxy_tokens_utf8_div3": 1339,
+    "observed_in_repair_requests": 2,
+    "actual_repair_exposure_proxy_tokens_o200k": 2798,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 71,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 0
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3260/baseline/repeat-1",
+    "job_key": "trial-176",
+    "instance_id": "fmtlib__fmt-3260",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000017.t01",
+    "provider_call_id": "call_kReuMb6ATPcSSRyM77ipi12a",
+    "step_id": 17,
+    "event_seq": 227,
+    "tool": "run_command",
+    "arguments": {
+      "name": "reproduce"
+    },
+    "tool_ok": true,
+    "test_passed": true,
+    "check_mode": "reproduce",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "c0ea32c6c5ee20fbf8475c18edb294ad49ea65f8256662fb43f5fc72c7266c79",
+    "raw_ref": {
+      "path": "worker/runs/228db0d967464985af6d8df941a0e503/agent/tool-results/s000017.t01.json",
+      "sha256": "70846c9bb24325b98d7937e3dd2b33cdd8427cc20ff5298e413105d154b5ac4c",
+      "size_bytes": 2447
+    },
+    "raw_canonical_bytes": 2446,
+    "raw_proxy_tokens_o200k": 1002,
+    "raw_proxy_tokens_utf8_div3": 816,
+    "data_sha256": "6220a54b39676ccd834e673be6d4b080cf2b90ddc810cb9b764f23619906e063",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "30f2f8e91dd45986ecb730bb6da90951bfd412dd3a75b79131022695e2a9f857",
+        "bytes": 2446,
+        "proxy_tokens_o200k": 1002,
+        "proxy_tokens_utf8_div3": 816
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "30f2f8e91dd45986ecb730bb6da90951bfd412dd3a75b79131022695e2a9f857",
+        "bytes": 2446,
+        "proxy_tokens_o200k": 1002,
+        "proxy_tokens_utf8_div3": 816
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 2446,
+    "first_visible_proxy_tokens_o200k": 1002,
+    "first_visible_proxy_tokens_utf8_div3": 816,
+    "observed_in_repair_requests": 2,
+    "actual_repair_exposure_proxy_tokens_o200k": 2004,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 0
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/diagnostics/repeat-1",
+    "job_key": "trial-086",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "diagnostics",
+    "repeat": 1,
+    "tool_id": "s000024.t01",
+    "provider_call_id": "call_hAa1WpJ2UPAlLELFfnSeQADc",
+    "step_id": 24,
+    "event_seq": 391,
+    "tool": "run_command",
+    "arguments": {
+      "name": "verify"
+    },
+    "tool_ok": true,
+    "test_passed": true,
+    "check_mode": "verify",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "4993da36b68ae356f1178d528e58df4cd3306966a862bb89751339e45ca78fd2",
+    "raw_ref": {
+      "path": "worker/runs/7f08a35dc0af45a8b65977d66f283ecf/agent/tool-results/s000024.t01.json",
+      "sha256": "b1fb387d28a169a527b6071e0cfd0852fde46fe4fa7d312c857af30c43992f3b",
+      "size_bytes": 4722
+    },
+    "raw_canonical_bytes": 4721,
+    "raw_proxy_tokens_o200k": 1578,
+    "raw_proxy_tokens_utf8_div3": 1574,
+    "data_sha256": "cdadd504aeeac7150d66bcc42452746639e6b12291ac11572d05f96d0af76c18",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": null,
+    "first_visible_proxy_tokens_o200k": null,
+    "first_visible_proxy_tokens_utf8_div3": null,
+    "observed_in_repair_requests": 0,
+    "actual_repair_exposure_proxy_tokens_o200k": 0,
+    "first_visible_json_complete": false,
+    "literal_visible_candidates": null,
+    "raw_to_first_visible_bytes_saved": null,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 68,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 0
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3734/state/repeat-2",
+    "job_key": "trial-062",
+    "instance_id": "fmtlib__fmt-3734",
+    "arm": "state",
+    "repeat": 2,
+    "tool_id": "s000024.t01",
+    "provider_call_id": "call_ZTggavypcjjmGxgHAGWArsjG",
+    "step_id": 24,
+    "event_seq": 368,
+    "tool": "run_command",
+    "arguments": {
+      "name": "verify"
+    },
+    "tool_ok": true,
+    "test_passed": true,
+    "check_mode": "verify",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "fb14022dff87a03a76c01e5d75bf00b7f8c4d228da15f17dc54f010954a9f17c",
+    "raw_ref": {
+      "path": "worker/runs/0086b48bab014fd19550a196a18b35af/agent/tool-results/s000024.t01.json",
+      "sha256": "e48a82fa6805a926067bae6d12ebdf564cea678b7a4eb494b9111adc207458fd",
+      "size_bytes": 4722
+    },
+    "raw_canonical_bytes": 4721,
+    "raw_proxy_tokens_o200k": 1609,
+    "raw_proxy_tokens_utf8_div3": 1574,
+    "data_sha256": "8b19eb2763c165e5fbfaa48f50b91779ebbfda5c6669f6853235880754cd37d8",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": null,
+    "first_visible_proxy_tokens_o200k": null,
+    "first_visible_proxy_tokens_utf8_div3": null,
+    "observed_in_repair_requests": 0,
+    "actual_repair_exposure_proxy_tokens_o200k": 0,
+    "first_visible_json_complete": false,
+    "literal_visible_candidates": null,
+    "raw_to_first_visible_bytes_saved": null,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 75,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 0
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/state/repeat-1",
+    "job_key": "trial-135",
+    "instance_id": "fmtlib__fmt-2292",
+    "arm": "state",
+    "repeat": 1,
+    "tool_id": "s000020.t01",
+    "provider_call_id": "call_VCzVI4pOUmU4ZRLAejQFJo9A",
+    "step_id": 20,
+    "event_seq": 264,
+    "tool": "run_shell",
+    "arguments": {
+      "command": "cat > /build/check.cc <<'EOF'\n#include <chrono>\n#include <iostream>\n#include <fmt/chrono.h>\nint main() {\n  using namespace std::chrono;\n  auto ms = time_point<system_clock, milliseconds>(milliseconds(1023));\n  auto ns = time_point<system_clock, nanoseconds>(nanoseconds(1234567890));\n  auto sec = time_point<system_clock, seconds>(seconds(1));\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", ms, ms);\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", ns, ns);\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", sec, sec);\n}\nEOF\ng++ -std=c++11 -I/src/include /build/check.cc -o /build/check && /build/check",
+      "cwd": "/src",
+      "timeout_seconds": 120
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "99eaef1053aa55fb681ce3a72a8b2a3ab84b86427473e9ab324626280dfdaf8d",
+    "raw_ref": {
+      "path": "worker/runs/21dec745604247f18e395ed2ba677f47/agent/tool-results/s000020.t01.json",
+      "sha256": "e55a9071ce777e0b05cd20abf802e891fb1226c69d60102f4fbd76cad686c1e7",
+      "size_bytes": 24299
+    },
+    "raw_canonical_bytes": 24298,
+    "raw_proxy_tokens_o200k": 8340,
+    "raw_proxy_tokens_utf8_div3": 8100,
+    "data_sha256": "c14896f17d13e607516cca9592abb6809146804e7e455d8da7ad6f0f14caa715",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "f33d165043d12a02dff33c9a7e3d33054620344ce4aec4e69ab43ffdab8a9f82",
+        "bytes": 24298,
+        "proxy_tokens_o200k": 8340,
+        "proxy_tokens_utf8_div3": 8100
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "f33d165043d12a02dff33c9a7e3d33054620344ce4aec4e69ab43ffdab8a9f82",
+        "bytes": 24298,
+        "proxy_tokens_o200k": 8340,
+        "proxy_tokens_utf8_div3": 8100
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "f33d165043d12a02dff33c9a7e3d33054620344ce4aec4e69ab43ffdab8a9f82",
+        "bytes": 24298,
+        "proxy_tokens_o200k": 8340,
+        "proxy_tokens_utf8_div3": 8100
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "f33d165043d12a02dff33c9a7e3d33054620344ce4aec4e69ab43ffdab8a9f82",
+        "bytes": 24298,
+        "proxy_tokens_o200k": 8340,
+        "proxy_tokens_utf8_div3": 8100
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 24298,
+    "first_visible_proxy_tokens_o200k": 8340,
+    "first_visible_proxy_tokens_utf8_div3": 8100,
+    "observed_in_repair_requests": 4,
+    "actual_repair_exposure_proxy_tokens_o200k": 33360,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 23,
+    "delayed_actual_repair_appearances": 2,
+    "delayed_repair_exposure_proxy_tokens_o200k": 16680,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 16540,
+    "later_repair_requests_after_two_completed_steps": 2
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/combined/repeat-1",
+    "job_key": "trial-032",
+    "instance_id": "fmtlib__fmt-2292",
+    "arm": "combined",
+    "repeat": 1,
+    "tool_id": "s000017.t01",
+    "provider_call_id": "call_dm0qBBnSBZ9fsRpbalrejXBZ",
+    "step_id": 17,
+    "event_seq": 231,
+    "tool": "run_shell",
+    "arguments": {
+      "command": "cat > /build/check.cc <<'EOF'\n#define FMT_HEADER_ONLY\n#include \"fmt/chrono.h\"\n#include <chrono>\n#include <iostream>\nint main() {\n  using namespace std::chrono;\n  using ms_tp = time_point<system_clock, milliseconds>;\n  std::cout << fmt::format(\"{:%S}|{:%T}\\n\", system_clock::time_point(nanoseconds(1234000000)), system_clock::time_point(nanoseconds(1234000000)));\n  std::cout << fmt::format(\"{:%S}\\n\", ms_tp(milliseconds(-123)));\n  std::cout << fmt::format(L\"{:%S}\\n\", system_clock::time_point(nanoseconds(1234000000)));\n  std::cout << fmt::format(\"{:%OS}\\n\", system_clock::time_point(nanoseconds(1234000000)));\n}\nEOF\nc++ -std=c++11 -I/src/include /build/check.cc -o /build/check && /build/check",
+      "cwd": "/build",
+      "timeout_seconds": 120
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "f2281feb4efd11c34283331b4e0b0e47b000da6e7fbfbde89788be7f7048866b",
+    "raw_ref": {
+      "path": "worker/runs/8dbd3a65b5ee43618984c0969371cd96/agent/tool-results/s000017.t01.json",
+      "sha256": "e05d564c51729af1ec799677047ee69e1977899c4b3313e16ee3cc5714cd7107",
+      "size_bytes": 27975
+    },
+    "raw_canonical_bytes": 27974,
+    "raw_proxy_tokens_o200k": 8471,
+    "raw_proxy_tokens_utf8_div3": 9325,
+    "data_sha256": "e346aa47b3b733695de4d3797f0a2031982a59c433dbf6b9bb321653fb4b427f",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 4375,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "110 |       operator<<(__ostream_type& (*__pf)(__ostream_type&))"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "119 |       operator<<(__ios_type& (*__pf)(__ios_type&))"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "129 |       operator<<(ios_base& (*__pf) (ios_base&))"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "40a4cc5f7687d3b147f11a4cc4158a0f1442ad3254516dc57dbbf1529c457e44",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7497,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "40a4cc5f7687d3b147f11a4cc4158a0f1442ad3254516dc57dbbf1529c457e44",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7497,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "40a4cc5f7687d3b147f11a4cc4158a0f1442ad3254516dc57dbbf1529c457e44",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7497,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "40a4cc5f7687d3b147f11a4cc4158a0f1442ad3254516dc57dbbf1529c457e44",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7497,
+        "proxy_tokens_utf8_div3": 8192
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "40a4cc5f7687d3b147f11a4cc4158a0f1442ad3254516dc57dbbf1529c457e44",
+        "bytes": 24576,
+        "proxy_tokens_o200k": 7497,
+        "proxy_tokens_utf8_div3": 8192
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 24576,
+    "first_visible_proxy_tokens_o200k": 7497,
+    "first_visible_proxy_tokens_utf8_div3": 8192,
+    "observed_in_repair_requests": 5,
+    "actual_repair_exposure_proxy_tokens_o200k": 37485,
+    "first_visible_json_complete": false,
+    "literal_visible_candidates": null,
+    "raw_to_first_visible_bytes_saved": 3398,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 20,
+    "delayed_actual_repair_appearances": 3,
+    "delayed_repair_exposure_proxy_tokens_o200k": 22491,
+    "delayed_reference_stub_proxy_tokens_o200k": 72,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 22275,
+    "later_repair_requests_after_two_completed_steps": 3
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2610/baseline/repeat-2",
+    "job_key": "trial-102",
+    "instance_id": "fmtlib__fmt-2610",
+    "arm": "baseline",
+    "repeat": 2,
+    "tool_id": "s000019.t01",
+    "provider_call_id": "call_iguVJD8gw0yhTB4nWPOrSteL",
+    "step_id": 19,
+    "event_seq": 218,
+    "tool": "run_shell",
+    "arguments": {
+      "command": "cat > /build/check.cc <<'EOF'\n#include <fmt/core.h>\n#include <type_traits>\nusing namespace fmt;\nusing F = void (*)();\nstruct s;\nusing M = int (s::*);\nusing MF = int (s::*)();\nstatic_assert(!std::is_convertible<const F&, const void*>::value, \"fvoid\");\nstatic_assert(!std::is_constructible<basic_string_view<char>, F>::value, \"fsv\");\nstatic_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");\nstatic_assert(!fmt::detail::has_fallback_formatter<F,char>::value, \"hfb\");\nstatic_assert(std::is_base_of<fmt::detail::unformattable, decltype(fmt::detail::arg_mapper<fmt::format_context>().map(std::declval<F>()))>::value, \"mapped f\");\nstatic_assert(!fmt::is_formattable<F>::value, \"form f\");\nstatic_assert(!fmt::is_formattable<M>::value, \"form m\");\nstatic_assert(!fmt::is_formattable<MF>::value, \"form mf\");\nint main(){}\nEOF\nc++ -std=c++11 -I/src/include -c /build/check.cc -o /build/check.o",
+      "cwd": "/build",
+      "timeout_seconds": 30
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "97163ccd889dcda3ca288cdc27420c5bbc557d9e72bae8546b4855ad3d880335",
+    "raw_ref": {
+      "path": "worker/runs/01176db541fc4595ae225ed89b933737/agent/tool-results/s000019.t01.json",
+      "sha256": "e06b42bac6adc179ebb93e50461a6bd1474a6693ca7a1d712a5b291828c38061",
+      "size_bytes": 3992
+    },
+    "raw_canonical_bytes": 3991,
+    "raw_proxy_tokens_o200k": 1179,
+    "raw_proxy_tokens_utf8_div3": 1331,
+    "data_sha256": "d7f9014b834136088b238022928dd1ce8f09a39f232d51391286147ee2b5f9b8",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 323,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "9fdfcfd17214813096d0a1e95560935e120226f8b9b235142260784f33e78250",
+        "bytes": 3991,
+        "proxy_tokens_o200k": 1179,
+        "proxy_tokens_utf8_div3": 1331
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "9fdfcfd17214813096d0a1e95560935e120226f8b9b235142260784f33e78250",
+        "bytes": 3991,
+        "proxy_tokens_o200k": 1179,
+        "proxy_tokens_utf8_div3": 1331
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "9fdfcfd17214813096d0a1e95560935e120226f8b9b235142260784f33e78250",
+        "bytes": 3991,
+        "proxy_tokens_o200k": 1179,
+        "proxy_tokens_utf8_div3": 1331
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "9fdfcfd17214813096d0a1e95560935e120226f8b9b235142260784f33e78250",
+        "bytes": 3991,
+        "proxy_tokens_o200k": 1179,
+        "proxy_tokens_utf8_div3": 1331
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 3991,
+    "first_visible_proxy_tokens_o200k": 1179,
+    "first_visible_proxy_tokens_utf8_div3": 1331,
+    "observed_in_repair_requests": 4,
+    "actual_repair_exposure_proxy_tokens_o200k": 4716,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 323,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/stderr",
+          "text": "10 | static_assert(!fmt::detail::has_formatter<F, fmt::format_context>::value, \"hff\");"
+        }
+      ]
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 22,
+    "delayed_actual_repair_appearances": 2,
+    "delayed_repair_exposure_proxy_tokens_o200k": 2358,
+    "delayed_reference_stub_proxy_tokens_o200k": 66,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 2226,
+    "later_repair_requests_after_two_completed_steps": 2
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-493/state/repeat-2",
+    "job_key": "trial-139",
+    "instance_id": "fmtlib__fmt-493",
+    "arm": "state",
+    "repeat": 2,
+    "tool_id": "s000012.t01",
+    "provider_call_id": "call_Y91LVvP5D8BQEkBSx19wNsFj",
+    "step_id": 12,
+    "event_seq": 202,
+    "tool": "run_shell",
+    "arguments": {
+      "command": "cat >/build/memory_writer_allocation.cc <<'EOF'\n#define FMT_HEADER_ONLY\n#include \"fmt/ostream.h\"\n#include <string>\n#include <iostream>\nint main() {\n  fmt::MemoryWriter w;\n  size_t final_len = 0;\n  const size_t l = 10000;\n  for (size_t i = 0; i < l; ++i) {\n    const std::string token = std::to_string(i);\n    final_len += token.size();\n    w << token;\n  }\n  const std::string rs = w.str();\n  if (w.size() != final_len || rs.size() != final_len) {\n    std::cerr << w.size() << \" \" << final_len << \" \" << rs.size() << \"\\n\";\n    return 1;\n  }\n  return 0;\n}\nEOF\ng++ -std=c++11 -I/src /build/memory_writer_allocation.cc -o /build/memory_writer_allocation && /build/memory_writer_allocation",
+      "cwd": "/src",
+      "timeout_seconds": 120
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "484b992f2a00a755889319006a54e0d38ac6ba7a3006488bfedee4e14bc91625",
+    "raw_ref": {
+      "path": "worker/runs/8e72cda07ee74176b412110849ee0218/agent/tool-results/s000012.t01.json",
+      "sha256": "7319c6cb86a34297a997beb607a68e07ffead8ad7d429fb00c5121056a0078a8",
+      "size_bytes": 1752
+    },
+    "raw_canonical_bytes": 1751,
+    "raw_proxy_tokens_o200k": 615,
+    "raw_proxy_tokens_utf8_div3": 584,
+    "data_sha256": "f902d048c8232945dfb77d71f4c29445b54fc0b4fe5b7fab37b9d249b82a718e",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "d69851f3e2df44ec371af47617a1c709241287ece6fe071f160e4274b9754bb4",
+        "bytes": 1751,
+        "proxy_tokens_o200k": 615,
+        "proxy_tokens_utf8_div3": 584
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "d69851f3e2df44ec371af47617a1c709241287ece6fe071f160e4274b9754bb4",
+        "bytes": 1751,
+        "proxy_tokens_o200k": 615,
+        "proxy_tokens_utf8_div3": 584
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "d69851f3e2df44ec371af47617a1c709241287ece6fe071f160e4274b9754bb4",
+        "bytes": 1751,
+        "proxy_tokens_o200k": 615,
+        "proxy_tokens_utf8_div3": 584
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "d69851f3e2df44ec371af47617a1c709241287ece6fe071f160e4274b9754bb4",
+        "bytes": 1751,
+        "proxy_tokens_o200k": 615,
+        "proxy_tokens_utf8_div3": 584
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "d69851f3e2df44ec371af47617a1c709241287ece6fe071f160e4274b9754bb4",
+        "bytes": 1751,
+        "proxy_tokens_o200k": 615,
+        "proxy_tokens_utf8_div3": 584
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "d69851f3e2df44ec371af47617a1c709241287ece6fe071f160e4274b9754bb4",
+        "bytes": 1751,
+        "proxy_tokens_o200k": 615,
+        "proxy_tokens_utf8_div3": 584
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 1751,
+    "first_visible_proxy_tokens_o200k": 615,
+    "first_visible_proxy_tokens_utf8_div3": 584,
+    "observed_in_repair_requests": 6,
+    "actual_repair_exposure_proxy_tokens_o200k": 3690,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 15,
+    "delayed_actual_repair_appearances": 4,
+    "delayed_repair_exposure_proxy_tokens_o200k": 2460,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 2180,
+    "later_repair_requests_after_two_completed_steps": 4
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/diagnostics/repeat-1",
+    "job_key": "trial-069",
+    "instance_id": "fmtlib__fmt-2292",
+    "arm": "diagnostics",
+    "repeat": 1,
+    "tool_id": "s000021.t01",
+    "provider_call_id": "call_Utqnb4ZoDXpeyygaom2kBfLd",
+    "step_id": 21,
+    "event_seq": 276,
+    "tool": "run_shell",
+    "arguments": {
+      "command": "g++ -std=c++11 -DFMT_HEADER_ONLY -I/src/include /build/chrono_check.cc -o /build/chrono_check && /build/chrono_check",
+      "cwd": "/src",
+      "timeout_seconds": 120
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "faddda063250542d113fcffb0f23f88d6e2d7b1cc33dfb9b4d9e38f547b6f603",
+    "raw_ref": {
+      "path": "worker/runs/a9da8cd5a638403abc0de0c3fc7f8f7e/agent/tool-results/s000021.t01.json",
+      "sha256": "8ba4319a347ab1568744145b766a7bc25e9e2693283819d64c43b85f901bd1c7",
+      "size_bytes": 1254
+    },
+    "raw_canonical_bytes": 1253,
+    "raw_proxy_tokens_o200k": 452,
+    "raw_proxy_tokens_utf8_div3": 418,
+    "data_sha256": "ef57273c0ab57f1d538646edccaca4cc1ef08f93aeaf734c153c47aca370e0de",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "2d453a767cf0ecd57f398d6a89b5c8884c957ebebe541ba81cbe4205b97ce414",
+        "bytes": 1253,
+        "proxy_tokens_o200k": 452,
+        "proxy_tokens_utf8_div3": 418
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "2d453a767cf0ecd57f398d6a89b5c8884c957ebebe541ba81cbe4205b97ce414",
+        "bytes": 1253,
+        "proxy_tokens_o200k": 452,
+        "proxy_tokens_utf8_div3": 418
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "2d453a767cf0ecd57f398d6a89b5c8884c957ebebe541ba81cbe4205b97ce414",
+        "bytes": 1253,
+        "proxy_tokens_o200k": 452,
+        "proxy_tokens_utf8_div3": 418
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 1253,
+    "first_visible_proxy_tokens_o200k": 452,
+    "first_visible_proxy_tokens_utf8_div3": 418,
+    "observed_in_repair_requests": 3,
+    "actual_repair_exposure_proxy_tokens_o200k": 1356,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 76,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 1
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/state/repeat-1",
+    "job_key": "trial-135",
+    "instance_id": "fmtlib__fmt-2292",
+    "arm": "state",
+    "repeat": 1,
+    "tool_id": "s000021.t01",
+    "provider_call_id": "call_fqHhntNMsZOSVJ1fhC7iGajB",
+    "step_id": 21,
+    "event_seq": 276,
+    "tool": "run_shell",
+    "arguments": {
+      "command": "g++ -std=c++11 -DFMT_HEADER_ONLY -I/src/include /build/check.cc -o /build/check && /build/check",
+      "cwd": "/src",
+      "timeout_seconds": 120
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "99eaef1053aa55fb681ce3a72a8b2a3ab84b86427473e9ab324626280dfdaf8d",
+    "raw_ref": {
+      "path": "worker/runs/21dec745604247f18e395ed2ba677f47/agent/tool-results/s000021.t01.json",
+      "sha256": "811711a8156603f79398cbec098619077e37e1c792f528ec02f416940e57e20a",
+      "size_bytes": 1225
+    },
+    "raw_canonical_bytes": 1224,
+    "raw_proxy_tokens_o200k": 432,
+    "raw_proxy_tokens_utf8_div3": 408,
+    "data_sha256": "282ec18f6d162bf13e2da363d25e8f972c2c071a3a0ba94f48779f5936513bb7",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "8b74c3113e36ea875ead9c5361eec9d1b0883a5d9d0a9c771a0a07eda63e3b87",
+        "bytes": 1224,
+        "proxy_tokens_o200k": 432,
+        "proxy_tokens_utf8_div3": 408
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "8b74c3113e36ea875ead9c5361eec9d1b0883a5d9d0a9c771a0a07eda63e3b87",
+        "bytes": 1224,
+        "proxy_tokens_o200k": 432,
+        "proxy_tokens_utf8_div3": 408
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "8b74c3113e36ea875ead9c5361eec9d1b0883a5d9d0a9c771a0a07eda63e3b87",
+        "bytes": 1224,
+        "proxy_tokens_o200k": 432,
+        "proxy_tokens_utf8_div3": 408
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 1224,
+    "first_visible_proxy_tokens_o200k": 432,
+    "first_visible_proxy_tokens_utf8_div3": 408,
+    "observed_in_repair_requests": 3,
+    "actual_repair_exposure_proxy_tokens_o200k": 1296,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 1
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/baseline/repeat-1",
+    "job_key": "trial-126",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000013.t01",
+    "provider_call_id": "call_AhzWV1T0ht1m5ccxoHLNTyVm",
+    "step_id": 13,
+    "event_seq": 180,
+    "tool": "search_code",
+    "arguments": {
+      "query": "fmt_duration_cast",
+      "path": "include/fmt/chrono.h"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+    "raw_ref": {
+      "path": "worker/runs/0aecd22bd3154a3ab859838b88904249/agent/tool-results/s000013.t01.json",
+      "sha256": "af3629cab5a0d6ec3b096bcb3ecb7acd500a87f0978d8acce7bd1b7b395d2494",
+      "size_bytes": 2132
+    },
+    "raw_canonical_bytes": 2131,
+    "raw_proxy_tokens_o200k": 581,
+    "raw_proxy_tokens_utf8_div3": 711,
+    "data_sha256": "7f5d90a7e36101ddf17f66ad5357e5acc579f2c1a9f88ecdc9636147daea3fa5",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 145,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/matches/1/text",
+          "text": "To fmt_duration_cast(std::chrono::duration<FromRep, FromPeriod> from) {"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/matches/15/text",
+          "text": "epoch - detail::fmt_duration_cast<std::chrono::seconds>(epoch));"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "42549459fa8f98c93076e5e3005e166586a2830d7a409f7d87c9967d3fd47821",
+        "bytes": 2131,
+        "proxy_tokens_o200k": 581,
+        "proxy_tokens_utf8_div3": 711
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 2131,
+    "first_visible_proxy_tokens_o200k": 581,
+    "first_visible_proxy_tokens_utf8_div3": 711,
+    "observed_in_repair_requests": 8,
+    "actual_repair_exposure_proxy_tokens_o200k": 4648,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 145,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/matches/1/text",
+          "text": "To fmt_duration_cast(std::chrono::duration<FromRep, FromPeriod> from) {"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/matches/15/text",
+          "text": "epoch - detail::fmt_duration_cast<std::chrono::seconds>(epoch));"
+        }
+      ]
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 16,
+    "delayed_actual_repair_appearances": 6,
+    "delayed_repair_exposure_proxy_tokens_o200k": 3486,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 3048,
+    "later_repair_requests_after_two_completed_steps": 6
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2292/state/repeat-1",
+    "job_key": "trial-135",
+    "instance_id": "fmtlib__fmt-2292",
+    "arm": "state",
+    "repeat": 1,
+    "tool_id": "s000012.t01",
+    "provider_call_id": "call_2gXbzObKIm51f1XIPZra9Fwe",
+    "step_id": 12,
+    "event_seq": 166,
+    "tool": "search_code",
+    "arguments": {
+      "query": "fmt::format(\"{:%",
+      "path": "test/chrono-test.cc"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "60fb6a6d9352d023c39124dd7274be149d0de2cd0bb11bab88c353f7be5e2a8c",
+    "raw_ref": {
+      "path": "worker/runs/21dec745604247f18e395ed2ba677f47/agent/tool-results/s000012.t01.json",
+      "sha256": "ceaa956fceb41d1913935e31d9a9c519c87717119550219beb70cb74c5f257e2",
+      "size_bytes": 5378
+    },
+    "raw_canonical_bytes": 5377,
+    "raw_proxy_tokens_o200k": 1710,
+    "raw_proxy_tokens_utf8_div3": 1793,
+    "data_sha256": "bab3bb3b50264182e6b9a310b714ae2dbe592ca1712c2fe09772e6a321d17540",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "6336734476f2200f7d0e23b60b8a2cdfe007aa4a7e574b6fad93a570e1fdeee2",
+        "bytes": 5377,
+        "proxy_tokens_o200k": 1710,
+        "proxy_tokens_utf8_div3": 1793
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 5377,
+    "first_visible_proxy_tokens_o200k": 1710,
+    "first_visible_proxy_tokens_utf8_div3": 1793,
+    "observed_in_repair_requests": 12,
+    "actual_repair_exposure_proxy_tokens_o200k": 20520,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 15,
+    "delayed_actual_repair_appearances": 10,
+    "delayed_repair_exposure_proxy_tokens_o200k": 17100,
+    "delayed_reference_stub_proxy_tokens_o200k": 74,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 16360,
+    "later_repair_requests_after_two_completed_steps": 10
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3734/baseline/repeat-1",
+    "job_key": "trial-106",
+    "instance_id": "fmtlib__fmt-3734",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000006.t01",
+    "provider_call_id": "call_ylOF8fAp2e8HMN73zC5GD1tb",
+    "step_id": 6,
+    "event_seq": 138,
+    "tool": "search_code",
+    "arguments": {
+      "query": "formatter<bool",
+      "path": "include/fmt"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "e378bfc9c1864dda4b1ccbd903ddd546ca9c2610c84256b4a667b839641ef803",
+    "raw_ref": {
+      "path": "worker/runs/af7a8c5665cf43a0ba9beeadd16c1478/agent/tool-results/s000006.t01.json",
+      "sha256": "6c3f625db822aa0023fab4bdca1ba09996b56b919c579ac26c2b1e582a68cc10",
+      "size_bytes": 594
+    },
+    "raw_canonical_bytes": 593,
+    "raw_proxy_tokens_o200k": 157,
+    "raw_proxy_tokens_utf8_div3": 198,
+    "data_sha256": "0263dd196c5dca544dfe57a33fc09fca50c51a279d863574574f87bacac7be33",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 7,
+        "purpose": "repair",
+        "step_id": 7,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 8,
+        "purpose": "repair",
+        "step_id": 8,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 9,
+        "purpose": "repair",
+        "step_id": 9,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "50717da4c8669bdf375d5db37c71c2002f300d0feda6514b8993bc708df68920",
+        "bytes": 593,
+        "proxy_tokens_o200k": 157,
+        "proxy_tokens_utf8_div3": 198
+      }
+    ],
+    "same_source_exact_data_previous": "s000004.t01",
+    "same_source_arguments_data_previous": "s000004.t01",
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 593,
+    "first_visible_proxy_tokens_o200k": 157,
+    "first_visible_proxy_tokens_utf8_div3": 198,
+    "observed_in_repair_requests": 18,
+    "actual_repair_exposure_proxy_tokens_o200k": 2826,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 69,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 16
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3734/baseline/repeat-1",
+    "job_key": "trial-106",
+    "instance_id": "fmtlib__fmt-3734",
+    "arm": "baseline",
+    "repeat": 1,
+    "tool_id": "s000001.t01",
+    "provider_call_id": "call_yrTb9WNvnEsJw2a2AA4uskzb",
+    "step_id": 1,
+    "event_seq": 108,
+    "tool": "search_code",
+    "arguments": {
+      "query": "formatter<bool>",
+      "path": "include/fmt/format.h"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "e378bfc9c1864dda4b1ccbd903ddd546ca9c2610c84256b4a667b839641ef803",
+    "raw_ref": {
+      "path": "worker/runs/af7a8c5665cf43a0ba9beeadd16c1478/agent/tool-results/s000001.t01.json",
+      "sha256": "3f36d5635473a43bd48a29437500d474735e3c83d07e95e641c144294563d71d",
+      "size_bytes": 195
+    },
+    "raw_canonical_bytes": 194,
+    "raw_proxy_tokens_o200k": 47,
+    "raw_proxy_tokens_utf8_div3": 65,
+    "data_sha256": "672520b3d62e70d22cdb380395e614200d4114038f0faf927012ddb0fee2d2a0",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 2,
+        "purpose": "repair",
+        "step_id": 2,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 3,
+        "purpose": "repair",
+        "step_id": 3,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 4,
+        "purpose": "repair",
+        "step_id": 4,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 5,
+        "purpose": "repair",
+        "step_id": 5,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 6,
+        "purpose": "repair",
+        "step_id": 6,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 7,
+        "purpose": "repair",
+        "step_id": 7,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 8,
+        "purpose": "repair",
+        "step_id": 8,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 9,
+        "purpose": "repair",
+        "step_id": 9,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "481c43720dcd1fcc1a960dec362653434bf95eb091bb381ce8855fcf9d3152a4",
+        "bytes": 194,
+        "proxy_tokens_o200k": 47,
+        "proxy_tokens_utf8_div3": 65
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 194,
+    "first_visible_proxy_tokens_o200k": 47,
+    "first_visible_proxy_tokens_utf8_div3": 65,
+    "observed_in_repair_requests": 23,
+    "actual_repair_exposure_proxy_tokens_o200k": 1081,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 69,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 21
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/combined/repeat-1",
+    "job_key": "trial-104",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "combined",
+    "repeat": 1,
+    "tool_id": "s000010.t01",
+    "provider_call_id": "call_KvDdi146j9H6bCyDlI8ta2Oz",
+    "step_id": 10,
+    "event_seq": 162,
+    "tool": "search_code",
+    "arguments": {
+      "query": "day_of_year",
+      "path": "."
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+    "raw_ref": {
+      "path": "worker/runs/453e1b49d1954270baa8e04478fad816/agent/tool-results/s000010.t01.json",
+      "sha256": "4df8a2939e22523f30d295f007da3d5aceb1ef30efbe88626579773128c69e53",
+      "size_bytes": 639
+    },
+    "raw_canonical_bytes": 638,
+    "raw_proxy_tokens_o200k": 182,
+    "raw_proxy_tokens_utf8_div3": 213,
+    "data_sha256": "269a13733cd9083ce9cd52f3a70b006f787393c5bdf926593497e4e3c28428bb",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "71fea45e81fa96c4e84f3fdc570af6e4f24f6aebe28edf7176681e89308e5339",
+        "bytes": 638,
+        "proxy_tokens_o200k": 182,
+        "proxy_tokens_utf8_div3": 213
+      }
+    ],
+    "same_source_exact_data_previous": "s000001.t01",
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 638,
+    "first_visible_proxy_tokens_o200k": 182,
+    "first_visible_proxy_tokens_utf8_div3": 213,
+    "observed_in_repair_requests": 12,
+    "actual_repair_exposure_proxy_tokens_o200k": 2184,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 10
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-1361/dedup/repeat-2",
+    "job_key": "trial-158",
+    "instance_id": "fmtlib__fmt-1361",
+    "arm": "dedup",
+    "repeat": 2,
+    "tool_id": "s000014.t01",
+    "provider_call_id": "call_YFm4BHopxa4EzIDQFcHEMi8k",
+    "step_id": 14,
+    "event_seq": 174,
+    "tool": "search_code",
+    "arguments": {
+      "query": "grisu_format",
+      "path": "include/fmt/format-inl.h"
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "e597304b4a6c75818b120cadfbaff10426e5b5dcbe939c5dbb3f3f0ea8128af5",
+    "raw_ref": {
+      "path": "worker/runs/dd21e4a1f94b4d5db613c0664746e07a/agent/tool-results/s000014.t01.json",
+      "sha256": "00b3d1e05d99e333c98952d770cd527ab1ad979cb9a1af7c6280f386191ce082",
+      "size_bytes": 317
+    },
+    "raw_canonical_bytes": 316,
+    "raw_proxy_tokens_o200k": 82,
+    "raw_proxy_tokens_utf8_div3": 106,
+    "data_sha256": "b4a2a821c06f65358992559b8451b6be2bf05ee945f2c76a436bae03d945766d",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "4ce8abdaa3ddc25e594a3cdab3eef45c3e1d72765e71b8fbaa30fa5190aa17f2",
+        "bytes": 316,
+        "proxy_tokens_o200k": 82,
+        "proxy_tokens_utf8_div3": 106
+      }
+    ],
+    "same_source_exact_data_previous": "s000006.t01",
+    "same_source_arguments_data_previous": "s000006.t01",
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 316,
+    "first_visible_proxy_tokens_o200k": 82,
+    "first_visible_proxy_tokens_utf8_div3": 106,
+    "observed_in_repair_requests": 10,
+    "actual_repair_exposure_proxy_tokens_o200k": 820,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": false,
+    "delayed_500_candidate_utf8_div3": false,
+    "delayed_first_repair_sequence": null,
+    "delayed_actual_repair_appearances": 0,
+    "delayed_repair_exposure_proxy_tokens_o200k": 0,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 0,
+    "later_repair_requests_after_two_completed_steps": 8
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3732/state/repeat-2",
+    "job_key": "trial-128",
+    "instance_id": "fmtlib__fmt-3732",
+    "arm": "state",
+    "repeat": 2,
+    "tool_id": "s000009.t01",
+    "provider_call_id": "call_JHTC1LPZ3bWxLYrnXvWzwMkJ",
+    "step_id": 9,
+    "event_seq": 156,
+    "tool": "read_file",
+    "arguments": {
+      "path": "include/fmt/chrono.h",
+      "start_line": 1725,
+      "max_lines": 145
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "ff69c73331708d0af38b91e0a4aae009d89d805ea1bc3b5e95ffeafdc6eb25e3",
+    "raw_ref": {
+      "path": "worker/runs/bd9b7c1acb5d496cbabac44e44c83754/agent/tool-results/s000009.t01.json",
+      "sha256": "aa648cf5eb322adf0e93b608fee6c94eba4306208f57c814884db6129d0388ac",
+      "size_bytes": 4468
+    },
+    "raw_canonical_bytes": 4467,
+    "raw_proxy_tokens_o200k": 1367,
+    "raw_proxy_tokens_utf8_div3": 1489,
+    "data_sha256": "6da790ce2c2869dd0e60aa9d468a0bae45b816a38b8cbccac928541fc2db8a20",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "appearances": [
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "d44d7244d832aeb21334d24b70b7175d8152eb5ba08236fe23142e52c957c704",
+        "bytes": 4467,
+        "proxy_tokens_o200k": 1367,
+        "proxy_tokens_utf8_div3": 1489
+      }
+    ],
+    "file_path": "include/fmt/chrono.h",
+    "file_sha256": "c26ba1f7ab39511a7c8a5deed044b5f2a640a1109c80ab8896b9f26799ba050c",
+    "start_line": 1725,
+    "end_line": 1869,
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 1866,
+    "new_file_version_successor": {
+      "tool_id": "s000015.t01",
+      "step_id": 15,
+      "overlap_lines": 25,
+      "fully_covers_old_range": false,
+      "new_file_sha256": "c3dc82dc2da4a4879cc9b3ce7e4802bfc8547bfb1661793b81e812464b83c0f9"
+    },
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 4467,
+    "first_visible_proxy_tokens_o200k": 1367,
+    "first_visible_proxy_tokens_utf8_div3": 1489,
+    "observed_in_repair_requests": 11,
+    "actual_repair_exposure_proxy_tokens_o200k": 15037,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 0,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": []
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 12,
+    "delayed_actual_repair_appearances": 9,
+    "delayed_repair_exposure_proxy_tokens_o200k": 12303,
+    "delayed_reference_stub_proxy_tokens_o200k": 73,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 11646,
+    "later_repair_requests_after_two_completed_steps": 9
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-2310/diagnostics/repeat-1",
+    "job_key": "trial-001",
+    "instance_id": "fmtlib__fmt-2310",
+    "arm": "diagnostics",
+    "repeat": 1,
+    "tool_id": "s000004.t01",
+    "provider_call_id": "call_pCnRlFXwbwZVUxQCKdDBQbQn",
+    "step_id": 4,
+    "event_seq": 114,
+    "tool": "read_file",
+    "arguments": {
+      "path": "include/fmt/format.h",
+      "start_line": 1540,
+      "max_lines": 90
+    },
+    "tool_ok": true,
+    "test_passed": null,
+    "check_mode": null,
+    "evaluation_role": null,
+    "source_tree_sha256": "5eab8dd90c916093e74a620abab7248efed3febf6021a962b37802907c8d48d8",
+    "raw_ref": {
+      "path": "worker/runs/088c9d14fb824d6dbed38677850ffc47/agent/tool-results/s000004.t01.json",
+      "sha256": "b0990be1a4f8b0096fa963b3bb80c9ddb90615be53d8573382fced3ea1a9c4f0",
+      "size_bytes": 4245
+    },
+    "raw_canonical_bytes": 4244,
+    "raw_proxy_tokens_o200k": 1076,
+    "raw_proxy_tokens_utf8_div3": 1415,
+    "data_sha256": "6c5167b73f0dec4e0fc4d5942e1917e42d0f91d8ebee82ad060d9c10e07a831e",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 632,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/text",
+          "text": "const basic_format_specs<Char>& specs,"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/text",
+          "text": "locale_ref loc) {"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/text",
+          "text": "return write_int(out, make_write_int_arg(value, specs.sign), specs, loc);"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 5,
+        "purpose": "repair",
+        "step_id": 5,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 6,
+        "purpose": "repair",
+        "step_id": 6,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 7,
+        "purpose": "repair",
+        "step_id": 7,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 8,
+        "purpose": "repair",
+        "step_id": 8,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 9,
+        "purpose": "repair",
+        "step_id": 9,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 10,
+        "purpose": "repair",
+        "step_id": 10,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      },
+      {
+        "sequence": 24,
+        "purpose": "repair",
+        "step_id": 24,
+        "sha256": "e41c2d637faadc983fd38a107ba2e8465f7baea9168de3a6dd4eda9b3f9a8dfe",
+        "bytes": 4244,
+        "proxy_tokens_o200k": 1076,
+        "proxy_tokens_utf8_div3": 1415
+      }
+    ],
+    "file_path": "include/fmt/format.h",
+    "file_sha256": "d61dc8ae7ff0783cd3486f81cf2417d441691ad6f3d71c25149e93268bd8d303",
+    "start_line": 1540,
+    "end_line": 1629,
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": {
+      "tool_id": "s000014.t01",
+      "step_id": 14,
+      "overlap_lines": 26,
+      "fully_covers_old_range": false,
+      "new_file_sha256": "ad5c0b8a529814343c30fbd50ff6e5ca725b5e6aa5d52a2ccb3253e12310979e"
+    },
+    "later_check_successor": null,
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [
+      {
+        "tool_id": "s000012.t01",
+        "step_id": 12,
+        "old_anchor_bytes": 145,
+        "before_sha256": "d61dc8ae7ff0783cd3486f81cf2417d441691ad6f3d71c25149e93268bd8d303",
+        "after_sha256": "ad5c0b8a529814343c30fbd50ff6e5ca725b5e6aa5d52a2ccb3253e12310979e",
+        "qualifying_repair_coappearances": 12
+      }
+    ],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 4244,
+    "first_visible_proxy_tokens_o200k": 1076,
+    "first_visible_proxy_tokens_utf8_div3": 1415,
+    "observed_in_repair_requests": 20,
+    "actual_repair_exposure_proxy_tokens_o200k": 21520,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 632,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 0,
+      "examples": [
+        {
+          "kind": "literal_repeat",
+          "field": "/data/text",
+          "text": "const basic_format_specs<Char>& specs,"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/text",
+          "text": "locale_ref loc) {"
+        },
+        {
+          "kind": "literal_repeat",
+          "field": "/data/text",
+          "text": "return write_int(out, make_write_int_arg(value, specs.sign), specs, loc);"
+        }
+      ]
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 7,
+    "delayed_actual_repair_appearances": 18,
+    "delayed_repair_exposure_proxy_tokens_o200k": 19368,
+    "delayed_reference_stub_proxy_tokens_o200k": 70,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 18108,
+    "later_repair_requests_after_two_completed_steps": 18
+  },
+  {
+    "attempt_id": "context-ablation-20261106/full/fmtlib__fmt-3727/diagnostics/repeat-1",
+    "job_key": "trial-110",
+    "instance_id": "fmtlib__fmt-3727",
+    "arm": "diagnostics",
+    "repeat": 1,
+    "tool_id": "s000010.t01",
+    "provider_call_id": "call_dRlAL8C3Sajb0dPA85kXzK8q",
+    "step_id": 10,
+    "event_seq": 177,
+    "tool": "run_command",
+    "arguments": {
+      "name": "reproduce"
+    },
+    "tool_ok": true,
+    "test_passed": false,
+    "check_mode": "reproduce",
+    "evaluation_role": "agent_check",
+    "source_tree_sha256": "f1d81ce3a5526b396aa5a87c940104974c47bbade4634ac41b77b7ef77fdb489",
+    "raw_ref": {
+      "path": "worker/runs/109a7ff3bcfc43b3ae4e36b06f69e7dc/agent/tool-results/s000010.t01.json",
+      "sha256": "3e57e22dfce9fbca0a6e1b5da19f3251f3a0c93f40f19902ecac212fc8c9c20a",
+      "size_bytes": 6061
+    },
+    "raw_canonical_bytes": 6060,
+    "raw_proxy_tokens_o200k": 1993,
+    "raw_proxy_tokens_utf8_div3": 2020,
+    "data_sha256": "d68ab0b0b9041f7f83364dd3dbd50df127fe794ded93ba0709f40ee9c65f8401",
+    "literal_raw_candidates": {
+      "literal_repeat_bytes": 97,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 1569,
+      "examples": [
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[1/65] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o"
+        },
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[2/65] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o"
+        },
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[3/65] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o"
+        }
+      ]
+    },
+    "appearances": [
+      {
+        "sequence": 11,
+        "purpose": "repair",
+        "step_id": 11,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 12,
+        "purpose": "repair",
+        "step_id": 12,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 13,
+        "purpose": "repair",
+        "step_id": 13,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 14,
+        "purpose": "repair",
+        "step_id": 14,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 15,
+        "purpose": "repair",
+        "step_id": 15,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 16,
+        "purpose": "repair",
+        "step_id": 16,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 17,
+        "purpose": "repair",
+        "step_id": 17,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 18,
+        "purpose": "repair",
+        "step_id": 18,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 19,
+        "purpose": "repair",
+        "step_id": 19,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 20,
+        "purpose": "repair",
+        "step_id": 20,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 21,
+        "purpose": "repair",
+        "step_id": 21,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 22,
+        "purpose": "repair",
+        "step_id": 22,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      },
+      {
+        "sequence": 23,
+        "purpose": "repair",
+        "step_id": 23,
+        "sha256": "88a6f35f4608b7b16443aa68588f9469a672ef2f50eba0356f0a2e721789a9a7",
+        "bytes": 6060,
+        "proxy_tokens_o200k": 1993,
+        "proxy_tokens_utf8_div3": 2020
+      }
+    ],
+    "same_source_exact_data_previous": null,
+    "same_source_arguments_data_previous": null,
+    "same_file_version_overlap_bytes": 0,
+    "new_file_version_successor": null,
+    "later_check_successor": {
+      "tool_id": "s000012.t01",
+      "step_id": 12,
+      "same_source": false,
+      "check_mode": "reproduce",
+      "old_tool_ok": true,
+      "new_tool_ok": true,
+      "old_test_passed": false,
+      "new_test_passed": false,
+      "old_evaluation_role": "agent_check",
+      "new_evaluation_role": "agent_check"
+    },
+    "later_same_file_version_reads": [],
+    "later_matching_edits": [],
+    "later_same_file_version_overlap_bytes": 0,
+    "first_visible_bytes": 6060,
+    "first_visible_proxy_tokens_o200k": 1993,
+    "first_visible_proxy_tokens_utf8_div3": 2020,
+    "observed_in_repair_requests": 13,
+    "actual_repair_exposure_proxy_tokens_o200k": 25909,
+    "first_visible_json_complete": true,
+    "literal_visible_candidates": {
+      "literal_repeat_bytes": 97,
+      "passing_test_progress_bytes": 0,
+      "build_progress_bytes": 1569,
+      "examples": [
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[1/65] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o"
+        },
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[2/65] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o"
+        },
+        {
+          "kind": "build_progress",
+          "field": "/data/failed_commands/0/stdout",
+          "text": "[3/65] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o"
+        }
+      ]
+    },
+    "raw_to_first_visible_bytes_saved": 0,
+    "delayed_500_candidate_o200k": true,
+    "delayed_500_candidate_utf8_div3": true,
+    "delayed_first_repair_sequence": 13,
+    "delayed_actual_repair_appearances": 11,
+    "delayed_repair_exposure_proxy_tokens_o200k": 21923,
+    "delayed_reference_stub_proxy_tokens_o200k": 71,
+    "delayed_mask_envelope_savings_proxy_tokens_o200k": 21142,
+    "later_repair_requests_after_two_completed_steps": 11
+  }
+]

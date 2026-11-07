@@ -1,0 +1,10 @@
+{
+  "scope": "smoke",
+  "scenario_count": 1,
+  "registered_repeats": 1,
+  "measured_repeats": 1,
+  "all_evidence_checks": 1,
+  "run_id": "24b16ceba245448ca1614f3309d0599a",
+  "new_model_requests": 0,
+  "raw_path": "smoke-binary-read/"
+}
