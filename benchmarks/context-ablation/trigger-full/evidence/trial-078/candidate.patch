@@ -1,0 +1,12 @@
+diff --git a/include/fmt/base.h b/include/fmt/base.h
+index 7d75a1bcd604a62e90279d43c4f181d73f4f5f9b..ddef9175e5d228d56fe4142053e08270d668c7a1 100644
+--- a/include/fmt/base.h
++++ b/include/fmt/base.h
+@@ -1517,6 +1517,7 @@ enum { packed_arg_bits = 4 };
+ enum { max_packed_args = 62 / packed_arg_bits };
+ enum : unsigned long long { is_unpacked_bit = 1ULL << 63 };
+ enum : unsigned long long { has_named_args_bit = 1ULL << 62 };
++enum : unsigned long long { dynamic_named_args_bit = 1ULL << 61 };
+ 
+ template <typename It, typename T, typename Enable = void>
+ struct is_output_iterator : std::false_type {};

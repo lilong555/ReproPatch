@@ -1,0 +1,66 @@
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 79bf52569f38177105279fd15d44746dcdc57737..10640eba01c371cbea92bc33fa04e4cf044f38cb 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -2176,12 +2176,58 @@ template <typename Char = char> struct loc_writer {
+   std::string grouping;
+   std::basic_string<Char> decimal_point;
+ 
++  template <unsigned BASE_BITS, typename UInt>
++  auto write_base(UInt value, unsigned prefix, bool upper) -> bool {
++    int num_digits = count_digits<BASE_BITS>(value);
++    basic_memory_buffer<Char> digits;
++    if (specs.precision > num_digits)
++      detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
++                     static_cast<Char>('0'));
++    format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
++    auto digit_group = digit_grouping<Char>(grouping, sep);
++    auto digit_size = digits.size();
++    auto size = (prefix >> 24) + digit_size +
++                digit_group.count_separators(static_cast<int>(digit_size));
++    write_padded<align::right>(
++        out, specs, size, size, [&](reserve_iterator<buffer_appender<Char>> it) {
++          for (unsigned p = prefix & 0xffffff; p != 0; p >>= 8)
++            *it++ = static_cast<Char>(p & 0xff);
++          return digit_group.apply(
++              it, basic_string_view<Char>(digits.data(), digits.size()));
++        });
++    return true;
++  }
++
+   template <typename T, FMT_ENABLE_IF(is_integer<T>::value)>
+   auto operator()(T value) -> bool {
+     auto arg = make_write_int_arg(value, specs.sign);
+-    write_int(out, static_cast<uint64_or_128_t<T>>(arg.abs_value), arg.prefix,
+-              specs, digit_grouping<Char>(grouping, sep));
+-    return true;
++    auto abs_value = static_cast<uint64_or_128_t<T>>(arg.abs_value);
++    switch (specs.type) {
++    case presentation_type::hex_lower:
++    case presentation_type::hex_upper: {
++      bool upper = specs.type == presentation_type::hex_upper;
++      if (specs.alt)
++        prefix_append(arg.prefix, unsigned(upper ? 'X' : 'x') << 8 | '0');
++      return write_base<4>(abs_value, arg.prefix, upper);
++    }
++    case presentation_type::bin_lower:
++    case presentation_type::bin_upper: {
++      bool upper = specs.type == presentation_type::bin_upper;
++      if (specs.alt)
++        prefix_append(arg.prefix, unsigned(upper ? 'B' : 'b') << 8 | '0');
++      return write_base<1>(abs_value, arg.prefix, upper);
++    }
++    case presentation_type::oct: {
++      int num_digits = count_digits<3>(abs_value);
++      if (specs.alt && specs.precision <= num_digits && abs_value != 0)
++        prefix_append(arg.prefix, '0');
++      return write_base<3>(abs_value, arg.prefix, false);
++    }
++    default:
++      write_int(out, abs_value, arg.prefix, specs,
++                digit_grouping<Char>(grouping, sep));
++      return true;
++    }
+   }
+ 
+   template <typename T, FMT_ENABLE_IF(!is_integer<T>::value)>

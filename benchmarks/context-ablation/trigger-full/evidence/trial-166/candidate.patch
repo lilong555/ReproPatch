@@ -1,0 +1,58 @@
+diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h
+index 30de39b26de60c5e3eea773d88bc91fb768164af..8511b6cbd5238e4977e4bc00ada7143453111a1c 100644
+--- a/include/fmt/format-inl.h
++++ b/include/fmt/format-inl.h
+@@ -423,6 +423,22 @@ class fp {
+     lower.f <<= lower.e - upper.e;
+     lower.e = upper.e;
+   }
++
++  // Computes boundaries for a float value represented as a double. The float
++  // significand has fewer bits, so its rounding interval is wider.
++  void compute_float_boundaries(fp& lower, fp& upper) const {
++    const uint64_t ulp =
++        1ULL << (double_significand_size - std::numeric_limits<float>::digits +
++                 1);
++    const bool lower_is_closer =
++        f == implicit_bit &&
++        e > std::numeric_limits<float>::min_exponent - 1 -
++                double_significand_size;
++    lower = fp((f << 1) - (lower_is_closer ? ulp >> 1 : ulp), e - 1);
++    upper = normalize<1>(fp((f << 1) + ulp, e - 1));
++    lower.f <<= lower.e - upper.e;
++    lower.e = upper.e;
++  }
+ };
+ 
+ // Returns an fp number representing x - y. Result may not be normalized.
+@@ -1013,7 +1029,8 @@ FMT_FUNC void fallback_format(Double v, buffer<char>& buf, int& exp10) {
+ }
+ 
+ template <typename Double,
+-          enable_if_t<(sizeof(Double) == sizeof(uint64_t)), int>>
++          enable_if_t<(sizeof(Double) == sizeof(uint64_t) ||
++                       sizeof(Double) == sizeof(float)), int>>
+ bool grisu_format(Double value, buffer<char>& buf, int precision,
+                   unsigned options, int& exp) {
+   FMT_ASSERT(value >= 0, "value is negative");
+@@ -1030,7 +1047,7 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     return true;
+   }
+ 
+-  const fp fp_value(value);
++  const fp fp_value(static_cast<double>(value));
+   const int min_exp = -60;  // alpha in Grisu.
+   int cached_exp10 = 0;     // K in Grisu.
+   if (precision != -1) {
+@@ -1045,7 +1062,10 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     buf.resize(to_unsigned(handler.size));
+   } else {
+     fp lower, upper;  // w^- and w^+ in the Grisu paper.
+-    fp_value.compute_boundaries(lower, upper);
++    if (std::is_same<Double, float>::value)
++      fp_value.compute_float_boundaries(lower, upper);
++    else
++      fp_value.compute_boundaries(lower, upper);
+     // Find a cached power of 10 such that multiplying upper by it will bring
+     // the exponent in the range [min_exp, -32].
+     const auto cached_pow = get_cached_power(  // \tilde{c}_{-k} in Grisu.

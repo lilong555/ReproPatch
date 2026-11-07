@@ -1,0 +1,49 @@
+diff --git a/include/fmt/core.h b/include/fmt/core.h
+index 9db39267a3d2c2efee4bc59f32819fb53afbd8b1..d11793a10d19941a313fc5e6339958eb8930320b 100644
+--- a/include/fmt/core.h
++++ b/include/fmt/core.h
+@@ -1870,6 +1870,7 @@ template <typename Char> struct basic_format_specs {
+   int precision;
+   char type;
+   align_t align : 4;
++  align_t explicit_align : 4;
+   sign_t sign : 3;
+   bool alt : 1;  // Alternate form ('#').
+   bool localized : 1;
+@@ -1880,6 +1881,7 @@ template <typename Char> struct basic_format_specs {
+         precision(-1),
+         type(0),
+         align(align::none),
++        explicit_align(align::none),
+         sign(sign::none),
+         alt(false),
+         localized(false) {}
+@@ -1939,7 +1941,10 @@ template <typename Char> class specs_setter {
+   FMT_CONSTEXPR specs_setter(const specs_setter& other)
+       : specs_(other.specs_) {}
+ 
+-  FMT_CONSTEXPR void on_align(align_t align) { specs_.align = align; }
++  FMT_CONSTEXPR void on_align(align_t align) {
++    specs_.align = align;
++    specs_.explicit_align = align;
++  }
+   FMT_CONSTEXPR void on_fill(basic_string_view<Char> fill) {
+     specs_.fill = fill;
+   }
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 6df5d849de52fa8650441a2f8807bf588d8091e2..9db6e4dc4ef56b5e3c0e3cb2fd8886f23ce612ae 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -1591,7 +1591,11 @@ OutputIt write_nonfinite(OutputIt out, bool isinf,
+   constexpr size_t str_size = 3;
+   auto sign = fspecs.sign;
+   auto size = str_size + (sign ? 1 : 0);
+-  return write_padded(out, specs, size, [=](reserve_iterator<OutputIt> it) {
++  auto nonfinite_specs = specs;
++  if (nonfinite_specs.align == align::numeric)
++    nonfinite_specs.fill[0] = static_cast<Char>(' ');
++  return write_padded(out, nonfinite_specs, size,
++                      [=](reserve_iterator<OutputIt> it) {
+     if (sign) *it++ = static_cast<Char>(data::signs[sign]);
+     return copy_str<Char>(str, str + str_size, it);
+   });

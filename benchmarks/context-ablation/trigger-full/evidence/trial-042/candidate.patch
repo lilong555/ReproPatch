@@ -1,0 +1,94 @@
+diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h
+index 30de39b26de60c5e3eea773d88bc91fb768164af..41be213dc77cfd9d596ec7e35bc2d46a0fb9e157 100644
+--- a/include/fmt/format-inl.h
++++ b/include/fmt/format-inl.h
+@@ -423,6 +423,20 @@ class fp {
+     lower.f <<= lower.e - upper.e;
+     lower.e = upper.e;
+   }
++
++  // Computes the boundaries for a single-precision value represented by this
++  // fp. The value itself is still stored with double precision, so a float ulp
++  // is 2^(double_significand_size - float_significand_size) fp units.
++  void compute_float_boundaries(fp& lower, fp& upper) const {
++    const int shift = double_significand_size -
++                      (std::numeric_limits<float>::digits - 1);
++    const uint64_t half_ulp = uint64_t(1) << (shift - 1);
++    const int min_normal_exp = std::numeric_limits<float>::min_exponent - 1 -
++                               double_significand_size;
++    const bool lower_spacing_is_smaller = f == implicit_bit && e > min_normal_exp;
++    lower = fp(f - (lower_spacing_is_smaller ? half_ulp / 2 : half_ulp), e);
++    upper = fp(f + half_ulp, e);
++  }
+ };
+ 
+ // Returns an fp number representing x - y. Result may not be normalized.
+@@ -938,7 +952,7 @@ template <int GRISU_VERSION> struct grisu_shortest_handler {
+ // http://kurtstephens.com/files/p372-steele.pdf.
+ template <typename Double>
+ FMT_FUNC void fallback_format(Double v, buffer<char>& buf, int& exp10) {
+-  fp fp_value(v);
++  fp fp_value(static_cast<double>(v));
+   // Shift to account for unequal gaps when lower boundary is 2 times closer.
+   // TODO: handle denormals
+   int shift = fp_value.f == 1 ? 1 : 0;
+@@ -1013,7 +1027,8 @@ FMT_FUNC void fallback_format(Double v, buffer<char>& buf, int& exp10) {
+ }
+ 
+ template <typename Double,
+-          enable_if_t<(sizeof(Double) == sizeof(uint64_t)), int>>
++          enable_if_t<(sizeof(Double) == sizeof(uint64_t) ||
++                       sizeof(Double) == sizeof(float)), int>>
+ bool grisu_format(Double value, buffer<char>& buf, int precision,
+                   unsigned options, int& exp) {
+   FMT_ASSERT(value >= 0, "value is negative");
+@@ -1030,7 +1045,7 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     return true;
+   }
+ 
+-  const fp fp_value(value);
++  const fp fp_value(static_cast<double>(value));
+   const int min_exp = -60;  // alpha in Grisu.
+   int cached_exp10 = 0;     // K in Grisu.
+   if (precision != -1) {
+@@ -1045,7 +1060,10 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     buf.resize(to_unsigned(handler.size));
+   } else {
+     fp lower, upper;  // w^- and w^+ in the Grisu paper.
+-    fp_value.compute_boundaries(lower, upper);
++    if (sizeof(Double) == sizeof(float))
++      fp_value.compute_float_boundaries(lower, upper);
++    else
++      fp_value.compute_boundaries(lower, upper);
+     // Find a cached power of 10 such that multiplying upper by it will bring
+     // the exponent in the range [min_exp, -32].
+     const auto cached_pow = get_cached_power(  // \tilde{c}_{-k} in Grisu.
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 007fe8f2c4e359c794943a1b4416aa0dae044b54..6c16e529d839ab58c1913e5d63d6825c20975d9e 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -1116,9 +1116,13 @@ enum { fixed = 1, grisu2 = 2 };
+ 
+ // Formats value using the Grisu algorithm:
+ // https://www.cs.tufts.edu/~nr/cs257/archive/florian-loitsch/printf.pdf
+-template <typename Double, FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t))>
++template <typename Double,
++          FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t) ||
++                        sizeof(Double) == sizeof(float))>
+ FMT_API bool grisu_format(Double, buffer<char>&, int, unsigned, int&);
+-template <typename Double, FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t))>
++template <typename Double,
++          FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t) &&
++                        sizeof(Double) != sizeof(float))>
+ inline bool grisu_format(Double, buffer<char>&, int, unsigned, int&) {
+   return false;
+ }
+@@ -2813,7 +2817,7 @@ void internal::basic_writer<Range>::write_fp(T value,
+                    (specs.type != 'a' && specs.type != 'A' &&
+                     specs.type != 'e' && specs.type != 'E') &&
+                    internal::grisu_format(
+-                       static_cast<double>(value), buffer, precision,
++                       value, buffer, precision,
+                        handler.fixed ? internal::grisu_options::fixed : 0, exp);
+   char* decimal_point_pos = nullptr;
+   if (!use_grisu)

@@ -1,0 +1,522 @@
+[1/67] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[2/67] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[3/67] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[4/67] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[5/67] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[6/67] Linking CXX static library libfmt.a
+[7/67] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[8/67] Building CXX object test/CMakeFiles/args-test.dir/args-test.cc.o
+[9/67] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[10/67] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[11/67] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[12/67] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[13/67] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[14/67] Building CXX object test/CMakeFiles/format-impl-test.dir/header-only-test.cc.o
+[15/67] Building CXX object test/CMakeFiles/format-impl-test.dir/test-main.cc.o
+[16/67] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[17/67] Building CXX object test/CMakeFiles/format-impl-test.dir/gtest-extra.cc.o
+[18/67] Building CXX object test/CMakeFiles/format-impl-test.dir/util.cc.o
+[19/67] Building CXX object test/CMakeFiles/format-impl-test.dir/__/src/os.cc.o
+[20/67] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[21/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/compile-fp-test.cc.o
+[22/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/test-main.cc.o
+[23/67] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[24/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/gtest-extra.cc.o
+[25/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/util.cc.o
+[26/67] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+FAILED: test/CMakeFiles/printf-test.dir/printf-test.cc.o 
+/usr/bin/c++ -DGTEST_HAS_STD_WSTRING=1 -D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING=1 -I/src/include -isystem /src/test/gtest/. -O3 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden -Wno-stringop-overflow -MD -MT test/CMakeFiles/printf-test.dir/printf-test.cc.o -MF test/CMakeFiles/printf-test.dir/printf-test.cc.o.d -o test/CMakeFiles/printf-test.dir/printf-test.cc.o -c /src/test/printf-test.cc
+In file included from /src/include/fmt/printf.h:14,
+                 from /src/test/printf-test.cc:8:
+/src/include/fmt/format.h: In instantiation of ‘bool fmt::v10::detail::loc_writer<Char>::write_base(UInt, unsigned int, bool) [with unsigned int BASE_BITS = 4; UInt = long unsigned int; Char = wchar_t]’:
+/src/include/fmt/format.h:2211:27:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = int; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = wchar_t]’
+/src/include/fmt/core.h:1689:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<wchar_t>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<wchar_t>; decltype (vis(0)) = bool]’
+/src/include/fmt/xchar.h:34:21:   required from here
+/src/include/fmt/format.h:2184:22: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2184 |       detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
+      |                      ^~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/13/bits/stl_algobase.h:67,
+                 from /usr/include/c++/13/algorithm:60,
+                 from /src/include/fmt/printf.h:11:
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+In file included from /src/include/fmt/format.h:49:
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h:2186:34: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2186 |     format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
+      |                                  ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h: In instantiation of ‘bool fmt::v10::detail::loc_writer<Char>::write_base(UInt, unsigned int, bool) [with unsigned int BASE_BITS = 1; UInt = long unsigned int; Char = wchar_t]’:
+/src/include/fmt/format.h:2218:27:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = int; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = wchar_t]’
+/src/include/fmt/core.h:1689:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<wchar_t>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<wchar_t>; decltype (vis(0)) = bool]’
+/src/include/fmt/xchar.h:34:21:   required from here
+/src/include/fmt/format.h:2184:22: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2184 |       detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
+      |                      ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h:2186:34: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2186 |     format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
+      |                                  ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h: In instantiation of ‘bool fmt::v10::detail::loc_writer<Char>::write_base(UInt, unsigned int, bool) [with unsigned int BASE_BITS = 3; UInt = long unsigned int; Char = wchar_t]’:
+/src/include/fmt/format.h:2224:27:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = int; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = wchar_t]’
+/src/include/fmt/core.h:1689:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<wchar_t>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<wchar_t>; decltype (vis(0)) = bool]’
+/src/include/fmt/xchar.h:34:21:   required from here
+/src/include/fmt/format.h:2184:22: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2184 |       detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
+      |                      ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h:2186:34: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2186 |     format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
+      |                                  ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h: In instantiation of ‘bool fmt::v10::detail::loc_writer<Char>::write_base(UInt, unsigned int, bool) [with unsigned int BASE_BITS = 4; UInt = __int128 unsigned; Char = wchar_t]’:
+/src/include/fmt/format.h:2211:27:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = __int128; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = wchar_t]’
+/src/include/fmt/core.h:1697:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<wchar_t>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<wchar_t>; decltype (vis(0)) = bool]’
+/src/include/fmt/xchar.h:34:21:   required from here
+/src/include/fmt/format.h:2184:22: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2184 |       detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
+      |                      ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h:2186:34: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2186 |     format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
+      |                                  ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h: In instantiation of ‘bool fmt::v10::detail::loc_writer<Char>::write_base(UInt, unsigned int, bool) [with unsigned int BASE_BITS = 1; UInt = __int128 unsigned; Char = wchar_t]’:
+/src/include/fmt/format.h:2218:27:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = __int128; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = wchar_t]’
+/src/include/fmt/core.h:1697:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<wchar_t>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<wchar_t>; decltype (vis(0)) = bool]’
+/src/include/fmt/xchar.h:34:21:   required from here
+/src/include/fmt/format.h:2184:22: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2184 |       detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
+      |                      ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h:2186:34: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2186 |     format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
+      |                                  ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h: In instantiation of ‘bool fmt::v10::detail::loc_writer<Char>::write_base(UInt, unsigned int, bool) [with unsigned int BASE_BITS = 3; UInt = __int128 unsigned; Char = wchar_t]’:
+/src/include/fmt/format.h:2224:27:   required from ‘bool fmt::v10::detail::loc_writer<Char>::operator()(T) [with T = __int128; typename std::enable_if<std::integral_constant<bool, (((fmt::v10::detail::is_integral<T>::value && (! std::is_same<T, bool>::value)) && (! std::is_same<T, char>::value)) && (! std::is_same<T, wchar_t>::value))>::value, int>::type <anonymous> = 0; Char = wchar_t]’
+/src/include/fmt/core.h:1697:15:   required from ‘constexpr decltype (vis(0)) fmt::v10::visit_format_arg(Visitor&&, const basic_format_arg<Context>&) [with Visitor = detail::loc_writer<wchar_t>&; Context = basic_format_context<appender, char>; decltype (vis(0)) = bool]’
+/src/include/fmt/format.h:1100:28:   required from ‘decltype (vis(0)) fmt::v10::loc_value::visit(Visitor&&) [with Visitor = fmt::v10::detail::loc_writer<wchar_t>; decltype (vis(0)) = bool]’
+/src/include/fmt/xchar.h:34:21:   required from here
+/src/include/fmt/format.h:2184:22: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2184 |       detail::fill_n(appender(digits), to_unsigned(specs.precision - num_digits),
+      |                      ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+/src/include/fmt/format.h:2186:34: error: no matching function for call to ‘fmt::v10::appender::appender(fmt::v10::basic_memory_buffer<wchar_t>&)’
+ 2186 |     format_uint<BASE_BITS, Char>(appender(digits), value, num_digits, upper);
+      |                                  ^~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:7: note: candidate: ‘std::back_insert_iterator<_Container>::back_insert_iterator(_Container&) [with _Container = fmt::v10::detail::buffer<char>]’
+  713 |       back_insert_iterator(_Container& __x)
+      |       ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/13/bits/stl_iterator.h:713:40: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::detail::buffer<char>&’
+  713 |       back_insert_iterator(_Container& __x)
+      |                            ~~~~~~~~~~~~^~~
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(const std::back_insert_iterator<fmt::v10::detail::buffer<char> >&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/usr/include/c++/13/bits/stl_iterator.h:698:11: note: candidate: ‘constexpr std::back_insert_iterator<fmt::v10::detail::buffer<char> >::back_insert_iterator(std::back_insert_iterator<fmt::v10::detail::buffer<char> >&&)’
+  698 |     class back_insert_iterator
+      |           ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   inherited here
+ 1098 |   using std::back_insert_iterator<detail::buffer<char>>::back_insert_iterator;
+      |                                                          ^~~~~~~~~~~~~~~~~~~~
+/src/include/fmt/core.h:1098:58: note:   an inherited constructor is not a candidate for initialization from an expression of the same or derived type
+/src/include/fmt/core.h:1099:3: note: candidate: ‘fmt::v10::appender::appender(base)’
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |   ^~~~~~~~
+/src/include/fmt/core.h:1099:17: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender::base’ {aka ‘std::back_insert_iterator<fmt::v10::detail::buffer<char> >’}
+ 1099 |   appender(base it) noexcept : base(it) {}
+      |            ~~~~~^~
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(const fmt::v10::appender&)’
+ 1094 | class appender : public std::back_insert_iterator<detail::buffer<char>> {
+      |       ^~~~~~~~
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘const fmt::v10::appender&’
+/src/include/fmt/core.h:1094:7: note: candidate: ‘constexpr fmt::v10::appender::appender(fmt::v10::appender&&)’
+/src/include/fmt/core.h:1094:7: note:   no known conversion for argument 1 from ‘fmt::v10::basic_memory_buffer<wchar_t>’ to ‘fmt::v10::appender&&’
+[27/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/__/src/os.cc.o
+ninja: build stopped: subcommand failed.

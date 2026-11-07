@@ -1,0 +1,4 @@
+# 归档证据保留原始字节，供 SHA-256 核验。
+* -text
+evidence/** -text -whitespace
+failures.md -whitespace

@@ -1,0 +1,76 @@
+diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h
+index 30de39b26de60c5e3eea773d88bc91fb768164af..2eeffe5741e46086e78183e36ddde71b9c9c2c91 100644
+--- a/include/fmt/format-inl.h
++++ b/include/fmt/format-inl.h
+@@ -423,6 +423,20 @@ class fp {
+     lower.f <<= lower.e - upper.e;
+     lower.e = upper.e;
+   }
++
++  // Computes the rounding boundaries for a value originally represented as a
++  // float. The value is stored using double precision in fp, so a float ulp is
++  // 2^28 times the fp unit for normal values. Float subnormals have a fixed
++  // ulp of 2^-149.
++  void compute_float_boundaries(fp& lower, fp& upper) const {
++    int shift = e + 28 < -150 ? -150 - e : 28;
++    upper = fp(f + (1ULL << shift), e);
++    // At a normal power of two above the minimum normal the lower spacing is
++    // half the upper spacing.
++    int lower_shift = shift;
++    if (f == implicit_bit && e + 52 > -126) --lower_shift;
++    lower = fp(f - (1ULL << lower_shift), e);
++  }
+ };
+ 
+ // Returns an fp number representing x - y. Result may not be normalized.
+@@ -1013,7 +1027,8 @@ FMT_FUNC void fallback_format(Double v, buffer<char>& buf, int& exp10) {
+ }
+ 
+ template <typename Double,
+-          enable_if_t<(sizeof(Double) == sizeof(uint64_t)), int>>
++          enable_if_t<(sizeof(Double) == sizeof(uint64_t) ||
++                       sizeof(Double) == sizeof(uint32_t)), int>>
+ bool grisu_format(Double value, buffer<char>& buf, int precision,
+                   unsigned options, int& exp) {
+   FMT_ASSERT(value >= 0, "value is negative");
+@@ -1030,7 +1045,7 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     return true;
+   }
+ 
+-  const fp fp_value(value);
++  const fp fp_value(static_cast<double>(value));
+   const int min_exp = -60;  // alpha in Grisu.
+   int cached_exp10 = 0;     // K in Grisu.
+   if (precision != -1) {
+@@ -1045,7 +1060,10 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     buf.resize(to_unsigned(handler.size));
+   } else {
+     fp lower, upper;  // w^- and w^+ in the Grisu paper.
+-    fp_value.compute_boundaries(lower, upper);
++    if (sizeof(Double) == sizeof(float))
++      fp_value.compute_float_boundaries(lower, upper);
++    else
++      fp_value.compute_boundaries(lower, upper);
+     // Find a cached power of 10 such that multiplying upper by it will bring
+     // the exponent in the range [min_exp, -32].
+     const auto cached_pow = get_cached_power(  // \tilde{c}_{-k} in Grisu.
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 007fe8f2c4e359c794943a1b4416aa0dae044b54..5ab65902005991203ed29aac5b5015de1c8cf340 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -1116,9 +1116,13 @@ enum { fixed = 1, grisu2 = 2 };
+ 
+ // Formats value using the Grisu algorithm:
+ // https://www.cs.tufts.edu/~nr/cs257/archive/florian-loitsch/printf.pdf
+-template <typename Double, FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t))>
++template <typename Double,
++          FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t) ||
++                        sizeof(Double) == sizeof(uint32_t))>
+ FMT_API bool grisu_format(Double, buffer<char>&, int, unsigned, int&);
+-template <typename Double, FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t))>
++template <typename Double,
++          FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t) &&
++                        sizeof(Double) != sizeof(uint32_t))>
+ inline bool grisu_format(Double, buffer<char>&, int, unsigned, int&) {
+   return false;
+ }

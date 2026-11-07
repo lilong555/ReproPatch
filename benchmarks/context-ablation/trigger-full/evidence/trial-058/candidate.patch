@@ -1,0 +1,27 @@
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 8df6c965b58dbee70271fd79347d36bdf7d54ee9..cf21cec20a7b5f9793bda7132c4da033d68192c3 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -4249,6 +4249,7 @@ void vformat_to(buffer<Char>& buf, basic_string_view<Char> fmt,
+   struct format_handler {
+     basic_format_parse_context<Char> parse_context;
+     buffered_context<Char> context;
++    int num_named_args = 0;
+ 
+     format_handler(basic_appender<Char> p_out, basic_string_view<Char> str,
+                    basic_format_args<buffered_context<Char>> p_args,
+@@ -4261,12 +4262,13 @@ void vformat_to(buffer<Char>& buf, basic_string_view<Char> fmt,
+     }
+ 
+     FMT_CONSTEXPR auto on_arg_id() -> int {
+-      return parse_context.next_arg_id();
++      return parse_context.next_arg_id() + num_named_args;
+     }
+     FMT_CONSTEXPR auto on_arg_id(int id) -> int {
+       return parse_context.check_arg_id(id), id;
+     }
+     FMT_CONSTEXPR auto on_arg_id(basic_string_view<Char> id) -> int {
++      ++num_named_args;
+       int arg_id = context.arg_id(id);
+       if (arg_id < 0) report_error("argument not found");
+       return arg_id;

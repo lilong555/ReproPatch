@@ -1,0 +1,56 @@
+diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h
+index 30de39b26de60c5e3eea773d88bc91fb768164af..0a8c2b89b2b6190eb71b5dc2602c201bc3ea29a6 100644
+--- a/include/fmt/format-inl.h
++++ b/include/fmt/format-inl.h
+@@ -423,6 +423,25 @@ class fp {
+     lower.f <<= lower.e - upper.e;
+     lower.e = upper.e;
+   }
++
++  // Computes boundaries for a single-precision value represented exactly as a
++  // double. A float has 24 significant bits, and subnormals have a fixed ulp.
++  void compute_float_boundaries(fp& lower, fp& upper) const {
++    int ulp_exp = e + double_significand_size -
++                  (std::numeric_limits<float>::digits - 1);
++    if (ulp_exp < std::numeric_limits<float>::min_exponent -
++                      std::numeric_limits<float>::digits)
++      ulp_exp = std::numeric_limits<float>::min_exponent -
++                std::numeric_limits<float>::digits;
++    int lower_exp = ulp_exp - 1;
++    if (f == implicit_bit && e + double_significand_size >
++                                 std::numeric_limits<float>::min_exponent - 1)
++      --lower_exp;
++    upper = normalize(fp(f + (uint64_t(1) << (ulp_exp - 1 - e)), e));
++    lower = fp(f - (uint64_t(1) << (lower_exp - e)), e);
++    lower.f <<= lower.e - upper.e;
++    lower.e = upper.e;
++  }
+ };
+ 
+ // Returns an fp number representing x - y. Result may not be normalized.
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 007fe8f2c4e359c794943a1b4416aa0dae044b54..93cb3426ad606d96b49997a7ca268aa9bd6fdba6 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -1117,9 +1117,9 @@ enum { fixed = 1, grisu2 = 2 };
+ // Formats value using the Grisu algorithm:
+ // https://www.cs.tufts.edu/~nr/cs257/archive/florian-loitsch/printf.pdf
+ template <typename Double, FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t))>
+-FMT_API bool grisu_format(Double, buffer<char>&, int, unsigned, int&);
++FMT_API bool grisu_format(Double, buffer<char>&, int, unsigned, int&, bool);
+ template <typename Double, FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t))>
+-inline bool grisu_format(Double, buffer<char>&, int, unsigned, int&) {
++inline bool grisu_format(Double, buffer<char>&, int, unsigned, int&, bool) {
+   return false;
+ }
+ 
+@@ -2814,7 +2814,8 @@ void internal::basic_writer<Range>::write_fp(T value,
+                     specs.type != 'e' && specs.type != 'E') &&
+                    internal::grisu_format(
+                        static_cast<double>(value), buffer, precision,
+-                       handler.fixed ? internal::grisu_options::fixed : 0, exp);
++                       handler.fixed ? internal::grisu_options::fixed : 0, exp,
++                       std::is_same<T, float>::value);
+   char* decimal_point_pos = nullptr;
+   if (!use_grisu)
+     decimal_point_pos = internal::sprintf_format(value, buffer, specs);

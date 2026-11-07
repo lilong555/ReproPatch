@@ -1,0 +1,33 @@
+diff --git a/include/fmt/base.h b/include/fmt/base.h
+index 7d75a1bcd604a62e90279d43c4f181d73f4f5f9b..35ff77dbec3ccd9671cc4cf3853696b58a5ba28e 100644
+--- a/include/fmt/base.h
++++ b/include/fmt/base.h
+@@ -1887,6 +1887,16 @@ template <typename Context> class basic_format_args {
+     return -1;
+   }
+ 
++  FMT_CONSTEXPR auto is_named_arg(int id) const -> bool {
++    if (!has_named_args()) return false;
++    const auto& named_args =
++        (is_packed() ? values_[-1] : args_[-1].value_).named_args;
++    for (size_t i = 0; i < named_args.size; ++i) {
++      if (named_args.data[i].id == id) return true;
++    }
++    return false;
++  }
++
+   auto max_size() const -> int {
+     unsigned long long max_packed = detail::max_packed_args;
+     return static_cast<int>(is_packed() ? max_packed
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 8df6c965b58dbee70271fd79347d36bdf7d54ee9..f3d48e78bab7530b3586c1deacb61e617e67f602 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -4269,6 +4269,7 @@ void vformat_to(buffer<Char>& buf, basic_string_view<Char> fmt,
+     FMT_CONSTEXPR auto on_arg_id(basic_string_view<Char> id) -> int {
+       int arg_id = context.arg_id(id);
+       if (arg_id < 0) report_error("argument not found");
++      parse_context.check_arg_id(id);
+       return arg_id;
+     }
+ 

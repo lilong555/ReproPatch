@@ -1,0 +1,77 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index 64ebdabe5a59231363a7886363fd3c153aa36c2e..b84c368728b01971aeba28dea10df581c885e394 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -2196,45 +2196,61 @@ template <typename Char> struct formatter<std::tm, Char> {
+     hh_mm_ss,
+   };
+   spec spec_ = spec::unknown;
+-  basic_string_view<Char> specs;
++  format_specs<Char> specs;
++  basic_string_view<Char> chrono_specs;
++  detail::arg_ref<Char> width_ref;
+ 
+  protected:
+   template <typename It> FMT_CONSTEXPR auto do_parse(It begin, It end) -> It {
+     if (begin != end && *begin == ':') ++begin;
+     end = detail::parse_chrono_format(begin, end, detail::tm_format_checker());
+     // Replace default spec only if the new spec is not empty.
+-    if (end != begin) specs = {begin, detail::to_unsigned(end - begin)};
++    if (end != begin)
++      chrono_specs = {begin, detail::to_unsigned(end - begin)};
+     return end;
+   }
+ 
+   template <typename FormatContext, typename Duration>
+   auto do_format(const std::tm& tm, FormatContext& ctx,
+                  const Duration* subsecs) const -> decltype(ctx.out()) {
++    auto specs_copy = specs;
++    detail::handle_dynamic_spec<detail::width_checker>(specs_copy.width,
++                                                       width_ref, ctx);
++    basic_memory_buffer<Char> buf;
++    auto out = std::back_inserter(buf);
+     const auto loc_ref = ctx.locale();
+     detail::get_locale loc(static_cast<bool>(loc_ref), loc_ref);
+-    auto w = detail::tm_writer<decltype(ctx.out()), Char, Duration>(
+-        loc, ctx.out(), tm, subsecs);
++    auto w = detail::tm_writer<decltype(out), Char, Duration>(loc, out, tm,
++                                                              subsecs);
+     if (spec_ == spec::year_month_day)
+       w.on_iso_date();
+     else if (spec_ == spec::hh_mm_ss)
+       w.on_iso_time();
+     else
+-      detail::parse_chrono_format(specs.begin(), specs.end(), w);
+-    return w.out();
++      detail::parse_chrono_format(chrono_specs.begin(), chrono_specs.end(), w);
++    if (buf.size() == 0 && specs_copy.width == 0) return ctx.out();
++    const Char empty = Char();
++    auto text = buf.size() == 0
++                    ? basic_string_view<Char>(&empty, 0)
++                    : basic_string_view<Char>(buf.data(), buf.size());
++    return detail::write(ctx.out(), text, specs_copy);
+   }
+ 
+  public:
+   FMT_CONSTEXPR auto parse(basic_format_parse_context<Char>& ctx)
+       -> decltype(ctx.begin()) {
+-    auto end = this->do_parse(ctx.begin(), ctx.end());
++    auto begin = ctx.begin(), end = ctx.end();
++    begin = detail::parse_align(begin, end, specs);
++    begin = detail::parse_dynamic_spec(begin, end, specs.width, width_ref, ctx);
++    auto parsed_end = this->do_parse(begin, end);
+     // basic_string_view<>::compare isn't constexpr before C++17.
+-    if (specs.size() == 2 && specs[0] == Char('%')) {
+-      if (specs[1] == Char('F'))
++    if (chrono_specs.size() == 2 && chrono_specs[0] == Char('%')) {
++      if (chrono_specs[1] == Char('F'))
+         spec_ = spec::year_month_day;
+-      else if (specs[1] == Char('T'))
++      else if (chrono_specs[1] == Char('T'))
+         spec_ = spec::hh_mm_ss;
+     }
+-    return end;
++    return parsed_end;
+   }
+ 
+   template <typename FormatContext>

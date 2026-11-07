@@ -1,0 +1,48 @@
+diff --git a/include/fmt/ranges.h b/include/fmt/ranges.h
+index a1fc80d2ae65a3c59336df226fadbe6beffc2cef..de4c413167dc073a042ab1cfd6402d4ae240a5e0 100644
+--- a/include/fmt/ranges.h
++++ b/include/fmt/ranges.h
+@@ -221,6 +221,31 @@ template <class Tuple, class F> void for_each(Tuple&& tup, F&& f) {
+   for_each(indexes, std::forward<Tuple>(tup), std::forward<F>(f));
+ }
+ 
++template <bool... Values> struct all_true;
++template <> struct all_true<> : std::true_type {};
++template <bool First, bool... Rest>
++struct all_true<First, Rest...>
++    : std::integral_constant<bool, First && all_true<Rest...>::value> {};
++
++template <typename Tuple, typename Char, typename Indexes, typename = void>
++struct is_tuple_formattable_impl : std::false_type {};
++template <typename Tuple, typename Char, size_t... Is>
++struct is_tuple_formattable_impl<
++    Tuple, Char, index_sequence<Is...>,
++    void_t<typename std::tuple_element<Is, Tuple>::type...>>
++    : all_true<is_formattable<
++          remove_cvref_t<typename std::tuple_element<Is, Tuple>::type>,
++          Char>::value...> {};
++
++template <typename Tuple, typename Char,
++          bool = is_tuple_like_<remove_cvref_t<Tuple>>::value>
++struct is_tuple_formattable : std::false_type {};
++template <typename Tuple, typename Char>
++struct is_tuple_formattable<Tuple, Char, true>
++    : is_tuple_formattable_impl<
++          remove_cvref_t<Tuple>, Char,
++          make_index_sequence<std::tuple_size<remove_cvref_t<Tuple>>::value>> {};
++
+ #if FMT_MSC_VERSION
+ // Older MSVC doesn't get the reference type correctly for arrays.
+ template <typename R> struct range_reference_type_impl {
+@@ -284,7 +309,10 @@ template <typename T> struct is_tuple_like {
+ };
+ 
+ template <typename TupleT, typename Char>
+-struct formatter<TupleT, Char, enable_if_t<fmt::is_tuple_like<TupleT>::value>> {
++struct formatter<
++    TupleT, Char,
++    enable_if_t<fmt::is_tuple_like<TupleT>::value &&
++                detail::is_tuple_formattable<TupleT, Char>::value>> {
+  private:
+   // C++11 generic lambda for format().
+   template <typename FormatContext> struct format_each {

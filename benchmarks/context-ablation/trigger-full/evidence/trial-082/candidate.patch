@@ -1,0 +1,39 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index 64ebdabe5a59231363a7886363fd3c153aa36c2e..d41d4420f5ef13e36ae26575d4e417eecb031b6e 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -2190,6 +2190,9 @@ struct formatter<std::chrono::time_point<std::chrono::utc_clock, Duration>,
+ 
+ template <typename Char> struct formatter<std::tm, Char> {
+  private:
++  format_specs<Char> format_specs_;
++  using arg_ref_type = detail::arg_ref<Char>;
++  arg_ref_type width_ref;
+   enum class spec {
+     unknown,
+     year_month_day,
+@@ -2212,15 +2215,21 @@ template <typename Char> struct formatter<std::tm, Char> {
+                  const Duration* subsecs) const -> decltype(ctx.out()) {
+     const auto loc_ref = ctx.locale();
+     detail::get_locale loc(static_cast<bool>(loc_ref), loc_ref);
+-    auto w = detail::tm_writer<decltype(ctx.out()), Char, Duration>(
+-        loc, ctx.out(), tm, subsecs);
++    basic_memory_buffer<Char> buf;
++    auto out = std::back_inserter(buf);
++    auto w = detail::tm_writer<decltype(out), Char, Duration>(
++        loc, out, tm, subsecs);
+     if (spec_ == spec::year_month_day)
+       w.on_iso_date();
+     else if (spec_ == spec::hh_mm_ss)
+       w.on_iso_time();
+     else
+       detail::parse_chrono_format(specs.begin(), specs.end(), w);
+-    return w.out();
++    auto format_specs_copy = format_specs_;
++    detail::handle_dynamic_spec<detail::width_checker>(format_specs_copy.width,
++                                                       width_ref, ctx);
++    return detail::write(ctx.out(), basic_string_view<Char>(buf.data(), buf.size()),
++                         format_specs_copy);
+   }
+ 
+  public:

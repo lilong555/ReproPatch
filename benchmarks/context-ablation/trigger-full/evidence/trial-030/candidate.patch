@@ -1,0 +1,53 @@
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 6ed7fc431be6a677e9eaa784a25896dbab48aaee..bbfdf08c0da3c60f9754b312918559c45f02e709 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -436,6 +436,21 @@ inline size_t count_code_points(basic_string_view<char8_t> s) {
+   return num_code_points;
+ }
+ 
++template <typename Char>
++inline size_t code_point_index(basic_string_view<Char>, size_t index) {
++  return index;
++}
++
++inline size_t code_point_index(basic_string_view<char8_t> s, size_t index) {
++  const char8_t* data = s.data();
++  size_t num_code_points = 0;
++  size_t i = 0;
++  for (; i < s.size() && num_code_points < index; ++i) {
++    if ((data[i] & 0xc0) != 0x80) ++num_code_points;
++  }
++  return i;
++}
++
+ inline char8_t to_char8_t(char c) { return static_cast<char8_t>(c); }
+ 
+ template <typename InputIt, typename OutChar>
+@@ -1720,6 +1735,12 @@ template <typename Range> class basic_writer {
+   // Writes a formatted string.
+   template <typename Char>
+   void write(const Char* s, std::size_t size, const format_specs& specs) {
++    if (specs.precision >= 0) {
++      basic_string_view<Char> view(s, size);
++      auto precision = internal::to_unsigned(specs.precision);
++      if (precision < internal::count_code_points(view))
++        size = internal::code_point_index(view, precision);
++    }
+     write_padded(specs, str_writer<Char>{s, size});
+   }
+ 
+@@ -1728,8 +1749,11 @@ template <typename Range> class basic_writer {
+              const format_specs& specs = format_specs()) {
+     const Char* data = s.data();
+     std::size_t size = s.size();
+-    if (specs.precision >= 0 && internal::to_unsigned(specs.precision) < size)
+-      size = internal::to_unsigned(specs.precision);
++    if (specs.precision >= 0) {
++      auto precision = internal::to_unsigned(specs.precision);
++      if (precision < internal::count_code_points(s))
++        size = internal::code_point_index(s, precision);
++    }
+     write(data, size, specs);
+   }
+ 

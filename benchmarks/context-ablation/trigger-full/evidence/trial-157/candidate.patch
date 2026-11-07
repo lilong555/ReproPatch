@@ -1,0 +1,104 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index e26e519039747442bd5404d9c460e5b7337b9546..18e6b3d565d617f5ac02f0e8331e4ec4326d9acd 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -405,14 +405,96 @@ inline size_t strftime(wchar_t* str, size_t count, const wchar_t* format,
+ 
+ FMT_END_DETAIL_NAMESPACE
+ 
++FMT_BEGIN_DETAIL_NAMESPACE
++
++template <typename Rep, typename Period,
++          FMT_ENABLE_IF(std::is_integral<Rep>::value)>
++long double fractional_seconds(std::chrono::duration<Rep, Period> value) {
++  auto remainder = value % std::chrono::seconds(1);
++  return std::chrono::duration<long double>(remainder).count();
++}
++
++template <typename Rep, typename Period,
++          FMT_ENABLE_IF(std::is_floating_point<Rep>::value)>
++long double fractional_seconds(std::chrono::duration<Rep, Period> value) {
++  auto seconds = std::chrono::duration<long double>(value).count();
++  return std::fmod(seconds, 1.0L);
++}
++
++template <typename Period> int fractional_seconds_precision() {
++  auto numerator = Period::num;
++  auto denominator = Period::den;
++  auto a = numerator;
++  auto b = denominator;
++  while (b != 0) {
++    auto remainder = a % b;
++    a = b;
++    b = remainder;
++  }
++  denominator /= a;
++
++  int twos = 0;
++  while (denominator % 2 == 0 && denominator > 0) {
++    denominator /= 2;
++    ++twos;
++  }
++  int fives = 0;
++  while (denominator % 5 == 0 && denominator > 0) {
++    denominator /= 5;
++    ++fives;
++  }
++  if (denominator != 1) return 6;
++  auto precision = twos > fives ? twos : fives;
++  return precision <= 18 ? precision : 6;
++}
++
++FMT_END_DETAIL_NAMESPACE
++
+ template <typename Char, typename Duration>
+ struct formatter<std::chrono::time_point<std::chrono::system_clock, Duration>,
+                  Char> : formatter<std::tm, Char> {
+   template <typename FormatContext>
+-  auto format(std::chrono::time_point<std::chrono::system_clock> val,
++  auto format(std::chrono::time_point<std::chrono::system_clock, Duration> val,
+               FormatContext& ctx) -> decltype(ctx.out()) {
+-    std::tm time = localtime(val);
+-    return formatter<std::tm, Char>::format(time, ctx);
++    auto time = localtime(std::chrono::time_point_cast<
++                          std::chrono::system_clock::duration>(val));
++    auto fraction = detail::fractional_seconds(val.time_since_epoch());
++    if (fraction < 0) fraction = -fraction;
++
++    auto precision =
++        detail::fractional_seconds_precision<typename Duration::period>();
++    if (precision == 0 && fraction != 0) precision = 6;
++    basic_memory_buffer<Char> fractional_part;
++    if (precision > 0) {
++      auto specs = basic_format_specs<Char>();
++      specs.precision = precision;
++      specs.type = 'f';
++      basic_memory_buffer<Char> digits;
++      detail::write<Char>(std::back_inserter(digits), fraction, specs);
++      auto begin = digits.begin();
++      if (begin != digits.end() && *begin == static_cast<Char>('0')) {
++        ++begin;
++        if (begin != digits.end() && *begin == static_cast<Char>('.')) ++begin;
++      }
++      fractional_part.append(begin, digits.end());
++    }
++
++    basic_memory_buffer<Char> format_specs;
++    auto it = this->specs.begin();
++    auto end = this->specs.end();
++    for (; it != end; ++it) {
++      format_specs.push_back(*it);
++      if (*it != '%' || it + 1 == end) continue;
++      ++it;
++      format_specs.push_back(*it);
++      if ((*it == 'S' || *it == 'T') && fractional_part.size() != 0)
++        format_specs.append(fractional_part.begin(), fractional_part.end());
++    }
++
++    formatter<std::tm, Char> tm_formatter;
++    tm_formatter.specs = basic_string_view<Char>(format_specs.data(),
++                                                 format_specs.size());
++    return tm_formatter.format(time, ctx);
+   }
+ };
+ 

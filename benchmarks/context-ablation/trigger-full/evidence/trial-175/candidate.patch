@@ -1,0 +1,25 @@
+diff --git a/include/fmt/core.h b/include/fmt/core.h
+index 9db39267a3d2c2efee4bc59f32819fb53afbd8b1..c75e215e1f33a675fbcb992eb1c461dab3e10adb 100644
+--- a/include/fmt/core.h
++++ b/include/fmt/core.h
+@@ -1873,6 +1873,7 @@ template <typename Char> struct basic_format_specs {
+   sign_t sign : 3;
+   bool alt : 1;  // Alternate form ('#').
+   bool localized : 1;
++  bool zero : 1;
+   detail::fill_t<Char> fill;
+ 
+   constexpr basic_format_specs()
+@@ -1948,8 +1949,10 @@ template <typename Char> class specs_setter {
+   FMT_CONSTEXPR void on_localized() { specs_.localized = true; }
+ 
+   FMT_CONSTEXPR void on_zero() {
+-    specs_.align = align::numeric;
+-    specs_.fill[0] = Char('0');
++    if (specs_.align == align::none) {
++      specs_.align = align::numeric;
++      specs_.fill[0] = Char('0');
++    }
+   }
+ 
+   FMT_CONSTEXPR void on_width(int width) { specs_.width = width; }

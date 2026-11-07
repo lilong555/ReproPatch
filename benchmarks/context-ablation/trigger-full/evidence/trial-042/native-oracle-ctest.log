@@ -1,0 +1,226 @@
+Test project /build
+      Start  1: assert-test
+ 1/17 Test  #1: assert-test ......................   Passed    0.00 sec
+      Start  2: chrono-test
+ 2/17 Test  #2: chrono-test ......................   Passed    0.00 sec
+      Start  3: color-test
+ 3/17 Test  #3: color-test .......................   Passed    0.00 sec
+      Start  4: core-test
+ 4/17 Test  #4: core-test ........................   Passed    0.00 sec
+      Start  5: grisu-test
+ 5/17 Test  #5: grisu-test .......................   Passed    0.00 sec
+      Start  6: gtest-extra-test
+ 6/17 Test  #6: gtest-extra-test .................   Passed    0.00 sec
+      Start  7: format-test
+ 7/17 Test  #7: format-test ......................   Passed    0.01 sec
+      Start  8: format-impl-test
+ 8/17 Test  #8: format-impl-test .................***Failed    0.00 sec
+[==========] Running 29 tests from 4 test cases.
+[----------] Global test environment set-up.
+[----------] 11 tests from BigIntTest
+[ RUN      ] BigIntTest.Construct
+[       OK ] BigIntTest.Construct (0 ms)
+[ RUN      ] BigIntTest.Compare
+[       OK ] BigIntTest.Compare (0 ms)
+[ RUN      ] BigIntTest.AddCompare
+[       OK ] BigIntTest.AddCompare (0 ms)
+[ RUN      ] BigIntTest.ShiftLeft
+[       OK ] BigIntTest.ShiftLeft (0 ms)
+[ RUN      ] BigIntTest.Multiply
+[       OK ] BigIntTest.Multiply (0 ms)
+[ RUN      ] BigIntTest.Accumulator
+[       OK ] BigIntTest.Accumulator (0 ms)
+[ RUN      ] BigIntTest.Square
+[       OK ] BigIntTest.Square (0 ms)
+[ RUN      ] BigIntTest.DivModAssignZeroDivisor
+[       OK ] BigIntTest.DivModAssignZeroDivisor (0 ms)
+[ RUN      ] BigIntTest.DivModAssignSelf
+[       OK ] BigIntTest.DivModAssignSelf (0 ms)
+[ RUN      ] BigIntTest.DivModAssignUnaligned
+[       OK ] BigIntTest.DivModAssignUnaligned (0 ms)
+[ RUN      ] BigIntTest.DivModAssign
+[       OK ] BigIntTest.DivModAssign (0 ms)
+[----------] 11 tests from BigIntTest (0 ms total)
+
+[----------] 11 tests from FPTest
+[ RUN      ] FPTest.ConstructFromDouble
+[       OK ] FPTest.ConstructFromDouble (0 ms)
+[ RUN      ] FPTest.Normalize
+[       OK ] FPTest.Normalize (0 ms)
+[ RUN      ] FPTest.ComputeBoundariesSubnormal
+[       OK ] FPTest.ComputeBoundariesSubnormal (0 ms)
+[ RUN      ] FPTest.ComputeBoundaries
+[       OK ] FPTest.ComputeBoundaries (0 ms)
+[ RUN      ] FPTest.ComputeFloatBoundaries
+/src/test/format-impl-test.cc:247: Failure
+Value of: lower.f
+  Actual: 6755399172620288
+Expected: vlower.f
+Which is: 13835057505526349824
+/src/test/format-impl-test.cc:248: Failure
+Value of: lower.e
+  Actual: -52
+Expected: vlower.e
+Which is: -63
+/src/test/format-impl-test.cc:249: Failure
+Value of: upper.f
+  Actual: 6755399709491200
+Expected: vupper.f
+Which is: 13835058605037977600
+/src/test/format-impl-test.cc:250: Failure
+Value of: upper.e
+  Actual: -52
+Expected: vupper.e
+Which is: -63
+/src/test/format-impl-test.cc:247: Failure
+Value of: lower.f
+  Actual: 4503599493152768
+Expected: vlower.f
+Which is: 9223371761976868864
+/src/test/format-impl-test.cc:248: Failure
+Value of: lower.e
+  Actual: -52
+Expected: vlower.e
+Which is: -63
+/src/test/format-impl-test.cc:249: Failure
+Value of: upper.f
+  Actual: 4503599895805952
+Expected: vupper.f
+Which is: 9223372586610589696
+/src/test/format-impl-test.cc:250: Failure
+Value of: upper.e
+  Actual: -52
+Expected: vupper.e
+Which is: -63
+/src/test/format-impl-test.cc:247: Failure
+Value of: lower.f
+  Actual: 4503599358935040
+Expected: vlower.f
+Which is: 9223371487098961920
+/src/test/format-impl-test.cc:248: Failure
+Value of: lower.e
+  Actual: -178
+Expected: vlower.e
+Which is: -189
+/src/test/format-impl-test.cc:249: Failure
+Value of: upper.f
+  Actual: 4503599895805952
+Expected: vupper.f
+Which is: 9223372586610589696
+/src/test/format-impl-test.cc:250: Failure
+Value of: upper.e
+  Actual: -178
+Expected: vupper.e
+Which is: -189
+/src/test/format-impl-test.cc:247: Failure
+Value of: lower.f
+  Actual: 9007197912563712
+Expected: vlower.f
+Which is: 18446740775174668288
+/src/test/format-impl-test.cc:248: Failure
+Value of: lower.e
+  Actual: -179
+Expected: vlower.e
+Which is: -190
+/src/test/format-impl-test.cc:249: Failure
+Value of: upper.f
+  Actual: 9007198449434624
+Expected: vupper.f
+Which is: 18446742974197923840
+/src/test/format-impl-test.cc:250: Failure
+Value of: upper.e
+  Actual: -179
+Expected: vupper.e
+Which is: -190
+/src/test/format-impl-test.cc:247: Failure
+Value of: lower.f
+  Actual: 4503599358935040
+Expected: vlower.f
+Which is: 4611686018427387904
+/src/test/format-impl-test.cc:248: Failure
+Value of: lower.e
+  Actual: -201
+Expected: vlower.e
+Which is: -212
+/src/test/format-impl-test.cc:249: Failure
+Value of: upper.f
+  Actual: 4503599895805952
+Expected: vupper.f
+Which is: 13835058055282163712
+/src/test/format-impl-test.cc:250: Failure
+Value of: upper.e
+  Actual: -201
+Expected: vupper.e
+Which is: -212
+[  FAILED  ] FPTest.ComputeFloatBoundaries (0 ms)
+[ RUN      ] FPTest.Subtract
+[       OK ] FPTest.Subtract (0 ms)
+[ RUN      ] FPTest.Multiply
+[       OK ] FPTest.Multiply (0 ms)
+[ RUN      ] FPTest.GetCachedPower
+[       OK ] FPTest.GetCachedPower (0 ms)
+[ RUN      ] FPTest.GetRoundDirection
+[       OK ] FPTest.GetRoundDirection (0 ms)
+[ RUN      ] FPTest.FixedHandler
+[       OK ] FPTest.FixedHandler (0 ms)
+[ RUN      ] FPTest.GrisuFormatCompilesWithNonIEEEDouble
+unknown file: Failure
+C++ exception with description "invalid operands" thrown in the test body.
+[  FAILED  ] FPTest.GrisuFormatCompilesWithNonIEEEDouble (0 ms)
+[----------] 11 tests from FPTest (0 ms total)
+
+[----------] 5 tests from FormatTest
+[ RUN      ] FormatTest.ArgConverter
+[       OK ] FormatTest.ArgConverter (0 ms)
+[ RUN      ] FormatTest.FormatNegativeNaN
+[       OK ] FormatTest.FormatNegativeNaN (0 ms)
+[ RUN      ] FormatTest.StrError
+[       OK ] FormatTest.StrError (0 ms)
+[ RUN      ] FormatTest.FormatErrorCode
+[       OK ] FormatTest.FormatErrorCode (0 ms)
+[ RUN      ] FormatTest.CountCodePoints
+[       OK ] FormatTest.CountCodePoints (0 ms)
+[----------] 5 tests from FormatTest (1 ms total)
+
+[----------] 2 tests from UtilTest
+[ RUN      ] UtilTest.CountDigits
+[       OK ] UtilTest.CountDigits (0 ms)
+[ RUN      ] UtilTest.WriteUIntPtr
+[       OK ] UtilTest.WriteUIntPtr (0 ms)
+[----------] 2 tests from UtilTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 29 tests from 4 test cases ran. (1 ms total)
+[  PASSED  ] 27 tests.
+[  FAILED  ] 2 tests, listed below:
+[  FAILED  ] FPTest.ComputeFloatBoundaries
+[  FAILED  ] FPTest.GrisuFormatCompilesWithNonIEEEDouble
+
+ 2 FAILED TESTS
+
+      Start  9: locale-test
+ 9/17 Test  #9: locale-test ......................   Passed    0.00 sec
+      Start 10: ostream-test
+10/17 Test #10: ostream-test .....................   Passed    0.00 sec
+      Start 11: compile-test
+11/17 Test #11: compile-test .....................   Passed    0.00 sec
+      Start 12: printf-test
+12/17 Test #12: printf-test ......................   Passed    0.00 sec
+      Start 13: custom-formatter-test
+13/17 Test #13: custom-formatter-test ............   Passed    0.00 sec
+      Start 14: ranges-test
+14/17 Test #14: ranges-test ......................   Passed    0.00 sec
+      Start 15: scan-test
+15/17 Test #15: scan-test ........................   Passed    0.00 sec
+      Start 16: posix-mock-test
+16/17 Test #16: posix-mock-test ..................   Passed    0.00 sec
+      Start 17: posix-test
+17/17 Test #17: posix-test .......................   Passed    0.06 sec
+
+94% tests passed, 1 tests failed out of 17
+
+Total Test time (real) =   0.10 sec
+
+The following tests FAILED:
+	  8 - format-impl-test (Failed)
+Errors while running CTest

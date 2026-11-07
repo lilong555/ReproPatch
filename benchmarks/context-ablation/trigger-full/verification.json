@@ -1,0 +1,41 @@
+{
+  "schema": "repropatch.context-trigger.verification.v1",
+  "checked_at": "2026-11-07T08:24:05.360318+00:00",
+  "source_run_id": 42335967622,
+  "source_commit": "3bdd9de6bd49d4d8eba17a1f9af7b0d64a91f6ab",
+  "registered_trials": 190,
+  "manifest_slots_matched": 190,
+  "source_maps_matched": 190,
+  "independent_summaries_matched": 190,
+  "summary_and_plan_result_zip_digests_verified": 192,
+  "raw_zip_and_tar_inventories_verified": 190,
+  "arm_statistics_recomputed": 5,
+  "paired_statistics_recomputed": 10,
+  "failure_records": 31,
+  "missing_results": 0,
+  "unknown_usage_requests": 0,
+  "new_model_requests": 0,
+  "analysis_command": [
+    "PYTHONPATH=src:scripts",
+    "python",
+    "scripts/report_context_results.py",
+    "--results",
+    "benchmarks/context-ablation/trigger-full/results.json",
+    "--artifacts",
+    "benchmarks/context-ablation/trigger-full/artifacts.json",
+    "--raw-dir",
+    "runs/experiments/context-42335967622/raw",
+    "--output",
+    "runs/continuation-20261107/trigger-full-evidence",
+    "--workers",
+    "4"
+  ],
+  "analysis_exit_code": 0,
+  "input_refs": {
+    "results_sha256": "5d55e48413d83414d9e4f2d8ee968c3e64941f107f5f46ca123fa848f608e185",
+    "artifacts_sha256": "09a70712902477f28167842994edf2b03ca2834ea58b71ddd3c1bda136445d92",
+    "analysis_source_sha256": "f925cce51fc42ea5598466646365467870ed23f5d8854edec564611a5c6a3baf"
+  },
+  "summary_sha256": "56f90bdf12cacd22ba0e04f304f1a8a72cd610305a9c65ad976e80c386b7ddeb",
+  "plan_sha256": "0e4826a3709af5f3b6812d4190ef913562993d8486d8962c0afc6ce275d30d85"
+}

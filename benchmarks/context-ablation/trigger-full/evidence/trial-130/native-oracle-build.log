@@ -1,0 +1,24 @@
+[1/51] Building CXX object CMakeFiles/fmt.dir/src/posix.cc.o
+[2/51] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+FAILED: CMakeFiles/fmt.dir/src/format.cc.o 
+/usr/bin/c++ -DFMT_LOCALE -I/src/include -O3 -DNDEBUG -std=gnu++11 -MD -MT CMakeFiles/fmt.dir/src/format.cc.o -MF CMakeFiles/fmt.dir/src/format.cc.o.d -o CMakeFiles/fmt.dir/src/format.cc.o -c /src/src/format.cc
+In file included from /src/src/format.cc:8:
+/src/include/fmt/format-inl.h: In instantiation of ‘fmt::v6::internal::fp::fp(Double) [with Double = float]’:
+/src/include/fmt/format-inl.h:957:6:   required from ‘void fmt::v6::internal::fallback_format(Double, buffer<char>&, int&) [with Double = float]’
+/src/include/fmt/format-inl.h:1096:24:   required from ‘bool fmt::v6::internal::grisu_format(Double, buffer<char>&, int, unsigned int, int&) [with Double = float; typename std::enable_if<((sizeof (Double) == sizeof (long unsigned int)) || (sizeof (Double) == sizeof (unsigned int))), int>::type <anonymous> = 0]’
+/src/src/format.cc:17:68:   required from here
+/src/include/fmt/format-inl.h:387:34: warning: left shift count is negative [-Wshift-count-negative]
+  387 |     const int exponent_bias = (1 << exponent_size) - limits::max_exponent - 1;
+      |                               ~~~^~~~~~~~~~~~~~~~~
+In file included from /src/include/fmt/format-inl.h:11:
+/src/include/fmt/format.h: In instantiation of ‘Dest fmt::v6::internal::bit_cast(const Source&) [with Dest = long unsigned int; Source = float]’:
+/src/include/fmt/format-inl.h:388:32:   required from ‘fmt::v6::internal::fp::fp(Double) [with Double = float]’
+/src/include/fmt/format-inl.h:957:6:   required from ‘void fmt::v6::internal::fallback_format(Double, buffer<char>&, int&) [with Double = float]’
+/src/include/fmt/format-inl.h:1096:24:   required from ‘bool fmt::v6::internal::grisu_format(Double, buffer<char>&, int, unsigned int, int&) [with Double = float; typename std::enable_if<((sizeof (Double) == sizeof (long unsigned int)) || (sizeof (Double) == sizeof (unsigned int))), int>::type <anonymous> = 0]’
+/src/src/format.cc:17:68:   required from here
+/src/include/fmt/format.h:210:30: error: static assertion failed: size mismatch
+  210 |   static_assert(sizeof(Dest) == sizeof(Source), "size mismatch");
+      |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+/src/include/fmt/format.h:210:30: note: the comparison reduces to ‘(8 == 4)’
+[3/51] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+ninja: build stopped: subcommand failed.

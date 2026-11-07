@@ -1,0 +1,90 @@
+{
+  "id": 42335967622,
+  "status": "completed",
+  "conclusion": "success",
+  "head_sha": "3bdd9de6bd49d4d8eba17a1f9af7b0d64a91f6ab",
+  "url": "https://github.com/lilong555/ReproPatch/actions/runs/42335967622",
+  "created_at": "2026-11-07T03:52:53Z",
+  "updated_at": "2026-11-07T07:59:46Z",
+  "run_attempt": 1,
+  "trial_counts": {
+    "completed": 190
+  },
+  "trial_conclusions": {
+    "success": 190
+  },
+  "other_jobs": [
+    {
+      "id": 128292853203,
+      "name": "context-ablation / plan",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T03:52:56Z",
+      "completed_at": "2026-11-07T03:53:52Z"
+    },
+    {
+      "id": 128292853953,
+      "name": "calibration",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:52:55Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128292854007,
+      "name": "localization-smoke",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:52:55Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128292854165,
+      "name": "${{ matrix.instance }} / ${{ matrix.arm }}",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:52:55Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128292854174,
+      "name": "localization-full",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:52:55Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128292854527,
+      "name": "aggregate",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:52:55Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128292854602,
+      "name": "Cold Oracle · ${{ matrix.instance }} / ${{ matrix.arm }}",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:52:55Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128292880553,
+      "name": "cross-repository",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-07T03:53:02Z",
+      "completed_at": "2026-11-07T03:52:54Z"
+    },
+    {
+      "id": 128346563305,
+      "name": "context-ablation / aggregate",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T07:59:26Z",
+      "completed_at": "2026-11-07T07:59:46Z"
+    }
+  ]
+}

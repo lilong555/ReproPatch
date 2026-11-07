@@ -11,6 +11,7 @@
 | 五组上下文策略 | 19 题 × 5 组 × 2 次，190 条 | baseline / diagnostics / dedup / state / combined 分别通过 34 / 31 / 33 / 32 / 30 条，每组 38 条；诊断与去重零触发，状态压缩一次 | [分组用量、逐题失败与原始轨迹](../benchmarks/context-ablation/full/README.md) |
 | 定位 A/B/C | 19 题 × 3 组 × 2 次，114 条 | native / bounded / feedback 分别通过 32 / 33 / 30 条，每组 38 条；B、C 平均输入 Token 比 A 增加 16.8% / 20.5%，默认保持 A | [定位、用量、配对差异与原始轨迹](../benchmarks/localization-ablation/full/README.md) |
 | 回执上下文策略预检 | 1 题 × 5 组，5 条 | 诊断提取实际触发 2 次，29,340 → 10,064 字节；诊断组通过冷评分，其余组失败 | [实际触发、跳过原因与原始轨迹](../benchmarks/context-ablation/trigger-smoke/README.md) |
+| 回执上下文策略完整实验 | 19 题 × 5 组 × 2 次，190 条 | 五组分别通过 32 / 33 / 32 / 35 / 27 条；诊断提取触发 17 次、去重 1 次、状态压缩 0 次；状态组观测平均输入低 1.36% | [实际用量、31 条失败及全部原件核验](../benchmarks/context-ablation/trigger-full/README.md) |
 | 历史上下文机会审计 | 190 条轨迹，3,584 次请求 | baseline 38/38 有延迟两步的大回执候选，48K 水位覆盖 0/38；两次历史压缩后均剩余零次修复请求 | [负载、触发水位、逐回执与原始输入](../benchmarks/context-opportunities-20261107/README.md) |
 | 提前压缩三组对照 | 6 题 × 3 组 × 2 次，36 条；另有 3 条预检 | 固定比较 baseline / early / early_state，全部辅助调用共享每条 24 次总预算，质量与用量联合评价 | [协议、预检与运行入口](../benchmarks/context-early-20261107/README.md) |
 | 最终补丁探索检查与冷评分 | 190 条最终候选，377 次结构化自检 | 同补丁最近自检通过的 153 条全部通过冷评分，观测误接受 0/153；完整保留 30 条冷失败 | [逐题状态、源码与测试身份](../benchmarks/verification-evidence-20261107/README.md) |

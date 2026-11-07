@@ -1,0 +1,112 @@
+Test project /build
+      Start  1: args-test
+ 1/18 Test  #1: args-test ........................   Passed    0.00 sec
+      Start  2: assert-test
+ 2/18 Test  #2: assert-test ......................   Passed    0.00 sec
+      Start  3: chrono-test
+ 3/18 Test  #3: chrono-test ......................***Failed    0.00 sec
+[==========] Running 24 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 24 tests from chrono_test
+[ RUN      ] chrono_test.format_tm
+[       OK ] chrono_test.format_tm (0 ms)
+[ RUN      ] chrono_test.grow_buffer
+[       OK ] chrono_test.grow_buffer (0 ms)
+[ RUN      ] chrono_test.format_to_empty_container
+[       OK ] chrono_test.format_to_empty_container (0 ms)
+[ RUN      ] chrono_test.empty_result
+[       OK ] chrono_test.empty_result (0 ms)
+[ RUN      ] chrono_test.localtime
+[       OK ] chrono_test.localtime (0 ms)
+[ RUN      ] chrono_test.gmtime
+[       OK ] chrono_test.gmtime (0 ms)
+[ RUN      ] chrono_test.time_point
+/src/test/chrono-test.cc:106: Failure
+Expected equality of these values:
+  "01.023"
+  fmt::format("{:%S}", t3)
+    Which is: "01023"
+[  FAILED  ] chrono_test.time_point (0 ms)
+[ RUN      ] chrono_test.format_default
+[       OK ] chrono_test.format_default (0 ms)
+[ RUN      ] chrono_test.format_wide
+[       OK ] chrono_test.format_wide (0 ms)
+[ RUN      ] chrono_test.align
+[       OK ] chrono_test.align (0 ms)
+[ RUN      ] chrono_test.format_specs
+[       OK ] chrono_test.format_specs (0 ms)
+[ RUN      ] chrono_test.invalid_specs
+[       OK ] chrono_test.invalid_specs (0 ms)
+[ RUN      ] chrono_test.locale
+ja_JP.utf8 locale is missing.
+[       OK ] chrono_test.locale (0 ms)
+[ RUN      ] chrono_test.format_default_fp
+[       OK ] chrono_test.format_default_fp (0 ms)
+[ RUN      ] chrono_test.format_precision
+[       OK ] chrono_test.format_precision (0 ms)
+[ RUN      ] chrono_test.format_full_specs
+[       OK ] chrono_test.format_full_specs (0 ms)
+[ RUN      ] chrono_test.format_simple_q
+[       OK ] chrono_test.format_simple_q (0 ms)
+[ RUN      ] chrono_test.format_precision_q
+[       OK ] chrono_test.format_precision_q (0 ms)
+[ RUN      ] chrono_test.format_full_specs_q
+[       OK ] chrono_test.format_full_specs_q (0 ms)
+[ RUN      ] chrono_test.invalid_width_id
+[       OK ] chrono_test.invalid_width_id (0 ms)
+[ RUN      ] chrono_test.invalid_colons
+[       OK ] chrono_test.invalid_colons (0 ms)
+[ RUN      ] chrono_test.negative_durations
+[       OK ] chrono_test.negative_durations (0 ms)
+[ RUN      ] chrono_test.special_durations
+[       OK ] chrono_test.special_durations (0 ms)
+[ RUN      ] chrono_test.unsigned_duration
+[       OK ] chrono_test.unsigned_duration (0 ms)
+[----------] 24 tests from chrono_test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 24 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 23 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] chrono_test.time_point
+
+ 1 FAILED TEST
+
+      Start  4: color-test
+ 4/18 Test  #4: color-test .......................   Passed    0.00 sec
+      Start  5: core-test
+ 5/18 Test  #5: core-test ........................   Passed    0.00 sec
+      Start  6: gtest-extra-test
+ 6/18 Test  #6: gtest-extra-test .................   Passed    0.00 sec
+      Start  7: format-test
+ 7/18 Test  #7: format-test ......................   Passed    0.01 sec
+      Start  8: format-impl-test
+ 8/18 Test  #8: format-impl-test .................   Passed    0.01 sec
+      Start  9: locale-test
+ 9/18 Test  #9: locale-test ......................   Passed    0.00 sec
+      Start 10: ostream-test
+10/18 Test #10: ostream-test .....................   Passed    0.00 sec
+      Start 11: compile-test
+11/18 Test #11: compile-test .....................   Passed    0.00 sec
+      Start 12: printf-test
+12/18 Test #12: printf-test ......................   Passed    0.00 sec
+      Start 13: ranges-test
+13/18 Test #13: ranges-test ......................   Passed    0.00 sec
+      Start 14: scan-test
+14/18 Test #14: scan-test ........................   Passed    0.00 sec
+      Start 15: wchar-test
+15/18 Test #15: wchar-test .......................   Passed    0.00 sec
+      Start 16: enforce-checks-test
+16/18 Test #16: enforce-checks-test ..............   Passed    0.00 sec
+      Start 17: posix-mock-test
+17/18 Test #17: posix-mock-test ..................   Passed    0.00 sec
+      Start 18: os-test
+18/18 Test #18: os-test ..........................   Passed    0.00 sec
+
+94% tests passed, 1 tests failed out of 18
+
+Total Test time (real) =   0.06 sec
+
+The following tests FAILED:
+	  3 - chrono-test (Failed)
+Errors while running CTest

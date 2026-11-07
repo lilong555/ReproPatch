@@ -1,0 +1,572 @@
+{
+  "arms": {
+    "baseline": {
+      "n": 38,
+      "accepted": 32,
+      "success_rate": 0.8421052631578947,
+      "input_mean": 276489.0789473684,
+      "output_mean": 7371.026315789473,
+      "total_mean": 283860.1052631579,
+      "input_change_percent": 0.0,
+      "total_change_percent": 0.0,
+      "requests": 702,
+      "cached_input_tokens": 8619392,
+      "score_statuses": {
+        "ORACLE_PASSED": 32,
+        "ORACLE_TESTS_FAILED": 4,
+        "ORACLE_BUILD_FAILED": 2
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": null,
+          "candidate_observed_trials": 0,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 0,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    },
+    "diagnostics": {
+      "n": 38,
+      "accepted": 33,
+      "success_rate": 0.868421052631579,
+      "input_mean": 287610.0789473684,
+      "output_mean": 7587.5,
+      "total_mean": 295197.5789473684,
+      "input_change_percent": 4.022220350380268,
+      "total_change_percent": 3.994035609089863,
+      "requests": 718,
+      "cached_input_tokens": 8823424,
+      "score_statuses": {
+        "ORACLE_TESTS_FAILED": 4,
+        "ORACLE_PASSED": 33,
+        "ORACLE_BUILD_FAILED": 1
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": 19,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {
+            "insufficient_savings": 8,
+            "unsupported_tool": 593,
+            "no_diagnostics": 76,
+            "output_limit": 2
+          },
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 7,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 9,
+          "bytes": {
+            "input_bytes": 106106,
+            "output_bytes": 57666,
+            "saved_bytes": 48440,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    },
+    "dedup": {
+      "n": 38,
+      "accepted": 32,
+      "success_rate": 0.8421052631578947,
+      "input_mean": 276773.55263157893,
+      "output_mean": 6932.631578947368,
+      "total_mean": 283706.1842105263,
+      "input_change_percent": 0.10288785556866742,
+      "total_change_percent": -0.054224263916524684,
+      "requests": 708,
+      "cached_input_tokens": 8609920,
+      "score_statuses": {
+        "ORACLE_PASSED": 32,
+        "ORACLE_TESTS_FAILED": 4,
+        "ORACLE_BUILD_FAILED": 2
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {
+            "first_observation": 581,
+            "tool_not_supported": 96,
+            "incomplete_output": 2
+          },
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    },
+    "state": {
+      "n": 38,
+      "accepted": 35,
+      "success_rate": 0.9210526315789473,
+      "input_mean": 272726.5,
+      "output_mean": 6817.894736842105,
+      "total_mean": 279544.3947368421,
+      "input_change_percent": -1.3608417958832497,
+      "total_change_percent": -1.5203652948394764,
+      "requests": 710,
+      "cached_input_tokens": 8404608,
+      "score_statuses": {
+        "ORACLE_PASSED": 35,
+        "ORACLE_BUILD_FAILED": 2,
+        "ORACLE_TESTS_FAILED": 1
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {},
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {
+            "below_threshold": 710
+          },
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    },
+    "combined": {
+      "n": 38,
+      "accepted": 27,
+      "success_rate": 0.7105263157894737,
+      "input_mean": 284349.3947368421,
+      "output_mean": 7286.631578947368,
+      "total_mean": 291636.02631578944,
+      "input_change_percent": 2.8429028080960483,
+      "total_change_percent": 2.739349738992969,
+      "requests": 738,
+      "cached_input_tokens": 8831616,
+      "score_statuses": {
+        "ORACLE_PASSED": 27,
+        "EMPTY_CANDIDATE": 2,
+        "ORACLE_TESTS_FAILED": 6,
+        "ORACLE_BUILD_FAILED": 3
+      },
+      "mechanisms": {
+        "diagnostic_extraction": {
+          "candidate_count": 16,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {
+            "unsupported_tool": 632,
+            "no_diagnostics": 66,
+            "insufficient_savings": 6,
+            "output_limit": 2,
+            "superseded_by_dedup": 1
+          },
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 6,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 8,
+          "bytes": {
+            "input_bytes": 100041,
+            "output_bytes": 60123,
+            "saved_bytes": 39918,
+            "added_bytes": 0
+          }
+        },
+        "deduplicate_results": {
+          "candidate_count": 1,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {
+            "first_observation": 600,
+            "tool_not_supported": 110,
+            "incomplete_output": 3,
+            "tool_error": 1
+          },
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 1,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 1,
+          "bytes": {
+            "input_bytes": 11788,
+            "output_bytes": 818,
+            "saved_bytes": 10970,
+            "added_bytes": 0
+          }
+        },
+        "state_aware_compaction": {
+          "candidate_count": 0,
+          "candidate_observed_trials": 38,
+          "skip_reasons": {
+            "below_threshold": 738
+          },
+          "skip_reason_observed_trials": 38,
+          "triggered_trials": 0,
+          "observed_trials": 38,
+          "missing_trials": 0,
+          "coverage_denominator": 38,
+          "trigger_count": 0,
+          "bytes": {
+            "input_bytes": 0,
+            "output_bytes": 0,
+            "saved_bytes": 0,
+            "added_bytes": 0
+          }
+        }
+      }
+    }
+  },
+  "paired_outcomes": {
+    "diagnostics": {
+      "both_pass": 30,
+      "treatment_only_pass": 3,
+      "both_fail": 3,
+      "baseline_only_pass": 2
+    },
+    "dedup": {
+      "both_pass": 29,
+      "treatment_only_pass": 3,
+      "both_fail": 3,
+      "baseline_only_pass": 3
+    },
+    "state": {
+      "both_pass": 30,
+      "treatment_only_pass": 5,
+      "both_fail": 1,
+      "baseline_only_pass": 2
+    },
+    "combined": {
+      "both_pass": 24,
+      "baseline_only_pass": 8,
+      "treatment_only_pass": 3,
+      "both_fail": 3
+    }
+  },
+  "task_results": {
+    "fmtlib__fmt-1361": {
+      "baseline": 1,
+      "diagnostics": 1,
+      "dedup": 0,
+      "state": 0,
+      "combined": 0
+    },
+    "fmtlib__fmt-1390": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 1
+    },
+    "fmtlib__fmt-2070": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-2292": {
+      "baseline": 1,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-2310": {
+      "baseline": 2,
+      "diagnostics": 1,
+      "dedup": 0,
+      "state": 1,
+      "combined": 0
+    },
+    "fmtlib__fmt-2317": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-2610": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-2940": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 1
+    },
+    "fmtlib__fmt-3248": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-3260": {
+      "baseline": 1,
+      "diagnostics": 1,
+      "dedup": 2,
+      "state": 2,
+      "combined": 1
+    },
+    "fmtlib__fmt-3272": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-3537": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-3713": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-3727": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-3732": {
+      "baseline": 1,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    },
+    "fmtlib__fmt-3734": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 1
+    },
+    "fmtlib__fmt-3750": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 1
+    },
+    "fmtlib__fmt-3819": {
+      "baseline": 0,
+      "diagnostics": 0,
+      "dedup": 0,
+      "state": 2,
+      "combined": 0
+    },
+    "fmtlib__fmt-493": {
+      "baseline": 2,
+      "diagnostics": 2,
+      "dedup": 2,
+      "state": 2,
+      "combined": 2
+    }
+  },
+  "usage": {
+    "requests": 3576,
+    "repair_requests": 3575,
+    "compact_requests": 1,
+    "input_tokens": 53122047,
+    "output_tokens": 1367836,
+    "cached_input_tokens": 43288960,
+    "unknown_usage_requests": 0
+  },
+  "schema": "repropatch.context-result-evidence.v1",
+  "run_id": 42335967622,
+  "source_commit": "3bdd9de6bd49d4d8eba17a1f9af7b0d64a91f6ab",
+  "registered_trials": 190,
+  "verified_raw": 190,
+  "failure_count": 31,
+  "failure_tasks": {
+    "fmtlib__fmt-2310": 6,
+    "fmtlib__fmt-3819": 8,
+    "fmtlib__fmt-1390": 1,
+    "fmtlib__fmt-1361": 8,
+    "fmtlib__fmt-3260": 3,
+    "fmtlib__fmt-3750": 1,
+    "fmtlib__fmt-3732": 1,
+    "fmtlib__fmt-3734": 1,
+    "fmtlib__fmt-2292": 1,
+    "fmtlib__fmt-2940": 1
+  },
+  "input_refs": {
+    "results_sha256": "5d55e48413d83414d9e4f2d8ee968c3e64941f107f5f46ca123fa848f608e185",
+    "artifacts_sha256": "09a70712902477f28167842994edf2b03ca2834ea58b71ddd3c1bda136445d92",
+    "analysis_source_sha256": "f925cce51fc42ea5598466646365467870ed23f5d8854edec564611a5c6a3baf"
+  }
+}

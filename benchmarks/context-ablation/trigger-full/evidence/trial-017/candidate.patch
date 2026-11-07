@@ -1,0 +1,31 @@
+diff --git a/include/fmt/args.h b/include/fmt/args.h
+index b77a2d0661122dc4520a5a595373d58eed09e942..908acb11009d568eea3bf2885c0e15bec1896cd2 100644
+--- a/include/fmt/args.h
++++ b/include/fmt/args.h
+@@ -112,7 +112,8 @@ class dynamic_format_arg_store
+   friend class basic_format_args<Context>;
+ 
+   auto get_types() const -> unsigned long long {
+-    return detail::is_unpacked_bit | data_.size() |
++    auto size = data_.size() - (named_info_.empty() ? 0u : 1u);
++    return detail::is_unpacked_bit | size |
+            (named_info_.empty()
+                 ? 0ULL
+                 : static_cast<unsigned long long>(detail::has_named_args_bit));
+@@ -123,7 +124,15 @@ class dynamic_format_arg_store
+   }
+ 
+   template <typename T> void emplace_arg(const T& arg) {
+-    data_.emplace_back(detail::make_arg<Context>(arg));
++    auto value = detail::make_arg<Context>(arg);
++    if (named_info_.empty()) {
++      data_.emplace_back(value);
++      return;
++    }
++    auto index = named_info_.front().id + 1;
++    data_.insert(data_.begin() + index, value);
++    for (auto& named : named_info_)
++      if (named.id >= index - 1) ++named.id;
+   }
+ 
+   template <typename T>

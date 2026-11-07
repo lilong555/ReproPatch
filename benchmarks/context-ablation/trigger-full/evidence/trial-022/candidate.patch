@@ -1,0 +1,12 @@
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 8df6c965b58dbee70271fd79347d36bdf7d54ee9..f58d1036ba55d7ff2314f668d688286d473b7b65 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -4249,6 +4249,7 @@ void vformat_to(buffer<Char>& buf, basic_string_view<Char> fmt,
+   struct format_handler {
+     basic_format_parse_context<Char> parse_context;
+     buffered_context<Char> context;
++    int named_arg_count = 0;
+ 
+     format_handler(basic_appender<Char> p_out, basic_string_view<Char> str,
+                    basic_format_args<buffered_context<Char>> p_args,

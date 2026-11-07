@@ -1,0 +1,91 @@
+diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h
+index 30de39b26de60c5e3eea773d88bc91fb768164af..b14f9d1d1283285957a87f53349a8099ee38e7ec 100644
+--- a/include/fmt/format-inl.h
++++ b/include/fmt/format-inl.h
+@@ -423,6 +423,26 @@ class fp {
+     lower.f <<= lower.e - upper.e;
+     lower.e = upper.e;
+   }
++
++  // Computes boundaries for a single-precision value represented as a double.
++  void compute_float_boundaries(fp& lower, fp& upper) const {
++    // A float has 24 significant bits, while fp uses the 53-bit double
++    // significand. Subnormal floats have a fixed spacing of 2^-149.
++    uint64_t delta;
++    if (e < -178) {
++      delta = 1ull << (-150 - e);
++    } else {
++      delta = 1ull << 28;
++    }
++    uint64_t lower_delta = f == implicit_bit && e > -178 ? delta >> 1 : delta;
++    lower = normalize(fp(f - lower_delta, e));
++    upper = normalize(fp(f + delta, e));
++    if (lower.e < upper.e)
++      lower.f >>= upper.e - lower.e;
++    else
++      lower.f <<= lower.e - upper.e;
++    lower.e = upper.e;
++  }
+ };
+ 
+ // Returns an fp number representing x - y. Result may not be normalized.
+@@ -1013,7 +1033,8 @@ FMT_FUNC void fallback_format(Double v, buffer<char>& buf, int& exp10) {
+ }
+ 
+ template <typename Double,
+-          enable_if_t<(sizeof(Double) == sizeof(uint64_t)), int>>
++          enable_if_t<(sizeof(Double) == sizeof(uint64_t) ||
++                       sizeof(Double) == sizeof(float)), int>>
+ bool grisu_format(Double value, buffer<char>& buf, int precision,
+                   unsigned options, int& exp) {
+   FMT_ASSERT(value >= 0, "value is negative");
+@@ -1030,7 +1051,7 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     return true;
+   }
+ 
+-  const fp fp_value(value);
++  const fp fp_value(static_cast<double>(value));
+   const int min_exp = -60;  // alpha in Grisu.
+   int cached_exp10 = 0;     // K in Grisu.
+   if (precision != -1) {
+@@ -1045,7 +1066,10 @@ bool grisu_format(Double value, buffer<char>& buf, int precision,
+     buf.resize(to_unsigned(handler.size));
+   } else {
+     fp lower, upper;  // w^- and w^+ in the Grisu paper.
+-    fp_value.compute_boundaries(lower, upper);
++    if (sizeof(Double) == sizeof(float))
++      fp_value.compute_float_boundaries(lower, upper);
++    else
++      fp_value.compute_boundaries(lower, upper);
+     // Find a cached power of 10 such that multiplying upper by it will bring
+     // the exponent in the range [min_exp, -32].
+     const auto cached_pow = get_cached_power(  // \tilde{c}_{-k} in Grisu.
+diff --git a/include/fmt/format.h b/include/fmt/format.h
+index 007fe8f2c4e359c794943a1b4416aa0dae044b54..6c16e529d839ab58c1913e5d63d6825c20975d9e 100644
+--- a/include/fmt/format.h
++++ b/include/fmt/format.h
+@@ -1116,9 +1116,13 @@ enum { fixed = 1, grisu2 = 2 };
+ 
+ // Formats value using the Grisu algorithm:
+ // https://www.cs.tufts.edu/~nr/cs257/archive/florian-loitsch/printf.pdf
+-template <typename Double, FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t))>
++template <typename Double,
++          FMT_ENABLE_IF(sizeof(Double) == sizeof(uint64_t) ||
++                        sizeof(Double) == sizeof(float))>
+ FMT_API bool grisu_format(Double, buffer<char>&, int, unsigned, int&);
+-template <typename Double, FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t))>
++template <typename Double,
++          FMT_ENABLE_IF(sizeof(Double) != sizeof(uint64_t) &&
++                        sizeof(Double) != sizeof(float))>
+ inline bool grisu_format(Double, buffer<char>&, int, unsigned, int&) {
+   return false;
+ }
+@@ -2813,7 +2817,7 @@ void internal::basic_writer<Range>::write_fp(T value,
+                    (specs.type != 'a' && specs.type != 'A' &&
+                     specs.type != 'e' && specs.type != 'E') &&
+                    internal::grisu_format(
+-                       static_cast<double>(value), buffer, precision,
++                       value, buffer, precision,
+                        handler.fixed ? internal::grisu_options::fixed : 0, exp);
+   char* decimal_point_pos = nullptr;
+   if (!use_grisu)

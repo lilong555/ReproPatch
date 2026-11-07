@@ -1,0 +1,90 @@
+[1/67] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[2/67] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[3/67] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[4/67] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[5/67] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+In file included from /src/include/fmt/format.h:49,
+                 from /src/include/fmt/format-inl.h:29,
+                 from /src/src/format.cc:8:
+In member function ‘constexpr void fmt::v9::detail::fill_t<Char>::operator=(fmt::v9::basic_string_view<Char>) [with Char = char]’,
+    inlined from ‘constexpr const Char* fmt::v9::detail::parse_format_specs(const Char*, const Char*, dynamic_format_specs<Char>&, fmt::v9::basic_format_parse_context<Char>&, type) [with Char = char]’ at /src/include/fmt/core.h:2521:18,
+    inlined from ‘const Char* fmt::v9::detail::vformat_to(buffer<T>&, fmt::v9::basic_string_view<Char>, typename vformat_args<Char>::type, locale_ref)::format_handler::on_format_specs(int, const Char*, const Char*) [with Char = char]’ at /src/include/fmt/format.h:4209:33:
+/src/include/fmt/core.h:2087:48: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+ 2087 |     for (size_t i = 0; i < size; ++i) data_[i] = s[i];
+      |                                       ~~~~~~~~~^~~~
+/src/include/fmt/core.h: In member function ‘const Char* fmt::v9::detail::vformat_to(buffer<T>&, fmt::v9::basic_string_view<Char>, typename vformat_args<Char>::type, locale_ref)::format_handler::on_format_specs(int, const Char*, const Char*) [with Char = char]’:
+/src/include/fmt/core.h:2080:8: note: at offset 4 into destination object ‘fmt::v9::detail::fill_t<char>::data_’ of size 4
+ 2080 |   Char data_[max_size] = {Char(' '), Char(0), Char(0), Char(0)};
+      |        ^~~~~
+In member function ‘constexpr void fmt::v9::detail::fill_t<Char>::operator=(fmt::v9::basic_string_view<Char>) [with Char = char]’,
+    inlined from ‘constexpr const Char* fmt::v9::detail::parse_format_specs(const Char*, const Char*, dynamic_format_specs<Char>&, fmt::v9::basic_format_parse_context<Char>&, type) [with Char = char]’ at /src/include/fmt/core.h:2521:18,
+    inlined from ‘const Char* fmt::v9::detail::vformat_to(buffer<T>&, fmt::v9::basic_string_view<Char>, typename vformat_args<Char>::type, locale_ref)::format_handler::on_format_specs(int, const Char*, const Char*) [with Char = char]’ at /src/include/fmt/format.h:4209:33:
+/src/include/fmt/core.h:2087:48: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+ 2087 |     for (size_t i = 0; i < size; ++i) data_[i] = s[i];
+      |                                       ~~~~~~~~~^~~~
+/src/include/fmt/core.h: In member function ‘const Char* fmt::v9::detail::vformat_to(buffer<T>&, fmt::v9::basic_string_view<Char>, typename vformat_args<Char>::type, locale_ref)::format_handler::on_format_specs(int, const Char*, const Char*) [with Char = char]’:
+/src/include/fmt/core.h:2080:8: note: at offset 5 into destination object ‘fmt::v9::detail::fill_t<char>::data_’ of size 4
+ 2080 |   Char data_[max_size] = {Char(' '), Char(0), Char(0), Char(0)};
+      |        ^~~~~
+[6/67] Linking CXX static library libfmt.a
+[7/67] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[8/67] Building CXX object test/CMakeFiles/args-test.dir/args-test.cc.o
+[9/67] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[10/67] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[11/67] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[12/67] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[13/67] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[14/67] Building CXX object test/CMakeFiles/format-impl-test.dir/header-only-test.cc.o
+[15/67] Building CXX object test/CMakeFiles/format-impl-test.dir/test-main.cc.o
+[16/67] Building CXX object test/CMakeFiles/format-impl-test.dir/gtest-extra.cc.o
+[17/67] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[18/67] Building CXX object test/CMakeFiles/format-impl-test.dir/util.cc.o
+[19/67] Building CXX object test/CMakeFiles/format-impl-test.dir/__/src/os.cc.o
+[20/67] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[21/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/compile-fp-test.cc.o
+[22/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/test-main.cc.o
+[23/67] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[24/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/gtest-extra.cc.o
+[25/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/util.cc.o
+[26/67] Building CXX object test/CMakeFiles/compile-fp-test.dir/__/src/os.cc.o
+[27/67] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[28/67] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-odr-test.cc.o
+[29/67] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[30/67] Building CXX object test/CMakeFiles/std-test.dir/std-test.cc.o
+[31/67] Building CXX object test/CMakeFiles/unicode-test.dir/unicode-test.cc.o
+[32/67] Building CXX object test/CMakeFiles/unicode-test.dir/test-main.cc.o
+[33/67] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[34/67] Building CXX object test/CMakeFiles/unicode-test.dir/util.cc.o
+[35/67] Building CXX object test/CMakeFiles/unicode-test.dir/gtest-extra.cc.o
+[36/67] Building CXX object test/CMakeFiles/unicode-test.dir/__/src/os.cc.o
+[37/67] Building CXX object test/CMakeFiles/enforce-checks-test.dir/enforce-checks-test.cc.o
+[38/67] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[39/67] Building CXX object test/CMakeFiles/xchar-test.dir/xchar-test.cc.o
+[40/67] Building CXX object test/CMakeFiles/posix-mock-test.dir/test-main.cc.o
+[41/67] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[42/67] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[43/67] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[44/67] Building CXX object test/CMakeFiles/os-test.dir/os-test.cc.o
+[45/67] Building CXX object test/gtest/CMakeFiles/gtest.dir/gmock-gtest-all.cc.o
+[46/67] Linking CXX static library test/gtest/libgtest.a
+[47/67] Linking CXX static library test/libtest-main.a
+[48/67] Linking CXX executable bin/format-impl-test
+[49/67] Linking CXX executable bin/args-test
+[50/67] Linking CXX executable bin/assert-test
+[51/67] Linking CXX executable bin/chrono-test
+[52/67] Linking CXX executable bin/color-test
+[53/67] Linking CXX executable bin/core-test
+[54/67] Linking CXX executable bin/gtest-extra-test
+[55/67] Linking CXX executable bin/ostream-test
+[56/67] Linking CXX executable bin/format-test
+[57/67] Linking CXX executable bin/compile-test
+[58/67] Linking CXX executable bin/compile-fp-test
+[59/67] Linking CXX executable bin/printf-test
+[60/67] Linking CXX executable bin/ranges-test
+[61/67] Linking CXX executable bin/scan-test
+[62/67] Linking CXX executable bin/std-test
+[63/67] Linking CXX executable bin/unicode-test
+[64/67] Linking CXX executable bin/xchar-test
+[65/67] Linking CXX executable bin/enforce-checks-test
+[66/67] Linking CXX executable bin/posix-mock-test
+[67/67] Linking CXX executable bin/os-test

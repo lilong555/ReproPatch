@@ -1,0 +1,19 @@
+{
+  "name": "context-results-42335967622",
+  "artifact_id": 13566816750,
+  "sha256": "fd86afe47228581db56bfbb78565e9e484ae2189cbd56dd38f8eb4948c7dce6b",
+  "members": [
+    {
+      "path": "results.json",
+      "bytes": 5951600,
+      "sha256": "5d55e48413d83414d9e4f2d8ee968c3e64941f107f5f46ca123fa848f608e185"
+    },
+    {
+      "path": "summary.md",
+      "bytes": 1491,
+      "sha256": "56f90bdf12cacd22ba0e04f304f1a8a72cd610305a9c65ad976e80c386b7ddeb"
+    }
+  ],
+  "download_attempts": 1,
+  "elapsed_s": 3.625
+}

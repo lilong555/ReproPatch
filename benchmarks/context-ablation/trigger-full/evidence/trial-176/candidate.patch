@@ -1,0 +1,55 @@
+diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h
+index 64ebdabe5a59231363a7886363fd3c153aa36c2e..531c4e8287eecdef94a3414fd22ed1ce46a0de53 100644
+--- a/include/fmt/chrono.h
++++ b/include/fmt/chrono.h
+@@ -2197,6 +2197,9 @@ template <typename Char> struct formatter<std::tm, Char> {
+   };
+   spec spec_ = spec::unknown;
+   basic_string_view<Char> specs;
++  format_specs<Char> format_specs_;
++  using arg_ref_type = detail::arg_ref<Char>;
++  arg_ref_type width_ref;
+ 
+  protected:
+   template <typename It> FMT_CONSTEXPR auto do_parse(It begin, It end) -> It {
+@@ -2210,23 +2213,36 @@ template <typename Char> struct formatter<std::tm, Char> {
+   template <typename FormatContext, typename Duration>
+   auto do_format(const std::tm& tm, FormatContext& ctx,
+                  const Duration* subsecs) const -> decltype(ctx.out()) {
++    auto format_specs_copy = format_specs_;
++    detail::handle_dynamic_spec<detail::width_checker>(format_specs_copy.width,
++                                                       width_ref, ctx);
++    basic_memory_buffer<Char> buf;
++    auto out = std::back_inserter(buf);
+     const auto loc_ref = ctx.locale();
+     detail::get_locale loc(static_cast<bool>(loc_ref), loc_ref);
+-    auto w = detail::tm_writer<decltype(ctx.out()), Char, Duration>(
+-        loc, ctx.out(), tm, subsecs);
++    auto w = detail::tm_writer<decltype(out), Char, Duration>(loc, out, tm,
++                                                              subsecs);
+     if (spec_ == spec::year_month_day)
+       w.on_iso_date();
+     else if (spec_ == spec::hh_mm_ss)
+       w.on_iso_time();
+     else
+       detail::parse_chrono_format(specs.begin(), specs.end(), w);
+-    return w.out();
++    if (buf.size() == 0 && format_specs_copy.width == 0) return ctx.out();
++    return detail::write(
++        ctx.out(), basic_string_view<Char>(buf.data(), buf.size()),
++        format_specs_copy);
+   }
+ 
+  public:
+   FMT_CONSTEXPR auto parse(basic_format_parse_context<Char>& ctx)
+       -> decltype(ctx.begin()) {
+-    auto end = this->do_parse(ctx.begin(), ctx.end());
++    auto begin = ctx.begin(), end = ctx.end();
++    if (begin != end && *begin == '}') return begin;
++    begin = detail::parse_align(begin, end, format_specs_);
++    begin = detail::parse_dynamic_spec(begin, end, format_specs_.width,
++                                       width_ref, ctx);
++    end = this->do_parse(begin, end);
+     // basic_string_view<>::compare isn't constexpr before C++17.
+     if (specs.size() == 2 && specs[0] == Char('%')) {
+       if (specs[1] == Char('F'))

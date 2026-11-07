@@ -1,0 +1,12 @@
+diff --git a/include/fmt/base.h b/include/fmt/base.h
+index 7d75a1bcd604a62e90279d43c4f181d73f4f5f9b..f1eb2bd734d07b30d0d50bd5c209e6fe9c50a7c3 100644
+--- a/include/fmt/base.h
++++ b/include/fmt/base.h
+@@ -760,6 +760,7 @@ template <typename Char> class basic_format_parse_context {
+     return id;
+   }
+ 
++
+   /**
+     Reports an error if using the automatic argument indexing; otherwise
+     switches to the manual indexing.
